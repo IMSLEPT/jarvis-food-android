@@ -61,7 +61,7 @@ jobs:
               print(f"::notice title=Unit test::{msg}")
           PY
           if [ $CODE -ne 0 ]; then
-            { grep -E "^e: |error:|What went wrong|FAILED|Test.*FAILED|AssertionError" -A3 build.log | sed "s|file:///home/runner/work/jarvis-food-android/jarvis-food-android/app/src/main/java/com/jarvis/food/||" | head -150; } > errs.txt
+            { grep -E "^e: |error:|What went wrong|FAILED|AssertionError|requires|Dependency" -A4 build.log | sed "s|file:///home/runner/work/jarvis-food-android/jarvis-food-android/app/src/main/java/com/jarvis/food/||" | head -150; } > errs.txt
             MSG=$(sed -e 's/%/%25/g' errs.txt | sed -e ':a;N;$!ba;s/\n/%0A/g')
             echo "::error title=Build fallita::$MSG"
             exit $CODE
