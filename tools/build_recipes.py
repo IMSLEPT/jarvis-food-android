@@ -23,6 +23,9 @@ for r in R:
     if im:
         o["image"] = f"recipes/{r['id']}.webp"
         o["credit"] = dict(author=im.get("author", ""), license=im.get("license", ""), source=im.get("source", ""), title=im.get("title", ""))
+        st = im.get("steps", [])
+        if len(st) != len(r["steps"]): errors.append(f"{r['id']}: foto passaggi {len(st)} != passaggi {len(r['steps'])}")
+        o["stepImages"] = [s["path"] if s else None for s in st]
     out.append(o)
 if errors: raise SystemExit("\n".join(errors))
 json.dump({"recipes": out}, open(os.path.join(D, "../app/src/main/assets/recipes.json"), "w"), ensure_ascii=False, separators=(",", ":"))

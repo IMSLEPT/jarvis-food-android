@@ -254,7 +254,19 @@ fun Dot(color: Color, text: String) {
 
 // ---------- Immagini ricette ----------
 
-private val bitmapCache = LruCache<String, Bitmap>(24 * 1024 * 1024)
+/** Cache delle foto limitata in byte (sizeOf), così sfogliando molte ricette la memoria resta sotto controllo. */
+private val bitmapCache = object : LruCache<String, Bitmap>(32 * 1024 * 1024) {
+    override fun sizeOf(key: String, value: Bitmap): Int = value.byteCount
+}
+
+/** Decodifica una foto dell'utente ridotta (lato lungo ~1280 px) per non caricare in memoria 12+ megapixel. */
+private fun decodeScaled(path: String, maxSide: Int = 1280): Bitmap? {
+    val o = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+    BitmapFactory.decodeFile(path, o)
+    var sample = 1
+    while (maxOf(o.outWidth, o.outHeight) / (sample * 2) >= maxSide) sample *= 2
+    return BitmapFactory.decodeFile(path, BitmapFactory.Options().apply { inSampleSize = sample })
+}
 
 /** Foto della ricetta dagli asset (o foto scattata dall'utente). Mentre carica mostra un segnaposto elegante. */
 @Composable
@@ -265,7 +277,7 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
         if (value != null || key.isEmpty()) return@produceState
         value = withContext(Dispatchers.IO) {
             runCatching {
-                val b = if (userPhoto != null) BitmapFactory.decodeFile(File(userPhoto).absolutePath)
+                val b = if (userPhoto != null) decodeScaled(File(userPhoto).absolutePath)
                 else ctx.assets.open(asset!!).use { BitmapFactory.decodeStream(it) }
                 b?.also { bitmapCache.put(key, it) }
             }.getOrNull()

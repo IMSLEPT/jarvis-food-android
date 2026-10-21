@@ -548,9 +548,9 @@ fun AboutScreen() {
             JCard {
                 Text("Foto delle ricette", style = T.Title2)
                 com.jarvis.food.data.Db.db.recipes.mapNotNull { r -> r.credit?.takeIf { it.author.isNotBlank() }?.let { r.name to it } }.forEach { (n, c) ->
-                    Text("• $n: ${c.title.take(60)} – ${c.author.take(60)}, ${c.license} (${c.source})", style = T.Small)
+                    Text("• $n: foto di ${c.author.take(40)} (${c.source})", style = T.Small)
                 }
-                Text("Foto con licenze libere (Creative Commons / pubblico dominio) da Openverse e Wikimedia Commons. Sono illustrative.", style = T.Small)
+                Text("Foto da Pixabay (pixabay.com), Pixabay Content License: uso gratuito, attribuzione non obbligatoria ma riportata qui per correttezza. Le foto sono illustrative: il piatto preparato con i tuoi grammi può apparire diverso.", style = T.Small)
             }
             JCard {
                 Text("Avvertenza", style = T.Title2)
