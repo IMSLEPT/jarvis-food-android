@@ -1,6 +1,5 @@
 package com.jarvis.food
 
-import android.Manifest
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
@@ -11,7 +10,6 @@ import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.GrantPermissionRule
 import com.jarvis.food.data.AppState
 import com.jarvis.food.data.Db
 import com.jarvis.food.data.EnergySettings
@@ -34,7 +32,6 @@ import java.time.LocalDate
 @RunWith(AndroidJUnit4::class)
 class ScreenshotTest {
     @get:Rule val compose = createEmptyComposeRule()
-    @get:Rule val perm: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
 
     private val ins = InstrumentationRegistry.getInstrumentation()
     private val dir by lazy { File(ins.targetContext.filesDir, "shots").apply { deleteRecursively(); mkdirs() } }
