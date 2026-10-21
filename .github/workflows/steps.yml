@@ -1,22 +1,35 @@
-name: Generate step images
+name: Generate images (sharded)
 on:
   push:
     branches: [data-steps]
 permissions:
   contents: write
 jobs:
-  gen:
+  prep:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete data-img2 -y --cleanup-tag || true
+          gh release create data-img2 --title "data-img2" --notes "foto generate" --prerelease
+  gen:
+    needs: prep
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     steps:
       - uses: actions/checkout@v4
       - run: pip install pillow
-      - run: python3 tools/gen_steps.py steps_out
-      - name: Publish
+      - run: timeout 100m python3 tools/gen_all.py out ${{ matrix.shard }} 16 || true
+      - name: Upload
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd steps_out && zip -q -r ../steps.zip . && cd ..
-          gh release delete data-steps -y --cleanup-tag || true
-          gh release create data-steps steps.zip --title "data-steps" --notes "foto passaggi" --prerelease
+          mkdir -p out && cd out && zip -q -r ../shard_${{ matrix.shard }}.zip . ; cd ..
+          gh release upload data-img2 shard_${{ matrix.shard }}.zip --clobber
