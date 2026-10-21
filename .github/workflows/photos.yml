@@ -1,0 +1,24 @@
+name: Fetch free photos
+on:
+  push:
+    branches: [data-photos]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pillow
+      - run: timeout 50m python3 tools/fetch_photos.py out || true
+        env:
+          PEXELS_KEY: ${{ secrets.PEXELS_KEY }}
+      - name: Publish
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd out && zip -q -r ../photos.zip . && cd ..
+          gh release delete data-photos -y --cleanup-tag || true
+          gh release create data-photos photos.zip --title "data-photos" --notes "foto candidate" --prerelease
