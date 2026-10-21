@@ -13,8 +13,12 @@ android {
         applicationId = "com.jarvis.food"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        // Numero build di GitHub Actions: ogni APK nuovo si installa sopra il precedente.
+        val run = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
+        versionCode = run
+        versionName = "1.0.$run"
+        // Solo ARM (tutti gli smartphone moderni): APK più leggero.
+        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
     }
 
     // Chiave di firma fissa: gli aggiornamenti si installano sopra la versione precedente.

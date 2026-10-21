@@ -151,7 +151,7 @@ Se nella foto non c'è cibo rispondi {"items":[],"note":"nessun alimento riconos
         val argb = bitmap.copy(Bitmap.Config.ARGB_8888, false)
         val results = cls.classify(TensorImage.fromBitmap(argb))
         results.flatMap { it.categories }
-            .filter { it.label.isNotBlank() && !it.label.equals("__background__", true) }
+            .filter { it.label.isNotBlank() && !it.label.contains("background", true) && !it.displayName.contains("background", true) }
             .sortedByDescending { it.score }
             .map { AiLabel(it.displayName.ifBlank { it.label }, it.score) }
             .distinctBy { it.label.lowercase() }
