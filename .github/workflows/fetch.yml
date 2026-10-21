@@ -1,4 +1,4 @@
-name: Fetch data
+name: Fetch images
 on:
   push:
     branches: [data-fetch]
@@ -9,14 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: USDA SR Legacy + Foundation
-        run: |
-          mkdir -p out
-          curl -fsSL -o out/sr_legacy.zip "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip" || echo "::warning::SR fail"
-          ls -la out
+      - run: pip install pillow
+      - run: python3 tools/fetch_images.py img_out
       - name: Publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete data-sr -y --cleanup-tag || true
-          gh release create data-sr out/* --title "data-sr" --notes "dati grezzi" --prerelease
+          cd img_out && zip -q -r ../images.zip . && cd ..
+          ls -la images.zip
+          gh release delete data-img -y --cleanup-tag || true
+          gh release create data-img images.zip --title "data-img" --notes "candidati foto" --prerelease
