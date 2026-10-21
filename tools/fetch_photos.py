@@ -8,6 +8,7 @@ from step_queries import S
 from PIL import Image, ImageDraw
 OUT = sys.argv[1]; os.makedirs(OUT, exist_ok=True)
 KEY = os.environ.get("PEXELS_KEY", "").strip()
+PKEY = os.environ.get("PIXABAY_KEY", "").strip()
 UA = {"User-Agent": "JarvisFood/1.0 (personal app)"}
 log = open(os.path.join(OUT, "log.txt"), "w")
 
@@ -21,6 +22,13 @@ def pexels(q, n=6):
     return [dict(src="pexels", thumb=p["src"]["large"], author=p.get("photographer", ""), license="Pexels License",
                  page=p.get("url", ""), title=p.get("alt", "")) for p in d.get("photos", [])]
 
+def pixabay(q, n=8):
+    u = "https://pixabay.com/api/?" + urllib.parse.urlencode({"key": PKEY, "q": q, "image_type": "photo", "category": "food",
+        "per_page": max(3, n), "safesearch": "true", "orientation": "horizontal", "min_width": 800})
+    d = json.loads(get(u))
+    return [dict(src="pixabay", thumb=h.get("largeImageURL") or h.get("webformatURL"), author=h.get("user", ""),
+                 license="Pixabay Content License", page=h.get("pageURL", ""), title=h.get("tags", "")) for h in d.get("hits", [])]
+
 def openverse(q, n=6):
     u = "https://api.openverse.org/v1/images/?" + urllib.parse.urlencode({"q": q, "page_size": n, "license_type": "commercial,modification"})
     d = json.loads(get(u))
@@ -29,14 +37,18 @@ def openverse(q, n=6):
 
 def search(q):
     res = []
-    if KEY:
+    if PKEY:
+        try: res += pixabay(q)
+        except Exception as e: print("pixabay", q, e, file=log, flush=True)
+        time.sleep(0.7)
+    if KEY and len(res) < 4:
         try: res += pexels(q)
         except Exception as e: print("pexels", q, e, file=log, flush=True)
     if len(res) < 4:
         try: res += openverse(q)
         except Exception as e: print("openverse", q, e, file=log, flush=True)
         time.sleep(1.2)
-    return res[:6]
+    return res[:8]
 
 def dl(c):
     try:
