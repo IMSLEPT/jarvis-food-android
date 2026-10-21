@@ -1,0 +1,22 @@
+name: Generate step images
+on:
+  push:
+    branches: [data-steps]
+permissions:
+  contents: write
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pillow
+      - run: python3 tools/gen_steps.py steps_out
+      - name: Publish
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd steps_out && zip -q -r ../steps.zip . && cd ..
+          gh release delete data-steps -y --cleanup-tag || true
+          gh release create data-steps steps.zip --title "data-steps" --notes "foto passaggi" --prerelease
