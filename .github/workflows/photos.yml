@@ -11,9 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: pip install pillow
-      - run: timeout 50m python3 tools/fetch_photos.py out || true
+      - run: |
+          if [ -z "$PIXABAY_KEY" ]; then echo "::warning::PIXABAY_KEY assente"; else echo "::notice::PIXABAY_KEY presente (${#PIXABAY_KEY} caratteri)"; fi
+          timeout 50m python3 tools/fetch_photos.py out || true
+          echo "::notice::$(ls out/*.jpg 2>/dev/null | wc -l) immagini, log: $(head -c 600 out/log.txt | tr '\n' ' ')"
         env:
-          PEXELS_KEY: ${{ secrets.PEXELS_KEY }}
+          PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
       - name: Publish
         if: always()
         env:
