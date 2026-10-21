@@ -133,7 +133,7 @@ class EngineTest {
         val food = solved.toFood()
         val today = LocalDate.of(2026, 10, 21)
         val diary = (0 until 7).map { DiaryEntry("e$it", today.minusDays(it.toLong()).toString(), 1, food, solved.grams, 0) }
-        val rep = MicroAnalysis.analyze(diary, profile, 2600.0, today)
+        val rep = MicroAnalysis.analyze(diary, profile, solved.total.kcal, today)
         val low = rep.low.map { it.def.key }
         report("micro", "bassi: $low; giorni ${rep.loggedDays}; copertura ${(rep.coverage * 100).toInt()}%")
         assertEquals(7, rep.loggedDays)

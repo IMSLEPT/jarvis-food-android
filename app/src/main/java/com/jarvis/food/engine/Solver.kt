@@ -105,7 +105,7 @@ object Solver {
         f.id == "uova" -> 200.0
         f.id == "albume" -> 250.0
         f.id in setOf("fette_bisc", "crackers", "gallette") -> 60.0
-        f.id == "piadina" -> 130.0
+        f.id == "piadina" -> 220.0
         f.id == "whey" -> 40.0
         f.group == "olio" -> 20.0
         f.group in setOf("frutta_secca", "semi") -> 40.0

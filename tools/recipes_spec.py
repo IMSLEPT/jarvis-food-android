@@ -156,7 +156,7 @@ r("riso_tacchino_broccoli", "Riso integrale, tacchino e broccoli", "pranzo", 30,
    "Unisci riso, tacchino e broccoli e condisci con {salsa_soia}."],
   "brown rice turkey broccoli bowl")
 r("piadina_tacchino", "Piadina con tacchino, mozzarella e rucola", "pranzo", 8,
-  [("piadina", 100, "c", "piadine"), ("fesa_tacchino", 60, "p", "fesa di tacchino"), ("mozzarella_light", 60, "p", "mozzarella light"),
+  [("piadina", 110, "c", "piadina"), ("fesa_tacchino", 60, "p", "fesa di tacchino"), ("mozzarella_light", 60, "p", "mozzarella light"),
    ("rucola", 30, "v"), ("pomodori", 100, "v")],
   ["Scalda {piadina} in padella 1 minuto per lato.",
    "Farcisci con {fesa_tacchino}, {mozzarella_light} a fette, {pomodori} e {rucola}.",

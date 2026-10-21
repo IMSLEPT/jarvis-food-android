@@ -34,7 +34,7 @@ f("granola", "Granola", CE, 171646, "cereali_integrali", "glutine,frutta_secca",
 f("farina", "Farina 00", CE, 169761, "cereali", "glutine", pack=1000, syn="farina")
 f("patate", "Patate", V, 170026, "tuberi", "", piece=("patata media", 170), pack=1500, syn="patate,patata")
 f("patate_dolci", "Patate dolci", V, 168482, "tuberi", "", piece=("patata media", 150), pack=1000, syn="patate dolci,patata americana")
-f("piadina", "Piadina / tortilla di grano", CE, 174081, "cereali_integrali", "glutine", piece=("piadina", 50), pack=300, syn="piadina,tortilla,wrap",
+f("piadina", "Piadina / tortilla di grano", CE, 174081, "cereali_integrali", "glutine", piece=("piadina", 110), pack=330, syn="piadina,tortilla,wrap",
   note="Valori USDA della tortilla integrale: la piadina tradizionale contiene più grassi.")
 f("pane_pita", "Pane pita", CE, 172816, "cereali", "glutine", piece=("pita", 60), pack=300, syn="pita")
 
