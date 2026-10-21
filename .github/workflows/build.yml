@@ -29,11 +29,11 @@ jobs:
           OUT=app/src/main/assets/food.tflite
           try() { echo "Provo: $1"; curl -fsSL --retry 2 -o "$2" "$1" && [ "$(stat -c%s "$2")" -gt 1000000 ]; }
           if try "https://storage.googleapis.com/tfhub-lite-models/google/lite-model/aiy/vision/classifier/food_V1/1.tflite" "$OUT"; then
-            echo "OK da storage.googleapis.com"
+            echo "::notice::Modello offline da storage.googleapis.com"
           elif try "https://tfhub.dev/google/lite-model/aiy/vision/classifier/food_V1/1?lite-format=tflite" "$OUT"; then
-            echo "OK da tfhub.dev"
+            echo "::notice::Modello offline da tfhub.dev"
           elif try "https://www.kaggle.com/api/v1/models/google/aiy/tfLite/vision-classifier-food-v1/1/download" /tmp/food.tgz; then
-            mkdir -p /tmp/food && tar -xzf /tmp/food.tgz -C /tmp/food && find /tmp/food -name "*.tflite" -exec cp {} "$OUT" \; && echo "OK da Kaggle"
+            mkdir -p /tmp/food && tar -xzf /tmp/food.tgz -C /tmp/food && find /tmp/food -name "*.tflite" -exec cp {} "$OUT" \; && echo "::notice::Modello offline da Kaggle"
           else
             echo "::warning::Modello offline non scaricato: build senza AI offline"
             rm -f "$OUT"
@@ -42,7 +42,7 @@ jobs:
             ls -la "$OUT"
             # Le etichette sono incorporate come zip nei metadati: senza, il riconoscimento non avrebbe nomi.
             if unzip -l "$OUT" 2>/dev/null | grep -Eiq '\.(txt|csv)'; then
-              echo "Etichette incorporate trovate:"; unzip -l "$OUT" | head -20
+              echo "::notice::Etichette incorporate: $(unzip -l "$OUT" | grep -Ei '\.(txt|csv)' | awk '{print $4, $1}' | tr '\n' ' ')"
             else
               echo "::warning::Il modello non contiene etichette: lo escludo"
               rm -f "$OUT"
@@ -59,7 +59,16 @@ jobs:
       - name: Build release APK
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleRelease --stacktrace
+          set +e
+          ./gradlew assembleRelease 2>&1 | tee build.log
+          CODE=${PIPESTATUS[0]}
+          if [ $CODE -ne 0 ]; then
+            # Riassunto errori come annotazione (leggibile anche senza aprire i log completi).
+            { grep -E "^e: |error:|What went wrong" -A3 build.log | sed "s|file:///home/runner/work/jarvis-food-android/jarvis-food-android/app/src/main/java/com/jarvis/food/||" | head -120; } > errs.txt
+            MSG=$(sed -e 's/%/%25/g' errs.txt | sed -e ':a;N;$!ba;s/\n/%0A/g')
+            echo "::error title=Build fallita::$MSG"
+            exit $CODE
+          fi
 
       - name: Rename APK
         run: |
