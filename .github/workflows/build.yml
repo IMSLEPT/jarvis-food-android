@@ -1,0 +1,78 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Modello AI offline (classificatore alimentare Google AIY food V1, TFLite con etichette incorporate).
+      # Non è nel repo: lo scarico qui. Se nessuna fonte risponde, l'app compila comunque senza AI offline.
+      - name: Download offline food model
+        run: |
+          set +e
+          mkdir -p app/src/main/assets
+          OUT=app/src/main/assets/food.tflite
+          try() { echo "Provo: $1"; curl -fsSL --retry 2 -o "$2" "$1" && [ "$(stat -c%s "$2")" -gt 1000000 ]; }
+          if try "https://storage.googleapis.com/tfhub-lite-models/google/lite-model/aiy/vision/classifier/food_V1/1.tflite" "$OUT"; then
+            echo "OK da storage.googleapis.com"
+          elif try "https://tfhub.dev/google/lite-model/aiy/vision/classifier/food_V1/1?lite-format=tflite" "$OUT"; then
+            echo "OK da tfhub.dev"
+          elif try "https://www.kaggle.com/api/v1/models/google/aiy/tfLite/vision-classifier-food-v1/1/download" /tmp/food.tgz; then
+            mkdir -p /tmp/food && tar -xzf /tmp/food.tgz -C /tmp/food && find /tmp/food -name "*.tflite" -exec cp {} "$OUT" \; && echo "OK da Kaggle"
+          else
+            echo "::warning::Modello offline non scaricato: build senza AI offline"
+            rm -f "$OUT"
+          fi
+          if [ -f "$OUT" ]; then
+            ls -la "$OUT"
+            # Le etichette sono incorporate come zip nei metadati: senza, il riconoscimento non avrebbe nomi.
+            if unzip -l "$OUT" 2>/dev/null | grep -Eiq '\.(txt|csv)'; then
+              echo "Etichette incorporate trovate:"; unzip -l "$OUT" | head -20
+            else
+              echo "::warning::Il modello non contiene etichette: lo escludo"
+              rm -f "$OUT"
+            fi
+          fi
+          exit 0
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | "${ANDROID_HOME:-$ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build release APK
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --stacktrace
+
+      - name: Rename APK
+        run: |
+          mkdir -p dist
+          cp app/build/outputs/apk/release/app-release.apk "dist/JarvisFood-v1.0.${{ github.run_number }}.apk"
+          ls -la dist
+          unzip -l dist/*.apk | grep -E "food.tflite|classes" || true
+
+      # Niente upload-artifact (quota storage Actions esaurita sull'account): l'APK va nelle Release.
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v1.0.${{ github.run_number }}" dist/*.apk \
+            --title "Jarvis Food v1.0.${{ github.run_number }}" \
+            --notes "APK firmato, pronto da installare. Build #${{ github.run_number }} del commit ${GITHUB_SHA::7}."
