@@ -1,21 +1,21 @@
-name: Fetch images
+name: Generate images
 on:
   push:
     branches: [data-fetch]
 permissions:
   contents: write
 jobs:
-  fetch:
+  gen:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - run: pip install pillow
-      - run: python3 tools/fetch_images.py img_out
+      - run: python3 tools/gen_images.py gen_out
       - name: Publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd img_out && zip -q -r ../images.zip . && cd ..
-          ls -la images.zip
-          gh release delete data-img -y --cleanup-tag || true
-          gh release create data-img images.zip --title "data-img" --notes "candidati foto" --prerelease
+          cd gen_out && zip -q -r ../gen.zip . && cd ..
+          gh release delete data-gen -y --cleanup-tag || true
+          gh release create data-gen gen.zip --title "data-gen" --notes "immagini generate" --prerelease
