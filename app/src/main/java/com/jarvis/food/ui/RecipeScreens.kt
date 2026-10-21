@@ -86,7 +86,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                 Box(Modifier.statusBarsPadding().padding(10.dp).size(44.dp).clip(CircleShape).background(C.Surface).clickable { Nav.back() },
                     contentAlignment = Alignment.Center) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Indietro", tint = C.Text) }
                 tpl.credit?.takeIf { it.author.isNotBlank() }?.let { cr ->
-                    Text("📷 ${cr.author.take(40)} · ${cr.license}", style = T.Small.copy(color = Color.White),
+                    Text(cr.author.take(40), style = T.Small.copy(color = Color.White),
                         modifier = Modifier.align(Alignment.BottomStart).padding(12.dp).clip(RoundedCornerShape(50))
                             .background(Color(0x99000000)).padding(horizontal = 10.dp, vertical = 4.dp))
                 }
@@ -132,12 +132,26 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
 
                 SectionTitle("Preparazione passo per passo")
                 r.steps().forEachIndexed { i, st ->
-                    Row(Modifier.padding(vertical = 8.dp)) {
-                        Box(Modifier.size(32.dp).clip(CircleShape).background(C.AccentSoft), contentAlignment = Alignment.Center) {
-                            Text("${i + 1}", style = T.Title2.copy(color = C.AccentDeep))
+                    val img = tpl.stepImages.getOrNull(i)
+                    Row(Modifier.padding(vertical = 9.dp)) {
+                        if (img != null) {
+                            Box {
+                                RecipeImage("${tpl.id}_s$i", img, null, Modifier.size(width = 112.dp, height = 112.dp), "🍳", 16.dp)
+                                Box(Modifier.padding(6.dp).size(26.dp).clip(CircleShape).background(C.Surface), contentAlignment = Alignment.Center) {
+                                    Text("${i + 1}", style = T.Label.copy(color = C.AccentDeep))
+                                }
+                            }
+                        } else {
+                            Box(Modifier.size(32.dp).clip(CircleShape).background(C.AccentSoft), contentAlignment = Alignment.Center) {
+                                Text("${i + 1}", style = T.Title2.copy(color = C.AccentDeep))
+                            }
                         }
                         Spacer(Modifier.width(14.dp))
-                        Text(st, style = T.Read, modifier = Modifier.weight(1f))
+                        Column(Modifier.weight(1f)) {
+                            Text("Passaggio ${i + 1}", style = T.Title2)
+                            Spacer(Modifier.height(2.dp))
+                            Text(st, style = T.Read)
+                        }
                     }
                 }
                 if (tpl.tip.isNotBlank()) {

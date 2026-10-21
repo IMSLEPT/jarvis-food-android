@@ -62,7 +62,9 @@ data class RecipeTemplate(
     val steps: List<String>,
     val tip: String = "",
     val image: String? = null,
-    val credit: ImageCredit? = null
+    val credit: ImageCredit? = null,
+    /** Foto illustrative dei passaggi (stesso ordine di [steps]); null se mancante. */
+    val stepImages: List<String?> = emptyList()
 )
 
 @Serializable
