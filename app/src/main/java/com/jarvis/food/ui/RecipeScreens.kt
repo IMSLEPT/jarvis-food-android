@@ -198,7 +198,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
         }
         Row(Modifier.fillMaxWidth().background(C.Bg).navigationBarsPadding().padding(14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             if (sc.slot != null && sc.adHoc == null) {
-                GhostButton("Trova alternativa", Modifier.weight(1f)) { Nav.go(Screen.Alternatives(sc.date, sc.slot)) }
+                GhostButton("Alternativa", Modifier.weight(1f)) { Nav.go(Screen.Alternatives(sc.date, sc.slot)) }
                 PrimaryButton(if (eaten) "✓ Mangiato" else "Segna mangiato", Modifier.weight(1f), color = if (eaten) C.Green else C.Ink) {
                     val pm = Store.plannedMeals(Store.current, sc.date).firstOrNull { it.slotIndex == sc.slot }
                     if (eaten) Store.uneatPlanned(sc.date, sc.slot)

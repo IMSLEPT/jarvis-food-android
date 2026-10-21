@@ -134,20 +134,20 @@ fun WeekPills(selected: LocalDate, monday: LocalDate, onSelect: (LocalDate) -> U
         Box(Modifier.size(34.dp).clip(CircleShape).clickable { onSelect(selected.minusWeeks(1)) }, contentAlignment = Alignment.Center) {
             Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Settimana precedente", tint = C.Muted)
         }
-        Row(Modifier.weight(1f), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
             for (i in 0..6) {
                 val d = monday.plusDays(i.toLong())
                 val sel = d == selected
                 val today = d == LocalDate.now()
                 Column(
-                    Modifier.clip(RoundedCornerShape(16.dp)).background(if (sel) C.Ink else C.Surface)
-                        .border(1.dp, if (sel) C.Ink else if (today) C.Accent else C.Line, RoundedCornerShape(16.dp))
-                        .clickable { onSelect(d) }.padding(horizontal = 7.dp, vertical = 7.dp),
+                    Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).background(if (sel) C.Ink else C.Surface)
+                        .border(1.dp, if (sel) C.Ink else if (today) C.Accent else C.Line, RoundedCornerShape(14.dp))
+                        .clickable { onSelect(d) }.padding(vertical = 7.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(d.dayOfWeek.getDisplayName(TextStyle.SHORT, IT).take(3).replaceFirstChar { it.uppercase() },
-                        style = T.Small.copy(color = if (sel) C.OnAccent else C.Muted))
-                    Text(d.dayOfMonth.toString(), style = T.Label.copy(color = if (sel) C.OnAccent else C.Text))
+                        style = T.Small.copy(color = if (sel) C.OnAccent else C.Muted), maxLines = 1, softWrap = false)
+                    Text(d.dayOfMonth.toString(), style = T.Label.copy(color = if (sel) C.OnAccent else C.Text), maxLines = 1, softWrap = false)
                 }
             }
         }
@@ -182,9 +182,9 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { Nav.go(Screen.EnergyInfo) }) {
             Text("◎  Obiettivo: ${e.targetKcal.r0()} kcal", style = T.Muted)
             if (e.extraKcal > 0) { Spacer(Modifier.width(8.dp)); Tag("+${e.extraKcal.r0()} attività", C.Green) }
-            Spacer(Modifier.weight(1f))
-            Text("Come è calcolato ›", style = T.Small.copy(color = C.AccentDeep))
         }
+        Text("Come è calcolato ›", style = T.Small.copy(color = C.AccentDeep),
+            modifier = Modifier.padding(top = 6.dp).clickable { Nav.go(Screen.EnergyInfo) })
     }
 }
 
@@ -252,7 +252,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (eaten) Icon(Icons.Filled.Check, null, tint = C.Green, modifier = Modifier.size(16.dp))
-                    Text(if (eaten) " Mangiato" else "Segna mangiato", style = T.Label.copy(color = if (eaten) C.Green else C.Text))
+                    Text(if (eaten) " Mangiato" else "Segna mangiato", style = T.Label.copy(color = if (eaten) C.Green else C.Text), maxLines = 1, softWrap = false)
                 }
             }
             Spacer(Modifier.weight(1f))
@@ -268,7 +268,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                         val next = alts.getOrNull(idx + 1) ?: alts.first { it != r.template.id }
                         Store.setSlotRecipe(date, m.slotIndex, next)
                     }.padding(horizontal = 16.dp, vertical = 10.dp)
-            ) { Text("Alternativa  ›", style = T.Button) }
+            ) { Text("Cambia ›", style = T.Button, maxLines = 1, softWrap = false) }
         }
         Text("Vedi tutte le alternative", style = T.Small.copy(color = C.AccentDeep),
             modifier = Modifier.padding(top = 8.dp).clickable { Nav.go(Screen.Alternatives(date, m.slotIndex)) })
