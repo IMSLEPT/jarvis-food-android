@@ -107,7 +107,10 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            ./gradlew connectedDebugAndroidTest > emu.log 2>&1 || (grep -E "FAILED|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt; true)
+            adb install -r -g app/build/outputs/apk/debug/app-debug.apk
+            adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
+            grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
             adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar || true
             adb logcat -d -s AndroidRuntime:E > crash.txt || true
 
