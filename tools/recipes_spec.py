@@ -21,8 +21,8 @@ r("porridge_banana", "Porridge banana e noci", "colazione", 10,
    "Versa il porridge in una ciotola, completa con banana, noci, {greco0} e un pizzico di cannella."],
   "porridge banana walnuts bowl", "La banana dà già dolcezza: non serve zucchero.")
 r("yogurt_granola", "Yogurt greco, granola e mirtilli", "colazione", 3,
-  [("greco0", 200, "p", "yogurt greco 0%"), ("granola", 40, "c"), ("mirtilli", 100, "v"), ("miele", 7, "x")],
-  ["Versa {greco0} in una ciotola.", "Aggiungi {granola} e {mirtilli}.", "Completa con {miele}."],
+  [("greco0", 200, "p", "yogurt greco 0%"), ("granola", 40, "c"), ("mirtilli", 100, "v"), ("mandorle", 10, "f"), ("miele", 7, "x")],
+  ["Versa {greco0} in una ciotola.", "Aggiungi {granola} e {mirtilli}.", "Completa con {mandorle} a lamelle e {miele}."],
   "greek yogurt granola blueberries bowl")
 r("toast_uova_avocado", "Toast integrale, uova e avocado", "colazione", 10,
   [("pane_int", 80, "c", "pane integrale"), ("uova", 100, "p"), ("avocado", 50, "f"), ("pomodori", 80, "v"), ("pepe", 0.5, "x")],
@@ -63,9 +63,9 @@ r("fiocchi_pane_miele", "Fiocchi di latte, pane integrale, miele e pera", "colaz
   "cottage cheese toast honey pear")
 r("smoothie_bowl", "Smoothie bowl frutti di bosco", "colazione", 5,
   [("frutti_bosco_surg", 150, "v", "frutti di bosco surgelati"), ("banana", 80, "v"), ("greco0", 150, "p", "yogurt greco 0%"),
-   ("avena", 30, "c"), ("chia", 10, "f")],
+   ("avena", 30, "c"), ("chia", 10, "f"), ("arachidi", 10, "f", "burro di arachidi")],
   ["Frulla {frutti_bosco_surg}, {banana} e {greco0} fino a ottenere una crema densa.",
-   "Versa in una ciotola.", "Completa con {avena} e {chia}."],
+   "Versa in una ciotola.", "Completa con {avena}, {chia} e {arachidi}."],
   "berry smoothie bowl")
 
 # ---------------- PRANZO ----------------
@@ -80,11 +80,11 @@ r("pasta_pollo_zucchine", "Pasta pollo e zucchine", "pranzo", 20,
   "penne chicken zucchini pasta")
 r("pasta_tonno", "Pasta tonno, pomodorini e rucola", "pranzo", 15,
   [("pasta", 90, "c"), ("tonno_nat", 80, "p", "tonno al naturale"), ("pomodori", 150, "v", "pomodorini"), ("rucola", 30, "v"),
-   ("olio", 10, "f", "olio EVO"), ("capperi", 5, "x")],
+   ("olio", 10, "f", "olio EVO"), ("capperi", 5, "x"), ("pane", 30, "c", "pane")],
   ["Cuoci {pasta} in acqua bollente salata.",
    "In padella scalda {olio}, aggiungi {pomodori} tagliati a metà e {capperi}, cuoci 3 minuti.",
    "Unisci {tonno_nat} sgocciolato e la pasta scolata al dente, salta 1 minuto.",
-   "Fuori dal fuoco aggiungi {rucola}."],
+   "Fuori dal fuoco aggiungi {rucola} e accompagna con {pane}."],
   "pasta tuna cherry tomatoes arugula")
 r("pasta_ceci", "Pasta e ceci", "pranzo", 25,
   [("pasta", 70, "c"), ("ceci", 150, "p", "ceci lessati"), ("passata", 80, "v", "passata"), ("cipolla", 30, "x"),
@@ -134,10 +134,10 @@ r("quinoa_ceci", "Bowl di quinoa, ceci e verdure", "pranzo", 20,
   "quinoa chickpea vegetable bowl")
 r("pasta_pesto", "Pasta al pesto, patate e fagiolini", "pranzo", 20,
   [("pasta_int", 80, "c", "pasta semi-integrale"), ("patate", 100, "c"), ("fagiolini", 100, "v"), ("pesto", 25, "f"),
-   ("parmigiano", 10, "p")],
+   ("parmigiano", 10, "p"), ("pane", 30, "c", "pane")],
   ["Porta a bollore l'acqua salata e cuoci {patate} a cubetti per 5 minuti.",
    "Aggiungi {pasta_int} e {fagiolini} spuntati e cuoci per il tempo indicato sulla confezione.",
-   "Scola e condisci con {pesto} e {parmigiano}."],
+   "Scola e condisci con {pesto} e {parmigiano}. Accompagna con {pane}."],
   "trofie pesto potatoes green beans")
 r("couscous_pollo", "Cous cous con pollo e verdure", "pranzo", 20,
   [("couscous", 80, "c"), ("pollo", 120, "p", "petto di pollo"), ("zucchine", 100, "v"), ("peperoni", 100, "v"),
@@ -171,10 +171,10 @@ r("spaghetti_pomodoro", "Spaghetti al pomodoro con mozzarella", "pranzo", 15,
   "spaghetti tomato sauce mozzarella basil")
 r("insalata_pollo_patate", "Insalatona di pollo, patate e fagiolini", "pranzo", 25,
   [("pollo", 130, "p", "petto di pollo"), ("patate", 250, "c"), ("fagiolini", 120, "v"), ("lattuga", 60, "v"),
-   ("olio", 10, "f", "olio EVO"), ("mais", 40, "c")],
+   ("olio", 10, "f", "olio EVO"), ("mais", 40, "c"), ("pane", 40, "c", "pane")],
   ["Lessa {patate} a cubetti e {fagiolini} per 12 minuti, poi raffreddali.",
    "Cuoci {pollo} alla piastra 4-5 minuti per lato e taglialo a striscioline.",
-   "Unisci {lattuga}, patate, fagiolini, pollo e {mais}.", "Condisci con {olio}, sale e pepe."],
+   "Unisci {lattuga}, patate, fagiolini, pollo e {mais}.", "Condisci con {olio}, sale e pepe e servi con {pane}."],
   "chicken potato green bean salad")
 
 # ---------------- CENA ----------------
@@ -253,10 +253,10 @@ r("tofu_verdure", "Tofu saltato con verdure e riso", "cena", 20,
   "tofu stir fry vegetables rice")
 r("branzino_cartoccio", "Branzino al cartoccio con patate e fagiolini", "cena", 35,
   [("branzino", 200, "p", "filetti di branzino"), ("patate", 200, "c"), ("fagiolini", 150, "v"), ("olio", 10, "f", "olio EVO"),
-   ("limone", 10, "x", "succo di limone")],
+   ("limone", 10, "x", "succo di limone"), ("pane", 40, "c", "pane")],
   ["Lessa {patate} a cubetti e {fagiolini} per 12 minuti.",
    "Metti {branzino} su carta forno con limone, sale e un filo d'olio; chiudi il cartoccio.",
-   "Cuoci in forno a 200 °C per 15 minuti.", "Servi con patate e fagiolini conditi con l'olio rimasto."],
+   "Cuoci in forno a 200 °C per 15 minuti.", "Servi con patate e fagiolini conditi con l'olio rimasto e {pane}."],
   "sea bass fillet baked parchment")
 r("gamberi_couscous", "Gamberi, zucchine e cous cous", "cena", 20,
   [("gamberi", 150, "p"), ("zucchine", 200, "v"), ("couscous", 70, "c"), ("olio", 10, "f", "olio EVO"),
