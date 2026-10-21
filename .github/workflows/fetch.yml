@@ -1,0 +1,22 @@
+name: Fetch data
+on:
+  push:
+    branches: [data-fetch]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: USDA SR Legacy + Foundation
+        run: |
+          mkdir -p out
+          curl -fsSL -o out/sr_legacy.zip "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip" || echo "::warning::SR fail"
+          ls -la out
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete data-sr -y --cleanup-tag || true
+          gh release create data-sr out/* --title "data-sr" --notes "dati grezzi" --prerelease
