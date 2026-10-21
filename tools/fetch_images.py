@@ -9,9 +9,9 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "img_out"
 os.makedirs(OUT, exist_ok=True)
 UA = {"User-Agent": "JarvisFood/1.0 (personal app; contact ale.calamai97@gmail.com)"}
 
-def get(url, raw=False):
+def get(url, raw=False, timeout=12):
     req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=30) as r:
+    with urllib.request.urlopen(req, timeout=timeout) as r:
         b = r.read()
     return b if raw else json.loads(b)
 
@@ -38,28 +38,33 @@ def commons(q):
                         w=ii.get("width"), h=ii.get("height")))
     return res
 
-meta = {}
-for rec in R:
+from concurrent.futures import ThreadPoolExecutor
+
+def download(c):
+    for u in [c.get("thumb"), c.get("url")]:
+        if not u: continue
+        try:
+            im = Image.open(io.BytesIO(get(u, raw=True, timeout=10))).convert("RGB")
+            if min(im.size) >= 280: return im
+        except Exception as e:
+            pass
+    return None
+
+def process(rec):
     cands = []
     for fn in (openverse, commons):
         try: cands += fn(rec["img"])
-        except Exception as e: print("ERR", rec["id"], fn.__name__, e)
-        time.sleep(1.5)
-    tiles = []
-    kept = []
-    for c in cands:
-        if len(kept) >= 12: break
-        try:
-            b = get(c["url"], raw=True)
-            im = Image.open(io.BytesIO(b)).convert("RGB")
-            if min(im.size) < 300: continue
-            idx = len(kept)
-            im.thumbnail((1000, 1000)); im.save(os.path.join(OUT, f"{rec['id']}__{idx}.jpg"), quality=86)
-            c["file"] = f"{rec['id']}__{idx}.jpg"; kept.append(c)
-            t = im.copy(); t.thumbnail((300, 300)); tiles.append(t)
-        except Exception as e:
-            print("skip", rec["id"], e)
-    meta[rec["id"]] = kept
+        except Exception as e: print("ERR", rec["id"], fn.__name__, e, flush=True)
+    cands = cands[:14]
+    with ThreadPoolExecutor(8) as ex:
+        ims = list(ex.map(download, cands))
+    kept, tiles = [], []
+    for c, im in zip(cands, ims):
+        if im is None: continue
+        idx = len(kept)
+        im.thumbnail((1000, 1000)); im.save(os.path.join(OUT, f"{rec['id']}__{idx}.jpg"), quality=86)
+        c["file"] = f"{rec['id']}__{idx}.jpg"; kept.append(c)
+        t = im.copy(); t.thumbnail((300, 300)); tiles.append(t)
     if tiles:
         sheet = Image.new("RGB", (4 * 310, ((len(tiles) + 3) // 4) * 330), "white")
         d = ImageDraw.Draw(sheet)
@@ -67,5 +72,11 @@ for rec in R:
             x, y = (i % 4) * 310, (i // 4) * 330
             sheet.paste(t, (x + 5, y + 25)); d.text((x + 8, y + 5), f"{i} {kept[i]['src']} {kept[i]['license']}", fill="black")
         sheet.save(os.path.join(OUT, f"SHEET_{rec['id']}.jpg"), quality=80)
-    print(rec["id"], len(kept))
+    print(rec["id"], len(kept), flush=True)
+    return rec["id"], kept
+
+meta = {}
+with ThreadPoolExecutor(4) as ex:
+    for rid, kept in ex.map(process, R):
+        meta[rid] = kept
 json.dump(meta, open(os.path.join(OUT, "meta.json"), "w"), ensure_ascii=False, indent=1)
