@@ -18,7 +18,9 @@ android {
         versionCode = run
         versionName = "1.0.$run"
         // Solo ARM (tutti gli smartphone moderni): APK più leggero.
-        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
+        // Solo ARM (tutti gli smartphone moderni): APK più leggero. x86_64 solo per i test su emulatore.
+        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // Chiave di firma fissa: gli aggiornamenti si installano sopra la versione precedente.
@@ -55,6 +57,9 @@ android {
     androidResources {
         noCompress += "tflite"
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
     lint {
         abortOnError = false
         checkReleaseBuilds = false
@@ -87,4 +92,21 @@ dependencies {
 
     // AI offline: classificatore alimentare TFLite on-device.
     implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
+
+    // Smartwatch tramite Health Connect + sincronizzazione periodica
+    implementation("androidx.health.connect:connect-client:1.1.0")
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
+
+    // OCR degli scontrini sul telefono (modello incluso, funziona offline)
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
+    testImplementation("junit:junit:4.13.2")
+
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.10.01"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test:rules:1.6.1")
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

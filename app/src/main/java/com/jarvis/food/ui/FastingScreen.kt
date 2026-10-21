@@ -73,9 +73,8 @@ fun FastingScreen() {
     val progress = if (active) (elapsed.toFloat() / target) else 0f
     val hours = elapsed / 3_600_000.0
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 16.dp)) {
-        Spacer(Modifier.height(12.dp))
-        Text("Digiuno intermittente", style = T.Display)
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+        TopBar("Digiuno intermittente", onBack = { Nav.back() })
         Text(if (active) "Piano ${f.planId} in corso" else "Scegli un piano e inizia", style = T.Muted)
         Spacer(Modifier.height(14.dp))
 
@@ -107,7 +106,7 @@ fun FastingScreen() {
                 val sz = Size(size.width - st, size.height - st)
                 drawArc(C.SurfaceHi, -90f, 360f, false, tl, sz, style = Stroke(st))
                 drawArc(
-                    if (progress >= 1f) C.Accent else C.Fasting, -90f, 360f * progress.coerceAtMost(1f), false, tl, sz,
+                    if (progress >= 1f) C.Green else C.Fasting, -90f, 360f * progress.coerceAtMost(1f), false, tl, sz,
                     style = Stroke(st, cap = StrokeCap.Round)
                 )
                 // Tacche delle fasi

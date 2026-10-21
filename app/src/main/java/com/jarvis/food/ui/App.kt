@@ -31,11 +31,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.jarvis.food.data.DiaryEntry
 import com.jarvis.food.data.Food
 import com.jarvis.food.data.Recipe
 import com.jarvis.food.data.Store
+import com.jarvis.food.engine.Macro
+import com.jarvis.food.engine.RecipeTemplate
 import java.time.LocalDate
 
 /** Schermate secondarie aperte sopra le schede principali. */
@@ -44,10 +47,16 @@ sealed class Screen {
     data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null) : Screen()
     data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null) : Screen()
     data class PhotoAi(val date: LocalDate, val meal: Int) : Screen()
-    data class RecipeDetail(val recipe: Recipe) : Screen()
+    /** Ricetta del database (o creata dall'AI) calcolata su un obiettivo. [slot] valorizzato se viene dal piano. */
+    data class RecipeView(val recipeId: String, val target: Macro, val date: LocalDate, val slot: Int? = null,
+                          val diaryMeal: Int = 1, val adHoc: RecipeTemplate? = null) : Screen()
+    data class Alternatives(val date: LocalDate, val slot: Int) : Screen()
+    data class UserRecipeDetail(val recipe: Recipe) : Screen()
     data class RecipeEditor(val recipe: Recipe?) : Screen()
     data class Activity(val date: LocalDate) : Screen()
     data class DayNutrients(val date: LocalDate) : Screen()
+    data class PantryScan(val mode: String) : Screen()
+    data class PantryIdeas(val meal: String?) : Screen()
     data object Goals : Screen()
     data object ProfileEdit : Screen()
     data object RemindersSet : Screen()
@@ -55,9 +64,14 @@ sealed class Screen {
     data object Backup : Screen()
     data object Weight : Screen()
     data object Measurements : Screen()
+    data object Fasting : Screen()
     data object FastingHistory : Screen()
     data object MyFoods : Screen()
     data object About : Screen()
+    data object DietSettings : Screen()
+    data object Watch : Screen()
+    data object Micronutrients : Screen()
+    data object EnergyInfo : Screen()
 }
 
 /** Navigazione semplice a pila, senza librerie esterne. */
@@ -65,24 +79,20 @@ object Nav {
     val stack = mutableStateListOf<Screen>()
     var tab by mutableIntStateOf(0)
     var diaryDate by mutableStateOf(LocalDate.now())
+    var planDate by mutableStateOf(LocalDate.now())
+    var kitchenTab by mutableIntStateOf(0)
     fun go(s: Screen) { stack.add(s) }
     fun back() { if (stack.isNotEmpty()) stack.removeAt(stack.lastIndex) }
-    fun backTo(predicate: (Screen) -> Boolean) {
-        while (stack.isNotEmpty() && !predicate(stack.last())) stack.removeAt(stack.lastIndex)
-    }
+    fun backTo(predicate: (Screen) -> Boolean) { while (stack.isNotEmpty() && !predicate(stack.last())) stack.removeAt(stack.lastIndex) }
     fun clear() { stack.clear() }
 }
 
 @Composable
 fun App() {
     val state by Store.state.collectAsState()
-    if (!state.onboarded) {
-        Onboarding()
-        return
-    }
+    if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
     BackHandler(enabled = Nav.stack.isEmpty() && Nav.tab != 0) { Nav.tab = 0 }
-
     AppBackground {
         val top = Nav.stack.lastOrNull()
         AnimatedContent(targetState = top, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "nav") { screen ->
@@ -99,10 +109,14 @@ private fun ScreenHost(s: Screen) {
             is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry)
             is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit)
             is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal)
-            is Screen.RecipeDetail -> RecipeDetailScreen(s.recipe)
+            is Screen.RecipeView -> RecipeViewScreen(s)
+            is Screen.Alternatives -> AlternativesScreen(s.date, s.slot)
+            is Screen.UserRecipeDetail -> UserRecipeDetailScreen(s.recipe)
             is Screen.RecipeEditor -> RecipeEditorScreen(s.recipe)
             is Screen.Activity -> ActivityScreen(s.date)
             is Screen.DayNutrients -> DayNutrientsScreen(s.date)
+            is Screen.PantryScan -> PantryScanScreen(s.mode)
+            is Screen.PantryIdeas -> PantryIdeasScreen(s.meal)
             Screen.Goals -> GoalsScreen()
             Screen.ProfileEdit -> ProfileEditScreen()
             Screen.RemindersSet -> RemindersScreen()
@@ -110,9 +124,14 @@ private fun ScreenHost(s: Screen) {
             Screen.Backup -> BackupScreen()
             Screen.Weight -> WeightScreen()
             Screen.Measurements -> MeasurementsScreen()
+            Screen.Fasting -> FastingScreen()
             Screen.FastingHistory -> FastingHistoryScreen()
             Screen.MyFoods -> MyFoodsScreen()
             Screen.About -> AboutScreen()
+            Screen.DietSettings -> DietSettingsScreen()
+            Screen.Watch -> WatchScreen()
+            Screen.Micronutrients -> MicronutrientsScreen()
+            Screen.EnergyInfo -> EnergyInfoScreen()
         }
     }
 }
@@ -122,9 +141,9 @@ private fun Tabs() {
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f)) {
             when (Nav.tab) {
-                0 -> DiaryScreen()
-                1 -> FastingScreen()
-                2 -> RecipesScreen()
+                0 -> TodayScreen()
+                1 -> PlanScreen()
+                2 -> KitchenScreen()
                 3 -> ProgressScreen()
                 else -> ProfileScreen()
             }
@@ -135,35 +154,24 @@ private fun Tabs() {
 
 @Composable
 private fun BottomBar() {
-    val items = listOf(
-        NavIcon.Diary to "Diario", NavIcon.Fasting to "Digiuno", NavIcon.Recipes to "Ricette",
-        NavIcon.Progress to "Progressi", NavIcon.Profile to "Profilo"
-    )
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(C.Bg)
-            .navigationBarsPadding()
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .background(C.Surface)
-            .border(1.dp, C.Line, RoundedCornerShape(24.dp))
-            .padding(vertical = 8.dp)
-    ) {
-        items.forEachIndexed { i, (icon, label) ->
-            val sel = Nav.tab == i
-            Column(
-                Modifier
-                    .weight(1f)
-                    .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { Nav.tab = i },
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Box(
-                    Modifier.clip(RoundedCornerShape(50)).background(if (sel) C.Accent.copy(alpha = 0.16f) else C.Surface)
-                        .padding(horizontal = 16.dp, vertical = 5.dp)
-                ) { NavGlyph(icon, if (sel) C.Accent else C.Muted) }
-                Spacer(Modifier.height(3.dp))
-                Text(label, style = T.Small.copy(color = if (sel) C.Accent else C.Muted))
+    val items = listOf(NavIcon.Today to "Oggi", NavIcon.Plan to "Piano", NavIcon.Kitchen to "Cucina",
+        NavIcon.Progress to "Progressi", NavIcon.Profile to "Profilo")
+    Box(Modifier.fillMaxWidth().background(C.Bg).navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
+        Row(
+            Modifier.fillMaxWidth().shadow(6.dp, RoundedCornerShape(28.dp)).clip(RoundedCornerShape(28.dp)).background(C.Surface)
+                .border(1.dp, C.Line, RoundedCornerShape(28.dp)).padding(vertical = 8.dp)
+        ) {
+            items.forEachIndexed { i, (icon, label) ->
+                val sel = Nav.tab == i
+                Column(
+                    Modifier.weight(1f).clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { Nav.tab = i },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(Modifier.clip(RoundedCornerShape(50)).background(if (sel) C.AccentSoft else C.Surface)
+                        .padding(horizontal = 16.dp, vertical = 5.dp)) { NavGlyph(icon, if (sel) C.AccentDeep else C.Muted) }
+                    Spacer(Modifier.height(3.dp))
+                    Text(label, style = T.Small.copy(color = if (sel) C.AccentDeep else C.Muted))
+                }
             }
         }
     }

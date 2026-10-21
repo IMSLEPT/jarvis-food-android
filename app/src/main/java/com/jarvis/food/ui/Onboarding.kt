@@ -158,6 +158,7 @@ fun Onboarding() {
                 if (step > 0) GhostButton("Indietro", Modifier.weight(1f)) { step-- }
                 PrimaryButton(if (step == 5) "Inizia" else "Avanti", Modifier.weight(2f), enabled = canNext) {
                     if (step < 5) step++ else {
+                        Store.update { it.copy(dietPrefs = it.dietPrefs) }
                         val p = profile()
                         Store.update {
                             it.copy(

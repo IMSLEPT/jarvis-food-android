@@ -2,7 +2,10 @@ package com.jarvis.food.data
 
 import kotlinx.serialization.Serializable
 
-/** Valori nutrizionali sempre riferiti a 100 g (o 100 ml). */
+/**
+ * Alimento. Valori nutrizionali sempre riferiti a 100 g (o 100 ml).
+ * [micro] contiene fibre, zuccheri, grassi saturi, sodio, vitamine e minerali con le chiavi di [Micros].
+ */
 @Serializable
 data class Food(
     val id: String,
@@ -19,10 +22,14 @@ data class Food(
     val servingName: String? = null,
     val servingGrams: Double? = null,
     val barcode: String? = null,
-    /** base | off | custom | ai | recipe | quick */
-    val source: String = "base",
+    /** db | off | custom | ai | recipe | quick | base */
+    val source: String = "db",
     val liquid: Boolean = false,
-    val category: String = ""
+    val category: String = "",
+    val micro: Map<String, Double> = emptyMap(),
+    val fdc: Int? = null,
+    val group: String = "",
+    val tags: List<String> = emptyList()
 )
 
 @Serializable
@@ -32,12 +39,15 @@ data class DiaryEntry(
     val meal: Int,             // 0 colazione, 1 pranzo, 2 cena, 3 spuntini
     val food: Food,
     val grams: Double,
-    val time: Long
+    val time: Long,
+    /** Se l'alimento arriva dal piano: data e indice del pasto pianificato. */
+    val planRef: String? = null
 )
 
 @Serializable
 data class Ingredient(val food: Food, val grams: Double)
 
+/** Ricetta creata dall'utente (editor). Le ricette del database sono in [RecipeTemplate]. */
 @Serializable
 data class Recipe(
     val id: String,
@@ -107,9 +117,16 @@ data class Fasting(
 @Serializable
 data class AiConfig(
     val baseUrl: String = "https://openrouter.ai/api/v1",
-    val model: String = "openrouter/free",
+    /** Modello preferito; se non risponde si provano i successivi in [AiConfig.FALLBACKS]. */
+    val model: String = DEFAULT_MODEL,
     val apiKey: String = ""
-)
+) {
+    companion object {
+        /** Gemma 4 31B: modello open-weight di Google con visione, gratuito su OpenRouter (ottobre 2026). */
+        const val DEFAULT_MODEL = "google/gemma-4-31b-it:free"
+        val FALLBACKS = listOf("google/gemma-4-31b-it:free", "nvidia/nemotron-3.5-super-vl:free", "openrouter/free")
+    }
+}
 
 @Serializable
 data class Reminders(
@@ -121,6 +138,101 @@ data class Reminders(
     val weighIn: Boolean = false,
     val weighInTime: Int = 7 * 60 + 30,
     val fasting: Boolean = true
+)
+
+// ---------------- Piano alimentare ----------------
+
+/** Un pasto del piano: quale ricetta è scelta per quello slot. Le grammature si calcolano sempre dagli obiettivi. */
+@Serializable
+data class PlanSlot(
+    val slot: Int,                // indice in DietPrefs.slots
+    val recipeId: String,
+    val eatenEntryIds: List<String> = emptyList()
+)
+
+@Serializable
+data class DayPlan(val date: String, val slots: List<PlanSlot>)
+
+@Serializable
+data class MealSlotDef(val name: String, val meal: String, val share: Int, val diaryMeal: Int)
+
+@Serializable
+data class DietPrefs(
+    val slots: List<MealSlotDef> = listOf(
+        MealSlotDef("Colazione", "colazione", 25, 0),
+        MealSlotDef("Pranzo", "pranzo", 35, 1),
+        MealSlotDef("Merenda", "spuntino", 10, 3),
+        MealSlotDef("Cena", "cena", 30, 2)
+    ),
+    /** Tag da escludere: lattosio, glutine, pesce, crostacei, carne, maiale, uova, frutta_secca, soia */
+    val exclude: List<String> = emptyList(),
+    /** Ricette che non vuoi più vedere */
+    val disliked: List<String> = emptyList(),
+    val maxMinutes: Int = 40
+)
+
+// ---------------- Smartwatch / Health Connect ----------------
+
+@Serializable
+data class WorkoutSession(
+    val title: String,
+    val type: Int,
+    val start: Long,
+    val end: Long,
+    val kcal: Double? = null
+)
+
+@Serializable
+data class HealthDay(
+    val date: String,
+    val steps: Long = 0,
+    /** Calorie attive registrate dal dispositivo (null = non disponibili). */
+    val activeKcal: Double? = null,
+    val totalKcal: Double? = null,
+    val sessions: List<WorkoutSession> = emptyList(),
+    val restingHr: Double? = null,
+    val avgHr: Double? = null,
+    val sleepMinutes: Long? = null,
+    val updatedAt: Long = 0
+)
+
+/** 0 = livello di attività fisso del profilo; 1 = sedentario + attività registrate a mano; 2 = smartwatch (Health Connect). */
+@Serializable
+data class EnergySettings(
+    val mode: Int = 0,
+    /** Quota delle calorie attive dello smartwatch da "restituire" al budget (i dispositivi da polso tendono a sovrastimare). */
+    val eatBackPct: Int = 80,
+    val watchConnected: Boolean = false,
+    val importWeight: Boolean = true,
+    val lastSync: Long = 0,
+    val syncError: String? = null
+)
+
+// ---------------- Dispensa e spesa ----------------
+
+@Serializable
+data class PantryItem(
+    val id: String,
+    val foodId: String? = null,
+    val name: String,
+    val grams: Double? = null,
+    val addedAt: Long = System.currentTimeMillis(),
+    /** foto | scontrino | manuale | spesa */
+    val source: String = "manuale"
+)
+
+@Serializable
+data class ShoppingItem(
+    val id: String,
+    val foodId: String? = null,
+    val name: String,
+    val needGrams: Double = 0.0,
+    val packs: Int = 0,
+    val packGrams: Double = 0.0,
+    val shop: String = "Altro",
+    val checked: Boolean = false,
+    val manual: Boolean = false,
+    val note: String = ""
 )
 
 @Serializable
@@ -140,7 +252,16 @@ data class AppState(
     val fasting: Fasting = Fasting(),
     val ai: AiConfig = AiConfig(),
     val reminders: Reminders = Reminders(),
-    val glassMl: Int = 250
+    val glassMl: Int = 250,
+    // v2
+    val plan: List<DayPlan> = emptyList(),
+    val dietPrefs: DietPrefs = DietPrefs(),
+    val health: Map<String, HealthDay> = emptyMap(),
+    val energy: EnergySettings = EnergySettings(),
+    val pantry: List<PantryItem> = emptyList(),
+    val shopping: List<ShoppingItem> = emptyList(),
+    val shoppingRange: String = "",
+    val recipePhotos: Map<String, String> = emptyMap()
 )
 
 val MEAL_NAMES = listOf("Colazione", "Pranzo", "Cena", "Spuntini")

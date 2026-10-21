@@ -47,7 +47,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import com.jarvis.food.data.Food
-import com.jarvis.food.data.FoodBase
+import com.jarvis.food.data.Db
 import com.jarvis.food.data.MEAL_NAMES
 import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
@@ -70,8 +70,10 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     var scanning by remember { mutableStateOf(false) }
 
     val local = remember(query, s.customFoods, s.favorites) {
-        FoodBase.search(query, s.customFoods + s.favorites + s.recipes.map { Nutrition.recipeAsFood(it) } +
-                FoodBase.recipes.map { Nutrition.recipeAsFood(it) })
+        val q = query.trim().lowercase()
+        val mine = if (q.isEmpty()) emptyList() else (s.customFoods + s.favorites + s.recipes.map { Nutrition.recipeAsFood(it) })
+            .filter { q.split(" ").all { t -> (it.name + " " + it.brand).lowercase().contains(t) } }
+        (mine + Db.db.search(query).map { it.toFood() }).distinctBy { it.id }
     }
 
     // Ricerca online con attesa di 600 ms dopo l'ultima digitazione.
@@ -184,9 +186,25 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                         items(s.customFoods, key = { "c" + it.id }) { FoodRow(it, null, date, meal) }
                     }
                     else -> {
-                        val all = s.recipes + FoodBase.recipes
-                        items(all, key = { "rec" + it.id }) { r ->
+                        items(s.recipes, key = { "rec" + it.id }) { r ->
                             FoodRow(Nutrition.recipeAsFood(r), null, date, meal, emoji = r.emoji)
+                        }
+                        val slotIdx = s.dietPrefs.slots.indexOfFirst { it.diaryMeal == meal }.coerceAtLeast(0)
+                        val target = com.jarvis.food.engine.Planner.slotTargets(Store.energyFor(s, date).macro, s.dietPrefs)[slotIdx]
+                        val mealKey = s.dietPrefs.slots.getOrNull(slotIdx)?.meal ?: "pranzo"
+                        items(Db.db.recipes.filter { it.meal == mealKey }, key = { "db" + it.id }) { tpl ->
+                            Row(
+                                Modifier.fillMaxWidth().padding(vertical = 4.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface)
+                                    .clickable { Nav.go(Screen.RecipeView(tpl.id, target, date, null, meal)) }.padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(52.dp), "🍽️", 12.dp)
+                                Spacer(Modifier.width(10.dp))
+                                Column(Modifier.weight(1f)) {
+                                    Text(tpl.name, style = T.Label, maxLines = 2)
+                                    Text("Ricetta calcolata sul tuo obiettivo", style = T.Small)
+                                }
+                            }
                         }
                     }
                 }

@@ -80,7 +80,8 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
                 food.brand.takeIf { it.isNotBlank() },
                 when (food.source) {
                     "off" -> "Open Food Facts"; "ai" -> "Stima AI"; "custom" -> "Creato da te"
-                    "recipe" -> "Ricetta"; "quick" -> "Aggiunta rapida"; else -> "Valori medi"
+                    "recipe" -> "Ricetta calcolata"; "quick" -> "Aggiunta rapida"
+                    "db" -> "USDA FoodData Central" + (food.fdc?.let { " · FDC $it" } ?: ""); else -> "Valori medi"
                 },
                 food.barcode?.let { "EAN $it" }
             ).joinToString(" · ")
@@ -143,6 +144,20 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
                 Spacer(Modifier.height(6.dp))
                 Text("Per 100 $unit: ${food.kcal.r0()} kcal · C ${food.carbs.r1()} · P ${food.protein.r1()} · G ${food.fat.r1()}", style = T.Small)
             }
+            if (food.micro.size >= 8) {
+                SectionTitle("Vitamine e minerali")
+                JCard {
+                    com.jarvis.food.engine.Micros.defs.filter { it.kind != "LIM" && it.key != "fiber" }.forEach { d ->
+                        val v = (food.micro[d.key] ?: 0.0) * grams / 100
+                        val ref = if (s.profile.male) d.men else d.women
+                        if (!d.perMJ) Row(Modifier.fillMaxWidth().padding(vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Text(d.name, style = T.Body, modifier = Modifier.width(110.dp))
+                            ProgressLine((v / ref).toFloat(), C.Green, Modifier.weight(1f), 6.dp)
+                            Text("  " + com.jarvis.food.engine.Micros.fmt(v, d.unit), style = T.Small, modifier = Modifier.width(80.dp))
+                        }
+                    }
+                }
+            }
             Spacer(Modifier.height(16.dp))
         }
         Row(Modifier.navigationBarsPadding().padding(16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -170,26 +185,3 @@ private fun NutRow(label: String, value: String, bold: Boolean = false) {
     HorizontalDivider(color = C.Line)
 }
 
-@Composable
-fun MacroDonut(c: Double, p: Double, f: Double, size: androidx.compose.ui.unit.Dp = 84.dp) {
-    val kc = c * 4; val kp = p * 4; val kf = f * 9
-    val tot = (kc + kp + kf).coerceAtLeast(0.001)
-    Box(Modifier.size(size), contentAlignment = Alignment.Center) {
-        Canvas(Modifier.size(size)) {
-            val st = 10.dp.toPx()
-            val tl = Offset(st / 2, st / 2)
-            val sz = Size(this.size.width - st, this.size.height - st)
-            if (kc + kp + kf <= 0.001) {
-                drawArc(C.SurfaceHi, 0f, 360f, false, tl, sz, style = Stroke(st))
-            } else {
-                var start = -90f
-                listOf(kc to C.Carbs, kp to C.Protein, kf to C.Fat).forEach { (v, col) ->
-                    val sweep = (v / tot * 360).toFloat()
-                    if (sweep > 0) drawArc(col, start, (sweep - 2f).coerceAtLeast(0.5f), false, tl, sz, style = Stroke(st))
-                    start += sweep
-                }
-            }
-        }
-        Text("${(kp / tot * 100).r0()}%\nprot", style = T.Small.copy(textAlign = androidx.compose.ui.text.style.TextAlign.Center))
-    }
-}

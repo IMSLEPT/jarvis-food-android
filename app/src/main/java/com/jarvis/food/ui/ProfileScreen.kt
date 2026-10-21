@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import com.jarvis.food.BuildConfig
 import com.jarvis.food.ai.FoodAi
 import com.jarvis.food.data.AiConfig
-import com.jarvis.food.data.FoodBase
+import com.jarvis.food.engine.Activities
 import com.jarvis.food.data.MEAL_NAMES
 import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
@@ -76,7 +76,7 @@ fun ProfileScreen() {
         Spacer(Modifier.height(16.dp))
         JCard {
             Row {
-                Stat("Obiettivo", "${s.goals.kcal} kcal", C.Accent)
+                Stat("Obiettivo", "${Store.energyFor(s, LocalDate.now()).baseKcal.r0()} kcal", C.AccentDeep)
                 Spacer(Modifier.weight(1f))
                 Stat("Piano", when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }, C.Text)
                 Spacer(Modifier.weight(1f))
@@ -92,10 +92,16 @@ fun ProfileScreen() {
             NavRow("Peso", "${w.r1()} kg", "⚖️") { Nav.go(Screen.Weight) }
             HorizontalDivider(color = C.Line)
             NavRow("Misure corporee", null, "📏") { Nav.go(Screen.Measurements) }
+            HorizontalDivider(color = C.Line)
+            NavRow("Preferenze della dieta", "Esclusioni, ripartizione dei pasti, tempi", "🥗") { Nav.go(Screen.DietSettings) }
         }
         SectionTitle("Strumenti")
         JCard(padding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
-            NavRow("AI foto", if (s.ai.apiKey.isBlank()) "Da configurare" else "Attiva · ${s.ai.model}", "✨") { Nav.go(Screen.AiSettings) }
+            NavRow("Smartwatch e attività", when (s.energy.mode) { 2 -> "Amazfit / Health Connect collegato"; 1 -> "Attività inserite a mano"; else -> "Livello di attività fisso" }, "⌚") { Nav.go(Screen.Watch) }
+            HorizontalDivider(color = C.Line)
+            NavRow("Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", "✨") { Nav.go(Screen.AiSettings) }
+            HorizontalDivider(color = C.Line)
+            NavRow("Digiuno intermittente", if (s.fasting.activeStart != null) "In corso · ${s.fasting.planId}" else "Piano ${s.fasting.planId}", "⏱️") { Nav.go(Screen.Fasting) }
             HorizontalDivider(color = C.Line)
             NavRow("Promemoria", "Pasti, acqua, pesata, digiuno", "🔔") { Nav.go(Screen.RemindersSet) }
             HorizontalDivider(color = C.Line)
@@ -314,7 +320,7 @@ fun AiSettingsScreen() {
     val offline = remember { FoodAi.offlineAvailable(ctx) }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("AI foto", onBack = { Nav.back() })
+        TopBar("Intelligenza artificiale", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             JCard {
                 Text("Offline · sul telefono", style = T.Title2)
@@ -326,7 +332,9 @@ fun AiSettingsScreen() {
             }
             JCard {
                 Text("Online · gratuita", style = T.Title2)
-                Text("Più precisa: riconosce più alimenti nello stesso piatto e stima grammi e calorie. Predefinito: OpenRouter con il router dei modelli gratuiti (0 €, con limiti di utilizzo).", style = T.Muted)
+                Text("Riconosce piatti, frigo, dispensa e scontrini e crea ricette con ciò che hai. Predefinito: Gemma 4 31B di Google, " +
+                        "modello open-weight con visione, gratuito su OpenRouter; se non risponde provo Nemotron VL e il router gratuito. " +
+                        "Limite indicativo del piano gratuito: circa 200 richieste al giorno. L'AI riconosce gli alimenti: calorie e nutrienti li calcola sempre l'app dal database.", style = T.Muted)
                 Spacer(Modifier.height(8.dp))
                 Text("1. Crea un account gratuito su openrouter.ai\n2. Vai su Keys → Create key\n3. Incolla la chiave qui sotto", style = T.Body)
                 Spacer(Modifier.height(8.dp))
@@ -336,6 +344,11 @@ fun AiSettingsScreen() {
             }
             JField(key, { key = it.trim() }, "Chiave API")
             JField(model, { model = it.trim() }, "Modello")
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Pill("Gemma 4", model == AiConfig.DEFAULT_MODEL) { model = AiConfig.DEFAULT_MODEL; url = AiConfig().baseUrl }
+                Pill("Nemotron VL", model.startsWith("nvidia/nemotron-3.5-super-vl")) { model = "nvidia/nemotron-3.5-super-vl:free"; url = AiConfig().baseUrl }
+                Pill("Automatico", model == "openrouter/free") { model = "openrouter/free"; url = AiConfig().baseUrl }
+            }
             JField(url, { url = it.trim() }, "Indirizzo API (compatibile OpenAI)")
             Text("Puoi usare qualsiasi servizio compatibile OpenAI con un modello che accetta immagini. La foto viene inviata solo quando premi \"Analizza online\".", style = T.Small)
             GhostButton("Ripristina predefiniti") { val d = AiConfig(); model = d.model; url = d.baseUrl }
@@ -421,7 +434,7 @@ fun BackupScreen() {
 @Composable
 fun ActivityScreen(date: LocalDate) {
     val s by Store.state.collectAsState()
-    var selected by remember { mutableStateOf<FoodBase.Activity?>(null) }
+    var selected by remember { mutableStateOf<Activities.Activity?>(null) }
     var minutes by remember { mutableStateOf("30") }
     var customName by remember { mutableStateOf("") }
     var customKcal by remember { mutableStateOf("") }
@@ -432,7 +445,7 @@ fun ActivityScreen(date: LocalDate) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             Text("Calorie stimate con i valori MET e il tuo peso (${w.r1()} kg).", style = T.Small)
             Spacer(Modifier.height(10.dp))
-            FoodBase.activities.forEach { a ->
+            Activities.activities.forEach { a ->
                 Choice("${a.emoji}  ${a.name}", selected == a) { selected = a }
             }
             SectionTitle("Oppure inserisci a mano")
@@ -524,10 +537,20 @@ fun AboutScreen() {
             JCard {
                 Text("Fonti", style = T.Title2)
                 Text("• Prodotti confezionati: Open Food Facts (openfoodfacts.org), database aperto con licenza ODbL.\n" +
-                        "• Alimenti generici: valori medi indicativi da tabelle di composizione (CREA, USDA).\n" +
+                        "• Alimenti e ricette: USDA FoodData Central, SR Legacy (dominio pubblico); ogni ingrediente riporta il suo FDC ID.\n" +
+                        "• Vitamine e minerali: valori di riferimento EFSA (Dietary Reference Values per adulti).\n" +
+                        "• Smartwatch: dati letti da Health Connect (es. app Zepp per Amazfit).\n" +
+                        "• AI online: modelli gratuiti tramite OpenRouter; testo degli scontrini letto sul telefono con ML Kit.\n" +
                         "• Calcolo fabbisogno: formula di Mifflin-St Jeor.\n" +
                         "• Attività: valori MET del Compendium of Physical Activities.\n" +
                         "• AI offline: classificatore alimentare open source di Google (TensorFlow Lite).", style = T.Body)
+            }
+            JCard {
+                Text("Foto delle ricette", style = T.Title2)
+                com.jarvis.food.data.Db.db.recipes.mapNotNull { r -> r.credit?.takeIf { it.author.isNotBlank() }?.let { r.name to it } }.forEach { (n, c) ->
+                    Text("• $n: ${c.title.take(60)} – ${c.author.take(60)}, ${c.license} (${c.source})", style = T.Small)
+                }
+                Text("Foto con licenze libere (Creative Commons / pubblico dominio) da Openverse e Wikimedia Commons. Sono illustrative.", style = T.Small)
             }
             JCard {
                 Text("Avvertenza", style = T.Title2)

@@ -68,6 +68,9 @@ fun ProgressScreen() {
             Pill("90 giorni", period == 90) { period = 90 }
         }
 
+        SectionTitle("Vitamine e minerali", action = "Analisi completa") { Nav.go(Screen.Micronutrients) }
+        MicroSummaryCard(s)
+
         SectionTitle("Peso", action = "Registra") { Nav.go(Screen.Weight) }
         JCard(onClick = { Nav.go(Screen.Weight) }) {
             Row {
@@ -94,7 +97,7 @@ fun ProgressScreen() {
                 Stat("Giorni registrati", "${logged.size}/$period", C.Muted)
             }
             Spacer(Modifier.height(12.dp))
-            BarChart(daily.map { it.kcal }, days.map(labelOf), s.goals.kcal.toDouble(), C.Accent)
+            BarChart(daily.map { it.kcal }, days.map(labelOf), Store.energyFor(s, today).baseKcal, C.Accent)
         }
 
         SectionTitle("Macronutrienti (media)")
@@ -126,7 +129,7 @@ fun ProgressScreen() {
         SectionTitle("Passi e attività")
         JCard {
             val burned = days.map { Store.burnedFor(s, it).toDouble() }
-            BarChart(burned, days.map(labelOf), null, C.Fat)
+            BarChart(burned, days.map(labelOf), null, C.Green)
             Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Small, modifier = Modifier.padding(top = 6.dp))
         }
 

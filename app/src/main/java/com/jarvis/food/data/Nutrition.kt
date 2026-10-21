@@ -23,7 +23,7 @@ object Nutrition {
         "Molto attivo (6-7 allenamenti/settimana)",
         "Estremamente attivo (lavoro fisico + sport)"
     )
-    private val ACTIVITY_FACTORS = listOf(1.2, 1.375, 1.55, 1.725, 1.9)
+    val ACTIVITY_FACTORS = listOf(1.2, 1.375, 1.55, 1.725, 1.9)
 
     fun of(food: Food, grams: Double): Totals {
         val k = grams / 100.0
@@ -57,10 +57,12 @@ object Nutrition {
         return max(minKcal(p).toDouble(), raw).roundToInt() / 10 * 10
     }
 
-    fun autoGoals(p: Profile, weight: Double, g: Goals): Goals {
-        // Proteine: obiettivo ≥ 1.6 g/kg se si aumenta massa, 1.8 g/kg se si dimagrisce.
-        val kcal = recommendedKcal(p, weight)
-        val protG = weight * when (p.goal) { -1 -> 1.8; 1 -> 1.8; else -> 1.6 }
+    /** Proteine: 1,6 g/kg per mantenere, 1,8 g/kg in definizione o in aumento di massa muscolare. */
+    fun proteinPerKg(p: Profile) = when (p.goal) { -1 -> 1.8; 1 -> 1.8; else -> 1.6 }
+
+    fun autoGoals(p: Profile, weight: Double, g: Goals, kcalOverride: Int? = null): Goals {
+        val kcal = kcalOverride ?: recommendedKcal(p, weight)
+        val protG = weight * proteinPerKg(p)
         val protPct = ((protG * 4 / kcal) * 100).roundToInt().coerceIn(15, 40)
         val fatPct = 27
         val carbPct = 100 - protPct - fatPct

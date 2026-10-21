@@ -123,7 +123,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
         val b = bitmap ?: return
         busy = true; reset()
         scope.launch {
-            runCatching { FoodAi.analyzeOnline(s.ai, b, hint) }
+            runCatching { FoodAi.analyzeMeal(s.ai, com.jarvis.food.data.Db.db, b, hint) }
                 .onSuccess { (list, n) ->
                     items.addAll(list.map { EditableItem(it) }); note = n
                     if (list.isEmpty()) error = n.ifBlank { "Nessun alimento riconosciuto." }
@@ -179,7 +179,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 }
                 Text(
                     if (s.ai.apiKey.isBlank()) "Online: inserisci la chiave gratuita in Profilo → AI foto. Offline: riconosce il piatto senza internet."
-                    else "Online: ${s.ai.model}. Offline: " + if (offlineOk) "modello sul telefono." else "modello non incluso in questa build.",
+                    else "Online: ${s.ai.model}; i valori nutrizionali vengono dal database USDA. Offline: " + if (offlineOk) "modello sul telefono (nomi in inglese)." else "modello non incluso.",
                     style = T.Small, modifier = Modifier.padding(top = 6.dp)
                 )
                 if (s.ai.apiKey.isBlank()) Text(
@@ -198,13 +198,17 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 SectionTitle("Alimenti riconosciuti")
                 items.forEach { it2 ->
                     val g = parseNum(it2.grams) ?: 0.0
-                    val k = if (it2.base.grams > 0) g / it2.base.grams else 0.0
+                    val dbf = it2.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
+                    val kc: Double; val pp: Double; val cc: Double; val ff: Double
+                    if (dbf != null) { kc = dbf.kcal * g / 100; pp = dbf.protein * g / 100; cc = dbf.carbs * g / 100; ff = dbf.fat * g / 100 }
+                    else { val k = if (it2.base.grams > 0) g / it2.base.grams else 0.0; kc = it2.base.kcal * k; pp = it2.base.protein * k; cc = it2.base.carbs * k; ff = it2.base.fat * k }
                     JCard(Modifier.padding(bottom = 8.dp), padding = androidx.compose.foundation.layout.PaddingValues(10.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Checkbox(it2.selected, { v -> it2.selected = v }, colors = CheckboxDefaults.colors(checkedColor = C.Accent, checkmarkColor = C.OnAccent))
+                            Checkbox(it2.selected, { v -> it2.selected = v }, colors = CheckboxDefaults.colors(checkedColor = C.Green, checkmarkColor = C.OnAccent))
                             Column(Modifier.weight(1f)) {
-                                Text(it2.base.name, style = T.Label)
-                                Text("${(it2.base.kcal * k).r0()} kcal · C ${(it2.base.carbs * k).r0()} · P ${(it2.base.protein * k).r0()} · G ${(it2.base.fat * k).r0()}", style = T.Small)
+                                Text(it2.base.name.replaceFirstChar { c -> c.uppercase() }, style = T.Label)
+                                Text(if (dbf != null) "= ${dbf.name} (USDA)" else "non nel database: stima AI", style = T.Small.copy(color = if (dbf != null) C.Green else C.Gold))
+                                Text("${kc.r0()} kcal · P ${pp.r0()} · C ${cc.r0()} · G ${ff.r0()}", style = T.Small)
                             }
                             JField(it2.grams, { v -> it2.grams = v }, "g", Modifier.width(84.dp), number = true)
                         }
@@ -233,7 +237,8 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             PrimaryButton("Aggiungi ${items.count { it.selected }} alimenti", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {
                 items.filter { it.selected }.forEach { e ->
                     val g = parseNum(e.grams) ?: e.base.grams
-                    Store.addEntry(date, meal, e.base.toFood(), g)
+                    val dbf = e.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
+                    Store.addEntry(date, meal, dbf?.toFood() ?: e.base.toEstimatedFood(), g)
                 }
                 Nav.backTo { it !is Screen.AddFood && it !is Screen.PhotoAi }
             }
