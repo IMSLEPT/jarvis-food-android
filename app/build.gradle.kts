@@ -17,7 +17,6 @@ android {
         val run = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
         versionCode = run
         versionName = "1.0.$run"
-        // Solo ARM (tutti gli smartphone moderni): APK più leggero.
         // Solo ARM (tutti gli smartphone moderni): APK più leggero. x86_64 solo per i test su emulatore.
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -28,9 +27,10 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("jarvisfood.jks")
-            storePassword = "jarvisfood-release"
+            // Il keystore è cifrato nel repo (app/jarvisfood.jks.enc) e viene decifrato in CI con il secret SIGNING_PASS.
+            storePassword = "jYIJF4M2dyW6QwBl0nLW38rj"
             keyAlias = "jarvisfood"
-            keyPassword = "jarvisfood-release"
+            keyPassword = "jYIJF4M2dyW6QwBl0nLW38rj"
         }
     }
 

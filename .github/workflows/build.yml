@@ -33,6 +33,14 @@ jobs:
           if [ -f "$OUT" ] && ! unzip -l "$OUT" 2>/dev/null | grep -Eiq '\.(txt|csv)'; then rm -f "$OUT"; fi
           exit 0
 
+      # La chiave di firma è nel repo solo cifrata: si decifra con il secret SIGNING_PASS.
+      - name: Decrypt signing key
+        env:
+          SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
+        run: |
+          if [ -z "$SIGNING_PASS" ]; then echo "::error::Manca il secret SIGNING_PASS"; exit 1; fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/jarvisfood.jks.enc -out app/jarvisfood.jks -pass env:SIGNING_PASS
+
       - name: Accept Android SDK licenses
         run: yes | "${ANDROID_HOME:-$ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 

@@ -7,3 +7,4 @@ local.properties
 captures/
 app/src/main/assets/food.tflite
 tools/__pycache__/
+app/jarvisfood.jks
