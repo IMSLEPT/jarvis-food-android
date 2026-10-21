@@ -115,8 +115,8 @@ object Solver {
         f.group == "integratori" -> 40.0
         f.liquid -> 300.0
         f.group == "latticini" -> if (f.kcal > 300) 40.0 else 250.0
-        f.group in setOf("cereali", "cereali_integrali") -> if (f.kcal > 300) 150.0 else 160.0
-        f.group == "tuberi" -> 350.0
+        f.group in setOf("cereali", "cereali_integrali") -> if (f.kcal > 300) 150.0 else 200.0
+        f.group == "tuberi" -> 400.0
         f.group == "legumi" -> if (f.kcal > 250) 100.0 else 300.0
         f.group == "salumi" -> 80.0
         f.group.startsWith("carne") || f.group.startsWith("pesce") -> 250.0
