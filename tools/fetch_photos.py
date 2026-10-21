@@ -63,6 +63,8 @@ for r in R:
     tasks.append((r["id"], r["img"]))
     for j, q in enumerate(S[r["id"]]):
         if q: tasks.append((f"{r['id']}__s{j}", q))
+EX = os.path.join(os.path.dirname(__file__), "extra_queries.json")
+if os.path.exists(EX): tasks = list(json.load(open(EX)).items())
 meta = {}
 def run(t):
     name, q = t
