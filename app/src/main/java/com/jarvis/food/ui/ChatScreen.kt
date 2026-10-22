@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,7 +48,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
+import kotlin.math.roundToInt
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
@@ -65,15 +73,33 @@ fun JarvisLogo(size: Dp, modifier: Modifier = Modifier) {
     Image(painterResource(R.drawable.jarvis_logo), "Jarvis", modifier.size(size).clip(CircleShape), contentScale = ContentScale.Crop)
 }
 
-/** Pulsante flottante che apre la chat con Jarvis. */
+/** Posizione del pulsante flottante (rispetto all'angolo in basso a destra): resta dove l'utente lo trascina. */
+private object FabPos {
+    var x by mutableFloatStateOf(0f)
+    var y by mutableFloatStateOf(0f)
+}
+
+/** Pulsante flottante che apre la chat con Jarvis. Si può trascinare per liberare il contenuto sotto. */
 @Composable
 fun ChatFab(modifier: Modifier = Modifier) {
+    val cfg = LocalConfiguration.current
+    val density = LocalDensity.current
+    val maxX = with(density) { (cfg.screenWidthDp.dp - 80.dp).toPx() }
+    val maxY = with(density) { (cfg.screenHeightDp.dp - 260.dp).toPx() }
     Box(
-        modifier.size(58.dp).shadow(8.dp, CircleShape, ambientColor = Color(0x5517286B), spotColor = Color(0x5517286B))
+        modifier.offset { IntOffset(FabPos.x.roundToInt(), FabPos.y.roundToInt()) }
+            .size(52.dp).shadow(8.dp, CircleShape, ambientColor = Color(0x5517286B), spotColor = Color(0x5517286B))
             .clip(CircleShape).background(C.Surface).border(2.dp, C.Accent, CircleShape)
+            .pointerInput(maxX, maxY) {
+                detectDragGestures { change, drag ->
+                    change.consume()
+                    FabPos.x = (FabPos.x + drag.x).coerceIn(-maxX, 0f)
+                    FabPos.y = (FabPos.y + drag.y).coerceIn(-maxY, 0f)
+                }
+            }
             .clickable { Nav.go(Screen.Chat) },
         contentAlignment = Alignment.Center
-    ) { JarvisLogo(50.dp) }
+    ) { JarvisLogo(44.dp) }
 }
 
 @Composable

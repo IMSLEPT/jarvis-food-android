@@ -12,6 +12,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -85,7 +86,7 @@ fun ProfileScreen() {
         }
         SectionTitle("Il mio piano")
         JCard(padding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
-            NavRow("Profilo e obiettivo", "Dati personali, peso obiettivo, ritmo", "👤") { Nav.go(Screen.ProfileEdit) }
+            NavRow("Profilo e obiettivo", "Foto, risposte del questionario, obiettivo", "👤") { Nav.go(Screen.ProfileEdit) }
             HorizontalDivider(color = C.Line)
             NavRow("Calorie e macronutrienti", "${s.goals.carbsPct}% C · ${s.goals.proteinPct}% P · ${s.goals.fatPct}% G", "🎯") { Nav.go(Screen.Goals) }
             HorizontalDivider(color = C.Line)
@@ -239,7 +240,7 @@ fun GoalsScreen() {
             MacroSlider("Grassi", f, C.Fat, k, 9) { f = it }
             val sum = c + p + f
             Text(if (sum == 100) "Totale 100% ✓" else "Totale $sum%: deve essere 100%", style = T.Label.copy(color = if (sum == 100) C.Navy else C.Danger))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Nutrition.PRESETS.forEachIndexed { i, pr ->
                     Pill(pr.name + if (advice?.best == i) " ★" else "", c == pr.carbs && p == pr.protein && f == pr.fat) { c = pr.carbs; p = pr.protein; f = pr.fat }
                 }

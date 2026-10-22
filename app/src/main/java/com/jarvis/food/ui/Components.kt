@@ -153,7 +153,7 @@ fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> U
         Modifier.clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
             .border(1.dp, if (selected) color else C.Line, RoundedCornerShape(50))
             .clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 9.dp)
-    ) { Text(text, style = T.Label.copy(color = if (selected) C.OnAccent else C.Text)) }
+    ) { Text(text, style = T.Label.copy(color = if (selected) C.OnAccent else C.Text), maxLines = 1, softWrap = false) }
 }
 
 @Composable

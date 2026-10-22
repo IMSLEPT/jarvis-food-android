@@ -105,6 +105,8 @@ dependencies {
     implementation("com.google.mlkit:text-recognition:16.0.1")
 
     testImplementation("junit:junit:4.13.2")
+    // org.json reale per testare il protocollo della chat sulla JVM (su Android è nel framework).
+    testImplementation("org.json:json:20240303")
 
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.10.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
