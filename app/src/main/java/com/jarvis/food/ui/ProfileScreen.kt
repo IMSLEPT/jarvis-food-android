@@ -528,7 +528,7 @@ fun GoalsScreen() {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             Text("Bicchiere", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                            Text("Quanta acqua aggiunge un tocco", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                            Text("Acqua per ogni tocco", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                         }
                         AStepBtn(false, A.WaterSoft, A.WaterInk) { glass = (glass - 50).coerceIn(100, 1000) }
                         Text("$glass ml", style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(76.dp), maxLines = 1)
