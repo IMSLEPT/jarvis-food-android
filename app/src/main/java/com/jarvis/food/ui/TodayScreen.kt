@@ -260,7 +260,7 @@ private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, 
                 drawArc(Color(0x29FFFFFF), 135f, 270f, false, tl, sz, style = Stroke(st, cap = StrokeCap.Round))
                 if (p > 0f) {
                     val sweep = 270f * p
-                    if (!over) drawArc(Color(0x59FF7A3D), 135f, sweep, false, tl, sz, style = Stroke(st + 10.dp.toPx(), cap = StrokeCap.Round))
+                    if (!over) drawArc(Color(0x1AFF7A3D), 135f, sweep, false, tl, sz, style = Stroke(st + 8.dp.toPx(), cap = StrokeCap.Round))
                     val brush = if (over) Brush.linearGradient(listOf(Color(0xFFFF8A7A), Color(0xFFE5484D)))
                     else Brush.linearGradient(A.Sun, start = Offset(30.dp.toPx(), 200.dp.toPx()), end = Offset(200.dp.toPx(), 30.dp.toPx()))
                     drawArc(brush, 135f, sweep, false, tl, sz, style = Stroke(st, cap = StrokeCap.Round))
