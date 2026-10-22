@@ -11,6 +11,13 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,62 +67,138 @@ import com.jarvis.food.data.Store
 import com.jarvis.food.notify.Reminders
 import java.time.LocalDate
 
+private object PIc {
+    val Target = Ic.circ(12.0, 12.0, 9.0) + Ic.circ(12.0, 12.0, 4.5) + Ic.circ(12.0, 12.0, 0.8)
+    val Scale = "M5 5h14l1 14H4zM9 9a3 3 0 0 0 6 0"
+    val Ruler = "M3 15L15 3l6 6L9 21zM8 10l2 2M11 7l2 2M5 13l2 2"
+    val Leaf = "M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8"
+    val Watch = Ic.rr(7.0, 6.0, 10.0, 12.0, 3.0) + "M9 6l1-3h4l1 3M9 18l1 3h4l1-3M12 10v2l1.5 1"
+    val Sparks = "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"
+    val Fast = Ic.circ(12.0, 13.0, 7.5) + "M12 9v4l2.5 1.5M9.5 3h5"
+    val Bell = "M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"
+    val Cook = "M4 11h16a8 8 0 0 1-16 0zM8 7l1.5-3M13 7l1.5-3"
+    val Save = "M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6"
+    val Info = Ic.circ(12.0, 12.0, 9.0) + "M12 11v5M12 8h.01"
+    val Chat = "M4 5h16v11H9l-5 4z"
+    val Shield = "M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6zM9 12l2 2 4-4"
+}
+
+@Composable
+private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: String?, divider: Boolean = true, onClick: () -> Unit) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 68.dp).clip(RoundedCornerShape(20.dp)).clickable(onClick = onClick), verticalAlignment = Alignment.CenterVertically) {
+        TonalIcon(icon, ink, bg, box = 46.dp, radius = 17.dp, size = 23.dp)
+        GapW(14.dp)
+        Column(Modifier.weight(1f)) {
+            Text(title, style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+            if (sub != null) Text(sub, style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 17.sp, color = A.Muted), maxLines = 1)
+        }
+        AIcon(Ic.Right, Color(0xFF8A87A3), 18.dp, 2.4f)
+    }
+    if (divider) Box(Modifier.padding(start = 60.dp).fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+}
+
+@Composable
+private fun ProfStat(value: String, label: String, modifier: Modifier) {
+    Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(value, style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
+        Text(label, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted), maxLines = 1)
+    }
+}
+
 @Composable
 fun ProfileScreen() {
+    val ctx = LocalContext.current
     val s by Store.state.collectAsState()
     val w = Store.currentWeight(s)
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 16.dp)) {
-        Spacer(Modifier.height(16.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Avatar(s.profile.name, s.profile.photo, 64.dp, Modifier.clickable { Nav.go(Screen.ProfileEdit) })
-            Spacer(Modifier.width(14.dp))
-            Column {
-                Text(s.profile.name, style = T.Title)
-                Text("${Nutrition.age(s.profile)} anni · ${s.profile.heightCm.r0()} cm · ${w.r1()} kg", style = T.Muted)
-            }
-        }
-        Spacer(Modifier.height(16.dp))
-        JCard {
-            Row {
-                Stat("Obiettivo", "${Store.energyFor(s, LocalDate.now()).baseKcal.r0()} kcal", C.AccentDeep)
-                Spacer(Modifier.weight(1f))
-                Stat("Piano", when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }, C.Text)
-                Spacer(Modifier.weight(1f))
-                Stat("Serie", "${streak(s)} gg", C.Fat)
-            }
-        }
-        SectionTitle("Il mio piano")
-        JCard(padding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
-            NavRow("Profilo e obiettivo", "Foto, risposte del questionario, obiettivo", "👤") { Nav.go(Screen.ProfileEdit) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Calorie e macronutrienti", "${s.goals.carbsPct}% C · ${s.goals.proteinPct}% P · ${s.goals.fatPct}% G", "🎯") { Nav.go(Screen.Goals) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Peso", "${w.r1()} kg", "⚖️") { Nav.go(Screen.Weight) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Misure corporee", null, "📏") { Nav.go(Screen.Measurements) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Preferenze della dieta", "Esclusioni, ripartizione dei pasti, tempi", "🥗") { Nav.go(Screen.DietSettings) }
-        }
-        SectionTitle("Strumenti")
-        JCard(padding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
-            NavRow("Chat con Jarvis", "Fai domande e dagli comandi · ${if (s.ai.chatEngine == 0) "sul telefono" else "cloud"}", "💬") { Nav.go(Screen.Chat) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Smartwatch e attività", when (s.energy.mode) { 2 -> "Amazfit / Health Connect collegato"; 1 -> "Attività inserite a mano"; else -> "Livello di attività fisso" }, "⌚") { Nav.go(Screen.Watch) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", "✨") { Nav.go(Screen.AiSettings) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Digiuno intermittente", if (s.fasting.activeStart != null) "In corso · ${s.fasting.planId}" else "Piano ${s.fasting.planId}", "⏱️") { Nav.go(Screen.Fasting) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Promemoria", "Pasti, acqua, pesata, digiuno", "🔔") { Nav.go(Screen.RemindersSet) }
-            HorizontalDivider(color = C.Line)
-            NavRow("I miei alimenti", "${s.customFoods.size} alimenti · ${s.favorites.size} preferiti", "🧑‍🍳") { Nav.go(Screen.MyFoods) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Backup e dati", "Esporta, importa, CSV", "💾") { Nav.go(Screen.Backup) }
-            HorizontalDivider(color = C.Line)
-            NavRow("Informazioni", "Versione ${BuildConfig.VERSION_NAME}", "ℹ️") { Nav.go(Screen.About) }
-        }
-        Spacer(Modifier.height(24.dp))
+    var confirmReset by remember { mutableStateOf(false) }
+    val export = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        if (uri != null) runCatching {
+            ctx.contentResolver.openOutputStream(uri)?.use { it.write(Store.exportJson().toByteArray()) }
+        }.onSuccess { Toast.makeText(ctx, "Backup salvato", Toast.LENGTH_SHORT).show() }
+            .onFailure { Toast.makeText(ctx, "Errore: ${it.message}", Toast.LENGTH_LONG).show() }
     }
+    val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
+    val shape34 = RoundedCornerShape(34.dp)
+    val shape30 = RoundedCornerShape(30.dp)
+
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
+        Text("Profilo", style = T.H1)
+
+        // Scheda utente
+        Column(
+            Modifier.padding(top = 16.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x99E88C60)).clip(shape34)
+                .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Avatar(s.profile.name, s.profile.photo, 72.dp, Modifier.aShadow(RoundedCornerShape(26.dp), 8.dp, Color(0xB3E88C60)).clickable { Nav.go(Screen.ProfileEdit) }, RoundedCornerShape(26.dp))
+                GapW(16.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(s.profile.name, style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp, letterSpacing = (-0.5).sp), maxLines = 1)
+                    Text("${Nutrition.age(s.profile)} anni · ${w.r1()} kg", style = T.Body.copy(fontSize = 13.5.sp, color = A.Muted), modifier = Modifier.padding(top = 2.dp))
+                }
+            }
+            GapH(16.dp)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ProfStat(when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }, "Piano", Modifier.weight(1f))
+                ProfStat(kcalFmt(kcal), "kcal al giorno", Modifier.weight(1f))
+                ProfStat("${s.profile.targetWeight.r1().removeSuffix(",0")} kg", "Obiettivo", Modifier.weight(1f))
+            }
+        }
+
+        Text("Il mio piano", style = T.H2, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
+        ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 0.dp, elevation = 8.dp) {
+            Column(Modifier.padding(horizontal = 12.dp, vertical = 6.dp)) {
+                ProfRow(Ic.User, A.Tonal, A.TonalInk, "Profilo e obiettivo", "Foto, dati personali, obiettivo, ritmo") { Nav.go(Screen.ProfileEdit) }
+                ProfRow(PIc.Target, A.FatSoft, A.FatInk, "Calorie e macronutrienti", "${s.goals.carbsPct}% C · ${s.goals.proteinPct}% P · ${s.goals.fatPct}% G") { Nav.go(Screen.Goals) }
+                ProfRow(PIc.Scale, A.CarbSoft, A.CarbInk, "Peso", "${w.r1()} kg") { Nav.go(Screen.Weight) }
+                ProfRow(PIc.Ruler, A.GreenSoft, A.GreenInk, "Misure corporee", "Vita, fianchi, petto, braccia, cosce") { Nav.go(Screen.Measurements) }
+                ProfRow(PIc.Leaf, A.FastSoft, A.FastInk, "Preferenze della dieta", "Esclusioni, ripartizione dei pasti, tempi", divider = false) { Nav.go(Screen.DietSettings) }
+            }
+        }
+
+        Text("Strumenti", style = T.H2, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
+        ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 0.dp, elevation = 8.dp) {
+            Column(Modifier.padding(horizontal = 12.dp, vertical = 6.dp)) {
+                ProfRow(PIc.Chat, A.Tonal, A.TonalInk, "Chat con Jarvis", "Fai domande e dagli comandi · ${if (s.ai.chatEngine == 0) "sul telefono" else "cloud"}") { Nav.go(Screen.Chat) }
+                ProfRow(PIc.Watch, A.GreenSoft, A.GreenInk, "Smartwatch e attività",
+                    when (s.energy.mode) { 2 -> "Amazfit / Health Connect collegato"; 1 -> "Attività inserite a mano"; else -> "Livello di attività fisso" }) { Nav.go(Screen.Watch) }
+                ProfRow(PIc.Sparks, A.FatSoft, A.FatInk, "Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}") { Nav.go(Screen.AiSettings) }
+                ProfRow(PIc.Fast, A.FastSoft, A.FastInk, "Digiuno intermittente", if (s.fasting.activeStart != null) "In corso · ${s.fasting.planId}" else "Piano ${s.fasting.planId}") { Nav.go(Screen.Fasting) }
+                ProfRow(PIc.Bell, A.ProteinSoft, A.ProteinInk, "Promemoria", "Pasti, acqua, pesata, digiuno") { Nav.go(Screen.RemindersSet) }
+                ProfRow(PIc.Cook, A.Tonal, A.TonalInk, "I miei alimenti", "${s.customFoods.size} alimenti · ${s.favorites.size} preferiti") { Nav.go(Screen.MyFoods) }
+                ProfRow(PIc.Save, A.CarbSoft, A.CarbInk, "Backup e dati", "Esporta, importa, CSV") { Nav.go(Screen.Backup) }
+                ProfRow(PIc.Info, Color(0xFFEEEAF5), Color(0xFF4B4570), "Informazioni", "Versione ${BuildConfig.VERSION_NAME}", divider = false) { Nav.go(Screen.About) }
+            }
+        }
+
+        // Privacy
+        Column(
+            Modifier.padding(top = 20.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0x9910B981)).clip(shape30)
+                .background(Brush.linearGradient(listOf(Color(0xFFE4F6EE), Color(0xFFE7EFFA)))).padding(18.dp)
+        ) {
+            Row(verticalAlignment = Alignment.Top) {
+                TonalIcon(PIc.Shield, A.GreenInk, Color.White, box = 46.dp, radius = 17.dp, size = 23.dp)
+                GapW(14.dp)
+                Column {
+                    Text("I tuoi dati restano sul telefono", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.2).sp))
+                    Text("Nessun account, nessun server. Esporta un backup ogni tanto e salvalo su Google Drive: puoi sceglierlo direttamente nella finestra di salvataggio.",
+                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF3F5A52)), modifier = Modifier.padding(top = 4.dp))
+                }
+            }
+            AInk("Esporta backup", Modifier.padding(top = 14.dp).fillMaxWidth(), height = 50.dp) { export.launch("jarvis-food-backup-${LocalDate.now()}.json") }
+        }
+        Box(Modifier.padding(top = 6.dp).fillMaxWidth().heightIn(min = 48.dp).clickable { confirmReset = true }, contentAlignment = Alignment.Center) {
+            Text("Cancella tutti i dati", style = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFB42318)))
+        }
+    }
+
+    if (confirmReset) AlertDialog(
+        onDismissRequest = { confirmReset = false }, containerColor = C.Surface,
+        title = { Text("Cancellare tutto?", style = T.Title) },
+        text = { Text("Diario, peso, ricette e impostazioni verranno eliminati. L'operazione non si può annullare: esporta prima un backup.", style = T.Muted) },
+        confirmButton = { TextButton(onClick = { Store.resetAll(); confirmReset = false; Nav.clear(); Nav.tab = 0 }) { Text("Cancella", color = C.Danger) } },
+        dismissButton = { TextButton(onClick = { confirmReset = false }) { Text("Annulla", color = C.Muted) } }
+    )
 }
 
 @Composable
