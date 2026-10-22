@@ -1,6 +1,8 @@
 package com.jarvis.food.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,17 +46,32 @@ private fun levelColor(st: MicroStatus): Color = when (st.level) {
 fun MicroSummaryCard(s: AppState) {
     val e = Store.energyFor(s, LocalDate.now())
     val rep = remember(s.diary.size, s.profile) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
-    JCard(onClick = { Nav.go(Screen.Micronutrients) }) {
-        if (rep.loggedDays == 0) { Text("Registra almeno un giorno completo per l'analisi.", style = T.Muted); return@JCard }
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(30.dp)
+    Row(
+        Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x9910B981)).clip(shape)
+            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(Color(0xFFDDF6EC), Color(0xFFE8F0FF))))
+            .clickable { Nav.go(Screen.Micronutrients) }.padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         val ok = rep.statuses.count { it.level == "ok" && it.def.kind != "LIM" }
-        val tot = rep.statuses.count { it.def.kind != "LIM" }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("$ok/$tot", style = T.Big.copy(color = C.Green))
-            Spacer(Modifier.width(12.dp))
-            Text("nutrienti al riferimento nella media degli ultimi ${rep.loggedDays} giorni registrati", style = T.Muted)
+        val tot = rep.statuses.count { it.def.kind != "LIM" }.coerceAtLeast(1)
+        Box(Modifier.size(64.dp), contentAlignment = Alignment.Center) {
+            androidx.compose.foundation.Canvas(Modifier.fillMaxSize()) {
+                val sw = 8.dp.toPx(); val inset = sw / 2
+                val sz = androidx.compose.ui.geometry.Size(size.width - sw, size.height - sw)
+                drawArc(Color(0xE6FFFFFF), 0f, 360f, false, androidx.compose.ui.geometry.Offset(inset, inset), sz, style = androidx.compose.ui.graphics.drawscope.Stroke(sw))
+                if (rep.loggedDays > 0) drawArc(Color(0xFF10B981), -90f, 360f * ok / tot, false, androidx.compose.ui.geometry.Offset(inset, inset), sz,
+                    style = androidx.compose.ui.graphics.drawscope.Stroke(sw, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+            }
+            Text(if (rep.loggedDays > 0) "$ok/$tot" else "–", style = T.H1.copy(fontSize = 16.sp, lineHeight = 20.sp))
         }
-        Spacer(Modifier.height(10.dp))
-        rep.statuses.filter { it.def.kind != "LIM" }.sortedBy { it.pct }.take(4).forEach { MicroRow(it) }
+        GapW(14.dp)
+        Column(Modifier.weight(1f)) {
+            Text("Analisi completa", style = T.Body.copy(fontSize = 15.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
+            Text(if (rep.loggedDays == 0) "registra almeno un giorno completo per l'analisi" else "nutrienti al riferimento nella media degli ultimi ${rep.loggedDays} giorni registrati",
+                style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFF4B5B6E)))
+        }
+        AIcon(Ic.Right, A.Ink, 20.dp, 2.4f)
     }
 }
 

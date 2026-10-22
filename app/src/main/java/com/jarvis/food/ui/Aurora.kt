@@ -102,6 +102,7 @@ object Ic {
     val Steps = "M4 7l6 6 4-4 6 6M20 15v-4M20 15h-4"
     val Stop = rr(6.0, 6.0, 12.0, 12.0, 3.0)
     val Close = "M6 6l12 12M18 6L6 18"
+    val Receipt = "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"
 
     val MealBreakfast = "M5 12h14a7 7 0 0 1-14 0zM9 8c0-1.5 1.5-1.5 1.5-3M14 8c0-1.5 1.5-1.5 1.5-3"
     val MealLunch = "M4 10h16a8 8 0 0 1-16 0zM8 6l2-2M13 6l2-2"

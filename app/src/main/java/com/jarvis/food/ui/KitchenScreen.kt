@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -46,7 +47,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
@@ -72,87 +78,189 @@ import java.time.LocalDate
 @Composable
 fun KitchenScreen() {
     val s by Store.state.collectAsState()
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 16.dp)) {
-        Spacer(Modifier.height(14.dp))
-        Text("Cucina", style = T.Display)
-        Text("Dispensa, lista della spesa e ricette", style = T.Muted)
-        Spacer(Modifier.height(14.dp))
-        Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(50)).background(C.SurfaceAlt).padding(4.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
+        Text("Cucina", style = T.H1)
+        Text("Dispensa, lista della spesa e ricette", style = T.Body.copy(fontSize = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
+        val seg = RoundedCornerShape(28.dp)
+        Row(Modifier.padding(top = 16.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf("Dispensa", "Spesa", "Ricette").forEachIndexed { i, l ->
                 val sel = Nav.kitchenTab == i
-                Box(Modifier.weight(1f).clip(RoundedCornerShape(50)).background(if (sel) C.Surface else C.SurfaceAlt)
-                    .clickable { Nav.kitchenTab = i }.padding(vertical = 10.dp), contentAlignment = Alignment.Center) {
-                    Text(l + when (i) { 0 -> " (${s.pantry.size})"; 1 -> " (${s.shopping.count { !it.checked }})"; else -> "" },
-                        style = T.Label.copy(color = if (sel) C.Text else C.Muted))
+                val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
+                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i },
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                    Text(l, style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
+                    if (n > 0) { GapW(6.dp); Text("$n", style = T.BtnS.copy(color = if (sel) Color(0xFF9DB4FF) else A.Muted)) }
                 }
             }
         }
-        Spacer(Modifier.height(14.dp))
+        GapH(14.dp)
         when (Nav.kitchenTab) {
             0 -> PantryTab(s)
             1 -> ShoppingTab(s)
             else -> RecipeCatalog()
         }
-        Spacer(Modifier.height(24.dp))
+    }
+}
+
+private fun shopDot(shop: String): Color = when {
+    shop.startsWith("Frutta e verdura") -> C.Green
+    shop.startsWith("Pane") -> C.Gold
+    shop.startsWith("Carne") -> C.Protein
+    shop.startsWith("Latticini") -> C.Blue
+    shop.startsWith("Dispensa") -> C.Fasting
+    shop.startsWith("Legumi") -> Color(0xFF84CC16)
+    shop.startsWith("Frutta secca") -> Color(0xFFA16207)
+    shop.startsWith("Condimenti") -> Color(0xFFF97316)
+    shop.startsWith("Bevande") -> C.Water
+    else -> Color(0xFFB8B4CC)
+}
+
+/** "Cosa cucino oggi": scelta del pasto, ricetta nuova con l'AI e idee dal ricettario con ciò che c'è in dispensa. */
+@Composable
+private fun CookTodayBlock(s: AppState) {
+    val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var meal by remember { mutableStateOf(when (defaultMeal()) { 0 -> "colazione"; 1 -> "pranzo"; 2 -> "cena"; else -> "spuntino" }) }
+    var busy by remember { mutableStateOf(false) }
+    val today = LocalDate.now()
+    val energy = Store.energyFor(s, today)
+    val slotIdx = s.dietPrefs.slots.indexOfFirst { it.meal == meal }.coerceAtLeast(0)
+    val target = Planner.slotTargets(energy.macro, s.dietPrefs)[slotIdx]
+    val diaryMeal = s.dietPrefs.slots.getOrNull(slotIdx)?.diaryMeal ?: 1
+    val ideas = remember(s.pantry, meal, target, s.dietPrefs) { Kitchen.suggest(Db.db, s.pantry, meal, { target }, { Planner.allowed(Db.db, it, s.dietPrefs) }) }
+
+    ASection("Cosa cucino oggi", top = 26.dp)
+    GapH(12.dp)
+    val cs = RoundedCornerShape(30.dp)
+    Column(Modifier.fillMaxWidth().aShadow(cs, 10.dp, Color(0x66E88C60)).clip(cs)
+        .background(Brush.linearGradient(listOf(Color(0xFFFFEBDD), Color(0xFFFFE4E8)))).padding(16.dp)) {
+        Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
+        Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
+                val sel = meal == k
+                Box(Modifier.height(38.dp).clip(RoundedCornerShape(19.dp)).background(if (sel) C.Navy else Color.White).clickable { meal = k }.padding(horizontal = 16.dp), contentAlignment = Alignment.Center) {
+                    Text(l, style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
+                }
+            }
+        }
+        GapH(14.dp)
+        val bs = RoundedCornerShape(28.dp)
+        val enabled = !busy && s.pantry.any { it.foodId != null }
+        Row(Modifier.fillMaxWidth().height(56.dp).clip(bs).background(if (enabled) C.Navy else Color(0x6617286B)).clickable(enabled = enabled) {
+            if (s.ai.apiKey.isBlank()) { Nav.go(Screen.AiSettings); return@clickable }
+            busy = true
+            scope.launch {
+                runCatching { FoodAi.inventRecipe(s.ai, Db.db, s.pantry.mapNotNull { it.foodId }, meal, target, s.dietPrefs.exclude) }
+                    .onSuccess { tpl -> Nav.go(Screen.RecipeView(tpl.id, target, today, null, diaryMeal, adHoc = tpl)) }
+                    .onFailure { Toast.makeText(ctx, it.message ?: "Errore", Toast.LENGTH_LONG).show() }
+                busy = false
+            }
+        }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            AIcon(Ic.Spark, Color(0xFFFFB820), 22.dp, 2f); GapW(10.dp)
+            Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White))
+        }
+    }
+    GapH(14.dp)
+    if (s.pantry.isEmpty()) {
+        Text("Aggiungi qualcosa alla dispensa per vedere le ricette possibili.", style = T.Small)
+    }
+    ideas.take(4).forEach { sg ->
+        val rs = RoundedCornerShape(30.dp)
+        Column(Modifier.fillMaxWidth().padding(bottom = 12.dp).aShadow(rs, 8.dp, Color(0x661D1B3A)).clip(rs).background(Color.White).border(1.dp, A.Hair, rs)
+            .clickable { Nav.go(Screen.RecipeView(sg.solved.template.id, target, today, null, diaryMeal)) }.padding(14.dp)) {
+            Row {
+                RecipeImage(sg.solved.template.id, sg.solved.template.image, s.recipePhotos[sg.solved.template.id], Modifier.size(width = 100.dp, height = 100.dp), "🍽️", 20.dp)
+                GapW(14.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(sg.solved.template.name, style = T.H2.copy(fontSize = 17.sp, lineHeight = 21.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text("${sg.solved.total.kcal.r0()} kcal · hai il ${(sg.coverage * 100).r0()}% degli ingredienti", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
+                    ABar(sg.coverage.toFloat(), Brush.horizontalGradient(listOf(Color(0xFF10B981), Color(0xFF10B981))), Color(0xFFD9F6EA), 6.dp, Modifier.padding(top = 8.dp))
+                }
+            }
+            if (sg.missing.isNotEmpty()) {
+                Text("Manca: " + sg.missing.joinToString { it.name.lowercase() }, style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFF8F2A14)), modifier = Modifier.padding(top = 10.dp), maxLines = 2)
+                Text("+ Aggiungi i mancanti alla spesa", style = T.Link.copy(fontSize = 13.sp), modifier = Modifier.padding(top = 8.dp).clickable {
+                    sg.missing.forEach { f -> Store.update { st -> st.copy(shopping = st.shopping + com.jarvis.food.data.ShoppingItem(Store.newId(), f.id, f.name,
+                        packs = 1, packGrams = f.pack ?: 100.0, shop = f.shop)) } }
+                    Toast.makeText(ctx, "Aggiunti alla lista della spesa", Toast.LENGTH_SHORT).show()
+                }.padding(vertical = 6.dp))
+            }
+        }
     }
 }
 
 @Composable
 private fun PantryTab(s: AppState) {
     var name by remember { mutableStateOf("") }
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        ScanTile("📸", "Foto frigo\no dispensa", Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
-        ScanTile("🧾", "Foto\nscontrino", Modifier.weight(1f)) { Nav.go(Screen.PantryScan("scontrino")) }
+    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", Brush.linearGradient(listOf(Color(0xFFC9F4E2), Color(0xFFDDF6EC))), A.GreenInk, Color(0x8010B981), Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
+        ScanTile(Ic.Receipt, "Fotografa lo scontrino", Brush.linearGradient(listOf(Color(0xFFFFE3B0), Color(0xFFFFF0D4))), Color(0xFFB45309), Color(0x80F59E0B), Modifier.weight(1f)) { Nav.go(Screen.PantryScan("scontrino")) }
     }
-    Spacer(Modifier.height(12.dp))
-    if (s.pantry.isNotEmpty()) {
-        PrimaryButton("👨‍🍳  Cosa cucino con quello che ho?", Modifier.fillMaxWidth(), color = C.Accent) { Nav.go(Screen.PantryIdeas(null)) }
-        Spacer(Modifier.height(12.dp))
-    }
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        JField(name, { name = it }, "Aggiungi a mano (es. uova, spinaci)", Modifier.weight(1f))
-        Spacer(Modifier.width(8.dp))
-        PrimaryButton("+", enabled = name.isNotBlank()) {
-            val f = Db.db.match(name) ?: Db.db.search(name, 1).firstOrNull()
-            Store.addPantry(listOf(PantryItem(Store.newId(), f?.id, f?.name ?: name.trim(), null)))
-            name = ""
+
+    CookTodayBlock(s)
+
+    ASection("In dispensa", top = 18.dp)
+    GapH(12.dp)
+    // Aggiunta a mano
+    val fs = RoundedCornerShape(30.dp)
+    Row(Modifier.fillMaxWidth().height(56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+            if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = Color(0xFF9A98B0)))
+            androidx.compose.foundation.text.BasicTextField(name, { name = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
+        }
+        PlusButton("Aggiungi", 44.dp) {
+            if (name.isNotBlank()) {
+                val f = Db.db.match(name) ?: Db.db.search(name, 1).firstOrNull()
+                Store.addPantry(listOf(PantryItem(Store.newId(), f?.id, f?.name ?: name.trim(), null)))
+                name = ""
+            }
         }
     }
-    Spacer(Modifier.height(10.dp))
+    GapH(12.dp)
     if (s.pantry.isEmpty()) EmptyState("🧺", "Dispensa vuota", "Fotografa il frigo, la dispensa o lo scontrino: Jarvis riconosce i prodotti e ti propone ricette con ciò che hai.")
     val byShop = s.pantry.groupBy { it.foodId?.let { id -> Db.db.food(id)?.shop } ?: "Altro" }
     Shopping.SHOP_ORDER.filter { byShop.containsKey(it) }.forEach { shop ->
-        Text(shop, style = T.Small, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
-        JCard(padding = PaddingValues(horizontal = 14.dp, vertical = 4.dp)) {
+        val cardShape = RoundedCornerShape(28.dp)
+        Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
+            Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
+                GapW(10.dp)
+                Text(shop.uppercase(), style = T.Eyebrow.copy(fontSize = 12.5.sp, letterSpacing = 0.6.sp, color = A.Muted))
+            }
             byShop[shop]!!.forEachIndexed { i, p ->
                 var edit by remember(p.id) { mutableStateOf(false) }
                 var g by remember(p.id) { mutableStateOf(p.grams?.toInt()?.toString() ?: "") }
-                Row(Modifier.fillMaxWidth().clickable { edit = !edit }.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clickable { edit = !edit }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text(p.name, style = T.Label)
+                        Text(p.name, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold))
                         Text((p.grams?.let { "${it.toInt()} ${if (Db.db.food(p.foodId ?: "")?.liquid == true) "ml" else "g"}" } ?: "quantità non indicata") +
-                                (if (p.foodId == null) " · non nel database" else "") + " · ${p.source}", style = T.Small)
+                                (if (p.foodId == null) " · non nel database" else ""), style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Text("✕", style = T.Label.copy(color = C.Faint), modifier = Modifier.clip(CircleShape).clickable { Store.removePantry(p.id) }.padding(8.dp))
+                    Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFF6F1EA)).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
+                        AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
+                    }
                 }
                 if (edit) Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 8.dp)) {
                     JField(g, { g = it.filter { c -> c.isDigit() } }, "Quantità", Modifier.weight(1f), number = true, suffix = "g")
                     Spacer(Modifier.width(8.dp))
                     PrimaryButton("Salva") { Store.updatePantry(p.copy(grams = g.toDoubleOrNull())); edit = false }
                 }
-                if (i < byShop[shop]!!.lastIndex) HorizontalDivider(color = C.Line)
             }
         }
     }
-    if (s.pantry.isNotEmpty()) Text("Svuota dispensa", style = T.Small.copy(color = C.Danger), modifier = Modifier.padding(top = 14.dp).clickable { Store.clearPantry() })
+    if (s.pantry.isNotEmpty()) Text("Svuota dispensa", style = T.Link.copy(fontSize = 13.sp), textAlign = TextAlign.Center,
+        modifier = Modifier.fillMaxWidth().padding(top = 6.dp).clickable { Store.clearPantry() }.padding(vertical = 12.dp))
 }
 
 @Composable
-private fun ScanTile(emoji: String, label: String, modifier: Modifier, onClick: () -> Unit) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(20.dp)).clickable(onClick = onClick).padding(16.dp)) {
-        Box(Modifier.size(44.dp).clip(RoundedCornerShape(14.dp)).background(C.AccentSoft), contentAlignment = Alignment.Center) { Text(emoji, style = T.Title) }
-        Spacer(Modifier.height(10.dp))
-        Text(label, style = T.Label)
+private fun ScanTile(icon: String, label: String, bg: Brush, ink: Color, glow: Color, modifier: Modifier, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(30.dp)
+    Column(modifier.aShadow(shape, 10.dp, glow).clip(shape).background(bg).clickable(onClick = onClick).padding(16.dp)) {
+        Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 26.dp, 2f) }
+        GapH(30.dp)
+        Text(label, style = T.Label.copy(fontSize = 15.sp, lineHeight = 20.sp, fontWeight = FontWeight.Bold))
     }
 }
 

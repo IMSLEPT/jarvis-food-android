@@ -2,30 +2,31 @@ package com.jarvis.food.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,6 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,15 +42,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
-import com.jarvis.food.data.Food
 import com.jarvis.food.data.Db
-import com.jarvis.food.data.MEAL_NAMES
+import com.jarvis.food.data.Food
 import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
 import com.jarvis.food.net.OpenFoodFacts
@@ -61,6 +68,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     val s by Store.state.collectAsState()
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
+    var mealSel by remember { mutableIntStateOf(meal) }
     var query by remember { mutableStateOf(initialQuery) }
     var tab by remember { mutableIntStateOf(0) }
     var online by remember { mutableStateOf<List<Food>>(emptyList()) }
@@ -68,6 +76,9 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     var error by remember { mutableStateOf<String?>(null) }
     var quickAdd by remember { mutableStateOf(false) }
     var scanning by remember { mutableStateOf(false) }
+    // Alimenti aggiunti in questa schermata: id alimento -> id della voce nel diario (per poterla togliere).
+    val added = remember { mutableStateMapOf<String, String>() }
+    val addedKcal = s.diary.filter { it.id in added.values }.sumOf { Nutrition.of(it.food, it.grams).kcal }
 
     val local = remember(query, s.customFoods, s.favorites) {
         val q = query.trim().lowercase()
@@ -90,7 +101,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
 
     fun scan() {
         val opts = GmsBarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_EAN_13, Barcode.FORMAT_EAN_8, Barcode.FORMAT_UPC_A, Barcode.FORMAT_UPC_E)
+            .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
             .enableAutoZoom()
             .build()
         GmsBarcodeScanning.getClient(ctx, opts).startScan()
@@ -98,17 +109,17 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                 val value = code.rawValue ?: return@addOnSuccessListener
                 // Prima cerco tra gli alimenti creati da me, poi su Open Food Facts.
                 val mine = (s.customFoods + s.favorites).firstOrNull { it.barcode == value }
-                if (mine != null) { Nav.go(Screen.FoodDetail(mine, date, meal)); return@addOnSuccessListener }
+                if (mine != null) { Nav.go(Screen.FoodDetail(mine, date, mealSel)); return@addOnSuccessListener }
                 scanning = true
                 scope.launch {
                     val food = runCatching { OpenFoodFacts.byBarcode(value) }.getOrElse {
                         Toast.makeText(ctx, "Connessione non disponibile: ${it.message}", Toast.LENGTH_LONG).show(); null
                     }
                     scanning = false
-                    if (food != null) Nav.go(Screen.FoodDetail(food, date, meal))
+                    if (food != null) Nav.go(Screen.FoodDetail(food, date, mealSel))
                     else {
                         Toast.makeText(ctx, "Prodotto non trovato: crealo tu, lo ricorderò.", Toast.LENGTH_LONG).show()
-                        Nav.go(Screen.CustomFood(date, meal, barcode = value))
+                        Nav.go(Screen.CustomFood(date, mealSel, barcode = value))
                     }
                 }
             }
@@ -117,144 +128,234 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
             }
     }
 
-    Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Aggiungi a ${MEAL_NAMES[meal]}", onBack = { Nav.back() })
-        Column(Modifier.padding(horizontal = 16.dp)) {
-            JField(query, { query = it }, "Cerca un alimento o un prodotto")
-            Spacer(Modifier.height(10.dp))
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ActionChip("📷 Barcode") { scan() }
-                ActionChip("✨ Foto AI") { Nav.go(Screen.PhotoAi(date, meal)) }
-                ActionChip("⚡ Rapido") { quickAdd = true }
-                ActionChip("➕ Crea alimento") { Nav.go(Screen.CustomFood(date, meal)) }
-            }
-            if (query.isBlank()) {
-                Spacer(Modifier.height(12.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Pill("Recenti", tab == 0) { tab = 0 }
-                    Pill("Preferiti", tab == 1) { tab = 1 }
-                    Pill("I miei", tab == 2) { tab = 2 }
-                    Pill("Ricette", tab == 3) { tab = 3 }
-                }
-            }
-        }
-        if (scanning) Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            CircularProgressIndicator(Modifier.size(20.dp), color = C.Accent, strokeWidth = 2.dp)
-            Spacer(Modifier.width(10.dp)); Text("Cerco il prodotto…", style = T.Muted)
-        }
+    /** Aggiunge (o toglie, se già aggiunto) l'alimento senza lasciare la schermata. */
+    fun toggle(food: Food, grams: Double) {
+        val id = added[food.id]
+        if (id != null) { Store.removeEntry(id); added.remove(food.id) }
+        else added[food.id] = Store.addEntry(date, mealSel, food, grams)
+    }
 
-        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-            if (query.isNotBlank()) {
-                if (local.isNotEmpty()) {
-                    item { Text("Alimenti", style = T.Small, modifier = Modifier.padding(bottom = 6.dp)) }
-                    items(local.take(40), key = { "l" + it.id }) { FoodRow(it, null, date, meal) }
-                }
-                item {
-                    Row(Modifier.padding(top = 14.dp, bottom = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("Prodotti (Open Food Facts)", style = T.Small, modifier = Modifier.weight(1f))
-                        if (loading) CircularProgressIndicator(Modifier.size(14.dp), color = C.Accent, strokeWidth = 2.dp)
+    val mealName = MEAL_LABEL.getValue(mealSel)
+    val freq = Store.frequentFoods(s, mealSel)
+
+    Box(Modifier.fillMaxSize().imePadding()) {
+        LazyColumn(Modifier.fillMaxSize(), contentPadding = androidx.compose.foundation.layout.PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 130.dp)) {
+            item {
+                Row(Modifier.statusBarsPadding().padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                    BackCircle { Nav.back() }
+                    GapW(12.dp)
+                    Column {
+                        Text("Aggiungi a", style = T.Small.copy(fontSize = 13.sp, color = A.Muted))
+                        Text(mealName, style = T.H1.copy(fontSize = 28.sp, lineHeight = 32.sp))
                     }
                 }
-                error?.let { item { Text(it, style = T.Small.copy(color = C.Danger)) } }
-                if (!loading && online.isEmpty() && query.trim().length >= 3 && error == null)
-                    item { Text("Nessun prodotto trovato online.", style = T.Small) }
-                items(online, key = { "o" + it.id }) { FoodRow(it, null, date, meal) }
-            } else {
-                when (tab) {
-                    0 -> {
-                        val freq = Store.frequentFoods(s, meal)
-                        val recent = Store.recentFoods(s)
-                        if (freq.isEmpty() && recent.isEmpty()) item {
-                            EmptyState("🔎", "Inizia a cercare", "Scrivi un alimento, scansiona un codice a barre o scatta una foto del piatto.")
-                        }
-                        if (freq.isNotEmpty()) {
-                            item { Text("Spesso a ${MEAL_NAMES[meal].lowercase()}", style = T.Small, modifier = Modifier.padding(bottom = 6.dp)) }
-                            items(freq, key = { "f" + it.first.id }) { FoodRow(it.first, it.second, date, meal) }
-                            item { Spacer(Modifier.height(12.dp)) }
-                        }
-                        if (recent.isNotEmpty()) {
-                            item { Text("Recenti", style = T.Small, modifier = Modifier.padding(bottom = 6.dp)) }
-                            items(recent, key = { "r" + it.first.id }) { FoodRow(it.first, it.second, date, meal) }
-                        }
+                Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    MEAL_ORDER.forEach { m ->
+                        val sel = m == mealSel
+                        Box(Modifier.weight(1f).height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.White)
+                            .border(1.dp, if (sel) C.Navy else A.Hair, RoundedCornerShape(22.dp)).clickable { mealSel = m },
+                            contentAlignment = Alignment.Center) { Text(MEAL_LABEL.getValue(m), style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1) }
                     }
-                    1 -> {
-                        if (s.favorites.isEmpty()) item { EmptyState("⭐", "Nessun preferito", "Tocca la stella nel dettaglio di un alimento per salvarlo qui.") }
-                        items(s.favorites, key = { "fav" + it.id }) { FoodRow(it, null, date, meal) }
+                }
+                // Ricerca
+                val sb = RoundedCornerShape(30.dp)
+                Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(60.dp).aShadow(sb, 10.dp, Color(0x801D1B3A)).clip(sb).background(Color.White).border(1.dp, Color(0x141D1B3A), sb)
+                    .padding(start = 18.dp, end = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    AIcon(Ic.Search, A.Muted, 22.dp, 2.2f)
+                    GapW(8.dp)
+                    Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+                        if (query.isEmpty()) Text("Cerca alimenti o prodotti", style = T.Body.copy(fontSize = 16.sp, color = Color(0xFF9A98B0)))
+                        BasicTextField(query, { query = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 16.sp, color = A.Ink),
+                            cursorBrush = SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
                     }
-                    2 -> {
-                        if (s.customFoods.isEmpty()) item { EmptyState("🧑‍🍳", "Nessun alimento creato", "Crea i tuoi alimenti o i prodotti non trovati con il barcode.") }
-                        items(s.customFoods, key = { "c" + it.id }) { FoodRow(it, null, date, meal) }
+                    Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))).clickable { scan() }, contentAlignment = Alignment.Center) {
+                        AIcon(Ic.Barcode, A.Ink, 22.dp, 2.2f)
                     }
-                    else -> {
-                        items(s.recipes, key = { "rec" + it.id }) { r ->
-                            FoodRow(Nutrition.recipeAsFood(r), null, date, meal, emoji = r.emoji)
-                        }
-                        val slotIdx = s.dietPrefs.slots.indexOfFirst { it.diaryMeal == meal }.coerceAtLeast(0)
-                        val target = com.jarvis.food.engine.Planner.slotTargets(Store.energyFor(s, date).macro, s.dietPrefs)[slotIdx]
-                        val mealKey = s.dietPrefs.slots.getOrNull(slotIdx)?.meal ?: "pranzo"
-                        items(Db.db.recipes.filter { it.meal == mealKey }, key = { "db" + it.id }) { tpl ->
-                            Row(
-                                Modifier.fillMaxWidth().padding(vertical = 4.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface)
-                                    .clickable { Nav.go(Screen.RecipeView(tpl.id, target, date, null, meal)) }.padding(10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(52.dp), "🍽️", 12.dp)
-                                Spacer(Modifier.width(10.dp))
-                                Column(Modifier.weight(1f)) {
-                                    Text(tpl.name, style = T.Label, maxLines = 2)
-                                    Text("Ricetta calcolata sul tuo obiettivo", style = T.Small)
+                }
+                if (scanning) Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    CircularProgressIndicator(Modifier.size(20.dp), color = C.Accent, strokeWidth = 2.dp)
+                    GapW(10.dp); Text("Cerco il prodotto…", style = T.Muted)
+                }
+                if (query.isBlank() && freq.isNotEmpty()) {
+                    Text("Spesso a ${mealName.lowercase()}", style = T.Chip.copy(fontSize = 13.sp, color = A.Muted), modifier = Modifier.padding(top = 20.dp))
+                    Row(Modifier.padding(top = 8.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        freq.forEach { (f, g) ->
+                            val on = f.id in added
+                            val (tint, ink) = tileColors(f.name)
+                            val cs = RoundedCornerShape(22.dp)
+                            Row(Modifier.height(44.dp).aShadow(cs, 5.dp, Color(0x801D1B3A)).clip(cs).background(if (on) Color(0xFFD9F6EA) else Color.White).clickable { toggle(f, g) }
+                                .padding(start = 8.dp, end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Box(Modifier.size(30.dp).clip(CircleShape).background(tint), contentAlignment = Alignment.Center) {
+                                    Text(f.name.trim().take(1).uppercase(), style = T.H1.copy(fontSize = 14.sp, lineHeight = 16.sp, color = ink))
                                 }
+                                GapW(8.dp)
+                                Text(f.name, style = T.Chip.copy(fontSize = 13.5.sp), maxLines = 1)
+                            }
+                        }
+                    }
+                }
+                if (query.isBlank()) {
+                    val ts = RoundedCornerShape(28.dp)
+                    Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(ts).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, ts).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        listOf("Recenti", "Preferiti", "I miei", "Ricette").forEachIndexed { i, l ->
+                            val sel = tab == i
+                            Box(Modifier.weight(1f).height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { tab = i }, contentAlignment = Alignment.Center) {
+                                Text(l, style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
                             }
                         }
                     }
                 }
             }
+
+            // Elenco alimenti
+            val list: List<Pair<Food, Double?>> = when {
+                query.isNotBlank() -> local.take(40).map { it to null }
+                tab == 0 -> (freq + Store.recentFoods(s)).distinctBy { it.first.id }.map { it.first to it.second }
+                tab == 1 -> s.favorites.map { it to null }
+                tab == 2 -> s.customFoods.map { it to null }
+                else -> s.recipes.map { Nutrition.recipeAsFood(it) to null }
+            }
+            item {
+                Row(Modifier.padding(top = 20.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text("Alimenti", style = T.H2.copy(fontSize = 20.sp), modifier = Modifier.weight(1f))
+                    Text("${list.size} risultati", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                }
+            }
+            if (list.isEmpty()) item {
+                val (e, t, d) = when {
+                    query.isNotBlank() -> Triple("🔎", "Nessun alimento trovato", "Prova con un altro nome o crea il tuo alimento.")
+                    tab == 1 -> Triple("⭐", "Nessun preferito", "Tocca la stella nel dettaglio di un alimento per salvarlo qui.")
+                    tab == 2 -> Triple("🧑‍🍳", "Nessun alimento creato", "Crea i tuoi alimenti o i prodotti non trovati con il barcode.")
+                    tab == 3 -> Triple("📖", "Nessuna ricetta tua", "Crea una ricetta dalla scheda Cucina.")
+                    else -> Triple("🔎", "Inizia a cercare", "Scrivi un alimento, scansiona un codice a barre o scatta una foto del piatto.")
+                }
+                EmptyState(e, t, d)
+            }
+            items(list, key = { "a" + tab + it.first.id }) { (f, g) ->
+                FoodRow(f, g, date, mealSel, added = f.id in added) { grams -> toggle(f, grams) }
+                GapH(8.dp)
+            }
+            if (tab == 3 && query.isBlank()) {
+                val slotIdx = s.dietPrefs.slots.indexOfFirst { it.diaryMeal == mealSel }.coerceAtLeast(0)
+                val target = com.jarvis.food.engine.Planner.slotTargets(Store.energyFor(s, date).macro, s.dietPrefs)[slotIdx]
+                val mealKey = s.dietPrefs.slots.getOrNull(slotIdx)?.meal ?: "pranzo"
+                items(Db.db.recipes.filter { it.meal == mealKey }, key = { "db" + it.id }) { tpl ->
+                    val rs = RoundedCornerShape(26.dp)
+                    Row(Modifier.fillMaxWidth().padding(bottom = 8.dp).aShadow(rs, 6.dp, Color(0x801D1B3A)).clip(rs).background(Color.White).border(1.dp, A.Hair, rs)
+                        .clickable { Nav.go(Screen.RecipeView(tpl.id, target, date, null, mealSel)) }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(52.dp), "🍽️", 19.dp)
+                        GapW(12.dp)
+                        Column(Modifier.weight(1f)) {
+                            Text(tpl.name, style = T.Label.copy(fontSize = 15.sp), maxLines = 2)
+                            Text("Ricetta calcolata sul tuo obiettivo", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                        }
+                    }
+                }
+            }
+
+            // Prodotti confezionati
+            item {
+                Row(Modifier.padding(top = 18.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text("Prodotti confezionati", style = T.H2.copy(fontSize = 20.sp), modifier = Modifier.weight(1f))
+                    Text("Open Food Facts", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                    if (loading) { GapW(8.dp); CircularProgressIndicator(Modifier.size(14.dp), color = C.Accent, strokeWidth = 2.dp) }
+                }
+                if (query.trim().length < 3) {
+                    val ps = RoundedCornerShape(28.dp)
+                    Column(Modifier.fillMaxWidth().clip(ps).background(Brush.linearGradient(listOf(Color(0xFFE8F0FF), Color(0xFFEDF3FF)))).padding(14.dp)) {
+                        Row(verticalAlignment = Alignment.Top) {
+                            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, A.CarbInk, 22.dp, 2.2f) }
+                            GapW(12.dp)
+                            Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = Color(0xFF4B5B6E)))
+                        }
+                        GapH(12.dp)
+                        Row(Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).clickable { Nav.go(Screen.CustomFood(date, mealSel)) },
+                            horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                            AIcon(Ic.Plus, A.Ink, 18.dp, 2.4f); GapW(8.dp)
+                            Text("Crea un alimento tuo", style = T.BtnS.copy(fontWeight = FontWeight.Bold))
+                        }
+                    }
+                } else {
+                    error?.let { Text(it, style = T.Small.copy(color = C.Danger)) }
+                    if (!loading && online.isEmpty() && error == null) Text("Nessun prodotto trovato online.", style = T.Small)
+                }
+            }
+            if (query.trim().length >= 3) items(online, key = { "o" + it.id }) { f ->
+                FoodRow(f, null, date, mealSel, added = f.id in added) { grams -> toggle(f, grams) }
+                GapH(8.dp)
+            }
+
+            // Aggiunta rapida
+            item {
+                val qs = RoundedCornerShape(28.dp)
+                Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(qs).background(Brush.linearGradient(listOf(Color(0xFFFFE9C2), Color(0xFFFFF4E3)))).clickable { quickAdd = true }.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text("Aggiunta rapida", style = T.H2.copy(fontSize = 18.sp))
+                        Text("Scrivi solo le calorie, senza cercare l'alimento.", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                    }
+                    GapW(10.dp)
+                    Row(Modifier.height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text("kcal", style = T.Num.copy(fontSize = 17.sp))
+                    }
+                }
+            }
+        }
+
+        // Barra "alimenti aggiunti"
+        val bs = RoundedCornerShape(30.dp)
+        Row(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 14.dp).fillMaxWidth()
+            .aShadow(bs, 14.dp, Color(0x8C17286B)).clip(bs).background(C.NavyBrush).padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(when (added.size) { 0 -> "Nessun alimento aggiunto"; 1 -> "1 alimento aggiunto"; else -> "${added.size} alimenti aggiunti" }, style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xCCFFFFFF)))
+                Text("${kcalFmt(addedKcal)} kcal", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, color = Color.White))
+            }
+            val fs = RoundedCornerShape(26.dp)
+            Row(Modifier.height(52.dp).aShadow(fs, 8.dp, Color(0x73F25E00)).clip(fs).background(C.OrangeBrush).clickable { Nav.back() }.padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically) {
+                Text("Fatto", style = T.BtnM.copy(color = Color.White)); GapW(6.dp); AIcon(Ic.Check, Color.White, 18.dp, 2.6f)
+            }
         }
     }
 
     if (quickAdd) QuickAddDialog(onDismiss = { quickAdd = false }) { food ->
-        Store.addEntry(date, meal, food, 100.0)
+        added[food.id] = Store.addEntry(date, mealSel, food, 100.0)
         quickAdd = false
-        Nav.back()
     }
 }
 
+/** Riga alimento del design: tessera con iniziale, nome, "g · kcal/100 g", kcal e pulsante +/✓. */
 @Composable
-private fun ActionChip(text: String, onClick: () -> Unit) {
-    Text(
-        text, style = T.Label,
-        modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(C.SurfaceHi).clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 9.dp)
-    )
-}
-
-@Composable
-fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: String? = null) {
+fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: String? = null, added: Boolean = false, onAdd: ((Double) -> Unit)? = null) {
     val g = grams ?: food.servingGrams ?: 100.0
     val unit = if (food.liquid) "ml" else "g"
     val t = Nutrition.of(food, g)
+    val shape = RoundedCornerShape(26.dp)
+    val (tint, ink) = tileColors(food.name)
     Row(
-        Modifier.fillMaxWidth().padding(vertical = 4.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface)
-            .clickable { Nav.go(Screen.FoodDetail(food, date, meal, grams)) }
-            .padding(start = 14.dp, top = 10.dp, bottom = 10.dp, end = 8.dp),
+        Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (added) Color(0xFFE4F8EF) else Color.White)
+            .border(1.dp, A.Hair, shape).clickable { Nav.go(Screen.FoodDetail(food, date, meal, grams)) }.padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (emoji != null) { Text(emoji, style = T.Title2); Spacer(Modifier.width(10.dp)) }
+        if (emoji != null) Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(tint), contentAlignment = Alignment.Center) { Text(emoji, style = T.Title2) }
+        else InitialTile(food.name, tint, ink, 52.dp, 19.dp)
+        GapW(12.dp)
         Column(Modifier.weight(1f)) {
-            Text(food.name, style = T.Label, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            val label = when {
-                grams != null -> "${g.r0()} $unit"
-                food.servingName != null && food.servingGrams != null -> "1 ${food.servingName} (${g.r0()} $unit)"
-                else -> "100 $unit"
-            }
-            Text(
-                "${t.kcal.r0()} kcal · $label" + if (food.brand.isNotBlank()) " · ${food.brand}" else "",
-                style = T.Small, maxLines = 1, overflow = TextOverflow.Ellipsis
-            )
+            Text(food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 19.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+            val per = Nutrition.of(food, 100.0).kcal
+            Text("${g.r0()} $unit · ${per.r0()} kcal / 100 $unit" + if (food.brand.isNotBlank()) " · ${food.brand}" else "",
+                style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
-        RoundIconButton(Icons.Filled.Add, "Aggiungi", bg = C.SurfaceHi, tint = C.Accent, size = 34.dp) {
-            Store.addEntry(date, meal, food, g)
-            Nav.back()
+        GapW(8.dp)
+        Column(horizontalAlignment = Alignment.End) {
+            Text(t.kcal.r0(), style = T.Num.copy(fontSize = 17.sp, lineHeight = 20.sp))
+            Text("kcal", style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted))
+        }
+        GapW(10.dp)
+        Box(Modifier.size(48.dp).clip(CircleShape).background(if (added) C.Green else C.Navy)
+            .clickable { if (onAdd != null) onAdd(g) else { Store.addEntry(date, meal, food, g); Nav.back() } }, contentAlignment = Alignment.Center) {
+            if (added) AIcon(Ic.Check, Color.White, 22.dp, 2.8f) else AIcon(Ic.Plus, Color.White, 22.dp, 2.6f)
         }
     }
 }
