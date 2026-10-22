@@ -156,7 +156,7 @@ fun ACard(
 
 /** Titolo di sezione (Bricolage 22) con link a destra (rosso-arancio, 13.5). */
 @Composable
-fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null, top: Dp = 26.dp) {
+fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, top: Dp = 26.dp, onAction: (() -> Unit)? = null) {
     Row(modifier.fillMaxWidth().padding(top = top), verticalAlignment = Alignment.CenterVertically) {
         Text(title, style = T.H2, modifier = Modifier.weight(1f))
         if (action != null) Text(action, style = T.Link, modifier = Modifier.clickable(enabled = onAction != null) { onAction?.invoke() }.padding(vertical = 13.dp))

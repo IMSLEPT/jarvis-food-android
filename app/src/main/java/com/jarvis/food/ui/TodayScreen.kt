@@ -91,16 +91,6 @@ val MEAL_SOFT = mapOf(0 to A.FatSoft, 1 to A.GreenSoft, 3 to A.ProteinSoft, 2 to
 val MEAL_INK = mapOf(0 to A.FatInk, 1 to A.GreenInk, 3 to A.ProteinInk, 2 to A.CarbInk)
 val MEAL_DOT = mapOf(0 to Color(0xFFFFB820), 1 to Color(0xFF10B981), 3 to Color(0xFFF43F6E), 2 to Color(0xFF3B82F6))
 
-/** Giorni consecutivi (fino a oggi o a ieri) con almeno un alimento registrato. */
-private fun streak(s: AppState): Int {
-    val days = s.diary.map { it.date }.toHashSet()
-    var d = LocalDate.now()
-    if (d.toString() !in days) d = d.minusDays(1)
-    var n = 0
-    while (d.toString() in days && n < 999) { n++; d = d.minusDays(1) }
-    return n
-}
-
 @Composable
 fun TodayScreen() {
     val s by Store.state.collectAsState()
