@@ -311,45 +311,79 @@ fun DietSettingsScreen() {
     val s by Store.state.collectAsState()
     var p by remember { mutableStateOf(s.dietPrefs) }
     val shares = remember { mutableStateMapOf<Int, Int>().apply { p.slots.forEachIndexed { i, sl -> put(i, sl.share) } } }
-    val tags = listOf("lattosio" to "Senza lattosio", "glutine" to "Senza glutine", "pesce" to "Niente pesce", "crostacei" to "Niente crostacei",
-        "carne" to "Vegetariano (niente carne)", "maiale" to "Niente maiale", "uova" to "Niente uova", "frutta_secca" to "Niente frutta secca", "soia" to "Niente soia")
+    val tags = listOf("lattosio" to "Senza lattosio", "glutine" to "Senza glutine", "frutta_secca" to "Frutta a guscio", "uova" to "Uova", "pesce" to "Pesce",
+        "crostacei" to "Crostacei", "carne" to "Carne", "maiale" to "Maiale", "soia" to "Soia")
+    // Preset nell'ordine dei pasti dell'app: colazione, pranzo, merenda, cena.
+    val splits = listOf(
+        "Classica · 25 / 35 / 10 / 30" to listOf(25, 35, 10, 30),
+        "Cena leggera · 25 / 40 / 10 / 25" to listOf(25, 40, 10, 25),
+        "Pranzo forte · 20 / 45 / 5 / 30" to listOf(20, 45, 5, 30)
+    )
+    val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
+    val cur = p.slots.indices.map { shares[it] ?: p.slots[it].share }
+    val selSplit = splits.indexOfFirst { it.second.size == cur.size && it.second == cur }
+    val mealColors = listOf(Color(0xFFFFB820), Color(0xFFFF6B4A), Color(0xFF8B5CF6), Color(0xFF3B82F6))
+    val sum = cur.sum().coerceAtLeast(1)
+
     Column(Modifier.fillMaxSize()) {
         TopBar("Preferenze della dieta", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            SectionTitle("Esclusioni e intolleranze")
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                tags.forEach { (k, l) ->
-                    Pill(l, k in p.exclude, C.Accent) { p = p.copy(exclude = if (k in p.exclude) p.exclude - k else p.exclude + k) }
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
+            GHead("Preferenze della dieta", "Gli alimenti esclusi non compaiono nel piano né nei suggerimenti.")
+            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                Column {
+                    Text("Esclusioni", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(bottom = 10.dp))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        tags.forEach { (k, l) ->
+                            AChip(l, k in p.exclude) { p = p.copy(exclude = if (k in p.exclude) p.exclude - k else p.exclude + k) }
+                        }
+                    }
+                    if ("lattosio" in p.exclude) Text("Con \"Senza lattosio\" i piatti usano latte delattosato e formaggi stagionati come il Parmigiano.",
+                        style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
                 }
             }
-            Text("Con \"Senza lattosio\" i piatti usano latte delattosato e formaggi stagionati come il Parmigiano.", style = T.Small, modifier = Modifier.padding(top = 6.dp))
-            SectionTitle("Ripartizione delle calorie")
-            p.slots.forEachIndexed { i, sl ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(sl.name, style = T.Label, modifier = Modifier.width(96.dp))
-                    Slider((shares[i] ?: sl.share).toFloat(), { shares[i] = it.toInt() }, valueRange = 5f..50f, modifier = Modifier.weight(1f),
-                        colors = SliderDefaults.colors(thumbColor = C.Accent, activeTrackColor = C.Accent, inactiveTrackColor = C.SurfaceAlt))
-                    Text("${shares[i]}%", style = T.Label, modifier = Modifier.width(44.dp))
+
+            GHead("Ripartizione dei pasti")
+            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                Column {
+                    ASegment(splits.map { it.first }, selSplit, vertical = true) { i -> splits[i].second.forEachIndexed { j, v -> if (j < p.slots.size) shares[j] = v } }
+                    Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(14.dp).clip(RoundedCornerShape(7.dp)), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                        cur.forEachIndexed { i, v -> Box(Modifier.weight(v.coerceAtLeast(1).toFloat()).height(14.dp).clip(RoundedCornerShape(7.dp)).background(mealColors[i % 4])) }
+                    }
+                    p.slots.forEachIndexed { i, sl ->
+                        val share = cur[i]
+                        Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Box(Modifier.size(12.dp).clip(CircleShape).background(mealColors[i % 4]))
+                            GapW(10.dp)
+                            Text(sl.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.Medium, color = A.Ink), modifier = Modifier.weight(1f))
+                            Text("$share%", style = T.Small.copy(fontSize = 13.sp, color = A.Muted))
+                            Text("${kcalFmt(kcal * share / sum)} kcal", style = T.H1.copy(fontSize = 16.sp, lineHeight = 20.sp, letterSpacing = 0.sp),
+                                modifier = Modifier.width(92.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End, maxLines = 1)
+                        }
+                        if (i < p.slots.size - 1) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                    }
+                    if (sum != 100) Text("Totale $sum%: verrà riportato in proporzione a 100%.", style = T.Small.copy(fontSize = 12.5.sp, color = A.FatInk))
                 }
             }
-            val sum = shares.values.sum()
-            Text(if (sum == 100) "Totale 100% ✓" else "Totale $sum%: verrà riportato in proporzione a 100%", style = T.Small.copy(color = if (sum == 100) C.Green else C.Gold))
-            SectionTitle("Tempo massimo di preparazione")
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf(15, 25, 40).forEach { mm -> Pill("$mm min", p.maxMinutes == mm) { p = p.copy(maxMinutes = mm) } }
-            }
+
+            GHead("Tempo massimo di preparazione")
+            ASegment(listOf(15, 25, 40).map { "$it min" }, listOf(15, 25, 40).indexOf(p.maxMinutes)) { i -> p = p.copy(maxMinutes = listOf(15, 25, 40)[i]) }
+
             if (p.disliked.isNotEmpty()) {
-                SectionTitle("Piatti nascosti")
-                p.disliked.forEach { id ->
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 4.dp)) {
-                        Text(Db.db.recipe(id)?.name ?: id, style = T.Body, modifier = Modifier.weight(1f))
-                        Text("Ripristina", style = T.Label.copy(color = C.AccentDeep), modifier = Modifier.clickable { p = p.copy(disliked = p.disliked - id) })
+                GHead("Piatti nascosti")
+                ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        p.disliked.forEach { id ->
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(Db.db.recipe(id)?.name ?: id, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.Medium, color = A.Ink), modifier = Modifier.weight(1f))
+                                Text("Ripristina", style = T.Link, modifier = Modifier.clickable { p = p.copy(disliked = p.disliked - id) }.padding(8.dp))
+                            }
+                        }
                     }
                 }
             }
-            Spacer(Modifier.height(16.dp))
+            GapH(16.dp)
         }
-        PrimaryButton("Salva e ricalcola il piano", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {
+        GSave("Salva e ricalcola il piano") {
             val np = p.copy(slots = p.slots.mapIndexed { i, sl -> sl.copy(share = shares[i] ?: sl.share) })
             Store.setDietPrefs(np)
             Store.generatePlan(maxOf(LocalDate.now(), Nav.planDate.with(DayOfWeek.MONDAY)),

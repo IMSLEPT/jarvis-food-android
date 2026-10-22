@@ -11,6 +11,13 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import kotlin.math.roundToInt
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
@@ -98,9 +105,9 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
 }
 
 @Composable
-private fun ProfStat(value: String, label: String, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
+private fun ProfStat(value: String, label: String, modifier: Modifier, big: Boolean = false) {
+    Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(value, style = T.H1.copy(fontSize = if (big) 19.sp else 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
         Text(label, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted), maxLines = 1)
     }
 }
@@ -260,110 +267,287 @@ fun ProfileEditScreen() {
     }
 }
 
+private val FAC = java.text.DecimalFormat("0.###", java.text.DecimalFormatSymbols(java.util.Locale.ITALY))
+private fun fac(d: Double) = FAC.format(d)
+
+private val ACT_NAMES = listOf("Sedentario", "Leggero", "Moderato", "Attivo", "Molto attivo")
+private val ACT_DESC = listOf(
+    "Lavoro d'ufficio, pochi movimenti", "1–3 allenamenti a settimana", "3–5 allenamenti a settimana",
+    "6–7 allenamenti a settimana", "Lavoro fisico o doppi allenamenti"
+)
+
+private data class Pace(val name: String, val rate: String, val goal: Int, val kg: Double)
+
+private val PACES = listOf(
+    Pace("Aumentare massa", "+0,25 kg/sett", 1, 0.25),
+    Pace("Mantenere il peso", "stabile", 0, 0.0),
+    Pace("Dimagrire piano", "−0,25 kg/sett", -1, 0.25),
+    Pace("Dimagrire deciso", "−0,5 kg/sett", -1, 0.5)
+)
+
 @Composable
 fun GoalsScreen() {
     val s by Store.state.collectAsState()
     val g = s.goals
+    val w = Store.currentWeight(s)
     var auto by remember { mutableStateOf(g.auto) }
-    var kcal by remember { mutableStateOf(g.kcal.toString()) }
+    var kcalTxt by remember { mutableStateOf(g.kcal.toString()) }
+    var act by remember { mutableIntStateOf(s.profile.activity.coerceIn(0, 4)) }
+    var goal by remember { mutableIntStateOf(s.profile.goal) }
+    var rate by remember { mutableDoubleStateOf(s.profile.weeklyRate) }
     var c by remember { mutableIntStateOf(g.carbsPct) }
     var p by remember { mutableIntStateOf(g.proteinPct) }
     var f by remember { mutableIntStateOf(g.fatPct) }
-    var water by remember { mutableStateOf(g.waterMl.toString()) }
-    var steps by remember { mutableStateOf(g.steps.toString()) }
-    var glass by remember { mutableStateOf(s.glassMl.toString()) }
-    val recommended = Nutrition.autoGoals(s.profile, Store.currentWeight(s), g)
-    val k = if (auto) recommended.kcal.toDouble() else parseNum(kcal) ?: 0.0
+    var water by remember { mutableIntStateOf(g.waterMl) }
+    var steps by remember { mutableIntStateOf(g.steps) }
+    var glass by remember { mutableIntStateOf(s.glassMl) }
+
+    val pr = s.profile.copy(activity = act, goal = goal, weeklyRate = rate)
+    val recommended = Nutrition.autoGoals(pr, w, g)
+    val k = if (auto) recommended.kcal.toDouble() else parseNum(kcalTxt) ?: 0.0
+    val bmr = Nutrition.bmr(pr, w)
+    val tdee = Nutrition.tdee(pr, w)
+    val delta = Nutrition.safeDelta(pr, tdee)
+
+    // Con il calcolo automatico, cambiando attività o ritmo i macro seguono la raccomandazione (non all'apertura).
+    var opened by remember { mutableStateOf(false) }
+    LaunchedEffect(act, goal, rate, auto) {
+        if (!opened) opened = true
+        else if (auto) { c = recommended.carbsPct; p = recommended.proteinPct; f = recommended.fatPct }
+    }
 
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Obiettivi", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            SwitchRow("Calcolo automatico", "Calorie e macro dal profilo e dal peso (consigliato)", auto) {
-                auto = it
-                if (it) { c = recommended.carbsPct; p = recommended.proteinPct; f = recommended.fatPct }
-            }
-            if (auto) JCard {
-                Text("${recommended.kcal} kcal al giorno", style = T.Title.copy(color = C.Accent))
-                Text("Basale ${Nutrition.bmr(s.profile, Store.currentWeight(s)).r0()} · fabbisogno ${Nutrition.tdee(s.profile, Store.currentWeight(s)).r0()} · ${if (Nutrition.dailyDelta(s.profile) >= 0) "+" else ""}${Nutrition.dailyDelta(s.profile).r0()} kcal per l'obiettivo", style = T.Small)
-            } else JField(kcal, { kcal = it.filter { ch -> ch.isDigit() } }, "Calorie giornaliere", number = true, suffix = "kcal")
-
-            if (!auto) {
-                val rec = recommended.kcal
-                val diff = k - rec
-                if (k > 0 && kotlin.math.abs(diff) >= 100) Text(
-                    "Per il tuo obiettivo il calcolo consiglia ${rec} kcal: stai impostando ${if (diff > 0) "+" else ""}${diff.r0()} kcal.",
-                    style = T.Small.copy(color = if (k < Nutrition.minKcal(s.profile)) C.Danger else C.Muted)
-                )
-                if (k in 1.0..(Nutrition.minKcal(s.profile) - 1.0)) Text(
-                    "Sotto ${Nutrition.minKcal(s.profile)} kcal al giorno è meglio farsi seguire da un medico.", style = T.Small.copy(color = C.Danger))
-            }
-            Text("Ripartizione macronutrienti", style = T.Title2)
-            val w = Store.currentWeight(s)
-            val advice = if (k >= 800) Nutrition.macroAdvice(s.profile, w, k) else null
-            if (advice != null) {
-                val bestPreset = Nutrition.PRESETS[advice.best]
-                JCard(color = C.NavySoft) {
-                    Text("Ti conviene: ${bestPreset.name}", style = T.Title2.copy(color = C.Navy))
-                    Spacer(Modifier.height(4.dp))
-                    Text(advice.reason, style = T.Body)
-                    Spacer(Modifier.height(10.dp))
-                    Nutrition.PRESETS.forEachIndexed { i, pr ->
-                        Row(Modifier.fillMaxWidth().padding(vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text("${pr.name} · ${pr.carbs}C ${pr.protein}P ${pr.fat}G", style = T.Label, modifier = Modifier.weight(1f))
-                            Text("${"%.1f".format(java.util.Locale.ITALY, advice.perKg[i])} g/kg", style = T.Label.copy(color = if (i == advice.best) C.Accent else C.Muted))
-                        }
-                        Text(advice.notes[i], style = T.Small)
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, bottom = 8.dp)) {
+            // Hero: come è calcolato
+            val heroShape = RoundedCornerShape(34.dp)
+            Column(
+                Modifier.padding(top = 6.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x99E88C60)).clip(heroShape)
+                    .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), heroShape)
+                    .padding(horizontal = 20.dp, vertical = 22.dp)
+            ) {
+                Text("IL TUO OBIETTIVO GIORNALIERO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E), letterSpacing = 0.5.sp))
+                Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.padding(top = 2.dp)) {
+                    Text(kcalFmt(k), style = T.H1.copy(fontSize = 56.sp, lineHeight = 60.sp, letterSpacing = (-1.7).sp))
+                    Text("kcal", style = T.Body.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(start = 6.dp, bottom = 10.dp))
+                }
+                Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = 16.dp, vertical = 14.dp)) {
+                    val lab = TextStyle(fontFamily = T.Body.fontFamily, fontSize = 13.5.sp, color = Color(0xFF4B4A6A))
+                    val num = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.Bold, color = A.Ink)
+                    Row {
+                        Text(buildAnnotatedString {
+                            append("Metabolismo basale ")
+                            withStyle(SpanStyle(color = Color(0xFF6B6885))) { append(if (pr.bodyFatPct != null) "(Katch-McArdle)" else "(Mifflin-St Jeor)") }
+                        }, style = lab, modifier = Modifier.weight(1f))
+                        Text(kcalFmt(bmr), style = num)
                     }
-                    Spacer(Modifier.height(10.dp))
-                    PrimaryButton("Usa ${bestPreset.name}", Modifier.fillMaxWidth()) { c = bestPreset.carbs; p = bestPreset.protein; f = bestPreset.fat }
+                    Row(Modifier.padding(top = 8.dp)) {
+                        Text("× attività ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = lab, modifier = Modifier.weight(1f))
+                        Text(kcalFmt(tdee), style = num)
+                    }
+                    Row(Modifier.padding(top = 8.dp)) {
+                        Text(when {
+                            delta == 0.0 -> "Mantenimento"
+                            delta > 0 -> "Surplus per ${fac(rate)} kg/sett"
+                            else -> "Deficit per ${fac(rate)} kg/sett"
+                        }, style = lab, modifier = Modifier.weight(1f))
+                        Text((if (delta > 0) "+ " else if (delta < 0) "− " else "") + kcalFmt(kotlin.math.abs(delta)), style = num)
+                    }
+                }
+                Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ProfStat("${Nutrition.age(pr)}", "anni", Modifier.weight(1f), big = true)
+                    ProfStat(pr.heightCm.r0(), "cm", Modifier.weight(1f), big = true)
+                    ProfStat(w.r1(), "kg", Modifier.weight(1f), big = true)
+                }
+                Text("Il calcolo è una stima, non una prescrizione.", style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 17.sp, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp))
+            }
+
+            // Calcolo automatico / manuale
+            ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 16.dp, elevation = 8.dp) {
+                Column {
+                    SwitchRow("Calcolo automatico", "Calorie e macro dal profilo e dal peso (consigliato)", auto) {
+                        auto = it
+                        if (it) { c = recommended.carbsPct; p = recommended.proteinPct; f = recommended.fatPct }
+                        else kcalTxt = recommended.kcal.toString()
+                    }
+                    if (!auto) {
+                        JField(kcalTxt, { kcalTxt = it.filter { ch -> ch.isDigit() } }, "Calorie giornaliere", number = true, suffix = "kcal", modifier = Modifier.padding(top = 8.dp))
+                        val diff = k - recommended.kcal
+                        if (k > 0 && kotlin.math.abs(diff) >= 100) Text(
+                            "Per il tuo obiettivo il calcolo consiglia ${recommended.kcal} kcal: stai impostando ${if (diff > 0) "+" else ""}${diff.r0()} kcal.",
+                            style = T.Small.copy(color = if (k < Nutrition.minKcal(pr)) C.Danger else A.Muted), modifier = Modifier.padding(top = 8.dp))
+                        if (k in 1.0..(Nutrition.minKcal(pr) - 1.0)) Text(
+                            "Sotto ${Nutrition.minKcal(pr)} kcal al giorno è meglio farsi seguire da un medico.", style = T.Small.copy(color = C.Danger), modifier = Modifier.padding(top = 4.dp))
+                    }
                 }
             }
-            MacroSlider("Carboidrati", c, C.Carbs, k, 4) { c = it }
-            MacroSlider("Proteine", p, C.Protein, k, 4) { p = it }
-            MacroSlider("Grassi", f, C.Fat, k, 9) { f = it }
-            val sum = c + p + f
-            Text(if (sum == 100) "Totale 100% ✓" else "Totale $sum%: deve essere 100%", style = T.Label.copy(color = if (sum == 100) C.Navy else C.Danger))
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Nutrition.PRESETS.forEachIndexed { i, pr ->
-                    Pill(pr.name + if (advice?.best == i) " ★" else "", c == pr.carbs && p == pr.protein && f == pr.fat) { c = pr.carbs; p = pr.protein; f = pr.fat }
+
+            // Attività
+            GHead("Quanto sei attivo?")
+            if (!s.profile.detailed) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ACT_NAMES.forEachIndexed { i, name ->
+                        val sel = i == act
+                        AChoice(sel, Modifier.fillMaxWidth(), onClick = { act = i }) {
+                            Row(Modifier.padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(name, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                                    Text(ACT_DESC[i], style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                                }
+                                Text("× ${fac(Nutrition.ACTIVITY_FACTORS[i])}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = if (sel) Color(0xFFD9411E) else Color(0xFF6B6885)))
+                            }
+                        }
+                    }
+                }
+            } else {
+                AChoice(true, Modifier.fillMaxWidth(), onClick = { Nav.go(Screen.Questionnaire(null)) }) {
+                    Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text("Calcolata dal tuo questionario", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                            Text("Lavoro, passi e allenamenti: tocca per modificarli", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                        }
+                        Text("× ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = Color(0xFFD9411E)))
+                        GapW(8.dp)
+                        AIcon(Ic.Right, Color(0xFF8A87A3), 18.dp, 2.4f)
+                    }
                 }
             }
-            if (advice != null) Text("★ = consigliato per il tuo obiettivo. Le proteine sono ${"%.1f".format(java.util.Locale.ITALY, k * p / 100.0 / 4.0 / w)} g per kg di peso.", style = T.Small)
-            Text("Altri obiettivi", style = T.Title2)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                JField(water, { water = it.filter { ch -> ch.isDigit() } }, "Acqua", Modifier.weight(1f), number = true, suffix = "ml")
-                JField(glass, { glass = it.filter { ch -> ch.isDigit() } }, "Bicchiere", Modifier.weight(1f), number = true, suffix = "ml")
+
+            // Ritmo
+            GHead("Obiettivo e ritmo")
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                PACES.chunked(2).forEach { rowPaces ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        rowPaces.forEach { pc ->
+                            val sel = goal == pc.goal && (pc.goal == 0 || kotlin.math.abs(rate - pc.kg) < 0.01)
+                            AChoice(sel, Modifier.weight(1f), minHeight = 76.dp, onClick = { goal = pc.goal; if (pc.goal != 0) rate = pc.kg }) {
+                                Column(Modifier.padding(12.dp)) {
+                                    Text(pc.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                                    Text(pc.rate, style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = if (sel) Color(0xFFD9411E) else Color(0xFF6B6885)), modifier = Modifier.padding(top = 2.dp))
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            JField(steps, { steps = it.filter { ch -> ch.isDigit() } }, "Passi al giorno", number = true)
-            Spacer(Modifier.height(8.dp))
+
+            // Macronutrienti
+            GHead("Macronutrienti")
+            val advice = if (k >= 800) Nutrition.macroAdvice(pr, w, k) else null
+            val protKg = if (w > 0) k * p / 100.0 / 4.0 / w else 0.0
+            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 20.dp, elevation = 8.dp) {
+                Column {
+                    Row(Modifier.fillMaxWidth().height(16.dp).clip(RoundedCornerShape(8.dp)), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                        Box(Modifier.weight(p.coerceAtLeast(1).toFloat()).height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFFF43F6E)))
+                        Box(Modifier.weight(c.coerceAtLeast(1).toFloat()).height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFF3B82F6)))
+                        Box(Modifier.weight(f.coerceAtLeast(1).toFloat()).height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFFF59E0B)))
+                    }
+                    Row(Modifier.padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        listOf(Triple("Proteine", p to 4, Color(0xFFF43F6E)), Triple("Carboidrati", c to 4, Color(0xFF3B82F6)), Triple("Grassi", f to 9, Color(0xFFD97706))).forEach { (n, pk, col) ->
+                            Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("${(k * pk.first / 100 / pk.second).r0()} g", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, letterSpacing = (-0.2).sp, color = col), maxLines = 1)
+                                Text("$n · ${pk.first}%", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), maxLines = 1)
+                            }
+                        }
+                    }
+                    Box(Modifier.padding(vertical = 18.dp).fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text("Proteine per kg", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                            Text("Consigliato ${"%.1f".format(java.util.Locale.ITALY, Nutrition.proteinPerKg(pr))} g/kg", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                        }
+                        fun setProt(kg: Double) {
+                            if (k < 800 || w <= 0) return
+                            val np = (kg * w * 4 / k * 100).roundToInt().coerceIn(10, 45)
+                            p = np; c = (100 - np - f).coerceAtLeast(5); f = 100 - np - c
+                        }
+                        AStepBtn(false, A.ProteinSoft, A.ProteinInk) { setProt(((protKg - 0.1) * 10).roundToInt() / 10.0) }
+                        Text("%.1f".format(java.util.Locale.ITALY, protKg), style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(68.dp))
+                        AStepBtn(true, A.ProteinSoft, A.ProteinInk) { setProt(((protKg + 0.1) * 10).roundToInt() / 10.0) }
+                    }
+                    Text("Quota di grassi", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(top = 18.dp, bottom = 8.dp))
+                    val fats = listOf(25, 30, 35)
+                    ASegment(fats.map { "$it%" }, fats.indexOf(f)) { i -> f = fats[i]; c = (100 - p - f).coerceAtLeast(5); p = 100 - c - f }
+                    Text("I carboidrati prendono le calorie che restano.", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                }
+            }
+            if (advice != null) {
+                val best = Nutrition.PRESETS[advice.best]
+                ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                    Column {
+                        Text("Ti conviene: ${best.name}", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.2).sp))
+                        Text(advice.reason, style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 4.dp))
+                        Column(Modifier.padding(top = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Nutrition.PRESETS.forEachIndexed { i, pc ->
+                                val on = c == pc.carbs && p == pc.protein && f == pc.fat
+                                AChoice(on, Modifier.fillMaxWidth(), minHeight = 56.dp, radius = 20.dp, onClick = { c = pc.carbs; p = pc.protein; f = pc.fat }) {
+                                    Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
+                                        Row {
+                                            Text(pc.name + if (i == advice.best) " ★" else "", style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
+                                            Text("${pc.carbs}C ${pc.protein}P ${pc.fat}G · ${"%.1f".format(java.util.Locale.ITALY, advice.perKg[i])} g/kg", style = T.Small.copy(fontSize = 12.sp, color = if (i == advice.best) Color(0xFFD9411E) else A.Muted))
+                                        }
+                                        Text(advice.notes[i], style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Acqua
+            val waterShape = RoundedCornerShape(30.dp)
+            Row(
+                Modifier.padding(top = 12.dp).fillMaxWidth().aShadow(waterShape, 12.dp, Color(0x993B82F6)).clip(waterShape)
+                    .background(Brush.linearGradient(listOf(Color(0xFFDDF6FB), Color(0xFFE6EEFF)))).padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TonalIcon(Ic.Drop, Color(0xFF2563EB), Color.White, box = 52.dp, radius = 19.dp, size = 26.dp)
+                GapW(14.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("Obiettivo acqua", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                    Text("${water.thousands()} ml", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, letterSpacing = (-0.2).sp), maxLines = 1)
+                }
+                AStepBtn(false, Color.White, Color(0xFF2563EB)) { water = (water - 250).coerceIn(500, 6000) }
+                GapW(8.dp)
+                AStepBtn(true, Color.White, Color(0xFF2563EB)) { water = (water + 250).coerceIn(500, 6000) }
+            }
+
+            // Altri obiettivi: passi e bicchiere
+            ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 16.dp, elevation = 8.dp) {
+                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text("Passi al giorno", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                            Text("Obiettivo giornaliero", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                        }
+                        AStepBtn(false, A.GreenSoft, A.GreenInk) { steps = (steps - 500).coerceIn(1000, 50000) }
+                        Text(steps.thousands(), style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(76.dp), maxLines = 1)
+                        AStepBtn(true, A.GreenSoft, A.GreenInk) { steps = (steps + 500).coerceIn(1000, 50000) }
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text("Bicchiere", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                            Text("Quanta acqua aggiunge un tocco", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                        }
+                        AStepBtn(false, A.WaterSoft, A.WaterInk) { glass = (glass - 50).coerceIn(100, 1000) }
+                        Text("$glass ml", style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(76.dp), maxLines = 1)
+                        AStepBtn(true, A.WaterSoft, A.WaterInk) { glass = (glass + 50).coerceIn(100, 1000) }
+                    }
+                }
+            }
+            GapH(8.dp)
         }
-        PrimaryButton("Salva", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp), enabled = c + p + f == 100 && k >= 800) {
+        GSave("Salva obiettivi", enabled = c + p + f == 100 && k >= 800) {
             Store.update {
                 it.copy(
-                    goals = it.goals.copy(
-                        auto = auto, kcal = k.toInt(), carbsPct = c, proteinPct = p, fatPct = f,
-                        waterMl = water.toIntOrNull()?.coerceIn(500, 6000) ?: it.goals.waterMl,
-                        steps = steps.toIntOrNull()?.coerceIn(1000, 50000) ?: it.goals.steps
-                    ),
-                    glassMl = glass.toIntOrNull()?.coerceIn(100, 1000) ?: it.glassMl
+                    profile = it.profile.copy(activity = act, goal = goal, weeklyRate = rate),
+                    goals = it.goals.copy(auto = auto, kcal = k.toInt(), carbsPct = c, proteinPct = p, fatPct = f, waterMl = water, steps = steps),
+                    glassMl = glass
                 )
             }
             Nav.back()
         }
-    }
-}
-
-@Composable
-private fun MacroSlider(label: String, pct: Int, color: androidx.compose.ui.graphics.Color, kcal: Double, kcalPerG: Int, onChange: (Int) -> Unit) {
-    Column {
-        Row {
-            Text(label, style = T.Label, modifier = Modifier.weight(1f))
-            Text("$pct% · ${(kcal * pct / 100 / kcalPerG).r0()} g", style = T.Label.copy(color = color))
-        }
-        Slider(
-            pct.toFloat(), { onChange(it.toInt()) }, valueRange = 5f..70f,
-            colors = SliderDefaults.colors(thumbColor = color, activeTrackColor = color, inactiveTrackColor = C.SurfaceHi)
-        )
     }
 }
 
