@@ -74,7 +74,31 @@ data class Profile(
     /** -1 dimagrire, 0 mantenere, 1 aumentare */
     val goal: Int = 0,
     /** kg a settimana (positivo) */
-    val weeklyRate: Double = 0.5
+    val weeklyRate: Double = 0.5,
+    // ---- Questionario esteso (calcolo del fabbisogno più preciso) ----
+    /** Data di nascita completa (yyyy-MM-dd); se assente si usa [birthYear]. */
+    val birthDate: String? = null,
+    /** Percentuale di massa grassa, se la conosci: abilita la formula di Katch-McArdle. */
+    val bodyFatPct: Double? = null,
+    /** Lavoro: 0 seduto, 1 in piedi o in movimento, 2 fisico. */
+    val job: Int = 0,
+    /** Passi giornalieri tipici: 0 meno di 4.000, 1 4-7.000, 2 7-10.000, 3 10-14.000, 4 oltre 14.000. */
+    val stepsLevel: Int = 2,
+    /** Allenamenti a settimana. */
+    val workouts: Int = 3,
+    val workoutMin: Int = 45,
+    /** 0 leggero, 1 moderato, 2 intenso. */
+    val workoutIntensity: Int = 1,
+    /** 0 misto, 1 pesi/calisthenics, 2 cardio (corsa, bici, nuoto), 3 sport di squadra. */
+    val trainingType: Int = 0,
+    /** true se il profilo è stato compilato con il questionario esteso (altrimenti vale il vecchio livello [activity]). */
+    val detailed: Boolean = false,
+    /** Preferenza macro: 0 bilanciato, 1 proteico, 2 low carb. */
+    val dietStyle: Int = 0,
+    /** 0 nessuna, 1 gravidanza o allattamento, 2 patologie da seguire col medico. */
+    val special: Int = 0,
+    /** Foto profilo (file nella memoria privata dell'app). */
+    val photo: String? = null
 )
 
 @Serializable
@@ -119,7 +143,13 @@ data class AiConfig(
     val baseUrl: String = "https://openrouter.ai/api/v1",
     /** Modello preferito; se non risponde si provano i successivi in [AiConfig.FALLBACKS]. */
     val model: String = DEFAULT_MODEL,
-    val apiKey: String = ""
+    val apiKey: String = "",
+    /** Motore del chatbot Jarvis: 0 sul telefono (illimitato, offline), 1 cloud gratuito. */
+    val chatEngine: Int = 0,
+    /** Modello sul telefono: 0 Gemma 4 E2B (veloce), 1 Gemma 4 E4B (più intelligente). */
+    val localModel: Int = 1,
+    /** Accelerazione GPU per il modello sul telefono (sperimentale: più veloce ma non su tutti i dispositivi). */
+    val chatGpu: Boolean = false
 ) {
     companion object {
         /** Gemma 4 31B: modello open-weight di Google con visione, gratuito su OpenRouter (ottobre 2026). */
@@ -261,7 +291,22 @@ data class AppState(
     val pantry: List<PantryItem> = emptyList(),
     val shopping: List<ShoppingItem> = emptyList(),
     val shoppingRange: String = "",
-    val recipePhotos: Map<String, String> = emptyMap()
+    val recipePhotos: Map<String, String> = emptyMap(),
+    /** Conversazione con Jarvis (ultimi messaggi). */
+    val chat: List<ChatMsg> = emptyList()
+)
+
+/** Messaggio della chat con Jarvis. [role] è "user" o "assistant". */
+@Serializable
+data class ChatMsg(
+    val id: String,
+    val role: String,
+    val text: String,
+    val time: Long,
+    /** Azioni eseguite da Jarvis nell'app per questo messaggio (testo leggibile). */
+    val actions: List<String> = emptyList(),
+    /** Risposte rapide suggerite sotto il messaggio. */
+    val suggestions: List<String> = emptyList()
 )
 
 val MEAL_NAMES = listOf("Colazione", "Pranzo", "Cena", "Spuntini")

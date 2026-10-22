@@ -391,9 +391,13 @@ fun EnergyInfoScreen() {
                 e.explanation.forEach { Text("• $it", style = T.Read, modifier = Modifier.padding(vertical = 3.dp)) }
             }
             Spacer(Modifier.height(12.dp))
-            Text("Metabolismo basale: formula di Mifflin-St Jeor. Proteine: 1,6-1,8 g per kg di peso corporeo. " +
+            Text("L'obiettivo parte dal tuo fabbisogno di mantenimento (profilo e questionario) più l'obiettivo di peso, e non scende mai " +
+                    "perché al mattino hai fatto pochi passi. Lo smartwatch aggiunge calorie solo quando la spesa misurata supera quella " +
+                    "attesa, e dopo almeno 5 giorni di dati affina il fabbisogno sui tuoi valori reali. " +
+                    "Metabolismo basale: Mifflin-St Jeor, o Katch-McArdle se indichi la massa grassa. " +
+                    "Proteine: ${"%.1f".format(java.util.Locale.ITALY, com.jarvis.food.data.Nutrition.proteinPerKg(s.profile))} g per kg. " +
                     "Grassi: ${s.goals.fatPct}% delle calorie di base. Sono stime: se il peso non va nella direzione attesa per 2-3 settimane, " +
-                    "regola l'obiettivo dal Profilo.", style = T.Small.copy(fontStyle = FontStyle.Italic))
+                    "correggi l'obiettivo dal Profilo.", style = T.Small.copy(fontStyle = FontStyle.Italic))
             Spacer(Modifier.height(10.dp))
             GhostButton("Modalità di calcolo dell'attività", Modifier.fillMaxWidth()) { Nav.go(Screen.Watch) }
         }

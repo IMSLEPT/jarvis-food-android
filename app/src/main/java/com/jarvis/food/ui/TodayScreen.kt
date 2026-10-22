@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.jarvis.food.data.AppState
@@ -83,30 +84,38 @@ fun TodayScreen() {
         WeekPills(date, date.with(java.time.DayOfWeek.MONDAY)) { Nav.diaryDate = it }
 
         Spacer(Modifier.height(14.dp))
-        JCard(onClick = { Nav.go(Screen.DayNutrients(date)) }) {
+        JCard(brush = C.NavyBrush, onClick = { Nav.go(Screen.DayNutrients(date)) }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    MiniStat("Mangiate", totals.kcal.r0(), C.Text)
-                    MiniStat(if (s.energy.mode == 2) "Attività (watch)" else "Attività", Store.burnedFor(s, date).toString(), C.Green)
-                    MiniStat("Obiettivo", e.targetKcal.r0(), C.AccentDeep)
+                    MiniStat("Mangiate", totals.kcal.r0(), Color.White, true)
+                    MiniStat(if (s.energy.mode == 2) "Attività (watch)" else "Attività", Store.burnedFor(s, date).toString(), Color(0xFF9FE0BE), true)
+                    MiniStat("Obiettivo", e.targetKcal.r0(), Color(0xFFFFB02E), true)
                 }
-                CalorieRing(totals.kcal, e.targetKcal)
+                CalorieRing(totals.kcal, e.targetKcal, onDark = true)
             }
             if (e.extraKcal > 0) {
                 Spacer(Modifier.height(8.dp))
-                Text("+${e.extraKcal.r0()} kcal per l'attività di oggi, aggiunte ai carboidrati", style = T.Small.copy(color = C.Green))
+                Text("+${e.extraKcal.r0()} kcal per l'attività di oggi, aggiunte ai carboidrati", style = T.Small.copy(color = Color(0xFF9FE0BE)))
             }
             Spacer(Modifier.height(14.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                MacroBar("Proteine", totals.protein, e.protein, C.Protein, Modifier.weight(1f))
-                MacroBar("Carboidrati", totals.carbs, e.carbs, C.Carbs, Modifier.weight(1f))
-                MacroBar("Grassi", totals.fat, e.fat, C.Fat, Modifier.weight(1f))
+                MacroBar("Proteine", totals.protein, e.protein, C.Protein, Modifier.weight(1f), onDark = true)
+                MacroBar("Carboidrati", totals.carbs, e.carbs, Color(0xFF8FB0F0), Modifier.weight(1f), onDark = true)
+                MacroBar("Grassi", totals.fat, e.fat, C.Fat, Modifier.weight(1f), onDark = true)
+            }
+        }
+
+        if (!s.profile.detailed) {
+            Spacer(Modifier.height(12.dp))
+            JCard(color = C.AccentSoft, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
+                Text("Rendi il calcolo più preciso", style = T.Title2)
+                Text("Rispondi a poche domande su lavoro, passi e allenamenti: l'obiettivo smette di essere una stima generica.", style = T.Muted)
             }
         }
 
         Spacer(Modifier.height(12.dp))
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            QuickAction("➕", "Aggiungi") { Nav.go(Screen.AddFood(date, defaultMeal())) }
+            QuickAction("➕", "Aggiungi", primary = true) { Nav.go(Screen.AddFood(date, defaultMeal())) }
             QuickAction("📷", "Foto piatto") { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
             QuickAction("🧊", "Frigo e dispensa") { Nav.go(Screen.PantryScan("foto")) }
             QuickAction("⏱️", "Digiuno") { Nav.go(Screen.Fasting) }
@@ -133,16 +142,17 @@ fun TodayScreen() {
 fun defaultMeal(): Int = when (LocalTime.now().hour) { in 5..10 -> 0; in 11..15 -> 1; in 18..23 -> 2; else -> 3 }
 
 @Composable
-private fun QuickAction(emoji: String, label: String, onClick: () -> Unit) {
-    Row(Modifier.clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(50)).clickable(onClick = onClick)
-        .padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(emoji); Spacer(Modifier.width(6.dp)); Text(label, style = T.Label)
+private fun QuickAction(emoji: String, label: String, primary: Boolean = false, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(50)
+    Row(Modifier.clip(shape).let { if (primary) it.background(C.OrangeBrush) else it.background(C.Surface).border(1.dp, C.Line, shape) }
+        .clickable(onClick = onClick).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(emoji); Spacer(Modifier.width(6.dp)); Text(label, style = T.Label.copy(color = if (primary) C.OnAccent else C.Text))
     }
 }
 
 @Composable
-private fun MiniStat(label: String, value: String, color: androidx.compose.ui.graphics.Color) {
-    Column { Text(value, style = T.Num.copy(color = color)); Text(label, style = T.Small) }
+private fun MiniStat(label: String, value: String, color: androidx.compose.ui.graphics.Color, onDark: Boolean = false) {
+    Column { Text(value, style = T.Num.copy(color = color)); Text(label, style = T.Small.copy(color = if (onDark) Color.White.copy(alpha = 0.72f) else C.Muted)) }
 }
 
 /** Il piano di oggi in breve, con foto e spunta "mangiato". */

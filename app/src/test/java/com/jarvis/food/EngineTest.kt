@@ -7,6 +7,7 @@ import com.jarvis.food.data.EnergySettings
 import com.jarvis.food.data.Goals
 import com.jarvis.food.data.HealthDay
 import com.jarvis.food.data.PantryItem
+import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Profile
 import com.jarvis.food.engine.Energy
 import com.jarvis.food.engine.FoodDb
@@ -113,17 +114,96 @@ class EngineTest {
         assertEquals(0.0, fixed.extraKcal, 0.001)
         val lazy = Energy.forDay(profile, goals, EnergySettings(mode = 2), 80.0, HealthDay("x", 2000, 100.0), emptyList(), 0)
         assertEquals(0.0, lazy.extraKcal, 0.001)
-        val active = Energy.forDay(profile, goals, EnergySettings(mode = 2, eatBackPct = 80), 80.0, HealthDay("x", 14000, 800.0), emptyList(), 0)
-        assertTrue(active.extraKcal > 300)
+        // Una giornata molto più attiva del solito (oltre il livello del profilo) aggiunge calorie ai carboidrati.
+        val active = Energy.forDay(profile, goals, EnergySettings(mode = 2, eatBackPct = 80), 80.0, HealthDay("x", 20000, 1800.0), emptyList(), 0)
+        assertTrue("extra ${active.extraKcal}", active.extraKcal > 300)
         assertEquals(lazy.protein, active.protein, 0.001)
         assertEquals(lazy.fat, active.fat, 0.001)
         assertEquals(active.extraKcal / 4, active.carbs - lazy.carbs, 0.5)
         // Senza calorie attive dal watch: stima da passi + allenamenti.
         val est = Energy.forDay(profile, goals, EnergySettings(mode = 2), 80.0, HealthDay("x", 15000, null), emptyList(), 0)
         assertEquals("stima", est.source)
-        val manual = Energy.forDay(profile, goals, EnergySettings(mode = 1), 80.0, null, listOf(ActivityEntry("a", "x", "Corsa", 60, 650)), 3000)
-        report("energia", "fisso ${fixed.targetKcal.toInt()}, sedentario ${lazy.targetKcal.toInt()}, watch attivo ${active.targetKcal.toInt()} (+${active.extraKcal.toInt()}), manuale ${manual.targetKcal.toInt()}")
+        val manual = Energy.forDay(profile, goals, EnergySettings(mode = 1), 80.0, null, listOf(ActivityEntry("a", "x", "Corsa", 120, 1500)), 3000)
+        report("energia", "fisso ${fixed.targetKcal.toInt()}, watch poco attivo ${lazy.targetKcal.toInt()}, watch molto attivo ${active.targetKcal.toInt()} (+${active.extraKcal.toInt()}), manuale ${manual.targetKcal.toInt()}")
         assertTrue(manual.extraKcal > 0)
+    }
+
+    /** Regressione: la mattina presto, con pochi passi, l'obiettivo non deve scendere sotto quello del profilo. */
+    @Test fun morningSyncDoesNotLowerTarget() {
+        val fixed = Energy.forDay(profile, goals, EnergySettings(mode = 0), 80.0, null, emptyList(), 0)
+        val morning = Energy.forDay(profile, goals, EnergySettings(mode = 2), 80.0, HealthDay("x", 132, 6.0), emptyList(), 0, 0.3)
+        val noData = Energy.forDay(profile, goals, EnergySettings(mode = 2), 80.0, null, emptyList(), 0, 0.3)
+        assertEquals(fixed.targetKcal, morning.targetKcal, 0.5)
+        assertEquals(fixed.targetKcal, noData.targetKcal, 0.5)
+        assertEquals(fixed.protein, morning.protein, 0.001)
+        // Anche con il modello esteso del questionario.
+        val p2 = profile.copy(detailed = true, job = 0, stepsLevel = 2, workouts = 4, workoutMin = 60, workoutIntensity = 1)
+        val f2 = Energy.forDay(p2, goals, EnergySettings(mode = 0), 80.0, null, emptyList(), 0)
+        val m2 = Energy.forDay(p2, goals, EnergySettings(mode = 2), 80.0, HealthDay("x", 132, 6.0), emptyList(), 0, 0.3)
+        assertEquals(f2.targetKcal, m2.targetKcal, 0.5)
+        report("sync mattina", "fisso ${fixed.targetKcal.toInt()} → watch ${morning.targetKcal.toInt()}")
+    }
+
+    @Test fun detailedQuestionnaireGivesPlausibleTdee() {
+        val base = Profile(male = true, birthYear = 1997, heightCm = 178.0, startWeight = 80.0, detailed = true)
+        val desk = Nutrition.tdee(base.copy(job = 0, stepsLevel = 1, workouts = 0), 80.0)
+        val sedentaryOld = Nutrition.bmr(base, 80.0) * 1.2
+        assertEquals(sedentaryOld * 1.03, desk, sedentaryOld * 0.03)
+        val trains = Nutrition.tdee(base.copy(job = 0, stepsLevel = 2, workouts = 4, workoutMin = 60, workoutIntensity = 1), 80.0)
+        assertTrue("allenamenti aumentano il fabbisogno", trains > desk + 150)
+        val physical = Nutrition.tdee(base.copy(job = 2, stepsLevel = 4, workouts = 0), 80.0)
+        assertTrue(physical > desk * 1.10)
+        assertTrue("tetto prudente", physical < Nutrition.bmr(base, 80.0) * 1.7)
+        // Massa grassa nota: Katch-McArdle.
+        val kmr = Nutrition.bmr(base.copy(bodyFatPct = 15.0), 80.0)
+        assertEquals(370 + 21.6 * 68.0, kmr, 0.01)
+        // Il deficit è limitato al 25% del fabbisogno.
+        val aggressive = base.copy(goal = -1, weeklyRate = 1.0)
+        val t = Nutrition.tdee(aggressive, 80.0)
+        assertEquals(-0.25 * t, Nutrition.safeDelta(aggressive, t), 0.01)
+        // Gravidanza: nessun deficit.
+        assertEquals(0.0, Nutrition.dailyDelta(aggressive.copy(special = 1)), 0.0)
+        report("tdee", "scrivania ${desk.toInt()}, allenamenti ${trains.toInt()}, fisico ${physical.toInt()}")
+    }
+
+    @Test fun ageUsesBirthDate() {
+        val p = Profile(birthYear = 1997, birthDate = "1997-04-12")
+        assertEquals(29, Nutrition.age(p, LocalDate.of(2026, 10, 22)))
+        assertEquals(28, Nutrition.age(p, LocalDate.of(2026, 4, 11)))
+        assertEquals(29, Nutrition.age(Profile(birthYear = 1997), LocalDate.of(2026, 10, 22)))
+    }
+
+    @Test fun calibrationUsesPastWatchDays() {
+        val today = LocalDate.of(2026, 10, 22)
+        val s = EnergySettings(mode = 2, eatBackPct = 80)
+        val tooFew = (1..3).associate { i -> today.minusDays(i.toLong()).toString() to HealthDay(today.minusDays(i.toLong()).toString(), 9000, 600.0) }
+        assertEquals(null, Energy.calibration(profile, 80.0, s, tooFew, today))
+        val week = (1..7).associate { i -> today.minusDays(i.toLong()).toString() to HealthDay(today.minusDays(i.toLong()).toString(), 9000, 600.0) }
+        val c = Energy.calibration(profile, 80.0, s, week, today)!!
+        assertEquals(Energy.measuredTdee(Nutrition.bmr(profile, 80.0), 600.0, 80), c, 0.01)
+        // La calibrazione resta entro -15% / +20% del profilo.
+        val huge = (1..7).associate { i -> today.minusDays(i.toLong()).toString() to HealthDay(today.minusDays(i.toLong()).toString(), 30000, 5000.0) }
+        val e = Energy.expectedTdee(profile, 80.0, Energy.calibration(profile, 80.0, s, huge, today))
+        assertEquals(Nutrition.tdee(profile, 80.0) * 1.20, e, 0.01)
+        // Giorni senza watch indossato (pochi passi) non contano.
+        val unworn = (1..7).associate { i -> today.minusDays(i.toLong()).toString() to HealthDay(today.minusDays(i.toLong()).toString(), 200, 0.0) }
+        assertEquals(null, Energy.calibration(profile, 80.0, s, unworn, today))
+    }
+
+    @Test fun macroAdviceFollowsGoal() {
+        val w = 80.0
+        val cut = Profile(goal = -1, detailed = true, workouts = 4)
+        val a = Nutrition.macroAdvice(cut, w, 2000.0)
+        assertEquals("dimagrire con 2000 kcal → proteico", 1, a.best)
+        assertTrue(a.perKg[1] > a.perKg[0])
+        val keep = Profile(goal = 0, detailed = true, workouts = 3)
+        assertEquals("mantenere con 2800 kcal → bilanciato", 0, Nutrition.macroAdvice(keep, w, 2800.0).best)
+        // Preferenza low carb accettata solo se non ci si allena molto.
+        val lc = Profile(goal = -1, dietStyle = 2, detailed = true, workouts = 1)
+        assertEquals(2, Nutrition.macroAdvice(lc, w, 2000.0).best)
+        val lcHeavy = lc.copy(workouts = 5, workoutIntensity = 2)
+        assertTrue(Nutrition.macroAdvice(lcHeavy, w, 2000.0).best != 2)
+        for (pr in Nutrition.PRESETS) assertEquals(100, pr.carbs + pr.protein + pr.fat)
     }
 
     @Test fun microAnalysisFindsLowIntake() {

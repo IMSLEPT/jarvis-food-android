@@ -97,6 +97,9 @@ dependencies {
     implementation("androidx.health.connect:connect-client:1.1.0")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
 
+    // Chatbot Jarvis: LLM open source (Gemma 4, Apache-2.0) eseguito sul telefono con LiteRT-LM di Google.
+    implementation("com.google.ai.edge.litertlm:litertlm-android:0.17.1")
+
     // OCR degli scontrini sul telefono (modello incluso, funziona offline)
     implementation("com.google.mlkit:text-recognition:16.0.1")
 

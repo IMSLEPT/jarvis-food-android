@@ -85,13 +85,14 @@ fun JCard(
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues(16.dp),
     color: Color = C.Surface,
+    brush: Brush? = null,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val shape = RoundedCornerShape(22.dp)
     val base = modifier.fillMaxWidth()
-        .shadow(1.5.dp, shape, ambientColor = Color(0x14141413), spotColor = Color(0x14141413))
-        .clip(shape).background(color).border(1.dp, C.Line, shape)
+        .shadow(1.5.dp, shape, ambientColor = Color(0x1417286B), spotColor = Color(0x1417286B))
+        .clip(shape).let { if (brush != null) it.background(brush) else it.background(color).border(1.dp, C.Line, shape) }
     Column(modifier = (if (onClick != null) base.clickable(onClick = onClick) else base).padding(padding), content = content)
 }
 
@@ -121,10 +122,17 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
 
 // ---------- Pulsanti ----------
 
+/** Pulsante principale: arancione sfumato con testo bianco. Con [color] diverso dall'arancione diventa pieno (es. blu navy). */
 @Composable
-fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color = C.Ink, onClick: () -> Unit) {
+fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color? = null, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(50)
+    val fill: Modifier = when {
+        !enabled -> Modifier.background(C.SurfaceHi, shape)
+        color == null || color == C.Accent -> Modifier.background(C.OrangeBrush, shape)
+        else -> Modifier.background(color, shape)
+    }
     Box(
-        modifier.height(50.dp).clip(RoundedCornerShape(50)).background(if (enabled) color else C.SurfaceHi)
+        modifier.height(50.dp).clip(shape).then(fill)
             .clickable(enabled = enabled, onClick = onClick).padding(horizontal = 22.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.Button.copy(color = if (enabled) C.OnAccent else C.Faint), maxLines = 1, overflow = TextOverflow.Ellipsis) }
@@ -296,41 +304,43 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
 
 // ---------- Grafici ----------
 
-/** Anello calorie: progresso animato, rosso se si supera l'obiettivo. */
+/** Anello calorie: progresso animato con arco arancione, rosso se si supera l'obiettivo. [onDark] per la scheda blu navy. */
 @Composable
-fun CalorieRing(eaten: Double, budget: Double, modifier: Modifier = Modifier, size: Dp = 170.dp) {
+fun CalorieRing(eaten: Double, budget: Double, modifier: Modifier = Modifier, size: Dp = 170.dp, onDark: Boolean = false) {
     val target = if (budget <= 0) 0f else (eaten / budget).toFloat().coerceIn(0f, 1.2f)
     val p by animateFloatAsState(target, tween(800), label = "ring")
     val over = eaten > budget
+    val track = if (onDark) Color.White.copy(alpha = 0.16f) else C.SurfaceAlt
+    val textColor = if (onDark) Color.White else C.Text
     Box(modifier.size(size), contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(size)) {
             val stroke = 15.dp.toPx()
             val inset = stroke / 2
             val arc = Size(this.size.width - stroke, this.size.height - stroke)
-            drawArc(C.SurfaceAlt, 135f, 270f, false, Offset(inset, inset), arc, style = Stroke(stroke, cap = StrokeCap.Round))
+            drawArc(track, 135f, 270f, false, Offset(inset, inset), arc, style = Stroke(stroke, cap = StrokeCap.Round))
             drawArc(
-                if (over) Brush.sweepGradient(listOf(C.Danger, C.Danger)) else Brush.sweepGradient(listOf(C.Gold, C.Accent, C.Gold)),
+                if (over) Brush.sweepGradient(listOf(C.Danger, C.Danger)) else Brush.sweepGradient(C.OrangeArc + C.OrangeArc.first()),
                 135f, 270f * p.coerceAtMost(1f), false, Offset(inset, inset), arc, style = Stroke(stroke, cap = StrokeCap.Round)
             )
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(kotlin.math.abs(budget - eaten).r0(), style = T.Big.copy(color = if (over) C.Danger else C.Text))
-            Text(if (over) "kcal in più" else "kcal rimanenti", style = T.Muted)
+            Text(kotlin.math.abs(budget - eaten).r0(), style = T.Big.copy(color = if (over) (if (onDark) Color(0xFFFFB4A9) else C.Danger) else textColor))
+            Text(if (over) "kcal in più" else "kcal rimanenti", style = T.Muted.copy(color = if (onDark) Color.White.copy(alpha = 0.75f) else C.Muted))
         }
     }
 }
 
 @Composable
-fun MacroBar(label: String, value: Double, goal: Double, color: Color, modifier: Modifier = Modifier) {
+fun MacroBar(label: String, value: Double, goal: Double, color: Color, modifier: Modifier = Modifier, onDark: Boolean = false) {
     val p by animateFloatAsState(if (goal <= 0) 0f else (value / goal).toFloat().coerceIn(0f, 1f), tween(600), label = "macro")
     Column(modifier) {
-        Text(label, style = T.Small)
+        Text(label, style = T.Small.copy(color = if (onDark) Color.White.copy(alpha = 0.72f) else C.Muted))
         Spacer(Modifier.height(5.dp))
-        Box(Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(50)).background(C.SurfaceAlt)) {
+        Box(Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(50)).background(if (onDark) Color.White.copy(alpha = 0.16f) else C.SurfaceAlt)) {
             Box(Modifier.fillMaxWidth(p).height(8.dp).clip(RoundedCornerShape(50)).background(if (value > goal * 1.1) C.Danger else color))
         }
         Spacer(Modifier.height(5.dp))
-        Text("${value.r0()} / ${goal.r0()} g", style = T.Label)
+        Text("${value.r0()} / ${goal.r0()} g", style = T.Label.copy(color = if (onDark) Color.White else C.Text))
     }
 }
 

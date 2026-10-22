@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,9 +66,7 @@ fun ProfileScreen() {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 16.dp)) {
         Spacer(Modifier.height(16.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(60.dp).clip(CircleShape).background(C.Accent), contentAlignment = Alignment.Center) {
-                Text(s.profile.name.take(1).uppercase(), style = T.Title.copy(color = C.OnAccent))
-            }
+            Avatar(s.profile.name, s.profile.photo, 64.dp, Modifier.clickable { Nav.go(Screen.ProfileEdit) })
             Spacer(Modifier.width(14.dp))
             Column {
                 Text(s.profile.name, style = T.Title)
@@ -97,6 +97,8 @@ fun ProfileScreen() {
         }
         SectionTitle("Strumenti")
         JCard(padding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
+            NavRow("Chat con Jarvis", "Fai domande e dagli comandi · ${if (s.ai.chatEngine == 0) "sul telefono" else "cloud"}", "💬") { Nav.go(Screen.Chat) }
+            HorizontalDivider(color = C.Line)
             NavRow("Smartwatch e attività", when (s.energy.mode) { 2 -> "Amazfit / Health Connect collegato"; 1 -> "Attività inserite a mano"; else -> "Livello di attività fisso" }, "⌚") { Nav.go(Screen.Watch) }
             HorizontalDivider(color = C.Line)
             NavRow("Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", "✨") { Nav.go(Screen.AiSettings) }
@@ -117,55 +119,58 @@ fun ProfileScreen() {
 
 @Composable
 fun ProfileEditScreen() {
+    val ctx = LocalContext.current
     val s by Store.state.collectAsState()
     val p = s.profile
     var name by remember { mutableStateOf(p.name) }
-    var male by remember { mutableStateOf(p.male) }
-    var birth by remember { mutableStateOf(p.birthYear.toString()) }
-    var height by remember { mutableStateOf(p.heightCm.r0()) }
-    var target by remember { mutableStateOf(p.targetWeight.r1()) }
-    var activity by remember { mutableIntStateOf(p.activity) }
-    var goal by remember { mutableIntStateOf(p.goal) }
-    var rate by remember { mutableDoubleStateOf(p.weeklyRate) }
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) ProfilePhoto.save(ctx, uri)?.let { path -> Store.update { it.copy(profile = it.profile.copy(photo = path)) } }
+    }
+    val age = Nutrition.age(p)
+    val w = Store.currentWeight(s)
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Profilo e obiettivo", onBack = { Nav.back() })
+        TopBar("Profilo e obiettivi", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            JField(name, { name = it }, "Nome")
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Pill("Uomo", male) { male = true }; Pill("Donna", !male) { male = false }
+            JCard {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp) }
+                    Column(Modifier.padding(start = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        GhostButton(if (p.photo == null) "Aggiungi foto" else "Cambia foto") { picker.launch("image/*") }
+                        if (p.photo != null) Text("Rimuovi", style = T.Label.copy(color = C.Danger),
+                            modifier = Modifier.clickable { ProfilePhoto.delete(p.photo); Store.update { it.copy(profile = it.profile.copy(photo = null)) } }.padding(6.dp))
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+                JField(name, { name = it }, "Nome")
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                JField(birth, { birth = it.filter { c -> c.isDigit() }.take(4) }, "Anno di nascita", Modifier.weight(1f), number = true)
-                JField(height, { height = it }, "Altezza", Modifier.weight(1f), number = true, suffix = "cm")
+            if (!p.detailed) JCard(color = C.AccentSoft, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
+                Text("Rendi il calcolo più preciso", style = T.Title2)
+                Text("Rispondi alle domande su lavoro, passi e allenamenti: il fabbisogno smette di essere una stima generica.", style = T.Muted)
             }
-            JField(target, { target = it }, "Peso obiettivo", number = true, suffix = "kg")
-            Text("Attività", style = T.Title2)
-            Nutrition.ACTIVITY_LABELS.forEachIndexed { i, l -> Choice(l, activity == i) { activity = i } }
-            Text("Obiettivo", style = T.Title2)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Pill("Dimagrire", goal == -1) { goal = -1 }
-                Pill("Mantenere", goal == 0) { goal = 0 }
-                Pill("Massa", goal == 1) { goal = 1 }
+            SectionTitle("Le mie risposte")
+            JCard(padding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
+                NavRow("Dati personali", "${if (p.male) "Uomo" else "Donna"} · $age anni · ${p.heightCm.r0()} cm", "👤") { Nav.go(Screen.Questionnaire(QStep.About)) }
+                HorizontalDivider(color = C.Line)
+                NavRow("Peso e composizione", "Ora ${w.r1()} kg · obiettivo ${p.targetWeight.r1()} kg" +
+                        (p.bodyFatPct?.let { " · grasso ${it.r0()}%" } ?: ""), "⚖️") { Nav.go(Screen.Questionnaire(QStep.Body)) }
+                HorizontalDivider(color = C.Line)
+                NavRow("Lavoro", Nutrition.JOB_LABELS[p.job.coerceIn(0, 2)], "💼") { Nav.go(Screen.Questionnaire(QStep.Job)) }
+                HorizontalDivider(color = C.Line)
+                NavRow("Passi al giorno", Nutrition.STEPS_LABELS[p.stepsLevel.coerceIn(0, 4)], "👟") { Nav.go(Screen.Questionnaire(QStep.Steps)) }
+                HorizontalDivider(color = C.Line)
+                NavRow("Allenamenti", if (p.workouts == 0) "Nessuno" else "${p.workouts} a settimana · ${p.workoutMin} min · ${Nutrition.TRAINING_LABELS[p.trainingType.coerceIn(0, 3)].lowercase()}", "🏋️") { Nav.go(Screen.Questionnaire(QStep.Training)) }
+                HorizontalDivider(color = C.Line)
+                NavRow("Obiettivo", when (p.goal) { -1 -> "Dimagrire · ${p.weeklyRate.r1()} kg a settimana"; 1 -> "Aumentare massa · ${p.weeklyRate.r1()} kg a settimana"; else -> "Mantenere il peso" }, "🎯") { Nav.go(Screen.Questionnaire(QStep.Goal)) }
+                HorizontalDivider(color = C.Line)
+                NavRow("Preferenze", when (p.dietStyle) { 1 -> "Più proteine"; 2 -> "Pochi carboidrati"; else -> "Bilanciato" } +
+                        (if (p.special != 0) " · situazione particolare" else ""), "🥗") { Nav.go(Screen.Questionnaire(QStep.Diet)) }
             }
-            if (goal != 0) {
-                Text("Ritmo: ${rate.r1()} kg/settimana", style = T.Label)
-                Slider(
-                    rate.toFloat(), { rate = (Math.round(it * 4) / 4.0).coerceAtLeast(0.25) }, valueRange = 0.25f..1f, steps = 2,
-                    colors = SliderDefaults.colors(thumbColor = C.Accent, activeTrackColor = C.Accent, inactiveTrackColor = C.SurfaceHi)
-                )
-            }
+            PrimaryButton("Rifai tutto il questionario", Modifier.fillMaxWidth()) { Nav.go(Screen.Questionnaire(null)) }
+            Spacer(Modifier.height(8.dp))
         }
-        PrimaryButton("Salva e ricalcola", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {
-            Store.update {
-                val np = it.profile.copy(
-                    name = name.ifBlank { "Tu" }, male = male, birthYear = birth.toIntOrNull() ?: it.profile.birthYear,
-                    heightCm = parseNum(height) ?: it.profile.heightCm, targetWeight = parseNum(target) ?: it.profile.targetWeight,
-                    activity = activity, goal = goal, weeklyRate = rate
-                )
-                val g = if (it.goals.auto) Nutrition.autoGoals(np, Store.currentWeight(it), it.goals) else it.goals
-                it.copy(profile = np, goals = g)
-            }
+        PrimaryButton("Salva nome", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp), enabled = name.isNotBlank() && name.trim() != p.name, color = C.Navy) {
+            Store.update { it.copy(profile = it.profile.copy(name = name.trim())) }
             Nav.back()
         }
     }
@@ -198,17 +203,48 @@ fun GoalsScreen() {
                 Text("Basale ${Nutrition.bmr(s.profile, Store.currentWeight(s)).r0()} · fabbisogno ${Nutrition.tdee(s.profile, Store.currentWeight(s)).r0()} · ${if (Nutrition.dailyDelta(s.profile) >= 0) "+" else ""}${Nutrition.dailyDelta(s.profile).r0()} kcal per l'obiettivo", style = T.Small)
             } else JField(kcal, { kcal = it.filter { ch -> ch.isDigit() } }, "Calorie giornaliere", number = true, suffix = "kcal")
 
+            if (!auto) {
+                val rec = recommended.kcal
+                val diff = k - rec
+                if (k > 0 && kotlin.math.abs(diff) >= 100) Text(
+                    "Per il tuo obiettivo il calcolo consiglia ${rec} kcal: stai impostando ${if (diff > 0) "+" else ""}${diff.r0()} kcal.",
+                    style = T.Small.copy(color = if (k < Nutrition.minKcal(s.profile)) C.Danger else C.Muted)
+                )
+                if (k in 1.0..(Nutrition.minKcal(s.profile) - 1.0)) Text(
+                    "Sotto ${Nutrition.minKcal(s.profile)} kcal al giorno è meglio farsi seguire da un medico.", style = T.Small.copy(color = C.Danger))
+            }
             Text("Ripartizione macronutrienti", style = T.Title2)
+            val w = Store.currentWeight(s)
+            val advice = if (k >= 800) Nutrition.macroAdvice(s.profile, w, k) else null
+            if (advice != null) {
+                val bestPreset = Nutrition.PRESETS[advice.best]
+                JCard(color = C.NavySoft) {
+                    Text("Ti conviene: ${bestPreset.name}", style = T.Title2.copy(color = C.Navy))
+                    Spacer(Modifier.height(4.dp))
+                    Text(advice.reason, style = T.Body)
+                    Spacer(Modifier.height(10.dp))
+                    Nutrition.PRESETS.forEachIndexed { i, pr ->
+                        Row(Modifier.fillMaxWidth().padding(vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Text("${pr.name} · ${pr.carbs}C ${pr.protein}P ${pr.fat}G", style = T.Label, modifier = Modifier.weight(1f))
+                            Text("${"%.1f".format(java.util.Locale.ITALY, advice.perKg[i])} g/kg", style = T.Label.copy(color = if (i == advice.best) C.Accent else C.Muted))
+                        }
+                        Text(advice.notes[i], style = T.Small)
+                    }
+                    Spacer(Modifier.height(10.dp))
+                    PrimaryButton("Usa ${bestPreset.name}", Modifier.fillMaxWidth()) { c = bestPreset.carbs; p = bestPreset.protein; f = bestPreset.fat }
+                }
+            }
             MacroSlider("Carboidrati", c, C.Carbs, k, 4) { c = it }
             MacroSlider("Proteine", p, C.Protein, k, 4) { p = it }
             MacroSlider("Grassi", f, C.Fat, k, 9) { f = it }
             val sum = c + p + f
-            Text(if (sum == 100) "Totale 100% ✓" else "Totale $sum%: deve essere 100%", style = T.Label.copy(color = if (sum == 100) C.Accent else C.Danger))
+            Text(if (sum == 100) "Totale 100% ✓" else "Totale $sum%: deve essere 100%", style = T.Label.copy(color = if (sum == 100) C.Navy else C.Danger))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                GhostButton("Bilanciato") { c = 50; p = 20; f = 30 }
-                GhostButton("Proteico") { c = 40; p = 30; f = 30 }
-                GhostButton("Low carb") { c = 25; p = 30; f = 45 }
+                Nutrition.PRESETS.forEachIndexed { i, pr ->
+                    Pill(pr.name + if (advice?.best == i) " ★" else "", c == pr.carbs && p == pr.protein && f == pr.fat) { c = pr.carbs; p = pr.protein; f = pr.fat }
+                }
             }
+            if (advice != null) Text("★ = consigliato per il tuo obiettivo. Le proteine sono ${"%.1f".format(java.util.Locale.ITALY, k * p / 100.0 / 4.0 / w)} g per kg di peso.", style = T.Small)
             Text("Altri obiettivi", style = T.Title2)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 JField(water, { water = it.filter { ch -> ch.isDigit() } }, "Acqua", Modifier.weight(1f), number = true, suffix = "ml")
@@ -322,6 +358,7 @@ fun AiSettingsScreen() {
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Intelligenza artificiale", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            ChatSetup()
             JCard {
                 Text("Offline · sul telefono", style = T.Title2)
                 Text(
@@ -354,7 +391,7 @@ fun AiSettingsScreen() {
             GhostButton("Ripristina predefiniti") { val d = AiConfig(); model = d.model; url = d.baseUrl }
         }
         PrimaryButton("Salva", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {
-            Store.update { it.copy(ai = AiConfig(baseUrl = url.ifBlank { AiConfig().baseUrl }, model = model.ifBlank { AiConfig().model }, apiKey = key)) }
+            Store.update { it.copy(ai = it.ai.copy(baseUrl = url.ifBlank { AiConfig().baseUrl }, model = model.ifBlank { AiConfig().model }, apiKey = key)) }
             Toast.makeText(ctx, "Impostazioni AI salvate", Toast.LENGTH_SHORT).show()
             Nav.back()
         }

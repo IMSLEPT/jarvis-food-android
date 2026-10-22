@@ -72,6 +72,9 @@ sealed class Screen {
     data object Watch : Screen()
     data object Micronutrients : Screen()
     data object EnergyInfo : Screen()
+    /** Modifica delle risposte del questionario: [only] = una sola sezione, null = tutto. */
+    data class Questionnaire(val only: QStep? = null) : Screen()
+    data object Chat : Screen()
 }
 
 /** Navigazione semplice a pila, senza librerie esterne. */
@@ -132,6 +135,8 @@ private fun ScreenHost(s: Screen) {
             Screen.Watch -> WatchScreen()
             Screen.Micronutrients -> MicronutrientsScreen()
             Screen.EnergyInfo -> EnergyInfoScreen()
+            is Screen.Questionnaire -> QuestionnaireScreen(s.only)
+            Screen.Chat -> ChatScreen()
         }
     }
 }
@@ -147,6 +152,7 @@ private fun Tabs() {
                 3 -> ProgressScreen()
                 else -> ProfileScreen()
             }
+            ChatFab(Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 14.dp))
         }
         BottomBar()
     }

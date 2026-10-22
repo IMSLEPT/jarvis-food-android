@@ -182,9 +182,11 @@ object Store {
     /** Fabbisogno del giorno con l'eventuale adattamento all'attività. */
     fun energyFor(s: AppState, date: LocalDate): DayEnergy {
         val frac = if (date == LocalDate.now()) LocalTime.now().toSecondOfDay() / 86400.0 else 1.0
+        val w = currentWeight(s)
         return Energy.forDay(
-            s.profile, s.goals, s.energy, currentWeight(s), s.health[date.toString()],
-            s.activities.filter { it.date == date.toString() }, s.steps[date.toString()] ?: 0, frac
+            s.profile, s.goals, s.energy, w, s.health[date.toString()],
+            s.activities.filter { it.date == date.toString() }, s.steps[date.toString()] ?: 0, frac,
+            Energy.calibration(s.profile, w, s.energy, s.health, date)
         )
     }
 

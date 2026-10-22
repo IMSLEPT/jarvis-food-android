@@ -11,6 +11,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.jarvis.food.data.AppState
+import com.jarvis.food.data.ChatMsg
 import com.jarvis.food.data.Db
 import com.jarvis.food.data.EnergySettings
 import com.jarvis.food.data.HealthDay
@@ -20,6 +21,7 @@ import com.jarvis.food.data.Store
 import com.jarvis.food.data.WeightEntry
 import com.jarvis.food.data.WorkoutSession
 import com.jarvis.food.ui.Nav
+import com.jarvis.food.ui.QStep
 import com.jarvis.food.ui.Screen
 import org.junit.Rule
 import org.junit.Test
@@ -66,7 +68,14 @@ class ScreenshotTest {
                 health = mapOf(today.toString() to HealthDay(today.toString(), 9850, 540.0, 2650.0,
                     listOf(WorkoutSession("Allenamento con i pesi", 70, System.currentTimeMillis() - 7_200_000, System.currentTimeMillis() - 3_600_000, 310.0)),
                     58.0, 72.0, 432, System.currentTimeMillis())),
-                water = mapOf(today.toString() to 1250))
+                water = mapOf(today.toString() to 1250),
+                chat = listOf(
+                    ChatMsg("c1", "user", "Ho mangiato un piatto di pasta a pranzo", System.currentTimeMillis() - 60_000),
+                    ChatMsg("c2", "assistant", "Quanta pasta? Dimmi il peso a crudo o una stima.", System.currentTimeMillis() - 50_000, emptyList(), listOf("80 g", "100 g", "120 g")),
+                    ChatMsg("c3", "user", "100 g", System.currentTimeMillis() - 40_000),
+                    ChatMsg("c4", "assistant", "Registrato a pranzo. Ti restano circa 1.200 kcal per oggi.", System.currentTimeMillis() - 30_000,
+                        listOf("✓ Registrati 100 g di Pasta (353 kcal) a pranzo"), listOf("Che cena mi consigli?"))
+                ))
         }
         Store.generatePlan(monday, 14)
         // Ultimi giorni: pasti del piano "mangiati" per avere diario e micronutrienti.
@@ -99,6 +108,10 @@ class ScreenshotTest {
             ui { Nav.clear(); Nav.go(Screen.Fasting) }; shot("14_digiuno")
             ui { Nav.clear(); Nav.go(Screen.DietSettings) }; shot("15_preferenze")
             ui { Nav.clear(); Nav.go(Screen.AddFood(today, 1, "yogurt")) }; shot("16_cerca")
+            ui { Nav.clear(); Nav.go(Screen.Chat) }; shot("17_chat")
+            ui { Nav.clear(); Nav.go(Screen.Goals) }; shot("18_obiettivi", 2)
+            ui { Nav.clear(); Nav.go(Screen.ProfileEdit) }; shot("19_profilo_modifica", 1)
+            ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Training)) }; shot("20_questionario")
             ui { Nav.clear(); Nav.tab = 0 }
         }
     }

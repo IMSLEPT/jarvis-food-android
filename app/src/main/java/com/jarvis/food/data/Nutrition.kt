@@ -1,6 +1,7 @@
 package com.jarvis.food.data
 
 import java.time.LocalDate
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -35,39 +36,150 @@ object Nutrition {
 
     fun sum(entries: List<DiaryEntry>) = entries.fold(Totals()) { acc, e -> acc + of(e.food, e.grams) }
 
-    fun age(p: Profile) = max(14, LocalDate.now().year - p.birthYear)
+    /** Età in anni: dalla data di nascita completa se disponibile, altrimenti dall'anno. */
+    fun age(p: Profile, today: LocalDate = LocalDate.now()): Int {
+        val bd = p.birthDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
+        val years = if (bd != null) java.time.Period.between(bd, today).years else today.year - p.birthYear
+        return max(14, years)
+    }
 
-    /** Metabolismo basale, formula di Mifflin-St Jeor. */
-    fun bmr(p: Profile, weight: Double): Double =
-        10 * weight + 6.25 * p.heightCm - 5 * age(p) + if (p.male) 5 else -161
+    /** Metabolismo basale: Katch-McArdle se è nota la massa grassa, altrimenti Mifflin-St Jeor. */
+    fun bmr(p: Profile, weight: Double): Double {
+        val bf = p.bodyFatPct
+        if (bf != null && bf in 5.0..55.0) return 370 + 21.6 * weight * (1 - bf / 100.0)
+        return 10 * weight + 6.25 * p.heightCm - 5 * age(p) + if (p.male) 5 else -161
+    }
 
-    fun tdee(p: Profile, weight: Double) = bmr(p, weight) * ACTIVITY_FACTORS[p.activity.coerceIn(0, 4)]
+    val JOB_LABELS = listOf("Seduto (ufficio, studio, guida)", "In piedi o in movimento (negozio, scuola, sanità)", "Fisico (cantiere, magazzino, agricoltura)")
+    val STEPS_LABELS = listOf("Meno di 4.000", "4.000 – 7.000", "7.000 – 10.000", "10.000 – 14.000", "Oltre 14.000")
+    val INTENSITY_LABELS = listOf("Leggero (riesco a parlare)", "Moderato (fiato corto)", "Intenso (al limite)")
+    val TRAINING_LABELS = listOf("Misto", "Pesi / calisthenics", "Cardio (corsa, bici, nuoto)", "Sport di squadra")
+
+    private val JOB_BONUS = listOf(0.0, 0.05, 0.12)
+    private val STEPS_BONUS = listOf(0.0, 0.03, 0.06, 0.10, 0.14)
+
+    /** Moltiplicatore del movimento quotidiano (lavoro e passi), escluso l'allenamento: da 1,2 (sedentario) in su. */
+    fun neatFactor(p: Profile): Double {
+        val j = JOB_BONUS[p.job.coerceIn(0, 2)]
+        val st = STEPS_BONUS[p.stepsLevel.coerceIn(0, 4)]
+        // Lavoro e passi si sovrappongono: conto il maggiore e metà del minore.
+        return SEDENTARY_FACTOR + max(j, st) + 0.5 * minOf(j, st)
+    }
+
+    /** MET dell'allenamento per tipo (righe) e intensità (colonne). */
+    private val MET = listOf(
+        listOf(4.0, 6.0, 8.5),
+        listOf(3.5, 5.0, 6.5),
+        listOf(5.0, 7.5, 10.0),
+        listOf(5.0, 7.0, 9.0)
+    )
+
+    /** Calorie medie al giorno degli allenamenti settimanali, al netto del metabolismo a riposo (MET − 1). */
+    fun exerciseKcalPerDay(p: Profile, weight: Double): Double {
+        if (p.workouts <= 0 || p.workoutMin <= 0) return 0.0
+        val met = MET[p.trainingType.coerceIn(0, 3)][p.workoutIntensity.coerceIn(0, 2)]
+        return p.workouts.coerceAtMost(14) * p.workoutMin * (met - 1) * weight / 60.0 / 7.0
+    }
+
+    const val SEDENTARY_FACTOR = 1.2
+
+    /** Fabbisogno giornaliero di mantenimento: modello esteso se il questionario è compilato, altrimenti il vecchio livello. */
+    fun tdee(p: Profile, weight: Double): Double =
+        if (p.detailed) bmr(p, weight) * neatFactor(p) + exerciseKcalPerDay(p, weight)
+        else bmr(p, weight) * ACTIVITY_FACTORS[p.activity.coerceIn(0, 4)]
 
     /** 1 kg di massa corporea ≈ 7700 kcal (approssimazione standard). */
-    fun dailyDelta(p: Profile): Double = when (p.goal) {
-        -1 -> -p.weeklyRate * 7700 / 7
-        1 -> p.weeklyRate * 7700 / 7
+    fun dailyDelta(p: Profile): Double = when {
+        p.special == 1 -> 0.0
+        p.goal == -1 -> -p.weeklyRate * 7700 / 7
+        p.goal == 1 -> p.weeklyRate * 7700 / 7
         else -> 0.0
+    }
+
+    /** Variazione giornaliera con un tetto prudente: il deficit non supera il 25% del fabbisogno. */
+    fun safeDelta(p: Profile, tdee: Double): Double {
+        val d = dailyDelta(p)
+        return if (d < 0) max(d, -0.25 * tdee) else d
     }
 
     fun minKcal(p: Profile) = if (p.male) 1500 else 1200
 
     fun recommendedKcal(p: Profile, weight: Double): Int {
-        val raw = tdee(p, weight) + dailyDelta(p)
+        val t = tdee(p, weight)
+        val raw = t + safeDelta(p, t)
         return max(minKcal(p).toDouble(), raw).roundToInt() / 10 * 10
     }
 
-    /** Proteine: 1,6 g/kg per mantenere, 1,8 g/kg in definizione o in aumento di massa muscolare. */
-    fun proteinPerKg(p: Profile) = when (p.goal) { -1 -> 1.8; 1 -> 1.8; else -> 1.6 }
+    /** Proteine consigliate (g per kg): in deficit si proteggono i muscoli, in aumento si sostiene la crescita. */
+    fun baseProteinPerKg(p: Profile): Double {
+        val trains = (p.detailed && p.workouts >= 2) || (!p.detailed && p.activity >= 1)
+        return when (p.goal) { -1 -> 2.0; 1 -> 1.8; else -> if (trains) 1.6 else 1.2 }
+    }
+
+    fun proteinPerKg(p: Profile): Double = (baseProteinPerKg(p) + if (p.dietStyle == 1) 0.2 else 0.0).coerceAtMost(2.4)
 
     fun autoGoals(p: Profile, weight: Double, g: Goals, kcalOverride: Int? = null): Goals {
         val kcal = kcalOverride ?: recommendedKcal(p, weight)
         val protG = weight * proteinPerKg(p)
         val protPct = ((protG * 4 / kcal) * 100).roundToInt().coerceIn(15, 40)
-        val fatPct = 27
-        val carbPct = 100 - protPct - fatPct
+        val carbPct: Int; val fatPct: Int
+        if (p.dietStyle == 2) { carbPct = 25; fatPct = 100 - protPct - carbPct }
+        else { fatPct = 27; carbPct = 100 - protPct - fatPct }
         val water = ((weight * 33) / 250).roundToInt() * 250
         return g.copy(kcal = kcal, proteinPct = protPct, fatPct = fatPct, carbsPct = carbPct, waterMl = water.coerceIn(1500, 4000))
+    }
+
+    // ---------------------------------------------------------------- Consiglio sui macronutrienti
+
+    data class MacroPreset(val name: String, val carbs: Int, val protein: Int, val fat: Int)
+
+    val PRESETS = listOf(
+        MacroPreset("Bilanciato", 50, 20, 30),
+        MacroPreset("Proteico", 40, 30, 30),
+        MacroPreset("Low carb", 25, 30, 45)
+    )
+
+    data class MacroAdvice(
+        /** Indice in [PRESETS] del preset consigliato. */
+        val best: Int,
+        /** Proteine consigliate (g/kg) e relativi grammi. */
+        val targetPerKg: Double,
+        /** Proteine (g/kg) che darebbe ciascun preset con le calorie indicate. */
+        val perKg: List<Double>,
+        val reason: String,
+        /** Una frase per ogni preset: quando ha senso sceglierlo. */
+        val notes: List<String>
+    )
+
+    /**
+     * Quale ripartizione conviene con [kcal] calorie. Il criterio principale è l'apporto di proteine per kg
+     * (dimagrire ≈ 2,0 g/kg, aumentare ≈ 1,8, mantenere ≈ 1,6 se ci si allena): a parità di calorie e proteine,
+     * carboidrati e grassi cambiano poco il risultato sul peso, quindi il low carb si consiglia solo se lo preferisci
+     * o se non ti alleni con intensità.
+     */
+    fun macroAdvice(p: Profile, weight: Double, kcal: Double): MacroAdvice {
+        val target = baseProteinPerKg(p)
+        val per = PRESETS.map { kcal * it.protein / 100.0 / 4.0 / weight }
+        val heavyTraining = p.detailed && p.workouts >= 4 && p.workoutIntensity >= 1
+        val best = when {
+            p.dietStyle == 2 && !heavyTraining -> 2
+            per[0] >= target * 0.95 -> 0
+            else -> 1
+        }
+        val goalTxt = when (p.goal) { -1 -> "per dimagrire senza perdere muscolo"; 1 -> "per costruire massa"; else -> "per mantenere il peso" }
+        val reason = StringBuilder("Servono circa ${"%.1f".format(Locale.ITALY, target)} g/kg di proteine $goalTxt (≈ ${(target * weight).roundToInt()} g). ")
+        when (best) {
+            0 -> reason.append("Con ${kcal.roundToInt()} kcal il Bilanciato ne dà ${"%.1f".format(Locale.ITALY, per[0])} g/kg: basta, ed è il più facile da seguire.")
+            1 -> reason.append("Il Bilanciato ne darebbe solo ${"%.1f".format(Locale.ITALY, per[0])} g/kg, il Proteico ${"%.1f".format(Locale.ITALY, per[1])}: è la scelta che copre il fabbisogno.")
+            else -> reason.append("Il Low carb dà ${"%.1f".format(Locale.ITALY, per[2])} g/kg di proteine e hai scelto di ridurre i carboidrati: va bene finché ti senti in energia.")
+        }
+        val notes = listOf(
+            "Adatto se ti alleni 2-4 volte a settimana e vuoi la scelta più sostenibile.",
+            "Utile con le calorie ridotte o se vuoi più sazietà e muscoli protetti.",
+            if (heavyTraining) "Con allenamenti frequenti e intensi può ridurre le prestazioni: meglio meno estremo."
+            else "Efficace quanto gli altri a parità di calorie e proteine: sceglilo solo se ti piace e riesci a seguirlo."
+        )
+        return MacroAdvice(best, target, per, reason.toString(), notes)
     }
 
     fun goalGrams(g: Goals) = Triple(
