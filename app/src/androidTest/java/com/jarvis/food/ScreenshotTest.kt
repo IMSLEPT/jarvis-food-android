@@ -112,6 +112,10 @@ class ScreenshotTest {
             ui { Nav.clear(); Nav.go(Screen.Goals) }; shot("18_obiettivi", 2)
             ui { Nav.clear(); Nav.go(Screen.ProfileEdit) }; shot("19_profilo_modifica", 1)
             ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Training)) }; shot("20_questionario")
+            ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Welcome)) }; shot("21_benvenuto")
+            ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.About)) }; shot("22_di_te")
+            ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Goal)) }; shot("23_obiettivo")
+            ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Plan)) }; shot("24_piano_pronto", 3)
             ui { Nav.clear(); Nav.tab = 0 }
         }
     }
