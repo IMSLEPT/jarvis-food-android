@@ -115,7 +115,8 @@ object Jarvis {
                     chips += results.filter { it.ok }.map { "✓ ${it.text}" }
                     chips += results.filter { !it.ok && !it.retry }.map { "⚠ ${it.text}" }
                     finalText = parsed.text
-                    quick = parsed.quick
+                    // Se ha già eseguito qualcosa, una richiesta di conferma ("Sì, applica" / "No") non ha più senso.
+                    quick = if (results.any { it.ok }) parsed.quick.filterNot { q -> q.lowercase().let { it.startsWith("sì") || it.startsWith("si,") || it == "si" || it.startsWith("no") } } else parsed.quick
                     val failed = results.filter { !it.ok && it.retry }
                     if (failed.isNotEmpty() && attempt == 0) {
                         feedback = (results.filter { it.ok }.map { "riuscita: ${it.text}" } + failed.map { "NON riuscita: ${it.text}" }).joinToString("; ")
