@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.jarvis.food.data.DiaryEntry
 import com.jarvis.food.data.Food
@@ -160,23 +163,23 @@ private fun Tabs() {
 
 @Composable
 private fun BottomBar() {
-    val items = listOf(NavIcon.Today to "Oggi", NavIcon.Plan to "Piano", NavIcon.Kitchen to "Cucina",
-        NavIcon.Progress to "Progressi", NavIcon.Profile to "Profilo")
-    Box(Modifier.fillMaxWidth().background(C.Bg).navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
+    val items = listOf(Ic.Sun to "Oggi", Ic.Calendar to "Piano", Ic.Bowl to "Cucina", Ic.Chart to "Progressi", Ic.User to "Profilo")
+    val shape = RoundedCornerShape(34.dp)
+    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 18.dp)) {
         Row(
-            Modifier.fillMaxWidth().shadow(6.dp, RoundedCornerShape(28.dp)).clip(RoundedCornerShape(28.dp)).background(C.Surface)
-                .border(1.dp, C.Line, RoundedCornerShape(28.dp)).padding(vertical = 8.dp)
+            Modifier.fillMaxWidth().aShadow(shape, 14.dp, Color(0x611D1B3A)).clip(shape).background(Color(0xE0FFFFFF))
+                .border(1.dp, Color(0xE6FFFFFF), shape).padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically
         ) {
             items.forEachIndexed { i, (icon, label) ->
                 val sel = Nav.tab == i
-                Column(
-                    Modifier.weight(1f).clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { Nav.tab = i },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Box(Modifier.clip(RoundedCornerShape(50)).background(if (sel) C.AccentSoft else C.Surface)
-                        .padding(horizontal = 16.dp, vertical = 5.dp)) { NavGlyph(icon, if (sel) C.AccentDeep else C.Muted) }
-                    Spacer(Modifier.height(3.dp))
-                    Text(label, style = T.Small.copy(color = if (sel) C.AccentDeep else C.Muted))
+                val click = Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { Nav.tab = i }
+                if (sel) Row(Modifier.height(52.dp).clip(RoundedCornerShape(26.dp)).background(C.Navy).then(click).padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                    AIcon(icon, Color(0xFFFFB820), 22.dp, 2f)
+                    Spacer(Modifier.width(8.dp))
+                    Text(label, style = T.BtnS.copy(color = Color.White), maxLines = 1)
+                } else Box(Modifier.size(52.dp).clip(RoundedCornerShape(26.dp)).then(click), contentAlignment = Alignment.Center) {
+                    AIcon(icon, A.Muted, 24.dp, 1.9f)
                 }
             }
         }

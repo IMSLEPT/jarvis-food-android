@@ -46,6 +46,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import com.jarvis.food.engine.formatAmount
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -75,85 +81,52 @@ fun PlanScreen() {
     val meals = Store.plannedMeals(s, date)
     val energy = Store.energyFor(s, date)
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 16.dp)) {
-        Spacer(Modifier.height(14.dp))
-        Text("Il tuo piano", style = T.Display)
-        Text("Grammature calcolate su calorie e macro del tuo obiettivo", style = T.Muted)
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 20.dp)) {
+        Spacer(Modifier.height(28.dp))
+        Text("Il tuo piano", style = T.H1)
+        Text("Grammature calcolate su calorie e macro del tuo obiettivo", style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(top = 4.dp))
         Spacer(Modifier.height(14.dp))
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            GhostButton(if (hasWeek) "↻ Rigenera settimana" else "Crea piano") {
+            GhostButton(if (hasWeek) "Rigenera settimana" else "Crea piano") {
                 Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
             }
             GhostButton("Preferenze") { Nav.go(Screen.DietSettings) }
-            GhostButton("🛒 Lista della spesa") {
+            GhostButton("Lista della spesa") {
                 if (!hasWeek) Store.generatePlan(monday)
                 Store.buildShopping(maxOf(LocalDate.now(), monday), 7 - (maxOf(LocalDate.now(), monday).toEpochDay() - monday.toEpochDay()).toInt())
                 Nav.tab = 2; Nav.kitchenTab = 1
             }
         }
-        Spacer(Modifier.height(14.dp))
-        WeekPills(date, monday) { Nav.planDate = it }
+        Spacer(Modifier.height(16.dp))
+        WeekStrip(s, date) { Nav.planDate = it }
 
         if (!hasWeek) {
-            Spacer(Modifier.height(16.dp))
-            JCard {
-                Text("🥗", style = T.Big)
-                Text("Crea la tua dieta personalizzata", style = T.Title)
-                Spacer(Modifier.height(6.dp))
-                Text("Jarvis sceglie piatti vari per ogni pasto e calcola le grammature di ogni ingrediente per rispettare " +
-                        "le tue ${energy.baseKcal.r0()} kcal e i macronutrienti. Puoi cambiare qualsiasi piatto con un'alternativa.", style = T.Read)
-                Spacer(Modifier.height(14.dp))
-                PrimaryButton("Crea il piano della settimana", Modifier.fillMaxWidth(), color = C.Accent) { Store.generatePlan(monday) }
+            Spacer(Modifier.height(18.dp))
+            ACard(radius = 34.dp, brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5))), glow = Color(0x99FF963C), padding = 20.dp) {
+                Column {
+                    Text("Crea la tua dieta personalizzata", style = T.Title)
+                    Spacer(Modifier.height(6.dp))
+                    Text("Jarvis sceglie piatti vari per ogni pasto e calcola le grammature di ogni ingrediente per rispettare " +
+                            "le tue ${energy.baseKcal.r0()} kcal e i macronutrienti. Puoi cambiare qualsiasi piatto con un'alternativa.", style = T.Read)
+                    Spacer(Modifier.height(16.dp))
+                    APrimary("Crea il piano della settimana", Modifier.fillMaxWidth()) { Store.generatePlan(monday) }
+                }
             }
             return@Column
         }
 
-        Spacer(Modifier.height(14.dp))
+        Spacer(Modifier.height(18.dp))
         DayTotalsCard(s, date, meals)
-        Spacer(Modifier.height(16.dp))
-        Text("Scorri le alternative di ogni piatto", style = T.Muted)
-        Spacer(Modifier.height(8.dp))
+        Row(Modifier.padding(top = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+            AIcon(Ic.Swap, A.Muted, 16.dp, 2f)
+            Text("  Tocca un'alternativa per cambiare il piatto", style = T.Muted.copy(fontSize = 13.sp))
+        }
+        Spacer(Modifier.height(14.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        meals.forEach { m ->
-            MealPlanCard(s, date, m)
-            Spacer(Modifier.height(12.dp))
-        }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            GhostButton("‹  Precedente") { Nav.planDate = date.minusDays(1) }
-            PrimaryButton("Successivo  ›") { Nav.planDate = date.plusDays(1) }
-        }
-        Spacer(Modifier.height(10.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(22.dp)) { meals.forEach { m -> MealPlanCard(s, date, m) } }
+        Spacer(Modifier.height(18.dp))
         Text("Valori calcolati dal database USDA FoodData Central su pesi a crudo. Le foto sono illustrative.", style = T.Small)
-        Spacer(Modifier.height(24.dp))
-    }
-}
-
-@Composable
-fun WeekPills(selected: LocalDate, monday: LocalDate, onSelect: (LocalDate) -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(34.dp).clip(CircleShape).clickable { onSelect(selected.minusWeeks(1)) }, contentAlignment = Alignment.Center) {
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Settimana precedente", tint = C.Muted)
-        }
-        Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-            for (i in 0..6) {
-                val d = monday.plusDays(i.toLong())
-                val sel = d == selected
-                val today = d == LocalDate.now()
-                Column(
-                    Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).background(if (sel) C.Ink else C.Surface)
-                        .border(1.dp, if (sel) C.Ink else if (today) C.Accent else C.Line, RoundedCornerShape(14.dp))
-                        .clickable { onSelect(d) }.padding(vertical = 7.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(d.dayOfWeek.getDisplayName(TextStyle.SHORT, IT).take(3).replaceFirstChar { it.uppercase() },
-                        style = T.Small.copy(color = if (sel) C.OnAccent else C.Muted), maxLines = 1, softWrap = false)
-                    Text(d.dayOfMonth.toString(), style = T.Label.copy(color = if (sel) C.OnAccent else C.Text), maxLines = 1, softWrap = false)
-                }
-            }
-        }
-        Box(Modifier.size(34.dp).clip(CircleShape).clickable { onSelect(selected.plusWeeks(1)) }, contentAlignment = Alignment.Center) {
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, "Settimana successiva", tint = C.Muted)
-        }
+        Spacer(Modifier.height(28.dp))
     }
 }
 
@@ -161,117 +134,131 @@ fun WeekPills(selected: LocalDate, monday: LocalDate, onSelect: (LocalDate) -> U
 private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     val e = Store.energyFor(s, date)
     val tot = meals.fold(com.jarvis.food.engine.Macro.ZERO) { a, m -> a + m.solved.total }
-    JCard(color = C.SurfaceAlt) {
-        Row(verticalAlignment = Alignment.Top) {
-            Text(date.dayOfWeek.getDisplayName(TextStyle.FULL, IT).replaceFirstChar { it.uppercase() }, style = T.Title2, modifier = Modifier.weight(1f))
-            Text("Totale con le tue scelte", style = T.Muted)
+    ACard(radius = 34.dp, brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5))), glow = Color(0x99FF963C), padding = 0.dp) {
+        Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 20.dp, bottom = 12.dp)) {
+            Text("Totale con le tue scelte", style = T.Muted.copy(fontWeight = FontWeight.Medium))
+            Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {
+                Text(kcalFmt(tot.kcal), style = T.Hero.copy(fontSize = 54.sp, lineHeight = 56.sp))
+                Text("  kcal", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 7.dp))
+                Spacer(Modifier.weight(1f))
+                Box(Modifier.padding(bottom = 6.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xCCFFFFFF)).padding(horizontal = 12.dp, vertical = 6.dp)) {
+                    Text("Obiettivo ${kcalFmt(e.targetKcal)}", style = T.Small.copy(fontWeight = FontWeight.SemiBold, fontSize = 12.sp))
+                }
+            }
+            if (e.extraKcal > 0) Text("+${e.extraKcal.r0()} kcal dall'attività", style = T.Small.copy(color = A.GreenInk, fontWeight = FontWeight.SemiBold))
+            Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xCCFFFFFF))) {
+                meals.forEach { m -> Box(Modifier.weight(m.solved.total.kcal.toFloat().coerceAtLeast(1f)).height(16.dp).background(MEAL_DOT[m.diaryMeal] ?: C.Accent)) }
+                val rest = (e.targetKcal - tot.kcal).toFloat()
+                if (rest > 0f) Box(Modifier.weight(rest).height(16.dp))
+            }
+            Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                meals.forEach { m ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(9.dp).clip(CircleShape).background(MEAL_DOT[m.diaryMeal] ?: C.Accent))
+                        Text("  ${MEAL_LABEL[m.diaryMeal] ?: m.slotName}", style = T.Small.copy(fontSize = 11.5.sp), maxLines = 1)
+                    }
+                }
+            }
+            Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                TotalCol("Proteine", tot.protein, e.protein, C.Protein, A.ProteinSoft, Modifier.weight(1f))
+                TotalCol("Carboidrati", tot.carbs, e.carbs, C.Blue, A.CarbSoft, Modifier.weight(1f))
+                TotalCol("Grassi", tot.fat, e.fat, C.Gold, A.FatSoft, Modifier.weight(1f))
+            }
+            Row(Modifier.padding(top = 6.dp).height(44.dp).clickable { Nav.go(Screen.EnergyInfo) }, verticalAlignment = Alignment.CenterVertically) {
+                Text("Come è calcolato", style = T.Link.copy(color = A.Link))
+                AIcon(Ic.Right, A.Link, 16.dp, 2.4f)
+            }
         }
-        Spacer(Modifier.height(4.dp))
-        Row(verticalAlignment = Alignment.Bottom) {
-            Text(tot.kcal.r0(), style = T.Big)
-            Spacer(Modifier.width(6.dp))
-            Text("kcal", style = T.Title2.copy(color = C.Muted), modifier = Modifier.padding(bottom = 6.dp))
-        }
-        Spacer(Modifier.height(10.dp))
-        Row {
-            TotalCol("Proteine", tot.protein, e.protein, Modifier.weight(1f))
-            TotalCol("Carboidrati", tot.carbs, e.carbs, Modifier.weight(1f))
-            TotalCol("Grassi", tot.fat, e.fat, Modifier.weight(1f))
-        }
-        Spacer(Modifier.height(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { Nav.go(Screen.EnergyInfo) }) {
-            Text("◎  Obiettivo: ${e.targetKcal.r0()} kcal", style = T.Muted)
-            if (e.extraKcal > 0) { Spacer(Modifier.width(8.dp)); Tag("+${e.extraKcal.r0()} attività", C.Green) }
-        }
-        Text("Come è calcolato ›", style = T.Small.copy(color = C.AccentDeep),
-            modifier = Modifier.padding(top = 6.dp).clickable { Nav.go(Screen.EnergyInfo) })
     }
 }
 
 @Composable
-private fun TotalCol(label: String, v: Double, goal: Double, modifier: Modifier) {
-    Column(modifier) {
-        Text(label, style = T.Small)
-        Text("${v.r0()} g", style = T.Num)
-        Text("su ${goal.r0()} g", style = T.Small)
+private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft: Color, modifier: Modifier) {
+    Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
+        Row(verticalAlignment = Alignment.Bottom) {
+            Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
+            Text(" g", style = T.Small.copy(fontSize = 11.5.sp), modifier = Modifier.padding(bottom = 3.dp))
+        }
+        Text("$label · ${goal.r0()}", style = T.Small.copy(fontSize = 11.5.sp), maxLines = 1, softWrap = false)
+        ABar((if (goal > 0) v / goal else 0.0).toFloat(), Brush.horizontalGradient(listOf(color, color)), soft, 6.dp, Modifier.padding(top = 8.dp))
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val db = Db.db
     val r = m.solved
-    var open by remember(r.template.id) { mutableStateOf(false) }
     val slot = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }
     val eaten = slot?.eatenEntryIds?.isNotEmpty() == true
-    val alts = remember(r.template.id, r.target, s.dietPrefs) {
-        Planner.alternatives(db, r.template.meal, r.target, s.dietPrefs, emptySet()).map { it.template.id }
-    }
-    val idx = alts.indexOf(r.template.id)
-    JCard(padding = PaddingValues(14.dp)) {
-        Row {
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id],
-                Modifier.size(width = 112.dp, height = 112.dp).clickable { openRecipe(date, m) }, mealEmoji(r.template.meal))
-            Spacer(Modifier.width(14.dp))
-            Column(Modifier.weight(1f)) {
-                Text("${m.slotName} · ${if (idx <= 0) "Proposto" else "Alternativa $idx"}", style = T.Small)
-                Text(r.template.name, style = T.Dish, maxLines = 2, overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.clickable { openRecipe(date, m) })
-                Spacer(Modifier.height(2.dp))
-                Text("${r.total.kcal.r0()} kcal", style = T.Num)
-                Row(Modifier.clickable { open = !open }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(if (open) "Nascondi dettagli" else "Vedi dettagli e macro", style = T.Muted)
-                    Icon(if (open) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, null, tint = C.Muted, modifier = Modifier.size(18.dp))
+    val alts = remember(r.template.id, r.target, s.dietPrefs) { Planner.alternatives(db, r.template.meal, r.target, s.dietPrefs, emptySet()) }
+    val idx = alts.indexOfFirst { it.template.id == r.template.id }
+    val dot = MEAL_DOT[m.diaryMeal] ?: C.Accent
+    val shape = RoundedCornerShape(34.dp)
+    Column(Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x731D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
+        Box(Modifier.fillMaxWidth().height(230.dp).clickable { openRecipe(date, m) }) {
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxSize(), mealEmoji(r.template.meal), 0.dp)
+            Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0x8C181430))))
+            Row(Modifier.padding(14.dp).height(32.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(9.dp).clip(CircleShape).background(dot))
+                Text("  ${MEAL_LABEL[m.diaryMeal] ?: m.slotName} · ${if (idx <= 0) "Proposto" else "Alternativa $idx"}", style = T.Chip.copy(color = A.Ink), maxLines = 1)
+            }
+            Row(Modifier.align(Alignment.BottomEnd).padding(14.dp).height(36.dp).clip(RoundedCornerShape(18.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.Clock, A.Ink, 14.dp, 2.2f)
+                Text("  ${r.template.minutes} min", style = T.Chip.copy(color = A.Ink))
+            }
+        }
+        Column(Modifier.padding(start = 18.dp, end = 18.dp, top = 18.dp, bottom = 16.dp)) {
+            Row(verticalAlignment = Alignment.Top) {
+                Text(r.template.name, style = T.Dish.copy(fontSize = 23.sp, lineHeight = 27.sp, fontWeight = FontWeight.Bold), modifier = Modifier.weight(1f).clickable { openRecipe(date, m) })
+                Spacer(Modifier.width(12.dp))
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(r.total.kcal.r0(), style = T.Title.copy(fontSize = 28.sp, lineHeight = 30.sp))
+                    Text("kcal", style = T.Small.copy(fontSize = 11.5.sp))
+                }
+            }
+            Box(Modifier.padding(top = 12.dp)) { MacroChips(r.total.protein, r.total.carbs, r.total.fat) }
+
+            Text("ALTERNATIVE", style = T.Eyebrow.copy(letterSpacing = 0.3.sp), modifier = Modifier.padding(top = 18.dp))
+            Row(Modifier.padding(top = 10.dp).horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 6.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                alts.take(12).forEach { a ->
+                    val sel = a.template.id == r.template.id
+                    val ringShape = RoundedCornerShape(24.dp)
+                    Box(
+                        Modifier.size(72.dp).then(if (sel) Modifier.border(3.dp, dot, ringShape) else Modifier).padding(if (sel) 3.dp else 0.dp)
+                            .clip(ringShape).clickable(enabled = !eaten) { Store.setSlotRecipe(date, m.slotIndex, a.template.id) }
+                    ) {
+                        RecipeImage(a.template.id, a.template.image, s.recipePhotos[a.template.id], Modifier.fillMaxSize().let { if (sel) it else it.alpha(0.62f) }, mealEmoji(a.template.meal), 24.dp)
+                    }
+                }
+            }
+            Text("Vedi tutte le alternative", style = T.Link, modifier = Modifier.padding(top = 2.dp).clickable { Nav.go(Screen.Alternatives(date, m.slotIndex)) }.padding(vertical = 8.dp))
+
+            Text("INGREDIENTI E GRAMMATURE", style = T.Eyebrow.copy(letterSpacing = 0.3.sp), modifier = Modifier.padding(top = 10.dp))
+            FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                r.items.filter { it.ing.role != "x" }.forEach { it2 ->
+                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(Color(0xFFFFF6EC)).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(it2.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 13.sp), maxLines = 1)
+                        Spacer(Modifier.width(8.dp))
+                        Box(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 5.dp)) {
+                            Text(formatAmount(it2.food, it2.grams, short = true), style = T.Label.copy(fontSize = 13.sp), maxLines = 1)
+                        }
+                    }
+                }
+            }
+            Row(Modifier.padding(top = 18.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Navy).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    Text("Apri ricetta", style = T.BtnM.copy(color = Color.White))
+                    Spacer(Modifier.width(8.dp))
+                    AIcon(Ic.Right, Color.White, 16.dp, 2.4f)
+                }
+                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (eaten) A.GreenSoft else A.Tonal).clickable {
+                    if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
+                }, contentAlignment = Alignment.Center) {
+                    Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else Color(0xFF8F2A14)), maxLines = 1)
                 }
             }
         }
-        Spacer(Modifier.height(8.dp))
-        if (!open) Text(r.shortList(), style = T.Body.copy(color = C.Muted), maxLines = 3, overflow = TextOverflow.Ellipsis)
-        else {
-            Text("Ingredienti e grammature", style = T.Title2)
-            Spacer(Modifier.height(4.dp))
-            Text(r.shortList(), style = T.Body)
-            Spacer(Modifier.height(10.dp))
-            MacroTiles(r.total.protein, r.total.carbs, r.total.fat)
-            Spacer(Modifier.height(8.dp))
-            Text("Obiettivo del pasto: ${r.target.kcal.r0()} kcal · P ${r.target.protein.r0()} · C ${r.target.carbs.r0()} · G ${r.target.fat.r0()}", style = T.Small)
-            Spacer(Modifier.height(10.dp))
-            GhostButton("👨‍🍳  Ricetta completa", Modifier.fillMaxWidth()) { openRecipe(date, m) }
-        }
-        Spacer(Modifier.height(10.dp))
-        HorizontalDivider(color = C.Line)
-        Spacer(Modifier.height(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier.clip(RoundedCornerShape(50)).background(if (eaten) C.GreenSoft else C.Surface)
-                    .border(1.dp, if (eaten) C.Green else C.Line, RoundedCornerShape(50))
-                    .clickable {
-                        if (eaten) Store.uneatPlanned(date, m.slotIndex)
-                        else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
-                    }.padding(horizontal = 12.dp, vertical = 8.dp)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (eaten) Icon(Icons.Filled.Check, null, tint = C.Green, modifier = Modifier.size(16.dp))
-                    Text(if (eaten) " Mangiato" else "Segna mangiato", style = T.Label.copy(color = if (eaten) C.Green else C.Text), maxLines = 1, softWrap = false)
-                }
-            }
-            Spacer(Modifier.weight(1f))
-            Box(
-                Modifier.size(40.dp).clip(CircleShape).border(1.dp, C.Line, CircleShape)
-                    .clickable(enabled = idx > 0 && !eaten) { Store.setSlotRecipe(date, m.slotIndex, alts[idx - 1]) },
-                contentAlignment = Alignment.Center
-            ) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Precedente", tint = if (idx > 0) C.Text else C.Faint) }
-            Spacer(Modifier.width(8.dp))
-            Box(
-                Modifier.clip(RoundedCornerShape(50)).background(if (eaten) C.SurfaceHi else C.Ink)
-                    .clickable(enabled = !eaten && alts.isNotEmpty()) {
-                        val next = alts.getOrNull(idx + 1) ?: alts.first { it != r.template.id }
-                        Store.setSlotRecipe(date, m.slotIndex, next)
-                    }.padding(horizontal = 16.dp, vertical = 10.dp)
-            ) { Text("Cambia ›", style = T.Button, maxLines = 1, softWrap = false) }
-        }
-        Text("Vedi tutte le alternative", style = T.Small.copy(color = C.AccentDeep),
-            modifier = Modifier.padding(top = 8.dp).clickable { Nav.go(Screen.Alternatives(date, m.slotIndex)) })
     }
 }
 

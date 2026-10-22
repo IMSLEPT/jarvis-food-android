@@ -66,15 +66,15 @@ object ProfilePhoto {
 
 /** Cerchio con la foto profilo o, in mancanza, l'iniziale del nome su sfondo arancione tenue. */
 @Composable
-fun Avatar(name: String, photo: String?, size: Dp, modifier: Modifier = Modifier) {
+fun Avatar(name: String, photo: String?, size: Dp, modifier: Modifier = Modifier, shape: androidx.compose.ui.graphics.Shape = CircleShape) {
     val bmp by produceState<Bitmap?>(null, photo) {
         value = if (photo == null) null else withContext(Dispatchers.IO) { runCatching { BitmapFactory.decodeFile(photo) }.getOrNull() }
     }
     val b = bmp
     if (b != null) {
-        Image(b.asImageBitmap(), contentDescription = "Foto profilo", contentScale = ContentScale.Crop, modifier = modifier.size(size).clip(CircleShape))
+        Image(b.asImageBitmap(), contentDescription = "Foto profilo", contentScale = ContentScale.Crop, modifier = modifier.size(size).clip(shape))
     } else {
-        Box(modifier.size(size).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))),
+        Box(modifier.size(size).clip(shape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))),
             contentAlignment = Alignment.Center) {
             Text(name.trim().take(1).uppercase().ifBlank { "J" }, style = T.Title.copy(color = Color.White, fontSize = (size.value * 0.42f).sp))
         }

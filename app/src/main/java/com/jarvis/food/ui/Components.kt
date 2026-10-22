@@ -39,7 +39,10 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,11 +61,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -89,33 +94,29 @@ fun JCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedCornerShape(22.dp)
+    val shape = RoundedCornerShape(28.dp)
     val base = modifier.fillMaxWidth()
-        .shadow(1.5.dp, shape, ambientColor = Color(0x1417286B), spotColor = Color(0x1417286B))
-        .clip(shape).let { if (brush != null) it.background(brush) else it.background(color).border(1.dp, C.Line, shape) }
+        .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
+        .clip(shape).let { if (brush != null) it.background(brush) else it.background(color).border(1.dp, A.Hair, shape) }
     Column(modifier = (if (onClick != null) base.clickable(onClick = onClick) else base).padding(padding), content = content)
 }
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
-    Row(modifier.fillMaxWidth().padding(top = 22.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(text, style = T.Title2, modifier = Modifier.weight(1f))
+    Row(modifier.fillMaxWidth().padding(top = 26.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(text, style = T.H2, modifier = Modifier.weight(1f))
         if (action != null && onAction != null) {
-            Text(action, style = T.Label.copy(color = C.Accent),
-                modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable(onClick = onAction).padding(6.dp))
+            Text(action, style = T.Link, modifier = Modifier.clickable(onClick = onAction).padding(vertical = 13.dp))
         }
     }
+    Spacer(Modifier.height(2.dp))
 }
 
 @Composable
 fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.() -> Unit = {}) {
-    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 6.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (onBack != null) {
-            Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).border(1.dp, C.Line, CircleShape).clickable(onClick = onBack),
-                contentAlignment = Alignment.Center) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Indietro", tint = C.Text) }
-            Spacer(Modifier.width(10.dp))
-        } else Spacer(Modifier.width(10.dp))
-        Text(title, style = T.Title, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 20.dp, end = 12.dp, top = 20.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        if (onBack != null) { BackCircle(onBack); Spacer(Modifier.width(12.dp)) }
+        Text(title, style = T.Title.copy(fontSize = 27.sp, lineHeight = 31.sp), modifier = Modifier.weight(1f), maxLines = 2, overflow = TextOverflow.Ellipsis)
         actions()
     }
 }
@@ -126,34 +127,35 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
 @Composable
 fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color? = null, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
+    val orange = color == null || color == C.Accent
     val fill: Modifier = when {
         !enabled -> Modifier.background(C.SurfaceHi, shape)
-        color == null || color == C.Accent -> Modifier.background(C.OrangeBrush, shape)
-        else -> Modifier.background(color, shape)
+        orange -> Modifier.aShadow(shape, 8.dp, Color(0x66F25E00)).clip(shape).background(C.OrangeBrush, shape)
+        else -> Modifier.clip(shape).background(color!!, shape)
     }
     Box(
-        modifier.height(50.dp).clip(shape).then(fill)
-            .clickable(enabled = enabled, onClick = onClick).padding(horizontal = 22.dp),
+        modifier.height(52.dp).then(fill)
+            .clickable(enabled = enabled, onClick = onClick).padding(horizontal = 24.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.Button.copy(color = if (enabled) C.OnAccent else C.Faint), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (enabled) C.OnAccent else C.Faint), maxLines = 1, overflow = TextOverflow.Ellipsis) }
 }
 
 @Composable
 fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Text, onClick: () -> Unit) {
     Box(
-        modifier.height(46.dp).clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(50))
-            .clickable(onClick = onClick).padding(horizontal = 18.dp),
+        modifier.height(48.dp).clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, Color(0x1A1D1B3A), RoundedCornerShape(50))
+            .clickable(onClick = onClick).padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.Label.copy(color = color), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+    ) { Text(text, style = T.BtnM.copy(color = color), maxLines = 1, overflow = TextOverflow.Ellipsis) }
 }
 
 @Composable
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
-        Modifier.clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
-            .border(1.dp, if (selected) color else C.Line, RoundedCornerShape(50))
-            .clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 9.dp)
-    ) { Text(text, style = T.Label.copy(color = if (selected) C.OnAccent else C.Text), maxLines = 1, softWrap = false) }
+        Modifier.height(44.dp).clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
+            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), RoundedCornerShape(50))
+            .clickable(onClick = onClick).padding(horizontal = 18.dp), contentAlignment = Alignment.Center
+    ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), maxLines = 1, softWrap = false) }
 }
 
 @Composable
@@ -281,9 +283,12 @@ private fun decodeScaled(path: String, maxSide: Int = 1280): Bitmap? {
 fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: Modifier, emoji: String = "🍽️", corner: Dp = 18.dp) {
     val ctx = LocalContext.current
     val key = userPhoto ?: asset ?: ""
-    val bmp by produceState<Bitmap?>(initialValue = bitmapCache.get(key), key) {
-        if (value != null || key.isEmpty()) return@produceState
-        value = withContext(Dispatchers.IO) {
+    // Lo stato dipende dalla chiave: cambiando piatto si riparte dalla foto del NUOVO piatto (o dal segnaposto),
+    // mai da quella precedente (produceState tiene il valore vecchio quando cambia la chiave).
+    var bmp by remember(key) { mutableStateOf<Bitmap?>(bitmapCache.get(key)) }
+    LaunchedEffect(key) {
+        if (bmp != null || key.isEmpty()) return@LaunchedEffect
+        bmp = withContext(Dispatchers.IO) {
             runCatching {
                 val b = if (userPhoto != null) decodeScaled(File(userPhoto).absolutePath)
                 else ctx.assets.open(asset!!).use { BitmapFactory.decodeStream(it) }
