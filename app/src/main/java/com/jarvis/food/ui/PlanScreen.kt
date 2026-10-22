@@ -394,19 +394,21 @@ fun EnergyInfoScreen() {
 /** Dettaglio micro del piatto: le voci principali in percentuale del riferimento giornaliero. */
 @Composable
 fun DishMicros(r: SolvedRecipe, male: Boolean) {
-    val keys = listOf("fiber", "vitC", "vitA", "folate", "vitB12", "calcium", "iron", "magnesium", "potassium", "zinc")
-    Column {
-        keys.mapNotNull { Micros.byKey[it] }.forEach { d ->
-            val v = r.micro(d.key)
-            val ref = if (male) d.men else d.women
-            val pct = if (ref > 0) v / ref * 100 else 0.0
-            Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(d.name, style = T.Body, modifier = Modifier.width(110.dp))
-                ProgressLine((pct / 100).toFloat(), if (pct >= 30) C.Green else C.Blue, Modifier.weight(1f), 7.dp)
-                Text("  ${Micros.fmt(v, d.unit)}", style = T.Small, modifier = Modifier.width(78.dp))
+    val keys = listOf("vitD", "fiber", "vitC", "vitA", "folate", "vitB12", "calcium", "iron", "magnesium", "potassium", "zinc")
+    val rows = keys.mapNotNull { Micros.byKey[it] }.map { d ->
+        val ref = if (male) d.men else d.women
+        d to (if (ref > 0) r.micro(d.key) / ref * 100 else 0.0)
+    }.sortedByDescending { it.second }.take(8)
+    Column(verticalArrangement = Arrangement.spacedBy(13.dp)) {
+        rows.forEach { (d, pct) ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(d.name, style = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold), modifier = Modifier.width(92.dp), maxLines = 1)
+                GapW(12.dp)
+                ABar((pct / 100).toFloat(), Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), A.CarbSoft, 10.dp, Modifier.weight(1f))
+                GapW(12.dp)
+                Text("${pct.toInt()}%", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.CarbInk), modifier = Modifier.width(40.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End)
             }
         }
-        Text("Percentuale del riferimento giornaliero EFSA coperta da questo piatto.", style = T.Small)
     }
 }
 
