@@ -11,6 +11,20 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.border
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -85,6 +99,43 @@ private class EditableItem(item: AiItem) {
     var grams by mutableStateOf(item.grams.toInt().toString())
 }
 
+private class ItemCalc(val kcal: Double, val p: Double, val c: Double, val f: Double, val usda: String?)
+
+private fun calc(e: EditableItem): ItemCalc {
+    val g = parseNum(e.grams) ?: 0.0
+    val dbf = e.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
+    return if (dbf != null) ItemCalc(dbf.kcal * g / 100, dbf.protein * g / 100, dbf.carbs * g / 100, dbf.fat * g / 100, dbf.name)
+    else {
+        val k = if (e.base.grams > 0) g / e.base.grams else 0.0
+        ItemCalc(e.base.kcal * k, e.base.protein * k, e.base.carbs * k, e.base.fat * k, null)
+    }
+}
+
+/** Angoli "mirino" del design, disegnati sopra la foto. */
+@Composable
+private fun Brackets(modifier: Modifier) {
+    Canvas(modifier) {
+        val inset = 18.dp.toPx(); val len = 38.dp.toPx(); val sw = 4.dp.toPx(); val r = 14.dp.toPx()
+        val w = size.width; val h = size.height
+        val st = Stroke(sw, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        fun corner(x: Float, y: Float, sx: Float, sy: Float) {
+            val p = Path().apply {
+                moveTo(x, y + sy * len); lineTo(x, y + sy * r); quadraticBezierTo(x, y, x + sx * r, y); lineTo(x + sx * len, y)
+            }
+            drawPath(p, Color.White, style = st)
+        }
+        corner(inset, inset, 1f, 1f); corner(w - inset, inset, -1f, 1f)
+        corner(inset, h - inset, 1f, -1f); corner(w - inset, h - inset, -1f, -1f)
+    }
+}
+
+@Composable
+private fun GramStep(plus: Boolean, onClick: () -> Unit) {
+    Box(Modifier.size(34.dp).clip(CircleShape).background(Color(0xFFEBEFF3)).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+        AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", A.Ink, 16.dp, 2.6f)
+    }
+}
+
 @Composable
 fun PhotoAiScreen(date: LocalDate, meal: Int) {
     val ctx = LocalContext.current
@@ -95,6 +146,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
     var error by remember { mutableStateOf<String?>(null) }
     var note by remember { mutableStateOf("") }
     var hint by remember { mutableStateOf("") }
+    var online by remember { mutableStateOf(true) }
     val items = remember { mutableStateListOf<EditableItem>() }
     val labels = remember { mutableStateListOf<AiLabel>() }
     val offlineOk = remember { FoodAi.offlineAvailable(ctx) }
@@ -144,104 +196,188 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
         }
     }
 
+    val sel = items.filter { it.selected }
+    val tot = sel.map { calc(it) }
+    val photoShape = RoundedCornerShape(34.dp)
+
     Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Foto AI · ${MEAL_NAMES[meal]}", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            val b = bitmap
-            if (b == null) {
-                JCard {
-                    Text("📸", style = T.Big)
-                    Text("Fotografa il tuo piatto", style = T.Title)
-                    Text("L'AI riconosce gli alimenti e stima porzioni e calorie. Controlla sempre i valori: sono stime.", style = T.Muted)
-                }
-            } else {
-                Image(
-                    b.asImageBitmap(), "Foto del pasto",
-                    modifier = Modifier.fillMaxWidth().height(240.dp).clip(RoundedCornerShape(22.dp)),
-                    contentScale = ContentScale.Crop
-                )
+        Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            BackCircle { Nav.back() }
+            GapW(12.dp)
+            Column {
+                Text("Foto AI · ${MEAL_NAMES[meal]}", style = T.Body.copy(fontSize = 13.sp, color = A.Muted))
+                Text("Fotografa il tuo piatto", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp), maxLines = 1)
             }
-            Spacer(Modifier.height(12.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                PrimaryButton("Scatta", Modifier.weight(1f)) { camera.launch(photoUri) }
-                GhostButton("Galleria", Modifier.weight(1f)) {
-                    gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
+            val b = bitmap
+            Box(
+                Modifier.padding(top = 6.dp).fillMaxWidth().height(330.dp).aShadow(photoShape, 14.dp, Color(0x80E88C60)).clip(photoShape)
+                    .background(Brush.linearGradient(listOf(Color(0xFFFFE9C2), Color(0xFFFFF4E3), Color(0xFFFFE4D6))))
+            ) {
+                if (b != null) Image(b.asImageBitmap(), "Foto del pasto", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                else Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
+                    AIcon(Ic.Camera, Color(0xFFB4381E), 54.dp, 1.8f)
+                    Text("Scatta o scegli una foto", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(top = 10.dp))
+                }
+                Brackets(Modifier.fillMaxSize())
+                if (items.isNotEmpty()) Row(
+                    Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 32.dp).clip(RoundedCornerShape(50)).background(Color(0xFF047857)).padding(horizontal = 14.dp, vertical = 9.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AIcon(Ic.Check, Color.White, 16.dp, 3f)
+                    GapW(8.dp)
+                    Text("${items.size} ${if (items.size == 1) "alimento riconosciuto" else "alimenti riconosciuti"}", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color.White))
                 }
             }
 
-            if (b != null) {
-                Spacer(Modifier.height(16.dp))
-                JField(hint, { hint = it }, "Dettagli utili (facoltativo, es. \"pasta 100 g cruda\")")
-                Spacer(Modifier.height(10.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    PrimaryButton("✨ Analizza online", Modifier.weight(1f), enabled = !busy) { runOnline() }
-                    GhostButton("Offline", Modifier.weight(0.7f)) { if (!busy) runOffline() }
+            Row(Modifier.padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(27.dp)).background(C.Navy).clickable { camera.launch(photoUri) },
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AIcon(Ic.Camera, Color(0xFFFFB820), 22.dp, 2f); GapW(10.dp)
+                    Text("Scatta", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color.White))
                 }
-                Text(
-                    if (s.ai.apiKey.isBlank()) "Online: inserisci la chiave gratuita in Profilo → AI foto. Offline: riconosce il piatto senza internet."
-                    else "Online: ${s.ai.model}; i valori nutrizionali vengono dal database USDA. Offline: " + if (offlineOk) "modello sul telefono (nomi in inglese)." else "modello non incluso.",
-                    style = T.Small, modifier = Modifier.padding(top = 6.dp)
-                )
-                if (s.ai.apiKey.isBlank()) Text(
-                    "Configura AI online", style = T.Label.copy(color = C.Accent),
-                    modifier = Modifier.padding(top = 4.dp).clickable { Nav.go(Screen.AiSettings) }
-                )
+                Row(
+                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(27.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(27.dp))
+                        .clickable { gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AIcon(PhIc.Image, A.Ink, 22.dp, 2f); GapW(10.dp)
+                    Text("Galleria", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+                }
+            }
+
+            // Online / offline: toccando si lancia l'analisi con quel metodo
+            Row(
+                Modifier.padding(top = 12.dp).fillMaxWidth().clip(RoundedCornerShape(30.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(30.dp)).padding(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Row(
+                    Modifier.weight(1.4f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (online) C.Navy else Color.Transparent)
+                        .clickable(enabled = !busy) { online = true; runOnline() },
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AIcon(Ic.Spark, if (online) Color(0xFFFFB820) else A.Ink, 20.dp, 2f); GapW(8.dp)
+                    Text("Analizza online", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (online) Color.White else A.Ink), maxLines = 1)
+                }
+                Box(
+                    Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (!online) C.Navy else Color.Transparent)
+                        .clickable(enabled = !busy) { online = false; runOffline() },
+                    contentAlignment = Alignment.Center
+                ) { Text("Offline", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (!online) Color.White else A.Ink)) }
+            }
+            Text(
+                when {
+                    bitmap == null -> "Scatta o scegli una foto, poi tocca Analizza online oppure Offline."
+                    s.ai.apiKey.isBlank() && online -> "Online: inserisci la chiave gratuita in Profilo → Intelligenza artificiale. Offline: riconosce il piatto senza internet."
+                    online -> "Online: ${s.ai.model}; i valori nutrizionali vengono dal database USDA. Controlla sempre i valori: sono stime."
+                    offlineOk -> "Offline: modello sul telefono (nomi in inglese)."
+                    else -> "Offline: modello non incluso."
+                },
+                style = T.Body.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp)
+            )
+            if (s.ai.apiKey.isBlank()) Text("Configura AI online", style = T.Link, modifier = Modifier.padding(start = 4.dp).clickable { Nav.go(Screen.AiSettings) }.padding(vertical = 8.dp))
+            if (b != null) ACard(Modifier.padding(top = 8.dp).fillMaxWidth(), radius = 24.dp, padding = 12.dp, elevation = 6.dp) {
+                JField(hint, { hint = it }, "Dettagli utili (facoltativo, es. \"pasta 100 g cruda\")")
             }
 
             if (busy) Row(Modifier.padding(vertical = 20.dp), verticalAlignment = Alignment.CenterVertically) {
                 CircularProgressIndicator(Modifier.size(22.dp), color = C.Accent, strokeWidth = 2.dp)
-                Spacer(Modifier.width(12.dp)); Text("Analisi in corso…", style = T.Muted)
+                GapW(12.dp); Text("Analisi in corso…", style = T.Muted)
             }
             error?.let { Text(it, style = T.Label.copy(color = C.Danger), modifier = Modifier.padding(vertical = 12.dp)) }
 
             if (items.isNotEmpty()) {
-                SectionTitle("Alimenti riconosciuti")
-                items.forEach { it2 ->
-                    val g = parseNum(it2.grams) ?: 0.0
-                    val dbf = it2.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
-                    val kc: Double; val pp: Double; val cc: Double; val ff: Double
-                    if (dbf != null) { kc = dbf.kcal * g / 100; pp = dbf.protein * g / 100; cc = dbf.carbs * g / 100; ff = dbf.fat * g / 100 }
-                    else { val k = if (it2.base.grams > 0) g / it2.base.grams else 0.0; kc = it2.base.kcal * k; pp = it2.base.protein * k; cc = it2.base.carbs * k; ff = it2.base.fat * k }
-                    JCard(Modifier.padding(bottom = 8.dp), padding = androidx.compose.foundation.layout.PaddingValues(10.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Checkbox(it2.selected, { v -> it2.selected = v }, colors = CheckboxDefaults.colors(checkedColor = C.Green, checkmarkColor = C.OnAccent))
-                            Column(Modifier.weight(1f)) {
-                                Text(it2.base.name.replaceFirstChar { c -> c.uppercase() }, style = T.Label)
-                                Text(if (dbf != null) "= ${dbf.name} (USDA)" else "non nel database: stima AI", style = T.Small.copy(color = if (dbf != null) C.Green else C.Gold))
-                                Text("${kc.r0()} kcal · P ${pp.r0()} · C ${cc.r0()} · G ${ff.r0()}", style = T.Small)
+                val kcal = tot.sumOf { it.kcal }
+                val heroShape = RoundedCornerShape(34.dp)
+                Column(
+                    Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x99E88C60)).clip(heroShape)
+                        .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Text(kcalFmt(kcal), style = T.H1.copy(fontSize = 56.sp, lineHeight = 60.sp, letterSpacing = (-1.7).sp))
+                        Text("kcal", style = T.Body.copy(fontSize = 18.sp, fontWeight = FontWeight.Bold, color = A.Muted), modifier = Modifier.padding(start = 8.dp, bottom = 10.dp))
+                    }
+                    Box(Modifier.padding(top = 10.dp)) { MacroChips(tot.sumOf { it.p }, tot.sumOf { it.c }, tot.sumOf { it.f }) }
+                }
+                GHead("Alimenti riconosciuti")
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    items.forEach { it2 ->
+                        val cc = calc(it2)
+                        val g = parseNum(it2.grams) ?: 0.0
+                        fun step(d: Int) {
+                            val st = if (g < 50) 5 else if (g < 200) 10 else 25
+                            it2.grams = (g + d * st).coerceAtLeast(0.0).toInt().toString()
+                        }
+                        ACard(Modifier.fillMaxWidth(), radius = 24.dp, padding = 12.dp, elevation = 6.dp) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    Modifier.size(38.dp).clip(RoundedCornerShape(13.dp)).background(if (it2.selected) Color(0xFF10B981) else Color(0xFFEBEFF3)).clickable { it2.selected = !it2.selected },
+                                    contentAlignment = Alignment.Center
+                                ) { if (it2.selected) AIcon(Ic.Check, Color.White, 20.dp, 3f) }
+                                GapW(14.dp)
+                                Column(Modifier.weight(1f)) {
+                                    Text(it2.base.name.replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), maxLines = 1)
+                                    Text("${kcalFmt(cc.kcal)} kcal" + if (cc.usda == null) " · stima AI" else "", style = T.Small.copy(fontSize = 12.sp, color = if (cc.usda == null) A.FatInk else A.Muted), maxLines = 1)
+                                }
+                                GramStep(false) { step(-1) }
+                                Text("${g.toInt()} g", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(62.dp), maxLines = 1)
+                                GramStep(true) { step(1) }
                             }
-                            JField(it2.grams, { v -> it2.grams = v }, "g", Modifier.width(84.dp), number = true)
                         }
                     }
                 }
-                if (note.isNotBlank()) Text(note, style = T.Small)
+                if (note.isNotBlank()) Text(note, style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(start = 4.dp, top = 10.dp))
             }
 
             if (labels.isNotEmpty()) {
-                SectionTitle("Piatti probabili (offline)")
-                Text("Tocca il più corretto per cercarlo e scegliere la porzione.", style = T.Small)
-                labels.forEach { l ->
-                    Row(
-                        Modifier.fillMaxWidth().padding(top = 8.dp).clip(RoundedCornerShape(14.dp)).background(C.Surface)
-                            .clickable { Nav.go(Screen.AddFood(date, meal, l.label)) }.padding(14.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(l.label, style = T.Label, modifier = Modifier.weight(1f))
-                        Text("${(l.score * 100).toInt()}%", style = T.Small)
+                GHead("Piatti probabili (offline)", "Tocca il più corretto per cercarlo e scegliere la porzione.")
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    labels.forEach { l ->
+                        ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = { Nav.go(Screen.AddFood(date, meal, l.label)) }) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(l.label, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
+                                Text("${(l.score * 100).toInt()}%", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.Muted))
+                            }
+                        }
                     }
                 }
             }
-            Spacer(Modifier.height(16.dp))
+            GapH(24.dp)
         }
-        if (items.any { it.selected }) {
-            PrimaryButton("Aggiungi ${items.count { it.selected }} alimenti", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {
-                items.filter { it.selected }.forEach { e ->
-                    val g = parseNum(e.grams) ?: e.base.grams
-                    val dbf = e.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
-                    Store.addEntry(date, meal, dbf?.toFood() ?: e.base.toEstimatedFood(), g)
+        if (sel.isNotEmpty()) {
+            val barShape = RoundedCornerShape(34.dp)
+            Row(
+                Modifier.navigationBarsPadding().padding(16.dp).fillMaxWidth().aShadow(barShape, 14.dp, Color(0x8017286B)).clip(barShape).background(C.Navy).padding(start = 22.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("${sel.size} ${if (sel.size == 1) "alimento" else "alimenti"}", style = T.Body.copy(fontSize = 12.sp, color = Color(0xCCFFFFFF)))
+                    Text("${kcalFmt(tot.sumOf { it.kcal })} kcal", style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp, color = Color.White))
                 }
-                Nav.backTo { it !is Screen.AddFood && it !is Screen.PhotoAi }
+                val addShape = RoundedCornerShape(50)
+                Row(
+                    Modifier.height(54.dp).clip(addShape).background(C.OrangeBrush).clickable {
+                        sel.forEach { e ->
+                            val g = parseNum(e.grams) ?: e.base.grams
+                            val dbf = e.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
+                            Store.addEntry(date, meal, dbf?.toFood() ?: e.base.toEstimatedFood(), g)
+                        }
+                        Nav.backTo { it !is Screen.AddFood && it !is Screen.PhotoAi }
+                    }.padding(horizontal = 26.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Aggiungi", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White))
+                    GapW(8.dp)
+                    AIcon(Ic.Check, Color.White, 20.dp, 3f)
+                }
             }
         }
     }
+}
+
+private object PhIc {
+    val Image = Ic.rr(4.0, 4.0, 16.0, 16.0, 3.0) + Ic.circ(9.0, 9.0, 1.6) + "M4 17l5-5 4 4 3-3 4 4"
 }
