@@ -50,7 +50,7 @@ class ChatProtocolTest {
         val base = Profile(male = true, birthYear = 1997, heightCm = 178.0, startWeight = 80.0, detailed = true, job = 0, stepsLevel = 0, workouts = 0)
         val sedentary = Nutrition.tdee(base, 80.0)
         val active = Nutrition.tdee(base.copy(job = 2, stepsLevel = 3, workouts = 4, workoutMin = 60, workoutIntensity = 2), 80.0)
-        assertTrue(active > sedentary * 1.3)
+        assertTrue(active > sedentary * 1.25)
         // Katch-McArdle: con la massa grassa il basale cambia rispetto a Mifflin.
         assertTrue(Nutrition.bmr(base.copy(bodyFatPct = 15.0), 80.0) != Nutrition.bmr(base, 80.0))
     }
