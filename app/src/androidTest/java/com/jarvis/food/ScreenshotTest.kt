@@ -44,7 +44,7 @@ class ScreenshotTest {
         compose.waitForIdle(); Thread.sleep(1200); compose.waitForIdle()
         save(name)
         repeat(scrolls) { i ->
-            compose.onRoot().performTouchInput { swipeUp(startY = bottom * 0.85f, endY = bottom * 0.2f, durationMillis = 400) }
+            compose.onRoot().performTouchInput { swipeUp(startY = bottom * 0.72f, endY = bottom * 0.12f, durationMillis = 400) }
             compose.waitForIdle(); Thread.sleep(700)
             save("${name}_${i + 2}")
         }

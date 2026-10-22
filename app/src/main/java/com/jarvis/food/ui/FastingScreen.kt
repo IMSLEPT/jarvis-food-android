@@ -4,6 +4,14 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,6 +66,13 @@ fun fmtDuration(ms: Long): String {
     return "%d:%02d".format(h, m)
 }
 
+private val FAST_ICON = listOf(Ic.MealBreakfast, Ic.Steps, Ic.Bolt, Ic.Flame, Ic.Drop)
+private val FAST_TINT = listOf(Color(0xFFFFF1D2), Color(0xFFE3EEFF), Color(0xFFFFE4DC), Color(0xFFFFE4EC), Color(0xFFDDF6FB))
+private val FAST_INK = listOf(Color(0xFFA16207), Color(0xFF1D4ED8), Color(0xFFC93A1F), Color(0xFFC41F4C), Color(0xFF0E7490))
+private val Violet = Color(0xFF6D28D9)
+
+private fun hm(ms: Long): String { val t = (ms / 60_000).coerceAtLeast(0); return if (t >= 60) "${t / 60} h ${t % 60} min" else "$t min" }
+
 @Composable
 fun FastingScreen() {
     val ctx = LocalContext.current
@@ -72,148 +87,167 @@ fun FastingScreen() {
     val target = f.targetHours * 3_600_000L
     val progress = if (active) (elapsed.toFloat() / target) else 0f
     val hours = elapsed / 3_600_000.0
+    val phases = FastingPlans.phases
+    val curIdx = if (active) phases.indexOfLast { hours >= it.fromH } else -1
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-        TopBar("Digiuno intermittente", onBack = { Nav.back() })
-        Text(if (active) "Piano ${f.planId} in corso" else "Scegli un piano e inizia", style = T.Muted)
-        Spacer(Modifier.height(14.dp))
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 40.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            BackCircle { Nav.back() }
+            GapW(12.dp)
+            Text("Digiuno intermittente", style = T.H1.copy(fontSize = 27.sp, lineHeight = 31.sp), modifier = Modifier.weight(1f))
+        }
 
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        // Piani
+        Row(Modifier.padding(top = 16.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             FastingPlans.plans.forEach { p ->
                 val sel = f.planId == p.id
-                Column(
-                    Modifier.width(118.dp).clip(RoundedCornerShape(18.dp))
-                        .background(if (sel) C.Fasting.copy(alpha = 0.16f) else C.Surface)
-                        .border(1.dp, if (sel) C.Fasting else C.Line, RoundedCornerShape(18.dp))
-                        .clickable {
-                            Store.update { it.copy(fasting = it.fasting.copy(planId = p.id, targetHours = p.fastHours)) }
-                            Reminders.rescheduleAll(ctx)
+                val shape = RoundedCornerShape(22.dp)
+                Box(Modifier.width(68.dp).height(44.dp).clip(shape).background(if (sel) C.Navy else Color.White).border(1.dp, if (sel) C.Navy else A.Hair, shape)
+                    .clickable { Store.update { it.copy(fasting = it.fasting.copy(planId = p.id, targetHours = p.fastHours)) }; Reminders.rescheduleAll(ctx) },
+                    contentAlignment = Alignment.Center) { Text(p.title.removePrefix("OMAD ").removeSuffix(" ore").let { if (p.id == "36") "36 h" else it }, style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1) }
+            }
+        }
+        Text(FastingPlans.plans.firstOrNull { it.id == f.planId }?.desc ?: "", style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(top = 8.dp, start = 4.dp))
+
+        // Timer
+        val cardShape = RoundedCornerShape(36.dp)
+        Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(cardShape, 14.dp, Color(0xA68B5CF6)).clip(cardShape)
+            .background(Brush.linearGradient(listOf(Color(0xFFE6DCFF), Color(0xFFF5F0FF), Color(0xFFDDE9FF)))).border(1.dp, Color(0xE6FFFFFF), cardShape)
+            .padding(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 18.dp)) {
+            Box(Modifier.size(260.dp).align(Alignment.CenterHorizontally), contentAlignment = Alignment.Center) {
+                Canvas(Modifier.fillMaxSize()) {
+                    val st = 22.dp.toPx()
+                    val tl = Offset(st / 2 + 2.dp.toPx(), st / 2 + 2.dp.toPx())
+                    val sz = Size(size.width - st - 4.dp.toPx(), size.height - st - 4.dp.toPx())
+                    drawArc(Color(0xE6FFFFFF), -90f, 360f, false, tl, sz, style = Stroke(st))
+                    if (progress > 0f) drawArc(
+                        Brush.linearGradient(listOf(Color(0xFF6D45E0), Color(0xFF8B5CF6), Color(0xFF5AA9FF)), Offset(0f, size.height), Offset(size.width, 0f)),
+                        -90f, 360f * progress.coerceAtMost(1f), false, tl, sz, style = Stroke(st, cap = StrokeCap.Round)
+                    )
+                    // Tacche delle fasi
+                    phases.drop(1).forEach { ph ->
+                        if (ph.fromH < f.targetHours) {
+                            val a = Math.toRadians(-90.0 + 360.0 * ph.fromH / f.targetHours)
+                            val r = sz.width / 2
+                            val c = Offset(size.width / 2, size.height / 2)
+                            val p = Offset(c.x + (r * Math.cos(a)).toFloat(), c.y + (r * Math.sin(a)).toFloat())
+                            drawCircle(Color.White, 6.5.dp.toPx(), p)
+                            drawCircle(if (active && hours >= ph.fromH) Color(0xFF8B5CF6) else Color(0xFFC9BFF5), 4.5.dp.toPx(), p)
                         }
-                        .padding(12.dp)
-                ) {
-                    Text(p.title, style = T.Title2.copy(color = if (sel) C.Fasting else C.Text))
-                    Text(p.level, style = T.Small)
-                }
-            }
-        }
-        Text(FastingPlans.plans.firstOrNull { it.id == f.planId }?.desc ?: "", style = T.Small, modifier = Modifier.padding(top = 8.dp))
-
-        Spacer(Modifier.height(18.dp))
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Canvas(Modifier.size(250.dp)) {
-                val st = 18.dp.toPx()
-                val tl = Offset(st / 2, st / 2)
-                val sz = Size(size.width - st, size.height - st)
-                drawArc(C.SurfaceHi, -90f, 360f, false, tl, sz, style = Stroke(st))
-                drawArc(
-                    if (progress >= 1f) C.Green else C.Fasting, -90f, 360f * progress.coerceAtMost(1f), false, tl, sz,
-                    style = Stroke(st, cap = StrokeCap.Round)
-                )
-                // Tacche delle fasi
-                FastingPlans.phases.drop(1).forEach { ph ->
-                    if (ph.fromH < f.targetHours) {
-                        val a = Math.toRadians(-90.0 + 360.0 * ph.fromH / f.targetHours)
-                        val r = sz.width / 2
-                        val c = Offset(size.width / 2, size.height / 2)
-                        drawCircle(C.Bg, 4.dp.toPx(), Offset(c.x + (r * Math.cos(a)).toFloat(), c.y + (r * Math.sin(a)).toFloat()))
                     }
                 }
-            }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (active) {
-                    Text(if (progress >= 1f) "Completato! 🎉" else "Trascorso", style = T.Muted)
-                    Text(fmtDuration(elapsed), style = T.Big)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     val left = target - elapsed
-                    Text(if (left > 0) "mancano ${fmtDuration(left)}" else "+${fmtDuration(-left)} oltre l'obiettivo", style = T.Small)
-                } else {
-                    Text("Pronto", style = T.Muted)
-                    Text("${f.targetHours} h", style = T.Big)
-                    Text("di digiuno", style = T.Small)
+                    Text(if (!active) "Pronto a partire" else if (left > 0) "Mancano ${hm(left)}" else "Obiettivo raggiunto 🎉", style = T.Small.copy(fontSize = 13.sp, color = Color(0xFF4B4570), fontWeight = FontWeight.Medium))
+                    Text(if (active) fmtDuration(elapsed) else "${f.targetHours}:00", style = T.H1.copy(fontSize = 54.sp, lineHeight = 56.sp))
+                    Text(if (active) "di digiuno su ${f.targetHours} h" else "ore di digiuno", style = T.Small.copy(fontSize = 13.sp, color = Color(0xFF4B4570), fontWeight = FontWeight.Medium))
                 }
+            }
+            if (active) {
+                val ph = curIdx.coerceAtLeast(0)
+                Row(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(22.dp)).background(Color(0xCCFFFFFF)).padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    TonalIcon(FAST_ICON[ph % 5], FAST_INK[ph % 5], FAST_TINT[ph % 5], 40.dp, 14.dp, 22.dp)
+                    GapW(10.dp)
+                    Column {
+                        Text("Fase attuale", style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
+                        Text(phases[ph].title, style = T.Body.copy(fontSize = 15.sp, lineHeight = 19.sp, fontWeight = FontWeight.Bold))
+                    }
+                }
+                Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf("Inizio −30 min" to -30L, "Inizio +30 min" to 30L).forEach { (l, d) ->
+                        Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color(0xD9FFFFFF)).clickable {
+                            Store.startFast(f.planId, f.targetHours, minOf(System.currentTimeMillis(), f.activeStart!! + d * 60_000L)); Reminders.rescheduleAll(ctx)
+                        }, contentAlignment = Alignment.Center) { Text(l, style = T.BtnS.copy(fontSize = 13.5.sp)) }
+                    }
+                }
+                if (!confirmStop) Row(Modifier.padding(top = 10.dp).fillMaxWidth().height(56.dp).clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable {
+                    if (progress >= 1f) { Store.stopFast(true); Reminders.rescheduleAll(ctx) } else confirmStop = true
+                }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                    AIcon(Ic.Stop, Color.White, 18.dp, fill = true); GapW(10.dp)
+                    Text("Termina digiuno", style = T.BtnL.copy(color = Color.White))
+                } else Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf(Triple("Continua", A.Ink, 0), Triple("Salva e termina", C.Navy, 1), Triple("Annulla", C.Danger, 2)).forEach { (l, col, k) ->
+                        Box(Modifier.weight(1f).height(52.dp).clip(RoundedCornerShape(26.dp)).background(if (k == 1) C.Navy else Color(0xD9FFFFFF)).clickable {
+                            when (k) { 0 -> confirmStop = false; 1 -> { Store.stopFast(true); confirmStop = false; Reminders.rescheduleAll(ctx) }; else -> { Store.stopFast(false); confirmStop = false; Reminders.rescheduleAll(ctx) } }
+                        }, contentAlignment = Alignment.Center) { Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (k == 1) Color.White else col), maxLines = 1) }
+                    }
+                }
+                val st = java.time.Instant.ofEpochMilli(f.activeStart!!).atZone(ZoneId.systemDefault())
+                val dayWord = when (java.time.temporal.ChronoUnit.DAYS.between(st.toLocalDate(), java.time.LocalDate.now()).toInt()) { 0 -> "oggi"; 1 -> "ieri"; else -> st.format(DateTimeFormatter.ofPattern("d MMM", IT)) }
+                Text("Iniziato $dayWord alle ${fmtTime(f.activeStart!!)} · puoi ancora regolare l'inizio", style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFF4B4570)),
+                    textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 12.dp))
+            } else {
+                Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(56.dp).clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable { Store.startFast(f.planId, f.targetHours); Reminders.rescheduleAll(ctx) },
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                    AIcon(Ic.Bolt, Color(0xFFFFB820), 20.dp, 2f); GapW(10.dp)
+                    Text("Inizia digiuno ora", style = T.BtnL.copy(color = Color.White))
+                }
+                Box(Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color(0xD9FFFFFF)).clickable {
+                    val start = java.time.LocalDate.now().minusDays(1).atTime(21, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    Store.startFast(f.planId, f.targetHours, start); Reminders.rescheduleAll(ctx)
+                }, contentAlignment = Alignment.Center) { Text("Ho iniziato dopo cena (ieri alle 21:00)", style = T.BtnS.copy(fontSize = 13.5.sp)) }
             }
         }
 
-        Spacer(Modifier.height(16.dp))
-        if (active) {
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                Stat("Inizio", fmtTime(f.activeStart!!), C.Text)
-                Spacer(Modifier.weight(1f))
-                Stat("Fine prevista", fmtTime(f.activeStart + target), C.Fasting)
-            }
-            Spacer(Modifier.height(10.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                GhostButton("Inizio −30 min", Modifier.weight(1f)) {
-                    Store.startFast(f.planId, f.targetHours, f.activeStart - 30 * 60_000L); Reminders.rescheduleAll(ctx)
-                }
-                GhostButton("Inizio +30 min", Modifier.weight(1f)) {
-                    Store.startFast(f.planId, f.targetHours, minOf(System.currentTimeMillis(), f.activeStart + 30 * 60_000L)); Reminders.rescheduleAll(ctx)
-                }
-            }
-            Spacer(Modifier.height(10.dp))
-            if (!confirmStop) PrimaryButton("Termina digiuno", Modifier.fillMaxWidth(), color = C.Fasting) {
-                if (progress >= 1f) { Store.stopFast(true); Reminders.rescheduleAll(ctx) } else confirmStop = true
-            } else Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                GhostButton("Continua", Modifier.weight(1f)) { confirmStop = false }
-                GhostButton("Salva e termina", Modifier.weight(1f)) { Store.stopFast(true); confirmStop = false; Reminders.rescheduleAll(ctx) }
-                GhostButton("Annulla", Modifier.weight(1f), color = C.Danger) { Store.stopFast(false); confirmStop = false; Reminders.rescheduleAll(ctx) }
-            }
-
-            val phase = FastingPlans.phaseAt(hours)
-            SectionTitle("Fase attuale")
-            JCard {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(phase.emoji, style = T.Title)
-                    Spacer(Modifier.width(12.dp))
-                    Column {
-                        Text(phase.title, style = T.Title2)
-                        Text(phase.desc, style = T.Muted)
+        // Fasi
+        ASection("Le fasi del digiuno", top = 28.dp)
+        GapH(14.dp)
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            phases.forEachIndexed { i, ph ->
+                val past = active && i < curIdx
+                val cur = active && i == curIdx
+                val status = when { cur -> "In corso"; past -> "Superata"; active -> "Tra ${((ph.fromH - hours) * 10).roundToInt() / 10.0}".replace(".", ",") + " h"; else -> "" }
+                Row(verticalAlignment = Alignment.Top) {
+                    Box(Modifier.size(44.dp).let { if (cur) it.border(3.dp, Color(0xFF8F2A14), RoundedCornerShape(16.dp)) else it }, contentAlignment = Alignment.Center) {
+                        TonalIcon(FAST_ICON[i % 5], FAST_INK[i % 5], FAST_TINT[i % 5], 44.dp, 16.dp, 22.dp)
+                    }
+                    GapW(12.dp)
+                    val cs = RoundedCornerShape(24.dp)
+                    Column(Modifier.weight(1f).let { if (cur) it.aShadow(cs, 6.dp, Color(0x661D1B3A)) else it }.clip(cs).background(if (cur) Color.White else Color(0xB3F6F8FB)).border(1.dp, A.Hair, cs).padding(horizontal = 14.dp, vertical = 12.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(ph.title, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.weight(1f))
+                            Text(status, style = T.Chip.copy(fontSize = 12.5.sp, fontWeight = FontWeight.Bold, color = if (cur) Violet else A.Muted))
+                        }
+                        Text("da ${ph.fromH.toInt()} h", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
+                        Text(ph.desc, style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp), modifier = Modifier.padding(top = 6.dp))
                     }
                 }
             }
-        } else {
-            PrimaryButton("Inizia digiuno ora", Modifier.fillMaxWidth(), color = C.Fasting) {
-                Store.startFast(f.planId, f.targetHours); Reminders.rescheduleAll(ctx)
-            }
-            Spacer(Modifier.height(8.dp))
-            GhostButton("Ho iniziato dopo cena (ieri alle 21:00)", Modifier.fillMaxWidth()) {
-                val start = java.time.LocalDate.now().minusDays(1).atTime(21, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                Store.startFast(f.planId, f.targetHours, start); Reminders.rescheduleAll(ctx)
-            }
         }
+        Text("I tempi delle fasi sono indicativi e variano da persona a persona. In gravidanza, allattamento, diabete o disturbi alimentari consulta il medico prima di digiunare.",
+            style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = A.Muted), modifier = Modifier.padding(top = 14.dp))
 
-        SectionTitle("Le fasi del digiuno")
-        FastingPlans.phases.forEach { ph ->
-            val reached = active && hours >= ph.fromH
-            Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.Top) {
-                Box(
-                    Modifier.size(34.dp).clip(RoundedCornerShape(10.dp)).background(if (reached) C.Fasting.copy(alpha = 0.2f) else C.Surface),
-                    contentAlignment = Alignment.Center
-                ) { Text(ph.emoji) }
-                Spacer(Modifier.width(12.dp))
-                Column {
-                    Text("${ph.title} · da ${ph.fromH.toInt()} h", style = T.Label.copy(color = if (reached) C.Fasting else C.Text))
-                    Text(ph.desc, style = T.Small)
+        // Storico
+        Row(Modifier.padding(top = 28.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text("Storico", style = T.H2, modifier = Modifier.weight(1f))
+            Text("Vedi tutti", style = T.Link.copy(color = Violet), modifier = Modifier.clickable { Nav.go(Screen.FastingHistory) }.padding(vertical = 8.dp))
+        }
+        val last7 = f.history.take(7).reversed()
+        val hs = RoundedCornerShape(30.dp)
+        Column(Modifier.fillMaxWidth().aShadow(hs, 10.dp, Color(0x668B5CF6)).clip(hs).background(Color.White).border(1.dp, A.Hair, hs).padding(16.dp)) {
+            if (last7.isEmpty()) Text("Nessun digiuno completato ancora.", style = T.Muted)
+            else {
+                val maxH = maxOf(f.targetHours.toDouble(), last7.maxOf { (it.end - it.start) / 3_600_000.0 }) * 1.05
+                Row(Modifier.fillMaxWidth().height(110.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Bottom) {
+                    last7.forEach { h ->
+                        val done = h.end - h.start >= h.targetHours * 3_600_000L
+                        val frac = (((h.end - h.start) / 3_600_000.0) / maxH).toFloat().coerceIn(0.05f, 1f)
+                        Box(Modifier.weight(1f).fillMaxHeight(frac).clip(RoundedCornerShape(12.dp))
+                            .background(if (done) Brush.verticalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF5AA9FF))) else Brush.verticalGradient(listOf(Color(0xFFD8D0F4), Color(0xFFD8D0F4)))))
+                    }
                 }
+                Row(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    last7.forEach { h ->
+                        Text(Instant.ofEpochMilli(h.start).atZone(ZoneId.systemDefault()).dayOfWeek.getDisplayName(java.time.format.TextStyle.NARROW, IT).uppercase(),
+                            style = T.Chip.copy(fontSize = 11.5.sp, color = A.Muted), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    }
+                }
+                val ok = f.history.count { it.end - it.start >= it.targetHours * 3_600_000L }
+                val longest = f.history.maxOf { it.end - it.start }
+                Text("$ok digiuni completati su ${f.history.size}", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 12.dp))
+                Text("Obiettivo ${f.targetHours} h · il più lungo: ${hm(longest)}", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
             }
         }
-        Text("I tempi delle fasi sono indicativi e variano da persona a persona. In gravidanza, allattamento, diabete o disturbi alimentari consulta il medico prima di digiunare.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
-
-        SectionTitle("Storico", action = "Vedi tutto") { Nav.go(Screen.FastingHistory) }
-        val last7 = f.history.take(7)
-        if (last7.isEmpty()) Text("Nessun digiuno completato ancora.", style = T.Muted)
-        else {
-            val ok = f.history.count { it.end - it.start >= it.targetHours * 3_600_000L }
-            JCard {
-                Text("$ok digiuni completati su ${f.history.size}", style = T.Label)
-                Spacer(Modifier.height(10.dp))
-                BarChart(
-                    values = last7.reversed().map { (it.end - it.start) / 3_600_000.0 },
-                    labels = last7.reversed().map { Instant.ofEpochMilli(it.start).atZone(ZoneId.systemDefault()).dayOfMonth.toString() },
-                    goal = f.targetHours.toDouble(), color = C.Fasting
-                )
-            }
-        }
-        Spacer(Modifier.height(24.dp))
     }
 }
 

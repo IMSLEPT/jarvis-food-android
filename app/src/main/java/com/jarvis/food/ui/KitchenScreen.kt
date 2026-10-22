@@ -135,7 +135,7 @@ private fun CookTodayBlock(s: AppState) {
     Column(Modifier.fillMaxWidth().aShadow(cs, 10.dp, Color(0x66E88C60)).clip(cs)
         .background(Brush.linearGradient(listOf(Color(0xFFFFEBDD), Color(0xFFFFE4E8)))).padding(16.dp)) {
         Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
-        Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.padding(top = 12.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
                 val sel = meal == k
                 Box(Modifier.height(38.dp).clip(RoundedCornerShape(19.dp)).background(if (sel) C.Navy else Color.White).clickable { meal = k }.padding(horizontal = 16.dp), contentAlignment = Alignment.Center) {
