@@ -270,11 +270,12 @@ private fun ShoppingTab(s: AppState) {
     var manual by remember { mutableStateOf("") }
     val range = s.shoppingRange.split("|").takeIf { it.size == 2 }
     Text(range?.let { "Per i pasti dal ${LocalDate.parse(it[0]).dayOfMonth}/${LocalDate.parse(it[0]).monthValue} per ${it[1]} giorni, già tolto ciò che hai in dispensa" }
-        ?: "Genera la lista dai pasti del tuo piano: quantità calcolate e arrotondate alle confezioni.", style = T.Muted)
-    Spacer(Modifier.height(10.dp))
+        ?: "Genera la lista dai pasti del tuo piano: quantità calcolate e arrotondate alle confezioni.",
+        style = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = A.Muted), modifier = Modifier.padding(horizontal = 4.dp))
+    GapH(12.dp)
     Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf(3, 7).forEach { d ->
-            GhostButton("Prossimi $d giorni") {
+            APill("Prossimi $d giorni", false, Modifier.padding(vertical = 2.dp)) {
                 val today = LocalDate.now()
                 if ((0 until d).any { Store.dayPlan(Store.current, today.plusDays(it.toLong())) == null }) {
                     Store.generatePlan(today.with(DayOfWeek.MONDAY), 14)
@@ -283,31 +284,49 @@ private fun ShoppingTab(s: AppState) {
                 Toast.makeText(ctx, "Lista aggiornata", Toast.LENGTH_SHORT).show()
             }
         }
-        if (s.shopping.any { it.checked }) PrimaryButton("Spuntati → dispensa", color = C.Green) { Store.moveCheckedToPantry() }
+        if (s.shopping.any { it.checked }) AInk("Spuntati → dispensa", height = 44.dp, bg = A.GreenInk) { Store.moveCheckedToPantry() }
     }
-    Spacer(Modifier.height(12.dp))
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        JField(manual, { manual = it }, "Aggiungi un articolo", Modifier.weight(1f))
-        Spacer(Modifier.width(8.dp))
-        PrimaryButton("+", enabled = manual.isNotBlank()) { Store.addShoppingManual(manual); manual = "" }
+    GapH(12.dp)
+    val fs = RoundedCornerShape(30.dp)
+    Row(Modifier.fillMaxWidth().height(56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+            if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = Color(0xFF9A98B0)))
+            androidx.compose.foundation.text.BasicTextField(manual, { manual = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
+        }
+        PlusButton("Aggiungi", 44.dp) { if (manual.isNotBlank()) { Store.addShoppingManual(manual); manual = "" } }
     }
+    GapH(12.dp)
     if (s.shopping.isEmpty()) EmptyState("🛒", "Lista vuota", "Crea il piano nella scheda Piano, poi genera la lista per i prossimi giorni.")
     val groups = s.shopping.groupBy { it.shop }
     Shopping.SHOP_ORDER.filter { groups.containsKey(it) }.forEach { shop ->
-        Text(shop, style = T.Small, modifier = Modifier.padding(top = 14.dp, bottom = 4.dp))
-        JCard(padding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)) {
-            groups[shop]!!.forEachIndexed { i, it ->
+        val cardShape = RoundedCornerShape(28.dp)
+        Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
+            Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
+                GapW(10.dp)
+                Text(shop.uppercase(), style = T.Eyebrow.copy(fontSize = 12.5.sp, letterSpacing = 0.6.sp, color = A.Muted))
+            }
+            groups[shop]!!.forEach { it ->
                 val f = it.foodId?.let { id -> Db.db.food(id) }
-                Row(Modifier.fillMaxWidth().clickable { Store.toggleShopping(it.id) }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(it.checked, { _ -> Store.toggleShopping(it.id) }, colors = CheckboxDefaults.colors(checkedColor = C.Green, checkmarkColor = C.OnAccent))
+                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clickable { Store.toggleShopping(it.id) }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        Modifier.size(26.dp).clip(RoundedCornerShape(9.dp)).background(if (it.checked) A.Ink else Color.Transparent)
+                            .border(2.dp, if (it.checked) A.Ink else Color(0xFFC9C5D8), RoundedCornerShape(9.dp)),
+                        contentAlignment = Alignment.Center
+                    ) { if (it.checked) AIcon(Ic.Check, Color.White, 16.dp, 3.2f) }
+                    GapW(14.dp)
                     Column(Modifier.weight(1f)) {
-                        Text(it.name, style = T.Label.copy(color = if (it.checked) C.Faint else C.Text))
+                        Text(it.name, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = if (it.checked) Color(0xFFA6A4BC) else A.Ink,
+                            textDecoration = if (it.checked) androidx.compose.ui.text.style.TextDecoration.LineThrough else null))
                         val d = Shopping.describe(it, f)
-                        if (d.isNotBlank()) Text(d + if (it.note.isNotBlank() && !it.manual) " · ${it.note}" else "", style = T.Small)
+                        if (d.isNotBlank()) Text(d + if (it.note.isNotBlank() && !it.manual) " · ${it.note}" else "", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Text("✕", style = T.Label.copy(color = C.Faint), modifier = Modifier.clip(CircleShape).clickable { Store.removeShopping(it.id) }.padding(8.dp))
+                    Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFF6F1EA)).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
+                        AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
+                    }
                 }
-                if (i < groups[shop]!!.lastIndex) HorizontalDivider(color = C.Line)
             }
         }
     }

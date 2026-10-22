@@ -400,27 +400,42 @@ fun EnergyInfoScreen() {
     val e = Store.energyFor(s, LocalDate.now())
     Column(Modifier.fillMaxSize()) {
         TopBar("Come calcolo il tuo obiettivo", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            JCard {
-                Text("Oggi", style = T.Muted)
-                Text("${e.targetKcal.r0()} kcal", style = T.Big.copy(color = C.AccentDeep))
-                Spacer(Modifier.height(8.dp))
-                MacroTiles(e.protein, e.carbs, e.fat)
+        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).padding(bottom = 120.dp)) {
+            val hero = RoundedCornerShape(34.dp)
+            Column(
+                Modifier.padding(top = 4.dp).fillMaxWidth().aShadow(hero, 14.dp, Color(0x99E88C60)).clip(hero)
+                    .background(Brush.linearGradient(listOf(Color(0xFFFFE9DC), Color(0xFFFFF5E6)))).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
+            ) {
+                Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = Color(0xFFB4381E)))
+                Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.Bottom) {
+                    Text(kcalFmt(e.targetKcal), style = T.H1.copy(fontSize = 46.sp, lineHeight = 50.sp, letterSpacing = (-1.4).sp))
+                    Text(" kcal", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 8.dp))
+                }
+                GapH(14.dp)
+                MacroChips(e.protein, e.carbs, e.fat)
             }
-            Spacer(Modifier.height(12.dp))
-            JCard {
-                e.explanation.forEach { Text("• $it", style = T.Read, modifier = Modifier.padding(vertical = 3.dp)) }
+            ACard(Modifier.padding(top = 14.dp).fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text("Come ci siamo arrivati", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = A.Ink))
+                    e.explanation.forEach {
+                        Row(verticalAlignment = Alignment.Top) {
+                            Box(Modifier.padding(top = 7.dp).size(8.dp).clip(CircleShape).background(Color(0xFFF28B7A)))
+                            GapW(12.dp)
+                            Text(it, style = T.Body.copy(fontSize = 14.5.sp, lineHeight = 21.sp, color = Color(0xFF3B3A5C)))
+                        }
+                    }
+                }
             }
-            Spacer(Modifier.height(12.dp))
             Text("L'obiettivo parte dal tuo fabbisogno di mantenimento (profilo e questionario) più l'obiettivo di peso, e non scende mai " +
                     "perché al mattino hai fatto pochi passi. Lo smartwatch aggiunge calorie solo quando la spesa misurata supera quella " +
                     "attesa, e dopo almeno 5 giorni di dati affina il fabbisogno sui tuoi valori reali. " +
                     "Metabolismo basale: Mifflin-St Jeor, o Katch-McArdle se indichi la massa grassa. " +
                     "Proteine: ${"%.1f".format(java.util.Locale.ITALY, com.jarvis.food.data.Nutrition.proteinPerKg(s.profile))} g per kg. " +
                     "Grassi: ${s.goals.fatPct}% delle calorie di base. Sono stime: se il peso non va nella direzione attesa per 2-3 settimane, " +
-                    "correggi l'obiettivo dal Profilo.", style = T.Small.copy(fontStyle = FontStyle.Italic))
-            Spacer(Modifier.height(10.dp))
-            GhostButton("Modalità di calcolo dell'attività", Modifier.fillMaxWidth()) { Nav.go(Screen.Watch) }
+                    "correggi l'obiettivo dal Profilo.", style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted),
+                modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 14.dp))
+            GapH(14.dp)
+            AInk("Modalità di calcolo dell'attività", Modifier.fillMaxWidth(), height = 54.dp) { Nav.go(Screen.Watch) }
         }
     }
 }

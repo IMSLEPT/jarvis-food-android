@@ -220,47 +220,58 @@ fun ProfileEditScreen() {
     val age = Nutrition.age(p)
     val w = Store.currentWeight(s)
 
+    val stepsIc = "M8 4c2 0 3 1.5 3 4s-1 4-3 4-3-1.5-3-4 1-4 3-4zM16 12c2 0 3 1.5 3 4s-1 4-3 4-3-1.5-3-4 1-4 3-4z"
+    val bagIc = Ic.rr(3.0, 7.0, 18.0, 13.0, 3.0) + "M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"
+    val dumbIc = "M3 10v4M6 8v8M18 8v8M21 10v4M6 12h12"
+
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Profilo e obiettivi", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            JCard {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp) }
-                    Column(Modifier.padding(start = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        GhostButton(if (p.photo == null) "Aggiungi foto" else "Cambia foto") { picker.launch("image/*") }
-                        if (p.photo != null) Text("Rimuovi", style = T.Label.copy(color = C.Danger),
-                            modifier = Modifier.clickable { ProfilePhoto.delete(p.photo); Store.update { it.copy(profile = it.profile.copy(photo = null)) } }.padding(6.dp))
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 8.dp)) {
+            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp, shape = RoundedCornerShape(30.dp)) }
+                        Column(Modifier.padding(start = 16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            AInk(if (p.photo == null) "Aggiungi foto" else "Cambia foto", height = 44.dp, bg = Color(0xFFFFE9E1), fg = Color(0xFFB4381E)) { picker.launch("image/*") }
+                            if (p.photo != null) Text("Rimuovi", style = T.Label.copy(color = C.Danger),
+                                modifier = Modifier.clickable { ProfilePhoto.delete(p.photo); Store.update { it.copy(profile = it.profile.copy(photo = null)) } }.padding(horizontal = 6.dp, vertical = 8.dp))
+                        }
+                    }
+                    GapH(14.dp)
+                    JField(name, { name = it }, "Nome")
+                }
+            }
+            if (!p.detailed) {
+                GapH(12.dp)
+                ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 18.dp, elevation = 8.dp, glow = Color(0x66E88C60),
+                    brush = Brush.linearGradient(listOf(Color(0xFFFFE9DC), Color(0xFFFFF5E6))), onClick = { Nav.go(Screen.Questionnaire(null)) }) {
+                    Column {
+                        Text("Rendi il calcolo più preciso", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = A.Ink))
+                        Text("Rispondi alle domande su lavoro, passi e allenamenti: il fabbisogno smette di essere una stima generica.",
+                            style = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 4.dp))
                     }
                 }
-                Spacer(Modifier.height(12.dp))
-                JField(name, { name = it }, "Nome")
             }
-            if (!p.detailed) JCard(color = C.AccentSoft, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
-                Text("Rendi il calcolo più preciso", style = T.Title2)
-                Text("Rispondi alle domande su lavoro, passi e allenamenti: il fabbisogno smette di essere una stima generica.", style = T.Muted)
+            ASection("Le mie risposte")
+            GapH(12.dp)
+            ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 0.dp, elevation = 8.dp) {
+                Column(Modifier.padding(horizontal = 14.dp, vertical = 6.dp)) {
+                    ProfRow(Ic.User, A.CarbSoft, A.CarbInk, "Dati personali", "${if (p.male) "Uomo" else "Donna"} · $age anni · ${p.heightCm.r0()} cm") { Nav.go(Screen.Questionnaire(QStep.About)) }
+                    ProfRow(PIc.Scale, A.GreenSoft, A.GreenInk, "Peso e composizione", "Ora ${w.r1()} kg · obiettivo ${p.targetWeight.r1()} kg" +
+                            (p.bodyFatPct?.let { " · grasso ${it.r0()}%" } ?: "")) { Nav.go(Screen.Questionnaire(QStep.Body)) }
+                    ProfRow(bagIc, A.FatSoft, A.FatInk, "Lavoro", Nutrition.JOB_LABELS[p.job.coerceIn(0, 2)]) { Nav.go(Screen.Questionnaire(QStep.Job)) }
+                    ProfRow(stepsIc, A.ProteinSoft, A.ProteinInk, "Passi al giorno", Nutrition.STEPS_LABELS[p.stepsLevel.coerceIn(0, 4)]) { Nav.go(Screen.Questionnaire(QStep.Steps)) }
+                    ProfRow(dumbIc, A.FastSoft, A.FastInk, "Allenamenti", if (p.workouts == 0) "Nessuno" else "${p.workouts} a settimana · ${p.workoutMin} min · ${Nutrition.TRAINING_LABELS[p.trainingType.coerceIn(0, 3)].lowercase()}") { Nav.go(Screen.Questionnaire(QStep.Training)) }
+                    ProfRow(PIc.Target, A.Tonal, A.TonalInk, "Obiettivo", when (p.goal) { -1 -> "Dimagrire · ${p.weeklyRate.r1()} kg a settimana"; 1 -> "Aumentare massa · ${p.weeklyRate.r1()} kg a settimana"; else -> "Mantenere il peso" }) { Nav.go(Screen.Questionnaire(QStep.Goal)) }
+                    ProfRow(PIc.Leaf, A.GreenSoft, A.GreenInk, "Preferenze", when (p.dietStyle) { 1 -> "Più proteine"; 2 -> "Pochi carboidrati"; else -> "Bilanciato" } +
+                            (if (p.special != 0) " · situazione particolare" else ""), divider = false) { Nav.go(Screen.Questionnaire(QStep.Diet)) }
+                }
             }
-            SectionTitle("Le mie risposte")
-            JCard(padding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)) {
-                NavRow("Dati personali", "${if (p.male) "Uomo" else "Donna"} · $age anni · ${p.heightCm.r0()} cm", "👤") { Nav.go(Screen.Questionnaire(QStep.About)) }
-                HorizontalDivider(color = C.Line)
-                NavRow("Peso e composizione", "Ora ${w.r1()} kg · obiettivo ${p.targetWeight.r1()} kg" +
-                        (p.bodyFatPct?.let { " · grasso ${it.r0()}%" } ?: ""), "⚖️") { Nav.go(Screen.Questionnaire(QStep.Body)) }
-                HorizontalDivider(color = C.Line)
-                NavRow("Lavoro", Nutrition.JOB_LABELS[p.job.coerceIn(0, 2)], "💼") { Nav.go(Screen.Questionnaire(QStep.Job)) }
-                HorizontalDivider(color = C.Line)
-                NavRow("Passi al giorno", Nutrition.STEPS_LABELS[p.stepsLevel.coerceIn(0, 4)], "👟") { Nav.go(Screen.Questionnaire(QStep.Steps)) }
-                HorizontalDivider(color = C.Line)
-                NavRow("Allenamenti", if (p.workouts == 0) "Nessuno" else "${p.workouts} a settimana · ${p.workoutMin} min · ${Nutrition.TRAINING_LABELS[p.trainingType.coerceIn(0, 3)].lowercase()}", "🏋️") { Nav.go(Screen.Questionnaire(QStep.Training)) }
-                HorizontalDivider(color = C.Line)
-                NavRow("Obiettivo", when (p.goal) { -1 -> "Dimagrire · ${p.weeklyRate.r1()} kg a settimana"; 1 -> "Aumentare massa · ${p.weeklyRate.r1()} kg a settimana"; else -> "Mantenere il peso" }, "🎯") { Nav.go(Screen.Questionnaire(QStep.Goal)) }
-                HorizontalDivider(color = C.Line)
-                NavRow("Preferenze", when (p.dietStyle) { 1 -> "Più proteine"; 2 -> "Pochi carboidrati"; else -> "Bilanciato" } +
-                        (if (p.special != 0) " · situazione particolare" else ""), "🥗") { Nav.go(Screen.Questionnaire(QStep.Diet)) }
-            }
-            PrimaryButton("Rifai tutto il questionario", Modifier.fillMaxWidth()) { Nav.go(Screen.Questionnaire(null)) }
-            Spacer(Modifier.height(8.dp))
+            GapH(14.dp)
+            AInk("Rifai tutto il questionario", Modifier.fillMaxWidth(), height = 54.dp) { Nav.go(Screen.Questionnaire(null)) }
+            GapH(8.dp)
         }
-        PrimaryButton("Salva nome", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp), enabled = name.isNotBlank() && name.trim() != p.name, color = C.Navy) {
+        GSave("Salva nome", enabled = name.isNotBlank() && name.trim() != p.name) {
             Store.update { it.copy(profile = it.profile.copy(name = name.trim())) }
             Nav.back()
         }
