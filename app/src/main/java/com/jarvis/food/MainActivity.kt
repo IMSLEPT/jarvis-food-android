@@ -40,15 +40,13 @@ class MainActivity : ComponentActivity() {
         if (Build.VERSION.SDK_INT >= 33 && Store.current.onboarded) {
             notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
-        com.jarvis.food.appearance.Appearance.init(applicationContext)
-        setContent { com.jarvis.food.appearance.AppearanceRoot() }
+        setContent { JarvisTheme { App() } }
     }
 
     override fun onResume() {
         super.onResume()
         // Se l'app resta aperta oltre mezzanotte, il diario torna su "oggi".
         if (Nav.stack.isEmpty() && Nav.diaryDate == LocalDate.now().minusDays(1)) Nav.diaryDate = LocalDate.now()
-        if (com.jarvis.food.classicui.Nav.stack.isEmpty() && com.jarvis.food.classicui.Nav.diaryDate == LocalDate.now().minusDays(1)) com.jarvis.food.classicui.Nav.diaryDate = LocalDate.now()
         // Smartwatch: aggiorna i dati di Health Connect a ogni apertura (al massimo ogni 5 minuti).
         val e = Store.current.energy
         if (e.watchConnected && System.currentTimeMillis() - e.lastSync > 5 * 60_000) {

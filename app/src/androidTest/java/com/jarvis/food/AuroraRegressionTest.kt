@@ -5,7 +5,6 @@ import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jarvis.food.appearance.Appearance
 import com.jarvis.food.data.AppState
 import com.jarvis.food.data.Profile
 import com.jarvis.food.data.Store
@@ -16,9 +15,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** Native Compose checks: real navigation and the two complete interfaces, sharing the same Store. */
+/** Native Compose checks: navigation, categories and the original plan actions. */
 @RunWith(AndroidJUnit4::class)
-class AppearanceRegressionTest {
+class AuroraRegressionTest {
     @get:Rule val compose = createEmptyComposeRule()
     private val ins = InstrumentationRegistry.getInstrumentation()
     private fun ui(block: () -> Unit) = ins.runOnMainSync(block)
@@ -27,11 +26,7 @@ class AppearanceRegressionTest {
         Store.init(ctx)
         ui {
             Store.update { AppState(onboarded = true, profile = Profile(name = "Test Aurora")) }
-            Appearance.init(ctx)
-            Appearance.selectClassic(false)
-            Appearance.settingsOpen = false
             Nav.clear(); Nav.tab = 0; Nav.kitchenTab = 2
-            com.jarvis.food.classicui.Nav.clear(); com.jarvis.food.classicui.Nav.tab = 0
         }
     }
 
@@ -43,7 +38,7 @@ class AppearanceRegressionTest {
             compose.waitForIdle()
             assertEquals(1, Nav.tab)
             compose.onNodeWithContentDescription("Apri profilo").performClick()
-            compose.onNodeWithText("Aspetto").assertExists()
+            compose.onNodeWithText("Profilo e obiettivo").assertExists()
             ui { Nav.back() }
             compose.onNodeWithContentDescription("Famiglia", useUnmergedTree = true).performClick()
             compose.waitForIdle()
@@ -101,27 +96,4 @@ class AppearanceRegressionTest {
         }
     }
 
-    @Test fun appearanceRollbackPersistsWithoutChangingNutritionData() {
-        prepare()
-        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-            val before = Store.exportJson()
-            ui { Nav.go(Screen.Profile) }
-            compose.onNodeWithText("Aspetto").performScrollTo().performClick()
-            compose.onNodeWithText("Aurora precedente").performClick()
-            compose.onNodeWithText("Fatto").performClick()
-            compose.waitForIdle()
-            assertTrue(Appearance.classic)
-            assertEquals(before, Store.exportJson())
-            scenario.recreate()
-            compose.waitForIdle()
-            assertTrue(Appearance.classic)
-            ui { com.jarvis.food.classicui.Nav.tab = 4 }
-            compose.onNodeWithText("Aspetto").performScrollTo().performClick()
-            compose.onNodeWithText("Aurora", substring = false).performClick()
-            compose.onNodeWithText("Fatto").performClick()
-            compose.waitForIdle()
-            assertFalse(Appearance.classic)
-            assertEquals(before, Store.exportJson())
-        }
-    }
 }

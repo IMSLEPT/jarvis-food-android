@@ -133,7 +133,6 @@ fun ProfileScreen() {
             if (Nav.stack.isNotEmpty()) { BackCircle { Nav.back() }; GapW(12.dp) }
             Text("Profilo", style = T.H1)
         }
-        com.jarvis.food.appearance.AppearanceEntry()
 
         // Scheda utente
         Column(

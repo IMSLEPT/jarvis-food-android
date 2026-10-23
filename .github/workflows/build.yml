@@ -21,7 +21,7 @@ jobs:
           java-version: "17"
 
       # Modello AI offline (classificatore alimentare Google AIY food V1, TFLite con etichette incorporate).
-      - name: Verify UI snapshot and original functions
+      - name: Verify original functions and assets
         run: python3 scripts/verify-aurora-boundary.py
 
       - name: Download offline food model
@@ -105,9 +105,9 @@ jobs:
           script: |
             adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-            adb shell am instrument -w -e class com.jarvis.food.AppearanceRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
+            adb shell am instrument -w -e class com.jarvis.food.AuroraRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
             cat regression.log
-            grep -q "OK (4 tests)" regression.log
+            grep -q "OK (3 tests)" regression.log
             adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
             grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
             adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar || true
