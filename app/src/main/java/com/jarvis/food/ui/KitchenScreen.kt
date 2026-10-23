@@ -80,11 +80,7 @@ import java.time.LocalDate
 @Composable
 fun KitchenScreen() {
     val s by Store.state.collectAsState()
-    // Cambiando scheda (Dispensa / Spesa / Ricette) si riparte sempre dall'alto, non dalla posizione della scheda precedente.
-    val scroll = rememberScrollState()
-    LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().verticalScroll(scroll).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
-        MainHeader("Cucina")
+    MainPage("Cucina", resetKey = Nav.kitchenTab) {
         val seg = RoundedCornerShape(28.dp)
         Row(Modifier.padding(top = 16.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, l) ->

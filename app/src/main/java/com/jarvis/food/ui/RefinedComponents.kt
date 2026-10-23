@@ -2,6 +2,7 @@ package com.jarvis.food.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -82,5 +83,16 @@ private fun CompactPlanAction(text: String, icon: String, color: Color, modifier
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         AIcon(icon, color, 18.dp); GapW(8.dp)
         Text(text, style = T.Label.copy(color = color, fontSize = 12.sp), maxLines = 2)
+    }
+}
+
+/** The header and bottom navigation stay in place while app-owned content scrolls. */
+@Composable
+fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, content: @Composable ColumnScope.() -> Unit) {
+    val scroll = androidx.compose.foundation.rememberScrollState()
+    androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
+    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 14.dp)) { MainHeader(title, eyebrow) }
+        Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 28.dp), content = content)
     }
 }

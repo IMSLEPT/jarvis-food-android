@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -239,7 +240,7 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(24.dp)
     val (bg, blob) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.testTag("recipe-category").height(132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
+    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
         .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)

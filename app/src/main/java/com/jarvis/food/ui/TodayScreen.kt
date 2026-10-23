@@ -99,10 +99,8 @@ fun TodayScreen() {
     val e = Store.energyFor(s, date)
     val burned = Store.burnedFor(s, date)
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 20.dp)) {
-        Spacer(Modifier.height(14.dp))
-        val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
-        MainHeader(fullDay(date), "$hello, ${s.profile.name}")
+    val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
+    MainPage(fullDay(date), "$hello, ${s.profile.name}") {
         // ---- Settimana
         Spacer(Modifier.height(18.dp))
         WeekStrip(s, date)

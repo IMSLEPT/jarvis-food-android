@@ -81,9 +81,7 @@ fun PlanScreen() {
     val meals = Store.plannedMeals(s, date)
     val energy = Store.energyFor(s, date)
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 20.dp)) {
-        Spacer(Modifier.height(28.dp))
-        MainHeader("Piano")
+    MainPage("Piano") {
         Text("Grammature calcolate su calorie e macro del tuo obiettivo", style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(top = 4.dp))
         Spacer(Modifier.height(14.dp))
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -112,7 +110,7 @@ fun PlanScreen() {
                     APrimary("Crea il piano della settimana", Modifier.fillMaxWidth()) { Store.generatePlan(monday) }
                 }
             }
-            return@Column
+            return@MainPage
         }
 
         Spacer(Modifier.height(18.dp))
