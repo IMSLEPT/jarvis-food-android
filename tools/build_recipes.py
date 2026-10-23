@@ -4,6 +4,7 @@ import json, os, re, sys
 D = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, D)
 from recipes_spec import R
+from realtime import effective_minutes
 foods = {f["id"] for f in json.load(open(os.path.join(D, "../app/src/main/assets/foods.json")))["foods"]}
 imgs = json.load(open(os.path.join(D, "images_chosen.json"))) if os.path.exists(os.path.join(D, "images_chosen.json")) else {}
 out, errors = [], []
@@ -17,7 +18,7 @@ for r in R:
     for k in keys:
         if not any("{" + k + "}" in st for st in r["steps"]) and k not in ("sale", "pepe"):
             pass  # alcuni aromi sono citati senza grammatura (es. "aglio"): ammesso
-    o = dict(id=r["id"], name=r["name"], meal=r["meal"], minutes=r["minutes"], steps=r["steps"], tip=r.get("tip", ""), cuisine=r.get("cuisine", "italiana"), methods=r.get("methods", []), difficulty=r.get("diff", 1),
+    o = dict(id=r["id"], name=r["name"], meal=r["meal"], minutes=effective_minutes(r["steps"], r["minutes"]), steps=r["steps"], tip=r.get("tip", ""), cuisine=r.get("cuisine", "italiana"), methods=r.get("methods", []), difficulty=r.get("diff", 1),
              ings=[dict(food=i[0], g=float(i[1]), role=i[2], **({"label": i[3]} if len(i) > 3 else {})) for i in r["ings"]])
     im = imgs.get(r["id"])
     if im:

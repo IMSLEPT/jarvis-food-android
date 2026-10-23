@@ -40,4 +40,25 @@ class RecipeCatsTest {
         RecipeCats.get(db)
         assertNotNull(RecipeCats.peek(db))
     }
+
+    @Test fun categoriePerTempoSonoCumulativeERealistiche() {
+        val tempo = RecipeCats.get(db).first { it.id == "tempo" }
+        assertEquals(listOf(10, 15, 20, 30, 45, 60), tempo.cats.map { it.filter.maxMinutes })
+        val counts = tempo.cats.map { it.count }
+        assertEquals("le fasce devono essere cumulative (entro 20 comprende entro 10)", counts, counts.sorted())
+        for (c in tempo.cats) assertEquals(db.recipes.count { it.minutes <= c.filter.maxMinutes!! }, c.count)
+        // ricette con lunghe attese non possono comparire tra quelle rapide
+        val lunghe = db.recipes.filter { it.id == "overnight_oats" || it.id == "chia_pudding_mango" }
+        assertTrue(lunghe.isNotEmpty() && lunghe.all { it.minutes > 60 })
+    }
+
+    @Test fun iMinutiNonSottostimanoLeAttesaScrittePassaggi() {
+        val dur = Regex("(\\d+)\\s*(?:-|–|/)?\\s*(\\d+)?\\s*(minut\\w*|min\\b)", RegexOption.IGNORE_CASE)
+        val par = Regex("\\b(mentre|nel frattempo|intanto|contemporaneamente)\\b", RegexOption.IGNORE_CASE)
+        val sotto = db.recipes.filter { r ->
+            val tot = r.steps.filterNot { par.containsMatchIn(it) }.sumOf { st -> dur.findAll(st).sumOf { m -> maxOf(m.groupValues[1].toInt(), m.groupValues[2].toIntOrNull() ?: 0) } }
+            r.minutes < tot
+        }
+        assertTrue("ricette con tempo inferiore alla somma dei passaggi: ${sotto.map { it.id }.take(10)}", sotto.isEmpty())
+    }
 }

@@ -12,6 +12,8 @@ data class RecipeCatGroup(val id: String, val title: String, val cats: List<Reci
 object RecipeCats {
     private val MEAL_EMOJI = mapOf("colazione" to "🥐", "pranzo" to "🍝", "cena" to "🍽️", "spuntino" to "🍎", "dessert" to "🍰")
     private val KCAL_EMOJI = listOf("🥬", "🥗", "🍳", "🍲", "🍛", "🍝", "🥩", "🍔")
+    /** Fasce di tempo totale (preparazione + cottura + attese): ogni categoria mostra TUTTE le ricette fino a quel tempo. */
+    val TIME_STEPS = listOf(10 to "⚡", 15 to "🥪", 20 to "🍳", 30 to "🍝", 45 to "🥘", 60 to "🍲")
     private val GOAL_EMOJI = mapOf(
         "alto_proteico" to "💪", "poche_cal" to "🍃", "pochi_grassi" to "💧", "low_carb" to "🥦", "fibre" to "🌾",
         "bilanciato" to "⚖️", "ipertrofia" to "🏋️", "ricomposizione" to "🔄", "dimagrimento" to "🎯"
@@ -54,6 +56,9 @@ object RecipeCats {
         fun cat(emoji: String, label: String, f: RecipeFilter, title: String = label) = RecipeCat(emoji, label, f, n(db, f), title)
         return listOf(
             RecipeCatGroup("pasto", "Per pasto", RecipeMeta.MEALS.map { (k, l) -> cat(MEAL_EMOJI[k] ?: "🍽️", l, RecipeFilter(meals = setOf(k))) }),
+            RecipeCatGroup("tempo", "Quanto tempo hai?", TIME_STEPS.map { (m, e) ->
+                cat(e, "Entro $m min", RecipeFilter(maxMinutes = m, sort = "tempo"), "Pronte in $m minuti o meno")
+            }),
             RecipeCatGroup("kcal", "Per calorie (a porzione)", RecipeMeta.KCAL_BUCKETS.mapIndexed { i, (k, r) ->
                 val f = RecipeFilter(kcalMin = r.first.toInt().takeIf { it > 0 }, kcalMax = r.second.toInt().takeIf { it < 99999 })
                 cat(KCAL_EMOJI.getOrElse(i) { "🍽️" }, kcalLabel(k), f, "Ricette ${kcalLabel(k).replaceFirstChar { it.lowercase() }}")

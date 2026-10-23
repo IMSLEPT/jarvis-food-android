@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -128,37 +129,66 @@ private fun diffText(v: Double, unit: String = ""): String = (if (v >= 0) "+" el
 
 // ---------------------------------------------------------------- Schede ricetta
 
+/** Riga di schede: con 1–2 elementi occupano tutta la larghezza (niente spazio vuoto), con più elementi scorrono in orizzontale. */
 @Composable
-private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, width: Dp = 192.dp, badge: String? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(26.dp)
-    Column(Modifier.width(width).aShadow(shape, 8.dp, Color(0x661D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
+private fun <T> TileStrip(items: List<T>, content: @Composable (T, Modifier) -> Unit) {
+    if (items.size <= 2) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            items.forEach { content(it, Modifier.weight(1f)) }
+            if (items.size == 1) Box(Modifier.weight(1f))
+        }
+    } else {
+        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            items.forEach { content(it, Modifier.width(TILE_W)) }
+        }
+    }
+}
+
+private val TILE_W = 166.dp
+
+/** Riga "kcal · minuti" con icone piccole: stessa altezza in tutte le schede. */
+@Composable
+private fun TileMeta(kcal: String, minutes: Int) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        AIcon(Ic.Flame, C.Accent, 13.dp, 2f); GapW(3.dp)
+        Text(kcal, style = T.Small.copy(fontSize = 12.sp, color = A.Ink.copy(alpha = 0.75f), fontWeight = FontWeight.SemiBold), maxLines = 1)
+        GapW(10.dp)
+        AIcon(Ic.Clock, A.Muted, 13.dp, 2f); GapW(3.dp)
+        Text("$minutes min", style = T.Small.copy(fontSize = 12.sp, color = A.Ink.copy(alpha = 0.75f), fontWeight = FontWeight.SemiBold), maxLines = 1)
+    }
+}
+
+@Composable
+private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modifier: Modifier = Modifier, badge: String? = null, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(24.dp)
+    Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         Box {
-            RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(124.dp), recEmoji(tpl.meal), 0.dp)
-            if (tpl.id in s.recipeFavs) Box(Modifier.align(Alignment.TopEnd).padding(8.dp).size(30.dp).clip(CircleShape).background(Color(0xEBFFFFFF)), contentAlignment = Alignment.Center) {
-                AIcon(Ic.Heart, C.Protein, 16.dp, 2f, fill = true)
+            RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().aspectRatio(1.4f), recEmoji(tpl.meal), 0.dp)
+            if (tpl.id in s.recipeFavs) Box(Modifier.align(Alignment.TopEnd).padding(8.dp).size(28.dp).clip(CircleShape).background(Color(0xEBFFFFFF)), contentAlignment = Alignment.Center) {
+                AIcon(Ic.Heart, C.Protein, 15.dp, 2f, fill = true)
             }
             if (badge != null) Box(Modifier.align(Alignment.BottomStart).padding(8.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xEBFFFFFF)).padding(horizontal = 9.dp, vertical = 3.dp)) {
-                Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 11.5.sp), maxLines = 1)
+                Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 11.sp), maxLines = 1)
             }
         }
-        Column(Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
+        Column(Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
-            GapH(4.dp)
-            Text("${info.kcal.r0()} kcal · ${tpl.minutes} min", style = T.Small, maxLines = 1)
+            GapH(6.dp)
+            TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
         }
     }
 }
 
 @Composable
-private fun UserRecipeTile(r: Recipe, width: Dp = 192.dp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(26.dp)
+private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(24.dp)
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
-    Column(Modifier.width(width).aShadow(shape, 8.dp, Color(0x661D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
-        RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().height(124.dp), r.emoji, 0.dp)
-        Column(Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
+    Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
+        RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
+        Column(Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
-            GapH(4.dp)
-            Text("${per.kcal.r0()} kcal · ${r.minutes} min", style = T.Small, maxLines = 1)
+            GapH(6.dp)
+            TileMeta("${per.kcal.r0()} kcal", r.minutes)
         }
     }
 }
@@ -194,11 +224,16 @@ private fun openRecipe(s: AppState, t: RecipeTemplate) {
 }
 
 /** Colori pastello delle tessere (sfondo, macchia decorativa): ogni tessera ha il suo, come su Yazio. */
-private val CAT_COLORS = listOf(
+private val CAT_BASE = listOf(
     Color(0xFFDDEEFA) to Color(0xFFC4E0F4), Color(0xFFE6E0F8) to Color(0xFFD3C9F1), Color(0xFFDAF4E5) to Color(0xFFBFEAD3), Color(0xFFFFE5D3) to Color(0xFFFFD1B3),
     Color(0xFFFFF0C4) to Color(0xFFFFE19B), Color(0xFFFFDFE8) to Color(0xFFFFC8D8), Color(0xFFD6F2F2) to Color(0xFFB8E5E5), Color(0xFFF3E8D8) to Color(0xFFE8D6BA)
 )
-private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "dieta" to 5, "metodo" to 2, "cucina" to 6)
+/** Stesse tinte di prima, ma più tenui (meno sature): sfondo schiarito del 38%, macchia molto vicina allo sfondo, così le scritte restano ben leggibili. */
+private val CAT_COLORS = CAT_BASE.map { (bg, blob) ->
+    val soft = androidx.compose.ui.graphics.lerp(bg, Color.White, 0.38f)
+    soft to androidx.compose.ui.graphics.lerp(androidx.compose.ui.graphics.lerp(blob, Color.White, 0.38f), soft, 0.4f)
+}
+private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "dieta" to 5, "metodo" to 2, "cucina" to 6, "tempo" to 4)
 
 /** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
 @Composable
@@ -216,7 +251,7 @@ private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, mod
         GapH(8.dp)
         Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 14.sp, lineHeight = 16.sp, fontWeight = FontWeight.ExtraBold), maxLines = 2, overflow = TextOverflow.Ellipsis,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-        Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.6f), fontSize = 11.sp), maxLines = 1)
+        Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 11.sp, fontWeight = FontWeight.Medium), maxLines = 1)
     }
 }
 
@@ -232,20 +267,20 @@ private fun CatGroupRow(g: com.jarvis.food.engine.RecipeCatGroup) {
 
 /** Fasce di calorie: griglia fissa 4 × 2, sempre tutta visibile (es. "Sotto 100 kcal" si trova subito). */
 @Composable
-private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup) {
+private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup, cols: Int = 4) {
     val off = CAT_OFFSET[g.id] ?: 0
     Text(g.title, style = T.Label.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
-    g.cats.chunked(4).forEachIndexed { row, items ->
+    g.cats.chunked(cols).forEachIndexed { row, items ->
         if (row > 0) GapH(10.dp)
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            items.forEachIndexed { i, c -> CatTile(c.emoji, c.label, c.count, off + row * 4 + i, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
-            repeat(4 - items.size) { Box(Modifier.weight(1f)) }
+            items.forEachIndexed { i, c -> CatTile(c.emoji, c.label, c.count, off + row * cols + i, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
+            repeat(cols - items.size) { Box(Modifier.weight(1f)) }
         }
     }
 }
 
 @Composable
-private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { if (g.id == "kcal") CatKcalGrid(g) else CatGroupRow(g) }
+private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id) { "kcal" -> CatKcalGrid(g, 4); "tempo" -> CatKcalGrid(g, 3); else -> CatGroupRow(g) } }
 
 /** Segnaposto mentre le categorie si calcolano in background (di solito sono già pronte all'apertura). */
 @Composable
@@ -318,7 +353,7 @@ fun RecipesHome() {
         ASection("Ricetta del giorno", top = 22.dp)
         GapH(10.dp)
         val big = RoundedCornerShape(30.dp)
-        Box(Modifier.fillMaxWidth().height(210.dp).aShadow(big, 12.dp, Color(0x8C1D1B3A)).clip(big).clickable { openRecipe(s, daily) }) {
+        Box(Modifier.fillMaxWidth().aspectRatio(1.75f).aShadow(big, 10.dp, Color(0x661D1B3A)).clip(big).clickable { openRecipe(s, daily) }) {
             RecipeImage(daily.id, daily.image, s.recipePhotos[daily.id], Modifier.fillMaxSize(), recEmoji(daily.meal), 0.dp)
             Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 0.4f to Color.Transparent, 1f to Color(0xDB18142F))))
             Column(Modifier.align(Alignment.BottomStart).padding(16.dp)) {
@@ -333,9 +368,7 @@ fun RecipesHome() {
     if (recommended.isNotEmpty()) {
         ASection("Consigliate per te", top = 22.dp, action = "Vedi tutte") { Nav.go(Screen.WhatNow) }
         Text("Per il prossimo pasto (${RecipeMeta.label(RecipeMeta.MEALS, nextKey).lowercase()}), vicine ai ${ctx?.target?.kcal?.r0() ?: ""} kcal che ti restano.", style = T.Small, modifier = Modifier.padding(bottom = 10.dp))
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            recommended.forEach { (t, i) -> RecipeTile(t, i, s) { openRecipe(s, t) } }
-        }
+        TileStrip(recommended) { (t, i), m -> RecipeTile(t, i, s, m) { openRecipe(s, t) } }
     }
 
     // Più aperte da te (dati reali: nessuna finta classifica di popolarità)
@@ -343,9 +376,7 @@ fun RecipesHome() {
     if (most.size >= 2) {
         ASection("Le più aperte da te", top = 22.dp)
         GapH(10.dp)
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            most.forEach { (t, n) -> RecipeTile(t, RecipeMeta.info(db, t), s, badge = "$n aperture") { openRecipe(s, t) } }
-        }
+        TileStrip(most) { (t, n), m -> RecipeTile(t, RecipeMeta.info(db, t), s, m, badge = "$n aperture") { openRecipe(s, t) } }
     }
 
     // Da provare oggi: scelta che ruota ogni giorno tra le ricette con foto
@@ -353,9 +384,7 @@ fun RecipesHome() {
     if (discover.isNotEmpty()) {
         ASection("Da provare oggi", top = 22.dp)
         GapH(10.dp)
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            discover.forEach { t -> RecipeTile(t, RecipeMeta.info(db, t), s) { openRecipe(s, t) } }
-        }
+        TileStrip(discover) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
     }
 
     // Recenti
@@ -363,9 +392,7 @@ fun RecipesHome() {
     if (recent.isNotEmpty()) {
         ASection("Viste di recente", top = 22.dp)
         GapH(10.dp)
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            recent.forEach { t -> RecipeTile(t, RecipeMeta.info(db, t), s) { openRecipe(s, t) } }
-        }
+        TileStrip(recent) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
     }
 
     // Preferite
@@ -377,9 +404,7 @@ fun RecipesHome() {
         }
     } else {
         GapH(10.dp)
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            favs.take(12).forEach { t -> RecipeTile(t, RecipeMeta.info(db, t), s) { openRecipe(s, t) } }
-        }
+        TileStrip(favs.take(12)) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
     }
 
     // Le mie ricette
@@ -393,9 +418,7 @@ fun RecipesHome() {
         }
     } else {
         GapH(10.dp)
-        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            s.recipes.take(12).forEach { r -> UserRecipeTile(r) { Nav.go(Screen.UserRecipeDetail(r)) } }
-        }
+        TileStrip(s.recipes.take(12)) { r, m -> UserRecipeTile(r, m) { Nav.go(Screen.UserRecipeDetail(r)) } }
     }
     GapH(10.dp)
     APrimary("+ Nuova ricetta", Modifier.fillMaxWidth(), height = 54.dp) { Nav.go(Screen.RecipeEditor(null)) }
@@ -408,7 +431,7 @@ fun RecipesHome() {
     GapH(8.dp)
 }
 
-private val TOP_CATS = setOf("pasto", "kcal")
+private val TOP_CATS = setOf("pasto", "tempo", "kcal")
 
 // ---------------------------------------------------------------- Elenco con filtri
 
