@@ -35,6 +35,9 @@ class AuroraLayoutTest {
 
     private fun shot(name: String) {
         compose.waitForIdle()
+        ins.waitForIdleSync()
+        // Compose's test clock can finish before SurfaceFlinger presents the new frame.
+        android.os.SystemClock.sleep(500)
         val bitmap = ins.uiAutomation.takeScreenshot()
         val dir = File(ins.targetContext.filesDir, "shots/layout-$profile").apply { mkdirs() }
         File(dir, "$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }

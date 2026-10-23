@@ -537,7 +537,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
             if (planned) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     AInk("Alternativa", Modifier.weight(1f), height = 56.dp, bg = Color(0xFFF6F1EA), fg = A.Ink) { Nav.go(Screen.Alternatives(sc.date, sc.slot!!)) }
-                    APrimary(if (eaten) "✓ Mangiato" else "Segna mangiato", Modifier.weight(1.3f), height = 56.dp) {
+                    APrimary(if (eaten) "✓ Mangiato" else "Segna mangiato", Modifier.weight(1f), height = 56.dp) {
                         val pm = Store.plannedMeals(Store.current, sc.date).firstOrNull { it.slotIndex == sc.slot }
                         if (eaten) Store.uneatPlanned(sc.date, sc.slot!!)
                         else if (pm != null) { Store.eatPlanned(sc.date, pm); Store.consumeFromPantry(pm.solved) }
