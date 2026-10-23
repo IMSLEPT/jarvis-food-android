@@ -133,7 +133,6 @@ jobs:
             adb shell settings put secure show_ime_with_hard_keyboard 1
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-standard.log 2>&1
             cat layout-standard.log
-            grep -q "OK (2 tests)" layout-standard.log
             adb shell wm size 1080x2340
             adb shell wm density 480
             adb shell settings put system font_scale 1.3
@@ -145,6 +144,7 @@ jobs:
             adb shell wm size reset
             adb shell wm density reset
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
+            grep -q "OK (2 tests)" layout-standard.log
             grep -q "OK (2 tests)" layout-large-text.log
 
       - name: Publish GitHub Release

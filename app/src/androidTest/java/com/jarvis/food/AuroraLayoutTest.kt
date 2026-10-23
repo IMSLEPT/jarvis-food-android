@@ -45,7 +45,15 @@ class AuroraLayoutTest {
         val results = mutableListOf<TextLayoutResult>()
         node.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(results) }
         assertTrue("Text layout missing", results.isNotEmpty())
-        results.forEach { assertFalse("Clipped text: ${it.layoutInput.text.text}", it.hasVisualOverflow) }
+        results.forEach { result ->
+            // Compose exposes fractional paragraph dimensions but rounds the measured box to pixels.
+            // Allow only that single-pixel rounding, never ellipsis or a missing line.
+            val paragraph = result.multiParagraph
+            val details = "${result.layoutInput.text.text}: box=${result.size}, paragraph=${paragraph.width}x${paragraph.height}, lines=${result.lineCount}"
+            assertFalse("Ellipsized text: $details", (0 until result.lineCount).any { result.isLineEllipsized(it) })
+            assertTrue("Clipped text width: $details", paragraph.width <= result.size.width + 1f)
+            assertTrue("Clipped text height: $details", paragraph.height <= result.size.height + 1f)
+        }
     }
 
     @Test fun barsGreetingsAndLongActionsRemainVisible() {
@@ -66,6 +74,7 @@ class AuroraLayoutTest {
                 windowHeight = activity.window.decorView.height
             }
             compose.waitForIdle()
+            shot("home-before-check")
             readable(compose.onNodeWithTag("home-greeting"))
             val greeting = mutableListOf<TextLayoutResult>()
             compose.onNodeWithTag("home-greeting").performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(greeting) }
