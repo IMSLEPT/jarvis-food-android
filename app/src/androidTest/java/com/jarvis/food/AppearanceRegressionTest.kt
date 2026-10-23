@@ -71,6 +71,36 @@ class AppearanceRegressionTest {
         }
     }
 
+    @Test fun compactPlanKeepsDiaryRecipeAlternativesAndShoppingActions() {
+        prepare()
+        val today = java.time.LocalDate.now()
+        ui { Store.generatePlan(today.with(java.time.DayOfWeek.MONDAY), 7) }
+        val first = Store.plannedMeals(Store.current, today).first()
+        val originalDiary = Store.current.diary.size
+        ActivityScenario.launch(MainActivity::class.java).use {
+            ui { Nav.tab = 1; Nav.planDate = today }
+            compose.onAllNodesWithText("Segna mangiato")[0].performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue(Store.current.diary.size > originalDiary)
+            compose.onAllNodesWithText("Mangiato ✓")[0].performScrollTo().performClick()
+            compose.waitForIdle()
+            assertEquals(originalDiary, Store.current.diary.size)
+            compose.onAllNodesWithText("Alternative")[0].performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue(Nav.stack.last() is Screen.Alternatives)
+            ui { Nav.back() }
+            compose.onAllNodesWithText(first.solved.template.name)[0].performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue(Nav.stack.last() is Screen.RecipeView)
+            ui { Nav.back() }
+            compose.onNodeWithText("Crea lista della spesa").performScrollTo().performClick()
+            compose.waitForIdle()
+            assertEquals(2, Nav.tab)
+            assertEquals(1, Nav.kitchenTab)
+            assertTrue(Store.current.shopping.isNotEmpty())
+        }
+    }
+
     @Test fun appearanceRollbackPersistsWithoutChangingNutritionData() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
