@@ -19,7 +19,10 @@ for r in csv.DictReader(open(os.path.join(SR, "nutrient.csv"))):
     nbr = (r.get("nutrient_nbr") or "").split(".")[0]
     if nbr in NUTR: nid2key[r["id"]] = NUTR[nbr]
 desc = {r["fdc_id"]: r["description"] for r in csv.DictReader(open(os.path.join(SR, "food.csv")))}
-want = {str(x["fdc"]) for x in F}
+# Peso crudo -> cotto: rapporto tra l'energia dell'alimento secco e quella dello stesso alimento cotto (USDA SR Legacy).
+COOKED = {"pasta": 168928, "pasta_int": 168910, "riso": 168878, "basmati": 168878, "riso_int": 169704, "farro": 169746, "orzo": 170285,
+          "quinoa": 168917, "couscous": 169700, "ceci_secchi": 173757, "lenticchie_secche": 172421, "lenticchie_rosse": 172421}
+want = {str(x["fdc"]) for x in F} | {str(v) for v in COOKED.values()}
 vals = {k: {} for k in want}
 for r in csv.DictReader(open(os.path.join(SR, "food_nutrient.csv"))):
     if r["fdc_id"] in want and r["nutrient_id"] in nid2key:
@@ -36,6 +39,9 @@ for x in F:
     # disponibili, senza fibra: li allineo così sono confrontabili con le etichette e con Open Food Facts.
     o["carbs"] = round(max(0.0, v.get("carbs", 0.0) - v.get("fiber", 0.0)), 2)
     o["micro"] = {k: round(val, 3) for k, val in sorted(v.items()) if k not in ("kcal", "protein", "carbs", "fat")}
+    if x["key"] in COOKED:
+        ck = vals[str(COOKED[x["key"]])].get("kcal")
+        if ck: o["cooked"] = round(v["kcal"] / ck, 2); o["cookedFdc"] = COOKED[x["key"]]
     if "piece" in x: o["pieceName"], o["pieceGrams"] = x["piece"]
     if "pack" in x: o["pack"] = x["pack"]
     if "syn" in x: o["syn"] = [s.strip() for s in x["syn"].split(",") if s.strip()]

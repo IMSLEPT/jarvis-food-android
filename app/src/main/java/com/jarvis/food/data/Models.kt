@@ -29,14 +29,16 @@ data class Food(
     val micro: Map<String, Double> = emptyMap(),
     val fdc: Int? = null,
     val group: String = "",
-    val tags: List<String> = emptyList()
+    val tags: List<String> = emptyList(),
+    /** Grammi di alimento cotto per grammo di crudo (stima da dati USDA); null se non applicabile. */
+    val cooked: Double? = null
 )
 
 @Serializable
 data class DiaryEntry(
     val id: String,
     val date: String,          // yyyy-MM-dd
-    val meal: Int,             // 0 colazione, 1 pranzo, 2 cena, 3 spuntini
+    val meal: Int,             // 0 colazione, 1 pranzo, 2 cena, 3 merenda, 4 spuntino mattutino, 5 spuntino serale
     val food: Food,
     val grams: Double,
     val time: Long,
@@ -309,5 +311,5 @@ data class ChatMsg(
     val suggestions: List<String> = emptyList()
 )
 
-val MEAL_NAMES = listOf("Colazione", "Pranzo", "Cena", "Spuntini")
+val MEAL_NAMES = listOf("Colazione", "Pranzo", "Cena", "Merenda", "Spuntino mattutino", "Spuntino serale")
 val MEAL_EMOJI = listOf("☀️", "🍝", "🌙", "🍎")

@@ -24,7 +24,9 @@ data class DbFood(
     val pieceGrams: Double? = null,
     val pack: Double? = null,
     val syn: List<String> = emptyList(),
-    val note: String? = null
+    val note: String? = null,
+    val cooked: Double? = null,
+    val cookedFdc: Int? = null
 ) {
     /** Converte nel modello usato dal diario, con fibre, zuccheri, saturi e sale espliciti. */
     fun toFood(): Food = Food(
@@ -32,7 +34,7 @@ data class DbFood(
         fiber = micro["fiber"], sugar = micro["sugar"], satFat = micro["satFat"],
         salt = micro["sodium"]?.let { it * 2.5 / 1000.0 },
         servingName = pieceName, servingGrams = pieceGrams, source = "db", liquid = liquid,
-        category = group, micro = micro, fdc = fdc, group = group, tags = tags
+        category = group, micro = micro, fdc = fdc, group = group, tags = tags, cooked = cooked
     )
 }
 

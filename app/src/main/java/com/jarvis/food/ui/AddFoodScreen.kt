@@ -149,14 +149,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                         Text(mealName, style = T.H1.copy(fontSize = 28.sp, lineHeight = 32.sp))
                     }
                 }
-                Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    MEAL_ORDER.forEach { m ->
-                        val sel = m == mealSel
-                        Box(Modifier.weight(1f).height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.White)
-                            .border(1.dp, if (sel) C.Navy else A.Hair, RoundedCornerShape(22.dp)).clickable { mealSel = m },
-                            contentAlignment = Alignment.Center) { Text(MEAL_LABEL.getValue(m), style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1) }
-                    }
-                }
+                MealChips(mealSel, Modifier.padding(top = 16.dp)) { mealSel = it }
                 // Ricerca
                 val sb = RoundedCornerShape(30.dp)
                 Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(60.dp).aShadow(sb, 10.dp, Color(0x801D1B3A)).clip(sb).background(Color.White).border(1.dp, Color(0x141D1B3A), sb)

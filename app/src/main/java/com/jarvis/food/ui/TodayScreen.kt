@@ -1,5 +1,6 @@
 package com.jarvis.food.ui
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -34,11 +35,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -81,15 +84,10 @@ fun dayLabel(d: LocalDate): String {
 fun fullDay(d: LocalDate): String =
     "${d.dayOfWeek.getDisplayName(TextStyle.FULL, IT).replaceFirstChar { it.uppercase() }} ${d.dayOfMonth} ${d.month.getDisplayName(TextStyle.FULL, IT)}"
 
-fun defaultMeal(): Int = when (LocalTime.now().hour) { in 5..10 -> 0; in 11..15 -> 1; in 18..23 -> 2; else -> 3 }
+fun defaultMeal(): Int = mealForHour(LocalTime.now().hour)
 
-/** Ordine dei pasti nel design: colazione, pranzo, spuntino, cena (indici dell'app: 0, 1, 3, 2). */
-val MEAL_ORDER = listOf(0, 1, 3, 2)
-val MEAL_LABEL = mapOf(0 to "Colazione", 1 to "Pranzo", 3 to "Spuntino", 2 to "Cena")
-val MEAL_ICON = mapOf(0 to Ic.MealBreakfast, 1 to Ic.MealLunch, 3 to Ic.MealSnack, 2 to Ic.MealDinner)
-val MEAL_SOFT = mapOf(0 to A.FatSoft, 1 to A.GreenSoft, 3 to A.ProteinSoft, 2 to A.CarbSoft)
-val MEAL_INK = mapOf(0 to A.FatInk, 1 to A.GreenInk, 3 to A.ProteinInk, 2 to A.CarbInk)
-val MEAL_DOT = mapOf(0 to Color(0xFFFFB820), 1 to Color(0xFF10B981), 3 to Color(0xFFF43F6E), 2 to Color(0xFF3B82F6))
+val MEAL_SOFT = mapOf(0 to A.FatSoft, 1 to A.GreenSoft, 3 to A.ProteinSoft, 2 to A.CarbSoft, 4 to A.FatSoft, 5 to A.FastSoft)
+val MEAL_INK = mapOf(0 to A.FatInk, 1 to A.GreenInk, 3 to A.ProteinInk, 2 to A.CarbInk, 4 to A.FatInk, 5 to A.FastInk)
 
 @Composable
 fun TodayScreen() {
@@ -152,12 +150,12 @@ fun TodayScreen() {
         }
 
         // ---- Azioni rapide
-        Spacer(Modifier.height(22.dp))
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            QuickTile("Aggiungi", Ic.Plus, 2.4f, Color(0xFFC93A1F), Color(0xFFFFD9C9), Color(0xFFFFEBDD), Color(0x99E88C60)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
-            QuickTile("Foto piatto", Ic.Camera, 2f, Color(0xFF1D4ED8), Color(0xFFD7E6FF), Color(0xFFEAF1FF), Color(0x993B82F6)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
-            QuickTile("Frigo", Ic.Fridge, 2f, Color(0xFF047857), Color(0xFFC9F3E1), Color(0xFFE2FAF0), Color(0x9910B981)) { Nav.go(Screen.PantryScan("foto")) }
-            QuickTile("Digiuno", Ic.Timer, 2f, Color(0xFF6D28D9), Color(0xFFE4DAFF), Color(0xFFF0EAFF), Color(0x998B5CF6)) { Nav.go(Screen.Fasting) }
+        Spacer(Modifier.height(20.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            QuickTile("Aggiungi", Ic.Plus, 2.4f, Color(0xFFC93A1F), Color(0xFFFFD9C9), Color(0xFFFFEBDD), Color(0x99E88C60), Modifier.weight(1f)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
+            QuickTile("Foto piatto", Ic.Camera, 2f, Color(0xFF1D4ED8), Color(0xFFD7E6FF), Color(0xFFEAF1FF), Color(0x993B82F6), Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
+            QuickTile("Frigo", Ic.Fridge, 2f, Color(0xFF047857), Color(0xFFC9F3E1), Color(0xFFE2FAF0), Color(0x9910B981), Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
+            QuickTile("Digiuno", Ic.Timer, 2f, Color(0xFF6D28D9), Color(0xFFE4DAFF), Color(0xFFF0EAFF), Color(0x998B5CF6), Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
         }
 
         PlanToday(s, date)
@@ -314,13 +312,15 @@ private fun MacroRing(label: String, value: Double, goal: Double, color: Color, 
 }
 
 @Composable
-private fun QuickTile(label: String, icon: String, stroke: Float, ink: Color, c1: Color, c2: Color, glow: Color, onClick: () -> Unit) {
-    Column(Modifier.clickable(onClick = onClick), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Box(
-            Modifier.size(64.dp).aShadow(RoundedCornerShape(24.dp), 7.dp, glow).clip(RoundedCornerShape(24.dp)).background(Brush.linearGradient(listOf(c1, c2))),
-            contentAlignment = Alignment.Center
-        ) { AIcon(icon, ink, 26.dp, stroke) }
-        Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), maxLines = 1)
+private fun QuickTile(label: String, icon: String, stroke: Float, ink: Color, c1: Color, c2: Color, glow: Color, modifier: Modifier, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(20.dp)
+    Column(
+        modifier.height(78.dp).aShadow(shape, 6.dp, glow).clip(shape).background(Brush.linearGradient(listOf(c1, c2))).clickable(onClick = onClick).padding(horizontal = 4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
+    ) {
+        AIcon(icon, ink, 26.dp, stroke)
+        Spacer(Modifier.height(6.dp))
+        Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), maxLines = 1, softWrap = false)
     }
 }
 
@@ -379,64 +379,78 @@ private fun PlanToday(s: AppState, date: LocalDate) {
 private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
     val entries = Store.entriesFor(s, date).filter { it.meal == meal }.sortedBy { it.time }
     val t = Nutrition.sum(entries)
-    var menu by remember { mutableStateOf(false) }
+    var open by rememberSaveable(meal, date.toString()) { mutableStateOf(false) }
     val planned = remember(s.plan, s.dietPrefs, date) { Store.plannedMeals(s, date).firstOrNull { it.diaryMeal == meal } }
     val shape = RoundedCornerShape(26.dp)
-    Column(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x591D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).padding(14.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box {
-                Row(Modifier.clip(RoundedCornerShape(16.dp)).clickable { menu = true }, verticalAlignment = Alignment.CenterVertically) {
-                    TonalIcon(MEAL_ICON.getValue(meal), MEAL_INK.getValue(meal), MEAL_SOFT.getValue(meal))
+    val chevron by animateFloatAsState(if (open) 180f else 0f, tween(250), label = "chev")
+    Column(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x591D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).animateContentSize(tween(260))) {
+        Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 14.dp, end = 12.dp, top = 12.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            MealArt(meal)
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(MEAL_LABEL.getValue(meal), style = T.Title2.copy(fontSize = 17.sp), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    if (entries.isNotEmpty()) "${t.kcal.r0()} kcal · P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()}"
+                    else if (planned != null) "Consigliato: ${planned.solved.total.kcal.r0()} kcal" else "Nessun alimento",
+                    style = T.Small, maxLines = 1
+                )
+            }
+            if (entries.isNotEmpty()) Box(Modifier.padding(end = 8.dp).clip(RoundedCornerShape(12.dp)).background(A.Peach).padding(horizontal = 8.dp, vertical = 4.dp)) {
+                Text("${entries.size}", style = T.Chip.copy(fontSize = 12.sp, color = A.Muted))
+            }
+            Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon("M6 9l6 6 6-6", A.Muted, 20.dp, 2.4f) }
+            Spacer(Modifier.width(6.dp))
+            PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
+        }
+        if (open) Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
+            if (entries.isEmpty()) {
+                val dash = Color(0xFFD9D4EC)
+                Box(
+                    Modifier.fillMaxWidth().height(44.dp).drawBehind {
+                        drawRoundRect(dash, style = Stroke(1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(14f, 10f))), cornerRadius = androidx.compose.ui.geometry.CornerRadius(18.dp.toPx()))
+                    }.clickable { Nav.go(Screen.AddFood(date, meal)) },
+                    contentAlignment = Alignment.Center
+                ) { Text("Nessun alimento ancora · tocca per aggiungere", style = T.Small.copy(fontSize = 13.sp)) }
+            } else entries.forEach { en ->
+                val et = Nutrition.of(en.food, en.grams)
+                val tpl = en.planRef?.substringAfter('#', "")?.toIntOrNull()?.let { slot -> Store.plannedMeals(s, date).firstOrNull { it.slotIndex == slot }?.solved?.template }
+                Row(
+                    Modifier.padding(bottom = 8.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(A.Peach)
+                        .clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (tpl != null) RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(48.dp), "🍽️", 16.dp)
+                    else { val (bg, ink) = tileColors(en.food.name); InitialTile(en.food.name, bg, ink, 48.dp, 16.dp) }
                     Spacer(Modifier.width(12.dp))
-                    Column {
-                        Text(MEAL_LABEL.getValue(meal), style = T.Title2.copy(fontSize = 17.sp))
+                    Column(Modifier.weight(1f)) {
+                        Text(en.food.name, style = T.Label.copy(fontSize = 14.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
                         Text(
-                            if (entries.isNotEmpty()) "${t.kcal.r0()} kcal · P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()}"
-                            else if (planned != null) "Consigliato: ${planned.solved.total.kcal.r0()} kcal" else "Nessun alimento",
+                            if (en.food.source == "quick") "aggiunta rapida" else "P ${et.protein.r0()} · C ${et.carbs.r0()} · G ${et.fat.r0()}" +
+                                (if (en.planRef == null) " · ${en.grams.r1().replace(",0", "")} ${if (en.food.liquid) "ml" else "g"}" else ""),
                             style = T.Small, maxLines = 1
                         )
                     }
-                }
-                DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
-                    DropdownMenuItem(text = { Text("Copia da ieri") }, onClick = { Store.copyMeal(date.minusDays(1), meal, date, meal); menu = false })
-                    DropdownMenuItem(text = { Text("Copia su domani") }, onClick = { Store.copyMeal(date, meal, date.plusDays(1), meal); menu = false })
-                    DropdownMenuItem(text = { Text("Riconosci da foto (AI)") }, onClick = { menu = false; Nav.go(Screen.PhotoAi(date, meal)) })
-                    if (entries.isNotEmpty()) DropdownMenuItem(text = { Text("Svuota pasto", color = C.Danger) }, onClick = { entries.forEach { Store.removeEntry(it.id) }; menu = false })
+                    Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 16.sp), modifier = Modifier.padding(horizontal = 6.dp))
+                    Box(Modifier.size(34.dp).clip(CircleShape).clickable { Store.removeEntry(en.id) }, contentAlignment = Alignment.Center) {
+                        AIcon("M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12", C.Faint, 18.dp, 2f)
+                    }
                 }
             }
-            Spacer(Modifier.weight(1f))
-            PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
-        }
-        if (entries.isEmpty()) {
-            val dash = Color(0xFFD9D4EC)
-            Box(
-                Modifier.padding(top = 12.dp).fillMaxWidth().height(44.dp).drawBehind {
-                    drawRoundRect(dash, style = Stroke(1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(14f, 10f))), cornerRadius = androidx.compose.ui.geometry.CornerRadius(18.dp.toPx()))
-                }.clickable { Nav.go(Screen.AddFood(date, meal)) },
-                contentAlignment = Alignment.Center
-            ) { Text("Nessun alimento ancora", style = T.Small.copy(fontSize = 13.sp)) }
-        } else entries.forEach { en ->
-            val et = Nutrition.of(en.food, en.grams)
-            val tpl = en.planRef?.substringAfter('#', "")?.toIntOrNull()?.let { slot -> Store.plannedMeals(s, date).firstOrNull { it.slotIndex == slot }?.solved?.template }
-            Row(
-                Modifier.padding(top = 12.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(A.Peach)
-                    .clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }.padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (tpl != null) RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(48.dp), "🍽️", 16.dp)
-                else { val (bg, ink) = tileColors(en.food.name); InitialTile(en.food.name, bg, ink, 48.dp, 16.dp) }
-                Spacer(Modifier.width(12.dp))
-                Column(Modifier.weight(1f)) {
-                    Text(en.food.name, style = T.Label.copy(fontSize = 14.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
-                    Text(
-                        if (en.food.source == "quick") "aggiunta rapida" else "P ${et.protein.r0()} · C ${et.carbs.r0()} · G ${et.fat.r0()}" +
-                            (if (en.planRef == null) " · ${en.grams.r0()} ${if (en.food.liquid) "ml" else "g"}" else ""),
-                        style = T.Small, maxLines = 1
-                    )
-                }
-                Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 16.sp), modifier = Modifier.padding(end = 6.dp))
+            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 2.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                MealAction("Aggiungi") { Nav.go(Screen.AddFood(date, meal)) }
+                MealAction("Foto AI") { Nav.go(Screen.PhotoAi(date, meal)) }
+                MealAction("Copia da ieri") { Store.copyMeal(date.minusDays(1), meal, date, meal) }
+                MealAction("Copia su domani") { Store.copyMeal(date, meal, date.plusDays(1), meal) }
+                if (entries.isNotEmpty()) MealAction("Svuota", danger = true) { entries.forEach { Store.removeEntry(it.id) } }
             }
         }
+    }
+}
+
+@Composable
+private fun MealAction(label: String, danger: Boolean = false, onClick: () -> Unit) {
+    Box(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(if (danger) Color(0xFFFFE9E7) else A.Tonal).clickable(onClick = onClick).padding(horizontal = 14.dp), contentAlignment = Alignment.Center) {
+        Text(label, style = T.Chip.copy(fontSize = 12.5.sp, color = if (danger) C.Danger else A.TonalInk), maxLines = 1, softWrap = false)
     }
 }
 

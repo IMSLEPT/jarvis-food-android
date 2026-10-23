@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -49,19 +50,14 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
     val s by Store.state.collectAsState()
     val hasServing = food.servingGrams != null && food.servingName != null
     val unit = if (food.liquid) "ml" else "g"
-    // Modalità quantità: 0 = grammi, 1 = porzioni
-    var mode by remember { mutableIntStateOf(if (hasServing && initialGrams == null) 1 else 0) }
-    var amount by remember {
-        mutableStateOf(
-            when {
-                initialGrams != null -> initialGrams.r0()
-                hasServing -> "1"
-                else -> "100"
-            }
-        )
-    }
+    // La quantità si scrive sempre in grammi/ml (anche decimali); le porzioni sono solo scorciatoie.
+    // Per pasta, riso, cereali e legumi secchi si può indicare il peso cotto: il diario salva sempre il peso a crudo.
+    var cookedMode by remember { mutableStateOf(false) }
+    var amount by remember { mutableStateOf(amountText(initialGrams ?: food.servingGrams ?: 100.0)) }
     var mealSel by remember { mutableIntStateOf(entry?.meal ?: meal) }
-    val grams = (parseNum(amount) ?: 0.0) * if (mode == 1) (food.servingGrams ?: 100.0) else 1.0
+    val factor = if (cookedMode) (food.cooked ?: 1.0) else 1.0
+    val typed = parseNum(amount) ?: 0.0
+    val grams = typed / factor
     val t = Nutrition.of(food, grams)
     val isFav = s.favorites.any { it.id == food.id }
 
@@ -101,35 +97,36 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
                 }
             }
 
-            SectionTitle("Quantità")
-            if (hasServing) Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Pill("${food.servingName}", mode == 1) {
-                    if (mode != 1) { amount = ((parseNum(amount) ?: 0.0) / (food.servingGrams ?: 100.0)).r1().replace(",0", ""); mode = 1 }
+            SectionTitle("Quantità esatta")
+            if (food.cooked != null) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Pill("Peso a crudo", !cookedMode) { if (cookedMode) { amount = amountText(grams); cookedMode = false } }
+                    Pill("Peso cotto (stima)", cookedMode) { if (!cookedMode) { amount = amountText(grams * (food.cooked ?: 1.0)); cookedMode = true } }
                 }
-                Pill(unit, mode == 0) {
-                    if (mode != 0) { amount = grams.r0(); mode = 0 }
-                }
+                Spacer(Modifier.height(8.dp))
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                GhostButton("−") { amount = amountText((typed - (if (typed > 50) 10.0 else 1.0)).coerceAtLeast(0.0)) }
+                Spacer(Modifier.width(8.dp))
+                JField(amount, { amount = it.filter { c -> c.isDigit() || c == ',' || c == '.' }.take(8) }, "Quantità in $unit", Modifier.weight(1f), number = true, suffix = unit)
+                Spacer(Modifier.width(8.dp))
+                GhostButton("+") { amount = amountText(typed + (if (typed >= 50) 10.0 else 1.0)) }
             }
             Spacer(Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                GhostButton("−") {
-                    val step = if (mode == 1) 0.5 else 10.0
-                    amount = ((parseNum(amount) ?: 0.0) - step).coerceAtLeast(0.0).let { if (mode == 1) it.r1().replace(",0", "") else it.r0() }
+            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                val sg = food.servingGrams
+                if (hasServing && sg != null) listOf(0.5, 1.0, 1.5, 2.0).forEach { k ->
+                    val lbl = (if (k == 1.0) "1 " else if (k == 0.5) "½ " else if (k == 1.5) "1,5 " else "2 ") + food.servingName
+                    Pill(lbl, false) { amount = amountText(sg * k * factor); }
                 }
-                Spacer(Modifier.width(8.dp))
-                JField(amount, { amount = it }, if (mode == 1) "Porzioni" else "Quantità", Modifier.weight(1f), number = true,
-                    suffix = if (mode == 1) "× ${food.servingGrams?.r0()} $unit" else unit)
-                Spacer(Modifier.width(8.dp))
-                GhostButton("+") {
-                    val step = if (mode == 1) 0.5 else 10.0
-                    amount = ((parseNum(amount) ?: 0.0) + step).let { if (mode == 1) it.r1().replace(",0", "") else it.r0() }
-                }
+                listOf(50.0, 100.0, 150.0, 200.0, 250.0).forEach { g -> Pill("${g.toInt()} $unit", false) { amount = amountText(g) } }
             }
+            val sg = food.servingGrams
+            if (hasServing && sg != null && grams > 0) Text("≈ ${amountText(grams / sg)} ${food.servingName}", style = T.Small, modifier = Modifier.padding(top = 6.dp))
+            if (cookedMode && food.cooked != null) Text("Il diario salva ${amountText(grams)} $unit a crudo (cotto ÷ ${amountText(food.cooked)}, rapporto USDA: indicativo, dipende dal tempo di cottura).", style = T.Small, modifier = Modifier.padding(top = 4.dp))
 
             SectionTitle("Pasto")
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                MEAL_NAMES.forEachIndexed { i, n -> Pill(n.take(8), mealSel == i) { mealSel = i } }
-            }
+            MealChips(mealSel) { mealSel = it }
 
             SectionTitle("Valori nutrizionali")
             JCard {
@@ -175,6 +172,10 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
         }
     }
 }
+
+/** Quantità come testo editabile: intero se possibile, altrimenti un decimale con la virgola. */
+fun amountText(v: Double): String =
+    if (kotlin.math.abs(v - Math.round(v)) < 0.05) Math.round(v).toString() else String.format(java.util.Locale.ITALIAN, "%.1f", v)
 
 @Composable
 private fun NutRow(label: String, value: String, bold: Boolean = false) {

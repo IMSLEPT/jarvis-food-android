@@ -291,13 +291,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                     }
                 }
             } else {
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    MEAL_ORDER.forEach { m ->
-                        val sel = m == meal
-                        Box(Modifier.weight(1f).height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color(0xFFF6F1EA)).clickable { meal = m },
-                            contentAlignment = Alignment.Center) { Text(MEAL_LABEL.getValue(m), style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1) }
-                    }
-                }
+                MealChips(meal) { meal = it }
                 GapH(10.dp)
                 val btn = RoundedCornerShape(28.dp)
                 Row(
@@ -410,7 +404,7 @@ fun UserRecipeDetailScreen(recipe: Recipe) {
                 r.steps.forEachIndexed { idx, st -> Text("${idx + 1}. $st", style = T.Read, modifier = Modifier.padding(vertical = 4.dp)) }
             }
             SectionTitle("Aggiungi al diario di oggi")
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) { MEAL_NAMES.forEachIndexed { i, n -> Pill(n.take(8), meal == i) { meal = i } } }
+            MealChips(meal) { meal = it }
             Spacer(Modifier.height(10.dp))
             JField(portions, { portions = it }, "Porzioni", number = true)
             Spacer(Modifier.height(16.dp))
