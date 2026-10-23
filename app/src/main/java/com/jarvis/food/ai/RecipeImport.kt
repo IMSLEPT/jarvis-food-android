@@ -34,6 +34,7 @@ object RecipeImport {
     private val STEP_START = Regex("^\\s*(\\d{1,2}\\s*[.)]|[-•*]|passo\\s*\\d+|step\\s*\\d+)\\s*", RegexOption.IGNORE_CASE)
     private val SERV1 = Regex("(\\d{1,2})\\s*(?:persone|porzioni|pers\\b|dosi)", RegexOption.IGNORE_CASE)
     private val SERV2 = Regex("(?:porzioni|dosi\\s+per|per)\\s*:?\\s*(\\d{1,2})\\b(?!\\s*(?:min|ore|g\\b|kg|ml|gr))", RegexOption.IGNORE_CASE)
+    private val META_SERV = Regex("^\\s*(porzioni|dosi|per|serves|resa)\\b.*\\d.*", RegexOption.IGNORE_CASE)
     private val TIME = Regex("(\\d{1,3})\\s*(?:min\\b|minuti)", RegexOption.IGNORE_CASE)
     private val TIME_H = Regex("(\\d{1,2})\\s*(?:h\\b|ore\\b|ora\\b)", RegexOption.IGNORE_CASE)
     private val TIME_LINE = Regex("^\\s*(tempo|preparazione|cottura|prep|cook|totale)\\b[^\\n]*\\d", RegexOption.IGNORE_CASE)
@@ -98,6 +99,8 @@ object RecipeImport {
                 ING_HEAD.matches(l) -> { section = 1; continue }
                 STEP_HEAD.matches(l) -> { flush(); section = 2; continue }
             }
+            // righe di intestazione con porzioni ("Per 2 persone", "Porzioni: 4"): non sono passaggi
+            if (section == 0 && l.length < 40 && (SERV1.containsMatchIn(l) || META_SERV.matches(l))) continue
             if (TIME_LINE.containsMatchIn(l) && section != 2) {
                 minutes += TIME.findAll(l).sumOf { it.groupValues[1].toInt() } + TIME_H.findAll(l).sumOf { it.groupValues[1].toInt() * 60 }
                 continue
