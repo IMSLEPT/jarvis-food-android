@@ -369,3 +369,5 @@ for _x in R:
         _x["cuisine"], _x["methods"], _x["diff"] = c, [t for t in m.split(",") if t], d
 
 from recipes_spec2 import *  # noqa: E402,F401  nuove ricette (usano r() definita qui)
+
+from recipes_gen import *  # noqa: E402,F401  catalogo esteso (oltre 2000 ricette)

@@ -24,6 +24,23 @@ object Planner {
         db.recipes.filter { it.meal == meal && allowed(db, it, prefs) }.ifEmpty { db.recipes.filter { it.meal == meal } }
 
     /**
+     * Con migliaia di ricette non si risolvono tutte: si tengono le più vicine all'obiettivo del pasto per calorie e macro
+     * (il solver scala poi le quantità). L'ordine è deterministico, quindi stesso input = stessa selezione.
+     */
+    fun shortlist(db: FoodDb, cands: List<RecipeTemplate>, target: Macro, n: Int = 120): List<RecipeTemplate> {
+        if (cands.size <= n) return cands
+        fun dist(r: RecipeTemplate): Double {
+            val i = RecipeMeta.info(db, r)
+            val k = Math.abs(Math.log(i.kcal.coerceAtLeast(1.0) / target.kcal.coerceAtLeast(1.0)))
+            val p = Math.abs(i.protein - target.protein) / max(target.protein, 5.0)
+            val c = Math.abs(i.carbs - target.carbs) / max(target.carbs, 5.0)
+            val f = Math.abs(i.fat - target.fat) / max(target.fat, 3.0)
+            return 3.0 * k + 0.8 * p + 0.5 * c + 0.4 * f
+        }
+        return cands.sortedBy { dist(it) }.take(n)
+    }
+
+    /**
      * Calcola tutti i pasti di una giornata. I pasti vengono risolti in ordine e lo scarto di ciascuno
      * (es. una colazione con poche proteine) viene ridistribuito sui pasti successivi, così il totale
      * della giornata resta vicino all'obiettivo.
@@ -53,7 +70,7 @@ object Planner {
 
     /** Alternative per un pasto, ordinate per quanto riescono a rispettare calorie e macro. */
     fun alternatives(db: FoodDb, meal: String, target: Macro, prefs: DietPrefs, exclude: Set<String> = emptySet()): List<SolvedRecipe> =
-        candidates(db, meal, prefs).filter { it.id !in exclude }
+        shortlist(db, candidates(db, meal, prefs).filter { it.id !in exclude }, target, 90)
             .map { Solver.solve(it, db, target) }
             .sortedBy { Solver.fitScore(it) }
 
@@ -73,6 +90,7 @@ object Planner {
         fun fit(r: RecipeTemplate, slot: Int): Double = fitCache.getOrPut("${r.id}#$slot") {
             Solver.fitScore(Solver.solve(r, db, targets[slot]))
         }
+        val pools = prefs.slots.mapIndexed { si, def -> shortlist(db, candidates(db, def.meal, prefs), targets[si], 140) }
         val weekCount = HashMap<String, Int>()
         val out = mutableListOf<DayPlan>()
         for (d in 0 until days) {
@@ -81,7 +99,7 @@ object Planner {
             val slots = mutableListOf<PlanSlot>()
             for ((si, def) in prefs.slots.withIndex()) {
                 val recent = (history + out).takeLast(3).flatMap { dp -> dp.slots.filter { it.slot == si }.map { it.recipeId } }.toSet()
-                val cands = candidates(db, def.meal, prefs)
+                val cands = pools[si]
                 val best = cands.minByOrNull { r ->
                     val groups = db.recipeGroups(r)
                     var score = fit(r, si) * 10

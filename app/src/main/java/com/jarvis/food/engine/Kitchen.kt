@@ -73,14 +73,20 @@ object Kitchen {
                 allowed: (RecipeTemplate) -> Boolean, limit: Int = 12): List<PantrySuggestion> {
         val ids = pantry.mapNotNull { it.foodId?.removePrefix("db:") }.toSet()
         if (ids.isEmpty()) return emptyList()
+        // Prima la copertura della dispensa (economica), poi si risolvono solo le migliori: con migliaia di ricette non le calcoliamo tutte.
         return db.recipes.asSequence()
             .filter { (meal == null || it.meal == meal) && allowed(it) }
             .mapNotNull { r ->
                 val main = r.ings.filter { it.food !in BASIC }
                 if (main.isEmpty()) return@mapNotNull null
                 val have = main.filter { it.food in ids || equivalent(it.food, ids) }
-                val cov = have.size.toDouble() / main.size
                 if (have.isEmpty()) return@mapNotNull null
+                Triple(r, have, have.size.toDouble() / main.size)
+            }
+            .sortedByDescending { it.third }
+            .take(limit * 6)
+            .map { (r, have, cov) ->
+                val main = r.ings.filter { it.food !in BASIC }
                 val missing = main.filter { it !in have }.mapNotNull { db.food(it.food) }
                 val solved = Solver.solve(r, db, target(r))
                 PantrySuggestion(solved, have.mapNotNull { db.food(it.food)?.name }, missing, cov)

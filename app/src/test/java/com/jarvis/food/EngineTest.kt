@@ -58,6 +58,7 @@ class EngineTest {
     }
 
     @Test fun recipeCatalogIsConsistent() {
+        assertTrue("catalogo troppo piccolo: ${db.recipes.size}", db.recipes.size >= 1000)
         assertEquals("id duplicati", db.recipes.size, db.recipes.map { it.id }.toSet().size)
         val names = db.recipes.map { FoodDb.normalize(it.name) }
         assertEquals("nomi duplicati: ${names.groupBy { it }.filter { it.value.size > 1 }.keys}", names.size, names.toSet().size)

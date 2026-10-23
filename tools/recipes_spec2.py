@@ -177,7 +177,7 @@ r("noodles_tofu_verdure", "Noodles di riso con tofu e verdure", "pranzo", 20,
 
 # ---------------- CENA ----------------
 r("tacos_pollo_avocado", "Tacos di pollo, avocado e salsa", "cena", 20,
-  [("tortilla_mais", 100, "c", "tortillas di mais"), ("pollo", 120, "p", "petto di pollo"), ("avocado", 50, "f"), ("cavolo", 60, "v", "cavolo cappuccio"), ("salsa_messicana", 50, "v", "salsa messicana"), ("lime", 10, "x"), ("cumino", 1, "x")],
+  [("tortilla_mais", 100, "c", "tortillas di mais"), ("pollo", 120, "p", "petto di pollo"), ("avocado", 50, "f"), ("cavolo", 60, "v", "cavolo cappuccio"), ("salsa_messicana", 40, "v", "salsa messicana"), ("lime", 10, "x"), ("cumino", 1, "x")],
   ["Taglia {pollo} a striscioline e condiscilo con {cumino}.", "Cuocilo in padella antiaderente per 6-8 minuti, finché è dorato.",
    "Affetta finemente {cavolo} e schiaccia {avocado} con succo di {lime}.", "Scalda {tortilla_mais} in padella asciutta.",
    "Farcisci con pollo, cavolo, avocado e {salsa_messicana}."],
@@ -357,7 +357,7 @@ r("pesche_ricotta_pistacchi", "Pesche con ricotta, miele e pistacchi", "dessert"
   "peach ricotta honey pistachio dessert", "",
   cuisine="italiana", methods=("senza_cottura",), diff=1)
 r("cheesecake_vasetto", "Cheesecake light al vasetto", "dessert", 10,
-  [("spalmabile", 60, "f", "formaggio spalmabile"), ("greco0", 100, "p", "yogurt greco 0%"), ("biscotti", 30, "c", "biscotti secchi"), ("fragole", 80, "v"), ("miele", 8, "c")],
+  [("spalmabile", 40, "f", "formaggio spalmabile"), ("greco0", 100, "p", "yogurt greco 0%"), ("biscotti", 30, "c", "biscotti secchi"), ("fragole", 80, "v"), ("miele", 8, "c")],
   ["Sbriciola {biscotti} sul fondo di un vasetto.", "Mescola {spalmabile}, {greco0} e {miele} e versa sopra i biscotti.", "Completa con {fragole} a pezzetti e lascia in frigorifero 1 ora."],
   "cheesecake jar strawberries", "",
   cuisine="americana", methods=("senza_cottura", "freddo", "anticipo"), diff=1)

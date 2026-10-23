@@ -21,7 +21,7 @@ for r in csv.DictReader(open(os.path.join(SR, "nutrient.csv"))):
 desc = {r["fdc_id"]: r["description"] for r in csv.DictReader(open(os.path.join(SR, "food.csv")))}
 # Peso crudo -> cotto: rapporto tra l'energia dell'alimento secco e quella dello stesso alimento cotto (USDA SR Legacy).
 COOKED = {"pasta": 168928, "pasta_int": 168910, "riso": 168878, "basmati": 168878, "riso_int": 169704, "farro": 169746, "orzo": 170285,
-          "quinoa": 168917, "couscous": 169700, "ceci_secchi": 173757, "lenticchie_secche": 172421, "lenticchie_rosse": 172421}
+          "quinoa": 168917, "couscous": 169700, "ceci_secchi": 173757, "soba": 168907, "grano_saraceno": 170686, "lenticchie_secche": 172421, "lenticchie_rosse": 172421}
 want = {str(x["fdc"]) for x in F} | {str(v) for v in COOKED.values()}
 vals = {k: {} for k in want}
 for r in csv.DictReader(open(os.path.join(SR, "food_nutrient.csv"))):
