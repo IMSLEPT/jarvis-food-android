@@ -37,6 +37,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -79,7 +80,10 @@ import java.time.LocalDate
 @Composable
 fun KitchenScreen() {
     val s by Store.state.collectAsState()
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
+    // Cambiando scheda (Dispensa / Spesa / Ricette) si riparte sempre dall'alto, non dalla posizione della scheda precedente.
+    val scroll = rememberScrollState()
+    LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
+    Column(Modifier.fillMaxSize().verticalScroll(scroll).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
         Text("Cucina", style = T.H1)
         Text("Dispensa, lista della spesa e ricette", style = T.Body.copy(fontSize = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
         val seg = RoundedCornerShape(28.dp)
