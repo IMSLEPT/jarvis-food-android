@@ -114,7 +114,7 @@ fun TodayScreen() {
             Column(Modifier.weight(1f)) {
                 val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
                 Text("$hello, ${s.profile.name}", style = T.Muted.copy(fontSize = 13.sp, lineHeight = 18.sp), maxLines = 1)
-                Text(fullDay(date), style = T.Title.copy(fontSize = 25.sp, lineHeight = 30.sp), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(fullDay(date), style = T.Title.copy(fontSize = 21.sp, lineHeight = 27.sp), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             val st = remember(s.diary.size) { streak(s) }
             if (st > 0) Row(Modifier.height(44.dp).clip(RoundedCornerShape(22.dp)).background(A.FatSoft).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
