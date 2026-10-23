@@ -41,6 +41,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -127,7 +128,11 @@ private fun CookTodayBlock(s: AppState) {
     val slotIdx = s.dietPrefs.slots.indexOfFirst { it.meal == meal }.coerceAtLeast(0)
     val target = Planner.slotTargets(energy.macro, s.dietPrefs)[slotIdx]
     val diaryMeal = s.dietPrefs.slots.getOrNull(slotIdx)?.diaryMeal ?: 1
-    val ideas = remember(s.pantry, meal, target, s.dietPrefs) { Kitchen.suggest(Db.db, s.pantry, meal, { target }, { Planner.allowed(Db.db, it, s.dietPrefs) }) }
+    // Le ricette possibili si calcolano in background: la scheda non si blocca mentre scorre il ricettario.
+    val ideas by produceState(emptyList<com.jarvis.food.engine.PantrySuggestion>(), s.pantry, meal, target, s.dietPrefs) {
+        val pantry = s.pantry; val prefs = s.dietPrefs
+        value = withContext(Dispatchers.Default) { Kitchen.suggest(Db.db, pantry, meal, { target }, { Planner.allowed(Db.db, it, prefs) }) }
+    }
 
     ASection("Cosa cucino oggi", top = 26.dp)
     GapH(12.dp)
@@ -192,10 +197,9 @@ private fun CookTodayBlock(s: AppState) {
 @Composable
 private fun PantryTab(s: AppState) {
     var name by remember { mutableStateOf("") }
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", Brush.linearGradient(listOf(Color(0xFFC9F4E2), Color(0xFFDDF6EC))), A.GreenInk, Color(0x8010B981), Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
-        ScanTile(Ic.Receipt, "Fotografa lo scontrino", Brush.linearGradient(listOf(Color(0xFFFFE3B0), Color(0xFFFFF0D4))), Color(0xFFB45309), Color(0x80F59E0B), Modifier.weight(1f)) { Nav.go(Screen.PantryScan("scontrino")) }
-    }
+    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.linearGradient(listOf(Color(0xFFC9F4E2), Color(0xFFE3F8EF))), A.GreenInk, Color(0x6610B981)) { Nav.go(Screen.PantryScan("foto")) }
+    GapH(12.dp)
+    ScanTile(Ic.Receipt, "Fotografa lo scontrino", "Leggo i prodotti acquistati e li metto in dispensa", Brush.linearGradient(listOf(Color(0xFFFFE3B0), Color(0xFFFFF2DA))), Color(0xFFB45309), Color(0x66F59E0B)) { Nav.go(Screen.PantryScan("scontrino")) }
 
     CookTodayBlock(s)
 
@@ -254,13 +258,21 @@ private fun PantryTab(s: AppState) {
         modifier = Modifier.fillMaxWidth().padding(top = 6.dp).clickable { Store.clearPantry() }.padding(vertical = 12.dp))
 }
 
+/** Scheda larga e comoda da toccare: icona grande a sinistra, titolo e spiegazione, freccia a destra. */
 @Composable
-private fun ScanTile(icon: String, label: String, bg: Brush, ink: Color, glow: Color, modifier: Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(30.dp)
-    Column(modifier.aShadow(shape, 10.dp, glow).clip(shape).background(bg).clickable(onClick = onClick).padding(16.dp)) {
-        Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 26.dp, 2f) }
-        GapH(30.dp)
-        Text(label, style = T.Label.copy(fontSize = 15.sp, lineHeight = 20.sp, fontWeight = FontWeight.Bold))
+private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, glow: Color, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(28.dp)
+    Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, glow).clip(shape).background(bg).clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 18.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(60.dp).clip(RoundedCornerShape(22.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 30.dp, 2f) }
+        GapW(16.dp)
+        Column(Modifier.weight(1f)) {
+            Text(title, style = T.Label.copy(fontSize = 17.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, color = A.Ink))
+            GapH(2.dp)
+            Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp, color = A.Ink.copy(alpha = 0.65f)))
+        }
+        GapW(10.dp)
+        Box(Modifier.size(36.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.7f)), contentAlignment = Alignment.Center) { AIcon(Ic.Right, ink, 18.dp, 2.4f) }
     }
 }
 
@@ -275,7 +287,7 @@ private fun ShoppingTab(s: AppState) {
     GapH(12.dp)
     Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf(3, 7).forEach { d ->
-            APill("Prossimi $d giorni", false, Modifier.padding(vertical = 2.dp)) {
+            APill("Prossimi $d giorni", false, Modifier.padding(vertical = 2.dp), height = 48.dp, hPad = 22.dp) {
                 val today = LocalDate.now()
                 if ((0 until d).any { Store.dayPlan(Store.current, today.plusDays(it.toLong())) == null }) {
                     Store.generatePlan(today.with(DayOfWeek.MONDAY), 14)
@@ -440,9 +452,11 @@ fun PantryIdeasScreen(initialMeal: String?) {
     val slotIdx = s.dietPrefs.slots.indexOfFirst { it.meal == meal }.coerceAtLeast(0)
     val target = Planner.slotTargets(energy.macro, s.dietPrefs)[slotIdx]
     val diaryMeal = s.dietPrefs.slots.getOrNull(slotIdx)?.diaryMeal ?: 1
-    val ideas = remember(s.pantry, meal, target, s.dietPrefs) {
-        Kitchen.suggest(Db.db, s.pantry, meal, { target }, { Planner.allowed(Db.db, it, s.dietPrefs) })
+    val ideasN by produceState<List<com.jarvis.food.engine.PantrySuggestion>?>(null, s.pantry, meal, target, s.dietPrefs) {
+        val pantry = s.pantry; val prefs = s.dietPrefs
+        value = withContext(Dispatchers.Default) { Kitchen.suggest(Db.db, pantry, meal, { target }, { Planner.allowed(Db.db, it, prefs) }) }
     }
+    val ideas = ideasN.orEmpty()
     Column(Modifier.fillMaxSize()) {
         TopBar("Cosa cucino?", onBack = { Nav.back() })
         Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
@@ -468,7 +482,7 @@ fun PantryIdeasScreen(initialMeal: String?) {
                 }
             }
             SectionTitle("Dal ricettario, con ciò che hai")
-            if (ideas.isEmpty()) EmptyState("🥕", "Nessuna corrispondenza", "Aggiungi altri prodotti alla dispensa o prova un altro pasto.")
+            if (ideasN != null && ideas.isEmpty()) EmptyState("🥕", "Nessuna corrispondenza", "Aggiungi altri prodotti alla dispensa o prova un altro pasto.")
             ideas.forEach { sg ->
                 JCard(padding = PaddingValues(12.dp), onClick = { Nav.go(Screen.RecipeView(sg.solved.template.id, target, today, null, diaryMeal)) }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

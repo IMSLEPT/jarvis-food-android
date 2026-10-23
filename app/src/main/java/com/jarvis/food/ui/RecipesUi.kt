@@ -52,6 +52,7 @@ import com.jarvis.food.data.Store
 import com.jarvis.food.engine.Macro
 import com.jarvis.food.engine.NowSuggestion
 import com.jarvis.food.engine.Planner
+import com.jarvis.food.engine.RecipeCats
 import com.jarvis.food.engine.RecipeFilter
 import com.jarvis.food.engine.RecipeHit
 import com.jarvis.food.engine.RecipeInfo
@@ -191,25 +192,53 @@ private fun openRecipe(s: AppState, t: RecipeTemplate) {
     Nav.go(Screen.RecipeView(t.id, target, LocalDate.now(), null, dm, original = true))
 }
 
+/** Tessera di categoria in stile Yazio: emoji grande in un cerchio colorato, etichetta ben leggibile e numero di ricette. */
 @Composable
-private fun CatChip(label: String, count: Int, onClick: () -> Unit) {
+private fun CatTile(emoji: String, label: String, count: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(22.dp)
-    Row(Modifier.height(44.dp).clip(shape).background(Color.White).border(1.dp, Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(label, style = T.BtnS.copy(color = A.Ink), maxLines = 1, softWrap = false)
-        GapW(8.dp)
-        Text("$count", style = T.BtnS.copy(color = A.Muted), maxLines = 1)
+    Column(modifier.height(124.dp).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick).padding(horizontal = 8.dp, vertical = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Box(Modifier.size(52.dp).clip(CircleShape).background(A.Tonal), contentAlignment = Alignment.Center) { Text(emoji, fontSize = 27.sp) }
+        GapH(8.dp)
+        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 15.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+        Text("$count ricette", style = T.Small.copy(color = A.Muted, fontSize = 11.sp), maxLines = 1)
+    }
+}
+
+/** Gruppo di categorie: scorre in orizzontale (tessere larghe 112 dp). */
+@Composable
+private fun CatGroupRow(g: com.jarvis.food.engine.RecipeCatGroup) {
+    Text(g.title, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 18.dp, bottom = 10.dp))
+    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        g.cats.forEach { c -> CatTile(c.emoji, c.label, c.count, Modifier.width(112.dp)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
+    }
+}
+
+/** Fasce di calorie: griglia fissa 4 × 2, sempre tutta visibile (es. "Sotto 100 kcal" si trova subito). */
+@Composable
+private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup) {
+    Text(g.title, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 18.dp, bottom = 10.dp))
+    g.cats.chunked(4).forEachIndexed { row, items ->
+        if (row > 0) GapH(10.dp)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            items.forEach { c -> CatTile(c.emoji, c.label, c.count, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
+            repeat(4 - items.size) { Box(Modifier.weight(1f)) }
+        }
     }
 }
 
 @Composable
-private fun CatSection(title: String, entries: List<Triple<String, RecipeFilter, Int>>, listTitle: (String) -> String) {
-    val visible = entries.filter { it.third > 0 }
-    if (visible.isEmpty()) return
-    Text(title, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        visible.forEach { (label, f, n) -> CatChip(label, n) { Nav.go(Screen.RecipeList(f, listTitle(label))) } }
-    }
+private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { if (g.id == "kcal") CatKcalGrid(g) else CatGroupRow(g) }
+
+/** Segnaposto mentre le categorie si calcolano in background (di solito sono già pronte all'apertura). */
+@Composable
+private fun CatPlaceholder() {
+    Box(Modifier.fillMaxWidth().height(96.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = A.Muted, strokeWidth = 2.dp, modifier = Modifier.size(24.dp)) }
 }
+
+/** Dati della home calcolati fuori dal thread principale. */
+internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTemplate, RecipeInfo>>, val discover: List<RecipeTemplate>)
 
 /** Scheda "Ricette": home con sezioni orizzontali, ricetta del giorno, categorie reali e "Cosa mangio adesso?". */
 @Composable
@@ -219,7 +248,22 @@ fun RecipesHome() {
     val today = LocalDate.now()
     val disliked = s.dietPrefs.disliked.toSet()
     val nextKey = remember { WhatNow.keyForDiaryMeal(mealForHour(LocalTime.now().hour)) }
-    val ctx = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile) { nowContext(s, nextKey, true) }
+    // Tutto ciò che scorre le 2.500 ricette si calcola in background: la scheda si apre subito e le sezioni compaiono appena pronte.
+    val home by produceState<HomeData?>(null, s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile, today) {
+        val st = s
+        value = withContext(Dispatchers.Default) {
+            val c = nowContext(st, nextKey, true)
+            val rec = db.recipes.filter { it.meal in WhatNow.mealsFor(nextKey) && Planner.allowed(db, it, st.dietPrefs) }
+                .map { it to RecipeMeta.info(db, it) }
+                .sortedBy { (_, i) -> abs(i.kcal - c.target.kcal) / max(c.target.kcal, 80.0) + max(0.0, c.target.protein * 0.8 - i.protein) / max(c.target.protein, 10.0) * 0.5 }
+                .take(10)
+            val pool = db.recipes.filter { it.image != null && it.id !in disliked && Planner.allowed(db, it, st.dietPrefs.copy(maxMinutes = 90)) }
+            val disc = pool.sortedBy { Math.floorMod((it.id.hashCode() * 31) xor today.toEpochDay().toInt(), 100003) }.take(10)
+            HomeData(c, rec, disc)
+        }
+    }
+    val catGroups by produceState(RecipeCats.peek(db), db) { if (value == null) value = withContext(Dispatchers.Default) { RecipeCats.get(db) } }
+    val ctx = home?.ctx
 
     // Ricerca
     val shape = RoundedCornerShape(26.dp)
@@ -238,13 +282,18 @@ fun RecipesHome() {
             Column(Modifier.weight(1f)) {
                 Text("Cosa mangio adesso?", style = T.H2.copy(color = Color.White, fontSize = 20.sp))
                 GapH(4.dp)
-                Text(if (ctx.remaining.kcal >= 80) "Ti restano ${ctx.remaining.kcal.r0()} kcal · P ${ctx.remaining.protein.r0()} · C ${ctx.remaining.carbs.r0()} · G ${ctx.remaining.fat.r0()}. Ti propongo piatti su misura."
+                Text(if (ctx == null) "Ti propongo piatti su misura per i tuoi obiettivi di oggi."
+                else if (ctx.remaining.kcal >= 80) "Ti restano ${ctx.remaining.kcal.r0()} kcal · P ${ctx.remaining.protein.r0()} · C ${ctx.remaining.carbs.r0()} · G ${ctx.remaining.fat.r0()}. Ti propongo piatti su misura."
                 else "Hai già raggiunto l'obiettivo di oggi: ti propongo qualcosa di leggero.", style = T.Muted.copy(color = Color(0xFFD7E0FF), fontSize = 13.sp))
             }
             GapW(12.dp)
             Box(Modifier.size(48.dp).clip(CircleShape).background(Color(0x33FFFFFF)), contentAlignment = Alignment.Center) { AIcon(Ic.Spark, Color.White, 24.dp, 2f) }
         }
     }
+
+    // Categorie principali (pasto e calorie): subito in alto, come su Yazio
+    if (catGroups == null) CatPlaceholder()
+    else catGroups?.filter { it.id in TOP_CATS }?.forEach { CatGroupView(it) }
 
     // Ricetta del giorno
     val daily = remember(today, s.dietPrefs.exclude, disliked) { RecipeSearch.recipeOfTheDay(db, today, s.dietPrefs.exclude, disliked) }
@@ -264,15 +313,10 @@ fun RecipesHome() {
     }
 
     // Consigliate per te: vicine all'obiettivo del prossimo pasto
-    val recommended = remember(ctx, s.dietPrefs) {
-        db.recipes.filter { it.meal in WhatNow.mealsFor(nextKey) && Planner.allowed(db, it, s.dietPrefs) }
-            .map { it to RecipeMeta.info(db, it) }
-            .sortedBy { (_, i) -> abs(i.kcal - ctx.target.kcal) / max(ctx.target.kcal, 80.0) + max(0.0, ctx.target.protein * 0.8 - i.protein) / max(ctx.target.protein, 10.0) * 0.5 }
-            .take(10)
-    }
+    val recommended = home?.recommended.orEmpty()
     if (recommended.isNotEmpty()) {
         ASection("Consigliate per te", top = 22.dp, action = "Vedi tutte") { Nav.go(Screen.WhatNow) }
-        Text("Per il prossimo pasto (${RecipeMeta.label(RecipeMeta.MEALS, nextKey).lowercase()}), vicine ai ${ctx.target.kcal.r0()} kcal che ti restano.", style = T.Small, modifier = Modifier.padding(bottom = 10.dp))
+        Text("Per il prossimo pasto (${RecipeMeta.label(RecipeMeta.MEALS, nextKey).lowercase()}), vicine ai ${ctx?.target?.kcal?.r0() ?: ""} kcal che ti restano.", style = T.Small, modifier = Modifier.padding(bottom = 10.dp))
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             recommended.forEach { (t, i) -> RecipeTile(t, i, s) { openRecipe(s, t) } }
         }
@@ -289,10 +333,7 @@ fun RecipesHome() {
     }
 
     // Da provare oggi: scelta che ruota ogni giorno tra le ricette con foto
-    val discover = remember(today) {
-        val pool = db.recipes.filter { it.image != null && it.id !in disliked && Planner.allowed(db, it, s.dietPrefs.copy(maxMinutes = 90)) }
-        pool.sortedBy { Math.floorMod((it.id.hashCode() * 31) xor today.toEpochDay().toInt(), 100003) }.take(10)
-    }
+    val discover = home?.discover.orEmpty()
     if (discover.isNotEmpty()) {
         ASection("Da provare oggi", top = 22.dp)
         GapH(10.dp)
@@ -343,25 +384,15 @@ fun RecipesHome() {
     GapH(10.dp)
     APrimary("+ Nuova ricetta", Modifier.fillMaxWidth(), height = 54.dp) { Nav.go(Screen.RecipeEditor(null)) }
 
-    // Categorie: ogni categoria è un filtro già impostato e mostra solo ciò che esiste davvero
-    fun n(f: RecipeFilter) = db.recipes.count { RecipeSearch.matches(db, it, f, emptySet(), emptySet()) }
-    val cats = remember(db.recipes.size) {
-        listOf(
-            Triple("Per pasto", RecipeMeta.MEALS.map { (k, l) -> RecipeFilter(meals = setOf(k)).let { Triple(l, it, n(it)) } }, { l: String -> l }),
-            Triple("Per calorie", RecipeMeta.KCAL_BUCKETS.map { (k, r) ->
-                val f = RecipeFilter(kcalMin = r.first.toInt().takeIf { it > 0 }, kcalMax = r.second.toInt().takeIf { it < 99999 })
-                Triple(if (k.startsWith("<")) "< ${k.drop(1)} kcal" else if (k.startsWith(">")) "> ${k.drop(1)} kcal" else k.replace("-", "–") + " kcal", f, n(f))
-            }, { l: String -> "Ricette $l" }),
-            Triple("Obiettivo nutrizionale", RecipeMeta.GOALS.map { (k, l) -> RecipeFilter(goals = setOf(k)).let { Triple(l, it, n(it)) } }, { l: String -> l }),
-            Triple("Tipo di dieta", RecipeMeta.DIETS.map { (k, l) -> RecipeFilter(diets = setOf(k)).let { Triple(l, it, n(it)) } }, { l: String -> "Dieta: $l" }),
-            Triple("Metodo e tempo", RecipeMeta.METHODS.map { (k, l) -> RecipeFilter(methods = setOf(k)).let { Triple(l, it, n(it)) } }, { l: String -> l }),
-            Triple("Cucine del mondo", RecipeMeta.CUISINES.map { (k, l) -> RecipeFilter(cuisines = setOf(k)).let { Triple(l, it, n(it)) } }, { l: String -> "Cucina: $l" })
-        )
+    // Altre categorie (obiettivo, dieta, metodo, cucina)
+    catGroups?.let { gs ->
+        ASection("Altre categorie", top = 26.dp, action = "Tutte") { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }
+        gs.filter { it.id !in TOP_CATS }.forEach { CatGroupView(it) }
     }
-    ASection("Esplora per categoria", top = 26.dp, action = "Tutte") { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }
-    cats.forEach { (title, entries, lt) -> CatSection(title, entries, lt) }
     GapH(8.dp)
 }
+
+private val TOP_CATS = setOf("pasto", "kcal")
 
 // ---------------------------------------------------------------- Elenco con filtri
 

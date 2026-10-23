@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -100,9 +102,10 @@ fun ChatScreen() {
             Text(if (showSetup) "Chiudi" else "Motore", style = T.Label.copy(color = C.Navy),
                 modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { showSetup = !showSetup }.padding(10.dp))
         }
-        if (showSetup || !ready) Column(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
-
-        if (ready || s.chat.isNotEmpty()) {
+        if (showSetup || !ready) {
+            // Impostazioni del motore: scorrevoli, così la barra di scrittura resta sempre visibile e non viene schiacciata.
+            Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
+        } else if (ready || s.chat.isNotEmpty()) {
             LazyColumn(Modifier.weight(1f).fillMaxWidth(), state = listState,
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -121,10 +124,10 @@ fun ChatScreen() {
                 chips.forEach { q -> Pill(q, false) { if (q.endsWith("…")) input = q.removeSuffix("…") + " " else send(q) } }
             }
         }
-        Row(Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 2.dp), verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
-                value = input, onValueChange = { input = it }, modifier = Modifier.weight(1f), enabled = ready,
-                placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Configura il motore per iniziare", style = T.Muted) },
+                value = input, onValueChange = { input = it }, modifier = Modifier.weight(1f).heightIn(min = 56.dp), enabled = ready,
+                placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = T.Muted, maxLines = 1) },
                 textStyle = T.Body, shape = RoundedCornerShape(26.dp), maxLines = 4,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(onSend = { send(input) }),
@@ -261,6 +264,8 @@ fun ChatSetup() {
     val downloading = ModelManager.downloading
     val got = ModelManager.downloaded
     val ready = ModelManager.isReady(ctx, model)
+    val notifPermission = androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { }
+    fun askNotif() { if (android.os.Build.VERSION.SDK_INT >= 33) notifPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS) }
     JCard {
         Text("Motore di Jarvis", style = T.Title2)
         Spacer(Modifier.height(8.dp))
@@ -287,14 +292,14 @@ fun ChatSetup() {
                 }
                 downloading == model -> {
                     ProgressLine((got.toFloat() / model.bytes), C.Accent)
-                    Text("Download ${gb(got)} di ${gb(model.bytes)}. Tieni l'app aperta; se si interrompe riparte da dove era.", style = T.Small,
+                    Text("Download ${gb(got)} di ${gb(model.bytes)}. Continua anche se chiudi l'app o blocchi lo schermo: lo vedi nella notifica. Se si interrompe riparte da dove era.", style = T.Small,
                         modifier = Modifier.padding(vertical = 6.dp))
-                    GhostButton("Annulla") { ModelManager.cancel() }
+                    GhostButton("Annulla") { com.jarvis.food.chat.ModelDownloadService.cancel(ctx) }
                 }
                 else -> {
                     val part = ModelManager.partial(ctx, model)
                     PrimaryButton(if (part > 0) "Riprendi il download (${gb(model.bytes - part)} rimanenti)" else "Scarica ${model.title} (${gb(model.bytes)})",
-                        Modifier.fillMaxWidth()) { ModelManager.start(ctx, model) }
+                        Modifier.fillMaxWidth()) { askNotif(); com.jarvis.food.chat.ModelDownloadService.start(ctx, model) }
                     Text("Gratuito, senza account. Usa il Wi-Fi: sono diversi gigabyte.", style = T.Small, modifier = Modifier.padding(top = 6.dp))
                 }
             }

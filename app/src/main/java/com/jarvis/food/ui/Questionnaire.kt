@@ -316,7 +316,7 @@ fun QContent(step: QStep, d: QDraft) {
             StepHeader(step.title, "Gli allenamenti strutturati, non la camminata quotidiana (già contata sopra).")
             Text("Quante volte a settimana?", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(bottom = 8.dp))
             Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                (0..7).forEach { n -> APill(if (n == 0) "Mai" else "$n", d.workouts == n, Modifier.widthIn(min = 52.dp)) { d.workouts = n } }
+                (0..7).forEach { n -> APill(if (n == 0) "Mai" else "$n", d.workouts == n, Modifier.widthIn(min = 52.dp), hPad = 4.dp) { d.workouts = n } }
             }
             if (d.workouts > 0) {
                 Spacer(Modifier.height(16.dp))

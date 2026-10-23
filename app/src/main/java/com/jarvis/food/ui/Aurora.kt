@@ -222,11 +222,11 @@ fun BackCircle(onBack: () -> Unit) {
 
 /** Selettore a pillole (pasti, piani digiuno...). [sel] = navy con testo bianco. */
 @Composable
-fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 44.dp, onClick: () -> Unit) {
+fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 44.dp, hPad: Dp = 20.dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
     Box(
         modifier.height(height).clip(shape).background(if (selected) C.Navy else Color.White)
-            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = 4.dp),
+            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = hPad),
         contentAlignment = Alignment.Center
     ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), maxLines = 1, textAlign = TextAlign.Center) }
 }

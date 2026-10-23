@@ -57,6 +57,8 @@ object Store {
 
     fun init(context: Context) {
         Db.init(context)
+        // Pre-calcolo in background di conteggi e valori nutrizionali delle ricette: la scheda Ricette si apre subito.
+        scope.launch { runCatching { com.jarvis.food.engine.RecipeCats.get(Db.db) } }
         if (::file.isInitialized) return
         file = File(context.filesDir, "jarvis_food.json")
         if (file.exists()) {
