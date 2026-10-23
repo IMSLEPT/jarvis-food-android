@@ -8,8 +8,12 @@
 # img = parole per cercare una foto con licenza libera.
 
 R = []
-def r(id, name, meal, minutes, ings, steps, img, tip=""):
-    R.append(dict(id=id, name=name, meal=meal, minutes=minutes, ings=ings, steps=steps, img=img, tip=tip))
+def r(id, name, meal, minutes, ings, steps, img, tip="", cuisine="italiana", methods=(), diff=1):
+    """cuisine: italiana, mediterranea, messicana, asiatica, giapponese, indiana, americana, altre.
+    methods: padella, forno, friggitrice, senza_cottura, freddo, meal_prep, anticipo, pranzo_ufficio (le altre etichette sono ricavate dall'app).
+    diff: 1 facile, 2 media, 3 impegnativa."""
+    R.append(dict(id=id, name=name, meal=meal, minutes=minutes, ings=ings, steps=steps, img=img, tip=tip,
+                  cuisine=cuisine, methods=list(methods), diff=diff))
 
 # ---------------- COLAZIONE ----------------
 r("porridge_banana", "Porridge banana e noci", "colazione", 10,
@@ -330,3 +334,38 @@ r("fondente_kiwi", "Cioccolato fondente, noci e kiwi", "spuntino", 2,
   [("fondente", 15, "f", "cioccolato fondente"), ("noci", 10, "f"), ("kiwi", 150, "c"), ("greco0", 100, "p", "yogurt greco 0%")],
   ["Sbuccia e taglia {kiwi}.", "Servi con {greco0}, {fondente} e {noci}."],
   "dark chocolate walnuts kiwi")
+
+
+# ---------------- Metadati delle ricette originali (cucina, metodo, difficoltà) ----------------
+META = {
+ "porridge_banana": ("americana", "padella", 1), "yogurt_granola": ("americana", "senza_cottura,freddo", 1),
+ "toast_uova_avocado": ("americana", "padella", 1), "pancake_avena": ("americana", "padella", 2),
+ "overnight_oats": ("americana", "senza_cottura,freddo,anticipo,meal_prep", 1), "fette_arachidi": ("americana", "senza_cottura", 1),
+ "greco_mela_nocciole": ("mediterranea", "senza_cottura,freddo", 1), "latte_cereali_fragole": ("italiana", "senza_cottura,freddo", 1),
+ "fiocchi_pane_miele": ("italiana", "senza_cottura", 1), "smoothie_bowl": ("americana", "senza_cottura,freddo", 1),
+ "pasta_pollo_zucchine": ("italiana", "padella", 2), "pasta_tonno": ("italiana", "padella", 1), "pasta_ceci": ("italiana", "padella,meal_prep", 2),
+ "pasta_lenticchie": ("italiana", "padella,meal_prep", 2), "poke_salmone": ("giapponese", "freddo,pranzo_ufficio", 2),
+ "farro_feta": ("mediterranea", "freddo,meal_prep,pranzo_ufficio", 1), "risotto_zucca": ("italiana", "padella", 3),
+ "quinoa_ceci": ("altre", "freddo,meal_prep,pranzo_ufficio", 1), "pasta_pesto": ("italiana", "padella", 1),
+ "couscous_pollo": ("mediterranea", "padella,meal_prep,pranzo_ufficio", 1), "riso_tacchino_broccoli": ("italiana", "padella,meal_prep", 1),
+ "piadina_tacchino": ("italiana", "padella,pranzo_ufficio", 1), "spaghetti_pomodoro": ("italiana", "padella", 1),
+ "insalata_pollo_patate": ("italiana", "freddo,meal_prep,pranzo_ufficio", 1), "salmone_patate": ("mediterranea", "forno", 2),
+ "merluzzo_pomodorini": ("mediterranea", "padella", 2), "frittata_spinaci": ("italiana", "padella", 1),
+ "riso_uova_spinaci": ("italiana", "padella", 1), "tagliata_rucola": ("italiana", "padella", 2),
+ "pollo_limone_verdure": ("mediterranea", "padella", 1), "tacchino_funghi": ("italiana", "padella", 1),
+ "burger_patate": ("americana", "forno,padella", 2), "lenticchie_umido": ("italiana", "padella,meal_prep", 1),
+ "tofu_verdure": ("asiatica", "padella", 1), "branzino_cartoccio": ("mediterranea", "forno", 2),
+ "gamberi_couscous": ("mediterranea", "padella", 1), "omelette_cotto": ("altre", "padella", 1),
+ "trota_patate_dolci": ("americana", "forno", 2), "pasta_salmone_zucchine": ("italiana", "padella", 1),
+ "pane_ricotta_marmellata": ("italiana", "senza_cottura", 1), "greco_mela": ("mediterranea", "senza_cottura,freddo", 1),
+ "mandorle_mandarini": ("italiana", "senza_cottura", 1), "gallette_hummus": ("mediterranea", "senza_cottura", 1),
+ "fiocchi_crackers": ("italiana", "senza_cottura", 1), "toast_cotto": ("italiana", "padella", 1),
+ "banana_arachidi": ("americana", "senza_cottura", 1), "smoothie_proteico": ("americana", "senza_cottura,freddo", 1),
+ "kefir_bosco": ("altre", "senza_cottura,freddo", 1), "fondente_kiwi": ("italiana", "senza_cottura", 1),
+}
+for _x in R:
+    if _x["id"] in META:
+        c, m, d = META[_x["id"]]
+        _x["cuisine"], _x["methods"], _x["diff"] = c, [t for t in m.split(",") if t], d
+
+from recipes_spec2 import *  # noqa: E402,F401  nuove ricette (usano r() definita qui)

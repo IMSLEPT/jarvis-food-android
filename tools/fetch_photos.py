@@ -59,9 +59,13 @@ def dl(c):
         print("dl", c["thumb"], e, file=log, flush=True); return None
 
 tasks = []
+done = set(json.load(open(os.path.join(os.path.dirname(__file__), "images_chosen.json"))).keys()) if os.path.exists(os.path.join(os.path.dirname(__file__), "images_chosen.json")) else set()
 for r in R:
+    if r["id"] in done: continue   # ricette che hanno già la foto scelta
     tasks.append((r["id"], r["img"]))
-    for j, q in enumerate(S[r["id"]]):
+    short = " ".join(r["img"].split()[:3])
+    if short != r["img"]: tasks.append((f"{r['id']}__alt", short))
+    for j, q in enumerate(S.get(r["id"], [])):
         if q: tasks.append((f"{r['id']}__s{j}", q))
 meta = {}
 def run(t):

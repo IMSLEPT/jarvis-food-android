@@ -1,0 +1,27 @@
+name: Fetch free photos
+on:
+  push:
+    branches: [photos2]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pillow
+      - run: |
+          if [ -z "$PIXABAY_KEY" ]; then echo "::warning::PIXABAY_KEY assente"; else echo "::notice::PIXABAY_KEY presente"; fi
+          timeout 50m python3 tools/fetch_photos.py out || true
+          echo "::notice::$(ls out/*.jpg 2>/dev/null | wc -l) immagini; log: $(head -c 500 out/log.txt | tr '\n' ' ')"
+        env:
+          PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
+      - name: Publish
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd out && zip -q -r ../photos.zip . && cd ..
+          gh release delete photos-candidates -y --cleanup-tag || true
+          gh release create photos-candidates photos.zip --title "photos-candidates" --notes "foto candidate" --prerelease
