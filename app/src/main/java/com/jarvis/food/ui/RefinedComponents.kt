@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -31,11 +32,15 @@ import java.time.LocalDate
 @Composable
 fun MainHeader(title: String, eyebrow: String? = null) {
     val s by Store.state.collectAsState()
-    Row(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+    val separateGreeting = eyebrow != null && LocalDensity.current.fontScale > 1.2f
+    Column(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp)) {
+        if (separateGreeting) {
+            HeaderGreeting(eyebrow!!)
+            GapH(4.dp)
+        }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f).padding(end = 8.dp)) {
-            if (eyebrow != null) Text(eyebrow, modifier = Modifier.testTag("home-greeting"),
-                style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, color = C.Navy),
-                maxLines = 2, overflow = TextOverflow.Ellipsis)
+            if (eyebrow != null && !separateGreeting) HeaderGreeting(eyebrow)
             Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
         Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).border(1.dp, C.Line, CircleShape)
@@ -45,7 +50,15 @@ fun MainHeader(title: String, eyebrow: String? = null) {
         }
         GapW(8.dp)
         Avatar(s.profile.name, s.profile.photo, 48.dp, Modifier.semantics { contentDescription = "Apri profilo" }.clickable { Nav.go(Screen.Profile) })
+        }
     }
+}
+
+@Composable
+private fun HeaderGreeting(text: String) {
+    Text(text, modifier = Modifier.testTag("home-greeting"),
+        style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, color = C.Navy),
+        maxLines = 2, overflow = TextOverflow.Ellipsis)
 }
 
 /** Same native plan actions and calculations, in the compact card approved in the prototype. */

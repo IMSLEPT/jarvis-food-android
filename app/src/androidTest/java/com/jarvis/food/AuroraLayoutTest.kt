@@ -46,12 +46,15 @@ class AuroraLayoutTest {
         node.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(results) }
         assertTrue("Text layout missing", results.isNotEmpty())
         results.forEach { result ->
-            // Compose exposes fractional paragraph dimensions but rounds the measured box to pixels.
-            // Allow only that single-pixel rounding, never ellipsis or a missing line.
+            // The semantics paragraph can retain the parent's maximum width even when Text
+            // measures to its content width. Compare actual line widths, not the paragraph box.
+            // Allow only single-pixel rounding, never ellipsis or a missing line.
             val paragraph = result.multiParagraph
             val details = "${result.layoutInput.text.text}: box=${result.size}, paragraph=${paragraph.width}x${paragraph.height}, lines=${result.lineCount}"
             assertFalse("Ellipsized text: $details", (0 until result.lineCount).any { result.isLineEllipsized(it) })
-            assertTrue("Clipped text width: $details", paragraph.width <= result.size.width + 1f)
+            assertFalse("Missing text lines: $details", paragraph.didExceedMaxLines)
+            val widestLine = (0 until result.lineCount).maxOfOrNull { result.getLineRight(it) - result.getLineLeft(it) } ?: 0f
+            assertTrue("Clipped text width ($widestLine): $details", widestLine <= result.size.width + 1f)
             assertTrue("Clipped text height: $details", paragraph.height <= result.size.height + 1f)
         }
     }
