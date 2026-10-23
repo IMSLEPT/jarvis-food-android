@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -192,37 +193,52 @@ private fun openRecipe(s: AppState, t: RecipeTemplate) {
     Nav.go(Screen.RecipeView(t.id, target, LocalDate.now(), null, dm, original = true))
 }
 
-/** Tessera di categoria in stile Yazio: emoji grande in un cerchio colorato, etichetta ben leggibile e numero di ricette. */
+/** Colori pastello delle tessere (sfondo, macchia decorativa): ogni tessera ha il suo, come su Yazio. */
+private val CAT_COLORS = listOf(
+    Color(0xFFDDEEFA) to Color(0xFFC4E0F4), Color(0xFFE6E0F8) to Color(0xFFD3C9F1), Color(0xFFDAF4E5) to Color(0xFFBFEAD3), Color(0xFFFFE5D3) to Color(0xFFFFD1B3),
+    Color(0xFFFFF0C4) to Color(0xFFFFE19B), Color(0xFFFFDFE8) to Color(0xFFFFC8D8), Color(0xFFD6F2F2) to Color(0xFFB8E5E5), Color(0xFFF3E8D8) to Color(0xFFE8D6BA)
+)
+private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "dieta" to 5, "metodo" to 2, "cucina" to 6)
+
+/** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
 @Composable
-private fun CatTile(emoji: String, label: String, count: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(22.dp)
-    Column(modifier.height(124.dp).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick).padding(horizontal = 8.dp, vertical = 10.dp),
+private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(24.dp)
+    val (bg, blob) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
+    Column(modifier.height(132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
+        .drawBehind {
+            drawCircle(blob, radius = size.width * 0.62f, center = androidx.compose.ui.geometry.Offset(size.width * 0.95f, size.height * 1.02f))
+            drawCircle(blob.copy(alpha = 0.55f), radius = size.width * 0.28f, center = androidx.compose.ui.geometry.Offset(size.width * 0.02f, size.height * 0.08f))
+        }
+        .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(52.dp).clip(CircleShape).background(A.Tonal), contentAlignment = Alignment.Center) { Text(emoji, fontSize = 27.sp) }
+        Text(emoji, fontSize = 38.sp, lineHeight = 44.sp)
         GapH(8.dp)
-        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 15.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
+        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 14.sp, lineHeight = 16.sp, fontWeight = FontWeight.ExtraBold), maxLines = 2, overflow = TextOverflow.Ellipsis,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-        Text("$count ricette", style = T.Small.copy(color = A.Muted, fontSize = 11.sp), maxLines = 1)
+        Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.6f), fontSize = 11.sp), maxLines = 1)
     }
 }
 
-/** Gruppo di categorie: scorre in orizzontale (tessere larghe 112 dp). */
+/** Gruppo di categorie: scorre in orizzontale (tessere larghe 118 dp). */
 @Composable
 private fun CatGroupRow(g: com.jarvis.food.engine.RecipeCatGroup) {
-    Text(g.title, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 18.dp, bottom = 10.dp))
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        g.cats.forEach { c -> CatTile(c.emoji, c.label, c.count, Modifier.width(112.dp)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
+    val off = CAT_OFFSET[g.id] ?: 0
+    Text(g.title, style = T.Label.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
+    Row(Modifier.horizontalScroll(rememberScrollState()).padding(bottom = 6.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        g.cats.forEachIndexed { i, c -> CatTile(c.emoji, c.label, c.count, off + i, Modifier.width(118.dp)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
     }
 }
 
 /** Fasce di calorie: griglia fissa 4 × 2, sempre tutta visibile (es. "Sotto 100 kcal" si trova subito). */
 @Composable
 private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup) {
-    Text(g.title, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 18.dp, bottom = 10.dp))
+    val off = CAT_OFFSET[g.id] ?: 0
+    Text(g.title, style = T.Label.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(top = 20.dp, bottom = 10.dp))
     g.cats.chunked(4).forEachIndexed { row, items ->
         if (row > 0) GapH(10.dp)
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            items.forEach { c -> CatTile(c.emoji, c.label, c.count, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
+            items.forEachIndexed { i, c -> CatTile(c.emoji, c.label, c.count, off + row * 4 + i, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(c.filter, c.listTitle)) } }
             repeat(4 - items.size) { Box(Modifier.weight(1f)) }
         }
     }
