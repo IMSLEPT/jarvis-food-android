@@ -21,6 +21,9 @@ jobs:
           java-version: "17"
 
       # Modello AI offline (classificatore alimentare Google AIY food V1, TFLite con etichette incorporate).
+      - name: Verify UI snapshot and original functions
+        run: python3 scripts/verify-aurora-boundary.py
+
       - name: Download offline food model
         run: |
           set +e

@@ -150,6 +150,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     var servings by remember(tpl.id) { mutableIntStateOf(1) }
     var meal by remember { mutableIntStateOf(sc.diaryMeal) }
     var detail by remember { mutableStateOf(false) }
+    var adaptationExpanded by remember(tpl.id) { mutableStateOf(false) }
     var dlgPlan by remember { mutableStateOf(false) }
     var dlgFridge by remember { mutableStateOf(false) }
     val done = remember(tpl.id) { mutableStateListOf<Int>() }
@@ -191,17 +192,17 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
         Box(Modifier.weight(1f)) {
             Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
                 Box(Modifier.fillMaxWidth()) {
-                    RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(470.dp), recEmoji(tpl.meal), 0.dp)
+                    RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(280.dp), recEmoji(tpl.meal), 0.dp)
                     Box(Modifier.fillMaxWidth().height(160.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
                     tpl.credit?.takeIf { it.author.isNotBlank() }?.let { cr ->
                         Text(cr.author.take(40), style = T.Small.copy(color = Color.White),
-                            modifier = Modifier.padding(start = 16.dp, top = 352.dp).clip(RoundedCornerShape(50))
+                            modifier = Modifier.padding(start = 16.dp, top = 200.dp).clip(RoundedCornerShape(50))
                                 .background(Color(0x99000000)).padding(horizontal = 10.dp, vertical = 4.dp))
                     }
                     Column(
-                        Modifier.padding(top = 400.dp).fillMaxWidth()
-                            .aShadow(RoundedCornerShape(topStart = 38.dp, topEnd = 38.dp), 14.dp, Color(0x591D1B3A))
-                            .clip(RoundedCornerShape(topStart = 38.dp, topEnd = 38.dp)).background(Color(0xFFF3F5F8))
+                        Modifier.padding(top = 240.dp).fillMaxWidth()
+                            .aShadow(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp), 14.dp, Color(0x591D1B3A))
+                            .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp)).background(Color(0xFFF3F5F8))
                             .padding(start = 20.dp, end = 20.dp, top = 26.dp, bottom = 24.dp)
                     ) {
                         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -249,30 +250,9 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         ACard(radius = 32.dp, padding = 18.dp, glow = Color(0x8C10B981),
                             brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5)))) {
                             Column {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    val frac = (r.total.kcal / target.kcal.coerceAtLeast(1.0)).toFloat().coerceIn(0f, 1f)
-                                    Box(Modifier.size(122.dp), contentAlignment = Alignment.Center) {
-                                        Canvas(Modifier.fillMaxSize()) {
-                                            val sw = 14.dp.toPx(); val inset = sw / 2 + 4.dp.toPx()
-                                            val tl = androidx.compose.ui.geometry.Offset(inset, inset)
-                                            val sz = androidx.compose.ui.geometry.Size(size.width - 2 * inset, size.height - 2 * inset)
-                                            drawArc(Color(0xD9FFFFFF), 135f, 270f, false, tl, sz, style = Stroke(sw, cap = StrokeCap.Round))
-                                            drawArc(Brush.linearGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C58A)),
-                                                androidx.compose.ui.geometry.Offset(0f, size.height), androidx.compose.ui.geometry.Offset(size.width, 0f)),
-                                                135f, 270f * frac, false, tl, sz, style = Stroke(sw, cap = StrokeCap.Round))
-                                        }
-                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                            Text(r.total.kcal.r0(), style = T.H1.copy(fontSize = 32.sp, lineHeight = 34.sp))
-                                            Text("kcal a porzione", style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted))
-                                        }
-                                    }
-                                    GapW(16.dp)
-                                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(11.dp)) {
-                                        RecipeMacroBar("Proteine", r.total.protein, target.protein, C.Protein)
-                                        RecipeMacroBar("Carboidrati", r.total.carbs, target.carbs, C.Carbs)
-                                        RecipeMacroBar("Grassi", r.total.fat, target.fat, C.Fat)
-                                    }
-                                }
+                                Text("${r.total.kcal.r0()} kcal a porzione", style = T.Title)
+                                GapH(12.dp)
+                                MacroChips(r.total.protein, r.total.carbs, r.total.fat)
                                 GapH(14.dp)
                                 Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xB3FFFFFF)).padding(horizontal = 14.dp, vertical = 10.dp)) {
                                     Text((if (adapted) "Adattata a: " else "Ricetta base. Il tuo pasto: ") + "${target.kcal.r0()} kcal · P ${target.protein.r0()} · C ${target.carbs.r0()} · G ${target.fat.r0()}" +
@@ -285,7 +265,9 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         // Adatta ai miei obiettivi
                         if (!planned) {
                             GapH(14.dp)
-                            ACard(radius = 28.dp, padding = 16.dp, elevation = 6.dp) {
+                            AInk(if (adaptationExpanded) "Chiudi adattamento" else "Adatta ai miei obiettivi", Modifier.fillMaxWidth(), bg = A.Tonal, fg = A.TonalInk) { adaptationExpanded = !adaptationExpanded }
+                            GapH(10.dp)
+                            if (adaptationExpanded) ACard(radius = 24.dp, padding = 16.dp, elevation = 6.dp) {
                                 Column {
                                     Text("Riadatta ricetta", style = T.H2.copy(fontSize = 19.sp))
                                     Text("Ricalcolo le quantità per ciò che ti manca oggi, ma con porzioni pratiche (unità intere, niente frazioni scomode) e senza stravolgere la ricetta. Se non conviene, ti propongo un contorno o un'altra ricetta.", style = T.Small)
