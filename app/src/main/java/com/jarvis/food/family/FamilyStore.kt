@@ -40,7 +40,7 @@ object FamilyStore {
     private var file: File? = null
     private var kickJob: Job? = null
 
-    var backend: FamilyBackend = JsonBlobBackend()
+    var backend: FamilyBackend = TextDbBackend()
 
     private val _doc = MutableStateFlow<FamilyDoc?>(null)
     val doc: StateFlow<FamilyDoc?> = _doc.asStateFlow()
@@ -92,6 +92,18 @@ object FamilyStore {
         Store.update { it.copy(family = FamilyLink(code.text(), me, name.trim(), 3, now)) }
         _doc.value = doc; save(doc)
         publishPlan(); kick()
+    }
+
+    /** Solo per i test con schermate: collega il telefono a una famiglia finta, con un archivio in memoria e senza rete. */
+    fun debugLink(link: FamilyLink, doc: FamilyDoc) {
+        backend = object : FamilyBackend {
+            var data: String? = null
+            override fun create(payload: String): String { data = payload; return "debug" }
+            override fun get(id: String) = data
+            override fun put(id: String, payload: String) { data = payload }
+        }
+        Store.update { it.copy(family = link) }
+        _doc.value = doc
     }
 
     /** Esce dalla famiglia: le proprie voci spariscono dagli altri telefoni, i dati personali restano qui. */
@@ -219,7 +231,6 @@ object FamilyStore {
         try {
             val out = FamilySync.round(backend, code, _doc.value ?: FamilyDoc())
             when (out.kind) {
-                FamilySync.Kind.GONE -> { _status.update { it.copy(syncing = false, error = "La famiglia non è più disponibile sul servizio. I dati restano su questo telefono.") }; return }
                 FamilySync.Kind.UNREADABLE -> { _status.update { it.copy(syncing = false, error = "Impossibile leggere i dati condivisi (codice non valido).") }; return }
                 else -> {}
             }

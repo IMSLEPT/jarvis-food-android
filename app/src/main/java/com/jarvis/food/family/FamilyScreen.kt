@@ -72,6 +72,9 @@ import kotlin.math.roundToInt
 // Famiglia: invito, membri, spesa condivisa e "cucinare insieme".
 // ============================================================================================
 
+/** Scheda aperta nella schermata Famiglia (fuori dalla composizione per poterla impostare nei test). */
+object FamilyUi { var tab by mutableIntStateOf(0) }
+
 @Composable
 fun FamilyScreen() {
     val s by Store.state.collectAsState()
@@ -174,7 +177,7 @@ private fun FamilyLinked(ctx: Context) {
     val doc by FamilyStore.doc.collectAsState()
     val st by FamilyStore.status.collectAsState()
     val link = s.family ?: return
-    var tab by remember { mutableIntStateOf(0) }
+    val tab = FamilyUi.tab
     val d = doc ?: FamilyDoc()
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).navigationBarsPadding()) {
@@ -196,9 +199,9 @@ private fun FamilyLinked(ctx: Context) {
         MembersStrip(d, link.memberId)
         GapH(14.dp)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            APill("Spesa", tab == 0, Modifier.weight(1f), hPad = 8.dp) { tab = 0 }
-            APill("Insieme", tab == 1, Modifier.weight(1f), hPad = 8.dp) { tab = 1 }
-            APill("Membri", tab == 2, Modifier.weight(1f), hPad = 8.dp) { tab = 2 }
+            APill("Spesa", tab == 0, Modifier.weight(1f), hPad = 8.dp) { FamilyUi.tab = 0 }
+            APill("Insieme", tab == 1, Modifier.weight(1f), hPad = 8.dp) { FamilyUi.tab = 1 }
+            APill("Membri", tab == 2, Modifier.weight(1f), hPad = 8.dp) { FamilyUi.tab = 2 }
         }
         GapH(16.dp)
         when (tab) {

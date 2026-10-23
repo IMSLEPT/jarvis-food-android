@@ -8,7 +8,7 @@ import com.jarvis.food.family.FamilyBackend
 import com.jarvis.food.family.FamilyCrypto
 import com.jarvis.food.family.FamilyDoc
 import com.jarvis.food.family.FamilySync
-import com.jarvis.food.family.JsonBlobBackend
+import com.jarvis.food.family.TextDbBackend
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
@@ -27,7 +27,7 @@ class FamilyLiveTest {
     } catch (e: Exception) { println("[famiglia] SERVIZIO NON RAGGIUNGIBILE: ${e.javaClass.simpleName} ${e.message}"); null }
 
     @Test fun duePhoneVeriSullaRete() {
-        val be: FamilyBackend = JsonBlobBackend()
+        val be: FamilyBackend = TextDbBackend()
         val key = FamilyCrypto.newKey()
         val t0 = System.currentTimeMillis()
         val a0 = FamilyDoc(members = listOf(ale), entries = listOf(

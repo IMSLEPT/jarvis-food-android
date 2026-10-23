@@ -176,10 +176,13 @@ class FamilyTest {
         assertTrue(agg(a).any { it.foodId == "latte" })
     }
 
-    @Test fun famigliaCancellataSulServizio() {
-        val key = FamilyCrypto.newKey(); val be = MemBackend()
-        assertEquals(FamilySync.Kind.GONE, FamilySync.round(be, FamilyCrypto.Code("mem", key), FamilyDoc()).kind)
+    @Test fun documentoSparitoDalServizioVieneRicreatoEDatiIllegibiliSegnalati() {
+        val key = FamilyCrypto.newKey(); val be = MemBackend(); val code = FamilyCrypto.Code("mem", key)
+        val d = FamilyDoc(members = listOf(ale), entries = listOf(plan("a", "Alessandro", 1, FLine("pasta", "Pasta", 120.0))))
+        val r = FamilySync.round(be, code, d)
+        assertEquals(FamilySync.Kind.OK, r.kind)
+        assertEquals(d, FamilySync.unwrap(key, be.data!!))   // ricreato dal telefono che aveva i dati
         be.data = "{\"v\":1,\"d\":\"AAAA\"}"
-        assertEquals(FamilySync.Kind.UNREADABLE, FamilySync.round(be, FamilyCrypto.Code("mem", key), FamilyDoc()).kind)
+        assertEquals(FamilySync.Kind.UNREADABLE, FamilySync.round(be, code, FamilyDoc()).kind)
     }
 }

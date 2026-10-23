@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
  * alla propria, la riscrive se serve e controlla che le proprie modifiche siano rimaste.
  */
 object FamilySync {
-    enum class Kind { OK, GONE, UNREADABLE, BUSY }
+    enum class Kind { OK, UNREADABLE, BUSY }
     class Outcome(val doc: FamilyDoc, val kind: Kind)
 
     val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
@@ -25,8 +25,9 @@ object FamilySync {
     fun round(backend: FamilyBackend, code: FamilyCrypto.Code, start: FamilyDoc, now: Long = System.currentTimeMillis()): Outcome {
         var local = start
         repeat(4) {
-            val raw = backend.get(code.id) ?: return Outcome(local, Kind.GONE)
-            val remote = unwrap(code.key, raw) ?: return Outcome(local, Kind.UNREADABLE)
+            // Documento sparito dal servizio (scaduto o cancellato): ogni telefono ha la copia completa, quindi lo si ricrea da questa.
+            val raw = backend.get(code.id)
+            val remote = if (raw == null) FamilyDoc() else (unwrap(code.key, raw) ?: return Outcome(local, Kind.UNREADABLE))
             val merged = local.merge(remote).pruned(now)
             if (merged != remote) {
                 backend.put(code.id, wrap(code.key, merged))

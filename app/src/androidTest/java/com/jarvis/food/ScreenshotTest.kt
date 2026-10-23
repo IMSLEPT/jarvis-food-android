@@ -128,6 +128,31 @@ class ScreenshotTest {
             ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.About)) }; shot("22_di_te")
             ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Goal)) }; shot("23_obiettivo")
             ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Plan)) }; shot("24_piano_pronto", 3)
+            // Famiglia: prima non collegato, poi con una famiglia di prova (archivio in memoria, nessuna rete).
+            ui { Nav.clear(); Nav.go(Screen.Family) }; shot("25_famiglia_intro", 1)
+            val pm = Store.plannedMeals(Store.current, today)
+            val shared = pm.first()
+            fun ing(id: String, g: Double) = com.jarvis.food.family.FLine(id, Db.db.food(id)!!.name, g)
+            val now = System.currentTimeMillis()
+            val sample = com.jarvis.food.family.FamilyDoc(
+                members = listOf(com.jarvis.food.family.FMember("a", "Alessandro", now - 9000), com.jarvis.food.family.FMember("b", "Alessandra", now - 8000)),
+                entries = listOf(
+                    com.jarvis.food.family.FEntry("plan:b", "b", "plan", "Piano di Alessandra",
+                        listOf(ing("pasta", 80.0), ing("passata", 200.0), ing("mozzarella", 125.0), ing("zucchine", 300.0)),
+                        listOf(com.jarvis.food.family.FMeal(today.toString(), "Cena", shared.solved.template.id, shared.solved.template.name,
+                            shared.solved.items.map { ing(it.food.id, Math.round(it.grams * 0.7).toDouble()) })), false, now - 5000, "b", "Alessandra"),
+                    com.jarvis.food.family.FEntry("m1", "b", "manual", "Detersivo piatti", listOf(com.jarvis.food.family.FLine(null, "Detersivo piatti", 0.0, "2")), emptyList(), false, now - 4000, "b", "Alessandra"),
+                    com.jarvis.food.family.FEntry("m2", "a", "manual", "Pane", listOf(ing("pane", 500.0)), emptyList(), false, now - 3000, "a", "Alessandro")),
+                checks = listOf(com.jarvis.food.family.FCheck("f:pane", true, "b", "Alessandra", now - 1000, 500.0)))
+            ui {
+                com.jarvis.food.family.FamilyStore.debugLink(com.jarvis.food.data.FamilyLink("JF1.MTIzNDU2Nzg5MA.AAAAAAAAAAAAAAAAAAAAAA", "a", "Alessandro", 3, now), sample)
+                com.jarvis.food.family.FamilyUi.tab = 0
+            }
+            Thread.sleep(1500)
+            shot("26_famiglia_spesa", 3)
+            ui { com.jarvis.food.family.FamilyUi.tab = 1 }; shot("27_famiglia_insieme", 1)
+            ui { com.jarvis.food.family.FamilyUi.tab = 2 }; shot("28_famiglia_membri", 2)
+            ui { Nav.clear(); Nav.tab = 0 }; shot("29_oggi_con_famiglia")
             ui { Nav.clear(); Nav.tab = 0 }
         }
     }
