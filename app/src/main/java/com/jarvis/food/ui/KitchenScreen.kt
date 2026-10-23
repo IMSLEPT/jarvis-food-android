@@ -97,7 +97,7 @@ fun KitchenScreen() {
         when (Nav.kitchenTab) {
             0 -> PantryTab(s)
             1 -> ShoppingTab(s)
-            else -> RecipeCatalog()
+            else -> RecipesHome()
         }
     }
 }

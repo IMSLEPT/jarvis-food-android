@@ -159,6 +159,20 @@ fun TodayScreen() {
             QuickTile("Digiuno", Ic.Timer, 2f, Color(0xFF6D28D9), Color(0xFFE4DAFF), Color(0xFFF0EAFF), Color(0x998B5CF6), Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
         }
 
+        // ---- Cosa mangio adesso?
+        Spacer(Modifier.height(12.dp))
+        ACard(color = A.Tonal, radius = 24.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(40.dp).clip(CircleShape).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Spark, A.TonalInk, 22.dp, 2f) }
+                Spacer(Modifier.width(12.dp))
+                Column(Modifier.weight(1f)) {
+                    Text("Cosa mangio adesso?", style = T.Title2)
+                    Text("Piatti su misura per i macro che ti restano oggi.", style = T.Small.copy(color = A.TonalInk), maxLines = 1)
+                }
+                AIcon(Ic.Right, A.TonalInk, 20.dp, 2.4f)
+            }
+        }
+
         PlanToday(s, date)
 
         // ---- Diario

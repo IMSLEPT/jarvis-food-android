@@ -60,7 +60,13 @@ data class Recipe(
     val minutes: Int = 0,
     val category: String = "",
     val emoji: String = "🍽️",
-    val builtin: Boolean = false
+    val builtin: Boolean = false,
+    /** Descrizione, foto (percorso file), cucina, difficoltà e pasto: facoltativi, per le ricette create dall'utente. */
+    val description: String = "",
+    val photo: String? = null,
+    val cuisine: String = "",
+    val difficulty: Int = 1,
+    val meal: String = ""
 )
 
 @Serializable
@@ -294,6 +300,10 @@ data class AppState(
     val shopping: List<ShoppingItem> = emptyList(),
     val shoppingRange: String = "",
     val recipePhotos: Map<String, String> = emptyMap(),
+    /** Ricette del catalogo preferite, viste di recente (più recente per prima) e numero di aperture. */
+    val recipeFavs: List<String> = emptyList(),
+    val recipeRecent: List<String> = emptyList(),
+    val recipeViews: Map<String, Int> = emptyMap(),
     /** Conversazione con Jarvis (ultimi messaggi). */
     val chat: List<ChatMsg> = emptyList()
 )

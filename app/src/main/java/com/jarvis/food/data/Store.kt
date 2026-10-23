@@ -322,5 +322,35 @@ object Store {
         })
     }
 
+    // ---------------------------------------------------------------- Ricette: preferiti, recenti, piano, spesa
+
+    fun toggleRecipeFav(id: String) = update { s ->
+        s.copy(recipeFavs = if (id in s.recipeFavs) s.recipeFavs - id else listOf(id) + s.recipeFavs)
+    }
+
+    fun recipeViewed(id: String) = update { s ->
+        s.copy(recipeRecent = (listOf(id) + s.recipeRecent.filter { it != id }).take(12), recipeViews = s.recipeViews + (id to ((s.recipeViews[id] ?: 0) + 1)))
+    }
+
+    /** Mette una ricetta del catalogo nel piano di un giorno (sostituisce quella dello stesso pasto, o aggiunge il pasto). */
+    fun planRecipe(date: LocalDate, slot: Int, recipeId: String) = update { s ->
+        val d = date.toString()
+        val existing = s.plan.firstOrNull { it.date == d }
+        val updated = if (existing == null) DayPlan(d, listOf(PlanSlot(slot, recipeId)))
+        else if (existing.slots.any { it.slot == slot }) existing.copy(slots = existing.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, eatenEntryIds = emptyList()) else it })
+        else existing.copy(slots = (existing.slots + PlanSlot(slot, recipeId)).sortedBy { it.slot })
+        s.copy(plan = (s.plan.filterNot { it.date == d } + updated).sortedBy { it.date })
+    }
+
+    /** Aggiunge gli ingredienti di una ricetta alla lista della spesa (voci manuali: non vengono perse se la lista si rigenera). */
+    fun addRecipeToShopping(solved: SolvedRecipe, label: String, pantryFoodIds: Set<String>): Int {
+        val add = solved.items.filter { it.ing.role != "x" && it.food.id !in pantryFoodIds && it.food.id !in Shopping.STAPLES }.map {
+            ShoppingItem(newId(), it.food.id, it.food.name, needGrams = Math.round(it.grams).toDouble(), packs = 1, packGrams = it.food.pack ?: 100.0,
+                shop = it.food.shop, manual = true, note = "${it.amountLabel()} · $label")
+        }
+        if (add.isNotEmpty()) update { s -> s.copy(shopping = s.shopping + add) }
+        return add.size
+    }
+
     fun setEnergy(e: EnergySettings) = update { it.copy(energy = e) }
 }

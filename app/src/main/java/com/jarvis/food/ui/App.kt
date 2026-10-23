@@ -56,7 +56,11 @@ sealed class Screen {
     data class PhotoAi(val date: LocalDate, val meal: Int) : Screen()
     /** Ricetta del database (o creata dall'AI) calcolata su un obiettivo. [slot] valorizzato se viene dal piano. */
     data class RecipeView(val recipeId: String, val target: Macro, val date: LocalDate, val slot: Int? = null,
-                          val diaryMeal: Int = 1, val adHoc: RecipeTemplate? = null) : Screen()
+                          val diaryMeal: Int = 1, val adHoc: RecipeTemplate? = null,
+                          /** true = si apre la ricetta base (grammature dell'autore); false = già adattata all'obiettivo. */
+                          val original: Boolean = false) : Screen()
+    data class RecipeList(val filter: com.jarvis.food.engine.RecipeFilter = com.jarvis.food.engine.RecipeFilter(), val title: String = "Ricette", val mine: Boolean = false) : Screen()
+    data object WhatNow : Screen()
     data class Alternatives(val date: LocalDate, val slot: Int) : Screen()
     data class UserRecipeDetail(val recipe: Recipe) : Screen()
     data class RecipeEditor(val recipe: Recipe?) : Screen()
@@ -120,6 +124,8 @@ private fun ScreenHost(s: Screen) {
             is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit)
             is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal)
             is Screen.RecipeView -> RecipeViewScreen(s)
+            is Screen.RecipeList -> RecipeListScreen(s)
+            Screen.WhatNow -> WhatNowScreen()
             is Screen.Alternatives -> AlternativesScreen(s.date, s.slot)
             is Screen.UserRecipeDetail -> UserRecipeDetailScreen(s.recipe)
             is Screen.RecipeEditor -> RecipeEditorScreen(s.recipe)

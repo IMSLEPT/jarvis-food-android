@@ -66,7 +66,13 @@ data class RecipeTemplate(
     val image: String? = null,
     val credit: ImageCredit? = null,
     /** Foto illustrative dei passaggi (stesso ordine di [steps]); null se mancante. */
-    val stepImages: List<String?> = emptyList()
+    val stepImages: List<String?> = emptyList(),
+    /** italiana | mediterranea | messicana | asiatica | giapponese | indiana | americana | altre */
+    val cuisine: String = "italiana",
+    /** padella, forno, friggitrice, senza_cottura, freddo, meal_prep, anticipo, pranzo_ufficio */
+    val methods: List<String> = emptyList(),
+    /** 1 facile, 2 media, 3 impegnativa */
+    val difficulty: Int = 1
 )
 
 @Serializable
