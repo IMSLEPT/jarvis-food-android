@@ -64,6 +64,9 @@ class AuroraLayoutTest {
 
     @Test fun barsGreetingsAndLongActionsRemainVisible() {
         Store.init(ins.targetContext)
+        // Geometry tests use the real catalogue, precomputed before opening the activity.
+        // The separate navigation regression covers the asynchronous category-loading path.
+        check(com.jarvis.food.engine.RecipeCats.get(com.jarvis.food.data.Db.db).isNotEmpty())
         val day = LocalDate.now()
         ui {
             Store.update { AppState(onboarded = true, profile = Profile(name = "Alessandro")) }
@@ -108,15 +111,26 @@ class AuroraLayoutTest {
                     imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
                         ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
                 }
-                imeBottom > 0
+                imeBottom > 0 && compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isEmpty()
             }
+            android.os.SystemClock.sleep(500)
             compose.waitForIdle()
+            scenario.onActivity { activity ->
+                imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
+                    ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
+            }
             compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
             val input = compose.onNodeWithTag("chat-input").fetchSemanticsNode().boundsInRoot
             assertTrue("Chat input overlaps keyboard", input.bottom <= windowHeight - imeBottom + 1f)
             shot("chat-keyboard")
             ins.uiAutomation.executeShellCommand("input keyevent 4").close()
-            compose.waitUntil(20_000) { compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isNotEmpty() }
+            compose.waitUntil(20_000) {
+                scenario.onActivity { activity ->
+                    imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
+                        ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
+                }
+                imeBottom == 0 && compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isNotEmpty()
+            }
             ui { Store.update { it.copy(ai = it.ai.copy(apiKey = "")) } }
             ui { Nav.tab = 0 }
             compose.onNodeWithContentDescription("Apri profilo").performClick()
