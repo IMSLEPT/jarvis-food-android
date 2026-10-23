@@ -1,0 +1,32 @@
+{
+  "base_commit": "549d63739ee25cc7e8a9784d627b04828f51fde7",
+  "files": {
+    "app/src/main/java/com/jarvis/food/ui/KitchenScreen.kt": "494b1557f33ba78dbce52cd2121fea711b5a60105e69d3976b6c4a88b50ff15b",
+    "app/src/main/java/com/jarvis/food/ui/FastingScreen.kt": "ca3e4d1178e06e0bbd1cb1ec36a76442084f7f89feb9ea4fddb15332c84b6464",
+    "app/src/main/java/com/jarvis/food/ui/Theme.kt": "3f16c27972eeab25e2ece24206a4f69771312ec17eb5f2bd3a6a48f11e63e4e5",
+    "app/src/main/java/com/jarvis/food/ui/Components.kt": "dfdac6e58b84ae1be2675090f9afd0454e1636a17c75e833ddc78d12c2db7206",
+    "app/src/main/java/com/jarvis/food/ui/RecipePhoto.kt": "3dd19ce95aac7b45e2572479ed872abb98be103a26af4bf79a52176dec41be24",
+    "app/src/main/java/com/jarvis/food/ui/GoalsUi.kt": "a845f93ca7fdac33b074c1f2e2006efcb2fe1dde31b488f9cf63e0d74e981f7b",
+    "app/src/main/java/com/jarvis/food/ui/AddFoodScreen.kt": "f7d4b573abf18c58651367efe07473a9967982c2ec3fbd1dacfca4cb421c97b7",
+    "app/src/main/java/com/jarvis/food/ui/Questionnaire.kt": "b51fb67a6f94fb151b9b1f2898ed8febcc874b8b02914829d6a7e99e2704ab20",
+    "app/src/main/java/com/jarvis/food/ui/FoodDetailScreen.kt": "3e94c545d283a02934d894cff96f4ffcb424683d7a6ed61a6d832bcc574f3860",
+    "app/src/main/java/com/jarvis/food/ui/ProfilePhoto.kt": "1b28c8e4e2dd9f781e5dfe0fe7ad1b543a76a54431e1fd44b115a831d715d5df",
+    "app/src/main/java/com/jarvis/food/ui/Onboarding.kt": "363945064d043d752369401f112015c6fa9a7220355efa61daf768ecc4aeaa8a",
+    "app/src/main/java/com/jarvis/food/ui/RecipeScreens.kt": "3965da83b036f0c04471a0b2ea89a36165ab52864e5b3ca117023c89047b8ca0",
+    "app/src/main/java/com/jarvis/food/ui/TodayScreen.kt": "2f3332a989f2828a232729fa4c37c31092ddf4b35308620ba0799eab607c1391",
+    "app/src/main/java/com/jarvis/food/ui/ChatScreen.kt": "fed5c191b0333001c1a8fd5ffce16fb28c638afbdf1fd9680db06003efac4020",
+    "app/src/main/java/com/jarvis/food/ui/App.kt": "8b05f778180896d16fc3f28abd87006b8b202d7340861cd88d62b4e7ec8c8305",
+    "app/src/main/java/com/jarvis/food/ui/MealArt.kt": "c4ced6a225a5b088c59f8a5ba4936ca25844744bc4cfeb2097b114973f81e2f7",
+    "app/src/main/java/com/jarvis/food/ui/PhotoAiScreen.kt": "082475b260e7d3c1e6be47bbe511dc6b24c8bea8db97ed1a85aeb41b366966bb",
+    "app/src/main/java/com/jarvis/food/ui/MicronutrientsScreen.kt": "defbe237972fa2d93724e5f7adf2a73188e451388ec82e90c6ac03587892c17f",
+    "app/src/main/java/com/jarvis/food/ui/ProgressScreen.kt": "74f25b324fcba585cd8d6fe694638b66839d32a075e42fb0701cde793bacf84d",
+    "app/src/main/java/com/jarvis/food/ui/RecipesUi.kt": "40c67484e173031aa3e65d626ac2e227006056b49b80b4e75b7c135afb2d51b8",
+    "app/src/main/java/com/jarvis/food/ui/WatchScreen.kt": "cbaba6d81f5d561d6c8af1a17b105913a040e1da8943dea79218ad1a5e8ceeb5",
+    "app/src/main/java/com/jarvis/food/ui/ProfileScreen.kt": "c3140f7a7be3a34f28d165c23d321951f01c2e190ff1150d67d701e265e8aef2",
+    "app/src/main/java/com/jarvis/food/ui/Aurora.kt": "7cacb08063d0e047966967625d6dcdf8d3d2bc6ab64696388515b843992d0a5d",
+    "app/src/main/java/com/jarvis/food/ui/RecipeDetail.kt": "2e3315f3b5b9bd8ea0d8c95de943da1b537d88129203a6fe36448a9609833a54",
+    "app/src/main/java/com/jarvis/food/ui/CustomFoodScreen.kt": "719fcc4f66bf041fee4ad43ef044f5823502cd46266f4c76a4e8d39254a4e9b3",
+    "app/src/main/java/com/jarvis/food/ui/PlanScreen.kt": "c1bb4731195a919fce46f0b785a184c9294ff110a211bccab92bf7717f233e87",
+    "app/src/main/java/com/jarvis/food/family/FamilyScreen.kt": "6cb45c4ba960bd88567b08981cae9bacb8210dfef63cc6903e23203bf990282b"
+  }
+}

@@ -140,12 +140,12 @@ fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 1
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
 fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
-    this.shadow(elevation, shape, ambientColor = color, spotColor = color)
+    this.shadow(elevation * 0.4f, shape, ambientColor = color.copy(alpha = 0.10f), spotColor = color.copy(alpha = 0.14f))
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
 fun ACard(
-    modifier: Modifier = Modifier, radius: Dp = 28.dp, color: Color = Color.White, brush: Brush? = null,
+    modifier: Modifier = Modifier, radius: Dp = 24.dp, color: Color = Color.White, brush: Brush? = null,
     padding: Dp = 16.dp, elevation: Dp = 10.dp, glow: Color = Color(0x4D1D1B3A), bordered: Boolean = true,
     onClick: (() -> Unit)? = null, content: @Composable () -> Unit
 ) {
@@ -185,14 +185,14 @@ fun MacroChips(p: Double, c: Double, f: Double) {
 
 /** Pulsante principale arancione a pillola (58 px nel design). */
 @Composable
-fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 58.dp, enabled: Boolean = true, onClick: () -> Unit) {
+fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
     Box(
         modifier.height(height).aShadow(shape, 10.dp, Color(0x73F25E00)).clip(shape)
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnL.copy(color = if (enabled) Color.White else C.Faint), maxLines = 1) }
+    ) { Text(text, style = T.BtnM.copy(color = if (enabled) Color.White else C.Faint), maxLines = 1) }
 }
 
 /** Pulsante "inchiostro" navy (52 px) e variante tonale. */

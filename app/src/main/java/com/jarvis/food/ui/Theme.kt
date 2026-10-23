@@ -80,8 +80,8 @@ val DmSans = FontFamily(
 object T {
     private val tight = (-0.6).sp
     val Display = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = tight, color = C.Text)
-    val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 32.sp, lineHeight = 36.sp, letterSpacing = (-0.8).sp, color = C.Text)
-    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = (-0.4).sp, color = C.Text)
+    val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 27.sp, lineHeight = 32.sp, letterSpacing = (-0.8).sp, color = C.Text)
+    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 19.sp, lineHeight = 25.sp, letterSpacing = (-0.4).sp, color = C.Text)
     val Title = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 24.sp, lineHeight = 30.sp, letterSpacing = (-0.4).sp, color = C.Text)
     val Title2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 17.sp, lineHeight = 22.sp, color = C.Text)
     val Dish = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 21.sp, lineHeight = 25.sp, letterSpacing = (-0.2).sp, color = C.Text)

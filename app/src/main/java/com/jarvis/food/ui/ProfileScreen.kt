@@ -130,6 +130,7 @@ fun ProfileScreen() {
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
         Text("Profilo", style = T.H1)
+        com.jarvis.food.appearance.AppearanceEntry()
 
         // Scheda utente
         Column(

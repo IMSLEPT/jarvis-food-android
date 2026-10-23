@@ -83,7 +83,7 @@ fun PlanScreen() {
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(horizontal = 20.dp)) {
         Spacer(Modifier.height(28.dp))
-        Text("Il tuo piano", style = T.H1)
+        MainHeader("Piano")
         Text("Grammature calcolate su calorie e macro del tuo obiettivo", style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(top = 4.dp))
         Spacer(Modifier.height(14.dp))
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -123,8 +123,15 @@ fun PlanScreen() {
         }
         Spacer(Modifier.height(14.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        Column(verticalArrangement = Arrangement.spacedBy(22.dp)) { meals.forEach { m -> MealPlanCard(s, date, m) } }
+        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
         Spacer(Modifier.height(18.dp))
+        PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
+            val start = maxOf(LocalDate.now(), monday)
+            val days = (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7)
+            Store.buildShopping(start, days)
+            Nav.tab = 2; Nav.kitchenTab = 1
+        }
+        Spacer(Modifier.height(10.dp))
         Text("Valori calcolati dal database USDA FoodData Central su pesi a crudo. Le foto sono illustrative.", style = T.Small)
         Spacer(Modifier.height(28.dp))
     }
@@ -174,7 +181,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
 
 @Composable
 private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
+    Column(modifier.clip(RoundedCornerShape(18.dp)).background(androidx.compose.ui.graphics.lerp(soft, Color.White, 0.4f)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
             Text(" g", style = T.Small.copy(fontSize = 11.5.sp), modifier = Modifier.padding(bottom = 3.dp))
