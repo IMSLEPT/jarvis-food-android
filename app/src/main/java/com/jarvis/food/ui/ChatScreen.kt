@@ -43,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -126,7 +127,7 @@ fun ChatScreen() {
         }
         Row(Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 2.dp), verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
-                value = input, onValueChange = { input = it }, modifier = Modifier.weight(1f).heightIn(min = 56.dp), enabled = ready,
+                value = input, onValueChange = { input = it }, modifier = Modifier.weight(1f).heightIn(min = 56.dp).testTag("chat-input"), enabled = ready,
                 placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = T.Muted, maxLines = 1) },
                 textStyle = T.Body, shape = RoundedCornerShape(26.dp), maxLines = 4,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),

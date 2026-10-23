@@ -84,6 +84,31 @@ class AuroraLayoutTest {
                 }
                 shot("tab-$tab")
             }
+            // A synthetic non-empty key enables the local input UI. No message is sent.
+            ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
+            compose.onNodeWithTag("chat-input").performClick().performTextInput("Prova layout")
+            var imeBottom = 0
+            compose.waitUntil(20_000) {
+                scenario.onActivity { activity ->
+                    imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
+                        ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
+                }
+                imeBottom > 0
+            }
+            compose.waitForIdle()
+            compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
+            val input = compose.onNodeWithTag("chat-input").fetchSemanticsNode().boundsInRoot
+            assertTrue("Chat input overlaps keyboard", input.bottom <= windowHeight - imeBottom + 1f)
+            shot("chat-keyboard")
+            ins.uiAutomation.executeShellCommand("input keyevent 4").close()
+            compose.waitUntil(20_000) { compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isNotEmpty() }
+            ui { Store.update { it.copy(ai = it.ai.copy(apiKey = "")) } }
+            ui { Nav.tab = 0 }
+            compose.onNodeWithContentDescription("Apri profilo").performClick()
+            compose.waitForIdle()
+            compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
+            shot("profile")
+            ui { Nav.clear() }
             ui { Nav.tab = 1 }
             compose.onNodeWithText("Crea lista della spesa").performScrollTo()
             readable(compose.onNodeWithText("Crea lista della spesa", useUnmergedTree = true))

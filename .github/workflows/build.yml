@@ -130,6 +130,7 @@ jobs:
             adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
             adb logcat -c
+            adb shell settings put secure show_ime_with_hard_keyboard 1
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-standard.log 2>&1
             cat layout-standard.log
             grep -q "OK (2 tests)" layout-standard.log
