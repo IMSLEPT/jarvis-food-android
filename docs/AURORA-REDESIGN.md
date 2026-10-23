@@ -12,14 +12,11 @@ la pull request di ripristino. La pipeline genererà un nuovo APK con la grafica
 precedente e un numero di versione superiore, installabile come aggiornamento.
 Non serve installare un APK vecchio né disinstallare l’app.
 
-Il ramo di backup conserva l’intero progetto prima del redesign. Per recuperare
-solo i sorgenti della grafica da terminale:
-
-```sh
-git switch -c restore/aurora-previous main
-git restore --source=backup/aurora-pre-redesign-2026-10-23 -- app/src/main/java/com/jarvis/food/ui
-# Poi commit, push e pull request verso main.
-```
+Il ramo di backup conserva l’intero progetto prima del redesign e si può
+consultare dal selettore dei rami nella pagina del repository.
+La pull request del redesign è [#1](https://github.com/IMSLEPT/jarvis-food-android/pull/1).
+Il suo Revert ripristina insieme interfaccia, test e configurazione di build,
+così l’APK della grafica precedente viene ricompilato correttamente.
 
 ## Modifiche
 
