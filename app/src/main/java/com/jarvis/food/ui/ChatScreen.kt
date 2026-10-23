@@ -106,17 +106,19 @@ fun ChatScreen() {
             LazyColumn(Modifier.weight(1f).fillMaxWidth(), state = listState,
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                if (s.chat.isEmpty()) item { ChatIntro(ready) { send(it) } }
+                if (s.chat.isEmpty()) item { ChatIntro(ready, com.jarvis.food.chat.Actions.smartSuggestions(s).take(5)) { if (it.endsWith("…")) input = it.removeSuffix("…") + " " else send(it) } }
                 items(s.chat, key = { it.id }) { m -> Bubble(m) }
                 if (busy) item { Typing(partial, Jarvis.status) }
             }
         } else Spacer(Modifier.weight(1f))
 
         val last = s.chat.lastOrNull()
-        if (ready && !busy && last != null && last.role == "assistant" && last.suggestions.isNotEmpty()) {
+        if (ready && !busy && s.chat.isNotEmpty() && last?.pending.isNullOrEmpty()) {
+            val chips = if (last != null && last.role == "assistant" && last.suggestions.isNotEmpty()) last.suggestions
+            else com.jarvis.food.chat.Actions.smartSuggestions(s).take(4)
             Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                last.suggestions.forEach { q -> Pill(q, false) { send(q) } }
+                chips.forEach { q -> Pill(q, false) { if (q.endsWith("…")) input = q.removeSuffix("…") + " " else send(q) } }
             }
         }
         Row(Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -151,18 +153,43 @@ fun ChatScreen() {
     }
 }
 
+private val CAPABILITIES = listOf(
+    Triple("🍽️", "Diario", "Ho mangiato 150 g di pollo a pranzo"),
+    Triple("📖", "Ricette", "Cerca una cena vegetariana sotto 500 kcal"),
+    Triple("📅", "Piano", "Crea il piano di 7 giorni"),
+    Triple("🛒", "Spesa e dispensa", "Metti nella spesa le uova"),
+    Triple("🎯", "Obiettivi", "Che macro mi conviene?"),
+    Triple("⏱️", "Digiuno", "Avvia il digiuno 16:8")
+)
+
 @Composable
-private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
-    Column(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        JarvisLogo(84.dp)
-        Spacer(Modifier.height(10.dp))
+private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> Unit) {
+    Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        JarvisLogo(76.dp)
+        Spacer(Modifier.height(8.dp))
         Text("Ciao, sono Jarvis", style = T.Title)
-        Text("Chiedimi consigli su calorie e macro, oppure dimmi cosa hai mangiato: lo registro io. " +
-                "Se mi manca qualcosa te lo chiedo.", style = T.Muted, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
+        Text("Uso l'app al posto tuo: registro i pasti, cerco ricette, preparo piano e spesa. Ti dico sempre cosa ho fatto davvero e prima di eliminare qualcosa ti chiedo conferma.",
+            style = T.Muted, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
         if (ready) {
-            Spacer(Modifier.height(10.dp))
-            listOf("Ho mangiato 150 g di pollo a pranzo", "Quante kcal mi restano oggi?", "Che macro mi conviene?", "Aggiungi 500 ml di acqua").forEach {
-                Box(Modifier.padding(vertical = 4.dp)) { GhostButton(it) { onPick(it) } }
+            Spacer(Modifier.height(8.dp))
+            CAPABILITIES.chunked(2).forEach { row ->
+                Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    row.forEach { (emoji, title, example) ->
+                        Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
+                            .clickable { onPick(example) }.padding(12.dp)) {
+                            Text("$emoji  $title", style = T.Label)
+                            Spacer(Modifier.height(4.dp))
+                            Text("“$example”", style = T.Small)
+                        }
+                    }
+                }
+            }
+            if (smart.isNotEmpty()) {
+                Spacer(Modifier.height(10.dp))
+                Text("Per te adesso", style = T.Label, modifier = Modifier.fillMaxWidth())
+                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    smart.forEach { q -> Pill(q, false) { onPick(q) } }
+                }
             }
         }
     }
@@ -179,6 +206,23 @@ private fun Bubble(m: ChatMsg) {
                 .let { if (mine) it.background(C.Navy) else it.background(C.Surface).border(1.dp, C.Line, shape) }
                 .padding(horizontal = 14.dp, vertical = 10.dp)) {
                 Text(m.text, style = T.Body.copy(color = if (mine) Color.White else C.Text))
+            }
+        }
+        if (m.pending.isNotEmpty()) {
+            val shape = RoundedCornerShape(18.dp)
+            Column(Modifier.padding(start = 36.dp, top = 6.dp).widthIn(max = 320.dp).clip(shape).background(C.DangerSoft).border(1.dp, C.Danger.copy(alpha = 0.35f), shape).padding(14.dp)) {
+                Text("Conferma eliminazione", style = T.Label.copy(color = C.Danger))
+                m.pending.forEach { p -> Text("• " + p.label, style = T.Body, modifier = Modifier.padding(top = 4.dp)) }
+                Spacer(Modifier.height(10.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(Modifier.height(44.dp).weight(1f).clip(RoundedCornerShape(22.dp)).background(C.Danger).clickable(enabled = !Jarvis.busy) { Jarvis.confirm(m.id) }, contentAlignment = Alignment.Center) {
+                        Text("Sì, elimina", style = T.BtnS.copy(color = Color.White), maxLines = 1)
+                    }
+                    Box(Modifier.height(44.dp).weight(1f).clip(RoundedCornerShape(22.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(22.dp))
+                        .clickable(enabled = !Jarvis.busy) { Jarvis.cancelPending(m.id) }, contentAlignment = Alignment.Center) {
+                        Text("Annulla", style = T.BtnS, maxLines = 1)
+                    }
+                }
             }
         }
         if (m.actions.isNotEmpty()) Column(Modifier.padding(start = if (mine) 0.dp else 36.dp, top = 6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {

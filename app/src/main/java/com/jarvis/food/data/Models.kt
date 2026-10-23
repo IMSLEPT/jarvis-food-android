@@ -318,8 +318,14 @@ data class ChatMsg(
     /** Azioni eseguite da Jarvis nell'app per questo messaggio (testo leggibile). */
     val actions: List<String> = emptyList(),
     /** Risposte rapide suggerite sotto il messaggio. */
-    val suggestions: List<String> = emptyList()
+    val suggestions: List<String> = emptyList(),
+    /** Azioni che eliminano dati e aspettano la conferma dell'utente (non ancora eseguite). */
+    val pending: List<PendingCall> = emptyList()
 )
+
+/** Azione della chat in attesa di conferma: [label] descrive cosa verrebbe eliminato, [args] sono gli argomenti in JSON. */
+@Serializable
+data class PendingCall(val name: String, val args: String, val label: String)
 
 val MEAL_NAMES = listOf("Colazione", "Pranzo", "Cena", "Merenda", "Spuntino mattutino", "Spuntino serale")
 val MEAL_EMOJI = listOf("☀️", "🍝", "🌙", "🍎")

@@ -334,12 +334,12 @@ fun RecipeEditorScreen(recipe: Recipe?) {
             // importazione
             SectionTitle("Importa o crea in un attimo")
             JCard {
-                Text("Hai già la ricetta scritta o in foto? Incollala o fotografala: la leggo io e calcolo le calorie dal database.", style = T.Muted)
+                Text("Hai già la ricetta scritta o in foto? Incolla il testo o fotografala, oppure fai scrivere una ricetta all'AI: calcolo le calorie dal database.", style = T.Muted)
                 GapH(10.dp)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    GhostButton("Incolla testo", Modifier.weight(1f)) { dialog = 1 }
+                    GhostButton("Incolla", Modifier.weight(1f)) { dialog = 1 }
                     GhostButton("Da foto", Modifier.weight(1f)) { dialog = 2 }
-                    GhostButton("Crea con AI", Modifier.weight(1f)) { dialog = 3 }
+                    GhostButton("Con AI", Modifier.weight(1f)) { dialog = 3 }
                 }
                 if (busy.isNotEmpty()) {
                     GapH(10.dp)
