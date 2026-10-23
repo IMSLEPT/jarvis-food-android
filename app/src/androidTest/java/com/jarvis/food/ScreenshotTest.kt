@@ -103,6 +103,15 @@ class ScreenshotTest {
             ui { Nav.clear(); Nav.go(Screen.RecipeList(com.jarvis.food.engine.RecipeFilter(goals = setOf("alto_proteico")), "Alto contenuto proteico")) }; shot("08b_elenco", 1)
             ui { Nav.clear(); Nav.go(Screen.WhatNow) }; shot("08c_cosa_adesso", 2)
             ui { Nav.clear(); Nav.go(Screen.RecipeView(com.jarvis.food.data.Db.db.recipes.first { it.image != null }.id, m.solved.target, today, null, 1, original = true)) }; shot("08d_ricetta_base", 5)
+            val dbx = com.jarvis.food.data.Db.db
+            val ur = com.jarvis.food.data.Recipe("shot-recipe", "Pasta della nonna", 2, listOf(
+                com.jarvis.food.data.Ingredient(dbx.food("pasta")!!.toFood(), 160.0), com.jarvis.food.data.Ingredient(dbx.food("passata")!!.toFood(), 300.0),
+                com.jarvis.food.data.Ingredient(dbx.food("olio")!!.toFood(), 20.0)), listOf("Cuoci la pasta in acqua salata.", "Condisci con il sugo."), 25, "", "🍝",
+                description = "Il classico della domenica.", cuisine = "italiana", difficulty = 1, meal = "pranzo")
+            ui { Store.saveRecipe(ur); Nav.clear(); Nav.go(Screen.UserRecipeDetail(ur)) }; shot("08e_ricetta_utente", 3)
+            ui { Nav.clear(); Nav.go(Screen.RecipeEditor(null)) }; shot("08f_editor_ricetta", 4)
+            ui { Nav.clear(); Nav.go(Screen.RecipeEditor(ur)) }; shot("08g_editor_modifica", 2)
+            ui { Store.deleteRecipe("shot-recipe") }
             ui { Nav.clear(); Nav.tab = 3 }; shot("09_progressi", 2)
             ui { Nav.go(Screen.Micronutrients) }; shot("10_micronutrienti", 2)
             ui { Nav.clear(); Nav.tab = 4 }; shot("11_profilo", 1)
