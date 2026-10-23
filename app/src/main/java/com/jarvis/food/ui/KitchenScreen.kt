@@ -80,21 +80,16 @@ import java.time.LocalDate
 @Composable
 fun KitchenScreen() {
     val s by Store.state.collectAsState()
-    // Cambiando scheda (Dispensa / Spesa / Ricette) si riparte sempre dall'alto, non dalla posizione della scheda precedente.
-    val scroll = rememberScrollState()
-    LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().verticalScroll(scroll).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
-        Text("Cucina", style = T.H1)
-        Text("Dispensa, lista della spesa e ricette", style = T.Body.copy(fontSize = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
+    MainPage("Cucina", resetKey = Nav.kitchenTab) {
         val seg = RoundedCornerShape(28.dp)
         Row(Modifier.padding(top = 16.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            listOf("Dispensa", "Spesa", "Ricette").forEachIndexed { i, l ->
+            listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, l) ->
                 val sel = Nav.kitchenTab == i
                 val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i },
+                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) when(i) { 2 -> A.GreenSoft; 0 -> A.CarbSoft; else -> A.FatSoft } else Color.Transparent).clickable { Nav.kitchenTab = i },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Text(l, style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
-                    if (n > 0) { GapW(6.dp); Text("$n", style = T.BtnS.copy(color = if (sel) Color(0xFF9DB4FF) else A.Muted)) }
+                    Text(l, style = T.BtnS.copy(color = if (sel) when(i) { 2 -> A.GreenInk; 0 -> A.CarbInk; else -> A.FatInk } else A.Ink), maxLines = 1)
+                    if (n > 0) { GapW(6.dp); Text("$n", style = T.BtnS.copy(color = A.Muted)) }
                 }
             }
         }
@@ -314,6 +309,11 @@ private fun ShoppingTab(s: AppState) {
     }
     GapH(12.dp)
     if (s.shopping.isEmpty()) EmptyState("🛒", "Lista vuota", "Crea il piano nella scheda Piano, poi genera la lista per i prossimi giorni.")
+    JCard(color = A.CarbSoft, onClick = { Nav.go(Screen.Family) }) {
+        Text("Spesa famiglia", style = T.Title2)
+        Text("Una lista condivisa, una dieta per ciascuno", style = T.Small)
+    }
+    GapH(12.dp)
     val groups = s.shopping.groupBy { it.shop }
     Shopping.SHOP_ORDER.filter { groups.containsKey(it) }.forEach { shop ->
         val cardShape = RoundedCornerShape(28.dp)

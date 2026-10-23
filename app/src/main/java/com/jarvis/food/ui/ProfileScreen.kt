@@ -129,7 +129,10 @@ fun ProfileScreen() {
     val shape30 = RoundedCornerShape(30.dp)
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
-        Text("Profilo", style = T.H1)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (Nav.stack.isNotEmpty()) { BackCircle { Nav.back() }; GapW(12.dp) }
+            Text("Profilo", style = T.H1)
+        }
 
         // Scheda utente
         Column(

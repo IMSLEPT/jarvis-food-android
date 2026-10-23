@@ -94,7 +94,7 @@ fun JCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedCornerShape(28.dp)
+    val shape = RoundedCornerShape(24.dp)
     val base = modifier.fillMaxWidth()
         .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
         .clip(shape).let { if (brush != null) it.background(brush) else it.background(color).border(1.dp, A.Hair, shape) }
@@ -103,7 +103,7 @@ fun JCard(
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
-    Row(modifier.fillMaxWidth().padding(top = 26.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier.fillMaxWidth().padding(top = 22.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(text, style = T.H2, modifier = Modifier.weight(1f))
         if (action != null && onAction != null) {
             Text(action, style = T.Link, modifier = Modifier.clickable(onClick = onAction).padding(vertical = 13.dp))
@@ -183,7 +183,7 @@ fun NavRow(title: String, subtitle: String? = null, emoji: String? = null, onCli
     Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable(onClick = onClick).padding(vertical = 12.dp, horizontal = 4.dp),
         verticalAlignment = Alignment.CenterVertically) {
         if (emoji != null) {
-            Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(C.SurfaceAlt), contentAlignment = Alignment.Center) { Text(emoji) }
+            Box(Modifier.size(42.dp).clip(RoundedCornerShape(15.dp)).background(tileColors(title).first), contentAlignment = Alignment.Center) { Text(emoji) }
             Spacer(Modifier.width(12.dp))
         }
         Column(Modifier.weight(1f)) {

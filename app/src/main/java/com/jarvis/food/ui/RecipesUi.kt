@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -171,7 +174,7 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
                 Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 11.sp), maxLines = 1)
             }
         }
-        Column(Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(listOf(A.Peach, A.GreenSoft, A.FastSoft, A.CarbSoft)[Math.floorMod(tpl.id.hashCode(), 4)]).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
@@ -185,7 +188,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
-        Column(Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(listOf(A.Peach, A.GreenSoft, A.FastSoft, A.CarbSoft)[Math.floorMod(r.id.hashCode(), 4)]).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
@@ -229,10 +232,7 @@ private val CAT_BASE = listOf(
     Color(0xFFFFF0C4) to Color(0xFFFFE19B), Color(0xFFFFDFE8) to Color(0xFFFFC8D8), Color(0xFFD6F2F2) to Color(0xFFB8E5E5), Color(0xFFF3E8D8) to Color(0xFFE8D6BA)
 )
 /** Stesse tinte di prima, ma più tenui (meno sature): sfondo schiarito del 38%, macchia molto vicina allo sfondo, così le scritte restano ben leggibili. */
-private val CAT_COLORS = CAT_BASE.map { (bg, blob) ->
-    val soft = androidx.compose.ui.graphics.lerp(bg, Color.White, 0.38f)
-    soft to androidx.compose.ui.graphics.lerp(androidx.compose.ui.graphics.lerp(blob, Color.White, 0.38f), soft, 0.4f)
-}
+private val CAT_COLORS = CAT_BASE
 private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "dieta" to 5, "metodo" to 2, "cucina" to 6, "tempo" to 4)
 
 /** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
@@ -240,16 +240,12 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(24.dp)
     val (bg, blob) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.height(132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
-        .drawBehind {
-            drawCircle(blob, radius = size.width * 0.62f, center = androidx.compose.ui.geometry.Offset(size.width * 0.95f, size.height * 1.02f))
-            drawCircle(blob.copy(alpha = 0.55f), radius = size.width * 0.28f, center = androidx.compose.ui.geometry.Offset(size.width * 0.02f, size.height * 0.08f))
-        }
+    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
         .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text(emoji, fontSize = 38.sp, lineHeight = 44.sp)
+        Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)
         GapH(8.dp)
-        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 14.sp, lineHeight = 16.sp, fontWeight = FontWeight.ExtraBold), maxLines = 2, overflow = TextOverflow.Ellipsis,
+        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
         Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 11.sp, fontWeight = FontWeight.Medium), maxLines = 1)
     }
@@ -281,6 +277,40 @@ private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup, cols: Int = 4)
 
 @Composable
 private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id) { "kcal" -> CatKcalGrid(g, 4); "tempo" -> CatKcalGrid(g, 3); else -> CatGroupRow(g) } }
+
+/** All original categories, arranged exactly as the approved compact / complete browser. */
+@Composable
+private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>) {
+    var selected by rememberSaveable { mutableStateOf("pasto") }
+    var showAll by rememberSaveable { mutableStateOf(false) }
+    val labels = mapOf("pasto" to "🍽️ Pasto", "tempo" to "⏱️ Tempo", "kcal" to "🔥 Calorie", "obiettivo" to "🎯 Obiettivo", "dieta" to "🌿 Dieta", "metodo" to "🍳 Metodo", "cucina" to "🌍 Cucina")
+    ASection("Esplora le ricette", action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
+    Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
+    GapH(12.dp)
+    if (!showAll) Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        groups.forEach { g -> APill(labels[g.id] ?: g.title, selected == g.id, height = 42.dp, hPad = 14.dp) { selected = g.id } }
+    }
+    (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
+        Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(g.title, style = T.Label, modifier = Modifier.weight(1f))
+            Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 10.sp))
+        }
+        val columns = if (g.id in setOf("obiettivo", "dieta", "metodo", "cucina")) 2 else 3
+        val extra = if (g.id == "pasto") 1 else 0
+        val count = g.cats.size + extra
+        (0 until count step columns).forEach { start ->
+            Row(Modifier.fillMaxWidth().padding(bottom = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                repeat(columns) { offset ->
+                    val index = start + offset
+                    val cat = g.cats.getOrNull(index)
+                    if (cat != null) CatTile(cat.emoji, cat.label, cat.count, (CAT_OFFSET[g.id] ?: 0) + index, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(cat.filter, cat.listTitle)) }
+                    else if (index < count) CatTile("🔎", "Tutte le ricette", Db.db.recipes.size, 1, Modifier.weight(1f)) { Nav.go(Screen.RecipeList()) }
+                    else Box(Modifier.weight(1f))
+                }
+            }
+        }
+    }
+}
 
 /** Segnaposto mentre le categorie si calcolano in background (di solito sono già pronte all'apertura). */
 @Composable
@@ -325,26 +355,19 @@ fun RecipesHome() {
         Text("${db.recipes.size}", style = T.Chip.copy(color = A.Muted))
     }
 
-    // Cosa mangio adesso
     GapH(12.dp)
-    ACard(brush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382), Color(0xFF2B49A8))), glow = Color(0x8013225F), bordered = false, radius = 28.dp,
-        onClick = { Nav.go(Screen.WhatNow) }) {
+    ACard(Modifier.fillMaxWidth(), color = A.Tonal, radius = 20.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text("Cosa mangio adesso?", style = T.H2.copy(color = Color.White, fontSize = 20.sp))
-                GapH(4.dp)
-                Text(if (ctx == null) "Ti propongo piatti su misura per i tuoi obiettivi di oggi."
-                else if (ctx.remaining.kcal >= 80) "Ti restano ${ctx.remaining.kcal.r0()} kcal · P ${ctx.remaining.protein.r0()} · C ${ctx.remaining.carbs.r0()} · G ${ctx.remaining.fat.r0()}. Ti propongo piatti su misura."
-                else "Hai già raggiunto l'obiettivo di oggi: ti propongo qualcosa di leggero.", style = T.Muted.copy(color = Color(0xFFD7E0FF), fontSize = 13.sp))
-            }
+            TonalIcon(Ic.Spark, C.Navy, Color.White, box = 42.dp, radius = 14.dp)
             GapW(12.dp)
-            Box(Modifier.size(48.dp).clip(CircleShape).background(Color(0x33FFFFFF)), contentAlignment = Alignment.Center) { AIcon(Ic.Spark, Color.White, 24.dp, 2f) }
+            Column(Modifier.weight(1f)) {
+                Text("Ispirazione su misura", style = T.Title2)
+                Text("Un piatto per ciò che ti resta oggi", style = T.Small.copy(color = A.TonalInk))
+            }
+            AIcon(Ic.Right, C.Navy, 18.dp)
         }
     }
-
-    // Categorie principali (pasto e calorie): subito in alto, come su Yazio
-    if (catGroups == null) CatPlaceholder()
-    else catGroups?.filter { it.id in TOP_CATS }?.forEach { CatGroupView(it) }
+    if (catGroups == null) CatPlaceholder() else catGroups?.let { CategoryBrowser(it) }
 
     // Ricetta del giorno
     val daily = remember(today, s.dietPrefs.exclude, disliked) { RecipeSearch.recipeOfTheDay(db, today, s.dietPrefs.exclude, disliked) }
@@ -423,11 +446,6 @@ fun RecipesHome() {
     GapH(10.dp)
     APrimary("+ Nuova ricetta", Modifier.fillMaxWidth(), height = 54.dp) { Nav.go(Screen.RecipeEditor(null)) }
 
-    // Altre categorie (obiettivo, dieta, metodo, cucina)
-    catGroups?.let { gs ->
-        ASection("Altre categorie", top = 26.dp, action = "Tutte") { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }
-        gs.filter { it.id !in TOP_CATS }.forEach { CatGroupView(it) }
-    }
     GapH(8.dp)
 }
 
@@ -503,12 +521,23 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
     val mine = remember(f.query, s.recipes) { s.recipes.filter { f.query.isBlank() || it.name.contains(f.query.trim(), true) } }
 
     Column(Modifier.fillMaxSize()) {
-        TopBar(sc.title, onBack = { Nav.back() }) {
+        TopBar(if (sc.mine) sc.title else "Elenco ricette", onBack = { Nav.back() }) {
             if (!sc.mine) TextButton(onClick = { panel = !panel }) {
                 Text(if (f.activeCount > 0) "Filtri (${f.activeCount})" else "Filtri", color = C.AccentDeep, style = T.BtnS)
             }
         }
         LazyColumn(Modifier.weight(1f).padding(horizontal = 16.dp), contentPadding = PaddingValues(bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (!sc.mine && sc.filter.activeCount > 0 && f.activeCount > 0) item {
+                JCard(color = C.NavySoft, padding = PaddingValues(14.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(sc.title, style = T.Title2)
+                            Text("${hits.size} ricette", style = T.Small)
+                        }
+                        TextButton(onClick = { f = RecipeFilter() }) { Text("Rimuovi", style = T.Link) }
+                    }
+                }
+            }
             item { JField(f.query, { f = f.copy(query = it) }, if (sc.mine) "Cerca tra le mie ricette" else "Cerca per nome o ingrediente") }
             if (!sc.mine) {
                 item {

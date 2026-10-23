@@ -74,9 +74,9 @@ fun Avatar(name: String, photo: String?, size: Dp, modifier: Modifier = Modifier
     if (b != null) {
         Image(b.asImageBitmap(), contentDescription = "Foto profilo", contentScale = ContentScale.Crop, modifier = modifier.size(size).clip(shape))
     } else {
-        Box(modifier.size(size).clip(shape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))),
+        Box(modifier.size(size).clip(shape).background(Brush.linearGradient(listOf(A.Tonal, A.Tonal))),
             contentAlignment = Alignment.Center) {
-            Text(name.trim().take(1).uppercase().ifBlank { "J" }, style = T.Title.copy(color = Color.White, fontSize = (size.value * 0.42f).sp))
+            Text(name.trim().take(1).uppercase().ifBlank { "J" }, style = T.Title.copy(color = A.TonalInk, fontSize = (size.value * 0.42f).sp))
         }
     }
 }

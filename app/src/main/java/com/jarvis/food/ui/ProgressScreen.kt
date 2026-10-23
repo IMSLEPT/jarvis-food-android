@@ -119,8 +119,7 @@ fun ProgressScreen() {
     val loggedDays = s.diary.map { it.date }.toSet()
     val shape30 = RoundedCornerShape(30.dp)
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 120.dp)) {
-        Text("Progressi", style = T.H1)
+    MainPage("Progressi") {
         Text("I tuoi numeri, giorno dopo giorno", style = T.Body.copy(fontSize = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
 
         // Intervallo

@@ -37,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
 import androidx.compose.ui.platform.LocalDensity
@@ -68,6 +69,7 @@ sealed class Screen {
     data class DayNutrients(val date: LocalDate) : Screen()
     data class PantryScan(val mode: String) : Screen()
     data class PantryIdeas(val meal: String?) : Screen()
+    data object Profile : Screen()
     data object Goals : Screen()
     data object ProfileEdit : Screen()
     data object RemindersSet : Screen()
@@ -95,7 +97,7 @@ object Nav {
     var tab by mutableIntStateOf(0)
     var diaryDate by mutableStateOf(LocalDate.now())
     var planDate by mutableStateOf(LocalDate.now())
-    var kitchenTab by mutableIntStateOf(0)
+    var kitchenTab by mutableIntStateOf(2)
     fun go(s: Screen) { stack.add(s) }
     fun back() { if (stack.isNotEmpty()) stack.removeAt(stack.lastIndex) }
     fun backTo(predicate: (Screen) -> Boolean) { while (stack.isNotEmpty() && !predicate(stack.last())) stack.removeAt(stack.lastIndex) }
@@ -134,6 +136,7 @@ private fun ScreenHost(s: Screen) {
             is Screen.DayNutrients -> DayNutrientsScreen(s.date)
             is Screen.PantryScan -> PantryScanScreen(s.mode)
             is Screen.PantryIdeas -> PantryIdeasScreen(s.meal)
+            Screen.Profile -> ProfileScreen()
             Screen.Goals -> GoalsScreen()
             Screen.ProfileEdit -> ProfileEditScreen()
             Screen.RemindersSet -> RemindersScreen()
@@ -177,26 +180,19 @@ private fun Tabs() {
 
 @Composable
 private fun BottomBar() {
-    val items = listOf(Ic.Sun to "Oggi", Ic.Calendar to "Piano", Ic.Bowl to "Cucina", Ic.Chart to "Progressi", Ic.User to "Profilo", "" to "Jarvis")
-    val shape = RoundedCornerShape(34.dp)
-    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 18.dp)) {
-        Row(
-            Modifier.fillMaxWidth().aShadow(shape, 14.dp, Color(0x611D1B3A)).clip(shape).background(Color(0xE0FFFFFF))
-                .border(1.dp, Color(0xE6FFFFFF), shape).padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically
-        ) {
-            items.forEachIndexed { i, (icon, label) ->
-                val sel = Nav.tab == i
-                val click = Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { Nav.tab = i }
-                val glyph: @Composable (Color, Dp, Float) -> Unit = { c, sz, w ->
-                    if (icon.isEmpty()) JarvisLogo(sz + 4.dp) else AIcon(icon, c, sz, w)
-                }
-                if (sel) Row(Modifier.height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Navy).then(click).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-                    glyph(Color(0xFFFFB820), 22.dp, 2f)
-                    Spacer(Modifier.width(6.dp))
-                    Text(label, style = T.BtnS.copy(color = Color.White), maxLines = 1, softWrap = false)
-                } else Box(Modifier.size(44.dp).clip(RoundedCornerShape(22.dp)).then(click), contentAlignment = Alignment.Center) {
-                    glyph(A.Muted, 24.dp, 1.9f)
+    val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
+    val colors = listOf(A.Tonal, A.CarbSoft, A.GreenSoft, A.FastSoft, A.FatSoft)
+    val shape = RoundedCornerShape(30.dp)
+    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 12.dp, end = 12.dp, top = 6.dp, bottom = 12.dp)) {
+        Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(3.dp), verticalAlignment = Alignment.CenterVertically) {
+            items.forEachIndexed { index, (tab, icon, label) ->
+                val selected = Nav.tab == tab
+                Column(Modifier.weight(1f).clip(RoundedCornerShape(22.dp)).background(if (selected) colors[index] else Color.Transparent)
+                    .clickable { Nav.tab = tab }.padding(horizontal = 2.dp, vertical = 10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 22.dp)
+                    Spacer(Modifier.height(5.dp))
+                    Text(label, style = T.Small.copy(fontSize = 10.sp, color = if (selected) C.Navy else A.Muted), maxLines = 1)
                 }
             }
         }

@@ -97,7 +97,7 @@ fun ChatScreen() {
     fun send(t: String) { if (t.isNotBlank() && ready && !busy) { Jarvis.send(ctx, t); input = "" } }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Jarvis", onBack = { if (Nav.stack.isNotEmpty()) Nav.back() else Nav.tab = 0 }) {
+        TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) {
             Text("Nuova", style = T.Label.copy(color = C.Navy), modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { Jarvis.clear() }.padding(10.dp))
             Text(if (showSetup) "Chiudi" else "Motore", style = T.Label.copy(color = C.Navy),
                 modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { showSetup = !showSetup }.padding(10.dp))
@@ -175,10 +175,10 @@ private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> U
             style = T.Muted, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
         if (ready) {
             Spacer(Modifier.height(8.dp))
-            CAPABILITIES.chunked(2).forEach { row ->
+            CAPABILITIES.chunked(2).forEachIndexed { rowIndex, row ->
                 Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (emoji, title, example) ->
-                        Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
+                        Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(listOf(A.Tonal, A.GreenSoft, A.FastSoft)[rowIndex % 3]).border(1.dp, C.Line, RoundedCornerShape(18.dp))
                             .clickable { onPick(example) }.padding(12.dp)) {
                             Text("$emoji  $title", style = T.Label)
                             Spacer(Modifier.height(4.dp))
