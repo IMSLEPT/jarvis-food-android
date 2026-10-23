@@ -95,6 +95,9 @@ class AuroraLayoutTest {
                 assertTrue("Bar overlaps Android navigation", bar.bottom <= windowHeight - navigationBottom + 1f)
                 val text = compose.onNode(hasText(label) and hasAnyAncestor(hasTestTag("bottom-bar")), useUnmergedTree = true)
                 readable(text)
+                val navText = mutableListOf<TextLayoutResult>()
+                text.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(navText) }
+                assertEquals("Navigation label must stay on one line", 1, navText.single().lineCount)
                 compose.onNodeWithTag("nav-$tab").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
                 if (tab != 5) {
                     val scroll = compose.onNodeWithTag("main-scroll").fetchSemanticsNode().boundsInRoot
@@ -136,6 +139,8 @@ class AuroraLayoutTest {
             compose.onNodeWithContentDescription("Apri profilo").performClick()
             compose.waitForIdle()
             compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
+            readable(compose.onNodeWithText("Mantenere", useUnmergedTree = true))
+            readable(compose.onNodeWithText("kcal al giorno", useUnmergedTree = true))
             shot("profile")
             ui { Nav.clear() }
             ui { Nav.tab = 1 }

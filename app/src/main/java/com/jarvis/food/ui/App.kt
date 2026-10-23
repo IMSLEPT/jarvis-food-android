@@ -205,7 +205,7 @@ private fun BottomBar() {
                     .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 2.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                     if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.ButtonOrange else A.Muted, 22.dp)
                     Spacer(Modifier.height(4.dp))
-                    Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
+                    Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
                 }
             }
         }

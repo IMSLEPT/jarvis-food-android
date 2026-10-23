@@ -108,7 +108,7 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
 private fun ProfStat(value: String, label: String, modifier: Modifier, big: Boolean = false) {
     Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(value, style = T.H1.copy(fontSize = if (big) 19.sp else 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
-        Text(label, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted), maxLines = 1)
+        Text(label, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted), textAlign = TextAlign.Center)
     }
 }
 
@@ -148,8 +148,14 @@ fun ProfileScreen() {
                 }
             }
             GapH(16.dp)
+            Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF))
+                .padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text("Piano", style = T.Small, modifier = Modifier.weight(1f))
+                Text(when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" },
+                    style = T.Label.copy(fontSize = 16.sp), textAlign = TextAlign.End)
+            }
+            GapH(8.dp)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ProfStat(when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }, "Piano", Modifier.weight(1f))
                 ProfStat(kcalFmt(kcal), "kcal al giorno", Modifier.weight(1f))
                 ProfStat("${s.profile.targetWeight.r1().removeSuffix(",0")} kg", "Obiettivo", Modifier.weight(1f))
             }
