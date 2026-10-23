@@ -47,7 +47,7 @@ class PracticalTest {
     }
 
     @Test fun obiettivoAssurdoVieneRiconosciutoENonForzato() {
-        val insalata = db.recipes.first { RecipeMetaKcal(it) < 250 && it.meal == "pranzo" }
+        val insalata = db.recipes.first { RecipeMetaKcal(it) < 300 }
         val a = Practical.adapt(db, insalata, Macro(1500.0, 120.0, 150.0, 50.0), allowed = { true })
         assertEquals(Practical.Level.POOR, a.level)
         assertTrue("manca la spiegazione", a.headline.isNotBlank() && a.notes.isNotEmpty())
@@ -57,17 +57,19 @@ class PracticalTest {
 
     @Test fun ilContornoMigliora_eNonSforaIlPasto() {
         var withSide = 0
-        for (r in db.recipes.filter { it.meal == "colazione" }.take(80)) {
+        for (r in db.recipes.take(600)) {
             val base = baseMacro(r.id)
-            val target = base * 1.2
-            val a = Practical.adapt(db, r, target, withAlternatives = false)
-            val sd = a.side ?: continue
-            withSide++
-            assertTrue("${r.id}: il contorno peggiora", Solver.fitScore(sd.after) < Solver.fitScore(a.practical))
-            assertTrue("${r.id}: contorno sfora l'obiettivo", Practical.kcalErrPct(sd.after) <= 7.0 + 1e-9)
-            assertEquals(Practical.kcalErrPct(sd.after) * target.kcal / 100 + target.kcal, sd.after.total.kcal, 1e-6)
+            for (k in doubleArrayOf(1.5, 1.8, 2.1, 2.4, 2.8, 3.2)) {
+                val target = base * k
+                val a = Practical.adapt(db, r, target, withAlternatives = false)
+                val sd = a.side ?: continue
+                withSide++
+                assertTrue("${r.id}: il contorno peggiora", Solver.fitScore(sd.after) < Solver.fitScore(a.practical))
+                assertTrue("${r.id}: contorno sfora l'obiettivo", Practical.kcalErrPct(sd.after) <= 7.0 + 1e-9)
+                assertEquals("${r.id}: kcal del contorno incoerenti", a.practical.total.kcal + sd.macro.kcal, sd.after.total.kcal, 1e-6)
+            }
         }
-        assertTrue("nessun contorno proposto in 80 colazioni", withSide > 0)
+        assertTrue("nessun contorno proposto", withSide > 0)
     }
 
     @Test fun leAlternativeSonoDavveroMigliori() {
