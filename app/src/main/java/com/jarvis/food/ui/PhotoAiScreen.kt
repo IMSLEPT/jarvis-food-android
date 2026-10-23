@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.Path
@@ -44,6 +46,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.delay
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -96,7 +107,7 @@ fun loadBitmap(ctx: Context, uri: Uri, maxSide: Int = 1600): Bitmap? = runCatchi
 private class EditableItem(item: AiItem) {
     val base = item
     var selected by mutableStateOf(true)
-    var grams by mutableStateOf(item.grams.toInt().toString())
+    var grams by mutableStateOf(amountText(item.grams))
 }
 
 private class ItemCalc(val kcal: Double, val p: Double, val c: Double, val f: Double, val usda: String?)
@@ -113,7 +124,7 @@ private fun calc(e: EditableItem): ItemCalc {
 
 /** Angoli "mirino" del design, disegnati sopra la foto. */
 @Composable
-private fun Brackets(modifier: Modifier) {
+private fun Brackets(modifier: Modifier, alpha: Float = 1f) {
     Canvas(modifier) {
         val inset = 18.dp.toPx(); val len = 38.dp.toPx(); val sw = 4.dp.toPx(); val r = 14.dp.toPx()
         val w = size.width; val h = size.height
@@ -122,10 +133,33 @@ private fun Brackets(modifier: Modifier) {
             val p = Path().apply {
                 moveTo(x, y + sy * len); lineTo(x, y + sy * r); quadraticBezierTo(x, y, x + sx * r, y); lineTo(x + sx * len, y)
             }
-            drawPath(p, Color.White, style = st)
+            drawPath(p, Color.White.copy(alpha = alpha), style = st)
         }
         corner(inset, inset, 1f, 1f); corner(w - inset, inset, -1f, 1f)
         corner(inset, h - inset, 1f, -1f); corner(w - inset, h - inset, -1f, -1f)
+    }
+}
+
+/** Animazione "scanner" sopra la foto durante l'analisi: velo scuro, fascio luminoso che scorre e mirino pulsante. */
+@Composable
+private fun ScanOverlay(modifier: Modifier) {
+    val tr = rememberInfiniteTransition(label = "scan")
+    val pos by tr.animateFloat(0f, 1f, infiniteRepeatable(tween(1700, easing = LinearEasing), RepeatMode.Reverse), label = "pos")
+    val pulse by tr.animateFloat(0.45f, 1f, infiniteRepeatable(tween(900), RepeatMode.Reverse), label = "pulse")
+    Box(modifier) {
+        Canvas(Modifier.fillMaxSize()) {
+            drawRect(Color(0x55101C4A))
+            val y = size.height * pos
+            val band = size.height * 0.22f
+            drawRect(
+                Brush.verticalGradient(
+                    listOf(Color.Transparent, Color(0x6633D6FF), Color.Transparent), startY = y - band, endY = y + band
+                ),
+                topLeft = Offset(0f, (y - band).coerceAtLeast(0f)), size = Size(size.width, (band * 2).coerceAtMost(size.height))
+            )
+            drawLine(Color(0xFF7FE8FF), Offset(24.dp.toPx(), y), Offset(size.width - 24.dp.toPx(), y), strokeWidth = 3.dp.toPx(), cap = StrokeCap.Round)
+        }
+        Brackets(Modifier.fillMaxSize(), alpha = pulse)
     }
 }
 
@@ -154,45 +188,59 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
     val photoFile = remember { File(ctx.cacheDir, "foto").apply { mkdirs() }.let { File(it, "pasto.jpg") } }
     val photoUri = remember { FileProvider.getUriForFile(ctx, "${ctx.packageName}.files", photoFile) }
 
-    fun reset() { items.clear(); labels.clear(); error = null; note = "" }
+    var status by remember { mutableStateOf("") }
+    var elapsed by remember { mutableStateOf(0) }
+    var analyzed by remember { mutableStateOf(false) }
+    LaunchedEffect(busy) { elapsed = 0; while (busy) { delay(1000); elapsed++ } }
 
-    val camera = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
-        if (ok) scope.launch {
-            reset()
-            bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, photoUri) }
-            if (bitmap == null) error = "Impossibile leggere la foto."
-        }
-    }
-    val gallery = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) scope.launch {
-            reset()
-            bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, uri) }
-            if (bitmap == null) error = "Impossibile leggere l'immagine."
-        }
-    }
+    fun reset() { items.clear(); labels.clear(); error = null; note = "" }
 
     fun runOnline() {
         val b = bitmap ?: return
-        busy = true; reset()
+        busy = true; reset(); online = true; analyzed = true; status = "Preparo la foto…"
         scope.launch {
-            runCatching { FoodAi.analyzeMeal(s.ai, com.jarvis.food.data.Db.db, b, hint) }
+            runCatching { FoodAi.analyzeMeal(s.ai, com.jarvis.food.data.Db.db, b, hint) { status = it } }
                 .onSuccess { (list, n) ->
                     items.addAll(list.map { EditableItem(it) }); note = n
-                    if (list.isEmpty()) error = n.ifBlank { "Nessun alimento riconosciuto." }
+                    if (list.isEmpty()) error = n.ifBlank { "Nessun alimento riconosciuto. Riprova con un'altra foto." }
                 }
-                .onFailure { error = it.message ?: "Errore sconosciuto" }
+                .onFailure { error = FoodAi.friendlyError(it) }
             busy = false
         }
     }
 
     fun runOffline() {
         val b = bitmap ?: return
-        busy = true; reset()
+        busy = true; reset(); online = false; analyzed = true; status = "Analisi sul telefono…"
         scope.launch {
             runCatching { FoodAi.analyzeOffline(ctx, b) }
                 .onSuccess { labels.addAll(it); if (it.isEmpty()) error = "Nessun piatto riconosciuto." }
                 .onFailure { error = it.message }
             busy = false
+        }
+    }
+
+    /** Dopo lo scatto l'analisi parte da sola: online se c'è la chiave, altrimenti offline se il modello è incluso. */
+    fun autoStart() {
+        when {
+            s.ai.apiKey.isNotBlank() -> runOnline()
+            offlineOk -> runOffline()
+            else -> { analyzed = true; error = "Per analizzare la foto serve la chiave gratuita: Profilo → Intelligenza artificiale." }
+        }
+    }
+
+    val camera = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
+        if (ok) scope.launch {
+            reset(); analyzed = false
+            bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, photoUri) }
+            if (bitmap == null) error = "Impossibile leggere la foto." else autoStart()
+        }
+    }
+    val gallery = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) scope.launch {
+            reset(); analyzed = false
+            bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, uri) }
+            if (bitmap == null) error = "Impossibile leggere l'immagine." else autoStart()
         }
     }
 
@@ -220,8 +268,8 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                     AIcon(Ic.Camera, Color(0xFFB4381E), 54.dp, 1.8f)
                     Text("Scatta o scegli una foto", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(top = 10.dp))
                 }
-                Brackets(Modifier.fillMaxSize())
-                if (items.isNotEmpty()) Row(
+                if (busy) ScanOverlay(Modifier.fillMaxSize()) else Brackets(Modifier.fillMaxSize())
+                if (items.isNotEmpty() && !busy) Row(
                     Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 32.dp).clip(RoundedCornerShape(50)).background(Color(0xFF047857)).padding(horizontal = 14.dp, vertical = 9.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -249,45 +297,66 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 }
             }
 
-            // Online / offline: toccando si lancia l'analisi con quel metodo
+            // Modalità: l'analisi parte da sola dopo la foto; toccando si può rifare con l'altro metodo
             Row(
                 Modifier.padding(top = 12.dp).fillMaxWidth().clip(RoundedCornerShape(30.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(30.dp)).padding(5.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Row(
                     Modifier.weight(1.4f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (online) C.Navy else Color.Transparent)
-                        .clickable(enabled = !busy) { online = true; runOnline() },
+                        .clickable(enabled = !busy) { if (bitmap != null) runOnline() else online = true },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     AIcon(Ic.Spark, if (online) Color(0xFFFFB820) else A.Ink, 20.dp, 2f); GapW(8.dp)
-                    Text("Analizza online", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (online) Color.White else A.Ink), maxLines = 1)
+                    Text("AI online", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (online) Color.White else A.Ink), maxLines = 1)
                 }
                 Box(
                     Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (!online) C.Navy else Color.Transparent)
-                        .clickable(enabled = !busy) { online = false; runOffline() },
+                        .clickable(enabled = !busy) { if (bitmap != null) runOffline() else online = false },
                     contentAlignment = Alignment.Center
                 ) { Text("Offline", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (!online) Color.White else A.Ink)) }
             }
             Text(
                 when {
-                    bitmap == null -> "Scatta o scegli una foto, poi tocca Analizza online oppure Offline."
+                    bitmap == null -> "Scatta o scegli una foto: l'analisi parte da sola."
                     s.ai.apiKey.isBlank() && online -> "Online: inserisci la chiave gratuita in Profilo → Intelligenza artificiale. Offline: riconosce il piatto senza internet."
-                    online -> "Online: ${s.ai.model}; i valori nutrizionali vengono dal database USDA. Controlla sempre i valori: sono stime."
+                    online -> "Le quantità sono stimate guardando la foto; calorie e macro degli alimenti nel database vengono calcolate con i valori USDA."
                     offlineOk -> "Offline: modello sul telefono (nomi in inglese)."
                     else -> "Offline: modello non incluso."
                 },
                 style = T.Body.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp)
             )
             if (s.ai.apiKey.isBlank()) Text("Configura AI online", style = T.Link, modifier = Modifier.padding(start = 4.dp).clickable { Nav.go(Screen.AiSettings) }.padding(vertical = 8.dp))
-            if (b != null) ACard(Modifier.padding(top = 8.dp).fillMaxWidth(), radius = 24.dp, padding = 12.dp, elevation = 6.dp) {
+            if (b != null && !busy) ACard(Modifier.padding(top = 8.dp).fillMaxWidth(), radius = 24.dp, padding = 12.dp, elevation = 6.dp) {
                 JField(hint, { hint = it }, "Dettagli utili (facoltativo, es. \"pasta 100 g cruda\")")
             }
-
-            if (busy) Row(Modifier.padding(vertical = 20.dp), verticalAlignment = Alignment.CenterVertically) {
-                CircularProgressIndicator(Modifier.size(22.dp), color = C.Accent, strokeWidth = 2.dp)
-                GapW(12.dp); Text("Analisi in corso…", style = T.Muted)
+            if (b != null && analyzed && !busy) Row(
+                Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(24.dp))
+                    .clickable { if (online) runOnline() else runOffline() },
+                horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+            ) {
+                AIcon("M4 12a8 8 0 0 1 14-5.3M20 4v4h-4M20 12a8 8 0 0 1-14 5.3M4 20v-4h4", A.Ink, 20.dp, 2f); GapW(8.dp)
+                Text("Riprova senza rifare la foto", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
             }
-            error?.let { Text(it, style = T.Label.copy(color = C.Danger), modifier = Modifier.padding(vertical = 12.dp)) }
+
+            if (busy) {
+                val shown = if (status.startsWith("Invio")) listOf("Riconosco gli alimenti nel piatto…", "Stimo le quantità…")[(elapsed / 4) % 2] else status
+                ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 24.dp, padding = 16.dp, elevation = 6.dp) {
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            AIcon(Ic.Spark, Color(0xFF2F6BFF), 20.dp, 2f); GapW(10.dp)
+                            Text(shown, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
+                            Text("$elapsed s", style = T.Small.copy(color = A.Muted))
+                        }
+                        LinearProgressIndicator(Modifier.padding(top = 12.dp).fillMaxWidth().height(5.dp).clip(RoundedCornerShape(3.dp)), color = Color(0xFF2F6BFF), trackColor = Color(0xFFE3EAFB))
+                        if (elapsed >= 15) Text("Sto ancora aspettando l'AI gratuita: a volte è affollata. Puoi attendere o passare a Offline.", style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                    }
+                }
+            }
+            error?.let {
+                Text(it, style = T.Label.copy(color = C.Danger), modifier = Modifier.padding(top = 12.dp))
+                if (online && offlineOk && !busy && b != null) Text("Prova con l'analisi offline", style = T.Link, modifier = Modifier.clickable { runOffline() }.padding(vertical = 10.dp))
+            }
 
             if (items.isNotEmpty()) {
                 val kcal = tot.sumOf { it.kcal }
@@ -302,29 +371,45 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                     }
                     Box(Modifier.padding(top = 10.dp)) { MacroChips(tot.sumOf { it.p }, tot.sumOf { it.c }, tot.sumOf { it.f }) }
                 }
-                GHead("Alimenti riconosciuti")
+                GHead("Alimenti riconosciuti", "Quantità stimate dalla foto: correggile se conosci il peso reale.")
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    items.forEach { it2 ->
+                    items.toList().forEach { it2 ->
                         val cc = calc(it2)
                         val g = parseNum(it2.grams) ?: 0.0
                         fun step(d: Int) {
                             val st = if (g < 50) 5 else if (g < 200) 10 else 25
-                            it2.grams = (g + d * st).coerceAtLeast(0.0).toInt().toString()
+                            it2.grams = amountText((g + d * st).coerceAtLeast(0.0))
                         }
+                        val db = it2.base.foodId != null && cc.usda != null
                         ACard(Modifier.fillMaxWidth(), radius = 24.dp, padding = 12.dp, elevation = 6.dp) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(
-                                    Modifier.size(38.dp).clip(RoundedCornerShape(13.dp)).background(if (it2.selected) Color(0xFF10B981) else Color(0xFFEBEFF3)).clickable { it2.selected = !it2.selected },
-                                    contentAlignment = Alignment.Center
-                                ) { if (it2.selected) AIcon(Ic.Check, Color.White, 20.dp, 3f) }
-                                GapW(14.dp)
-                                Column(Modifier.weight(1f)) {
-                                    Text(it2.base.name.replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), maxLines = 1)
-                                    Text("${kcalFmt(cc.kcal)} kcal" + if (cc.usda == null) " · stima AI" else "", style = T.Small.copy(fontSize = 12.sp, color = if (cc.usda == null) A.FatInk else A.Muted), maxLines = 1)
+                            Column {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Box(
+                                        Modifier.size(38.dp).clip(RoundedCornerShape(13.dp)).background(if (it2.selected) Color(0xFF10B981) else Color(0xFFEBEFF3)).clickable { it2.selected = !it2.selected },
+                                        contentAlignment = Alignment.Center
+                                    ) { if (it2.selected) AIcon(Ic.Check, Color.White, 20.dp, 3f) }
+                                    GapW(14.dp)
+                                    Column(Modifier.weight(1f)) {
+                                        Text(it2.base.name.replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), maxLines = 2)
+                                        Text(
+                                            "${kcalFmt(cc.kcal)} kcal · " + if (db) "valori USDA" else "valori stimati dall'AI",
+                                            style = T.Small.copy(fontSize = 12.sp, color = if (db) A.GreenInk else A.FatInk), maxLines = 1
+                                        )
+                                    }
                                 }
-                                GramStep(false) { step(-1) }
-                                Text("${g.toInt()} g", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(62.dp), maxLines = 1)
-                                GramStep(true) { step(1) }
+                                Row(Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    GramStep(false) { step(-1) }
+                                    GapW(8.dp)
+                                    JField(it2.grams, { v -> it2.grams = v.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' }.take(7) }, "Quantità stimata", Modifier.weight(1f), number = true, suffix = "g")
+                                    GapW(8.dp)
+                                    GramStep(true) { step(1) }
+                                }
+                                val extra = buildList {
+                                    it2.base.servedGrams?.let { sg -> add("Visti ~${sg.toInt()} g cotti, convertiti in crudo (stima)") }
+                                    if (it2.base.confidence == "bassa") add("Riconoscimento poco sicuro: verifica")
+                                }
+                                if (extra.isNotEmpty()) Text(extra.joinToString(" · "), style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(top = 8.dp))
+                                Text("Rimuovi", style = T.Link, modifier = Modifier.padding(top = 6.dp).clickable { items.remove(it2) })
                             }
                         }
                     }

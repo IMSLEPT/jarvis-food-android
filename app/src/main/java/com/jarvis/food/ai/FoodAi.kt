@@ -11,6 +11,12 @@ import com.jarvis.food.engine.Macro
 import com.jarvis.food.engine.RecipeTemplate
 import com.jarvis.food.engine.TemplateIngredient
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,13 +30,18 @@ import java.net.URL
 /** Alimento riconosciuto dall'AI. Se [foodId] è valorizzato, i valori nutrizionali vengono dal database (non dall'AI). */
 data class AiItem(
     val name: String,
+    /** Grammi (a crudo se l'alimento ha un rapporto crudo/cotto noto e l'AI ha visto cibo cotto). Sempre una STIMA dalla foto. */
     val grams: Double,
     val foodId: String?,
     /** Solo per alimenti fuori database: stima AI della porzione intera. */
     val kcal: Double = 0.0,
     val protein: Double = 0.0,
     val carbs: Double = 0.0,
-    val fat: Double = 0.0
+    val fat: Double = 0.0,
+    /** Peso visibile nel piatto (cotto) prima della conversione in crudo, se applicata. */
+    val servedGrams: Double? = null,
+    /** Affidabilità dichiarata dall'AI: "alta", "media", "bassa". */
+    val confidence: String = "media"
 ) {
     /** Alimento non presente nel database: valori per 100 g ricavati dalla stima AI, segnalati come tali. */
     fun toEstimatedFood(): Food {
@@ -51,37 +62,66 @@ object FoodAi {
 
     // ---------------------------------------------------------------- client OpenAI-compatibile
 
-    fun toJpegBase64(bitmap: Bitmap, maxSide: Int = 1280): String {
+    fun toJpegBase64(bitmap: Bitmap, maxSide: Int = 896): String {
         val scale = maxSide.toFloat() / maxOf(bitmap.width, bitmap.height)
         val b = if (scale < 1f) Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true) else bitmap
         val out = ByteArrayOutputStream()
-        b.compress(Bitmap.CompressFormat.JPEG, 85, out)
+        b.compress(Bitmap.CompressFormat.JPEG, 78, out)
         return Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP)
     }
 
-    /** Invia la richiesta provando prima il modello scelto e poi i modelli gratuiti di riserva. */
-    private suspend fun chat(cfg: AiConfig, prompt: String, image: Bitmap?): String = withContext(Dispatchers.IO) {
+    /** Ritardo prima di far partire in parallelo il modello successivo se il primo non ha ancora risposto. */
+    private const val HEDGE_MS = 9000L
+
+    /**
+     * Invia la richiesta ai modelli gratuiti in "corsa": parte il preferito e, se entro [HEDGE_MS] non ha risposto
+     * (o fallisce subito, es. limite di richieste), parte anche il successivo. Vince la prima risposta valida
+     * (cioè che [parse] riesce a leggere); le altre vengono annullate. Così un modello lento non blocca l'analisi.
+     */
+    private suspend fun <T> ask(cfg: AiConfig, prompt: String, image: Bitmap?, onStatus: (String) -> Unit = {}, parse: (String) -> T): T = coroutineScope {
         require(cfg.apiKey.isNotBlank()) { "Serve la chiave gratuita: Profilo → Intelligenza artificiale." }
         val models = (listOf(cfg.model) + if (cfg.baseUrl.contains("openrouter")) AiConfig.FALLBACKS else emptyList()).distinct()
-        val img = image?.let { toJpegBase64(it) }
-        var lastError: Exception? = null
-        for (m in models) {
-            try { return@withContext call(cfg, m, prompt, img) } catch (e: Exception) { lastError = e }
+        onStatus("Preparo la foto…")
+        val img = image?.let { withContext(Dispatchers.Default) { toJpegBase64(it) } }
+        // null = "scatto" del timer: il modello in corso è lento, ne faccio partire un altro in parallelo
+        val results = Channel<Result<T>?>(Channel.UNLIMITED)
+        val jobs = mutableListOf<Job>()
+        var started = 0
+        fun launchNext() {
+            if (started >= models.size) return
+            val m = models[started++]
+            onStatus(if (started == 1) "Invio all'AI…" else "Il primo modello è lento: ne provo un altro in parallelo…")
+            jobs += launch(Dispatchers.IO) { results.send(runCatching { parse(call(cfg, m, prompt, img)) }) }
+            if (started < models.size) jobs += launch { delay(HEDGE_MS); results.send(null) }
         }
-        throw lastError ?: RuntimeException("Nessun modello disponibile")
+        launchNext()
+        var finished = 0; var lastError: Throwable? = null
+        try {
+            while (finished < started) {
+                val r = results.receive()
+                if (r == null) { launchNext(); continue }
+                finished++
+                r.onSuccess { return@coroutineScope it }
+                lastError = r.exceptionOrNull()
+                if (finished >= started) launchNext()
+            }
+            throw lastError ?: RuntimeException("Nessun modello disponibile")
+        } finally { jobs.forEach { it.cancel() } }
     }
 
-    private fun call(cfg: AiConfig, model: String, prompt: String, imgB64: String?): String {
+    /** Connessione bloccante: se la coroutine viene annullata chiudo la connessione, così il thread si libera subito. */
+    private suspend fun call(cfg: AiConfig, model: String, prompt: String, imgB64: String?): String {
         val content: Any = if (imgB64 == null) prompt else JSONArray()
             .put(JSONObject().put("type", "text").put("text", prompt))
             .put(JSONObject().put("type", "image_url").put("image_url", JSONObject().put("url", "data:image/jpeg;base64,$imgB64")))
-        val body = JSONObject().put("model", model).put("temperature", 0.1)
+        val body = JSONObject().put("model", model).put("temperature", 0.1).put("max_tokens", 1400)
             .put("messages", JSONArray().put(JSONObject().put("role", "user").put("content", content)))
         val c = URL(cfg.baseUrl.trimEnd('/') + "/chat/completions").openConnection() as HttpURLConnection
-        c.requestMethod = "POST"; c.doOutput = true; c.connectTimeout = 20000; c.readTimeout = 120000
+        c.requestMethod = "POST"; c.doOutput = true; c.connectTimeout = 10000; c.readTimeout = 60000
         c.setRequestProperty("Content-Type", "application/json")
         c.setRequestProperty("Authorization", "Bearer ${cfg.apiKey.trim()}")
         c.setRequestProperty("X-Title", "Jarvis Food")
+        val handle = currentCoroutineContext()[Job]?.invokeOnCompletion { runCatching { c.disconnect() } }
         try {
             c.outputStream.use { it.write(body.toString().toByteArray()) }
             val code = c.responseCode
@@ -90,8 +130,17 @@ object FoodAi {
                 val msg = runCatching { JSONObject(txt).getJSONObject("error").getString("message") }.getOrNull()
                 throw RuntimeException("Errore AI $code ($model): ${msg ?: txt.take(160)}")
             }
-            return JSONObject(txt).getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content", "")
-        } finally { c.disconnect() }
+            val out = JSONObject(txt).getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content", "")
+            if (out.isBlank()) throw RuntimeException("Risposta vuota ($model)")
+            return out
+        } finally { handle?.dispose(); c.disconnect() }
+    }
+
+    /** Messaggio comprensibile per l'utente a partire da un errore di rete o dell'AI. */
+    fun friendlyError(e: Throwable): String = when (e) {
+        is java.net.UnknownHostException, is java.net.ConnectException, is java.net.SocketTimeoutException ->
+            "Connessione assente o troppo lenta. Riprova, oppure usa la modalità Offline."
+        else -> e.message?.takeIf { it.isNotBlank() } ?: "Errore sconosciuto"
     }
 
     private fun jsonOf(answer: String): JSONObject {
@@ -110,25 +159,31 @@ object FoodAi {
 
     // ---------------------------------------------------------------- funzioni
 
-    /** Foto di un piatto: alimenti e grammi. I valori nutrizionali li calcola l'app dal database. */
-    suspend fun analyzeMeal(cfg: AiConfig, db: FoodDb, bitmap: Bitmap, hint: String): Pair<List<AiItem>, String> {
-        val prompt = """Sei un nutrizionista. Guarda la foto del pasto, riconosci ogni alimento e stima i grammi presenti nel piatto
-(peso dell'alimento così come appare, cotto se è cotto; per pasta e riso cotti indica il peso CRUDO equivalente dividendo per 2,2 la pasta e per 2,5 il riso).
+    /** Foto di un piatto: alimenti e grammi STIMATI. I valori nutrizionali li calcola l'app dal database. */
+    suspend fun analyzeMeal(cfg: AiConfig, db: FoodDb, bitmap: Bitmap, hint: String, onStatus: (String) -> Unit = {}): Pair<List<AiItem>, String> {
+        val prompt = """Sei un nutrizionista. Guarda la foto del pasto, riconosci ogni alimento visibile e stima i grammi presenti nel piatto.
+Indica il peso così come appare nel piatto ("state":"cotto" se l'alimento è cotto, altrimenti "crudo"): la conversione in crudo la fa l'app.
+Non inventare alimenti non visibili. Se non sei sicuro dichiara "conf":"bassa".
 Per ogni alimento scegli l'id più adatto da questo catalogo; se non c'è, usa id null e stima kcal e macronutrienti della porzione.
 CATALOGO (id: nome):
 ${catalog(db)}
-${if (hint.isNotBlank()) "Informazioni dall'utente: $hint\n" else ""}Rispondi SOLO con JSON:
-{"items":[{"id":"pasta","name":"pasta al pomodoro","grams":90,"kcal":0,"protein":0,"carbs":0,"fat":0}],"note":"..."}"""
-        val o = jsonOf(chat(cfg, prompt, bitmap))
+${if (hint.isNotBlank()) "Informazioni dall'utente (hanno la precedenza sulle tue stime): $hint\n" else ""}Rispondi SOLO con JSON:
+{"items":[{"id":"pasta","name":"pasta al pomodoro","grams":200,"state":"cotto","conf":"media","kcal":0,"protein":0,"carbs":0,"fat":0}],"note":"..."}"""
+        val o = ask(cfg, prompt, bitmap, { onStatus(it) }) { ans -> jsonOf(ans).also { j -> if (j.optJSONArray("items") == null) throw RuntimeException("Risposta AI senza alimenti") } }
+        onStatus("Calcolo calorie e macro dal database…")
         val arr = o.optJSONArray("items") ?: JSONArray()
         val items = (0 until arr.length()).map { i ->
             val it = arr.getJSONObject(i)
             val name = it.optString("name", "Alimento")
+            val id = resolveId(db, it.optString("id").takeIf { s -> s.isNotBlank() && s != "null" }, name)
+            val served = it.optDouble("grams", 100.0).nz().coerceIn(1.0, 1500.0)
+            val factor = if (it.optString("state").startsWith("cott", true)) id?.let { f -> db.food(f)?.cooked } else null
+            val conf = when (it.optString("conf").lowercase().take(3)) { "alt", "hig" -> "alta"; "bas", "low" -> "bassa"; else -> "media" }
             AiItem(
-                name = name, grams = it.optDouble("grams", 100.0).nz().coerceIn(1.0, 1500.0),
-                foodId = resolveId(db, it.optString("id").takeIf { s -> s.isNotBlank() && s != "null" }, name),
+                name = name, grams = if (factor != null) served / factor else served, foodId = id,
                 kcal = it.optDouble("kcal", 0.0).nz(), protein = it.optDouble("protein", 0.0).nz(),
-                carbs = it.optDouble("carbs", 0.0).nz(), fat = it.optDouble("fat", 0.0).nz()
+                carbs = it.optDouble("carbs", 0.0).nz(), fat = it.optDouble("fat", 0.0).nz(),
+                servedGrams = if (factor != null) served else null, confidence = conf
             )
         }
         return items to o.optString("note", "")
@@ -141,7 +196,7 @@ ${if (hint.isNotBlank()) "Informazioni dall'utente: $hint\n" else ""}Rispondi SO
 CATALOGO (id: nome):
 ${catalog(db)}
 Rispondi SOLO con JSON: {"items":[{"id":"uova","name":"uova","grams":300}]}"""
-        return guesses(db, jsonOf(chat(cfg, prompt, bitmap)))
+        return ask(cfg, prompt, bitmap) { guesses(db, jsonOf(it)) }
     }
 
     /** Testo di uno scontrino (letto sul telefono con OCR): prodotti alimentari e quantità. */
@@ -154,7 +209,7 @@ ${catalog(db)}
 SCONTRINO:
 ${receiptText.take(4000)}
 Rispondi SOLO con JSON: {"items":[{"id":"pasta","name":"spaghetti","grams":500}]}"""
-        return guesses(db, jsonOf(chat(cfg, prompt, null)))
+        return ask(cfg, prompt, null) { guesses(db, jsonOf(it)) }
     }
 
     private fun guesses(db: FoodDb, o: JSONObject): List<PantryGuess> {
@@ -182,7 +237,7 @@ Per ogni ingrediente indica id, grammi a crudo e ruolo: c (fonte di carboidrati)
 Nei passaggi scrivi {id} dove va la quantità di un ingrediente (es. "Cuoci {pasta} in acqua salata").
 Rispondi SOLO con JSON:
 {"name":"...","minutes":20,"ingredients":[{"id":"pasta","g":80,"role":"c"}],"steps":["..."],"tip":"..."}"""
-        val o = jsonOf(chat(cfg, prompt, null))
+        val o = ask(cfg, prompt, null) { jsonOf(it) }
         val arr = o.optJSONArray("ingredients") ?: JSONArray()
         val ings = (0 until arr.length()).mapNotNull { i ->
             val it = arr.getJSONObject(i)
