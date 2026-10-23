@@ -54,7 +54,11 @@ class EngineTest {
             f.kcal > 40 && abs(est - f.kcal) / f.kcal > 0.18 && f.group != "alcol"
         }
         report("atwater", "fuori tolleranza: ${bad.map { it.id }}")
-        assertTrue("Troppi alimenti incoerenti: ${bad.map { it.id }}", bad.size <= 4)
+        // Scostamenti noti e spiegabili: USDA usa fattori energetici specifici (cacao: teobromina; vaniglia: alcol dell'estratto;
+        // lievito: sali non metabolizzati; crusca d'avena: fibra solubile fermentata; aceto balsamico: zuccheri e acidi).
+        val known = setOf("aceto_bals", "cacao", "vaniglia", "lievito", "crusca_avena")
+        val unexpected = bad.map { it.id }.filter { it !in known }
+        assertTrue("Alimenti con kcal incoerenti con i macro: $unexpected", unexpected.isEmpty())
     }
 
     @Test fun recipeCatalogIsConsistent() {
