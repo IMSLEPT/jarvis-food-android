@@ -501,7 +501,7 @@ fun WhatNowScreen() {
         TopBar("Cosa mangio adesso?", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             ACard(brush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382))), bordered = false, glow = Color(0x8013225F), radius = 28.dp) {
-                Column {
+                Column(Modifier.fillMaxWidth()) {
                     Text("Ti restano oggi", style = T.Small.copy(color = Color(0xFFB9C6F5)))
                     Text("${nc.remaining.kcal.r0()} kcal", style = T.H1.copy(color = Color.White, fontSize = 30.sp))
                     Text("P ${nc.remaining.protein.r0()} g · C ${nc.remaining.carbs.r0()} g · G ${nc.remaining.fat.r0()} g", style = T.Muted.copy(color = Color(0xFFD7E0FF)))
