@@ -82,14 +82,14 @@ fun KitchenScreen() {
     val s by Store.state.collectAsState()
     MainPage("Cucina", resetKey = Nav.kitchenTab) {
         val seg = RoundedCornerShape(28.dp)
-        Row(Modifier.padding(top = 16.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.padding(top = 4.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, l) ->
                 val sel = Nav.kitchenTab == i
                 val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) when(i) { 2 -> A.GreenSoft; 0 -> A.CarbSoft; else -> A.FatSoft } else Color.Transparent).clickable { Nav.kitchenTab = i },
-                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Text(l, style = T.BtnS.copy(color = if (sel) when(i) { 2 -> A.GreenInk; 0 -> A.CarbInk; else -> A.FatInk } else A.Ink), maxLines = 1)
-                    if (n > 0) { GapW(6.dp); Text("$n", style = T.BtnS.copy(color = A.Muted)) }
+                Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) when(i) { 2 -> A.GreenSoft; 0 -> A.CarbSoft; else -> A.FatSoft } else Color.Transparent).clickable { Nav.kitchenTab = i },
+                    horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) when(i) { 2 -> A.GreenInk; 0 -> A.CarbInk; else -> A.FatInk } else A.Ink), maxLines = 1)
+                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 11.sp, color = A.Muted))
                 }
             }
         }
@@ -208,7 +208,7 @@ private fun PantryTab(s: AppState) {
     val fs = RoundedCornerShape(30.dp)
     Row(Modifier.fillMaxWidth().height(56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-            if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = Color(0xFF9A98B0)))
+            if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = C.Muted))
             androidx.compose.foundation.text.BasicTextField(name, { name = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
                 cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
         }
@@ -301,7 +301,7 @@ private fun ShoppingTab(s: AppState) {
     val fs = RoundedCornerShape(30.dp)
     Row(Modifier.fillMaxWidth().height(56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-            if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = Color(0xFF9A98B0)))
+            if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = C.Muted))
             androidx.compose.foundation.text.BasicTextField(manual, { manual = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
                 cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
         }

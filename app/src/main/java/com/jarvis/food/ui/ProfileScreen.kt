@@ -743,7 +743,7 @@ fun BackupScreen() {
                         .onSuccess { Toast.makeText(ctx, "Backup importato", Toast.LENGTH_SHORT).show(); Reminders.rescheduleAll(ctx) }
                         .onFailure { Toast.makeText(ctx, "File non valido: ${it.message}", Toast.LENGTH_LONG).show() }
                     pendingImport = null
-                }) { Text("Importa", color = C.Accent) }
+                }) { Text("Importa", color = C.AccentDeep) }
             },
             dismissButton = { TextButton(onClick = { pendingImport = null }) { Text("Annulla", color = C.Muted) } }
         )

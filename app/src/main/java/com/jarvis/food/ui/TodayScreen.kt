@@ -11,6 +11,10 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -102,7 +106,7 @@ fun TodayScreen() {
     val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
     MainPage(fullDay(date), "$hello, ${s.profile.name}") {
         // ---- Settimana
-        Spacer(Modifier.height(18.dp))
+        Spacer(Modifier.height(8.dp))
         WeekStrip(s, date)
 
         // ---- Hero calorie
@@ -117,16 +121,6 @@ fun TodayScreen() {
             MacroRing("Grassi", totals.fat, e.fat, C.Gold, A.FatSoft, A.FatInk, Modifier.weight(1f))
         }
 
-        if (!s.profile.detailed) {
-            Spacer(Modifier.height(12.dp))
-            ACard(color = A.Tonal, radius = 26.dp, bordered = false, elevation = 0.dp, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
-                Column {
-                    Text("Rendi il calcolo più preciso", style = T.Title2)
-                    Text("Rispondi a poche domande su lavoro, passi e allenamenti: l'obiettivo smette di essere una stima generica.", style = T.Muted)
-                }
-            }
-        }
-
         // ---- Azioni rapide
         Spacer(Modifier.height(20.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -134,6 +128,21 @@ fun TodayScreen() {
             QuickTile("Foto piatto", Ic.Camera, 2f, Color(0xFF1D4ED8), Color(0xFFD7E6FF), Color(0xFFEAF1FF), Color(0x993B82F6), Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
             QuickTile("Frigo", Ic.Fridge, 2f, Color(0xFF047857), Color(0xFFC9F3E1), Color(0xFFE2FAF0), Color(0x9910B981), Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
             QuickTile("Digiuno", Ic.Timer, 2f, Color(0xFF6D28D9), Color(0xFFE4DAFF), Color(0xFFF0EAFF), Color(0x998B5CF6), Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
+        }
+
+        if (!s.profile.detailed) {
+            Spacer(Modifier.height(12.dp))
+            ACard(color = Color.White, radius = 22.dp, padding = 14.dp, elevation = 4.dp, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TonalIcon(Ic.Receipt, A.TonalInk, A.Tonal, box = 40.dp, radius = 14.dp)
+                    GapW(12.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text("Rendi il calcolo più preciso", style = T.Label)
+                        Text("Completa il tuo profilo", style = T.Small)
+                    }
+                    AIcon(Ic.Right, C.Muted, 18.dp)
+                }
+            }
         }
 
         // ---- Cosa mangio adesso?
@@ -144,7 +153,7 @@ fun TodayScreen() {
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text("Cosa mangio adesso?", style = T.Title2)
-                    Text("Piatti su misura per i macro che ti restano oggi.", style = T.Small.copy(color = A.TonalInk), maxLines = 1)
+                    Text("Piatti su misura per i macro che ti restano oggi.", style = T.Small.copy(color = A.TonalInk))
                 }
                 AIcon(Ic.Right, A.TonalInk, 20.dp, 2.4f)
             }
@@ -198,7 +207,7 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
                 if (dx > 90f) onPick(date.minusWeeks(1)) else if (dx < -90f) onPick(date.plusWeeks(1))
             }) { _, d -> dx += d }
         },
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         for (i in 0..6) {
             val d = monday.plusDays(i.toLong())
@@ -235,23 +244,32 @@ private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, 
                 Text("Le tue calorie", style = T.Title2.copy(color = Color.White), modifier = Modifier.weight(1f))
                 AIcon(Ic.Right, Color.White.copy(alpha = 0.8f), 18.dp)
             }
-            Row(Modifier.fillMaxWidth().padding(vertical = 22.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(124.dp), contentAlignment = Alignment.Center) {
-                    Canvas(Modifier.size(114.dp)) {
+            BoxWithConstraints(Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
+                val stacked = maxWidth / LocalDensity.current.fontScale < 260.dp
+                val ring: @Composable () -> Unit = {
+                Box(Modifier.size(104.dp), contentAlignment = Alignment.Center) {
+                    Canvas(Modifier.size(100.dp)) {
                         val st = 9.dp.toPx(); val inset = st / 2; val sz = Size(size.width - st, size.height - st)
                         drawArc(Color(0x29FFFFFF), 135f, 270f, false, Offset(inset, inset), sz, style = Stroke(st, cap = StrokeCap.Round))
                         if (p > 0f) drawArc(if (over) Brush.sweepGradient(listOf(C.Danger, C.Danger)) else Brush.sweepGradient(C.OrangeArc + C.OrangeArc.first()), 135f, 270f * p, false, Offset(inset, inset), sz, style = Stroke(st, cap = StrokeCap.Round))
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("${(fraction * 100).toInt()}%", style = T.Big.copy(color = Color.White, fontSize = 30.sp, lineHeight = 34.sp))
-                        Text("dell’obiettivo", style = T.Small.copy(color = Color(0xFFDCE5FA), fontSize = 9.sp))
+                        Text("dell’obiettivo", style = T.Small.copy(color = Color(0xFFDCE5FA), fontSize = 10.sp))
                     }
                 }
-                GapW(16.dp)
-                Column(Modifier.weight(1f)) {
+                }
+                val remaining: @Composable () -> Unit = {
+                Column {
                     Text(if (over) "Sei oltre di" else "Ti restano", style = T.Small.copy(color = Color(0xFFDCE5FA)))
-                    Text(kcalFmt(kotlin.math.abs(target - eaten)), style = T.Big.copy(fontSize = 40.sp, lineHeight = 46.sp, color = if (over) Color(0xFFFFB4A9) else Color.White), maxLines = 1)
+                    Text(kcalFmt(kotlin.math.abs(target - eaten)), style = T.Big.copy(fontSize = 36.sp, lineHeight = 42.sp, color = if (over) Color(0xFFFFB4A9) else Color.White), maxLines = 1)
                     Text("kcal per ${if (Nav.diaryDate == LocalDate.now()) "oggi" else dayLabel(Nav.diaryDate).lowercase()}", style = T.Small.copy(color = Color(0xFFDCE5FA)))
+                }
+                }
+                if (stacked) Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    ring(); GapH(10.dp); remaining()
+                } else Row(verticalAlignment = Alignment.CenterVertically) {
+                    ring(); GapW(16.dp); Box(Modifier.weight(1f)) { remaining() }
                 }
             }
             Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x29FFFFFF)))
@@ -267,7 +285,7 @@ private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, 
 @Composable
 private fun HeroStat(label: String, value: String, color: Color, modifier: Modifier) {
     Column(modifier) {
-        Text(label, style = T.Small.copy(color = Color(0xFFDCE5FA), fontSize = 10.sp))
+        Text(label, style = T.Small.copy(color = Color(0xFFDCE5FA), fontSize = 11.sp))
         Text(value, style = T.Num.copy(color = color, fontSize = 18.sp), maxLines = 1)
     }
 }
@@ -276,13 +294,11 @@ private fun HeroStat(label: String, value: String, color: Color, modifier: Modif
 private fun MacroRing(label: String, value: Double, goal: Double, color: Color, soft: Color, ink: Color, modifier: Modifier) {
     val fraction = if (goal > 0) (value / goal).toFloat().coerceIn(0f, 1f) else 0f
     val p by animateFloatAsState(fraction, tween(600), label = "macro")
-    Column(modifier.clip(RoundedCornerShape(18.dp)).background(androidx.compose.ui.graphics.lerp(soft, Color.White, 0.45f))
+    Column(modifier.clip(RoundedCornerShape(18.dp)).background(androidx.compose.ui.graphics.lerp(soft, Color.White, 0.35f))
         .border(1.dp, soft, RoundedCornerShape(18.dp)).clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(10.dp)) {
-        Text(label, style = T.Small.copy(color = ink, fontSize = 10.sp), maxLines = 1)
-        Row(Modifier.padding(top = 5.dp), verticalAlignment = Alignment.Bottom) {
-            Text(value.r0(), style = T.Num.copy(fontSize = 20.sp), maxLines = 1)
-            Text(" / ${goal.r0()} g", style = T.Small.copy(fontSize = 9.sp), maxLines = 1, modifier = Modifier.padding(bottom = 3.dp))
-        }
+        Text(label, style = T.Small.copy(color = ink, fontSize = 11.sp))
+        Text("${value.r0()} g", style = T.Num.copy(fontSize = 21.sp), modifier = Modifier.padding(top = 4.dp))
+        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 11.sp))
         ABar(p, Brush.horizontalGradient(listOf(color, color)), soft, 5.dp, Modifier.padding(top = 8.dp))
     }
 }
@@ -291,12 +307,12 @@ private fun MacroRing(label: String, value: Double, goal: Double, color: Color, 
 private fun QuickTile(label: String, icon: String, stroke: Float, ink: Color, c1: Color, c2: Color, glow: Color, modifier: Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(20.dp)
     Column(
-        modifier.height(74.dp).clip(shape).background(Brush.linearGradient(listOf(c1, c2))).clickable(onClick = onClick).padding(horizontal = 4.dp),
+        modifier.heightIn(min = 72.dp).clip(shape).background(Brush.linearGradient(listOf(c1, c2))).clickable(onClick = onClick).padding(horizontal = 4.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
     ) {
         AIcon(icon, ink, 23.dp, stroke)
         Spacer(Modifier.height(6.dp))
-        Text(label, style = T.Small.copy(fontSize = 10.sp, fontWeight = FontWeight.SemiBold, color = ink), maxLines = 1, softWrap = false)
+        Text(label, style = T.Small.copy(fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)
     }
 }
 

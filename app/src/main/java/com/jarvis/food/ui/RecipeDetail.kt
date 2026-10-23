@@ -44,6 +44,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -190,7 +191,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     Box(Modifier.fillMaxSize()) {
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f)) {
-            Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+            Column(Modifier.fillMaxSize().testTag("recipe-scroll").verticalScroll(rememberScrollState())) {
                 Box(Modifier.fillMaxWidth()) {
                     RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(280.dp), recEmoji(tpl.meal), 0.dp)
                     Box(Modifier.fillMaxWidth().height(160.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
@@ -202,7 +203,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                     Column(
                         Modifier.padding(top = 240.dp).fillMaxWidth()
                             .aShadow(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp), 14.dp, Color(0x591D1B3A))
-                            .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp)).background(Color(0xFFF3F5F8))
+                            .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp)).background(C.Bg)
                             .padding(start = 20.dp, end = 20.dp, top = 26.dp, bottom = 24.dp)
                     ) {
                         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -217,7 +218,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             InfoChip(RecipeMeta.label(RecipeMeta.CUISINES, tpl.cuisine))
                         }
                         GapH(14.dp)
-                        Text(tpl.name, style = T.H1.copy(fontSize = 33.sp, lineHeight = 37.sp))
+                        Text(tpl.name, style = T.H1.copy(fontSize = 27.sp, lineHeight = 32.sp))
                         GapH(8.dp)
                         Text(RecipeMeta.description(db, tpl), style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
 
@@ -514,7 +515,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 Text("• ${it.food.name}: USDA FDC ${it.food.fdc} (${it.food.usda})" + (it.food.note?.let { n -> ". $n" } ?: ""), style = T.Small)
                             }
                         }
-                        GapH(120.dp)
+                        GapH(24.dp)
                     }
                 }
             }
@@ -526,13 +527,12 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                 }
             }
         }
-    }
-    // Barra azioni fluttuante
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+    // The footer takes its own measured space, including enlarged text and Android insets.
+    Box(Modifier.fillMaxWidth().testTag("recipe-footer"), contentAlignment = Alignment.BottomCenter) {
         val barShape = RoundedCornerShape(32.dp)
         Column(
-            Modifier.navigationBarsPadding().padding(start = 12.dp, end = 12.dp, bottom = 14.dp).fillMaxWidth()
-                .aShadow(barShape, 16.dp, Color(0x611D1B3A)).clip(barShape).background(Color(0xEBFFFFFF)).border(1.dp, Color(0xE6FFFFFF), barShape).padding(14.dp)
+            Modifier.navigationBarsPadding().padding(start = 12.dp, end = 12.dp, bottom = 8.dp).fillMaxWidth()
+                .aShadow(barShape, 16.dp, Color(0x611D1B3A)).clip(barShape).background(Color.White).border(1.dp, C.Line, barShape).padding(10.dp)
         ) {
             if (planned) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -546,22 +546,17 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
             } else {
                 MealChips(meal) { meal = it }
                 GapH(10.dp)
-                val btn = RoundedCornerShape(28.dp)
-                Row(
-                    Modifier.fillMaxWidth().height(56.dp).aShadow(btn, 10.dp, Color(0x73F25E00)).clip(btn).background(C.OrangeBrush).clickable {
-                        Store.eatSolved(sc.date, meal, r)
-                        Store.consumeFromPantry(r)
-                        Toast.makeText(ctx, "Aggiunto al diario (1 porzione)", Toast.LENGTH_SHORT).show()
-                        Nav.back()
-                    },
-                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
-                ) {
-                    AIcon(Ic.Plus, Color.White, 20.dp, 2.8f); GapW(10.dp)
-                    Text("Aggiungi a ${MEAL_LABEL.getValue(meal).lowercase()}", style = T.BtnL.copy(color = Color.White))
+                APrimary("＋ Aggiungi a ${MEAL_LABEL.getValue(meal).lowercase()}", Modifier.fillMaxWidth()) {
+                    Store.eatSolved(sc.date, meal, r)
+                    Store.consumeFromPantry(r)
+                    Toast.makeText(ctx, "Aggiunto al diario (1 porzione)", Toast.LENGTH_SHORT).show()
+                    Nav.back()
                 }
             }
         }
     }
+
+    } // Main column: scrolling recipe + measured footer.
 
     if (dlgPlan) PlanDialog(tpl.id, tpl.meal, onDismiss = { dlgPlan = false })
     if (dlgFridge) {

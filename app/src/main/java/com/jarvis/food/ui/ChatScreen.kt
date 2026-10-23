@@ -236,7 +236,7 @@ private fun Bubble(m: ChatMsg) {
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)).background(if (ok) C.GreenSoft else if (warn) C.DangerSoft else C.SurfaceAlt)
                         .padding(horizontal = 10.dp, vertical = 5.dp))
             }
-            if (Jarvis.canUndo(m.id) && !Jarvis.busy) Text("Annulla le modifiche", style = T.Label.copy(color = C.Accent),
+            if (Jarvis.canUndo(m.id) && !Jarvis.busy) Text("Annulla le modifiche", style = T.Label.copy(color = C.AccentDeep),
                 modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { Jarvis.undo(m.id) }.padding(vertical = 6.dp, horizontal = 2.dp))
         }
     }
@@ -286,7 +286,7 @@ fun ChatSetup() {
             Spacer(Modifier.height(6.dp))
             when {
                 ready -> {
-                    Text("✓ ${model.title} pronto", style = T.Label.copy(color = C.Green))
+                    Text("✓ ${model.title} pronto", style = T.Label.copy(color = A.GreenInk))
                     Spacer(Modifier.height(6.dp))
                     GhostButton("Elimina il modello (libera ${gb(model.bytes)})") { ModelManager.delete(ctx, model) }
                 }

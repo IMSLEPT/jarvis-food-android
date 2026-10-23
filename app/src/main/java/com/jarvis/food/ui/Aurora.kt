@@ -11,6 +11,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -51,7 +57,7 @@ object A {
 
     val ProteinSoft = Color(0xFFFFE4EC); val ProteinInk = Color(0xFFC41F4C)
     val CarbSoft = Color(0xFFE3EEFF); val CarbInk = Color(0xFF1D4ED8)
-    val FatSoft = Color(0xFFFFF1D2); val FatInk = Color(0xFFA16207)
+    val FatSoft = Color(0xFFFFF1D2); val FatInk = Color(0xFF925907)
     val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
     val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
     val FastSoft = Color(0xFFEDE7FF); val FastInk = Color(0xFF6D28D9)
@@ -161,7 +167,7 @@ fun ACard(
 @Composable
 fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, top: Dp = 26.dp, onAction: (() -> Unit)? = null) {
     Row(modifier.fillMaxWidth().padding(top = top), verticalAlignment = Alignment.CenterVertically) {
-        Text(title, style = T.H2, modifier = Modifier.weight(1f))
+        Text(title, style = T.H2, modifier = Modifier.weight(1f).padding(end = 12.dp))
         if (action != null) Text(action, style = T.Link, modifier = Modifier.clickable(enabled = onAction != null) { onAction?.invoke() }.padding(vertical = 13.dp))
     }
 }
@@ -175,8 +181,9 @@ fun MacroChip(text: String, bg: Color, ink: Color) {
 }
 
 @Composable
+@OptIn(ExperimentalLayoutApi::class)
 fun MacroChips(p: Double, c: Double, f: Double) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         MacroChip("P ${p.r0()} g", A.ProteinSoft, A.ProteinInk)
         MacroChip("C ${c.r0()} g", A.CarbSoft, A.CarbInk)
         MacroChip("G ${f.r0()} g", A.FatSoft, A.FatInk)
@@ -188,26 +195,26 @@ fun MacroChips(p: Double, c: Double, f: Double) {
 fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
     Box(
-        modifier.height(height).aShadow(shape, 10.dp, Color(0x73F25E00)).clip(shape)
+        modifier.heightIn(min = height).aShadow(shape, 10.dp, Color(0x73F25E00)).clip(shape)
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
-            .clickable(enabled = enabled, onClick = onClick),
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(color = if (enabled) Color.White else C.Faint), maxLines = 1) }
+    ) { Text(text, style = T.BtnM.copy(color = if (enabled) Color.White else C.Muted), textAlign = TextAlign.Center) }
 }
 
 /** Pulsante "inchiostro" navy (52 px) e variante tonale. */
 @Composable
 fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    Box(modifier.height(height).clip(shape).background(bg).clickable(onClick = onClick).padding(horizontal = 22.dp), contentAlignment = Alignment.Center) {
-        Text(text, style = T.BtnM.copy(color = fg), maxLines = 1)
+    Box(modifier.heightIn(min = height).clip(shape).background(bg).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
+        Text(text, style = T.BtnM.copy(color = fg), textAlign = TextAlign.Center)
     }
 }
 
 /** Cerchio navy con "+" (44 px), usato accanto ai pasti. */
 @Composable
 fun PlusButton(desc: String, size: Dp = 44.dp, onClick: () -> Unit) {
-    Box(Modifier.size(size).clip(CircleShape).background(C.Navy).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(size).clip(CircleShape).background(C.Navy).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(Ic.Plus, Color.White, size * 0.41f, 2.6f)
     }
 }
@@ -217,7 +224,7 @@ fun PlusButton(desc: String, size: Dp = 44.dp, onClick: () -> Unit) {
 fun BackCircle(onBack: () -> Unit) {
     Box(
         Modifier.size(48.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(Color.White).border(1.dp, A.Hair, CircleShape)
-            .clickable(onClick = onBack),
+            .semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack),
         contentAlignment = Alignment.Center
     ) { AIcon(Ic.Left, A.Ink, 22.dp, 2.4f) }
 }
@@ -227,10 +234,10 @@ fun BackCircle(onBack: () -> Unit) {
 fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 44.dp, hPad: Dp = 20.dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
     Box(
-        modifier.height(height).clip(shape).background(if (selected) C.Navy else Color.White)
-            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = hPad),
+        modifier.heightIn(min = height).clip(shape).background(if (selected) C.Navy else Color.White)
+            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
         contentAlignment = Alignment.Center
-    ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), maxLines = 1, textAlign = TextAlign.Center) }
+    ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center) }
 }
 
 /** Barra di avanzamento sottile del design. */

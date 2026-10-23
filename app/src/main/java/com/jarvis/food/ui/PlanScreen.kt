@@ -87,7 +87,7 @@ fun PlanScreen() {
         var optionsOpen by remember { mutableStateOf(false) }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text("${monday.dayOfMonth} – ${monday.plusDays(6).dayOfMonth} ${monday.plusDays(6).month.getDisplayName(TextStyle.FULL, IT).uppercase()}", style = T.Eyebrow.copy(fontSize = 10.sp))
+                Text("${monday.dayOfMonth} – ${monday.plusDays(6).dayOfMonth} ${monday.plusDays(6).month.getDisplayName(TextStyle.FULL, IT).uppercase()}", style = T.Eyebrow.copy(fontSize = 11.sp))
                 Text("La tua settimana, già organizzata", style = T.Title2)
             }
             Box {
@@ -140,7 +140,7 @@ fun PlanScreen() {
         }
         Spacer(Modifier.height(10.dp))
         Text("Valori calcolati dal database USDA FoodData Central su pesi a crudo. Le foto sono illustrative.", style = T.Small)
-        Spacer(Modifier.height(28.dp))
+        Spacer(Modifier.height(8.dp))
     }
 }
 
@@ -210,8 +210,8 @@ private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft:
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
             Text(" g", style = T.Small.copy(fontSize = 11.5.sp), modifier = Modifier.padding(bottom = 3.dp))
         }
-        Text(label, style = T.Small.copy(fontSize = 10.sp), maxLines = 1)
-        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 10.sp), maxLines = 1)
+        Text(label, style = T.Small.copy(fontSize = 11.sp))
+        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 11.sp))
         ABar((if (goal > 0) v / goal else 0.0).toFloat(), Brush.horizontalGradient(listOf(color, color)), soft, 6.dp, Modifier.padding(top = 8.dp))
     }
 }

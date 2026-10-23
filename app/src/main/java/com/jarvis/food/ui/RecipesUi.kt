@@ -37,6 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -293,9 +294,9 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
         Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(g.title, style = T.Label, modifier = Modifier.weight(1f))
-            Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 10.sp))
+            Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 11.sp))
         }
-        val columns = if (g.id in setOf("obiettivo", "dieta", "metodo", "cucina")) 2 else 3
+        val columns = if (LocalDensity.current.fontScale > 1.2f || g.id in setOf("obiettivo", "dieta", "metodo", "cucina")) 2 else 3
         val extra = if (g.id == "pasto") 1 else 0
         val count = g.cats.size + extra
         (0 until count step columns).forEach { start ->

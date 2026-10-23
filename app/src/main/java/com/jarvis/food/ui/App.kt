@@ -17,6 +17,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,6 +42,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -162,7 +172,8 @@ private fun ScreenHost(s: Screen) {
 @Composable
 private fun Tabs() {
     Column(Modifier.fillMaxSize()) {
-        Box(Modifier.weight(1f)) {
+        // BottomBar owns the navigation inset; children must not reserve it a second time.
+        Box(Modifier.weight(1f).consumeWindowInsets(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom))) {
             when (Nav.tab) {
                 0 -> TodayScreen()
                 1 -> PlanScreen()
@@ -183,16 +194,16 @@ private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
     val colors = listOf(A.Tonal, A.CarbSoft, A.GreenSoft, A.FastSoft, A.FatSoft)
     val shape = RoundedCornerShape(30.dp)
-    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 12.dp, end = 12.dp, top = 6.dp, bottom = 12.dp)) {
-        Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(3.dp), verticalAlignment = Alignment.CenterVertically) {
+    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp)) {
+        Row(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(6.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
             items.forEachIndexed { index, (tab, icon, label) ->
                 val selected = Nav.tab == tab
-                Column(Modifier.weight(1f).clip(RoundedCornerShape(22.dp)).background(if (selected) colors[index] else Color.Transparent)
-                    .clickable { Nav.tab = tab }.padding(horizontal = 2.dp, vertical = 10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp)).background(if (selected) colors[index] else Color.Transparent)
+                    .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 2.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                     if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 22.dp)
-                    Spacer(Modifier.height(5.dp))
-                    Text(label, style = T.Small.copy(fontSize = 10.sp, color = if (selected) C.Navy else A.Muted), maxLines = 1)
+                    Spacer(Modifier.height(4.dp))
+                    Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
                 }
             }
         }

@@ -27,7 +27,7 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF3F5F8)
+    val Bg = Color(0xFFF7F9FC)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEFF3)
     val SurfaceHi = Color(0xFFE3E8EE)
@@ -36,6 +36,9 @@ object C {
     val Muted = Color(0xFF5E5B7A)
     val Faint = Color(0xFFA6A4BC)
     val Accent = Color(0xFFF25E00)
+    // Orange reserved for white button labels; the brighter brand accent stays on icons and charts.
+    val ButtonOrange = Color(0xFFC94D00)
+    val ButtonOrangeEnd = Color(0xFFBA4000)
     val AccentSoft = Color(0xFFFFE9E1)
     val AccentDeep = Color(0xFFC93A1F)
     val OnAccent = Color(0xFFFFFFFF)
@@ -58,9 +61,9 @@ object C {
     val DangerSoft = Color(0xFFFDE3E4)
 
     /** Arancione dei pulsanti principali (bianco sopra). */
-    val OrangeBrush = Brush.verticalGradient(listOf(Color(0xFFFF8A1C), Color(0xFFF25E00)))
+    val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382), Color(0xFF2447A3)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382)))
     val OrangeArc = listOf(Color(0xFFF25E00), Color(0xFFFF8A1C), Color(0xFFFFB02E))
 }
 
@@ -93,7 +96,7 @@ object T {
     val Label = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, lineHeight = 19.sp, color = C.Text)
     val Button = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = C.OnAccent)
     val BtnL = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Bold, fontSize = 16.5.sp, color = C.OnAccent)
-    val BtnM = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 14.5.sp, color = C.OnAccent)
+    val BtnM = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 14.5.sp, lineHeight = 20.sp, color = C.OnAccent)
     val BtnS = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = C.Text)
     val Chip = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 12.5.sp, color = C.Text)
     val Link = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, color = C.AccentDeep)
@@ -122,7 +125,7 @@ fun JarvisTheme(content: @Composable () -> Unit) {
 fun AppBackground(content: @Composable BoxScope.() -> Unit) {
     Box(
         Modifier.fillMaxSize()
-            .background(Brush.verticalGradient(listOf(Color(0xFFF3F5F8), Color(0xFFE8ECF1))))
+            .background(Brush.verticalGradient(listOf(C.Bg, Color(0xFFF0F4F9))))
             .drawBehind {
                 drawRect(Brush.radialGradient(listOf(Color.White, Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
             },
