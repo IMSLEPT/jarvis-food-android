@@ -352,5 +352,19 @@ object Store {
         return add.size
     }
 
+    /** Aggiunge alla spesa gli ingredienti di una ricetta dell'utente (per [factor] volte la ricetta), saltando ciò che c'è già in dispensa. */
+    fun addUserRecipeToShopping(r: Recipe, factor: Double, pantryFoodIds: Set<String>): Int {
+        val add = r.ingredients.mapNotNull { ing ->
+            val dbId = if (ing.food.id.startsWith("db:")) ing.food.id.removePrefix("db:") else null
+            if (dbId != null && (dbId in pantryFoodIds || dbId in Shopping.STAPLES)) return@mapNotNull null
+            val d = dbId?.let { Db.db.food(it) }
+            val g = Math.round(ing.grams * factor).toDouble()
+            ShoppingItem(newId(), dbId, ing.food.name, needGrams = g, packs = 1, packGrams = d?.pack ?: 100.0,
+                shop = d?.shop ?: "Altro", manual = true, note = "${g.toInt()} ${if (ing.food.liquid) "ml" else "g"} · ${r.name}")
+        }
+        if (add.isNotEmpty()) update { s -> s.copy(shopping = s.shopping + add) }
+        return add.size
+    }
+
     fun setEnergy(e: EnergySettings) = update { it.copy(energy = e) }
 }

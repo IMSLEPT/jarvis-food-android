@@ -114,7 +114,7 @@ object FoodAi {
         val content: Any = if (imgB64 == null) prompt else JSONArray()
             .put(JSONObject().put("type", "text").put("text", prompt))
             .put(JSONObject().put("type", "image_url").put("image_url", JSONObject().put("url", "data:image/jpeg;base64,$imgB64")))
-        val body = JSONObject().put("model", model).put("temperature", 0.1).put("max_tokens", 1400)
+        val body = JSONObject().put("model", model).put("temperature", 0.1).put("max_tokens", 2000)
             .put("messages", JSONArray().put(JSONObject().put("role", "user").put("content", content)))
         val c = URL(cfg.baseUrl.trimEnd('/') + "/chat/completions").openConnection() as HttpURLConnection
         c.requestMethod = "POST"; c.doOutput = true; c.connectTimeout = 10000; c.readTimeout = 60000
@@ -253,6 +253,63 @@ Rispondi SOLO con JSON:
             meal = meal, minutes = o.optInt("minutes", 20), ings = ings, steps = steps, tip = o.optString("tip", ""),
             image = null, credit = ImageCredit(title = "Ricetta creata con AI")
         )
+    }
+
+    private const val RECIPE_JSON = """{"name":"...","servings":4,"minutes":30,"meal":"pranzo","cuisine":"italiana","difficulty":1,"description":"...","ingredients":[{"id":"pasta","name":"spaghetti","g":320}],"steps":["..."]}"""
+
+    private fun importedFrom(db: FoodDb, o: JSONObject): ImportedRecipe {
+        val servings = o.optInt("servings", 1).coerceIn(1, 30)
+        val arr = o.optJSONArray("ingredients") ?: JSONArray()
+        val unmatched = ArrayList<String>()
+        val byId = LinkedHashMap<String, Pair<Food, Double>>()
+        for (i in 0 until arr.length()) {
+            val it = arr.getJSONObject(i)
+            val name = it.optString("name", "")
+            val id = resolveId(db, it.optString("id").takeIf { s -> s.isNotBlank() && s != "null" }, name)
+            val f = id?.let { x -> db.food(x) }
+            val g = it.optDouble("g", Double.NaN)
+            if (f == null) { if (name.isNotBlank()) unmatched += name; continue }
+            val grams = (if (g.isNaN() || g <= 0) (f.pieceGrams ?: 100.0) else g).coerceIn(1.0, 5000.0)
+            byId[f.id] = f.toFood() to ((byId[f.id]?.second ?: 0.0) + grams)
+        }
+        val steps = o.optJSONArray("steps")?.let { s -> (0 until s.length()).map { s.getString(it).trim() }.filter { it.isNotEmpty() } } ?: emptyList()
+        val meal = o.optString("meal").lowercase().let { if (it in setOf("colazione", "pranzo", "cena", "spuntino", "dessert")) it else "" }
+        val cuisine = o.optString("cuisine").lowercase().let { if (it in setOf("italiana", "messicana", "asiatica", "americana", "giapponese", "indiana", "mediterranea")) it else if (it.isBlank()) "" else "altre" }
+        return ImportedRecipe(
+            name = o.optString("name", "").ifBlank { "Ricetta importata" }, servings = servings, minutes = o.optInt("minutes", 30).coerceIn(1, 600),
+            ingredients = byId.values.map { it.first to Math.round(it.second * 10) / 10.0 }, steps = steps,
+            description = o.optString("description", ""), meal = meal, cuisine = cuisine, difficulty = o.optInt("difficulty", 0).coerceIn(0, 3),
+            unmatched = unmatched
+        )
+    }
+
+    /** Struttura una ricetta scritta come testo libero (incollata o letta da una foto con OCR). Non inventa ingredienti o quantità. */
+    suspend fun parseRecipe(cfg: AiConfig, db: FoodDb, text: String): ImportedRecipe {
+        val prompt = """Questo è il testo di una ricetta (può contenere errori di lettura OCR). Estrai i dati SENZA inventare nulla:
+usa solo ingredienti e quantità presenti nel testo; grammi TOTALI per il numero di porzioni indicato (converti cucchiai, tazze, pezzi in grammi: 1 cucchiaio olio = 10 g, 1 uovo = 55 g).
+Se le porzioni non sono indicate usa 1. Per ogni ingrediente scegli l'id più adatto dal catalogo; se non esiste usa id null (resterà fuori dal calcolo, lo segnalerà l'app).
+meal: colazione|pranzo|cena|spuntino|dessert. cuisine: italiana|messicana|asiatica|americana|giapponese|indiana|mediterranea|altre. difficulty: 1 facile, 2 media, 3 impegnativa.
+CATALOGO (id: nome):
+${catalog(db)}
+TESTO:
+${text.take(6000)}
+Rispondi SOLO con JSON: $RECIPE_JSON"""
+        val o = ask(cfg, prompt, null) { jsonOf(it).also { j -> if (j.optJSONArray("ingredients") == null) throw RuntimeException("Risposta AI senza ingredienti") } }
+        return importedFrom(db, o)
+    }
+
+    /** Crea da zero una ricetta a partire da un'idea ("lasagne vegetariane", "colazione proteica veloce"). Le calorie le calcola l'app dal database. */
+    suspend fun createRecipe(cfg: AiConfig, db: FoodDb, idea: String, exclude: List<String>): ImportedRecipe {
+        val prompt = """Sei uno chef e nutrizionista italiano. Scrivi UNA ricetta realistica e precisa per questa richiesta: "${idea.take(300)}".
+Usa solo ingredienti del catalogo (id), con grammi TOTALI per il numero di porzioni indicato (crudi). Passaggi chiari e brevi, con tempi e temperature.
+${if (exclude.isNotEmpty()) "Evita: ${exclude.joinToString()}.\n" else ""}meal: colazione|pranzo|cena|spuntino|dessert. cuisine: italiana|messicana|asiatica|americana|giapponese|indiana|mediterranea|altre. difficulty: 1 facile, 2 media, 3 impegnativa.
+CATALOGO (id: nome):
+${catalog(db)}
+Rispondi SOLO con JSON: $RECIPE_JSON"""
+        val o = ask(cfg, prompt, null) { jsonOf(it).also { j -> if (j.optJSONArray("ingredients") == null) throw RuntimeException("Risposta AI senza ingredienti") } }
+        val r = importedFrom(db, o)
+        if (r.ingredients.size < 2) throw RuntimeException("La ricetta proposta non usa ingredienti riconosciuti. Riprova con un'altra idea.")
+        return r
     }
 
     // ---------------------------------------------------------------- offline (TFLite sul telefono)
