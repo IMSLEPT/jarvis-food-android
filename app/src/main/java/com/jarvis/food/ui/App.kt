@@ -35,7 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.ui.platform.LocalDensity
 import com.jarvis.food.data.DiaryEntry
 import com.jarvis.food.data.Food
 import com.jarvis.food.data.Recipe
@@ -153,17 +157,19 @@ private fun Tabs() {
                 1 -> PlanScreen()
                 2 -> KitchenScreen()
                 3 -> ProgressScreen()
-                else -> ProfileScreen()
+                4 -> ProfileScreen()
+                else -> ChatScreen()
             }
-            ChatFab(Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 14.dp))
         }
-        BottomBar()
+        // Con la tastiera aperta nella chat la barra si nasconde: l'input resta subito sopra la tastiera.
+        val imeUp = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+        if (!(Nav.tab == 5 && imeUp)) BottomBar()
     }
 }
 
 @Composable
 private fun BottomBar() {
-    val items = listOf(Ic.Sun to "Oggi", Ic.Calendar to "Piano", Ic.Bowl to "Cucina", Ic.Chart to "Progressi", Ic.User to "Profilo")
+    val items = listOf(Ic.Sun to "Oggi", Ic.Calendar to "Piano", Ic.Bowl to "Cucina", Ic.Chart to "Progressi", Ic.User to "Profilo", "" to "Jarvis")
     val shape = RoundedCornerShape(34.dp)
     Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 18.dp)) {
         Row(
@@ -174,12 +180,15 @@ private fun BottomBar() {
             items.forEachIndexed { i, (icon, label) ->
                 val sel = Nav.tab == i
                 val click = Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { Nav.tab = i }
-                if (sel) Row(Modifier.height(52.dp).clip(RoundedCornerShape(26.dp)).background(C.Navy).then(click).padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
-                    AIcon(icon, Color(0xFFFFB820), 22.dp, 2f)
-                    Spacer(Modifier.width(8.dp))
-                    Text(label, style = T.BtnS.copy(color = Color.White), maxLines = 1)
-                } else Box(Modifier.size(52.dp).clip(RoundedCornerShape(26.dp)).then(click), contentAlignment = Alignment.Center) {
-                    AIcon(icon, A.Muted, 24.dp, 1.9f)
+                val glyph: @Composable (Color, Dp, Float) -> Unit = { c, sz, w ->
+                    if (icon.isEmpty()) JarvisLogo(sz + 4.dp) else AIcon(icon, c, sz, w)
+                }
+                if (sel) Row(Modifier.height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Navy).then(click).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    glyph(Color(0xFFFFB820), 22.dp, 2f)
+                    Spacer(Modifier.width(6.dp))
+                    Text(label, style = T.BtnS.copy(color = Color.White), maxLines = 1, softWrap = false)
+                } else Box(Modifier.size(44.dp).clip(RoundedCornerShape(22.dp)).then(click), contentAlignment = Alignment.Center) {
+                    glyph(A.Muted, 24.dp, 1.9f)
                 }
             }
         }

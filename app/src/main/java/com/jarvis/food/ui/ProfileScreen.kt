@@ -166,7 +166,7 @@ fun ProfileScreen() {
         Text("Strumenti", style = T.H2, modifier = Modifier.padding(top = 28.dp, bottom = 12.dp))
         ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 0.dp, elevation = 8.dp) {
             Column(Modifier.padding(horizontal = 12.dp, vertical = 6.dp)) {
-                ProfRow(PIc.Chat, A.Tonal, A.TonalInk, "Chat con Jarvis", "Fai domande e dagli comandi · ${if (s.ai.chatEngine == 0) "sul telefono" else "cloud"}") { Nav.go(Screen.Chat) }
+                ProfRow(PIc.Chat, A.Tonal, A.TonalInk, "Chat con Jarvis", "Fai domande e dagli comandi · ${if (s.ai.chatEngine == 0) "sul telefono" else "cloud"}") { Nav.tab = 5 }
                 ProfRow(PIc.Watch, A.GreenSoft, A.GreenInk, "Smartwatch e attività",
                     when (s.energy.mode) { 2 -> "Amazfit / Health Connect collegato"; 1 -> "Attività inserite a mano"; else -> "Livello di attività fisso" }) { Nav.go(Screen.Watch) }
                 ProfRow(PIc.Sparks, A.FatSoft, A.FatInk, "Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}") { Nav.go(Screen.AiSettings) }
@@ -666,7 +666,7 @@ fun AiSettingsScreen() {
                 Pill("Automatico", model == "openrouter/free") { model = "openrouter/free"; url = AiConfig().baseUrl }
             }
             JField(url, { url = it.trim() }, "Indirizzo API (compatibile OpenAI)")
-            Text("Puoi usare qualsiasi servizio compatibile OpenAI con un modello che accetta immagini. La foto viene inviata solo quando premi \"Analizza online\".", style = T.Small)
+            Text("Puoi usare qualsiasi servizio compatibile OpenAI con un modello che accetta immagini. La foto viene inviata solo quando la scatti o la scegli per la Foto AI online.", style = T.Small)
             GhostButton("Ripristina predefiniti") { val d = AiConfig(); model = d.model; url = d.baseUrl }
         }
         PrimaryButton("Salva", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {

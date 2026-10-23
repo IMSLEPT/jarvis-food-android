@@ -108,7 +108,7 @@ class ScreenshotTest {
             ui { Nav.clear(); Nav.go(Screen.Fasting) }; shot("14_digiuno")
             ui { Nav.clear(); Nav.go(Screen.DietSettings) }; shot("15_preferenze")
             ui { Nav.clear(); Nav.go(Screen.AddFood(today, 1, "yogurt")) }; shot("16_cerca")
-            ui { Nav.clear(); Nav.go(Screen.Chat) }; shot("17_chat")
+            ui { Nav.clear(); Nav.tab = 5 }; shot("17_chat")
             ui { Nav.clear(); Nav.go(Screen.Goals) }; shot("18_obiettivi", 2)
             ui { Nav.clear(); Nav.go(Screen.ProfileEdit) }; shot("19_profilo_modifica", 1)
             ui { Nav.clear(); Nav.go(Screen.Questionnaire(QStep.Training)) }; shot("20_questionario")

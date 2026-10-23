@@ -73,35 +73,6 @@ fun JarvisLogo(size: Dp, modifier: Modifier = Modifier) {
     Image(painterResource(R.drawable.jarvis_logo), "Jarvis", modifier.size(size).clip(CircleShape), contentScale = ContentScale.Crop)
 }
 
-/** Posizione del pulsante flottante (rispetto all'angolo in basso a destra): resta dove l'utente lo trascina. */
-private object FabPos {
-    var x by mutableFloatStateOf(0f)
-    var y by mutableFloatStateOf(0f)
-}
-
-/** Pulsante flottante che apre la chat con Jarvis. Si può trascinare per liberare il contenuto sotto. */
-@Composable
-fun ChatFab(modifier: Modifier = Modifier) {
-    val cfg = LocalConfiguration.current
-    val density = LocalDensity.current
-    val maxX = with(density) { (cfg.screenWidthDp.dp - 80.dp).toPx() }
-    val maxY = with(density) { (cfg.screenHeightDp.dp - 260.dp).toPx() }
-    Box(
-        modifier.offset { IntOffset(FabPos.x.roundToInt(), FabPos.y.roundToInt()) }
-            .size(52.dp).shadow(8.dp, CircleShape, ambientColor = Color(0x5517286B), spotColor = Color(0x5517286B))
-            .clip(CircleShape).background(C.Surface).border(2.dp, C.Accent, CircleShape)
-            .pointerInput(maxX, maxY) {
-                detectDragGestures { change, drag ->
-                    change.consume()
-                    FabPos.x = (FabPos.x + drag.x).coerceIn(-maxX, 0f)
-                    FabPos.y = (FabPos.y + drag.y).coerceIn(-maxY, 0f)
-                }
-            }
-            .clickable { Nav.go(Screen.Chat) },
-        contentAlignment = Alignment.Center
-    ) { JarvisLogo(44.dp) }
-}
-
 @Composable
 fun ChatScreen() {
     val ctx = LocalContext.current
@@ -124,7 +95,7 @@ fun ChatScreen() {
     fun send(t: String) { if (t.isNotBlank() && ready && !busy) { Jarvis.send(ctx, t); input = "" } }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Jarvis", onBack = { Nav.back() }) {
+        TopBar("Jarvis", onBack = { if (Nav.stack.isNotEmpty()) Nav.back() else Nav.tab = 0 }) {
             Text("Nuova", style = T.Label.copy(color = C.Navy), modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { Jarvis.clear() }.padding(10.dp))
             Text(if (showSetup) "Chiudi" else "Motore", style = T.Label.copy(color = C.Navy),
                 modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { showSetup = !showSetup }.padding(10.dp))
