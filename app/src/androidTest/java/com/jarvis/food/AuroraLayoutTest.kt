@@ -140,7 +140,9 @@ class AuroraLayoutTest {
             assertTrue("Recipe footer covers content with long action", content.bottom <= footer.top + 1f)
             readable(compose.onNodeWithText("＋ Aggiungi a ${MEAL_LABEL.getValue(4).lowercase()}", useUnmergedTree = true))
             shot("recipe-long-action")
-            ui { Nav.clear(); Nav.tab = 2 }
+            ui { Nav.clear(); Nav.tab = 2; Nav.kitchenTab = 2 }
+            // Recipe groups are loaded on a background dispatcher after navigation settles.
+            compose.waitUntil(30_000) { compose.onAllNodesWithText("Mostra tutte").fetchSemanticsNodes().isNotEmpty() }
             compose.onNodeWithText("Mostra tutte").performScrollTo().performClick()
             compose.onNodeWithText("Vegana", useUnmergedTree = true).performScrollTo()
             readable(compose.onNodeWithText("Vegana", useUnmergedTree = true))
