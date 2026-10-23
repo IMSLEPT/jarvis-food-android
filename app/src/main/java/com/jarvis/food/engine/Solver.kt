@@ -134,7 +134,7 @@ object Solver {
         else -> 5.0
     }
 
-    fun solve(t: RecipeTemplate, db: FoodDb, target: Macro): SolvedRecipe {
+    fun solve(t: RecipeTemplate, db: FoodDb, target: Macro, practical: Boolean = false): SolvedRecipe {
         val ings = t.ings.mapNotNull { ing -> db.food(ing.food)?.let { ing to it } }
         val n = ings.size
         val base = DoubleArray(n) { ings[it].first.g }
@@ -145,7 +145,7 @@ object Solver {
         for (i in 0 until n) {
             val (ing, f) = ings[i]
             val d = ing.g
-            st[i] = step(f, ing.role)
+            st[i] = if (practical && ing.role != "x") Practical.unitStep(f) ?: step(f, ing.role) else step(f, ing.role)
             when (ing.role) {
                 "x" -> { lo[i] = d; hi[i] = d }
                 "v" -> { lo[i] = d * 0.7; hi[i] = min(d * 1.6, maxServing(f)) }
@@ -153,6 +153,7 @@ object Solver {
                 else -> { lo[i] = d * 0.4; hi[i] = min(d * 2.2, maxServing(f)) }
             }
             if (f.id == "uova" && ing.role != "x") lo[i] = max(lo[i], f.pieceGrams ?: 50.0)
+            if (practical && ing.role != "x" && Practical.isDiscrete(f)) lo[i] = max(lo[i], st[i])
             if (hi[i] < lo[i]) hi[i] = lo[i]
         }
 
@@ -191,7 +192,7 @@ object Solver {
                 improved = false; iter++
                 for (i in 0 until n) {
                     if (st[i] <= 0) continue
-                    val delta = if (ings[i].second.id == "uova") st[i] else st[i] * mul
+                    val delta = if (ings[i].second.id == "uova" || (practical && Practical.isDiscrete(ings[i].second))) st[i] else st[i] * mul
                     val cur = cost(g)
                     var bestV = g[i]; var best = cur
                     for (dir in intArrayOf(1, -1)) {

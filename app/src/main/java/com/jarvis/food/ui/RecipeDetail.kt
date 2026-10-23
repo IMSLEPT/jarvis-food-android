@@ -35,6 +35,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.style.TextOverflow
+import com.jarvis.food.engine.Planner
+import com.jarvis.food.engine.Practical
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -134,7 +140,8 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     LaunchedEffect(tpl.id) { if (sc.adHoc == null) Store.recipeViewed(tpl.id) }
 
     var adapted by remember(tpl.id) { mutableStateOf(!sc.original) }
-    var kind by remember(tpl.id) { mutableIntStateOf(0) }
+    var kind by remember(tpl.id) { mutableIntStateOf(if (sc.slot != null && sc.adHoc == null) 0 else 1) }
+    var sideOn by remember(tpl.id) { mutableStateOf(false) }
     var manual by remember(tpl.id) { mutableStateOf<Macro?>(null) }
     var mK by remember(tpl.id) { mutableStateOf("") }
     var mP by remember(tpl.id) { mutableStateOf("") }
@@ -148,9 +155,27 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     val done = remember(tpl.id) { mutableStateListOf<Int>() }
 
     val dayRem = remember(s.diary, s.energy, s.goals, s.profile, sc.date) { dayRemaining(s, sc.date) }
-    val target = when (kind) { 1 -> if (dayRem.kcal >= 80) dayRem else sc.target; 2 -> manual ?: sc.target; else -> sc.target }
+    // "Mancante di oggi": ciò che resta nella giornata, diviso tra questo pasto e quelli ancora da fare (tenendo conto del piano)
+    val smart = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile, tpl.meal) {
+        nowContext(s, if (tpl.meal == "dessert") "spuntino" else tpl.meal, true)
+    }
+    val isToday = sc.date == LocalDate.now()
+    val target = when (kind) {
+        1 -> if (isToday && dayRem.kcal >= 80) smart.target else if (dayRem.kcal >= 80) dayRem else sc.target
+        2 -> manual ?: sc.target
+        else -> sc.target
+    }
     val orig = remember(tpl.id, target) { Solver.original(tpl, db, target) }
-    val adaptedR = remember(tpl.id, target, adapted) { if (adapted) Solver.solve(tpl, db, target) else null }
+    // versione con porzioni pratiche (immediata); giudizio, contorno e alternative si calcolano in background
+    val adaptedBase = remember(tpl.id, target, adapted) { if (adapted) Solver.solve(tpl, db, target, practical = true) else null }
+    val assess by produceState<Practical.Adaptation?>(null, tpl.id, target, adapted, s.dietPrefs) {
+        value = null
+        if (adapted) value = withContext(Dispatchers.Default) {
+            Practical.adapt(db, tpl, target, s.dietPrefs.exclude, { Planner.allowed(db, it, s.dietPrefs) })
+        }
+    }
+    val sideNow = assess?.side?.takeIf { sideOn }
+    val adaptedR = adaptedBase?.let { b -> if (sideNow != null) Practical.withSide(b, sideNow.food, sideNow.grams) else b }
     val r = adaptedR ?: orig                                   // una porzione, come mostrata
     val rs = remember(r, servings) { r.scaled(servings.toDouble()) }  // quantità per N porzioni
     val steps = remember(rs) { rs.steps() }
@@ -258,8 +283,8 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             GapH(14.dp)
                             ACard(radius = 28.dp, padding = 16.dp, elevation = 6.dp) {
                                 Column {
-                                    Text("Adatta ai miei obiettivi", style = T.H2.copy(fontSize = 19.sp))
-                                    Text("Ricalcolo le quantità di carboidrati, proteine e grassi per avvicinarmi a un obiettivo; verdure e condimenti restano.", style = T.Small)
+                                    Text("Riadatta ricetta", style = T.H2.copy(fontSize = 19.sp))
+                                    Text("Ricalcolo le quantità per ciò che ti manca oggi, ma con porzioni pratiche (unità intere, niente frazioni scomode) e senza stravolgere la ricetta. Se non conviene, ti propongo un contorno o un'altra ricetta.", style = T.Small)
                                     GapH(12.dp)
                                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                         APill("Originale", !adapted, Modifier.weight(1f), 42.dp) { adapted = false }
@@ -268,14 +293,16 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                     if (adapted) {
                                         GapH(12.dp)
                                         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                            Pill("Mio pasto", kind == 0) { kind = 0 }
-                                            Pill("Resto di oggi", kind == 1) { kind = 1 }
-                                            Pill("Manuale", kind == 2) { kind = 2 }
+                                            Pill("Mio pasto", kind == 0) { kind = 0; sideOn = false }
+                                            Pill("Mancante oggi", kind == 1) { kind = 1; sideOn = false }
+                                            Pill("Manuale", kind == 2) { kind = 2; sideOn = false }
                                         }
                                         GapH(6.dp)
                                         Text(when (kind) {
                                             0 -> "Quota di questo pasto sul tuo obiettivo giornaliero."
-                                            1 -> if (dayRem.kcal >= 80) "Quello che ti resta oggi: ${dayRem.kcal.r0()} kcal · P ${dayRem.protein.r0()} · C ${dayRem.carbs.r0()} · G ${dayRem.fat.r0()}." else "Hai già raggiunto l'obiettivo di oggi: uso la quota del pasto."
+                                            1 -> if (dayRem.kcal >= 80) "Ti mancano oggi ${dayRem.kcal.r0()} kcal · P ${dayRem.protein.r0()} · C ${dayRem.carbs.r0()} · G ${dayRem.fat.r0()}" +
+                                                (if (isToday) ": per questo pasto punto a ${target.kcal.r0()} kcal, il resto resta per i pasti ancora da fare." else ".")
+                                                else "Hai già raggiunto l'obiettivo di oggi: uso la quota del pasto."
                                             else -> "Scegli tu calorie e macro; i campi vuoti usano la quota del pasto."
                                         }, style = T.Small)
                                         if (kind == 2) {
@@ -306,12 +333,52 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                         CompareRow("Carboidrati g", o.carbs, a.carbs, target.carbs, "")
                                         CompareRow("Grassi g", o.fat, a.fat, target.fat, "")
                                         val errPct = if (target.kcal > 0) abs(a.kcal - target.kcal) / target.kcal * 100 else 0.0
+                                        GapH(8.dp)
+                                        val ad = assess
+                                        if (ad == null) {
+                                            Text("Valuto se l'adattamento è sensato…", style = T.Small.copy(color = A.Muted))
+                                        } else {
+                                            val lvl = if (sideNow != null) Practical.level(adaptedR ?: ad.practical) else ad.level
+                                            val tone = when (lvl) { Practical.Level.GOOD -> A.GreenSoft to A.GreenInk; Practical.Level.LIMITED -> Color(0xFFFFF0C4) to Color(0xFF8A5A00); else -> Color(0xFFFFE0DC) to Color(0xFFB3261E) }
+                                            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(tone.first).padding(14.dp)) {
+                                                Text(if (sideNow != null && lvl == Practical.Level.GOOD) "Con il contorno l'obiettivo è centrato." else ad.headline, style = T.Label.copy(color = tone.second, fontWeight = FontWeight.Bold))
+                                                if (errPct > 5) Text("Scarto sulle calorie: ${if (a.kcal > target.kcal) "+" else "−"}${abs(a.kcal - target.kcal).r0()} kcal (${errPct.r0()}%).", style = T.Small.copy(color = tone.second))
+                                                else Text("Calorie entro il 5% dall'obiettivo.", style = T.Small.copy(color = tone.second))
+                                                ad.notes.forEach { n -> GapH(4.dp); Text("• $n", style = T.Small.copy(color = A.Ink)) }
+                                            }
+                                            ad.side?.let { sd ->
+                                                GapH(10.dp)
+                                                Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(18.dp)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                                                    Column(Modifier.weight(1f)) {
+                                                        Text("Completa con ${sd.label}", style = T.Label.copy(fontWeight = FontWeight.Bold))
+                                                        Text("+${sd.macro.kcal.r0()} kcal · P ${sd.macro.protein.r0()} · C ${sd.macro.carbs.r0()} · G ${sd.macro.fat.r0()}", style = T.Small)
+                                                    }
+                                                    GapW(8.dp)
+                                                    APill(if (sideOn) "Aggiunto" else "Aggiungi", sideOn, height = 40.dp, hPad = 16.dp) { sideOn = !sideOn }
+                                                }
+                                            }
+                                            if (ad.alternatives.isNotEmpty()) {
+                                                GapH(12.dp)
+                                                Text("Ricette più adatte a ciò che ti manca", style = T.Label.copy(fontWeight = FontWeight.Bold))
+                                                ad.alternatives.forEach { alt ->
+                                                    GapH(8.dp)
+                                                    val at = alt.solved.template
+                                                    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(18.dp))
+                                                        .clickable { Nav.go(Screen.RecipeView(at.id, target, sc.date, null, meal)) }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                                        RecipeImage(at.id, at.image, s.recipePhotos[at.id], Modifier.size(56.dp), recEmoji(at.meal), 14.dp)
+                                                        GapW(10.dp)
+                                                        Column(Modifier.weight(1f)) {
+                                                            Text(at.name, style = T.Label.copy(fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                                            Text("${alt.solved.total.kcal.r0()} kcal · P ${alt.solved.total.protein.r0()} · ${at.minutes} min", style = T.Small)
+                                                        }
+                                                        AIcon(Ic.Right, A.Muted, 18.dp, 2.2f)
+                                                    }
+                                                }
+                                            }
+                                            Text("Valori calcolati dal database USDA sulle quantità mostrate: sono stime, perché dipendono dal prodotto reale e dalla cottura.", style = T.Small.copy(fontSize = 11.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                                        }
                                         GapH(6.dp)
-                                        Text(if (errPct <= 5) "Obiettivo raggiunto entro il 5% sulle calorie."
-                                        else "Con questa ricetta non riesco a centrare l'obiettivo esatto: la soluzione più vicina è a ${abs(a.kcal - target.kcal).r0()} kcal (${errPct.r0()}%) dal valore richiesto.",
-                                            style = T.Small.copy(color = if (errPct <= 5) A.GreenInk else A.TonalInk))
-                                        GapH(6.dp)
-                                        TextButton(onClick = { adapted = false; kind = 0; manual = null; mK = ""; mP = ""; mC = ""; mG = "" }) {
+                                        TextButton(onClick = { adapted = false; kind = 0; sideOn = false; manual = null; mK = ""; mP = ""; mC = ""; mG = "" }) {
                                             Text("Ripristina la ricetta originale", color = C.AccentDeep, style = T.Link)
                                         }
                                     }
