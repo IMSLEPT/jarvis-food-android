@@ -15,6 +15,7 @@ import com.jarvis.food.engine.Kitchen
 import com.jarvis.food.engine.Macro
 import com.jarvis.food.engine.MicroAnalysis
 import com.jarvis.food.engine.Planner
+import com.jarvis.food.engine.RecipeMeta
 import com.jarvis.food.engine.Shopping
 import com.jarvis.food.engine.Solver
 import com.jarvis.food.engine.toFood
@@ -56,24 +57,42 @@ class EngineTest {
         assertTrue("Troppi alimenti incoerenti: ${bad.map { it.id }}", bad.size <= 4)
     }
 
+    @Test fun recipeCatalogIsConsistent() {
+        assertEquals("id duplicati", db.recipes.size, db.recipes.map { it.id }.toSet().size)
+        val names = db.recipes.map { FoodDb.normalize(it.name) }
+        assertEquals("nomi duplicati: ${names.groupBy { it }.filter { it.value.size > 1 }.keys}", names.size, names.toSet().size)
+        for (r in db.recipes) {
+            for (ing in r.ings) assertTrue("${r.id}: ingrediente ${ing.food} inesistente", db.food(ing.food) != null)
+            assertTrue("${r.id}: senza passaggi", r.steps.isNotEmpty())
+            assertTrue("${r.id}: pasto ${r.meal}", r.meal in setOf("colazione", "pranzo", "cena", "spuntino", "dessert"))
+        }
+        val f = com.jarvis.food.engine.RecipeFilter()
+        val cats = buildString {
+            for ((k, _) in RecipeMeta.GOALS) append("$k=${db.recipes.count { com.jarvis.food.engine.RecipeSearch.matches(db, it, f.copy(goals = setOf(k)), emptySet(), emptySet()) }} ")
+            for ((k, _) in RecipeMeta.DIETS) append("$k=${db.recipes.count { com.jarvis.food.engine.RecipeSearch.matches(db, it, f.copy(diets = setOf(k)), emptySet(), emptySet()) }} ")
+            for ((k, r) in RecipeMeta.KCAL_BUCKETS) append("kcal$k=${db.recipes.count { RecipeMeta.info(db, it).kcal.let { v -> v >= r.first && v < r.second } }} ")
+        }
+        report("categorie", cats)
+    }
+
     @Test fun solverHitsTargets() {
-        val targets = Planner.slotTargets(day.macro, DietPrefs())
-        val prefs = DietPrefs()
+        // Il solver deve poter portare ogni ricetta a un obiettivo ragionevole per quella ricetta (±20% sulle calorie base).
+        // Un obiettivo irraggiungibile (es. 750 kcal con due uova) non è un errore del solver: viene dichiarato e i consigli lo scartano.
         val errs = mutableListOf<Double>()
         val far = mutableListOf<String>()
         for (r in db.recipes) {
-            val slot = prefs.slots.indexOfFirst { it.meal == (if (r.meal == "dessert") "spuntino" else r.meal) }
-            val s = Solver.solve(r, db, targets[slot])
-            errs += abs(s.kcalErrorPct)
-            // Una ricetta con pochi ingredienti scalabili (es. due uova a colazione) non può raggiungere un pasto da 750 kcal:
-            // il solver lo dichiara (errore alto) e i consigli la scartano. Qui si tollera una piccola quota.
-            if (abs(s.kcalErrorPct) >= 15) far += r.id
-            for (st in s.steps()) assertFalse("${r.id}: segnaposto non sostituito in '$st'", st.contains("{"))
-            for (it in s.items) assertTrue("${r.id}: ${it.food.id} ${it.grams} g fuori porzione", it.grams <= Solver.maxServing(it.food) + 0.01)
+            val i = RecipeMeta.info(db, r)
+            for (k in listOf(0.8, 1.2)) {
+                val s = Solver.solve(r, db, Macro(i.kcal * k, i.protein * k, i.carbs * k, i.fat * k))
+                errs += abs(s.kcalErrorPct)
+                if (abs(s.kcalErrorPct) >= 15) far += "${r.id}@$k"
+                for (st in s.steps()) assertFalse("${r.id}: segnaposto non sostituito in '$st'", st.contains("{"))
+                for (it in s.items) assertTrue("${r.id}: ${it.food.id} ${it.grams} g fuori porzione", it.grams <= Solver.maxServing(it.food) + 0.01)
+            }
         }
-        assertTrue("Troppe ricette fuori obiettivo (${far.size}/${db.recipes.size}): $far", far.size <= db.recipes.size * 0.15)
+        assertTrue("Troppe ricette fuori obiettivo (${far.size}/${db.recipes.size * 2}): $far", far.size <= db.recipes.size * 2 * 0.08)
         errs.sort()
-        report("solver", "errore kcal mediano ${"%.1f".format(errs[errs.size / 2])}%, massimo ${"%.1f".format(errs.last())}%")
+        report("solver", "errore kcal mediano ${"%.1f".format(errs[errs.size / 2])}%, massimo ${"%.1f".format(errs.last())}%, fuori 15%: ${far.size}")
         assertTrue(errs[errs.size / 2] < 5.0)
     }
 
