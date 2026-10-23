@@ -114,7 +114,7 @@ class ScreenshotTest {
             ui { Store.deleteRecipe("shot-recipe") }
             ui { Nav.clear(); Nav.tab = 3 }; shot("09_progressi", 2)
             ui { Nav.go(Screen.Micronutrients) }; shot("10_micronutrienti", 2)
-            ui { Nav.clear(); Nav.tab = 4 }; shot("11_profilo", 1)
+            ui { Nav.clear(); Nav.go(Screen.Profile) }; shot("11_profilo", 1)
             ui { Nav.go(Screen.Watch) }; shot("12_smartwatch", 1)
             ui { Nav.clear(); Nav.go(Screen.EnergyInfo) }; shot("13_calcolo")
             ui { Nav.clear(); Nav.go(Screen.Fasting) }; shot("14_digiuno")

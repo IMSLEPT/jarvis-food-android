@@ -43,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -126,7 +127,7 @@ fun ChatScreen() {
         }
         Row(Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 2.dp), verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
-                value = input, onValueChange = { input = it }, modifier = Modifier.weight(1f).heightIn(min = 56.dp), enabled = ready,
+                value = input, onValueChange = { input = it }, modifier = Modifier.weight(1f).heightIn(min = 56.dp).testTag("chat-input"), enabled = ready,
                 placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = T.Muted, maxLines = 1) },
                 textStyle = T.Body, shape = RoundedCornerShape(26.dp), maxLines = 4,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
@@ -236,7 +237,7 @@ private fun Bubble(m: ChatMsg) {
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)).background(if (ok) C.GreenSoft else if (warn) C.DangerSoft else C.SurfaceAlt)
                         .padding(horizontal = 10.dp, vertical = 5.dp))
             }
-            if (Jarvis.canUndo(m.id) && !Jarvis.busy) Text("Annulla le modifiche", style = T.Label.copy(color = C.Accent),
+            if (Jarvis.canUndo(m.id) && !Jarvis.busy) Text("Annulla le modifiche", style = T.Label.copy(color = C.AccentDeep),
                 modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable { Jarvis.undo(m.id) }.padding(vertical = 6.dp, horizontal = 2.dp))
         }
     }
@@ -286,7 +287,7 @@ fun ChatSetup() {
             Spacer(Modifier.height(6.dp))
             when {
                 ready -> {
-                    Text("✓ ${model.title} pronto", style = T.Label.copy(color = C.Green))
+                    Text("✓ ${model.title} pronto", style = T.Label.copy(color = A.GreenInk))
                     Spacer(Modifier.height(6.dp))
                     GhostButton("Elimina il modello (libera ${gb(model.bytes)})") { ModelManager.delete(ctx, model) }
                 }

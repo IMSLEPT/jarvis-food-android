@@ -157,7 +157,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                     AIcon(Ic.Search, A.Muted, 22.dp, 2.2f)
                     GapW(8.dp)
                     Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-                        if (query.isEmpty()) Text("Cerca alimenti o prodotti", style = T.Body.copy(fontSize = 16.sp, color = Color(0xFF9A98B0)))
+                        if (query.isEmpty()) Text("Cerca alimenti o prodotti", style = T.Body.copy(fontSize = 16.sp, color = C.Muted))
                         BasicTextField(query, { query = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 16.sp, color = A.Ink),
                             cursorBrush = SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
                     }
@@ -384,7 +384,7 @@ fun QuickAddDialog(onDismiss: () -> Unit, onAdd: (Food) -> Unit) {
                         fat = parseNum(f) ?: 0.0, source = "quick", servingName = "voce", servingGrams = 100.0
                     )
                 )
-            }) { Text("Aggiungi", color = C.Accent) }
+            }) { Text("Aggiungi", color = C.AccentDeep) }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Annulla", color = C.Muted) } }
     )

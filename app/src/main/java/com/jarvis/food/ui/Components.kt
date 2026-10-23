@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -65,6 +66,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -104,7 +106,7 @@ fun JCard(
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
     Row(modifier.fillMaxWidth().padding(top = 22.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(text, style = T.H2, modifier = Modifier.weight(1f))
+        Text(text, style = T.H2, modifier = Modifier.weight(1f).padding(end = 12.dp))
         if (action != null && onAction != null) {
             Text(action, style = T.Link, modifier = Modifier.clickable(onClick = onAction).padding(vertical = 13.dp))
         }
@@ -114,9 +116,9 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = 
 
 @Composable
 fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.() -> Unit = {}) {
-    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 20.dp, end = 12.dp, top = 20.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         if (onBack != null) { BackCircle(onBack); Spacer(Modifier.width(12.dp)) }
-        Text(title, style = T.Title.copy(fontSize = 27.sp, lineHeight = 31.sp), modifier = Modifier.weight(1f), maxLines = 2, overflow = TextOverflow.Ellipsis)
+        Text(title, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp), modifier = Modifier.weight(1f), maxLines = 3, overflow = TextOverflow.Ellipsis)
         actions()
     }
 }
@@ -134,27 +136,27 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
         else -> Modifier.clip(shape).background(color!!, shape)
     }
     Box(
-        modifier.height(52.dp).then(fill)
-            .clickable(enabled = enabled, onClick = onClick).padding(horizontal = 24.dp),
+        modifier.heightIn(min = 52.dp).then(fill)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (enabled) C.OnAccent else C.Faint), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (enabled) C.OnAccent else C.Muted), textAlign = TextAlign.Center) }
 }
 
 @Composable
 fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Text, onClick: () -> Unit) {
     Box(
-        modifier.height(48.dp).clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, Color(0x1A1D1B3A), RoundedCornerShape(50))
-            .clickable(onClick = onClick).padding(horizontal = 20.dp),
+        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, Color(0x1A1D1B3A), RoundedCornerShape(50))
+            .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(color = color), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+    ) { Text(text, style = T.BtnM.copy(color = color), textAlign = TextAlign.Center) }
 }
 
 @Composable
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
-        Modifier.height(44.dp).clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
+        Modifier.heightIn(min = 44.dp).clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
             .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), RoundedCornerShape(50))
-            .clickable(onClick = onClick).padding(horizontal = 18.dp), contentAlignment = Alignment.Center
+            .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), maxLines = 1, softWrap = false) }
 }
 
@@ -204,7 +206,7 @@ fun JField(value: String, onChange: (String) -> Unit, label: String, modifier: M
         keyboardOptions = if (number) KeyboardOptions(keyboardType = KeyboardType.Decimal) else KeyboardOptions.Default,
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = C.Accent, unfocusedBorderColor = C.Line, focusedLabelColor = C.Accent, unfocusedLabelColor = C.Muted,
+            focusedBorderColor = C.Accent, unfocusedBorderColor = C.Line, focusedLabelColor = C.AccentDeep, unfocusedLabelColor = C.Muted,
             cursorColor = C.Accent, focusedContainerColor = C.Surface, unfocusedContainerColor = C.Surface
         )
     )

@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,38 +32,52 @@ import java.time.LocalDate
 @Composable
 fun MainHeader(title: String, eyebrow: String? = null) {
     val s by Store.state.collectAsState()
-    Row(Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f)) {
-            if (eyebrow != null) Text(eyebrow, style = T.Eyebrow.copy(fontSize = 9.sp, letterSpacing = 1.sp), maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text(title, style = T.Title.copy(fontSize = 25.sp, lineHeight = 29.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+    val separateGreeting = eyebrow != null && LocalDensity.current.fontScale > 1.2f
+    Column(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp)) {
+        if (separateGreeting) {
+            HeaderGreeting(eyebrow!!)
+            GapH(4.dp)
         }
-        Box(Modifier.size(44.dp).clip(CircleShape).background(Color.White).border(1.dp, C.Line, CircleShape)
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f).padding(end = 8.dp)) {
+            if (eyebrow != null && !separateGreeting) HeaderGreeting(eyebrow)
+            Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+        }
+        Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).border(1.dp, C.Line, CircleShape)
             .semantics { contentDescription = "Famiglia" }.clickable { Nav.go(Screen.Family) }, contentAlignment = Alignment.Center) {
             AIcon(Ic.Family, A.Ink, 22.dp)
             if (s.family != null) Box(Modifier.align(Alignment.TopEnd).padding(5.dp).size(7.dp).clip(CircleShape).background(C.Green))
         }
-        GapW(10.dp)
-        Avatar(s.profile.name, s.profile.photo, 44.dp, Modifier.semantics { contentDescription = "Apri profilo" }.clickable { Nav.go(Screen.Profile) })
+        GapW(8.dp)
+        Avatar(s.profile.name, s.profile.photo, 48.dp, Modifier.semantics { contentDescription = "Apri profilo" }.clickable { Nav.go(Screen.Profile) })
+        }
     }
+}
+
+@Composable
+private fun HeaderGreeting(text: String) {
+    Text(text, modifier = Modifier.testTag("home-greeting"),
+        style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, color = C.Navy),
+        maxLines = 2, overflow = TextOverflow.Ellipsis)
 }
 
 /** Same native plan actions and calculations, in the compact card approved in the prototype. */
 @Composable
+@OptIn(ExperimentalLayoutApi::class)
 fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val r = m.solved
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     JCard(padding = PaddingValues(0.dp)) {
-        Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 15.dp), verticalAlignment = Alignment.CenterVertically) {
+        FlowRow(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 14.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             MacroChip(MEAL_LABEL[m.diaryMeal] ?: m.slotName, C.NavySoft, C.Navy)
-            Spacer(Modifier.weight(1f))
             MacroChip(if (eaten) "Mangiato" else "Da mangiare", if (eaten) A.GreenSoft else A.Tonal, if (eaten) A.GreenInk else A.TonalInk)
         }
         Row(Modifier.fillMaxWidth().clickable { Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal)) }.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.size(92.dp), recEmoji(r.template.meal), 18.dp)
-            GapW(14.dp)
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.size(76.dp), recEmoji(r.template.meal), 18.dp)
+            GapW(12.dp)
             Column(Modifier.weight(1f)) {
-                Text("${r.template.minutes} MIN · ${com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }}", style = T.Eyebrow.copy(fontSize = 10.sp), maxLines = 1)
-                Text(r.template.name, style = T.Title2, maxLines = 3, overflow = TextOverflow.Ellipsis)
+                Text("${r.template.minutes} MIN · ${com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }}", style = T.Eyebrow.copy(fontSize = 11.sp, letterSpacing = 0.sp))
+                Text(r.template.name, style = T.Title2.copy(fontSize = 16.sp))
                 GapH(4.dp)
                 Text("${kcalFmt(r.total.kcal)} kcal · P ${r.total.protein.r0()} g", style = T.Small)
             }
@@ -82,7 +99,7 @@ private fun CompactPlanAction(text: String, icon: String, color: Color, modifier
     Row(modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         AIcon(icon, color, 18.dp); GapW(8.dp)
-        Text(text, style = T.Label.copy(color = color, fontSize = 12.sp), maxLines = 2)
+        Text(text, style = T.Label.copy(color = color, fontSize = 13.sp), modifier = Modifier.weight(1f, fill = false))
     }
 }
 
@@ -92,7 +109,7 @@ fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, cont
     val scroll = androidx.compose.foundation.rememberScrollState()
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
-        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 14.dp)) { MainHeader(title, eyebrow) }
-        Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 28.dp), content = content)
+        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(title, eyebrow) }
+        Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp), content = content)
     }
 }
