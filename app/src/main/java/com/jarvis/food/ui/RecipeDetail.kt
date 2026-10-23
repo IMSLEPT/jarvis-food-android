@@ -229,6 +229,10 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 val n = Store.addRecipeToShopping(rs, tpl.name, pantry)
                                 Toast.makeText(ctx, if (n > 0) "Aggiunti $n ingredienti alla spesa" else "Hai già tutto in dispensa", Toast.LENGTH_SHORT).show()
                             }
+                            if (s.family != null) ActionChip(Ic.Family, "Spesa famiglia") {
+                                com.jarvis.food.family.FamilyStore.addRecipe(tpl.name, rs.items.map { it.food.id to it.grams })
+                                Toast.makeText(ctx, "Ingredienti aggiunti alla spesa della famiglia", Toast.LENGTH_SHORT).show()
+                            }
                             ActionChip(Ic.Fridge, "Ho tutto?") { dlgFridge = true }
                             ActionChip(Ic.Swap, "Duplica") {
                                 Store.saveRecipe(toUserRecipe(rs, servings)); Toast.makeText(ctx, "Copia salvata in Le mie ricette", Toast.LENGTH_SHORT).show()

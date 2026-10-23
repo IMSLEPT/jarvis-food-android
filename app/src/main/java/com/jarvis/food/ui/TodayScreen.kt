@@ -122,6 +122,12 @@ fun TodayScreen() {
                 Spacer(Modifier.width(6.dp))
                 Text("$st", style = T.BtnS.copy(color = Color(0xFF8A4B06)))
             }
+            Spacer(Modifier.width(8.dp))
+            Box(Modifier.size(44.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(Color.White).border(1.dp, A.Hair, CircleShape)
+                .clickable { Nav.go(Screen.Family) }, contentAlignment = Alignment.Center) {
+                AIcon(Ic.Family, A.Ink, 24.dp, 2.1f)
+                if (s.family != null) Box(Modifier.align(Alignment.TopEnd).padding(top = 8.dp, end = 8.dp).size(9.dp).clip(CircleShape).background(C.Green).border(1.5.dp, Color.White, CircleShape))
+            }
         }
 
         // ---- Settimana

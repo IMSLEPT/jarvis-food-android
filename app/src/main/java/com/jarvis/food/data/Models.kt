@@ -305,8 +305,14 @@ data class AppState(
     val recipeRecent: List<String> = emptyList(),
     val recipeViews: Map<String, Int> = emptyMap(),
     /** Conversazione con Jarvis (ultimi messaggi). */
-    val chat: List<ChatMsg> = emptyList()
+    val chat: List<ChatMsg> = emptyList(),
+    /** Collegamento alla famiglia (spesa condivisa); null se non collegato. */
+    val family: FamilyLink? = null
 )
+
+/** Collegamento di questo telefono alla famiglia: codice d'invito (contiene la chiave di cifratura), il proprio id e nome, giorni del piano da condividere. */
+@Serializable
+data class FamilyLink(val code: String, val memberId: String, val name: String, val span: Int = 3, val lastSync: Long = 0)
 
 /** Messaggio della chat con Jarvis. [role] è "user" o "assistant". */
 @Serializable

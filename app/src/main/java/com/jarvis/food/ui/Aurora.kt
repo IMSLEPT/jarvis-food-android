@@ -103,6 +103,8 @@ object Ic {
     val Stop = rr(6.0, 6.0, 12.0, 12.0, 3.0)
     val Close = "M6 6l12 12M18 6L6 18"
     val Receipt = "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"
+    val Family = circ(9.0, 8.0, 3.2) + "M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" + circ(17.0, 9.5, 2.4) + "M16.5 14.6c2.7.2 4.5 2 4.5 4.9"
+    val Cart = "M3 4h2.5l2 11h10.5l2-8H6.5" + circ(9.0, 19.5, 1.4) + circ(17.0, 19.5, 1.4)
 
     val MealBreakfast = "M5 12h14a7 7 0 0 1-14 0zM9 8c0-1.5 1.5-1.5 1.5-3M14 8c0-1.5 1.5-1.5 1.5-3"
     val MealLunch = "M4 10h16a8 8 0 0 1-16 0zM8 6l2-2M13 6l2-2"
