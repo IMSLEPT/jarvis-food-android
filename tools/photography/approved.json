@@ -5807,5 +5807,107 @@
     "sha256": "dfb95cf415fd4902301aaf974876e3d042f43a2c15046078bff2c2c7407cf39b",
     "photoGroup": "d541500f1ff6c7b03193",
     "sharedFrom": "fette_biscottate_con_fiocchi_di_latte_e_cetrioli"
+  },
+  "pane_integrale_con_caprino_pere_e_noci": {
+    "asset": "photography/pane_integrale_con_caprino_pere_e_noci.webp",
+    "recipeId": "pane_integrale_con_caprino_pere_e_noci",
+    "stepIndex": null,
+    "subject": "Pane integrale con caprino, pere e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con caprino, pere e noci. Ingredients: Pane integrale, Caprino fresco, Pera, Noci.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pera a fettine e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "6ecc13b6cccae8ca6666778cd5725d5d26e5fecf8edb59431d68c06a89cff9fc",
+    "photoGroup": "c4f2c8fa3ad7710fefe0"
+  },
+  "pane_integrale_con_caprino_pere_e_noci_s1": {
+    "asset": "photography/pane_integrale_con_caprino_pere_e_noci_s1.webp",
+    "recipeId": "pane_integrale_con_caprino_pere_e_noci",
+    "stepIndex": 1,
+    "subject": "Spalma {caprino} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con caprino, pere e noci. Ingredients: Pane integrale, Caprino fresco, Pera, Noci. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Caprino fresco sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "308030f3c7c8c599d44c776450a8bbfcb526d6fe4f072c7de5714fef961bf22a",
+    "photoGroup": "f10f9974d9a6752732ac"
+  },
+  "pane_con_caprino_pere_e_noci": {
+    "asset": "photography/pane_con_caprino_pere_e_noci.webp",
+    "recipeId": "pane_con_caprino_pere_e_noci",
+    "stepIndex": null,
+    "subject": "Pane con caprino, pere e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con caprino, pere e noci. Ingredients: Pane comune, Caprino fresco, Pera, Noci.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pera a fettine e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "a69a603b349735c54112988dad040015de06768707f42113394bcf3ac4ac16a1",
+    "photoGroup": "9c55e7f18802c598a94d"
+  },
+  "pane_con_caprino_pere_e_noci_s1": {
+    "asset": "photography/pane_con_caprino_pere_e_noci_s1.webp",
+    "recipeId": "pane_con_caprino_pere_e_noci",
+    "stepIndex": 1,
+    "subject": "Spalma {caprino} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con caprino, pere e noci. Ingredients: Pane comune, Caprino fresco, Pera, Noci. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Caprino fresco sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "f79d0a2aaf1a7d27826b2dbd428a03f092b0fa5534a6a81c8994738db754a0de",
+    "photoGroup": "15d5991512021ac0efb3"
+  },
+  "fette_biscottate_con_caprino_pere_e_noci": {
+    "asset": "photography/fette_biscottate_con_caprino_pere_e_noci.webp",
+    "recipeId": "fette_biscottate_con_caprino_pere_e_noci",
+    "stepIndex": null,
+    "subject": "Fette biscottate con caprino, pere e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con caprino, pere e noci. Ingredients: Fette biscottate, Caprino fresco, Pera, Noci.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pera a fettine e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "0cc651120193376c136d9fc7d4b469b8c670c3c7552ea7f3cf9b5a31d76e6a71",
+    "photoGroup": "5830a6650e698bbcdd80"
+  },
+  "fette_biscottate_con_caprino_pere_e_noci_s1": {
+    "asset": "photography/fette_biscottate_con_caprino_pere_e_noci_s1.webp",
+    "recipeId": "fette_biscottate_con_caprino_pere_e_noci",
+    "stepIndex": 1,
+    "subject": "Spalma {caprino} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con caprino, pere e noci. Ingredients: Fette biscottate, Caprino fresco, Pera, Noci. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Caprino fresco sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "58c5eccfd22c98226e7df3a845ce9a60499479af9bbbb93df1cbebcca1b7cad1",
+    "photoGroup": "bb7ec17c301053f9b1cb"
+  },
+  "pane_integrale_con_caprino_pere_e_noci_s2": {
+    "asset": "photography/pane_integrale_con_caprino_pere_e_noci.webp",
+    "recipeId": "pane_integrale_con_caprino_pere_e_noci",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pera} a fettine e {noci} tritate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con caprino, pere e noci. Ingredients: Pane integrale, Caprino fresco, Pera, Noci.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pera a fettine e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "6ecc13b6cccae8ca6666778cd5725d5d26e5fecf8edb59431d68c06a89cff9fc",
+    "photoGroup": "c4f2c8fa3ad7710fefe0",
+    "sharedFrom": "pane_integrale_con_caprino_pere_e_noci"
+  },
+  "pane_con_caprino_pere_e_noci_s2": {
+    "asset": "photography/pane_con_caprino_pere_e_noci.webp",
+    "recipeId": "pane_con_caprino_pere_e_noci",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pera} a fettine e {noci} tritate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con caprino, pere e noci. Ingredients: Pane comune, Caprino fresco, Pera, Noci.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pera a fettine e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "a69a603b349735c54112988dad040015de06768707f42113394bcf3ac4ac16a1",
+    "photoGroup": "9c55e7f18802c598a94d",
+    "sharedFrom": "pane_con_caprino_pere_e_noci"
+  },
+  "fette_biscottate_con_caprino_pere_e_noci_s2": {
+    "asset": "photography/fette_biscottate_con_caprino_pere_e_noci.webp",
+    "recipeId": "fette_biscottate_con_caprino_pere_e_noci",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pera} a fettine e {noci} tritate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con caprino, pere e noci. Ingredients: Fette biscottate, Caprino fresco, Pera, Noci.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pera a fettine e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "0cc651120193376c136d9fc7d4b469b8c670c3c7552ea7f3cf9b5a31d76e6a71",
+    "photoGroup": "5830a6650e698bbcdd80",
+    "sharedFrom": "fette_biscottate_con_caprino_pere_e_noci"
   }
 }

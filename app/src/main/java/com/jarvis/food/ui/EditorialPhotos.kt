@@ -128,7 +128,10 @@ object EditorialPhotos {
         "fette_biscottate_con_bresaola_e_rucola_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_burro_di_arachidi_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_burro_di_mandorle_e_fragole_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_caprino_pere_e_noci" to "photography/fette_biscottate_con_caprino_pere_e_noci.webp",
         "fette_biscottate_con_caprino_pere_e_noci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_caprino_pere_e_noci_s1" to "photography/fette_biscottate_con_caprino_pere_e_noci_s1.webp",
+        "fette_biscottate_con_caprino_pere_e_noci_s2" to "photography/fette_biscottate_con_caprino_pere_e_noci.webp",
         "fette_biscottate_con_crema_di_nocciole_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_feta_cetrioli_e_menta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "greco_mela_nocciole_s2" to "photography/greco_mela_nocciole.webp",
         "greco_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "greco_mela_s1" to "photography/greco_mela.webp",
-        "insalata_pollo_patate" to "photography/insalata_pollo_patate.webp",
-        "insalata_pollo_patate_s0" to "photography/insalata_pollo_patate_s0.webp",
-        "insalata_pollo_patate_s1" to "photography/insalata_pollo_patate_s1.webp",
     )
 
     private fun group1() = mapOf(
+        "insalata_pollo_patate" to "photography/insalata_pollo_patate.webp",
+        "insalata_pollo_patate_s0" to "photography/insalata_pollo_patate_s0.webp",
+        "insalata_pollo_patate_s1" to "photography/insalata_pollo_patate_s1.webp",
         "insalata_pollo_patate_s2" to "photography/insalata_pollo_patate_s2.webp",
         "insalata_pollo_patate_s3" to "photography/insalata_pollo_patate.webp",
         "kefir_bosco" to "photography/kefir_bosco.webp",
@@ -274,7 +277,10 @@ object EditorialPhotos {
         "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_caprino_pere_e_noci" to "photography/pane_con_caprino_pere_e_noci.webp",
         "pane_con_caprino_pere_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_caprino_pere_e_noci_s1" to "photography/pane_con_caprino_pere_e_noci_s1.webp",
+        "pane_con_caprino_pere_e_noci_s2" to "photography/pane_con_caprino_pere_e_noci.webp",
         "pane_con_crema_di_nocciole_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_feta_cetrioli_e_menta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_fiocchi_di_latte_e_cetrioli" to "photography/pane_con_fiocchi_di_latte_e_cetrioli.webp",
@@ -322,7 +328,10 @@ object EditorialPhotos {
         "pane_integrale_con_bresaola_e_rucola_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_arachidi_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_mandorle_e_fragole_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_caprino_pere_e_noci" to "photography/pane_integrale_con_caprino_pere_e_noci.webp",
         "pane_integrale_con_caprino_pere_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_caprino_pere_e_noci_s1" to "photography/pane_integrale_con_caprino_pere_e_noci_s1.webp",
+        "pane_integrale_con_caprino_pere_e_noci_s2" to "photography/pane_integrale_con_caprino_pere_e_noci.webp",
         "pane_integrale_con_crema_di_nocciole_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_feta_cetrioli_e_menta_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
@@ -398,6 +407,9 @@ object EditorialPhotos {
         "pasta_tonno_s1" to "photography/pasta_tonno_s1.webp",
         "pasta_tonno_s2" to "photography/pasta_tonno_s2.webp",
         "pasta_tonno_s3" to "photography/pasta_tonno.webp",
+    )
+
+    private fun group2() = mapOf(
         "piadina_tacchino" to "photography/piadina_tacchino.webp",
         "piadina_tacchino_s0" to "photography/piadina_tacchino_s0.webp",
         "piadina_tacchino_s1" to "photography/piadina_tacchino_s1.webp",
@@ -407,9 +419,6 @@ object EditorialPhotos {
         "poke_salmone" to "photography/poke_salmone.webp",
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
-    )
-
-    private fun group2() = mapOf(
         "poke_salmone_s2" to "photography/poke_salmone_s2.webp",
         "poke_salmone_s3" to "photography/poke_salmone.webp",
         "pollo_limone_verdure" to "photography/pollo_limone_verdure.webp",
