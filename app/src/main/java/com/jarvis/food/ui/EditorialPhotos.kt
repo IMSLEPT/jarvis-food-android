@@ -4,6 +4,8 @@ package com.jarvis.food.ui
  * Original recipe IDs, quantities, calculations and user photos stay intact. */
 object EditorialPhotos {
     private fun group0() = mapOf(
+        "anacardi_e_fichi_secchi" to "photography/anacardi_e_fichi_secchi.webp",
+        "anacardi_e_fichi_secchi_s0" to "photography/anacardi_e_fichi_secchi.webp",
         "banana_al_forno_con_cannella_e_noci_s1" to "photography/banana_arachidi_s0.webp",
         "banana_alla_piastra_con_yogurt_e_pistacchi_s0" to "photography/banana_arachidi_s0.webp",
         "banana_arachidi" to "photography/banana_arachidi.webp",
@@ -11,8 +13,12 @@ object EditorialPhotos {
         "banana_arachidi_s1" to "photography/banana_arachidi.webp",
         "banana_con_cannella_s0" to "photography/banana_arachidi_s0.webp",
         "banana_con_cioccolato_fondente_s0" to "photography/banana_arachidi_s0.webp",
+        "banana_e_anacardi" to "photography/banana_e_anacardi.webp",
         "banana_e_anacardi_s0" to "photography/banana_arachidi_s0.webp",
+        "banana_e_anacardi_s1" to "photography/banana_e_anacardi.webp",
+        "banana_e_noci" to "photography/banana_e_noci.webp",
         "banana_e_noci_s0" to "photography/banana_arachidi_s0.webp",
+        "banana_e_noci_s1" to "photography/banana_e_noci.webp",
         "banana_in_coppa_con_crema_di_yogurt_e_cacao_s0" to "photography/banana_arachidi_s0.webp",
         "bowl_di_kefir_con_ciliegie_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
         "bowl_di_kefir_con_mela_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
@@ -142,6 +148,8 @@ object EditorialPhotos {
         "lenticchie_umido_s0" to "photography/lenticchie_umido_s0.webp",
         "lenticchie_umido_s1" to "photography/lenticchie_umido_s1.webp",
         "lenticchie_umido_s2" to "photography/lenticchie_umido.webp",
+        "mandorle_e_prugne_secche" to "photography/mandorle_e_prugne_secche.webp",
+        "mandorle_e_prugne_secche_s0" to "photography/mandorle_e_prugne_secche.webp",
         "mandorle_mandarini" to "photography/mandorle_mandarini.webp",
         "mandorle_mandarini_s0" to "photography/mandorle_mandarini_s0.webp",
         "mela_al_forno_con_cannella_e_noci_s1" to "photography/greco_mela_nocciole_s0.webp",
@@ -196,6 +204,9 @@ object EditorialPhotos {
         "pane_con_ricotta_pomodorini_e_basilico_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tahina_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+    )
+
+    private fun group1() = mapOf(
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -204,9 +215,6 @@ object EditorialPhotos {
         "pane_integrale_con_burro_di_mandorle_e_fragole_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_caprino_pere_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_crema_di_nocciole_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "pane_integrale_con_feta_cetrioli_e_menta_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/toast_uova_avocado_s0.webp",

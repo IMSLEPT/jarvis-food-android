@@ -4034,5 +4034,97 @@
     "sha256": "83578881cc77bcc069d1d96e7dae1f3d52eac82381b0ff56bf02ff51edb43181",
     "photoGroup": "889c5a4c8ea413e56868",
     "sharedFrom": "pasta_salmone_zucchine"
+  },
+  "anacardi_e_fichi_secchi": {
+    "asset": "photography/anacardi_e_fichi_secchi.webp",
+    "recipeId": "anacardi_e_fichi_secchi",
+    "stepIndex": null,
+    "subject": "Anacardi e fichi secchi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Anacardi e fichi secchi. Ingredients: Anacardi, Fichi secchi.  Preparation context (do not print it): Servi Anacardi con Fichi secchi. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "0629a755210574640a5cf86dcb2137580720fa634a5cd02a760a93337e22d1e1",
+    "photoGroup": "9d12fe6297f82f4754f1"
+  },
+  "banana_e_anacardi": {
+    "asset": "photography/banana_e_anacardi.webp",
+    "recipeId": "banana_e_anacardi",
+    "stepIndex": null,
+    "subject": "Banana e anacardi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Banana e anacardi. Ingredients: Banana, anacardi.  Preparation context (do not print it): Taglia Banana a rondelle. Servi la frutta con anacardi. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "a8230d7ac8ce3b8b0ceaf42e4e6eeca742a514b8c068ad2dd5182e576e4caf3b",
+    "photoGroup": "86ddae34d746e1eb479b"
+  },
+  "banana_e_noci": {
+    "asset": "photography/banana_e_noci.webp",
+    "recipeId": "banana_e_noci",
+    "stepIndex": null,
+    "subject": "Banana e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Banana e noci. Ingredients: Banana, noci.  Preparation context (do not print it): Taglia Banana a rondelle. Servi la frutta con noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "585de930d186f139eb09be308f54697fb4d7c451114e62de188cbed9b2d2c528",
+    "photoGroup": "697447a470981f9c40ce"
+  },
+  "mandorle_e_prugne_secche": {
+    "asset": "photography/mandorle_e_prugne_secche.webp",
+    "recipeId": "mandorle_e_prugne_secche",
+    "stepIndex": null,
+    "subject": "Mandorle e prugne secche",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Mandorle e prugne secche. Ingredients: Mandorle, Prugne secche.  Preparation context (do not print it): Servi Mandorle con Prugne secche. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "54409874b5105a2267410e8c4dba556c964ae1bda5d8644c34ddeec8ed1226c9",
+    "photoGroup": "43d22a8ff2bdf9e20443"
+  },
+  "banana_e_noci_s1": {
+    "asset": "photography/banana_e_noci.webp",
+    "recipeId": "banana_e_noci",
+    "stepIndex": 1,
+    "subject": "Servi la frutta con {noci}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Banana e noci. Ingredients: Banana, noci.  Preparation context (do not print it): Taglia Banana a rondelle. Servi la frutta con noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "585de930d186f139eb09be308f54697fb4d7c451114e62de188cbed9b2d2c528",
+    "photoGroup": "697447a470981f9c40ce",
+    "sharedFrom": "banana_e_noci"
+  },
+  "banana_e_anacardi_s1": {
+    "asset": "photography/banana_e_anacardi.webp",
+    "recipeId": "banana_e_anacardi",
+    "stepIndex": 1,
+    "subject": "Servi la frutta con {anacardi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Banana e anacardi. Ingredients: Banana, anacardi.  Preparation context (do not print it): Taglia Banana a rondelle. Servi la frutta con anacardi. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "a8230d7ac8ce3b8b0ceaf42e4e6eeca742a514b8c068ad2dd5182e576e4caf3b",
+    "photoGroup": "86ddae34d746e1eb479b",
+    "sharedFrom": "banana_e_anacardi"
+  },
+  "anacardi_e_fichi_secchi_s0": {
+    "asset": "photography/anacardi_e_fichi_secchi.webp",
+    "recipeId": "anacardi_e_fichi_secchi",
+    "stepIndex": 0,
+    "subject": "Servi {anacardi} con {fichi_secchi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Anacardi e fichi secchi. Ingredients: Anacardi, Fichi secchi.  Preparation context (do not print it): Servi Anacardi con Fichi secchi. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "0629a755210574640a5cf86dcb2137580720fa634a5cd02a760a93337e22d1e1",
+    "photoGroup": "9d12fe6297f82f4754f1",
+    "sharedFrom": "anacardi_e_fichi_secchi"
+  },
+  "mandorle_e_prugne_secche_s0": {
+    "asset": "photography/mandorle_e_prugne_secche.webp",
+    "recipeId": "mandorle_e_prugne_secche",
+    "stepIndex": 0,
+    "subject": "Servi {mandorle} con {prugne_secche}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Mandorle e prugne secche. Ingredients: Mandorle, Prugne secche.  Preparation context (do not print it): Servi Mandorle con Prugne secche. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "54409874b5105a2267410e8c4dba556c964ae1bda5d8644c34ddeec8ed1226c9",
+    "photoGroup": "43d22a8ff2bdf9e20443",
+    "sharedFrom": "mandorle_e_prugne_secche"
   }
 }
