@@ -4944,5 +4944,73 @@
     "sha256": "5af006c8da252bdd84b33b87849547ef7b0a9059351eba946e8dddb4f242ab70",
     "photoGroup": "5da4a43973835c0aca97",
     "sharedFrom": "pane_con_formaggio_spalmabile_e_salmone_affumicato"
+  },
+  "pane_integrale_con_hummus_e_pomodori": {
+    "asset": "photography/pane_integrale_con_hummus_e_pomodori.webp",
+    "recipeId": "pane_integrale_con_hummus_e_pomodori",
+    "stepIndex": null,
+    "subject": "Pane integrale con hummus e pomodori",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con hummus e pomodori. Ingredients: Pane integrale, Hummus, Pomodori, Rucola.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Hummus sul pane tostato. Aggiungi Pomodori a fette e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f224c32fae8527a380e5700300ee05c6871071eeacf8fdec2076ec5caeacb4e9",
+    "photoGroup": "c32511558205b203a217"
+  },
+  "pane_integrale_con_hummus_e_pomodori_s1": {
+    "asset": "photography/pane_integrale_con_hummus_e_pomodori_s1.webp",
+    "recipeId": "pane_integrale_con_hummus_e_pomodori",
+    "stepIndex": 1,
+    "subject": "Spalma {hummus} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con hummus e pomodori. Ingredients: Pane integrale, Hummus, Pomodori, Rucola. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Hummus sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Ingredient fidelity: no added pepper, spices, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "ed3ab66a73f814c9b11cf5d5d9a936858f7b1162e7e6976a69a14119f8f5b770",
+    "photoGroup": "5be294dd0e5281f2b1bc"
+  },
+  "pane_con_hummus_e_pomodori": {
+    "asset": "photography/pane_con_hummus_e_pomodori.webp",
+    "recipeId": "pane_con_hummus_e_pomodori",
+    "stepIndex": null,
+    "subject": "Pane con hummus e pomodori",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con hummus e pomodori. Ingredients: Pane comune, Hummus, Pomodori, Rucola.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Hummus sul pane tostato. Aggiungi Pomodori a fette e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Ingredient fidelity: no added pepper, spices, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "2ecb9fc7c650489ae030885a2aa50b97f209e47d19c1fa36f547eebc10498bc7",
+    "photoGroup": "70727887ea811aee1c15"
+  },
+  "pane_con_hummus_e_pomodori_s1": {
+    "asset": "photography/pane_con_hummus_e_pomodori_s1.webp",
+    "recipeId": "pane_con_hummus_e_pomodori",
+    "stepIndex": 1,
+    "subject": "Spalma {hummus} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con hummus e pomodori. Ingredients: Pane comune, Hummus, Pomodori, Rucola. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Hummus sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "645cd65b44f53d167f66066cb97b0a002f75778c366d6f86066887c02d3a14ad",
+    "photoGroup": "e88dc3192a24df0e6096"
+  },
+  "pane_integrale_con_hummus_e_pomodori_s2": {
+    "asset": "photography/pane_integrale_con_hummus_e_pomodori.webp",
+    "recipeId": "pane_integrale_con_hummus_e_pomodori",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori} a fette e {rucola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con hummus e pomodori. Ingredients: Pane integrale, Hummus, Pomodori, Rucola.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Hummus sul pane tostato. Aggiungi Pomodori a fette e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f224c32fae8527a380e5700300ee05c6871071eeacf8fdec2076ec5caeacb4e9",
+    "photoGroup": "c32511558205b203a217",
+    "sharedFrom": "pane_integrale_con_hummus_e_pomodori"
+  },
+  "pane_con_hummus_e_pomodori_s2": {
+    "asset": "photography/pane_con_hummus_e_pomodori.webp",
+    "recipeId": "pane_con_hummus_e_pomodori",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori} a fette e {rucola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con hummus e pomodori. Ingredients: Pane comune, Hummus, Pomodori, Rucola.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Hummus sul pane tostato. Aggiungi Pomodori a fette e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Ingredient fidelity: no added pepper, spices, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "2ecb9fc7c650489ae030885a2aa50b97f209e47d19c1fa36f547eebc10498bc7",
+    "photoGroup": "70727887ea811aee1c15",
+    "sharedFrom": "pane_con_hummus_e_pomodori"
   }
 }
