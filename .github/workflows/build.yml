@@ -2,7 +2,7 @@ name: Build APK
 
 on:
   push:
-    branches: [main, feat/aurora-approved-redesign, feat/aurora-layout-polish]
+    branches: [main, feat/aurora-approved-redesign, feat/aurora-layout-polish, feat/recipe-editorial-photos]
   workflow_dispatch:
 
 permissions:

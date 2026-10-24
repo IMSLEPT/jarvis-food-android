@@ -195,8 +195,11 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                 Box(Modifier.fillMaxWidth()) {
                     RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(280.dp), recEmoji(tpl.meal), 0.dp)
                     Box(Modifier.fillMaxWidth().height(160.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
-                    tpl.credit?.takeIf { it.author.isNotBlank() }?.let { cr ->
-                        Text(cr.author.take(40), style = T.Small.copy(color = Color.White),
+                    val photoLabel = if (s.recipePhotos[tpl.id] != null) null
+                        else if (EditorialPhotos.contains(tpl.id)) "Immagine illustrativa · AI"
+                        else tpl.credit?.author?.takeIf { it.isNotBlank() }?.take(40)
+                    photoLabel?.let { label ->
+                        Text(label, style = T.Small.copy(color = Color.White),
                             modifier = Modifier.padding(start = 16.dp, top = 200.dp).clip(RoundedCornerShape(50))
                                 .background(Color(0x99000000)).padding(horizontal = 10.dp, vertical = 4.dp))
                     }
@@ -423,25 +426,25 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             steps.forEachIndexed { i, st ->
                                 val d = i in done
-                                val img = tpl.stepImages.getOrNull(i)
+                                val img = EditorialPhotos.step(tpl.id, i, tpl.stepImages.getOrNull(i))
                                 val shape = RoundedCornerShape(26.dp)
                                 Row(
                                     Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (d) Color(0xFFE4F8EF) else Color.White)
                                         .clickable { if (d) done.remove(i) else done.add(i) }.padding(14.dp),
                                     verticalAlignment = Alignment.Top
                                 ) {
-                                    Box(Modifier.size(40.dp).clip(CircleShape).background(if (d) C.Green else C.AccentSoft), contentAlignment = Alignment.Center) {
-                                        Text("${i + 1}", style = T.H2.copy(fontSize = 18.sp, color = if (d) Color.White else Color(0xFF8F2A14)))
+                                    if (img != null) {
+                                        RecipeImage("${tpl.id}_s$i", img, null, Modifier.size(88.dp).testTag("recipe-step-photo-$i"), "🍳", 18.dp)
+                                    } else {
+                                        Box(Modifier.size(40.dp).clip(CircleShape).background(if (d) C.Green else C.AccentSoft), contentAlignment = Alignment.Center) {
+                                            Text("${i + 1}", style = T.H2.copy(fontSize = 18.sp, color = if (d) Color.White else Color(0xFF8F2A14)))
+                                        }
                                     }
                                     GapW(14.dp)
                                     Column(Modifier.weight(1f)) {
-                                        Text("Passaggio ${i + 1}", style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Muted))
+                                        Text((if (d) "✓ " else "") + "Passaggio ${i + 1}", style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (d) A.GreenInk else A.Muted))
                                         GapH(3.dp)
                                         Text(st, style = T.Body.copy(fontSize = 15.sp, lineHeight = 22.sp), modifier = Modifier.alpha(if (d) 0.6f else 1f))
-                                        if (img != null) {
-                                            GapH(10.dp)
-                                            RecipeImage("${tpl.id}_s$i", img, null, Modifier.fillMaxWidth().height(130.dp), "🍳", 18.dp)
-                                        }
                                     }
                                 }
                             }

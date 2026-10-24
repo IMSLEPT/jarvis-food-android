@@ -1,0 +1,202 @@
+{
+  "porridge_banana": {
+    "asset": "photography/porridge_banana.webp",
+    "recipeId": "porridge_banana",
+    "stepIndex": null,
+    "subject": "Porridge banana e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Professional editorial photograph of creamy oat porridge, milk, banana, chopped walnuts, Greek yogurt and cinnamon. Soft warm window light, ivory ceramic bowl, light wooden kitchen table; realistic homemade plating; no text, watermark or extra ingredients.",
+    "sha256": "9628c6d6e687947aabd0a61340e54a3a56d168ce181cadbf1573c2fdc85637f3"
+  },
+  "porridge_banana_s0": {
+    "asset": "photography/porridge_banana_s0.webp",
+    "recipeId": "porridge_banana",
+    "stepIndex": 0,
+    "subject": "Metti {avena} e {latte_sl} in un pentolino antiaderente e mescola a freddo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nStep 1 of banana walnut porridge: a small stainless steel saucepan filled with rolled oats, with a stream of milk pouring into the oats from a simple small jug at the upper edge of the image. The oats are still dry and just beginning to soak. No cooked porridge or toppings yet.",
+    "sha256": "f7e1901c1b98003fc645b19a202efbf8e902fe47d5a0bd6af0b664f312f06745"
+  },
+  "porridge_banana_s1": {
+    "asset": "photography/porridge_banana_s1.webp",
+    "recipeId": "porridge_banana",
+    "stepIndex": 1,
+    "subject": "Scalda a fuoco medio-basso per 5-7 minuti, mescolando spesso, finché diventa cremoso. Se è troppo denso aggiungi poca acqua.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nStep 2 of banana walnut porridge: creamy plain oats and milk gently simmering in a small stainless steel saucepan on a hob, a wooden spoon stirring through the glossy creamy mixture, very light rising steam. No banana or nuts added yet.",
+    "sha256": "56205253f547b28f03fecbf4faf3df17e1ecdfb8926e4b47e455b0d6795f602f"
+  },
+  "porridge_banana_s2": {
+    "asset": "photography/porridge_banana_s2.webp",
+    "recipeId": "porridge_banana",
+    "stepIndex": 2,
+    "subject": "Taglia {banana} a rondelle e spezzetta {noci}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nStep 3 of banana walnut porridge: freshly peeled banana partly cut into neat rounds on a clean wooden cutting board, and roughly chopped walnut kernels in a separate small pile beside it, a plain kitchen knife resting safely flat. Frame the banana and walnuts close up, no other ingredients and no hands.",
+    "sha256": "7e12727bb89270d44d40b6cc320b0fee65861e31be817cf8431a3315318ce8e1"
+  },
+  "pasta_pollo_zucchine": {
+    "asset": "photography/pasta_pollo_zucchine.webp",
+    "recipeId": "pasta_pollo_zucchine",
+    "stepIndex": null,
+    "subject": "Pasta pollo e zucchine",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nFinished Italian dish: penne pasta tossed with tender golden chicken breast strips and sauteed green zucchini half-moons, light extra virgin olive oil sheen and a modest dusting of finely grated parmesan. Plated beautifully and naturally in a shallow warm ivory ceramic bowl. The ONLY visible ingredients are penne, chicken, zucchini, olive oil and parmesan; no tomatoes, no sauce, no herbs. Three-quarter food photography, the entire bowl in the central 75%.",
+    "sha256": "76647f8c8009ce9e67f319baea1fe848abaf26a75226f3fcb908bf3c1a38c0c6"
+  },
+  "pasta_pollo_zucchine_s0": {
+    "asset": "photography/pasta_pollo_zucchine_s0.webp",
+    "recipeId": "pasta_pollo_zucchine",
+    "stepIndex": 0,
+    "subject": "Metti a bollire l'acqua per la pasta e salala.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: a clean stainless steel pot of clearly boiling water on a hob, an adult hand adding a small pinch of salt. Close view inside the pot, no pasta added yet.",
+    "sha256": "2f1479c5e73ca1320b56e3f46af75c51373d975c2176b760a4b95d498fe338e1"
+  },
+  "pasta_pollo_zucchine_s1": {
+    "asset": "photography/pasta_pollo_zucchine_s1.webp",
+    "recipeId": "pasta_pollo_zucchine",
+    "stepIndex": 1,
+    "subject": "Taglia {pollo} a straccetti e {zucchine} a rondelle sottili.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: raw chicken breast cut into clean strips on one food preparation board, and thin zucchini rounds on a SEPARATE board immediately alongside it. A knife resting flat. Clean safe food preparation, raw chicken has natural pale pink color; zucchini fresh green, no cooked food.",
+    "sha256": "cd40f26348fcb4fffb4602d3f85e4b166ff069b6885ab1b4667d6eb7081f18ec"
+  },
+  "pasta_pollo_zucchine_s2": {
+    "asset": "photography/pasta_pollo_zucchine_s2.webp",
+    "recipeId": "pasta_pollo_zucchine",
+    "stepIndex": 2,
+    "subject": "In padella scalda {olio} con l'aglio, aggiungi le zucchine e cuoci 6-7 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: green zucchini rounds sauteing gently in a large frying pan in a small amount of olive oil with one peeled garlic clove, a simple wooden spatula at side. No chicken and no pasta added yet.",
+    "sha256": "eb5b60b6f5471f4b6116c7dd86b53ce5206b07e09f9ac63a4a63987e65c7958d"
+  },
+  "pasta_pollo_zucchine_s3": {
+    "asset": "photography/pasta_pollo_zucchine_s3.webp",
+    "recipeId": "pasta_pollo_zucchine",
+    "stepIndex": 3,
+    "subject": "Unisci il pollo e cuoci 5-6 minuti, finché è cotto all'interno.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: chicken breast strips cooking in the same large frying pan with sauteed zucchini rounds and olive oil, chicken pale opaque and lightly golden, no pink visible. Light steam and natural sheen. No pasta or cheese added yet.",
+    "sha256": "5fb6907573122eafd347057572ad85167ad0fa3f044ae63b95ef8e92e482a488"
+  },
+  "pane_ricotta_marmellata": {
+    "asset": "photography/pane_ricotta_marmellata.webp",
+    "recipeId": "pane_ricotta_marmellata",
+    "stepIndex": null,
+    "subject": "Pane, ricotta e marmellata",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA delicious thick slice of toasted artisan bread, generously spread with fluffy white ricotta and a modest spoonful of ruby red strawberry jam, accompanied by fresh strawberries cut into halves on the same plate. No other berries, no nuts, no honey. Three-quarter close-up angle.",
+    "sha256": "f8df4c80ba5b6e2f5a416558cda4ce03ecdb96a28aa3d5147cd7b8871c6ac3e0"
+  },
+  "riso_uova_spinaci": {
+    "asset": "photography/riso_uova_spinaci.webp",
+    "recipeId": "riso_uova_spinaci",
+    "stepIndex": null,
+    "subject": "Riso, uova e spinaci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA balanced dinner plate containing three neat distinct sections: fluffy long-grain white basmati rice, golden softly scrambled eggs, and sauteed dark green spinach with a light olive oil sheen. Only rice, eggs, spinach and olive oil, no other vegetables, garnish or sauces. Three-quarter close angle, entire plate visible.",
+    "sha256": "987dd28567cacd303fea6e9032d4a9ccf0dce199055dfced749b8c4af70b9fee"
+  },
+  "pane_ricotta_marmellata_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_ricotta_marmellata",
+    "stepIndex": 0,
+    "subject": "Tosta {pane}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7"
+  },
+  "pane_ricotta_marmellata_s1": {
+    "asset": "photography/pane_ricotta_marmellata_s1.webp",
+    "recipeId": "pane_ricotta_marmellata",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta_light} e completa con {marmellata}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a slice of golden toasted bread on an ivory plate, a butter knife spreading fluffy white ricotta onto the toast, a small spoonful of ruby strawberry jam just added on top of part of the ricotta. No fruit or other toppings yet.",
+    "sha256": "c6acd545d12241f6ab105907cb8e39180463d4e68cde1823ca98f123e49792a0"
+  },
+  "riso_uova_spinaci_s0": {
+    "asset": "photography/riso_uova_spinaci_s0.webp",
+    "recipeId": "riso_uova_spinaci",
+    "stepIndex": 0,
+    "subject": "Cuoci {basmati} in acqua salata per 12 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful real-looking cookbook preparation photo, bright warm home kitchen, soft natural window light, light wooden countertop, clean neutral cookware and true food textures. No text, watermark, collage or UI. Close view meaningful as square thumbnail; only ingredients specified below.\nA stainless steel saucepan on a hob with long-grain white basmati rice simmering in clear water. Rice grains distinct, a very small amount of steam. No other food added.",
+    "sha256": "581eb9c677a4b8c96a0c17a3e40d2f4e776ed608cca00faa54c91a9b539c063c"
+  },
+  "riso_uova_spinaci_s1": {
+    "asset": "photography/riso_uova_spinaci_s1.webp",
+    "recipeId": "riso_uova_spinaci",
+    "stepIndex": 1,
+    "subject": "Salta {spinaci} in padella con metà dell'olio per 3 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful real-looking cookbook preparation photo, bright warm home kitchen, soft natural window light, light wooden countertop, clean neutral cookware and true food textures. No text, watermark, collage or UI. Close view meaningful as square thumbnail; only ingredients specified below.\nA clean nonstick frying pan of fresh green spinach leaves gently wilting with a very light sheen of olive oil, a simple wooden spatula at the edge. No rice and no eggs added yet.",
+    "sha256": "270037e794bd3ab1b14d822e933bc40899c3eee750e2a78345b9ba25cf592be6"
+  },
+  "riso_uova_spinaci_s2": {
+    "asset": "photography/riso_uova_spinaci_s2.webp",
+    "recipeId": "riso_uova_spinaci",
+    "stepIndex": 2,
+    "subject": "Strapazza {uova} nella stessa padella per 2-3 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. A single exquisite realistic editorial cookbook process photograph. Bright warm home kitchen, soft natural window light, clean light wood countertop, a nonstick pan on a hob. Soft golden scrambled eggs being folded with a wooden spatula in the center of the pan, a small portion of previously sauteed dark green spinach pushed to the far edge of the same pan. Eggs opaque and almost set, no raw eggs in view, no rice yet. Only egg, spinach and a light olive oil sheen. No text, watermark, collage, labels or UI. Close framing that works as a square thumbnail and landscape crop.",
+    "sha256": "37cff3fd74b38cc9780df6d9930b02d377af8dce99ecb90910ce1414265fc9fc"
+  },
+  "porridge_banana_s3": {
+    "asset": "photography/porridge_banana.webp",
+    "recipeId": "porridge_banana",
+    "stepIndex": 3,
+    "subject": "Versa il porridge in una ciotola, completa con banana, noci, {greco0} e un pizzico di cannella.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Professional editorial photograph of creamy oat porridge, milk, banana, chopped walnuts, Greek yogurt and cinnamon. Soft warm window light, ivory ceramic bowl, light wooden kitchen table; realistic homemade plating; no text, watermark or extra ingredients.",
+    "sha256": "9628c6d6e687947aabd0a61340e54a3a56d168ce181cadbf1573c2fdc85637f3"
+  },
+  "pasta_pollo_zucchine_s4": {
+    "asset": "photography/pasta_pollo_zucchine.webp",
+    "recipeId": "pasta_pollo_zucchine",
+    "stepIndex": 4,
+    "subject": "Cuoci {pasta} al dente, scolala e saltala in padella. Completa con {parmigiano}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nFinished Italian dish: penne pasta tossed with tender golden chicken breast strips and sauteed green zucchini half-moons, light extra virgin olive oil sheen and a modest dusting of finely grated parmesan. Plated beautifully and naturally in a shallow warm ivory ceramic bowl. The ONLY visible ingredients are penne, chicken, zucchini, olive oil and parmesan; no tomatoes, no sauce, no herbs. Three-quarter food photography, the entire bowl in the central 75%.",
+    "sha256": "76647f8c8009ce9e67f319baea1fe848abaf26a75226f3fcb908bf3c1a38c0c6"
+  },
+  "pane_ricotta_marmellata_s2": {
+    "asset": "photography/pane_ricotta_marmellata.webp",
+    "recipeId": "pane_ricotta_marmellata",
+    "stepIndex": 2,
+    "subject": "Accompagna con {fragole}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA delicious thick slice of toasted artisan bread, generously spread with fluffy white ricotta and a modest spoonful of ruby red strawberry jam, accompanied by fresh strawberries cut into halves on the same plate. No other berries, no nuts, no honey. Three-quarter close-up angle.",
+    "sha256": "f8df4c80ba5b6e2f5a416558cda4ce03ecdb96a28aa3d5147cd7b8871c6ac3e0"
+  },
+  "riso_uova_spinaci_s3": {
+    "asset": "photography/riso_uova_spinaci.webp",
+    "recipeId": "riso_uova_spinaci",
+    "stepIndex": 3,
+    "subject": "Servi riso, uova e spinaci condendo con l'olio rimasto.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA balanced dinner plate containing three neat distinct sections: fluffy long-grain white basmati rice, golden softly scrambled eggs, and sauteed dark green spinach with a light olive oil sheen. Only rice, eggs, spinach and olive oil, no other vegetables, garnish or sauces. Three-quarter close angle, entire plate visible.",
+    "sha256": "987dd28567cacd303fea6e9032d4a9ccf0dce199055dfced749b8c4af70b9fee"
+  }
+}
