@@ -238,7 +238,9 @@ object EditorialPhotos {
         "pane_integrale_con_mozzarella_pomodoro_e_origano_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_prosciutto_cotto_e_mozzarella_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_ricotta_e_marmellata" to "photography/pane_integrale_con_ricotta_e_marmellata.webp",
         "pane_integrale_con_ricotta_e_marmellata_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_ricotta_e_marmellata_s1" to "photography/pane_integrale_con_ricotta_e_marmellata.webp",
         "pane_integrale_con_ricotta_miele_e_fichi_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_ricotta_pesche_e_pistacchi_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -313,6 +315,8 @@ object EditorialPhotos {
         "quinoa_ceci_s3" to "photography/quinoa_ceci.webp",
         "ricotta_e_frutti_di_bosco" to "photography/ricotta_e_frutti_di_bosco.webp",
         "ricotta_e_frutti_di_bosco_s0" to "photography/ricotta_e_frutti_di_bosco.webp",
+        "ricotta_e_miele" to "photography/ricotta_e_miele.webp",
+        "ricotta_e_miele_s0" to "photography/ricotta_e_miele.webp",
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
@@ -382,8 +386,12 @@ object EditorialPhotos {
         "yogurt_granola_s0" to "photography/yogurt_granola_s0.webp",
         "yogurt_granola_s1" to "photography/yogurt_granola_s1.webp",
         "yogurt_granola_s2" to "photography/yogurt_granola.webp",
+        "yogurt_greco_intero_con_banana" to "photography/yogurt_greco_intero_con_banana.webp",
         "yogurt_greco_intero_con_banana_s0" to "photography/banana_arachidi_s0.webp",
+        "yogurt_greco_intero_con_banana_s1" to "photography/yogurt_greco_intero_con_banana.webp",
+        "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
+        "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",
     )
 
     private val assets = buildMap<String, String> {

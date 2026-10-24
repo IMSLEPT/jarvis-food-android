@@ -4333,5 +4333,97 @@
     "sha256": "7933702c1cff87a5e8c59805e6ebce0c92731a298e5ead284bc92bd5210d4d87",
     "photoGroup": "1926608a8b55bf994841",
     "sharedFrom": "olive_e_cubetti_di_formaggio"
+  },
+  "ricotta_e_miele": {
+    "asset": "photography/ricotta_e_miele.webp",
+    "recipeId": "ricotta_e_miele",
+    "stepIndex": null,
+    "subject": "Ricotta e miele",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta e miele. Ingredients: Ricotta, Miele.  Preparation context (do not print it): Versa Ricotta in una coppetta e completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "9c4202f6536fe8d07cad106817e9eaeb666ea505412a5b2bcd03877cb9d0f654",
+    "photoGroup": "3b5a6cec05d4ea2b26b8"
+  },
+  "yogurt_greco_intero_con_banana": {
+    "asset": "photography/yogurt_greco_intero_con_banana.webp",
+    "recipeId": "yogurt_greco_intero_con_banana",
+    "stepIndex": null,
+    "subject": "Yogurt greco intero con banana",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Yogurt greco intero con banana. Ingredients: yogurt greco intero, Banana.  Preparation context (do not print it): Taglia Banana a rondelle. Versa yogurt greco intero in una coppetta e aggiungi la frutta. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "ba95da31591d914fcf22e99793cf9fe0650d55d62065f6a1d40ce75f9d7054b3",
+    "photoGroup": "ca27614a10c2391b5069"
+  },
+  "yogurt_magro_con_mela": {
+    "asset": "photography/yogurt_magro_con_mela.webp",
+    "recipeId": "yogurt_magro_con_mela",
+    "stepIndex": null,
+    "subject": "Yogurt magro con mela",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Yogurt magro con mela. Ingredients: yogurt magro, Mela.  Preparation context (do not print it): Taglia Mela a cubetti. Versa yogurt magro in una coppetta e aggiungi la frutta. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "25d0c3cd1e000ca2d25f9d33f77f7a4aba7ba0ea219bfe0bd8f851adfbf74263",
+    "photoGroup": "227c122df79ffd5e0a4e"
+  },
+  "pane_integrale_con_ricotta_e_marmellata": {
+    "asset": "photography/pane_integrale_con_ricotta_e_marmellata.webp",
+    "recipeId": "pane_integrale_con_ricotta_e_marmellata",
+    "stepIndex": null,
+    "subject": "Pane integrale con ricotta e marmellata",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta e marmellata. Ingredients: Pane integrale, Ricotta, Marmellata.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato e completa con Marmellata. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "36261fa1ea7d9280a6eeb513f4aeff3d8b49b81988a9950eb2b7329516f4cf64",
+    "photoGroup": "a94ea4898851646f2c01"
+  },
+  "pane_integrale_con_ricotta_e_marmellata_s1": {
+    "asset": "photography/pane_integrale_con_ricotta_e_marmellata.webp",
+    "recipeId": "pane_integrale_con_ricotta_e_marmellata",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato e completa con {marmellata}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta e marmellata. Ingredients: Pane integrale, Ricotta, Marmellata.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato e completa con Marmellata. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "36261fa1ea7d9280a6eeb513f4aeff3d8b49b81988a9950eb2b7329516f4cf64",
+    "photoGroup": "a94ea4898851646f2c01",
+    "sharedFrom": "pane_integrale_con_ricotta_e_marmellata"
+  },
+  "yogurt_greco_intero_con_banana_s1": {
+    "asset": "photography/yogurt_greco_intero_con_banana.webp",
+    "recipeId": "yogurt_greco_intero_con_banana",
+    "stepIndex": 1,
+    "subject": "Versa {greco_intero} in una coppetta e aggiungi la frutta.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Yogurt greco intero con banana. Ingredients: yogurt greco intero, Banana.  Preparation context (do not print it): Taglia Banana a rondelle. Versa yogurt greco intero in una coppetta e aggiungi la frutta. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "ba95da31591d914fcf22e99793cf9fe0650d55d62065f6a1d40ce75f9d7054b3",
+    "photoGroup": "ca27614a10c2391b5069",
+    "sharedFrom": "yogurt_greco_intero_con_banana"
+  },
+  "yogurt_magro_con_mela_s1": {
+    "asset": "photography/yogurt_magro_con_mela.webp",
+    "recipeId": "yogurt_magro_con_mela",
+    "stepIndex": 1,
+    "subject": "Versa {yogurt_magro} in una coppetta e aggiungi la frutta.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Yogurt magro con mela. Ingredients: yogurt magro, Mela.  Preparation context (do not print it): Taglia Mela a cubetti. Versa yogurt magro in una coppetta e aggiungi la frutta. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "25d0c3cd1e000ca2d25f9d33f77f7a4aba7ba0ea219bfe0bd8f851adfbf74263",
+    "photoGroup": "227c122df79ffd5e0a4e",
+    "sharedFrom": "yogurt_magro_con_mela"
+  },
+  "ricotta_e_miele_s0": {
+    "asset": "photography/ricotta_e_miele.webp",
+    "recipeId": "ricotta_e_miele",
+    "stepIndex": 0,
+    "subject": "Versa {ricotta} in una coppetta e completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta e miele. Ingredients: Ricotta, Miele.  Preparation context (do not print it): Versa Ricotta in una coppetta e completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "9c4202f6536fe8d07cad106817e9eaeb666ea505412a5b2bcd03877cb9d0f654",
+    "photoGroup": "3b5a6cec05d4ea2b26b8",
+    "sharedFrom": "ricotta_e_miele"
   }
 }
