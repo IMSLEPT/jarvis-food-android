@@ -5012,5 +5012,73 @@
     "sha256": "2ecb9fc7c650489ae030885a2aa50b97f209e47d19c1fa36f547eebc10498bc7",
     "photoGroup": "70727887ea811aee1c15",
     "sharedFrom": "pane_con_hummus_e_pomodori"
+  },
+  "pane_integrale_con_ricotta_pomodorini_e_basilico": {
+    "asset": "photography/pane_integrale_con_ricotta_pomodorini_e_basilico.webp",
+    "recipeId": "pane_integrale_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": null,
+    "subject": "Pane integrale con ricotta, pomodorini e basilico",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, pomodorini e basilico. Ingredients: Pane integrale, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi pomodorini a metà, Basilico e un filo di Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "777c5b43ba06c6d07463e82fabc170d0181bb74eec1bd22757fcdcd986b45e5d",
+    "photoGroup": "d114987a99cb81881167"
+  },
+  "pane_integrale_con_ricotta_pomodorini_e_basilico_s1": {
+    "asset": "photography/pane_integrale_con_ricotta_pomodorini_e_basilico_s1.webp",
+    "recipeId": "pane_integrale_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, pomodorini e basilico. Ingredients: Pane integrale, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "ca16a5dc5ce142f6368363d85d19d8e9a44c17f33fdd95647022d3606433d9eb",
+    "photoGroup": "34e66dcd8cc062af540e"
+  },
+  "pane_con_ricotta_pomodorini_e_basilico": {
+    "asset": "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
+    "recipeId": "pane_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": null,
+    "subject": "Pane con ricotta, pomodorini e basilico",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, pomodorini e basilico. Ingredients: Pane comune, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi pomodorini a metà, Basilico e un filo di Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "7e3fe898b4de7be9eaa10ba30d49ab5ee70279831af726338ba82cd2588eb7d6",
+    "photoGroup": "5d0f92e3134c472fed5a"
+  },
+  "pane_con_ricotta_pomodorini_e_basilico_s1": {
+    "asset": "photography/pane_con_ricotta_pomodorini_e_basilico_s1.webp",
+    "recipeId": "pane_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, pomodorini e basilico. Ingredients: Pane comune, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "220ee1718ad14704caf52e7514f508fb5ddf18907dc27f8032a402db21fd5706",
+    "photoGroup": "9aa40bf0d015aa486a29"
+  },
+  "pane_integrale_con_ricotta_pomodorini_e_basilico_s2": {
+    "asset": "photography/pane_integrale_con_ricotta_pomodorini_e_basilico.webp",
+    "recipeId": "pane_integrale_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori} a metà, {basilico} e un filo di {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, pomodorini e basilico. Ingredients: Pane integrale, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi pomodorini a metà, Basilico e un filo di Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "777c5b43ba06c6d07463e82fabc170d0181bb74eec1bd22757fcdcd986b45e5d",
+    "photoGroup": "d114987a99cb81881167",
+    "sharedFrom": "pane_integrale_con_ricotta_pomodorini_e_basilico"
+  },
+  "pane_con_ricotta_pomodorini_e_basilico_s2": {
+    "asset": "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
+    "recipeId": "pane_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori} a metà, {basilico} e un filo di {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, pomodorini e basilico. Ingredients: Pane comune, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi pomodorini a metà, Basilico e un filo di Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Ingredient fidelity: no added pepper, spice specks, sauces or garnishes beyond the listed ingredients. Only the specified bread type.",
+    "sha256": "7e3fe898b4de7be9eaa10ba30d49ab5ee70279831af726338ba82cd2588eb7d6",
+    "photoGroup": "5d0f92e3134c472fed5a",
+    "sharedFrom": "pane_con_ricotta_pomodorini_e_basilico"
   }
 }

@@ -252,7 +252,10 @@ object EditorialPhotos {
         "pane_con_ricotta_miele_e_fichi_s1" to "photography/pane_con_ricotta_miele_e_fichi_s1.webp",
         "pane_con_ricotta_miele_e_fichi_s2" to "photography/pane_con_ricotta_miele_e_fichi.webp",
         "pane_con_ricotta_pesche_e_pistacchi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_ricotta_pomodorini_e_basilico" to "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_ricotta_pomodorini_e_basilico_s1" to "photography/pane_con_ricotta_pomodorini_e_basilico_s1.webp",
+        "pane_con_ricotta_pomodorini_e_basilico_s2" to "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
         "pane_con_tahina_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -289,7 +292,10 @@ object EditorialPhotos {
         "pane_integrale_con_ricotta_miele_e_fichi_s1" to "photography/pane_integrale_con_ricotta_miele_e_fichi_s1.webp",
         "pane_integrale_con_ricotta_miele_e_fichi_s2" to "photography/pane_integrale_con_ricotta_miele_e_fichi.webp",
         "pane_integrale_con_ricotta_pesche_e_pistacchi_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_ricotta_pomodorini_e_basilico" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico.webp",
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_ricotta_pomodorini_e_basilico_s1" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico_s1.webp",
+        "pane_integrale_con_ricotta_pomodorini_e_basilico_s2" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico.webp",
         "pane_integrale_con_tahina_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_tonno_e_avocado_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_uova_strapazzate_e_spinaci_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -401,15 +407,15 @@ object EditorialPhotos {
         "tacchino_funghi_s0" to "photography/tacchino_funghi_s0.webp",
         "tacchino_funghi_s1" to "photography/tacchino_funghi_s1.webp",
         "tacchino_funghi_s2" to "photography/tacchino_funghi_s2.webp",
+    )
+
+    private fun group2() = mapOf(
         "tacchino_funghi_s3" to "photography/tacchino_funghi.webp",
         "tagliata_rucola" to "photography/tagliata_rucola.webp",
         "tagliata_rucola_s0" to "photography/tagliata_rucola_s0.webp",
         "tagliata_rucola_s1" to "photography/tagliata_rucola_s1.webp",
         "tagliata_rucola_s2" to "photography/tagliata_rucola.webp",
         "toast_cotto" to "photography/toast_cotto.webp",
-    )
-
-    private fun group2() = mapOf(
         "toast_cotto_s0" to "photography/toast_cotto_s0.webp",
         "toast_cotto_s1" to "photography/toast_cotto_s1.webp",
         "toast_uova_avocado" to "photography/toast_uova_avocado.webp",
