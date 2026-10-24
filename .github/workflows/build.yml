@@ -22,7 +22,9 @@ jobs:
 
       # Modello AI offline (classificatore alimentare Google AIY food V1, TFLite con etichette incorporate).
       - name: Verify original functions and assets
-        run: python3 scripts/verify-aurora-boundary.py
+        run: |
+          python3 scripts/verify-aurora-boundary.py
+          python3 tools/photography/verify.py
 
       - name: Download offline food model
         run: |

@@ -8,9 +8,11 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. Questo primo gruppo
-contiene **4 ricette complete, 20 abbinamenti immagine e 16 fotografie distinte**:
-porridge banana e noci, pasta pollo e zucchine, pane ricotta e marmellata,
-riso uova e spinaci. L'ultimo passaggio di impiattamento usa la foto del piatto.
+contiene **7 ricette complete, 58 abbinamenti immagine e 27 fotografie distinte**:
+porridge banana e noci, yogurt granola e mirtilli, toast uova e avocado,
+pancake avena e banana, pasta pollo e zucchine, pane ricotta e marmellata,
+riso uova e spinaci. Sono inclusi 24 passaggi condivisi con altre ricette compatibili.
+L'ultimo passaggio di impiattamento può usare la foto del piatto.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
 Le immagini sono WebP locali: disponibili offline, senza chiavi API o richieste
@@ -29,6 +31,10 @@ Il ripristino si effettua con Revert della PR su GitHub, senza selettori nell'ap
 1. Eseguire `python tools/photography/plan.py --out /tmp/pending.jsonl` per ottenere
    un inventario aggiornato e i brief specifici di tutte le immagini mancanti.
    Questo comando prepara i brief: **non genera né scarica fotografie**.
+   La scelta dell'utente è condividere immagini fra varianti compatibili.
+   `shared.py` raggruppa azioni identiche e alimenti dall'aspetto equivalente;
+   salse, frutta, verdure, forme di presentazione e metodi diversi restano separati.
+   `--legacy-only` dà priorità alle 49 ricette che avevano già foto.
 2. Produrre un'immagine per brief con lo strumento immagini integrato, poi
    controllare visivamente ingredienti, fase di preparazione e resa nel ritaglio.
 3. Preparare un JSON di record `id`, `path`, `prompt` con le foto approvate.
@@ -36,7 +42,9 @@ Il ripristino si effettua con Revert della PR su GitHub, senza selettori nell'ap
 4. Eseguire `python tools/photography/prepare.py /percorso/input.json`.
    Lo script converte in WebP, registra i prompt e gli hash in `approved.json` e
    rigenera l'indice Kotlin. Richiede Pillow e non chiama servizi AI.
-5. Eseguire il controllo degli originali e i test della CI. I test impediscono
+5. Eseguire `python tools/photography/verify.py`, il controllo degli originali e
+   i test della CI. Il controllo ricalcola la compatibilità delle immagini condivise.
+   I test impediscono
    che un nuovo piatto sia distribuito con un procedimento fotografico incompleto.
 
 Le immagini non ancora prodotte conservano il comportamento originale. Non sono

@@ -59,4 +59,9 @@ class EditorialPhotosTest {
         assertNull(EditorialPhotos.asset("unreviewed", null))
         assertFalse(EditorialPhotos.contains("unreviewed"))
     }
+
+    @Test fun allViewsResolveTheSameReviewedOriginalAsset() {
+        assertEquals(EditorialPhotos.asset("porridge_banana", null),
+            EditorialPhotos.asset("other-view", "recipes/porridge_banana.webp"))
+    }
 }

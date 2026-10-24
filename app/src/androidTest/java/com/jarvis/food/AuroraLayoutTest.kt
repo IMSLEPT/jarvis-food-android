@@ -108,6 +108,13 @@ class AuroraLayoutTest {
             // A synthetic non-empty key enables the local input UI. No message is sent.
             ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
             compose.onNodeWithTag("chat-input").performClick().performTextInput("Prova layout")
+            compose.onNodeWithTag("chat-input").assertIsFocused()
+            compose.waitForIdle()
+            // Request the software keyboard explicitly: instrumentation text injection
+            // alone does not guarantee an IME opens on every emulator cold start.
+            scenario.onActivity { activity ->
+                ViewCompat.getWindowInsetsController(activity.window.decorView)?.show(WindowInsetsCompat.Type.ime())
+            }
             var imeBottom = 0
             compose.waitUntil(20_000) {
                 scenario.onActivity { activity ->
