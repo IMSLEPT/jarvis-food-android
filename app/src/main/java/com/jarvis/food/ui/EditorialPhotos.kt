@@ -27,8 +27,11 @@ object EditorialPhotos {
         "banana_e_noci_s1" to "photography/banana_e_noci.webp",
         "banana_in_coppa_con_crema_di_yogurt_e_cacao_s0" to "photography/banana_arachidi_s0.webp",
         "bowl_di_kefir_con_ciliegie_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
+        "bowl_di_kefir_con_mela_e_pistacchi" to "photography/bowl_di_kefir_con_mela_e_pistacchi.webp",
         "bowl_di_kefir_con_mela_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
         "bowl_di_kefir_con_mela_e_pistacchi_s1" to "photography/greco_mela_nocciole_s0.webp",
+        "bowl_di_kefir_con_mela_e_pistacchi_s2" to "photography/bowl_di_kefir_con_mela_e_pistacchi_s2.webp",
+        "bowl_di_kefir_con_mela_e_pistacchi_s3" to "photography/bowl_di_kefir_con_mela_e_pistacchi.webp",
         "bowl_di_kefir_con_melograno_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
         "bowl_di_kefir_con_mirtilli_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
         "bowl_di_yogurt_greco_0_con_ananas_e_fiocchi_di_avena_s0" to "photography/yogurt_granola_s0.webp",
@@ -68,8 +71,11 @@ object EditorialPhotos {
         "ciotola_di_yogurt_greco_0_con_cachi_e_granola_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_0_con_fragole_e_granola_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_intero_con_ciliegie_e_fiocchi_di_ave_s0" to "photography/yogurt_granola_s0.webp",
+        "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena" to "photography/ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena.webp",
         "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s1" to "photography/greco_mela_nocciole_s0.webp",
+        "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s2" to "photography/ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s2.webp",
+        "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s3" to "photography/ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena.webp",
         "ciotola_di_yogurt_greco_intero_con_melograno_e_fiocchi_di_av_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_intero_con_mirtilli_e_fiocchi_di_ave_s0" to "photography/yogurt_granola_s0.webp",
         "club_sandwich_di_pollo_con_avocado_s2" to "photography/toast_uova_avocado_s0.webp",
@@ -198,15 +204,15 @@ object EditorialPhotos {
         "overnight_oats_con_mela_e_semi_di_lino_s2" to "photography/greco_mela_nocciole_s0.webp",
         "overnight_oats_s0" to "photography/overnight_oats_s0.webp",
         "overnight_oats_s1" to "photography/overnight_oats_s1.webp",
+    )
+
+    private fun group1() = mapOf(
         "overnight_oats_s2" to "photography/overnight_oats_s2.webp",
         "pancake_al_cocco_con_mela_e_cannella_e_burro_di_mandorle_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_ricotta_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_avena" to "photography/pancake_avena.webp",
         "pancake_avena_s0" to "photography/pancake_avena_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "pancake_avena_s1" to "photography/pancake_avena_s1.webp",
         "pancake_avena_s2" to "photography/pancake_avena_s2.webp",
         "pancake_avena_s3" to "photography/pancake_avena.webp",
@@ -401,15 +407,15 @@ object EditorialPhotos {
         "uova_strapazzate_con_spinaci_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_zucchine_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "yogurt_granola" to "photography/yogurt_granola.webp",
+    )
+
+    private fun group2() = mapOf(
         "yogurt_granola_s0" to "photography/yogurt_granola_s0.webp",
         "yogurt_granola_s1" to "photography/yogurt_granola_s1.webp",
         "yogurt_granola_s2" to "photography/yogurt_granola.webp",
         "yogurt_greco_intero_con_banana" to "photography/yogurt_greco_intero_con_banana.webp",
         "yogurt_greco_intero_con_banana_s0" to "photography/banana_arachidi_s0.webp",
         "yogurt_greco_intero_con_banana_s1" to "photography/yogurt_greco_intero_con_banana.webp",
-    )
-
-    private fun group2() = mapOf(
         "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",

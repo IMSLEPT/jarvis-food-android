@@ -4629,5 +4629,73 @@
     "sha256": "1d96eb89e4c95e9b0ba9defd4f8eed5bec10079532a678fb4345b6fb3d52c2bf",
     "photoGroup": "24adbc8b6bba89018ede",
     "sharedFrom": "coppa_di_yogurt_greco_intero_con_banana_e_noci"
+  },
+  "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena": {
+    "asset": "photography/ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena.webp",
+    "recipeId": "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena",
+    "stepIndex": null,
+    "subject": "Ciotola di yogurt greco intero con mela e fiocchi di avena",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ciotola di yogurt greco intero con mela e fiocchi di avena. Ingredients: yogurt greco intero, Mela, fiocchi di avena, sciroppo d'acero.  Preparation context (do not print it): Versa yogurt greco intero in una ciotola. Taglia Mela a cubetti. Aggiungi la frutta e fiocchi di avena. Completa con sciroppo d'acero. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "567881450275ab15e4a3907ccf35480ec191d357914b793af04576d3a439f721",
+    "photoGroup": "61bdc51c7b4490fad0a2"
+  },
+  "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s2": {
+    "asset": "photography/ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s2.webp",
+    "recipeId": "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena",
+    "stepIndex": 2,
+    "subject": "Aggiungi la frutta e {avena}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ciotola di yogurt greco intero con mela e fiocchi di avena. Ingredients: yogurt greco intero, Mela, fiocchi di avena, sciroppo d'acero. Earlier actions (context only): Versa yogurt greco intero in una ciotola. Taglia Mela a cubetti. Focal action to photograph: Aggiungi la frutta e fiocchi di avena.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "c15ac20107955db72b9736f1ec4a9fe971d0d59e7b23b31b4f18fd1c5a59b8a0",
+    "photoGroup": "9346f5870685214c245d"
+  },
+  "bowl_di_kefir_con_mela_e_pistacchi_s2": {
+    "asset": "photography/bowl_di_kefir_con_mela_e_pistacchi_s2.webp",
+    "recipeId": "bowl_di_kefir_con_mela_e_pistacchi",
+    "stepIndex": 2,
+    "subject": "Aggiungi la frutta e {pistacchi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Bowl di kefir con mela e pistacchi. Ingredients: kefir, Mela, pistacchi, miele. Earlier actions (context only): Versa kefir in una ciotola. Taglia Mela a cubetti. Focal action to photograph: Aggiungi la frutta e pistacchi.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Pistachios must be edible shelled green kernels only, no shells in the bowl. Kefir must have a realistic pourable texture, less thick than Greek yogurt.",
+    "sha256": "ca9d1e8146534574659f44da8e0a0cd3887c405673cd239adb990b94848f1a1d",
+    "photoGroup": "4538cbecb339eb581074"
+  },
+  "bowl_di_kefir_con_mela_e_pistacchi": {
+    "asset": "photography/bowl_di_kefir_con_mela_e_pistacchi.webp",
+    "recipeId": "bowl_di_kefir_con_mela_e_pistacchi",
+    "stepIndex": null,
+    "subject": "Bowl di kefir con mela e pistacchi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Bowl di kefir con mela e pistacchi. Ingredients: kefir, Mela, pistacchi, miele.  Preparation context (do not print it): Versa kefir in una ciotola. Taglia Mela a cubetti. Aggiungi la frutta e pistacchi. Completa con miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Pistachios must be edible shelled green kernels only, no shells in the bowl. Kefir must have a realistic pourable texture, less thick than Greek yogurt.",
+    "sha256": "01e2ebc9a60a4c877ccc84ef92763e5f44c438bca0db85ca03d5e862a5e6a8ff",
+    "photoGroup": "9746c9bd52ea5732484c"
+  },
+  "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s3": {
+    "asset": "photography/ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena.webp",
+    "recipeId": "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena",
+    "stepIndex": 3,
+    "subject": "Completa con {sciroppo_acero}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ciotola di yogurt greco intero con mela e fiocchi di avena. Ingredients: yogurt greco intero, Mela, fiocchi di avena, sciroppo d'acero.  Preparation context (do not print it): Versa yogurt greco intero in una ciotola. Taglia Mela a cubetti. Aggiungi la frutta e fiocchi di avena. Completa con sciroppo d'acero. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "567881450275ab15e4a3907ccf35480ec191d357914b793af04576d3a439f721",
+    "photoGroup": "61bdc51c7b4490fad0a2",
+    "sharedFrom": "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena"
+  },
+  "bowl_di_kefir_con_mela_e_pistacchi_s3": {
+    "asset": "photography/bowl_di_kefir_con_mela_e_pistacchi.webp",
+    "recipeId": "bowl_di_kefir_con_mela_e_pistacchi",
+    "stepIndex": 3,
+    "subject": "Completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Bowl di kefir con mela e pistacchi. Ingredients: kefir, Mela, pistacchi, miele.  Preparation context (do not print it): Versa kefir in una ciotola. Taglia Mela a cubetti. Aggiungi la frutta e pistacchi. Completa con miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Pistachios must be edible shelled green kernels only, no shells in the bowl. Kefir must have a realistic pourable texture, less thick than Greek yogurt.",
+    "sha256": "01e2ebc9a60a4c877ccc84ef92763e5f44c438bca0db85ca03d5e862a5e6a8ff",
+    "photoGroup": "9746c9bd52ea5732484c",
+    "sharedFrom": "bowl_di_kefir_con_mela_e_pistacchi"
   }
 }
