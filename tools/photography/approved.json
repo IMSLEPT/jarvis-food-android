@@ -5705,5 +5705,107 @@
     "sha256": "6d77c93a4b646bc37695938b9f9b72c27f8f6d6d06f2727dfbe1313031f6b20b",
     "photoGroup": "6d5b16198e9f99d02b53",
     "sharedFrom": "fette_biscottate_con_tonno_e_avocado"
+  },
+  "pane_integrale_con_fiocchi_di_latte_e_cetrioli": {
+    "asset": "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
+    "recipeId": "pane_integrale_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": null,
+    "subject": "Pane integrale con fiocchi di latte e cetrioli",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con fiocchi di latte e cetrioli. Ingredients: Pane integrale, fiocchi di latte, Cetrioli, Erba cipollina.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma fiocchi di latte sul pane tostato. Aggiungi Cetrioli a rondelle ed Erba cipollina. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: brown wholemeal toasted bread; no seeds. Cottage cheese has clearly visible distinct soft white curds, not smooth cream cheese or ricotta. No dill, pepper, oil or any ingredient absent from the list. Finished open-faced wholemeal toast topped with cottage cheese, thin cucumber rounds and finely chopped chives.",
+    "sha256": "05b5602fb17d13af8a5c5026b7493e4b17db103e9ba8595f9a23388d45dc89be",
+    "photoGroup": "14493469e04208e0b27a"
+  },
+  "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1": {
+    "asset": "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1.webp",
+    "recipeId": "pane_integrale_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 1,
+    "subject": "Spalma {fiocchi_latte} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con fiocchi di latte e cetrioli. Ingredients: Pane integrale, fiocchi di latte, Cetrioli, Erba cipollina. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma fiocchi di latte sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: brown wholemeal toasted bread; no seeds. Cottage cheese has clearly visible distinct soft white curds, not smooth cream cheese or ricotta. No dill, pepper, oil or any ingredient absent from the list. Show a spoon actively spreading chunky white cottage cheese onto wholemeal toast. No cucumber or chives on the toast yet; unadded toppings may be separate in the background.",
+    "sha256": "b5056948b9f219d3a974e0584ca08673aa9dc4c6c78729f97c37065a6a8eaf8a",
+    "photoGroup": "a79083dd3a63490312af"
+  },
+  "pane_con_fiocchi_di_latte_e_cetrioli": {
+    "asset": "photography/pane_con_fiocchi_di_latte_e_cetrioli.webp",
+    "recipeId": "pane_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": null,
+    "subject": "Pane con fiocchi di latte e cetrioli",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con fiocchi di latte e cetrioli. Ingredients: Pane comune, fiocchi di latte, Cetrioli, Erba cipollina.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma fiocchi di latte sul pane tostato. Aggiungi Cetrioli a rondelle ed Erba cipollina. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: toasted white common wheat bread, not wholemeal. Cottage cheese must show distinct soft white curds, not smooth cream cheese or ricotta. Only listed ingredients; no oil, pepper, dill, seeds or extra garnish. Finished open-faced white toast topped with chunky cottage cheese, thin cucumber rounds and chopped chives, beautifully plated.",
+    "sha256": "91517f2bf046834f228c039e87a6dae862cdabcbb42b95563d2992fc0af7964e",
+    "photoGroup": "bb4539f347074647e142"
+  },
+  "pane_con_fiocchi_di_latte_e_cetrioli_s1": {
+    "asset": "photography/pane_con_fiocchi_di_latte_e_cetrioli_s1.webp",
+    "recipeId": "pane_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 1,
+    "subject": "Spalma {fiocchi_latte} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con fiocchi di latte e cetrioli. Ingredients: Pane comune, fiocchi di latte, Cetrioli, Erba cipollina. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma fiocchi di latte sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: toasted white common wheat bread, not wholemeal. Cottage cheese must show distinct soft white curds, not smooth cream cheese or ricotta. Only listed ingredients; no oil, pepper, dill, seeds or extra garnish. A spoon actively spreading cottage cheese on white toast. No cucumber or chives on the bread yet; unadded toppings may be visible separately behind.",
+    "sha256": "32f345f78d2faef36f6f7135fb51ee55b683683ba9d1f0fbef93404bdef4faf8",
+    "photoGroup": "3e9f08bd7c29d020f19a"
+  },
+  "fette_biscottate_con_fiocchi_di_latte_e_cetrioli": {
+    "asset": "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
+    "recipeId": "fette_biscottate_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": null,
+    "subject": "Fette biscottate con fiocchi di latte e cetrioli",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con fiocchi di latte e cetrioli. Ingredients: Fette biscottate, fiocchi di latte, Cetrioli, Erba cipollina.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma fiocchi di latte sul pane tostato. Aggiungi Cetrioli a rondelle ed Erba cipollina. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small rectangular dry golden Italian rusks, distinctly twice baked with fine crisp porous crumb, not fresh bread. Cottage cheese with separate soft white curds, not smooth ricotta or cream cheese. No oil, dill, pepper, seeds or extra garnish. Finished rusks on ivory ceramic plate, each topped with chunky cottage cheese, cucumber rounds and finely chopped chives.",
+    "sha256": "dfb95cf415fd4902301aaf974876e3d042f43a2c15046078bff2c2c7407cf39b",
+    "photoGroup": "d541500f1ff6c7b03193"
+  },
+  "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1": {
+    "asset": "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1.webp",
+    "recipeId": "fette_biscottate_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 1,
+    "subject": "Spalma {fiocchi_latte} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con fiocchi di latte e cetrioli. Ingredients: Fette biscottate, fiocchi di latte, Cetrioli, Erba cipollina. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma fiocchi di latte sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: small rectangular dry golden Italian rusks, distinctly twice baked with fine crisp porous crumb, not fresh bread. Cottage cheese with separate soft white curds, not smooth ricotta or cream cheese. No oil, dill, pepper, seeds or extra garnish. A spoon actively spreading chunky cottage cheese on a crisp rusk. No cucumber or chives on rusks yet; toppings may only be separate in the background.",
+    "sha256": "49680b1019fbf4f46fdcd03f9fe71f50ee105243b5e4769ea329bc0fd3c7a11c",
+    "photoGroup": "7f18e344887653a8da0b"
+  },
+  "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s2": {
+    "asset": "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
+    "recipeId": "pane_integrale_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 2,
+    "subject": "Aggiungi {cetrioli} a rondelle ed {erba_cipollina}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con fiocchi di latte e cetrioli. Ingredients: Pane integrale, fiocchi di latte, Cetrioli, Erba cipollina.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma fiocchi di latte sul pane tostato. Aggiungi Cetrioli a rondelle ed Erba cipollina. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: brown wholemeal toasted bread; no seeds. Cottage cheese has clearly visible distinct soft white curds, not smooth cream cheese or ricotta. No dill, pepper, oil or any ingredient absent from the list. Finished open-faced wholemeal toast topped with cottage cheese, thin cucumber rounds and finely chopped chives.",
+    "sha256": "05b5602fb17d13af8a5c5026b7493e4b17db103e9ba8595f9a23388d45dc89be",
+    "photoGroup": "14493469e04208e0b27a",
+    "sharedFrom": "pane_integrale_con_fiocchi_di_latte_e_cetrioli"
+  },
+  "pane_con_fiocchi_di_latte_e_cetrioli_s2": {
+    "asset": "photography/pane_con_fiocchi_di_latte_e_cetrioli.webp",
+    "recipeId": "pane_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 2,
+    "subject": "Aggiungi {cetrioli} a rondelle ed {erba_cipollina}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con fiocchi di latte e cetrioli. Ingredients: Pane comune, fiocchi di latte, Cetrioli, Erba cipollina.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma fiocchi di latte sul pane tostato. Aggiungi Cetrioli a rondelle ed Erba cipollina. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: toasted white common wheat bread, not wholemeal. Cottage cheese must show distinct soft white curds, not smooth cream cheese or ricotta. Only listed ingredients; no oil, pepper, dill, seeds or extra garnish. Finished open-faced white toast topped with chunky cottage cheese, thin cucumber rounds and chopped chives, beautifully plated.",
+    "sha256": "91517f2bf046834f228c039e87a6dae862cdabcbb42b95563d2992fc0af7964e",
+    "photoGroup": "bb4539f347074647e142",
+    "sharedFrom": "pane_con_fiocchi_di_latte_e_cetrioli"
+  },
+  "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s2": {
+    "asset": "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
+    "recipeId": "fette_biscottate_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 2,
+    "subject": "Aggiungi {cetrioli} a rondelle ed {erba_cipollina}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con fiocchi di latte e cetrioli. Ingredients: Fette biscottate, fiocchi di latte, Cetrioli, Erba cipollina.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma fiocchi di latte sul pane tostato. Aggiungi Cetrioli a rondelle ed Erba cipollina. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small rectangular dry golden Italian rusks, distinctly twice baked with fine crisp porous crumb, not fresh bread. Cottage cheese with separate soft white curds, not smooth ricotta or cream cheese. No oil, dill, pepper, seeds or extra garnish. Finished rusks on ivory ceramic plate, each topped with chunky cottage cheese, cucumber rounds and finely chopped chives.",
+    "sha256": "dfb95cf415fd4902301aaf974876e3d042f43a2c15046078bff2c2c7407cf39b",
+    "photoGroup": "d541500f1ff6c7b03193",
+    "sharedFrom": "fette_biscottate_con_fiocchi_di_latte_e_cetrioli"
   }
 }

@@ -131,7 +131,10 @@ object EditorialPhotos {
         "fette_biscottate_con_caprino_pere_e_noci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_crema_di_nocciole_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_feta_cetrioli_e_menta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_fiocchi_di_latte_e_cetrioli" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1.webp",
+        "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "insalata_pollo_patate" to "photography/insalata_pollo_patate.webp",
         "insalata_pollo_patate_s0" to "photography/insalata_pollo_patate_s0.webp",
         "insalata_pollo_patate_s1" to "photography/insalata_pollo_patate_s1.webp",
-        "insalata_pollo_patate_s2" to "photography/insalata_pollo_patate_s2.webp",
-        "insalata_pollo_patate_s3" to "photography/insalata_pollo_patate.webp",
-        "kefir_bosco" to "photography/kefir_bosco.webp",
     )
 
     private fun group1() = mapOf(
+        "insalata_pollo_patate_s2" to "photography/insalata_pollo_patate_s2.webp",
+        "insalata_pollo_patate_s3" to "photography/insalata_pollo_patate.webp",
+        "kefir_bosco" to "photography/kefir_bosco.webp",
         "kefir_bosco_s0" to "photography/kefir_bosco_s0.webp",
         "kefir_bosco_s1" to "photography/kefir_bosco_s1.webp",
         "latte_cereali_fragole" to "photography/latte_cereali_fragole.webp",
@@ -274,7 +277,10 @@ object EditorialPhotos {
         "pane_con_caprino_pere_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_crema_di_nocciole_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_feta_cetrioli_e_menta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_fiocchi_di_latte_e_cetrioli" to "photography/pane_con_fiocchi_di_latte_e_cetrioli.webp",
         "pane_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/pane_con_fiocchi_di_latte_e_cetrioli_s1.webp",
+        "pane_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/pane_con_fiocchi_di_latte_e_cetrioli.webp",
         "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_formaggio_spalmabile_e_salmone_affumicato" to "photography/pane_con_formaggio_spalmabile_e_salmone_affumicato.webp",
         "pane_con_formaggio_spalmabile_e_salmone_affumicato_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -319,7 +325,10 @@ object EditorialPhotos {
         "pane_integrale_con_caprino_pere_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_crema_di_nocciole_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_feta_cetrioli_e_menta_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_fiocchi_di_latte_e_cetrioli" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1.webp",
+        "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
         "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato" to "photography/pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato.webp",
         "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -398,6 +407,9 @@ object EditorialPhotos {
         "poke_salmone" to "photography/poke_salmone.webp",
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
+    )
+
+    private fun group2() = mapOf(
         "poke_salmone_s2" to "photography/poke_salmone_s2.webp",
         "poke_salmone_s3" to "photography/poke_salmone.webp",
         "pollo_limone_verdure" to "photography/pollo_limone_verdure.webp",
@@ -407,9 +419,6 @@ object EditorialPhotos {
         "pollo_limone_verdure_s3" to "photography/pollo_limone_verdure.webp",
         "porridge_banana" to "photography/porridge_banana.webp",
         "porridge_banana_e_noci_cannella_s2" to "photography/banana_arachidi_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "porridge_banana_s0" to "photography/porridge_banana_s0.webp",
         "porridge_banana_s1" to "photography/porridge_banana_s1.webp",
         "porridge_banana_s2" to "photography/porridge_banana_s2.webp",
