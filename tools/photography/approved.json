@@ -4218,5 +4218,120 @@
     "sha256": "5cdef2180186933bd427e3d9173f1b14e149038cbfdfb82072b1cd1c91e9d143",
     "photoGroup": "6a659737882159b7fbdc",
     "sharedFrom": "melone_e_prosciutto_crudo"
+  },
+  "noci_e_datteri": {
+    "asset": "photography/noci_e_datteri.webp",
+    "recipeId": "noci_e_datteri",
+    "stepIndex": null,
+    "subject": "Noci e datteri",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Noci e datteri. Ingredients: Noci, Datteri.  Preparation context (do not print it): Servi Noci con Datteri snocciolati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "2697ae91569f841e983b294e1ff6aa07fee9f1e0773b12a072f92ae65f52c2d8",
+    "photoGroup": "c6e46bb64e7625d0aa2b"
+  },
+  "olive_e_cubetti_di_formaggio": {
+    "asset": "photography/olive_e_cubetti_di_formaggio.webp",
+    "recipeId": "olive_e_cubetti_di_formaggio",
+    "stepIndex": null,
+    "subject": "Olive e cubetti di formaggio",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Olive e cubetti di formaggio. Ingredients: Olive verdi, Emmental / groviera.  Preparation context (do not print it): Servi Olive verdi con Emmental / groviera a cubetti. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "7933702c1cff87a5e8c59805e6ebce0c92731a298e5ead284bc92bd5210d4d87",
+    "photoGroup": "1926608a8b55bf994841"
+  },
+  "pane_con_ricotta_e_marmellata": {
+    "asset": "photography/pane_con_ricotta_e_marmellata.webp",
+    "recipeId": "pane_con_ricotta_e_marmellata",
+    "stepIndex": null,
+    "subject": "Pane con ricotta e marmellata",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta e marmellata. Ingredients: Pane comune, Ricotta, Marmellata.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato e completa con Marmellata. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "4f3e6d2369e6453f944b627732d38ee74ad95ad8f6eccd73da29da98a34a072c",
+    "photoGroup": "86b848ebb7194bf00ea2"
+  },
+  "pistacchi_e_albicocche_secche": {
+    "asset": "photography/pistacchi_e_albicocche_secche.webp",
+    "recipeId": "pistacchi_e_albicocche_secche",
+    "stepIndex": null,
+    "subject": "Pistacchi e albicocche secche",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pistacchi e albicocche secche. Ingredients: Pistacchi, albicocche secche.  Preparation context (do not print it): Servi Pistacchi con albicocche secche. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "061e52179ac935237a413ba5271aeab8c856a45a9d736a5de40fbd59ab758ae7",
+    "photoGroup": "ed421af62f4efe46a0d3"
+  },
+  "ricotta_e_frutti_di_bosco": {
+    "asset": "photography/ricotta_e_frutti_di_bosco.webp",
+    "recipeId": "ricotta_e_frutti_di_bosco",
+    "stepIndex": null,
+    "subject": "Ricotta e frutti di bosco",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta e frutti di bosco. Ingredients: Ricotta, frutti di bosco.  Preparation context (do not print it): Versa Ricotta in una coppetta e completa con frutti di bosco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f8140caa2193f0cee30764f9ccebda87fdfd47f6081ec3086623ea19c97e0d64",
+    "photoGroup": "8705db4dd9d097d9a9f7"
+  },
+  "pane_con_ricotta_e_marmellata_s1": {
+    "asset": "photography/pane_con_ricotta_e_marmellata.webp",
+    "recipeId": "pane_con_ricotta_e_marmellata",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato e completa con {marmellata}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta e marmellata. Ingredients: Pane comune, Ricotta, Marmellata.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato e completa con Marmellata. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "4f3e6d2369e6453f944b627732d38ee74ad95ad8f6eccd73da29da98a34a072c",
+    "photoGroup": "86b848ebb7194bf00ea2",
+    "sharedFrom": "pane_con_ricotta_e_marmellata"
+  },
+  "ricotta_e_frutti_di_bosco_s0": {
+    "asset": "photography/ricotta_e_frutti_di_bosco.webp",
+    "recipeId": "ricotta_e_frutti_di_bosco",
+    "stepIndex": 0,
+    "subject": "Versa {ricotta} in una coppetta e completa con {frutti_bosco_surg}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta e frutti di bosco. Ingredients: Ricotta, frutti di bosco.  Preparation context (do not print it): Versa Ricotta in una coppetta e completa con frutti di bosco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f8140caa2193f0cee30764f9ccebda87fdfd47f6081ec3086623ea19c97e0d64",
+    "photoGroup": "8705db4dd9d097d9a9f7",
+    "sharedFrom": "ricotta_e_frutti_di_bosco"
+  },
+  "noci_e_datteri_s0": {
+    "asset": "photography/noci_e_datteri.webp",
+    "recipeId": "noci_e_datteri",
+    "stepIndex": 0,
+    "subject": "Servi {noci} con {datteri} snocciolati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Noci e datteri. Ingredients: Noci, Datteri.  Preparation context (do not print it): Servi Noci con Datteri snocciolati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "2697ae91569f841e983b294e1ff6aa07fee9f1e0773b12a072f92ae65f52c2d8",
+    "photoGroup": "c6e46bb64e7625d0aa2b",
+    "sharedFrom": "noci_e_datteri"
+  },
+  "pistacchi_e_albicocche_secche_s0": {
+    "asset": "photography/pistacchi_e_albicocche_secche.webp",
+    "recipeId": "pistacchi_e_albicocche_secche",
+    "stepIndex": 0,
+    "subject": "Servi {pistacchi} con {albicocche_secche}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pistacchi e albicocche secche. Ingredients: Pistacchi, albicocche secche.  Preparation context (do not print it): Servi Pistacchi con albicocche secche. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "061e52179ac935237a413ba5271aeab8c856a45a9d736a5de40fbd59ab758ae7",
+    "photoGroup": "ed421af62f4efe46a0d3",
+    "sharedFrom": "pistacchi_e_albicocche_secche"
+  },
+  "olive_e_cubetti_di_formaggio_s0": {
+    "asset": "photography/olive_e_cubetti_di_formaggio.webp",
+    "recipeId": "olive_e_cubetti_di_formaggio",
+    "stepIndex": 0,
+    "subject": "Servi {olive} con {emmental} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Olive e cubetti di formaggio. Ingredients: Olive verdi, Emmental / groviera.  Preparation context (do not print it): Servi Olive verdi con Emmental / groviera a cubetti. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "7933702c1cff87a5e8c59805e6ebce0c92731a298e5ead284bc92bd5210d4d87",
+    "photoGroup": "1926608a8b55bf994841",
+    "sharedFrom": "olive_e_cubetti_di_formaggio"
   }
 }

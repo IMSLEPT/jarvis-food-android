@@ -169,6 +169,10 @@ object EditorialPhotos {
         "merluzzo_pomodorini_s2" to "photography/merluzzo_pomodorini.webp",
         "nocciole_e_cioccolato_fondente" to "photography/nocciole_e_cioccolato_fondente.webp",
         "nocciole_e_cioccolato_fondente_s0" to "photography/nocciole_e_cioccolato_fondente.webp",
+        "noci_e_datteri" to "photography/noci_e_datteri.webp",
+        "noci_e_datteri_s0" to "photography/noci_e_datteri.webp",
+        "olive_e_cubetti_di_formaggio" to "photography/olive_e_cubetti_di_formaggio.webp",
+        "olive_e_cubetti_di_formaggio_s0" to "photography/olive_e_cubetti_di_formaggio.webp",
         "omelette_cotto" to "photography/omelette_cotto.webp",
         "omelette_cotto_s0" to "photography/omelette_cotto_s0.webp",
         "omelette_cotto_s1" to "photography/omelette_cotto_s1.webp",
@@ -200,16 +204,18 @@ object EditorialPhotos {
         "pane_con_feta_cetrioli_e_menta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+    )
+
+    private fun group1() = mapOf(
         "pane_con_formaggio_spalmabile_e_salmone_affumicato_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_hummus_e_pomodori_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mele_cannella_e_ricotta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "pane_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_prosciutto_cotto_e_mozzarella_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_ricotta_e_marmellata" to "photography/pane_con_ricotta_e_marmellata.webp",
         "pane_con_ricotta_e_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_ricotta_e_marmellata_s1" to "photography/pane_con_ricotta_e_marmellata.webp",
         "pane_con_ricotta_miele_e_fichi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_pesche_e_pistacchi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -279,6 +285,8 @@ object EditorialPhotos {
         "piadina_tacchino_s0" to "photography/piadina_tacchino_s0.webp",
         "piadina_tacchino_s1" to "photography/piadina_tacchino_s1.webp",
         "piadina_tacchino_s2" to "photography/piadina_tacchino_s2.webp",
+        "pistacchi_e_albicocche_secche" to "photography/pistacchi_e_albicocche_secche.webp",
+        "pistacchi_e_albicocche_secche_s0" to "photography/pistacchi_e_albicocche_secche.webp",
         "poke_salmone" to "photography/poke_salmone.webp",
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
@@ -303,6 +311,8 @@ object EditorialPhotos {
         "quinoa_ceci_s1" to "photography/quinoa_ceci_s1.webp",
         "quinoa_ceci_s2" to "photography/quinoa_ceci_s2.webp",
         "quinoa_ceci_s3" to "photography/quinoa_ceci.webp",
+        "ricotta_e_frutti_di_bosco" to "photography/ricotta_e_frutti_di_bosco.webp",
+        "ricotta_e_frutti_di_bosco_s0" to "photography/ricotta_e_frutti_di_bosco.webp",
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
