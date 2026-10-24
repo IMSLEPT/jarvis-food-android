@@ -104,6 +104,13 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
+            # The Google SDK setup app can ANR over the test activity on a fresh image.
+            # These emulator-only settings keep first-run setup from stealing IME focus.
+            adb shell settings put global device_provisioned 1
+            adb shell settings put secure user_setup_complete 1
+            adb shell pm disable-user --user 0 com.google.android.googlesdksetup || true
+            adb shell am force-stop com.google.android.googlesdksetup || true
+            adb shell pm disable-user --user 0 com.google.android.setupwizard || true
             adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
             adb logcat -c
@@ -123,10 +130,10 @@ jobs:
             adb shell wm size reset
             adb shell wm density reset
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
-            grep -q "OK (2 tests)" layout-standard.log
-            grep -q "OK (2 tests)" layout-large-text.log
             adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1
             cat photo-ai.log
+            grep -q "OK (2 tests)" layout-standard.log
+            grep -q "OK (2 tests)" layout-large-text.log
             grep -q "OK (2 tests)" photo-ai.log
 
       - name: Emulator screenshots
