@@ -1,20 +1,21 @@
-# Compilazione finale in attesa
+# Decisioni per la consegna APK
 
-Richiesta di Alessandro del 24 ottobre 2026: completare il lavoro in corso e
-avvisarlo **prima di compilare l'APK finale**, perché deve aggiungere due piccole
-modifiche grafiche. Includerle entrambe nella versione definitiva.
+Alessandro il 24 ottobre 2026 aveva chiesto di attendere due piccole modifiche
+grafiche prima della compilazione finale. Successivamente ha chiesto esplicitamente:
+«Procedi ora continua con la cosa delle foto delle ricette se non hai terminato
+e poi dammi apk finale». La compilazione e la consegna sono quindi autorizzate.
 
-Non integrare questa revisione su main e non pubblicare una release definitiva
-finché le due modifiche non sono state comunicate, applicate e verificate.
-I controlli tecnici sui rami di lavoro non costituiscono la compilazione finale.
+Le correzioni agli spazi sono state applicate: la scheda Aggiunta rapida non
+condivide più lo spazio occupato dalla barra Fatto; nei pasti del diario la riga
+dei pulsanti ha 12 dp di distacco dal contenuto.
 
-Prima correzione comunicata e applicata il 24 ottobre: separare la scheda
-"Aggiunta rapida" dalla barra "Fatto" e distanziare i pulsanti del diario
-(Aggiungi, Foto AI, copia) dal contenuto del pasto. La lista alimenti ora riserva
-l'altezza effettiva della barra inferiore e 20 dp finali di respiro; nei pasti
-i pulsanti hanno 12 dp di spazio superiore. Verifica nativa di questa correzione
-ancora da eseguire insieme ai controlli delle ulteriori modifiche.
-Non considerare questa richiesta una revoca dell'attesa della compilazione finale.
+È stato inoltre mostrato e approvato il mockup della conversazione Jarvis.
+Ultima correzione approvata: sostituire Nuova con un'icona nuova chat e Motore
+con l'icona di un motore automobilistico. Applicare la grafica alla conversazione
+attiva, conservando introduzione, logo originale e funzionalità esistenti.
+
+Eseguire i controlli tecnici e visivi prima della consegna. Il ripristino resta
+tramite GitHub, senza selettore grafico dentro l'app.
 
 La scelta fotografica approvata è condividere fotografie tra ricette e passaggi
 compatibili. La sostituzione dell'intero catalogo è ancora in corso: non dichiararla

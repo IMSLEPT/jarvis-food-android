@@ -107,6 +107,29 @@ class AuroraLayoutTest {
             }
             // A synthetic non-empty key enables the local input UI. No message is sent.
             ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
+            val answer = "Per mantenere il tuo peso attuale, il piano di oggi è bilanciato con 275 g di carboidrati, 114 g di proteine e 64 g di grassi. Se preferisci un approccio diverso, posso cambiare le macro."
+            ui { Store.update { it.copy(chat = listOf(
+                com.jarvis.food.data.ChatMsg("layout-question", "user", "Che macro mi conviene?", System.currentTimeMillis() - 1000),
+                com.jarvis.food.data.ChatMsg("layout-answer", "assistant", answer, System.currentTimeMillis(), suggestions = listOf("Sì, applica", "No"))
+            )) } }
+            compose.onNodeWithContentDescription("Nuova chat").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f))
+            compose.onNodeWithContentDescription("Motore della chat").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
+            compose.onNodeWithText(answer, useUnmergedTree = true).performScrollTo()
+            readable(compose.onNodeWithText(answer, useUnmergedTree = true))
+            compose.onNodeWithText("Sì, applica", useUnmergedTree = true).performScrollTo()
+            readable(compose.onNodeWithText("Sì, applica", useUnmergedTree = true))
+            readable(compose.onNodeWithText("No", useUnmergedTree = true))
+            val responseBottom = compose.onNodeWithText(answer, useUnmergedTree = true).fetchSemanticsNode().boundsInRoot.bottom
+            val suggestionTop = compose.onNodeWithTag("chat-suggestions").fetchSemanticsNode().boundsInRoot.top
+            assertTrue("Quick replies overlap their response", suggestionTop >= responseBottom)
+            compose.onNodeWithContentDescription("Invia messaggio", useUnmergedTree = true).assertIsNotEnabled()
+            shot("chat-conversation")
+            compose.onNodeWithContentDescription("Motore della chat").performClick()
+            compose.onNodeWithText("Motore di Jarvis").assertIsDisplayed()
+            compose.onNodeWithContentDescription("Chiudi impostazioni motore").performClick()
+            compose.onNodeWithContentDescription("Nuova chat").performClick()
+            compose.waitForIdle()
+            assertTrue("New chat did not clear the previous conversation", Store.current.chat.isEmpty())
             compose.onNodeWithTag("chat-input").performClick().performTextInput("Prova layout")
             compose.onNodeWithTag("chat-input").assertIsFocused()
             compose.waitForIdle()

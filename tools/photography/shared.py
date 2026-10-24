@@ -40,7 +40,11 @@ def dish_signature(recipe):
 
 def finishing(recipe, index):
     step = recipe['steps'][index].lower()
-    return index == len(recipe['steps']) - 1 and bool(re.search(r'\b(servi|impiatta|completa|accompagna|bevi|gusta)\b', step))
+    if index != len(recipe['steps']) - 1:
+        return False
+    finishes = list(re.finditer(r'\b(servi|impiatta|completa|accompagna|bevi|gusta|condisci|unisci|aggiungi)\b', step))
+    cooks = list(re.finditer(r'\b(cuoci|inforna|scalda|salta|rosola|griglia|lessa)\b', step))
+    return bool(finishes) and (not cooks or finishes[-1].start() > cooks[-1].start())
 
 
 def signature(recipe, index=None):
