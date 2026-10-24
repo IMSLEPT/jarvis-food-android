@@ -121,8 +121,10 @@ object EditorialPhotos {
         "fette_arachidi_s0" to "photography/fette_arachidi_s0.webp",
         "fette_arachidi_s1" to "photography/fette_arachidi_s1.webp",
         "fette_arachidi_s2" to "photography/fette_arachidi.webp",
+        "fette_biscottate_con_avocado_e_uova" to "photography/fette_biscottate_con_avocado_e_uova.webp",
         "fette_biscottate_con_avocado_e_uova_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
+        "fette_biscottate_con_avocado_e_uova_s2" to "photography/fette_biscottate_con_avocado_e_uova.webp",
         "fette_biscottate_con_bresaola_e_rucola_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_burro_di_arachidi_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_burro_di_mandorle_e_fragole_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
@@ -131,7 +133,10 @@ object EditorialPhotos {
         "fette_biscottate_con_feta_cetrioli_e_menta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s1" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s1.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s2" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
         "fette_biscottate_con_hummus_e_pomodori_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_mele_cannella_e_ricotta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_mozzarella_pomodoro_e_origano_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
@@ -140,7 +145,10 @@ object EditorialPhotos {
         "fette_biscottate_con_ricotta_e_marmellata" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
         "fette_biscottate_con_ricotta_e_marmellata_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_ricotta_e_marmellata_s1" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
+        "fette_biscottate_con_ricotta_miele_e_fichi" to "photography/fette_biscottate_con_ricotta_miele_e_fichi.webp",
         "fette_biscottate_con_ricotta_miele_e_fichi_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_ricotta_miele_e_fichi_s1" to "photography/fette_biscottate_con_ricotta_miele_e_fichi_s1.webp",
+        "fette_biscottate_con_ricotta_miele_e_fichi_s2" to "photography/fette_biscottate_con_ricotta_miele_e_fichi.webp",
         "fette_biscottate_con_ricotta_pesche_e_pistacchi_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_ricotta_pomodorini_e_basilico_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_tahina_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
@@ -196,6 +204,9 @@ object EditorialPhotos {
         "lenticchie_umido_s1" to "photography/lenticchie_umido_s1.webp",
         "lenticchie_umido_s2" to "photography/lenticchie_umido.webp",
         "mandorle_e_prugne_secche" to "photography/mandorle_e_prugne_secche.webp",
+    )
+
+    private fun group1() = mapOf(
         "mandorle_e_prugne_secche_s0" to "photography/mandorle_e_prugne_secche.webp",
         "mandorle_mandarini" to "photography/mandorle_mandarini.webp",
         "mandorle_mandarini_s0" to "photography/mandorle_mandarini_s0.webp",
@@ -204,9 +215,6 @@ object EditorialPhotos {
         "mela_con_cannella_s0" to "photography/greco_mela_nocciole_s0.webp",
         "mela_e_nocciole" to "photography/mela_e_nocciole.webp",
         "mela_e_nocciole_s0" to "photography/greco_mela_nocciole_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "mela_e_nocciole_s1" to "photography/mela_e_nocciole.webp",
         "mela_e_noci_pecan" to "photography/mela_e_noci_pecan.webp",
         "mela_e_noci_pecan_s0" to "photography/greco_mela_nocciole_s0.webp",
@@ -399,6 +407,9 @@ object EditorialPhotos {
         "ricotta_miele_noci" to "photography/ricotta_miele_noci.webp",
         "ricotta_miele_noci_s0" to "photography/ricotta_miele_noci_s0.webp",
         "ricotta_miele_noci_s1" to "photography/ricotta_miele_noci.webp",
+    )
+
+    private fun group2() = mapOf(
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
@@ -407,9 +418,6 @@ object EditorialPhotos {
         "riso_uova_spinaci" to "photography/riso_uova_spinaci.webp",
         "riso_uova_spinaci_s0" to "photography/riso_uova_spinaci_s0.webp",
         "riso_uova_spinaci_s1" to "photography/riso_uova_spinaci_s1.webp",
-    )
-
-    private fun group2() = mapOf(
         "riso_uova_spinaci_s2" to "photography/riso_uova_spinaci_s2.webp",
         "riso_uova_spinaci_s3" to "photography/riso_uova_spinaci.webp",
         "risotto_zucca" to "photography/risotto_zucca.webp",

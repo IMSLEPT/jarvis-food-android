@@ -5400,5 +5400,96 @@
     "sha256": "634052228deae857d6f5103b26512685977130505738e868c64343761f62883b",
     "photoGroup": "44d859a63f1b097474f3",
     "sharedFrom": "fette_biscottate_con_ricotta_e_marmellata_s0"
+  },
+  "fette_biscottate_con_avocado_e_uova": {
+    "asset": "photography/fette_biscottate_con_avocado_e_uova.webp",
+    "recipeId": "fette_biscottate_con_avocado_e_uova",
+    "stepIndex": null,
+    "subject": "Fette biscottate con avocado e uova",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con avocado e uova. Ingredients: Fette biscottate, Avocado, Uova, Pepe nero.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Cuoci Uova in camicia o al tegamino 3 minuti. Schiaccia Avocado sul pane tostato, aggiungi le uova e pepe. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. Avoid any additional ingredients or seasonings beyond the list.",
+    "sha256": "c793490269a4f3a13fa245955bf4b9f2a9e1f0f4445bc9d98fc32fcec3773e35",
+    "photoGroup": "63b7c960e91df405485d"
+  },
+  "fette_biscottate_con_ricotta_miele_e_fichi": {
+    "asset": "photography/fette_biscottate_con_ricotta_miele_e_fichi.webp",
+    "recipeId": "fette_biscottate_con_ricotta_miele_e_fichi",
+    "stepIndex": null,
+    "subject": "Fette biscottate con ricotta, miele e fichi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, miele e fichi. Ingredients: Fette biscottate, Ricotta, Miele, Fichi.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Taglia Fichi a spicchi e adagiali sopra; completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. Avoid any additional ingredients or seasonings beyond the list.",
+    "sha256": "fc4361449611fae50bc4ad39322a0d551d789bacf5aabc8ab49d9b1e79551a4f",
+    "photoGroup": "22d301e45283d0d93eb3"
+  },
+  "fette_biscottate_con_ricotta_miele_e_fichi_s1": {
+    "asset": "photography/fette_biscottate_con_ricotta_miele_e_fichi_s1.webp",
+    "recipeId": "fette_biscottate_con_ricotta_miele_e_fichi",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, miele e fichi. Ingredients: Fette biscottate, Ricotta, Miele, Fichi. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. No extra seasoning or garnish absent from the ingredients list.",
+    "sha256": "6ac80d9bc41d6a041651fd68428d6433af8a7c791515cfc3a8d6137553972738",
+    "photoGroup": "d11447a1921110bde0b0"
+  },
+  "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica": {
+    "asset": "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
+    "recipeId": "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica",
+    "stepIndex": null,
+    "subject": "Fette biscottate con formaggio spalmabile e salmone affumicato",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con formaggio spalmabile e salmone affumicato. Ingredients: Fette biscottate, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi Salmone affumicato, Cetrioli a rondelle e Aneto fresco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. No extra seasoning or garnish absent from the ingredients list.",
+    "sha256": "140c21934cabd948de50307fb5836e11aebbb434d7338d5a5328c38c9827975d",
+    "photoGroup": "23574eb567319254d4bc"
+  },
+  "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s1": {
+    "asset": "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s1.webp",
+    "recipeId": "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica",
+    "stepIndex": 1,
+    "subject": "Spalma {spalmabile} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con formaggio spalmabile e salmone affumicato. Ingredients: Fette biscottate, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma formaggio spalmabile sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact ingredient fidelity. Fette biscottate must be small rectangular golden Italian rusks, not fresh bread. Avoid additional pepper, seasonings or garnishes unless listed.",
+    "sha256": "c3a1058417571f9cf825420a45f9bd332c2cd7c578c427770a7a292aba0327bc",
+    "photoGroup": "02d8daf5162e035ec61a"
+  },
+  "fette_biscottate_con_ricotta_miele_e_fichi_s2": {
+    "asset": "photography/fette_biscottate_con_ricotta_miele_e_fichi.webp",
+    "recipeId": "fette_biscottate_con_ricotta_miele_e_fichi",
+    "stepIndex": 2,
+    "subject": "Taglia {fichi} a spicchi e adagiali sopra; completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, miele e fichi. Ingredients: Fette biscottate, Ricotta, Miele, Fichi.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Taglia Fichi a spicchi e adagiali sopra; completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. Avoid any additional ingredients or seasonings beyond the list.",
+    "sha256": "fc4361449611fae50bc4ad39322a0d551d789bacf5aabc8ab49d9b1e79551a4f",
+    "photoGroup": "22d301e45283d0d93eb3",
+    "sharedFrom": "fette_biscottate_con_ricotta_miele_e_fichi"
+  },
+  "fette_biscottate_con_avocado_e_uova_s2": {
+    "asset": "photography/fette_biscottate_con_avocado_e_uova.webp",
+    "recipeId": "fette_biscottate_con_avocado_e_uova",
+    "stepIndex": 2,
+    "subject": "Schiaccia {avocado} sul pane tostato, aggiungi le uova e pepe.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con avocado e uova. Ingredients: Fette biscottate, Avocado, Uova, Pepe nero.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Cuoci Uova in camicia o al tegamino 3 minuti. Schiaccia Avocado sul pane tostato, aggiungi le uova e pepe. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. Avoid any additional ingredients or seasonings beyond the list.",
+    "sha256": "c793490269a4f3a13fa245955bf4b9f2a9e1f0f4445bc9d98fc32fcec3773e35",
+    "photoGroup": "63b7c960e91df405485d",
+    "sharedFrom": "fette_biscottate_con_avocado_e_uova"
+  },
+  "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s2": {
+    "asset": "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
+    "recipeId": "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica",
+    "stepIndex": 2,
+    "subject": "Aggiungi {salmone_aff}, {cetrioli} a rondelle e {aneto}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con formaggio spalmabile e salmone affumicato. Ingredients: Fette biscottate, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi Salmone affumicato, Cetrioli a rondelle e Aneto fresco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact ingredient fidelity. Fette biscottate must be genuine small rectangular golden Italian rusks, not slices of fresh bread. No extra seasoning or garnish absent from the ingredients list.",
+    "sha256": "140c21934cabd948de50307fb5836e11aebbb434d7338d5a5328c38c9827975d",
+    "photoGroup": "23574eb567319254d4bc",
+    "sharedFrom": "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica"
   }
 }
