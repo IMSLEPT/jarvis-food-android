@@ -125,7 +125,10 @@ object EditorialPhotos {
         "fette_biscottate_con_avocado_e_uova_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
         "fette_biscottate_con_avocado_e_uova_s2" to "photography/fette_biscottate_con_avocado_e_uova.webp",
+        "fette_biscottate_con_bresaola_e_rucola" to "photography/fette_biscottate_con_bresaola_e_rucola.webp",
         "fette_biscottate_con_bresaola_e_rucola_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_bresaola_e_rucola_s1" to "photography/fette_biscottate_con_bresaola_e_rucola_s1.webp",
+        "fette_biscottate_con_bresaola_e_rucola_s2" to "photography/fette_biscottate_con_bresaola_e_rucola.webp",
         "fette_biscottate_con_burro_di_arachidi_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_burro_di_mandorle_e_fragole_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_caprino_pere_e_noci" to "photography/fette_biscottate_con_caprino_pere_e_noci.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "gamberi_couscous" to "photography/gamberi_couscous.webp",
         "gamberi_couscous_s0" to "photography/gamberi_couscous_s0.webp",
         "gamberi_couscous_s1" to "photography/gamberi_couscous_s1.webp",
-        "gamberi_couscous_s2" to "photography/gamberi_couscous_s2.webp",
-        "gamberi_couscous_s3" to "photography/gamberi_couscous.webp",
-        "greco_mela" to "photography/greco_mela.webp",
     )
 
     private fun group1() = mapOf(
+        "gamberi_couscous_s2" to "photography/gamberi_couscous_s2.webp",
+        "gamberi_couscous_s3" to "photography/gamberi_couscous.webp",
+        "greco_mela" to "photography/greco_mela.webp",
         "greco_mela_nocciole" to "photography/greco_mela_nocciole.webp",
         "greco_mela_nocciole_s0" to "photography/greco_mela_nocciole_s0.webp",
         "greco_mela_nocciole_s1" to "photography/greco_mela_nocciole_s1.webp",
@@ -280,7 +283,10 @@ object EditorialPhotos {
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
         "pane_con_avocado_e_uova_s2" to "photography/pane_con_avocado_e_uova.webp",
+        "pane_con_bresaola_e_rucola" to "photography/pane_con_bresaola_e_rucola.webp",
         "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_bresaola_e_rucola_s1" to "photography/pane_con_bresaola_e_rucola_s1.webp",
+        "pane_con_bresaola_e_rucola_s2" to "photography/pane_con_bresaola_e_rucola.webp",
         "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_caprino_pere_e_noci" to "photography/pane_con_caprino_pere_e_noci.webp",
@@ -337,7 +343,10 @@ object EditorialPhotos {
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
         "pane_integrale_con_avocado_e_uova_s2" to "photography/pane_integrale_con_avocado_e_uova.webp",
+        "pane_integrale_con_bresaola_e_rucola" to "photography/pane_integrale_con_bresaola_e_rucola.webp",
         "pane_integrale_con_bresaola_e_rucola_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_bresaola_e_rucola_s1" to "photography/pane_integrale_con_bresaola_e_rucola_s1.webp",
+        "pane_integrale_con_bresaola_e_rucola_s2" to "photography/pane_integrale_con_bresaola_e_rucola.webp",
         "pane_integrale_con_burro_di_arachidi_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_mandorle_e_fragole_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_caprino_pere_e_noci" to "photography/pane_integrale_con_caprino_pere_e_noci.webp",
@@ -398,6 +407,9 @@ object EditorialPhotos {
         "pasta_ceci_s0" to "photography/pasta_ceci_s0.webp",
         "pasta_ceci_s1" to "photography/pasta_ceci_s1.webp",
         "pasta_ceci_s2" to "photography/pasta_ceci_s2.webp",
+    )
+
+    private fun group2() = mapOf(
         "pasta_ceci_s3" to "photography/pasta_ceci_s3.webp",
         "pasta_ceci_s4" to "photography/pasta_ceci.webp",
         "pasta_lenticchie" to "photography/pasta_lenticchie.webp",
@@ -407,9 +419,6 @@ object EditorialPhotos {
         "pasta_lenticchie_s3" to "photography/pasta_lenticchie.webp",
         "pasta_pesto" to "photography/pasta_pesto.webp",
         "pasta_pesto_s0" to "photography/pasta_pesto_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pasta_pesto_s1" to "photography/pasta_pesto_s1.webp",
         "pasta_pesto_s2" to "photography/pasta_pesto.webp",
         "pasta_pollo_zucchine" to "photography/pasta_pollo_zucchine.webp",

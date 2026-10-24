@@ -6113,5 +6113,107 @@
     "sha256": "e16a1c4901d2d22b89fd18d5d07ec4214ea91f6c2f4edf5ee538cbd47bedfa22",
     "photoGroup": "601c9f2274c1dff63552",
     "sharedFrom": "fette_biscottate_con_mozzarella_pomodoro_e_origano"
+  },
+  "pane_integrale_con_bresaola_e_rucola": {
+    "asset": "photography/pane_integrale_con_bresaola_e_rucola.webp",
+    "recipeId": "pane_integrale_con_bresaola_e_rucola",
+    "stepIndex": null,
+    "subject": "Pane integrale con bresaola e rucola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con bresaola e rucola. Ingredients: Pane integrale, Bresaola, Rucola, Parmigiano / Grana, Succo di limone.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Disponi Bresaola sul pane tostato. Aggiungi Rucola, scaglie di Parmigiano / Grana e Succo di limone. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "2591344bf1996d4c9e0d7b140aa7c4e93eb543eb630f1f7f365a21817bcbddef",
+    "photoGroup": "9437629112829a86dd22"
+  },
+  "pane_integrale_con_bresaola_e_rucola_s1": {
+    "asset": "photography/pane_integrale_con_bresaola_e_rucola_s1.webp",
+    "recipeId": "pane_integrale_con_bresaola_e_rucola",
+    "stepIndex": 1,
+    "subject": "Disponi {bresaola} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con bresaola e rucola. Ingredients: Pane integrale, Bresaola, Rucola, Parmigiano / Grana, Succo di limone. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Disponi Bresaola sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "50c5f08c34e91ae22c13e04c9394c21ad52ece91d2a3931e01a9f1f76b1998f9",
+    "photoGroup": "e9790a7df8102d5eb34b"
+  },
+  "pane_con_bresaola_e_rucola": {
+    "asset": "photography/pane_con_bresaola_e_rucola.webp",
+    "recipeId": "pane_con_bresaola_e_rucola",
+    "stepIndex": null,
+    "subject": "Pane con bresaola e rucola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con bresaola e rucola. Ingredients: Pane comune, Bresaola, Rucola, Parmigiano / Grana, Succo di limone.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Disponi Bresaola sul pane tostato. Aggiungi Rucola, scaglie di Parmigiano / Grana e Succo di limone. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "67bfb9af934e6d92f86eec4f63f9b05d28234ddb55ca28482bf5f9e10f116c96",
+    "photoGroup": "e9b8dbec4daa0f4ec5c3"
+  },
+  "pane_con_bresaola_e_rucola_s1": {
+    "asset": "photography/pane_con_bresaola_e_rucola_s1.webp",
+    "recipeId": "pane_con_bresaola_e_rucola",
+    "stepIndex": 1,
+    "subject": "Disponi {bresaola} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con bresaola e rucola. Ingredients: Pane comune, Bresaola, Rucola, Parmigiano / Grana, Succo di limone. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Disponi Bresaola sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "dafb165fc1424b90b793a02cae560ef3c781909a268345911a05e80510031247",
+    "photoGroup": "e38efe3f3ceb20e9f975"
+  },
+  "fette_biscottate_con_bresaola_e_rucola": {
+    "asset": "photography/fette_biscottate_con_bresaola_e_rucola.webp",
+    "recipeId": "fette_biscottate_con_bresaola_e_rucola",
+    "stepIndex": null,
+    "subject": "Fette biscottate con bresaola e rucola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con bresaola e rucola. Ingredients: Fette biscottate, Bresaola, Rucola, Parmigiano / Grana, Succo di limone.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Disponi Bresaola sul pane tostato. Aggiungi Rucola, scaglie di Parmigiano / Grana e Succo di limone. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "749523853f7ea972ee6d8eddb3f5c60d69b781ba4a78919540c6497145b0c7c1",
+    "photoGroup": "7abfd6bd17694867a047"
+  },
+  "fette_biscottate_con_bresaola_e_rucola_s1": {
+    "asset": "photography/fette_biscottate_con_bresaola_e_rucola_s1.webp",
+    "recipeId": "fette_biscottate_con_bresaola_e_rucola",
+    "stepIndex": 1,
+    "subject": "Disponi {bresaola} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con bresaola e rucola. Ingredients: Fette biscottate, Bresaola, Rucola, Parmigiano / Grana, Succo di limone. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Disponi Bresaola sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "52c479445c9054868885334d6a4c888f3889f0e3ed08181be3a21a83059f08e9",
+    "photoGroup": "7aa6643157bf9ea6f3ca"
+  },
+  "pane_integrale_con_bresaola_e_rucola_s2": {
+    "asset": "photography/pane_integrale_con_bresaola_e_rucola.webp",
+    "recipeId": "pane_integrale_con_bresaola_e_rucola",
+    "stepIndex": 2,
+    "subject": "Aggiungi {rucola}, scaglie di {parmigiano} e {limone}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con bresaola e rucola. Ingredients: Pane integrale, Bresaola, Rucola, Parmigiano / Grana, Succo di limone.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Disponi Bresaola sul pane tostato. Aggiungi Rucola, scaglie di Parmigiano / Grana e Succo di limone. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "2591344bf1996d4c9e0d7b140aa7c4e93eb543eb630f1f7f365a21817bcbddef",
+    "photoGroup": "9437629112829a86dd22",
+    "sharedFrom": "pane_integrale_con_bresaola_e_rucola"
+  },
+  "pane_con_bresaola_e_rucola_s2": {
+    "asset": "photography/pane_con_bresaola_e_rucola.webp",
+    "recipeId": "pane_con_bresaola_e_rucola",
+    "stepIndex": 2,
+    "subject": "Aggiungi {rucola}, scaglie di {parmigiano} e {limone}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con bresaola e rucola. Ingredients: Pane comune, Bresaola, Rucola, Parmigiano / Grana, Succo di limone.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Disponi Bresaola sul pane tostato. Aggiungi Rucola, scaglie di Parmigiano / Grana e Succo di limone. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "67bfb9af934e6d92f86eec4f63f9b05d28234ddb55ca28482bf5f9e10f116c96",
+    "photoGroup": "e9b8dbec4daa0f4ec5c3",
+    "sharedFrom": "pane_con_bresaola_e_rucola"
+  },
+  "fette_biscottate_con_bresaola_e_rucola_s2": {
+    "asset": "photography/fette_biscottate_con_bresaola_e_rucola.webp",
+    "recipeId": "fette_biscottate_con_bresaola_e_rucola",
+    "stepIndex": 2,
+    "subject": "Aggiungi {rucola}, scaglie di {parmigiano} e {limone}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con bresaola e rucola. Ingredients: Fette biscottate, Bresaola, Rucola, Parmigiano / Grana, Succo di limone.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Disponi Bresaola sul pane tostato. Aggiungi Rucola, scaglie di Parmigiano / Grana e Succo di limone. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "749523853f7ea972ee6d8eddb3f5c60d69b781ba4a78919540c6497145b0c7c1",
+    "photoGroup": "7abfd6bd17694867a047",
+    "sharedFrom": "fette_biscottate_con_bresaola_e_rucola"
   }
 }

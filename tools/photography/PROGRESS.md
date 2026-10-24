@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 ## Stato verificato
 
 - 2533 ricette, 10.239 passaggi nel database.
-- 108 ricette complete di foto principale e di tutti i passaggi.
-- 268 WebP distinti (1 fotografie online gratuite), 530 abbinamenti verificati.
-- 312 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
-- 2425 ricette da completare.
-- Sessione continuativa: 18 nuove immagini, 9 ricette ulteriori completate rispetto alle 99 iniziali.
+- 111 ricette complete di foto principale e di tutti i passaggi.
+- 274 WebP distinti (1 fotografie online gratuite), 539 abbinamenti verificati.
+- 321 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
+- 2422 ricette da completare.
+- Sessione continuativa: 24 nuove immagini, 12 ricette ulteriori completate rispetto alle 99 iniziali.
 - Checkpoint precedente 6af589f0: 99 ricette, 250 immagini, 285 passaggi delle ricette complete. Tutti conservati.
 - Ultimo APK consegnato al momento del checkpoint: 1.0.87, con 49 ricette fotografiche complete. Le nuove immagini necessitano di una compilazione aggiornata; non dichiararle presenti nell’APK consegnato senza verifica.
 
@@ -24,12 +24,12 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Pane integrale con mozzarella, pomodoro e origano (`pane_integrale_con_mozzarella_pomodoro_e_origano`)
 - Pane con mozzarella, pomodoro e origano (`pane_con_mozzarella_pomodoro_e_origano`)
 - Fette biscottate con mozzarella, pomodoro e origano (`fette_biscottate_con_mozzarella_pomodoro_e_origano`)
+- Pane integrale con bresaola e rucola (`pane_integrale_con_bresaola_e_rucola`)
+- Pane con bresaola e rucola (`pane_con_bresaola_e_rucola`)
+- Fette biscottate con bresaola e rucola (`fette_biscottate_con_bresaola_e_rucola`)
 
 ## Prossime ricette da completare
 
-- Pane integrale con bresaola e rucola (`pane_integrale_con_bresaola_e_rucola`): 2 nuovi soggetti mancanti.
-- Pane con bresaola e rucola (`pane_con_bresaola_e_rucola`): 2 nuovi soggetti mancanti.
-- Fette biscottate con bresaola e rucola (`fette_biscottate_con_bresaola_e_rucola`): 2 nuovi soggetti mancanti.
 - Pane integrale con yogurt greco, miele e noci (`pane_integrale_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
 - Pane con yogurt greco, miele e noci (`pane_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
 - Fette biscottate con yogurt greco, miele e noci (`fette_biscottate_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
@@ -39,6 +39,9 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Pane integrale con tahina e banana (`pane_integrale_con_tahina_e_banana`): 2 nuovi soggetti mancanti.
 - Pane con tahina e banana (`pane_con_tahina_e_banana`): 2 nuovi soggetti mancanti.
 - Fette biscottate con tahina e banana (`fette_biscottate_con_tahina_e_banana`): 2 nuovi soggetti mancanti.
+- Pane integrale con mele, cannella e ricotta (`pane_integrale_con_mele_cannella_e_ricotta`): 2 nuovi soggetti mancanti.
+- Pane con mele, cannella e ricotta (`pane_con_mele_cannella_e_ricotta`): 2 nuovi soggetti mancanti.
+- Fette biscottate con mele, cannella e ricotta (`fette_biscottate_con_mele_cannella_e_ricotta`): 2 nuovi soggetti mancanti.
 
 ## Metodo e verifiche
 
