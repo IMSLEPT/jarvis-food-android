@@ -165,6 +165,10 @@ class AuroraLayoutTest {
             ui { Nav.clear(); Nav.go(Screen.RecipeView("porridge_banana", first.solved.target, day, diaryMeal = 0, original = true)) }
             compose.onNodeWithTag("recipe-step-0").performScrollTo()
             compose.onNodeWithTag("recipe-step-photo-0", useUnmergedTree = true).assertIsDisplayed()
+            val photoTop = compose.onNodeWithTag("recipe-step-photo-0", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot.top
+            val toolbarBottom = compose.onNodeWithTag("recipe-toolbar").fetchSemanticsNode().boundsInRoot.bottom
+            assertTrue("Recipe toolbar covers the preparation photo", photoTop >= toolbarBottom)
+            compose.onNodeWithText("Ricetta", useUnmergedTree = true).assertExists()
             readable(compose.onNodeWithText("Passaggio 1", useUnmergedTree = true))
             readable(compose.onNode(hasText("in un pentolino antiaderente", substring = true), useUnmergedTree = true))
             shot("recipe-photography")

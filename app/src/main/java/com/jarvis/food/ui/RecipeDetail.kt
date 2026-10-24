@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -187,11 +189,14 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     val slot = sc.slot?.let { sl -> Store.dayPlan(s, sc.date)?.slots?.firstOrNull { it.slot == sl } }
     val eaten = slot?.eatenEntryIds?.isNotEmpty() == true
     val planned = sc.slot != null && sc.adHoc == null
+    val recipeScroll = rememberScrollState()
+    val toolbarThreshold = with(LocalDensity.current) { 220.dp.roundToPx() }
+    val solidToolbar by remember(recipeScroll, toolbarThreshold) { derivedStateOf { recipeScroll.value > toolbarThreshold } }
 
     Box(Modifier.fillMaxSize()) {
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f)) {
-            Column(Modifier.fillMaxSize().testTag("recipe-scroll").verticalScroll(rememberScrollState())) {
+            Column(Modifier.fillMaxSize().testTag("recipe-scroll").verticalScroll(recipeScroll)) {
                 Box(Modifier.fillMaxWidth()) {
                     RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(280.dp), recEmoji(tpl.meal), 0.dp)
                     Box(Modifier.fillMaxWidth().height(160.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
@@ -522,9 +527,12 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                     }
                 }
             }
-            Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().testTag("recipe-toolbar").background(if (solidToolbar) C.Bg else Color.Transparent)
+                .statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 BackCircle { Nav.back() }
-                Box(Modifier.weight(1f))
+                Box(Modifier.weight(1f).padding(horizontal = 16.dp)) {
+                    if (solidToolbar) Text("Ricetta", style = T.Title2)
+                }
                 if (sc.adHoc == null) Box(Modifier.size(48.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(Color.White).clickable { Store.toggleRecipeFav(tpl.id) }, contentAlignment = Alignment.Center) {
                     AIcon(Ic.Heart, if (fav) C.Protein else A.Ink, 22.dp, 2.2f, fill = fav)
                 }
