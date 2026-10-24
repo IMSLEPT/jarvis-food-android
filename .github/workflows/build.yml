@@ -125,6 +125,9 @@ jobs:
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
             grep -q "OK (2 tests)" layout-standard.log
             grep -q "OK (2 tests)" layout-large-text.log
+            adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1
+            cat photo-ai.log
+            grep -q "OK (2 tests)" photo-ai.log
 
       - name: Emulator screenshots
         id: emu
@@ -176,6 +179,7 @@ jobs:
             layout-*.log
             layout-shots.tar
             layout-crash.txt
+            photo-ai.log
           retention-days: 14
 
       - name: Publish screenshots

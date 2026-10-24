@@ -12,8 +12,10 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. La raccolta attuale
-contiene **35 ricette complete, 284 abbinamenti immagine e 117 fotografie distinte**.
-Le fotografie di azioni compatibili sono condivise anche con altre ricette.
+contiene **49 ricette complete, 351 abbinamenti immagine e 169 fotografie distinte**.
+Tutte le 49 ricette che avevano immagini nel catalogo originale sono complete,
+con 165 passaggi fotografici. Le fotografie di azioni compatibili sono condivise
+anche con altre ricette. Il resto del catalogo di 2.533 ricette rimane da completare.
 L’impiattamento può riutilizzare la foto del piatto finito.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
@@ -23,8 +25,10 @@ Le fotografie caricate dall'utente mantengono la precedenza.
 
 ## Dati e ripristino
 
-I 218 file originali protetti da hash, compresi ricette, ingredienti, grammature,
-calcoli e foto precedenti, rimangono identici. `EditorialPhotos.kt` sceglie il nuovo
+I database di ricette, ingredienti, grammature e fotografie precedenti rimangono
+identici. Dei 218 file originali protetti da hash, 217 sono invariati; FoodAi.kt
+ha le correzioni richieste dall’utente per Foto AI, registrate separatamente
+in scripts/authorized-functional-changes.json senza alterare la baseline originale. `EditorialPhotos.kt` sceglie il nuovo
 asset nelle viste condivise senza riscrivere il database nutrizionale.
 Il ripristino si effettua con Revert della PR su GitHub, senza selettori nell'app.
 
@@ -44,7 +48,10 @@ Il ripristino si effettua con Revert della PR su GitHub, senza selettori nell'ap
 4. Eseguire `python tools/photography/prepare.py /percorso/input.json`.
    Lo script converte in WebP, registra i prompt e gli hash in `approved.json` e
    rigenera l'indice Kotlin. Richiede Pillow e non chiama servizi AI.
-5. Eseguire `python tools/photography/verify.py`, il controllo degli originali e
+5. Eseguire `python tools/photography/share.py` per condividere automaticamente
+   solo le immagini compatibili. Le varianti con passaggi mancanti non ricevono
+   la foto principale finché la procedura non è completa.
+6. Eseguire `python tools/photography/verify.py`, il controllo degli originali e
    i test della CI. Il controllo ricalcola la compatibilità delle immagini condivise.
    I test impediscono
    che un nuovo piatto sia distribuito con un procedimento fotografico incompleto.

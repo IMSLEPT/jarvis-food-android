@@ -167,6 +167,17 @@ class AuroraLayoutTest {
             val input = compose.onNodeWithTag("chat-input").fetchSemanticsNode().boundsInRoot
             assertTrue("Chat input overlaps keyboard", input.bottom <= windowHeight - imeBottom + 1f)
             shot("chat-keyboard")
+            ui { Store.update { it.copy(chat = listOf(
+                com.jarvis.food.data.ChatMsg("keyboard-question", "user", "Che macro mi conviene?", System.currentTimeMillis() - 1000),
+                com.jarvis.food.data.ChatMsg("keyboard-answer", "assistant", answer, System.currentTimeMillis(), suggestions = listOf("Sì, applica", "No"))
+            )) } }
+            compose.waitForIdle()
+            compose.onNodeWithTag("chat-input").assertIsFocused()
+            compose.onNodeWithContentDescription("Invia messaggio", useUnmergedTree = true).assertIsEnabled()
+            val activeInput = compose.onNodeWithTag("chat-input").fetchSemanticsNode().boundsInRoot
+            assertTrue("Active conversation input overlaps keyboard", activeInput.bottom <= windowHeight - imeBottom + 1f)
+            compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
+            shot("chat-conversation-keyboard")
             ins.uiAutomation.executeShellCommand("input keyevent 4").close()
             compose.waitUntil(20_000) {
                 scenario.onActivity { activity ->
@@ -175,7 +186,7 @@ class AuroraLayoutTest {
                 }
                 imeBottom == 0 && compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isNotEmpty()
             }
-            ui { Store.update { it.copy(ai = it.ai.copy(apiKey = "")) } }
+            ui { Store.update { it.copy(chat = emptyList(), ai = it.ai.copy(apiKey = "")) } }
             ui { Nav.tab = 0 }
             compose.onNodeWithContentDescription("Apri profilo").performClick()
             compose.waitForIdle()
