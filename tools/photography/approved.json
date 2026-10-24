@@ -5491,5 +5491,95 @@
     "sha256": "140c21934cabd948de50307fb5836e11aebbb434d7338d5a5328c38c9827975d",
     "photoGroup": "23574eb567319254d4bc",
     "sharedFrom": "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica"
+  },
+  "fette_biscottate_con_hummus_e_pomodori_s1": {
+    "asset": "photography/fette_biscottate_con_hummus_e_pomodori_s1.webp",
+    "recipeId": "fette_biscottate_con_hummus_e_pomodori",
+    "stepIndex": 1,
+    "subject": "Spalma {hummus} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con hummus e pomodori. Ingredients: Fette biscottate, Hummus, Pomodori, Rucola. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Hummus sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact ingredient fidelity: small rectangular Italian dry golden rusks, visibly twice baked, not slices of fresh bread. A butter knife is spreading plain beige hummus on the rusks. No tomato or arugula on the rusks yet. No paprika, seeds, pepper, oil drizzle or other extra garnish.",
+    "sha256": "18ec113069970a8e0a7171cbae7a620f5d41ba3a787cb9c659e3e03da06e3761",
+    "photoGroup": "bc52f80336c85b12c80a"
+  },
+  "fette_biscottate_con_ricotta_pomodorini_e_basilico": {
+    "asset": "photography/fette_biscottate_con_ricotta_pomodorini_e_basilico.webp",
+    "recipeId": "fette_biscottate_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": null,
+    "subject": "Fette biscottate con ricotta, pomodorini e basilico",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, pomodorini e basilico. Ingredients: Fette biscottate, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi pomodorini a metà, Basilico e un filo di Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small rectangular golden dry Italian rusks, not fresh bread. Only ingredients in recipe; no herbs, spices or sauces absent from list. For a preparation step, show the action clearly.",
+    "sha256": "71cb759c32670ced567a6b582e66d33051dcacdf8fc802ce10fc38d8c7845681",
+    "photoGroup": "2627f5a888ce509c9c05"
+  },
+  "fette_biscottate_con_ricotta_pomodorini_e_basilico_s1": {
+    "asset": "photography/fette_biscottate_con_ricotta_pomodorini_e_basilico_s1.webp",
+    "recipeId": "fette_biscottate_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, pomodorini e basilico. Ingredients: Fette biscottate, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: small rectangular golden dry Italian rusks, not fresh bread. Only ingredients in recipe; no herbs, spices or sauces absent from list. For a preparation step, show the action clearly.",
+    "sha256": "570b75d92fba16ad2674a6467ef65e83707b7c8384e342c933958b16ccdc6b02",
+    "photoGroup": "97b29c718c1945bbd904"
+  },
+  "pane_con_prosciutto_cotto_e_mozzarella": {
+    "asset": "photography/pane_con_prosciutto_cotto_e_mozzarella.webp",
+    "recipeId": "pane_con_prosciutto_cotto_e_mozzarella",
+    "stepIndex": null,
+    "subject": "Pane con prosciutto cotto e mozzarella",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con prosciutto cotto e mozzarella. Ingredients: Pane comune, Prosciutto cotto, Mozzarella, Pomodori.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Farcisci il pane con Prosciutto cotto, Mozzarella e Pomodori a fette, poi tosta in padella 2 minuti per lato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: white common wheat bread, not wholemeal bread. Only ingredients in recipe; no herbs, spices or sauces absent from list. For a preparation step, show the action clearly.",
+    "sha256": "057690b105aadfdd34f82eec70a17d5d9614315fbaec7e89baecfd8073090701",
+    "photoGroup": "3ddfa24efba5bb6a84e2"
+  },
+  "pane_con_prosciutto_cotto_e_mozzarella_s1": {
+    "asset": "photography/pane_con_prosciutto_cotto_e_mozzarella_s1.webp",
+    "recipeId": "pane_con_prosciutto_cotto_e_mozzarella",
+    "stepIndex": 1,
+    "subject": "Farcisci il pane con {prosciutto_cotto}, {mozzarella} e {pomodori} a fette, poi tosta in padella 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con prosciutto cotto e mozzarella. Ingredients: Pane comune, Prosciutto cotto, Mozzarella, Pomodori. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Farcisci il pane con Prosciutto cotto, Mozzarella e Pomodori a fette, poi tosta in padella 2 minuti per lato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: white common wheat bread, not wholemeal bread. Only ingredients in recipe; no herbs, spices or sauces absent from list. For a preparation step, show the action clearly.",
+    "sha256": "f2fcf63faf6ebfbcd17a1b19f1ac8ec1582e99e58ce1844c3d3f1a5e869d525c",
+    "photoGroup": "66063a0fa0514fda6ec9"
+  },
+  "fette_biscottate_con_hummus_e_pomodori": {
+    "asset": "photography/fette_biscottate_con_hummus_e_pomodori.webp",
+    "recipeId": "fette_biscottate_con_hummus_e_pomodori",
+    "stepIndex": null,
+    "subject": "Fette biscottate con hummus e pomodori",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con hummus e pomodori. Ingredients: Fette biscottate, Hummus, Pomodori, Rucola.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Hummus sul pane tostato. Aggiungi Pomodori a fette e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Small rectangular golden dry Italian rusks, not fresh bread.",
+    "sha256": "d23080bcb6987f9e9863fae6e0660f28cffc8777660fb0b84d7e916d848de03f",
+    "photoGroup": "b891e52518e1007d87ac"
+  },
+  "fette_biscottate_con_hummus_e_pomodori_s2": {
+    "asset": "photography/fette_biscottate_con_hummus_e_pomodori.webp",
+    "recipeId": "fette_biscottate_con_hummus_e_pomodori",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori} a fette e {rucola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con hummus e pomodori. Ingredients: Fette biscottate, Hummus, Pomodori, Rucola.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Hummus sul pane tostato. Aggiungi Pomodori a fette e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Small rectangular golden dry Italian rusks, not fresh bread.",
+    "sha256": "d23080bcb6987f9e9863fae6e0660f28cffc8777660fb0b84d7e916d848de03f",
+    "photoGroup": "b891e52518e1007d87ac",
+    "sharedFrom": "fette_biscottate_con_hummus_e_pomodori"
+  },
+  "fette_biscottate_con_ricotta_pomodorini_e_basilico_s2": {
+    "asset": "photography/fette_biscottate_con_ricotta_pomodorini_e_basilico.webp",
+    "recipeId": "fette_biscottate_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori} a metà, {basilico} e un filo di {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, pomodorini e basilico. Ingredients: Fette biscottate, Ricotta, pomodorini, Basilico, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi pomodorini a metà, Basilico e un filo di Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small rectangular golden dry Italian rusks, not fresh bread. Only ingredients in recipe; no herbs, spices or sauces absent from list. For a preparation step, show the action clearly.",
+    "sha256": "71cb759c32670ced567a6b582e66d33051dcacdf8fc802ce10fc38d8c7845681",
+    "photoGroup": "2627f5a888ce509c9c05",
+    "sharedFrom": "fette_biscottate_con_ricotta_pomodorini_e_basilico"
   }
 }
