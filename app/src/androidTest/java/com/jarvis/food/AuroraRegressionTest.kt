@@ -10,6 +10,8 @@ import com.jarvis.food.data.Profile
 import com.jarvis.food.data.Store
 import com.jarvis.food.ui.Nav
 import com.jarvis.food.ui.Screen
+import com.jarvis.food.ui.EditorialPhotos
+import android.graphics.BitmapFactory
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -73,6 +75,15 @@ class AuroraRegressionTest {
         val first = Store.plannedMeals(Store.current, today).first()
         val originalDiary = Store.current.diary.size
         ActivityScenario.launch(MainActivity::class.java).use {
+            // Home no longer duplicates the plan, even when a full plan exists.
+            compose.onAllNodesWithText("Il piano di oggi").assertCountEquals(0)
+            compose.onAllNodesWithText("Crea la tua dieta personalizzata").assertCountEquals(0)
+            // Verify native Android decoding, including the process thumbnails.
+            for (path in EditorialPhotos.paths) {
+                val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                ins.targetContext.assets.open(path).use { BitmapFactory.decodeStream(it, null, options) }
+                assertTrue("Photo too small or unreadable: $path", options.outWidth >= 640 && options.outHeight >= 640)
+            }
             ui { Nav.tab = 1; Nav.planDate = today }
             compose.onAllNodesWithText("Segna mangiato")[0].performScrollTo().performClick()
             compose.waitForIdle()

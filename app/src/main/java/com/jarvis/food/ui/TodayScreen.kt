@@ -166,8 +166,6 @@ fun TodayScreen() {
         Spacer(Modifier.height(12.dp))
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) { for (meal in MEAL_ORDER) MealCard(meal, date, s) }
 
-        PlanToday(s, date)
-
         FastingMini(s)
 
         // ---- Acqua
@@ -316,27 +314,6 @@ private fun QuickTile(label: String, icon: String, stroke: Float, ink: Color, c1
     }
 }
 
-// ---------------------------------------------------------------- Piano di oggi
-
-/** Il piano di oggi in breve: schede con foto a tutta altezza e spunta "mangiato". */
-@Composable
-private fun PlanToday(s: AppState, date: LocalDate) {
-    val meals = Store.plannedMeals(s, date)
-    ASection("Il piano di ${if (date == LocalDate.now()) "oggi" else dayLabel(date).lowercase()}", top = 30.dp, action = "Apri") { Nav.planDate = date; Nav.tab = 1 }
-    if (meals.isEmpty()) {
-        ACard(color = A.Tonal, radius = 26.dp, bordered = false, elevation = 0.dp, onClick = { Nav.planDate = date; Nav.tab = 1 }) {
-            Column {
-                Text("Crea la tua dieta personalizzata", style = T.Title2)
-                Text("Piatti con foto, ricette passo passo e grammature calcolate sui tuoi obiettivi.", style = T.Muted)
-            }
-        }
-        return
-    }
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        meals.forEach { m -> CompactPlanCard(s, date, m) }
-    }
-}
-
 // ---------------------------------------------------------------- Diario
 
 @Composable
@@ -400,7 +377,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                     }
                 }
             }
-            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 2.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.padding(top = 12.dp).fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 MealAction("Aggiungi") { Nav.go(Screen.AddFood(date, meal)) }
                 MealAction("Foto AI") { Nav.go(Screen.PhotoAi(date, meal)) }
                 MealAction("Copia da ieri") { Store.copyMeal(date.minusDays(1), meal, date, meal) }

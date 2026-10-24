@@ -1,0 +1,6 @@
+{
+  "app/src/main/java/com/jarvis/food/ai/FoodAi.kt": {
+    "sha256": "ab1aa7b08fc6169c148d04c6e173a06806e1320d17b10f7c60707e8381fb5719",
+    "reason": "Richiesta esplicita di Alessandro del 24 ottobre 2026: correggere Foto AI, modalità offline che avvia online, lentezza e altri bug della sezione."
+  }
+}

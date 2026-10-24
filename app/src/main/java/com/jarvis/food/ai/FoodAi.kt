@@ -10,6 +10,10 @@ import com.jarvis.food.engine.ImageCredit
 import com.jarvis.food.engine.Macro
 import com.jarvis.food.engine.RecipeTemplate
 import com.jarvis.food.engine.TemplateIngredient
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -24,8 +28,6 @@ import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 import java.io.ByteArrayOutputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 /** Alimento riconosciuto dall'AI. Se [foodId] è valorizzato, i valori nutrizionali vengono dal database (non dall'AI). */
 data class AiItem(
@@ -64,21 +66,23 @@ object FoodAi {
 
     fun toJpegBase64(bitmap: Bitmap, maxSide: Int = 896): String {
         val scale = maxSide.toFloat() / maxOf(bitmap.width, bitmap.height)
-        val b = if (scale < 1f) Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true) else bitmap
+        val b = if (scale < 1f) Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt().coerceAtLeast(1), (bitmap.height * scale).toInt().coerceAtLeast(1), true) else bitmap
         val out = ByteArrayOutputStream()
-        b.compress(Bitmap.CompressFormat.JPEG, 78, out)
+        try { b.compress(Bitmap.CompressFormat.JPEG, 78, out) }
+        finally { if (b !== bitmap) b.recycle() }
         return Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP)
     }
 
     /** Ritardo prima di far partire in parallelo il modello successivo se il primo non ha ancora risposto. */
-    private const val HEDGE_MS = 9000L
+    private const val HEDGE_MS = 3500L
 
     /**
      * Invia la richiesta ai modelli gratuiti in "corsa": parte il preferito e, se entro [HEDGE_MS] non ha risposto
      * (o fallisce subito, es. limite di richieste), parte anche il successivo. Vince la prima risposta valida
      * (cioè che [parse] riesce a leggere); le altre vengono annullate. Così un modello lento non blocca l'analisi.
      */
-    private suspend fun <T> ask(cfg: AiConfig, prompt: String, image: Bitmap?, onStatus: (String) -> Unit = {}, parse: (String) -> T): T = coroutineScope {
+    private suspend fun <T> ask(cfg: AiConfig, prompt: String, image: Bitmap?, onStatus: (String) -> Unit = {}, parse: (String) -> T): T = try {
+        withTimeout(if (image != null) 35_000L else 55_000L) { coroutineScope {
         require(cfg.apiKey.isNotBlank()) { "Serve la chiave gratuita: Profilo → Intelligenza artificiale." }
         val models = (listOf(cfg.model) + if (cfg.baseUrl.contains("openrouter")) AiConfig.FALLBACKS else emptyList()).distinct()
         onStatus("Preparo la foto…")
@@ -91,7 +95,12 @@ object FoodAi {
             if (started >= models.size) return
             val m = models[started++]
             onStatus(if (started == 1) "Invio all'AI…" else "Il primo modello è lento: ne provo un altro in parallelo…")
-            jobs += launch(Dispatchers.IO) { results.send(runCatching { parse(call(cfg, m, prompt, img)) }) }
+            jobs += launch(Dispatchers.IO) {
+                val result = try { Result.success(parse(call(cfg, m, prompt, img))) }
+                catch (cancelled: CancellationException) { throw cancelled }
+                catch (failure: Exception) { Result.failure(failure) }
+                results.send(result)
+            }
             if (started < models.size) jobs += launch { delay(HEDGE_MS); results.send(null) }
         }
         launchNext()
@@ -107,6 +116,10 @@ object FoodAi {
             }
             throw lastError ?: RuntimeException("Nessun modello disponibile")
         } finally { jobs.forEach { it.cancel() } }
+        } }
+    } catch (timeout: TimeoutCancellationException) {
+        currentCoroutineContext().ensureActive()
+        throw java.net.SocketTimeoutException("L'AI non ha risposto in tempo. Riprova o scegli Offline.")
     }
 
     /** Connessione bloccante: se la coroutine viene annullata chiudo la connessione, così il thread si libera subito. */
@@ -116,24 +129,14 @@ object FoodAi {
             .put(JSONObject().put("type", "image_url").put("image_url", JSONObject().put("url", "data:image/jpeg;base64,$imgB64")))
         val body = JSONObject().put("model", model).put("temperature", 0.1).put("max_tokens", 2000)
             .put("messages", JSONArray().put(JSONObject().put("role", "user").put("content", content)))
-        val c = URL(cfg.baseUrl.trimEnd('/') + "/chat/completions").openConnection() as HttpURLConnection
-        c.requestMethod = "POST"; c.doOutput = true; c.connectTimeout = 10000; c.readTimeout = 60000
-        c.setRequestProperty("Content-Type", "application/json")
-        c.setRequestProperty("Authorization", "Bearer ${cfg.apiKey.trim()}")
-        c.setRequestProperty("X-Title", "Jarvis Food")
-        val handle = currentCoroutineContext()[Job]?.invokeOnCompletion { runCatching { c.disconnect() } }
-        try {
-            c.outputStream.use { it.write(body.toString().toByteArray()) }
-            val code = c.responseCode
-            val txt = (if (code in 200..299) c.inputStream else c.errorStream)?.bufferedReader()?.use { it.readText() } ?: ""
-            if (code !in 200..299) {
-                val msg = runCatching { JSONObject(txt).getJSONObject("error").getString("message") }.getOrNull()
-                throw RuntimeException("Errore AI $code ($model): ${msg ?: txt.take(160)}")
-            }
-            val out = JSONObject(txt).getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content", "")
-            if (out.isBlank()) throw RuntimeException("Risposta vuota ($model)")
-            return out
-        } finally { handle?.dispose(); c.disconnect() }
+        val (code, txt) = AiHttpTransport.post(cfg.baseUrl.trimEnd('/') + "/chat/completions", cfg.apiKey, body.toString())
+        if (code !in 200..299) {
+            val msg = runCatching { JSONObject(txt).getJSONObject("error").getString("message") }.getOrNull()
+            throw RuntimeException("Errore AI $code ($model): ${msg ?: txt.take(160)}")
+        }
+        val out = JSONObject(txt).getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content", "")
+        if (out.isBlank()) throw RuntimeException("Risposta vuota ($model)")
+        return out
     }
 
     /** Messaggio comprensibile per l'utente a partire da un errore di rete o dell'AI. */
@@ -155,7 +158,7 @@ object FoodAi {
     private fun resolveId(db: FoodDb, id: String?, name: String): String? =
         id?.takeIf { db.food(it) != null } ?: db.match(name)?.id
 
-    private fun Double.nz() = if (isNaN()) 0.0 else this
+    private fun Double.nz() = if (isFinite()) coerceAtLeast(0.0) else 0.0
 
     // ---------------------------------------------------------------- funzioni
 
@@ -315,7 +318,6 @@ Rispondi SOLO con JSON: $RECIPE_JSON"""
     // ---------------------------------------------------------------- offline (TFLite sul telefono)
 
     private var classifier: ImageClassifier? = null
-    private var offlineError: String? = null
 
     fun offlineAvailable(context: Context): Boolean =
         runCatching { context.assets.list("")?.contains("food.tflite") == true }.getOrDefault(false)
@@ -323,23 +325,23 @@ Rispondi SOLO con JSON: $RECIPE_JSON"""
     @Synchronized
     private fun getClassifier(context: Context): ImageClassifier {
         classifier?.let { return it }
-        offlineError?.let { throw RuntimeException(it) }
         return try {
             val opts = ImageClassifier.ImageClassifierOptions.builder()
                 .setBaseOptions(BaseOptions.builder().setNumThreads(4).build()).setMaxResults(6).build()
             ImageClassifier.createFromFileAndOptions(context, "food.tflite", opts).also { classifier = it }
         } catch (e: Throwable) {
-            offlineError = "Modello offline non disponibile: ${e.message}"; throw RuntimeException(offlineError)
+            throw RuntimeException("Modello offline non disponibile: ${e.message}", e)
         }
     }
 
     suspend fun analyzeOffline(context: Context, bitmap: Bitmap): List<AiLabel> = withContext(Dispatchers.Default) {
         val cls = getClassifier(context)
         val argb = bitmap.copy(Bitmap.Config.ARGB_8888, false)
-        cls.classify(TensorImage.fromBitmap(argb)).flatMap { it.categories }
+        try { synchronized(cls) { cls.classify(TensorImage.fromBitmap(argb)) }.flatMap { it.categories }
             .filter { it.label.isNotBlank() && !it.label.contains("background", true) && !it.displayName.contains("background", true) }
             .sortedByDescending { it.score }
             .map { AiLabel(it.displayName.ifBlank { it.label }, it.score) }
             .distinctBy { it.label.lowercase() }.take(5)
+        } finally { argb.recycle() }
     }
 }

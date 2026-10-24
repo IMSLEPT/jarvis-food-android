@@ -63,6 +63,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,11 +71,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.jarvis.food.ai.AiItem
 import com.jarvis.food.ai.AiLabel
 import com.jarvis.food.ai.FoodAi
+import com.jarvis.food.ai.PhotoAnalysisController
+import com.jarvis.food.ai.PhotoAnalysisResult
 import com.jarvis.food.data.MEAL_NAMES
 import com.jarvis.food.data.Store
 import kotlinx.coroutines.Dispatchers
@@ -91,7 +98,7 @@ fun loadBitmap(ctx: Context, uri: Uri, maxSide: Int = 1600): Bitmap? = runCatchi
             dec.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
             val w = info.size.width; val h = info.size.height
             val scale = maxSide.toFloat() / maxOf(w, h)
-            if (scale < 1f) dec.setTargetSize((w * scale).toInt(), (h * scale).toInt())
+            if (scale < 1f) dec.setTargetSize((w * scale).toInt().coerceAtLeast(1), (h * scale).toInt().coerceAtLeast(1))
         }
     } else {
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
@@ -175,86 +182,72 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
     val ctx = LocalContext.current
     val s by Store.state.collectAsState()
     val scope = rememberCoroutineScope()
-    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-    var busy by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
-    var note by remember { mutableStateOf("") }
     var hint by remember { mutableStateOf("") }
-    var online by remember { mutableStateOf(true) }
     val items = remember { mutableStateListOf<EditableItem>() }
     val labels = remember { mutableStateListOf<AiLabel>() }
     val offlineOk = remember { FoodAi.offlineAvailable(ctx) }
+    val config by rememberUpdatedState(s.ai)
+    val preferences = remember { ctx.getSharedPreferences("photo_ai", Context.MODE_PRIVATE) }
+    val controller = remember {
+        PhotoAnalysisController<Bitmap>(
+            scope, preferences.getBoolean("online", s.ai.apiKey.isNotBlank()),
+            analyzeOnline = { photo, details, report ->
+                val (recognized, note) = FoodAi.analyzeMeal(config, com.jarvis.food.data.Db.db, photo, details, report)
+                PhotoAnalysisResult.Online(recognized, note)
+            },
+            analyzeOffline = { photo -> PhotoAnalysisResult.Offline(FoodAi.analyzeOffline(ctx, photo)) },
+            persistMode = { preferences.edit().putBoolean("online", it).apply() },
+            describeError = FoodAi::friendlyError
+        )
+    }
+    val analysis by controller.state.collectAsState()
+    val bitmap = analysis.photo
+    val online = analysis.online
+    val busy = analysis.busy
+    val error = analysis.error
+    val analyzed = analysis.analyzed
+    val status = analysis.status
+    val note = (analysis.result as? PhotoAnalysisResult.Online)?.note.orEmpty()
+    LaunchedEffect(analysis.result) {
+        items.clear(); labels.clear()
+        when (val result = analysis.result) {
+            is PhotoAnalysisResult.Online -> items.addAll(result.items.map { EditableItem(it) })
+            is PhotoAnalysisResult.Offline -> labels.addAll(result.labels)
+            null -> Unit
+        }
+    }
 
     val photoFile = remember { File(ctx.cacheDir, "foto").apply { mkdirs() }.let { File(it, "pasto.jpg") } }
     val photoUri = remember { FileProvider.getUriForFile(ctx, "${ctx.packageName}.files", photoFile) }
 
-    var status by remember { mutableStateOf("") }
     var elapsed by remember { mutableStateOf(0) }
-    var analyzed by remember { mutableStateOf(false) }
-    LaunchedEffect(busy) { elapsed = 0; while (busy) { delay(1000); elapsed++ } }
+    LaunchedEffect(busy, online, bitmap) { elapsed = 0; while (busy) { delay(1000); elapsed++ } }
 
-    fun reset() { items.clear(); labels.clear(); error = null; note = "" }
-
-    fun runOnline() {
-        val b = bitmap ?: return
-        busy = true; reset(); online = true; analyzed = true; status = "Preparo la foto…"
-        scope.launch {
-            runCatching { FoodAi.analyzeMeal(s.ai, com.jarvis.food.data.Db.db, b, hint) { status = it } }
-                .onSuccess { (list, n) ->
-                    items.addAll(list.map { EditableItem(it) }); note = n
-                    if (list.isEmpty()) error = n.ifBlank { "Nessun alimento riconosciuto. Riprova con un'altra foto." }
-                }
-                .onFailure { error = FoodAi.friendlyError(it) }
-            busy = false
-        }
-    }
-
-    fun runOffline() {
-        val b = bitmap ?: return
-        busy = true; reset(); online = false; analyzed = true; status = "Analisi sul telefono…"
-        scope.launch {
-            runCatching { FoodAi.analyzeOffline(ctx, b) }
-                .onSuccess { labels.addAll(it); if (it.isEmpty()) error = "Nessun piatto riconosciuto." }
-                .onFailure { error = it.message }
-            busy = false
-        }
-    }
-
-    /** Dopo lo scatto l'analisi parte da sola: online se c'è la chiave, altrimenti offline se il modello è incluso. */
-    fun autoStart() {
-        when {
-            s.ai.apiKey.isNotBlank() -> runOnline()
-            offlineOk -> runOffline()
-            else -> { analyzed = true; error = "Per analizzare la foto serve la chiave gratuita: Profilo → Intelligenza artificiale." }
-        }
+    fun runOnline() = controller.selectMode(true, hint)
+    fun runOffline() = controller.selectMode(false, hint)
+    fun acceptPhoto(uri: Uri) = controller.loadPhoto(hint) {
+        withContext(Dispatchers.IO) { loadBitmap(ctx, uri) }
     }
 
     val camera = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
-        if (ok) scope.launch {
-            reset(); analyzed = false
-            bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, photoUri) }
-            if (bitmap == null) error = "Impossibile leggere la foto." else autoStart()
-        }
+        if (ok) acceptPhoto(photoUri)
     }
     val gallery = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) scope.launch {
-            reset(); analyzed = false
-            bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, uri) }
-            if (bitmap == null) error = "Impossibile leggere l'immagine." else autoStart()
-        }
+        if (uri != null) acceptPhoto(uri)
     }
 
     val sel = items.filter { it.selected }
     val tot = sel.map { calc(it) }
+    val canAdd = sel.isNotEmpty() && sel.all { item -> parseNum(item.grams)?.let { it.isFinite() && it > 0.0 } == true }
     val photoShape = RoundedCornerShape(34.dp)
 
     Column(Modifier.fillMaxSize().imePadding()) {
         Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             BackCircle { Nav.back() }
             GapW(12.dp)
-            Column {
+            Column(Modifier.weight(1f)) {
                 Text("Foto AI · ${MEAL_NAMES[meal]}", style = T.Body.copy(fontSize = 13.sp, color = A.Muted))
-                Text("Fotografa il tuo piatto", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp), maxLines = 1)
+                Text("Fotografa il tuo piatto", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp), maxLines = 2)
             }
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
@@ -281,7 +274,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
 
             Row(Modifier.padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(
-                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(27.dp)).background(C.Navy).clickable { camera.launch(photoUri) },
+                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(27.dp)).background(C.Navy).clickable { controller.stop(); camera.launch(photoUri) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     AIcon(Ic.Camera, Color(0xFFFFB820), 22.dp, 2f); GapW(10.dp)
@@ -289,7 +282,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 }
                 Row(
                     Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(27.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(27.dp))
-                        .clickable { gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                        .clickable { controller.stop(); gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     AIcon(PhIc.Image, A.Ink, 22.dp, 2f); GapW(10.dp)
@@ -304,7 +297,8 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             ) {
                 Row(
                     Modifier.weight(1.4f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (online) C.Navy else Color.Transparent)
-                        .clickable(enabled = !busy) { if (bitmap != null) runOnline() else online = true },
+                        .testTag("photo-mode-online").semantics { selected = online }
+                        .clickable(role = Role.RadioButton) { runOnline() },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     AIcon(Ic.Spark, if (online) Color(0xFFFFB820) else A.Ink, 20.dp, 2f); GapW(8.dp)
@@ -312,16 +306,17 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 }
                 Box(
                     Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (!online) C.Navy else Color.Transparent)
-                        .clickable(enabled = !busy) { if (bitmap != null) runOffline() else online = false },
+                        .testTag("photo-mode-offline").semantics { selected = !online }
+                        .clickable(role = Role.RadioButton) { runOffline() },
                     contentAlignment = Alignment.Center
                 ) { Text("Offline", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (!online) Color.White else A.Ink)) }
             }
             Text(
                 when {
-                    bitmap == null -> "Scatta o scegli una foto: l'analisi parte da sola."
+                    bitmap == null -> if (online) "Scatta o scegli una foto: partirà l'AI online." else "Scatta o scegli una foto: l'analisi resterà sul telefono."
                     s.ai.apiKey.isBlank() && online -> "Online: inserisci la chiave gratuita in Profilo → Intelligenza artificiale. Offline: riconosce il piatto senza internet."
                     online -> "Le quantità sono stimate guardando la foto; calorie e macro degli alimenti nel database vengono calcolate con i valori USDA."
-                    offlineOk -> "Offline: modello sul telefono (nomi in inglese)."
+                    offlineOk -> "Offline: riconosce il tipo di piatto senza inviare la foto. Scegli poi l'alimento e la porzione per calcolare kcal e macro."
                     else -> "Offline: modello non incluso."
                 },
                 style = T.Body.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp)
@@ -332,7 +327,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             }
             if (b != null && analyzed && !busy) Row(
                 Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(24.dp))
-                    .clickable { if (online) runOnline() else runOffline() },
+                    .clickable { controller.retry(hint) },
                 horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
             ) {
                 AIcon("M4 12a8 8 0 0 1 14-5.3M20 4v4h-4M20 12a8 8 0 0 1-14 5.3M4 20v-4h4", A.Ink, 20.dp, 2f); GapW(8.dp)
@@ -340,7 +335,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             }
 
             if (busy) {
-                val shown = if (status.startsWith("Invio")) listOf("Riconosco gli alimenti nel piatto…", "Stimo le quantità…")[(elapsed / 4) % 2] else status
+                val shown = status
                 ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 24.dp, padding = 16.dp, elevation = 6.dp) {
                     Column {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -349,7 +344,8 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                             Text("$elapsed s", style = T.Small.copy(color = A.Muted))
                         }
                         LinearProgressIndicator(Modifier.padding(top = 12.dp).fillMaxWidth().height(5.dp).clip(RoundedCornerShape(3.dp)), color = Color(0xFF2F6BFF), trackColor = Color(0xFFE3EAFB))
-                        if (elapsed >= 15) Text("Sto ancora aspettando l'AI gratuita: a volte è affollata. Puoi attendere o passare a Offline.", style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                        if (elapsed >= 15 && online) Text("L'AI gratuita sta impiegando più tempo. Puoi interrompere o scegliere Offline.", style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                        Text("Interrompi analisi", style = T.Link, modifier = Modifier.testTag("photo-stop").clickable { controller.stop() }.padding(vertical = 10.dp))
                     }
                 }
             }
@@ -421,7 +417,10 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 GHead("Piatti probabili (offline)", "Tocca il più corretto per cercarlo e scegliere la porzione.")
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     labels.forEach { l ->
-                        ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = { Nav.go(Screen.AddFood(date, meal, l.label)) }) {
+                        ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = {
+                            val query = l.label.takeIf { com.jarvis.food.data.Db.db.search(it).isNotEmpty() }.orEmpty()
+                            Nav.go(Screen.AddFood(date, meal, query, offlineOnly = true))
+                        }) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(l.label, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
                                 Text("${(l.score * 100).toInt()}%", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.Muted))
@@ -444,9 +443,9 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 }
                 val addShape = RoundedCornerShape(50)
                 Row(
-                    Modifier.height(54.dp).clip(addShape).background(C.OrangeBrush).clickable {
+                    Modifier.height(54.dp).clip(addShape).background(if (canAdd) C.OrangeBrush else Brush.linearGradient(listOf(C.Muted, C.Muted))).clickable(enabled = canAdd) {
                         sel.forEach { e ->
-                            val g = parseNum(e.grams) ?: e.base.grams
+                            val g = parseNum(e.grams) ?: return@clickable
                             val dbf = e.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
                             Store.addEntry(date, meal, dbf?.toFood() ?: e.base.toEstimatedFood(), g)
                         }
