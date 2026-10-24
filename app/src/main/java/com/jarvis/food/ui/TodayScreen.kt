@@ -377,7 +377,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                     }
                 }
             }
-            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 2.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.padding(top = 12.dp).fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 MealAction("Aggiungi") { Nav.go(Screen.AddFood(date, meal)) }
                 MealAction("Foto AI") { Nav.go(Screen.PhotoAi(date, meal)) }
                 MealAction("Copia da ieri") { Store.copyMeal(date.minusDays(1), meal, date, meal) }

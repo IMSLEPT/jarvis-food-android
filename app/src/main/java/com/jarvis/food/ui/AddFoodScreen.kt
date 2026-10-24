@@ -138,8 +138,10 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     val mealName = MEAL_LABEL.getValue(mealSel)
     val freq = Store.frequentFoods(s, mealSel)
 
-    Box(Modifier.fillMaxSize().imePadding()) {
-        LazyColumn(Modifier.fillMaxSize(), contentPadding = androidx.compose.foundation.layout.PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 130.dp)) {
+    // Reserve the footer's measured height, including system insets and larger text.
+    // The last action must stay separated from the fixed confirmation bar.
+    Column(Modifier.fillMaxSize().imePadding()) {
+        LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = androidx.compose.foundation.layout.PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 20.dp)) {
             item {
                 Row(Modifier.statusBarsPadding().padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
                     BackCircle { Nav.back() }
@@ -297,7 +299,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
 
         // Barra "alimenti aggiunti"
         val bs = RoundedCornerShape(30.dp)
-        Row(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 14.dp).fillMaxWidth()
+        Row(Modifier.navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 14.dp).fillMaxWidth()
             .aShadow(bs, 14.dp, Color(0x8C17286B)).clip(bs).background(C.NavyBrush).padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
