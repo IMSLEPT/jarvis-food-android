@@ -60,8 +60,11 @@ object EditorialPhotos {
         "ciotola_di_kefir_con_frutti_di_bosco_e_semi_di_zucca_s0" to "photography/kefir_bosco_s0.webp",
         "ciotola_di_kefir_con_uva_e_semi_di_zucca_s0" to "photography/kefir_bosco_s0.webp",
         "ciotola_di_yogurt_greco_0_con_albicocche_e_granola_s0" to "photography/yogurt_granola_s0.webp",
+        "ciotola_di_yogurt_greco_0_con_banana_e_granola" to "photography/ciotola_di_yogurt_greco_0_con_banana_e_granola.webp",
         "ciotola_di_yogurt_greco_0_con_banana_e_granola_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_0_con_banana_e_granola_s1" to "photography/banana_arachidi_s0.webp",
+        "ciotola_di_yogurt_greco_0_con_banana_e_granola_s2" to "photography/ciotola_di_yogurt_greco_0_con_banana_e_granola_s2.webp",
+        "ciotola_di_yogurt_greco_0_con_banana_e_granola_s3" to "photography/ciotola_di_yogurt_greco_0_con_banana_e_granola.webp",
         "ciotola_di_yogurt_greco_0_con_cachi_e_granola_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_0_con_fragole_e_granola_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_intero_con_ciliegie_e_fiocchi_di_ave_s0" to "photography/yogurt_granola_s0.webp",
@@ -90,8 +93,11 @@ object EditorialPhotos {
         "coppa_di_yogurt_greco_0_con_pesca_e_corn_flakes_s0" to "photography/yogurt_granola_s0.webp",
         "coppa_di_yogurt_greco_0_con_prugne_e_corn_flakes_s0" to "photography/yogurt_granola_s0.webp",
         "coppa_di_yogurt_greco_intero_con_albicocche_e_noci_s0" to "photography/yogurt_granola_s0.webp",
+        "coppa_di_yogurt_greco_intero_con_banana_e_noci" to "photography/coppa_di_yogurt_greco_intero_con_banana_e_noci.webp",
         "coppa_di_yogurt_greco_intero_con_banana_e_noci_s0" to "photography/yogurt_granola_s0.webp",
         "coppa_di_yogurt_greco_intero_con_banana_e_noci_s1" to "photography/banana_arachidi_s0.webp",
+        "coppa_di_yogurt_greco_intero_con_banana_e_noci_s2" to "photography/coppa_di_yogurt_greco_intero_con_banana_e_noci_s2.webp",
+        "coppa_di_yogurt_greco_intero_con_banana_e_noci_s3" to "photography/coppa_di_yogurt_greco_intero_con_banana_e_noci.webp",
         "coppa_di_yogurt_greco_intero_con_cachi_e_noci_s0" to "photography/yogurt_granola_s0.webp",
         "coppa_di_yogurt_greco_intero_con_fragole_e_noci_s0" to "photography/yogurt_granola_s0.webp",
         "coppa_di_yogurt_magro_con_mela_e_cocco_rape_s1" to "photography/greco_mela_nocciole_s0.webp",
@@ -198,15 +204,15 @@ object EditorialPhotos {
         "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_avena" to "photography/pancake_avena.webp",
         "pancake_avena_s0" to "photography/pancake_avena_s0.webp",
+    )
+
+    private fun group1() = mapOf(
         "pancake_avena_s1" to "photography/pancake_avena_s1.webp",
         "pancake_avena_s2" to "photography/pancake_avena_s2.webp",
         "pancake_avena_s3" to "photography/pancake_avena.webp",
         "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -401,6 +407,9 @@ object EditorialPhotos {
         "yogurt_greco_intero_con_banana" to "photography/yogurt_greco_intero_con_banana.webp",
         "yogurt_greco_intero_con_banana_s0" to "photography/banana_arachidi_s0.webp",
         "yogurt_greco_intero_con_banana_s1" to "photography/yogurt_greco_intero_con_banana.webp",
+    )
+
+    private fun group2() = mapOf(
         "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",
@@ -409,6 +418,7 @@ object EditorialPhotos {
     private val assets = buildMap<String, String> {
         putAll(group0())
         putAll(group1())
+        putAll(group2())
     }
 
     fun asset(key: String, original: String?): String? = assets[key]

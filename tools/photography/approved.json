@@ -4561,5 +4561,73 @@
     "sha256": "cbb8a46a11e72ac1058ad1ab83eb3071c6baba52e75ba74f50268a6bdc03e30c",
     "photoGroup": "df88ec533d76c326fbb1",
     "sharedFrom": "albume_sodo_pomodori"
+  },
+  "ciotola_di_yogurt_greco_0_con_banana_e_granola_s2": {
+    "asset": "photography/ciotola_di_yogurt_greco_0_con_banana_e_granola_s2.webp",
+    "recipeId": "ciotola_di_yogurt_greco_0_con_banana_e_granola",
+    "stepIndex": 2,
+    "subject": "Aggiungi la frutta e {granola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ciotola di yogurt greco 0% con banana e granola. Ingredients: yogurt greco 0%, Banana, granola, miele. Earlier actions (context only): Versa yogurt greco 0% in una ciotola. Taglia Banana a rondelle. Focal action to photograph: Aggiungi la frutta e granola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "1e1185cb72cd026be00fe2141f8da5c20e1079eb46f69c82aafeaab26403b07e",
+    "photoGroup": "8a9e6fae3c4a9d6111ad"
+  },
+  "ciotola_di_yogurt_greco_0_con_banana_e_granola": {
+    "asset": "photography/ciotola_di_yogurt_greco_0_con_banana_e_granola.webp",
+    "recipeId": "ciotola_di_yogurt_greco_0_con_banana_e_granola",
+    "stepIndex": null,
+    "subject": "Ciotola di yogurt greco 0% con banana e granola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ciotola di yogurt greco 0% con banana e granola. Ingredients: yogurt greco 0%, Banana, granola, miele.  Preparation context (do not print it): Versa yogurt greco 0% in una ciotola. Taglia Banana a rondelle. Aggiungi la frutta e granola. Completa con miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "82707ff2b51a851c729562a264df4739e750f488183953111b9e655133922586",
+    "photoGroup": "297f72940d13e76ea1b6"
+  },
+  "coppa_di_yogurt_greco_intero_con_banana_e_noci": {
+    "asset": "photography/coppa_di_yogurt_greco_intero_con_banana_e_noci.webp",
+    "recipeId": "coppa_di_yogurt_greco_intero_con_banana_e_noci",
+    "stepIndex": null,
+    "subject": "Coppa di yogurt greco intero con banana e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Coppa di yogurt greco intero con banana e noci. Ingredients: yogurt greco intero, Banana, noci, marmellata.  Preparation context (do not print it): Versa yogurt greco intero in una ciotola. Taglia Banana a rondelle. Aggiungi la frutta e noci. Completa con marmellata. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "1d96eb89e4c95e9b0ba9defd4f8eed5bec10079532a678fb4345b6fb3d52c2bf",
+    "photoGroup": "24adbc8b6bba89018ede"
+  },
+  "coppa_di_yogurt_greco_intero_con_banana_e_noci_s2": {
+    "asset": "photography/coppa_di_yogurt_greco_intero_con_banana_e_noci_s2.webp",
+    "recipeId": "coppa_di_yogurt_greco_intero_con_banana_e_noci",
+    "stepIndex": 2,
+    "subject": "Aggiungi la frutta e {noci}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Coppa di yogurt greco intero con banana e noci. Ingredients: yogurt greco intero, Banana, noci, marmellata. Earlier actions (context only): Versa yogurt greco intero in una ciotola. Taglia Banana a rondelle. Focal action to photograph: Aggiungi la frutta e noci.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e83acda0262d55ab369ea905d05e720ce7906513cda747ac6d87278bc83d9121",
+    "photoGroup": "b29d5fb6ee9bcc3cf8b9"
+  },
+  "ciotola_di_yogurt_greco_0_con_banana_e_granola_s3": {
+    "asset": "photography/ciotola_di_yogurt_greco_0_con_banana_e_granola.webp",
+    "recipeId": "ciotola_di_yogurt_greco_0_con_banana_e_granola",
+    "stepIndex": 3,
+    "subject": "Completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ciotola di yogurt greco 0% con banana e granola. Ingredients: yogurt greco 0%, Banana, granola, miele.  Preparation context (do not print it): Versa yogurt greco 0% in una ciotola. Taglia Banana a rondelle. Aggiungi la frutta e granola. Completa con miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "82707ff2b51a851c729562a264df4739e750f488183953111b9e655133922586",
+    "photoGroup": "297f72940d13e76ea1b6",
+    "sharedFrom": "ciotola_di_yogurt_greco_0_con_banana_e_granola"
+  },
+  "coppa_di_yogurt_greco_intero_con_banana_e_noci_s3": {
+    "asset": "photography/coppa_di_yogurt_greco_intero_con_banana_e_noci.webp",
+    "recipeId": "coppa_di_yogurt_greco_intero_con_banana_e_noci",
+    "stepIndex": 3,
+    "subject": "Completa con {marmellata}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Coppa di yogurt greco intero con banana e noci. Ingredients: yogurt greco intero, Banana, noci, marmellata.  Preparation context (do not print it): Versa yogurt greco intero in una ciotola. Taglia Banana a rondelle. Aggiungi la frutta e noci. Completa con marmellata. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "1d96eb89e4c95e9b0ba9defd4f8eed5bec10079532a678fb4345b6fb3d52c2bf",
+    "photoGroup": "24adbc8b6bba89018ede",
+    "sharedFrom": "coppa_di_yogurt_greco_intero_con_banana_e_noci"
   }
 }
