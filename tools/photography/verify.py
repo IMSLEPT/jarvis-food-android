@@ -31,10 +31,21 @@ def main():
         data = (ASSETS / path).read_bytes()
         assert len(data) > 10000 and data[:4] == b'RIFF' and data[8:12] == b'WEBP', key
         assert hashlib.sha256(data).hexdigest() == record['sha256'], key
+        assert record['kind'] in ('ai_illustration', 'licensed_photo'), key
+        if record['kind'] == 'licensed_photo':
+            source = record['source']
+            assert all(source.get(field) for field in ('provider', 'author', 'pageUrl', 'originalUrl', 'license', 'licenseUrl', 'verifiedAt', 'changes')), key
+            assert all(source[field].startswith('https://') for field in ('pageUrl', 'originalUrl', 'licenseUrl')), key
+            assert record['generator'] == source['provider'], key
+        else:
+            assert record['generator'] == 'built-in image_gen', key
         if 'sharedFrom' in record:
             source, source_index = subject(recipes, record['sharedFrom'])
             assert group_id(recipe, index) == group_id(source, source_index), key
             assert records[record['sharedFrom']]['asset'] == path, key
+            original = records[record['sharedFrom']]
+            assert record['kind'] == original['kind'], key
+            assert record.get('source') == original.get('source'), key
             shared += 1
     heroes = [key for key in records if key in recipes]
     for key in heroes:

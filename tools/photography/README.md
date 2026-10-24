@@ -12,15 +12,15 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. La raccolta attuale
-contiene **74 ricette complete, 409 abbinamenti immagine e 202 fotografie distinte**.
+contiene **76 ricette complete, 418 abbinamenti immagine e 207 fotografie distinte**.
 Tutte le 49 ricette che avevano immagini nel catalogo originale sono complete.
-La raccolta attuale copre 214 passaggi fotografici di 74 ricette.
+La raccolta attuale copre 220 passaggi fotografici di 76 ricette.
 Le fotografie di azioni compatibili sono condivise anche con altre ricette.
-Restano 2459 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
+Restano 2457 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
 Le immagini sono WebP locali: disponibili offline, senza chiavi API o richieste
-di rete dal telefono. L'app le identifica come immagini illustrative create con AI.
+di rete dal telefono. L'app distingue le illustrazioni AI dalle fotografie reali con credito all'autore.
 Le fotografie caricate dall'utente mantengono la precedenza.
 
 ## Dati e ripristino
@@ -58,3 +58,7 @@ Il ripristino si effettua con Revert della PR su GitHub, senza selettori nell'ap
 
 Le immagini non ancora prodotte conservano il comportamento originale. Non sono
 abbinate automaticamente a piatti simili o a fotografie generiche.
+
+## Foto online gratuite
+
+Autorizzate da Alessandro il 24 ottobre 2026, purché gratuite, di alta qualità e coerenti con ingredienti e fase della ricetta. La licenza deve consentirne l’uso nell’app. Registrare fonte, autore, licenza, verifica e conversioni in `approved.json`; non qualificare queste fotografie come generate con AI. Il riuso compatibile deve conservare i metadati originali. I crediti delle foto importate sono anche in `LICENSED-PHOTOS.md`.

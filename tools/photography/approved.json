@@ -4697,5 +4697,138 @@
     "sha256": "01e2ebc9a60a4c877ccc84ef92763e5f44c438bca0db85ca03d5e862a5e6a8ff",
     "photoGroup": "9746c9bd52ea5732484c",
     "sharedFrom": "bowl_di_kefir_con_mela_e_pistacchi"
+  },
+  "pane_integrale_con_ricotta_miele_e_fichi": {
+    "asset": "photography/pane_integrale_con_ricotta_miele_e_fichi.webp",
+    "recipeId": "pane_integrale_con_ricotta_miele_e_fichi",
+    "stepIndex": null,
+    "subject": "Pane integrale con ricotta, miele e fichi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, miele e fichi. Ingredients: Pane integrale, Ricotta, Miele, Fichi.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Taglia Fichi a spicchi e adagiali sopra; completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "2b8de9201fa65b646aa9c8acdef258c64b1b58679a158f1c83476638536f17f6",
+    "photoGroup": "af4d519051d114d8ec5d"
+  },
+  "pane_integrale_con_ricotta_miele_e_fichi_s1": {
+    "asset": "photography/pane_integrale_con_ricotta_miele_e_fichi_s1.webp",
+    "recipeId": "pane_integrale_con_ricotta_miele_e_fichi",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, miele e fichi. Ingredients: Pane integrale, Ricotta, Miele, Fichi. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "c50977e0e96e5613cca0a1ce3cc296d7dc4cff50ab45a4b949fdd27ea9eb3f49",
+    "photoGroup": "19e87a36aae8864ccd1d"
+  },
+  "pane_con_ricotta_miele_e_fichi": {
+    "asset": "photography/pane_con_ricotta_miele_e_fichi.webp",
+    "recipeId": "pane_con_ricotta_miele_e_fichi",
+    "stepIndex": null,
+    "subject": "Pane con ricotta, miele e fichi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, miele e fichi. Ingredients: Pane comune, Ricotta, Miele, Fichi.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Taglia Fichi a spicchi e adagiali sopra; completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "c946776e8745c8a115682503452b1804161d4da9f34633c908a4d72d24ad0ec8",
+    "photoGroup": "2671124c3fbdc2921917"
+  },
+  "pane_con_ricotta_miele_e_fichi_s1": {
+    "asset": "photography/pane_con_ricotta_miele_e_fichi_s1.webp",
+    "recipeId": "pane_con_ricotta_miele_e_fichi",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, miele e fichi. Ingredients: Pane comune, Ricotta, Miele, Fichi. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "cd5eaa603be8f957750f3140051d49608f5800e74f9b74f3f73366212acf2f2e",
+    "photoGroup": "3959310a594df1d9456b"
+  },
+  "pane_integrale_con_avocado_e_uova_s1": {
+    "asset": "photography/pane_integrale_con_avocado_e_uova_s1.webp",
+    "recipeId": "pane_integrale_con_avocado_e_uova",
+    "stepIndex": 1,
+    "subject": "Cuoci {uova} in camicia o al tegamino 3 minuti.",
+    "kind": "licensed_photo",
+    "generator": "Unsplash",
+    "source": {
+      "provider": "Unsplash",
+      "author": "hartono subagio",
+      "pageUrl": "https://unsplash.com/photos/two-fried-eggs-sizzling-in-a-black-pan-erKGr4qNOH8",
+      "originalUrl": "https://images.unsplash.com/photo-1760192716247-382af2aa9b35?auto=format&fit=max&w=1600&q=90",
+      "license": "Unsplash License",
+      "licenseUrl": "https://unsplash.com/license",
+      "verifiedAt": "2026-10-24",
+      "changes": "Ridimensionata a massimo 1280 px e convertita in WebP; soggetto fotografico invariato."
+    },
+    "prompt": "",
+    "sha256": "68f023657ab85829c8d3fbf286fed8587a17dc6377bfd0d4e989ac0e4d6971dc",
+    "photoGroup": "baf4469890a728cac0e6"
+  },
+  "pane_integrale_con_ricotta_miele_e_fichi_s2": {
+    "asset": "photography/pane_integrale_con_ricotta_miele_e_fichi.webp",
+    "recipeId": "pane_integrale_con_ricotta_miele_e_fichi",
+    "stepIndex": 2,
+    "subject": "Taglia {fichi} a spicchi e adagiali sopra; completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, miele e fichi. Ingredients: Pane integrale, Ricotta, Miele, Fichi.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Taglia Fichi a spicchi e adagiali sopra; completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "2b8de9201fa65b646aa9c8acdef258c64b1b58679a158f1c83476638536f17f6",
+    "photoGroup": "af4d519051d114d8ec5d",
+    "sharedFrom": "pane_integrale_con_ricotta_miele_e_fichi"
+  },
+  "pane_con_ricotta_miele_e_fichi_s2": {
+    "asset": "photography/pane_con_ricotta_miele_e_fichi.webp",
+    "recipeId": "pane_con_ricotta_miele_e_fichi",
+    "stepIndex": 2,
+    "subject": "Taglia {fichi} a spicchi e adagiali sopra; completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, miele e fichi. Ingredients: Pane comune, Ricotta, Miele, Fichi.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Taglia Fichi a spicchi e adagiali sopra; completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "c946776e8745c8a115682503452b1804161d4da9f34633c908a4d72d24ad0ec8",
+    "photoGroup": "2671124c3fbdc2921917",
+    "sharedFrom": "pane_con_ricotta_miele_e_fichi"
+  },
+  "pane_con_avocado_e_uova_s1": {
+    "asset": "photography/pane_integrale_con_avocado_e_uova_s1.webp",
+    "recipeId": "pane_con_avocado_e_uova",
+    "stepIndex": 1,
+    "subject": "Cuoci {uova} in camicia o al tegamino 3 minuti.",
+    "kind": "licensed_photo",
+    "generator": "Unsplash",
+    "source": {
+      "provider": "Unsplash",
+      "author": "hartono subagio",
+      "pageUrl": "https://unsplash.com/photos/two-fried-eggs-sizzling-in-a-black-pan-erKGr4qNOH8",
+      "originalUrl": "https://images.unsplash.com/photo-1760192716247-382af2aa9b35?auto=format&fit=max&w=1600&q=90",
+      "license": "Unsplash License",
+      "licenseUrl": "https://unsplash.com/license",
+      "verifiedAt": "2026-10-24",
+      "changes": "Ridimensionata a massimo 1280 px e convertita in WebP; soggetto fotografico invariato."
+    },
+    "prompt": "",
+    "sha256": "68f023657ab85829c8d3fbf286fed8587a17dc6377bfd0d4e989ac0e4d6971dc",
+    "photoGroup": "baf4469890a728cac0e6",
+    "sharedFrom": "pane_integrale_con_avocado_e_uova_s1"
+  },
+  "fette_biscottate_con_avocado_e_uova_s1": {
+    "asset": "photography/pane_integrale_con_avocado_e_uova_s1.webp",
+    "recipeId": "fette_biscottate_con_avocado_e_uova",
+    "stepIndex": 1,
+    "subject": "Cuoci {uova} in camicia o al tegamino 3 minuti.",
+    "kind": "licensed_photo",
+    "generator": "Unsplash",
+    "source": {
+      "provider": "Unsplash",
+      "author": "hartono subagio",
+      "pageUrl": "https://unsplash.com/photos/two-fried-eggs-sizzling-in-a-black-pan-erKGr4qNOH8",
+      "originalUrl": "https://images.unsplash.com/photo-1760192716247-382af2aa9b35?auto=format&fit=max&w=1600&q=90",
+      "license": "Unsplash License",
+      "licenseUrl": "https://unsplash.com/license",
+      "verifiedAt": "2026-10-24",
+      "changes": "Ridimensionata a massimo 1280 px e convertita in WebP; soggetto fotografico invariato."
+    },
+    "prompt": "",
+    "sha256": "68f023657ab85829c8d3fbf286fed8587a17dc6377bfd0d4e989ac0e4d6971dc",
+    "photoGroup": "baf4469890a728cac0e6",
+    "sharedFrom": "pane_integrale_con_avocado_e_uova_s1"
   }
 }

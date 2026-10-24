@@ -201,8 +201,8 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                     RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(280.dp), recEmoji(tpl.meal), 0.dp)
                     Box(Modifier.fillMaxWidth().height(160.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
                     val photoLabel = if (s.recipePhotos[tpl.id] != null) null
-                        else if (EditorialPhotos.contains(tpl.id)) "Immagine illustrativa · AI"
-                        else tpl.credit?.author?.takeIf { it.isNotBlank() }?.take(40)
+                        else EditorialPhotos.label(tpl.id, tpl.image)
+                            ?: tpl.credit?.author?.takeIf { it.isNotBlank() }?.take(40)
                     photoLabel?.let { label ->
                         Text(label, style = T.Small.copy(color = Color.White),
                             modifier = Modifier.padding(start = 16.dp, top = 200.dp).clip(RoundedCornerShape(50))

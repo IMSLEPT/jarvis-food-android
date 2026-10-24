@@ -121,6 +121,7 @@ object EditorialPhotos {
         "fette_arachidi_s0" to "photography/fette_arachidi_s0.webp",
         "fette_arachidi_s1" to "photography/fette_arachidi_s1.webp",
         "fette_arachidi_s2" to "photography/fette_arachidi.webp",
+        "fette_biscottate_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
         "fiocchi_crackers" to "photography/fiocchi_crackers.webp",
         "fiocchi_crackers_s0" to "photography/fiocchi_crackers_s0.webp",
         "fiocchi_crackers_s1" to "photography/fiocchi_crackers.webp",
@@ -203,10 +204,10 @@ object EditorialPhotos {
         "overnight_oats_con_banana_e_chia_s2" to "photography/banana_arachidi_s0.webp",
         "overnight_oats_con_mela_e_semi_di_lino_s2" to "photography/greco_mela_nocciole_s0.webp",
         "overnight_oats_s0" to "photography/overnight_oats_s0.webp",
-        "overnight_oats_s1" to "photography/overnight_oats_s1.webp",
     )
 
     private fun group1() = mapOf(
+        "overnight_oats_s1" to "photography/overnight_oats_s1.webp",
         "overnight_oats_s2" to "photography/overnight_oats_s2.webp",
         "pancake_al_cocco_con_mela_e_cannella_e_burro_di_mandorle_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_ricotta_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
@@ -220,6 +221,7 @@ object EditorialPhotos {
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
         "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -237,7 +239,10 @@ object EditorialPhotos {
         "pane_con_ricotta_e_marmellata" to "photography/pane_con_ricotta_e_marmellata.webp",
         "pane_con_ricotta_e_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_e_marmellata_s1" to "photography/pane_con_ricotta_e_marmellata.webp",
+        "pane_con_ricotta_miele_e_fichi" to "photography/pane_con_ricotta_miele_e_fichi.webp",
         "pane_con_ricotta_miele_e_fichi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_ricotta_miele_e_fichi_s1" to "photography/pane_con_ricotta_miele_e_fichi_s1.webp",
+        "pane_con_ricotta_miele_e_fichi_s2" to "photography/pane_con_ricotta_miele_e_fichi.webp",
         "pane_con_ricotta_pesche_e_pistacchi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tahina_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -245,6 +250,7 @@ object EditorialPhotos {
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
         "pane_integrale_con_bresaola_e_rucola_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_arachidi_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_mandorle_e_fragole_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -262,7 +268,10 @@ object EditorialPhotos {
         "pane_integrale_con_ricotta_e_marmellata" to "photography/pane_integrale_con_ricotta_e_marmellata.webp",
         "pane_integrale_con_ricotta_e_marmellata_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_ricotta_e_marmellata_s1" to "photography/pane_integrale_con_ricotta_e_marmellata.webp",
+        "pane_integrale_con_ricotta_miele_e_fichi" to "photography/pane_integrale_con_ricotta_miele_e_fichi.webp",
         "pane_integrale_con_ricotta_miele_e_fichi_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_ricotta_miele_e_fichi_s1" to "photography/pane_integrale_con_ricotta_miele_e_fichi_s1.webp",
+        "pane_integrale_con_ricotta_miele_e_fichi_s2" to "photography/pane_integrale_con_ricotta_miele_e_fichi.webp",
         "pane_integrale_con_ricotta_pesche_e_pistacchi_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_tahina_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -398,6 +407,9 @@ object EditorialPhotos {
         "trota_patate_dolci_s0" to "photography/trota_patate_dolci_s0.webp",
         "trota_patate_dolci_s1" to "photography/trota_patate_dolci_s1.webp",
         "trota_patate_dolci_s2" to "photography/trota_patate_dolci.webp",
+    )
+
+    private fun group2() = mapOf(
         "uova_strapazzate_con_asparagi_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_broccoli_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_cipollotti_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
@@ -407,9 +419,6 @@ object EditorialPhotos {
         "uova_strapazzate_con_spinaci_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_zucchine_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "yogurt_granola" to "photography/yogurt_granola.webp",
-    )
-
-    private fun group2() = mapOf(
         "yogurt_granola_s0" to "photography/yogurt_granola_s0.webp",
         "yogurt_granola_s1" to "photography/yogurt_granola_s1.webp",
         "yogurt_granola_s2" to "photography/yogurt_granola.webp",
@@ -427,11 +436,18 @@ object EditorialPhotos {
         putAll(group2())
     }
 
+    private val photoCredits: Map<String, String> = mapOf(
+        "photography/pane_integrale_con_avocado_e_uova_s1.webp" to "Foto: hartono subagio · Unsplash",
+    )
+
     fun asset(key: String, original: String?): String? = assets[key]
         ?: original?.takeIf { it.startsWith("recipes/") && it.endsWith(".webp") }
             ?.let { assets[it.removePrefix("recipes/").removeSuffix(".webp")] }
         ?: original
     fun contains(key: String): Boolean = key in assets
+    fun label(key: String, original: String?): String? = asset(key, original)?.let { path ->
+        photoCredits[path] ?: if (path in paths) "Immagine illustrativa · AI" else null
+    }
     val keys: Set<String> get() = assets.keys
     val paths: Set<String> get() = assets.values.toSet()
     fun step(recipeId: String, index: Int, original: String?): String? = asset("${recipeId}_s$index", original)
