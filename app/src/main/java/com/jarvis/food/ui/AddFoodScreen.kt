@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -64,7 +65,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
-fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
+fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offlineOnly: Boolean = false) {
     val s by Store.state.collectAsState()
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -88,9 +89,9 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     }
 
     // Ricerca online con attesa di 600 ms dopo l'ultima digitazione.
-    LaunchedEffect(query) {
-        online = emptyList(); error = null
-        if (query.trim().length < 3) return@LaunchedEffect
+    LaunchedEffect(query, offlineOnly) {
+        online = emptyList(); error = null; loading = false
+        if (offlineOnly || query.trim().length < 3) return@LaunchedEffect
         delay(600)
         loading = true
         runCatching { OpenFoodFacts.search(query) }
@@ -152,6 +153,10 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                     }
                 }
                 MealChips(mealSel, Modifier.padding(top = 16.dp)) { mealSel = it }
+                if (offlineOnly) Column(Modifier.padding(top = 14.dp).testTag("food-search-offline")) {
+                    Text("Solo database sul telefono", style = T.Label.copy(color = A.GreenInk))
+                    Text("Cerca l'alimento in italiano e conferma il peso. Per un piatto composto aggiungi anche gli altri ingredienti e i condimenti.", style = T.Small)
+                }
                 // Ricerca
                 val sb = RoundedCornerShape(30.dp)
                 Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(60.dp).aShadow(sb, 10.dp, Color(0x801D1B3A)).clip(sb).background(Color.White).border(1.dp, Color(0x141D1B3A), sb)
@@ -163,7 +168,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                         BasicTextField(query, { query = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 16.sp, color = A.Ink),
                             cursorBrush = SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
                     }
-                    Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))).clickable { scan() }, contentAlignment = Alignment.Center) {
+                    if (!offlineOnly) Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))).clickable { scan() }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Barcode, A.Ink, 22.dp, 2.2f)
                     }
                 }
@@ -249,7 +254,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
             }
 
             // Prodotti confezionati
-            item {
+            if (!offlineOnly) item {
                 Row(Modifier.padding(top = 18.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text("Prodotti confezionati", style = T.H2.copy(fontSize = 20.sp), modifier = Modifier.weight(1f))
                     Text("Open Food Facts", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
@@ -275,7 +280,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                     if (!loading && online.isEmpty() && error == null) Text("Nessun prodotto trovato online.", style = T.Small)
                 }
             }
-            if (query.trim().length >= 3) items(online, key = { "o" + it.id }) { f ->
+            if (!offlineOnly && query.trim().length >= 3) items(online, key = { "o" + it.id }) { f ->
                 FoodRow(f, null, date, mealSel, added = f.id in added) { grams -> toggle(f, grams) }
                 GapH(8.dp)
             }

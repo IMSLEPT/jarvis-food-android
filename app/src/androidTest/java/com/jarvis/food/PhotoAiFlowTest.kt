@@ -61,4 +61,20 @@ class PhotoAiFlowTest {
             assertTrue(labels.all { it.label.isNotBlank() && it.score.isFinite() && it.score in 0f..1f })
         } finally { bitmap.recycle() }
     }
+
+    @Test fun offlineResultSearchUsesLocalFoodsWithoutOnlinePanels() {
+        val context = ins.targetContext
+        Store.init(context)
+        ins.runOnMainSync {
+            Store.update { AppState(onboarded = true) }
+            Nav.clear(); Nav.go(Screen.AddFood(LocalDate.now(), 0, "pasta", offlineOnly = true))
+        }
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithTag("food-search-offline").assertIsDisplayed()
+            compose.onNodeWithText("Pasta di semola").assertIsDisplayed()
+            compose.onNodeWithText("Open Food Facts").assertDoesNotExist()
+            compose.onNodeWithText("Prodotti confezionati").assertDoesNotExist()
+        }
+        ins.runOnMainSync { Nav.clear() }
+    }
 }

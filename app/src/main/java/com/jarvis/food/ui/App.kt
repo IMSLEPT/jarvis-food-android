@@ -62,7 +62,7 @@ import java.time.LocalDate
 
 /** Schermate secondarie aperte sopra le schede principali. */
 sealed class Screen {
-    data class AddFood(val date: LocalDate, val meal: Int, val query: String = "") : Screen()
+    data class AddFood(val date: LocalDate, val meal: Int, val query: String = "", val offlineOnly: Boolean = false) : Screen()
     data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null) : Screen()
     data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null) : Screen()
     data class PhotoAi(val date: LocalDate, val meal: Int) : Screen()
@@ -133,7 +133,7 @@ fun App() {
 private fun ScreenHost(s: Screen) {
     Box(Modifier.fillMaxSize().background(C.Bg)) {
         when (s) {
-            is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query)
+            is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly)
             is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry)
             is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit)
             is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal)

@@ -417,7 +417,10 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 GHead("Piatti probabili (offline)", "Tocca il più corretto per cercarlo e scegliere la porzione.")
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     labels.forEach { l ->
-                        ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = { Nav.go(Screen.AddFood(date, meal, l.label)) }) {
+                        ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = {
+                            val query = l.label.takeIf { com.jarvis.food.data.Db.db.search(it).isNotEmpty() }.orEmpty()
+                            Nav.go(Screen.AddFood(date, meal, query, offlineOnly = true))
+                        }) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(l.label, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
                                 Text("${(l.score * 100).toInt()}%", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.Muted))
