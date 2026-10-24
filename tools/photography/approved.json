@@ -4876,5 +4876,73 @@
     "sha256": "c5a7494434b78abc06633d5fb1dff7eb2afc97831b96810f620c9b31487648e7",
     "photoGroup": "32e4f463cf8c92688ef8",
     "sharedFrom": "pane_con_avocado_e_uova"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato": {
+    "asset": "photography/pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": null,
+    "subject": "Pane integrale con formaggio spalmabile e salmone affumicato",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this cookbook photograph. Remove all the black pepper specks from the cucumber slices, salmon, cream cheese and plate. The recipe includes only wholegrain toast, cream cheese, smoked salmon, cucumber and fresh dill. Preserve the entire composition, dish, natural light, plate, food shapes and background. Do not introduce any new ingredients. No text.",
+    "sha256": "2867cfdfee36d3165e5d1dc1ccae83ccb3b6dd1166aff509095c6dda6e2e1ba6",
+    "photoGroup": "c84aa5d7035f8abb8367"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s1": {
+    "asset": "photography/pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s1.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": 1,
+    "subject": "Spalma {spalmabile} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con formaggio spalmabile e salmone affumicato. Ingredients: Pane integrale, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma formaggio spalmabile sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "ddeb11e9a7dba1ab026cce01c5529ecaf128832e43eccad4ea460690784dfa70",
+    "photoGroup": "15e83e01963d983a9c9a"
+  },
+  "pane_con_formaggio_spalmabile_e_salmone_affumicato": {
+    "asset": "photography/pane_con_formaggio_spalmabile_e_salmone_affumicato.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": null,
+    "subject": "Pane con formaggio spalmabile e salmone affumicato",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con formaggio spalmabile e salmone affumicato. Ingredients: Pane comune, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi Salmone affumicato, Cetrioli a rondelle e Aneto fresco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. No pepper, spices, seeds or other garnishes not listed.",
+    "sha256": "5af006c8da252bdd84b33b87849547ef7b0a9059351eba946e8dddb4f242ab70",
+    "photoGroup": "5da4a43973835c0aca97"
+  },
+  "pane_con_formaggio_spalmabile_e_salmone_affumicato_s1": {
+    "asset": "photography/pane_con_formaggio_spalmabile_e_salmone_affumicato_s1.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": 1,
+    "subject": "Spalma {spalmabile} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con formaggio spalmabile e salmone affumicato. Ingredients: Pane comune, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma formaggio spalmabile sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "450ded6d89485917c836a853120f7498b30ef95193dc6ff521f58f33a90656ba",
+    "photoGroup": "61876c091645367dbe9d"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s2": {
+    "asset": "photography/pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": 2,
+    "subject": "Aggiungi {salmone_aff}, {cetrioli} a rondelle e {aneto}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this cookbook photograph. Remove all the black pepper specks from the cucumber slices, salmon, cream cheese and plate. The recipe includes only wholegrain toast, cream cheese, smoked salmon, cucumber and fresh dill. Preserve the entire composition, dish, natural light, plate, food shapes and background. Do not introduce any new ingredients. No text.",
+    "sha256": "2867cfdfee36d3165e5d1dc1ccae83ccb3b6dd1166aff509095c6dda6e2e1ba6",
+    "photoGroup": "c84aa5d7035f8abb8367",
+    "sharedFrom": "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato"
+  },
+  "pane_con_formaggio_spalmabile_e_salmone_affumicato_s2": {
+    "asset": "photography/pane_con_formaggio_spalmabile_e_salmone_affumicato.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": 2,
+    "subject": "Aggiungi {salmone_aff}, {cetrioli} a rondelle e {aneto}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con formaggio spalmabile e salmone affumicato. Ingredients: Pane comune, formaggio spalmabile, Salmone affumicato, Cetrioli, Aneto fresco.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi Salmone affumicato, Cetrioli a rondelle e Aneto fresco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. No pepper, spices, seeds or other garnishes not listed.",
+    "sha256": "5af006c8da252bdd84b33b87849547ef7b0a9059351eba946e8dddb4f242ab70",
+    "photoGroup": "5da4a43973835c0aca97",
+    "sharedFrom": "pane_con_formaggio_spalmabile_e_salmone_affumicato"
   }
 }
