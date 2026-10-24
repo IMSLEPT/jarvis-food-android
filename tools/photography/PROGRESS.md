@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 ## Stato verificato
 
 - 2533 ricette, 10.239 passaggi nel database.
-- 76 ricette complete di foto principale e di tutti i passaggi.
-- 207 WebP distinti (1 fotografie online gratuite), 418 abbinamenti verificati.
-- 220 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
-- 2457 ricette da completare.
-- Seconda ripresa: 5 nuove immagini, 2 ricette ulteriori completate rispetto alle 74 iniziali.
+- 78 ricette complete di foto principale e di tutti i passaggi.
+- 209 WebP distinti (1 fotografie online gratuite), 422 abbinamenti verificati.
+- 226 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
+- 2455 ricette da completare.
+- Seconda ripresa: 7 nuove immagini, 4 ricette ulteriori completate rispetto alle 74 iniziali.
 - Checkpoint precedente c662c008: 74 ricette, 202 immagini, 214 passaggi delle ricette complete. Tutti conservati.
 - Ultimo APK consegnato al momento del checkpoint: 1.0.87, con 49 ricette fotografiche complete. Le nuove immagini necessitano di una compilazione aggiornata; non dichiararle presenti nell’APK consegnato senza verifica.
 
@@ -17,11 +17,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 
 - Pane integrale con ricotta, miele e fichi (`pane_integrale_con_ricotta_miele_e_fichi`)
 - Pane con ricotta, miele e fichi (`pane_con_ricotta_miele_e_fichi`)
+- Pane integrale con avocado e uova (`pane_integrale_con_avocado_e_uova`)
+- Pane con avocado e uova (`pane_con_avocado_e_uova`)
 
 ## Prossime ricette da completare
 
-- Pane integrale con avocado e uova (`pane_integrale_con_avocado_e_uova`): 1 nuovi soggetti mancanti.
-- Pane con avocado e uova (`pane_con_avocado_e_uova`): 1 nuovi soggetti mancanti.
 - Fette biscottate con avocado e uova (`fette_biscottate_con_avocado_e_uova`): 2 nuovi soggetti mancanti.
 - Pane integrale con formaggio spalmabile e salmone affumicato (`pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato`): 2 nuovi soggetti mancanti.
 - Pane con formaggio spalmabile e salmone affumicato (`pane_con_formaggio_spalmabile_e_salmone_affumicato`): 2 nuovi soggetti mancanti.
@@ -32,6 +32,8 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Fette biscottate con ricotta e marmellata (`fette_biscottate_con_ricotta_e_marmellata`): 2 nuovi soggetti mancanti.
 - Pane integrale con prosciutto cotto e mozzarella (`pane_integrale_con_prosciutto_cotto_e_mozzarella`): 2 nuovi soggetti mancanti.
 - Pane con prosciutto cotto e mozzarella (`pane_con_prosciutto_cotto_e_mozzarella`): 2 nuovi soggetti mancanti.
+- Pane integrale con tonno e avocado (`pane_integrale_con_tonno_e_avocado`): 2 nuovi soggetti mancanti.
+- Pane con tonno e avocado (`pane_con_tonno_e_avocado`): 2 nuovi soggetti mancanti.
 
 ## Metodo e verifiche
 

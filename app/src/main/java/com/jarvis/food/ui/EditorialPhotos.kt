@@ -220,8 +220,10 @@ object EditorialPhotos {
         "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
+        "pane_con_avocado_e_uova" to "photography/pane_con_avocado_e_uova.webp",
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
+        "pane_con_avocado_e_uova_s2" to "photography/pane_con_avocado_e_uova.webp",
         "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -249,8 +251,10 @@ object EditorialPhotos {
         "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_integrale_con_avocado_e_uova" to "photography/pane_integrale_con_avocado_e_uova.webp",
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
+        "pane_integrale_con_avocado_e_uova_s2" to "photography/pane_integrale_con_avocado_e_uova.webp",
         "pane_integrale_con_bresaola_e_rucola_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_arachidi_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_mandorle_e_fragole_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -403,13 +407,13 @@ object EditorialPhotos {
         "tofu_verdure_s1" to "photography/tofu_verdure_s1.webp",
         "tofu_verdure_s2" to "photography/tofu_verdure_s2.webp",
         "tofu_verdure_s3" to "photography/tofu_verdure.webp",
+    )
+
+    private fun group2() = mapOf(
         "trota_patate_dolci" to "photography/trota_patate_dolci.webp",
         "trota_patate_dolci_s0" to "photography/trota_patate_dolci_s0.webp",
         "trota_patate_dolci_s1" to "photography/trota_patate_dolci_s1.webp",
         "trota_patate_dolci_s2" to "photography/trota_patate_dolci.webp",
-    )
-
-    private fun group2() = mapOf(
         "uova_strapazzate_con_asparagi_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_broccoli_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_cipollotti_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",

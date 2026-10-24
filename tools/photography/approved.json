@@ -4830,5 +4830,51 @@
     "sha256": "68f023657ab85829c8d3fbf286fed8587a17dc6377bfd0d4e989ac0e4d6971dc",
     "photoGroup": "baf4469890a728cac0e6",
     "sharedFrom": "pane_integrale_con_avocado_e_uova_s1"
+  },
+  "pane_integrale_con_avocado_e_uova": {
+    "asset": "photography/pane_integrale_con_avocado_e_uova.webp",
+    "recipeId": "pane_integrale_con_avocado_e_uova",
+    "stepIndex": null,
+    "subject": "Pane integrale con avocado e uova",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con avocado e uova. Ingredients: Pane integrale, Avocado, Uova, Pepe nero.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Cuoci Uova in camicia o al tegamino 3 minuti. Schiaccia Avocado sul pane tostato, aggiungi le uova e pepe. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f33b4b1b5758c1ba8d3c7051a0f8058198c8801d1330ac14de739ac8bdd880dd",
+    "photoGroup": "2df4bdf40ecb5c36eb3d"
+  },
+  "pane_con_avocado_e_uova": {
+    "asset": "photography/pane_con_avocado_e_uova.webp",
+    "recipeId": "pane_con_avocado_e_uova",
+    "stepIndex": null,
+    "subject": "Pane con avocado e uova",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con avocado e uova. Ingredients: Pane comune, Avocado, Uova, Pepe nero.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Cuoci Uova in camicia o al tegamino 3 minuti. Schiaccia Avocado sul pane tostato, aggiungi le uova e pepe. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "c5a7494434b78abc06633d5fb1dff7eb2afc97831b96810f620c9b31487648e7",
+    "photoGroup": "32e4f463cf8c92688ef8"
+  },
+  "pane_integrale_con_avocado_e_uova_s2": {
+    "asset": "photography/pane_integrale_con_avocado_e_uova.webp",
+    "recipeId": "pane_integrale_con_avocado_e_uova",
+    "stepIndex": 2,
+    "subject": "Schiaccia {avocado} sul pane tostato, aggiungi le uova e pepe.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con avocado e uova. Ingredients: Pane integrale, Avocado, Uova, Pepe nero.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Cuoci Uova in camicia o al tegamino 3 minuti. Schiaccia Avocado sul pane tostato, aggiungi le uova e pepe. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f33b4b1b5758c1ba8d3c7051a0f8058198c8801d1330ac14de739ac8bdd880dd",
+    "photoGroup": "2df4bdf40ecb5c36eb3d",
+    "sharedFrom": "pane_integrale_con_avocado_e_uova"
+  },
+  "pane_con_avocado_e_uova_s2": {
+    "asset": "photography/pane_con_avocado_e_uova.webp",
+    "recipeId": "pane_con_avocado_e_uova",
+    "stepIndex": 2,
+    "subject": "Schiaccia {avocado} sul pane tostato, aggiungi le uova e pepe.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con avocado e uova. Ingredients: Pane comune, Avocado, Uova, Pepe nero.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Cuoci Uova in camicia o al tegamino 3 minuti. Schiaccia Avocado sul pane tostato, aggiungi le uova e pepe. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "c5a7494434b78abc06633d5fb1dff7eb2afc97831b96810f620c9b31487648e7",
+    "photoGroup": "32e4f463cf8c92688ef8",
+    "sharedFrom": "pane_con_avocado_e_uova"
   }
 }
