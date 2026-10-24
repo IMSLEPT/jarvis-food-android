@@ -162,6 +162,17 @@ class AuroraLayoutTest {
             assertTrue("Recipe footer covers content with long action", content.bottom <= footer.top + 1f)
             readable(compose.onNodeWithText("＋ Aggiungi a ${MEAL_LABEL.getValue(4).lowercase()}", useUnmergedTree = true))
             shot("recipe-long-action")
+            ui { Nav.clear(); Nav.go(Screen.RecipeView("porridge_banana", first.solved.target, day, diaryMeal = 0, original = true)) }
+            compose.onNodeWithTag("recipe-step-0").performScrollTo()
+            compose.onNodeWithTag("recipe-step-photo-0", useUnmergedTree = true).assertIsDisplayed()
+            readable(compose.onNodeWithText("Passaggio 1", useUnmergedTree = true))
+            readable(compose.onNode(hasText("in un pentolino antiaderente", substring = true), useUnmergedTree = true))
+            shot("recipe-photography")
+            compose.onNodeWithTag("recipe-step-0").performClick()
+            compose.onNodeWithText("✓ Passaggio 1", useUnmergedTree = true).assertExists()
+            compose.onNodeWithTag("recipe-step-3").performScrollTo()
+            compose.onNodeWithTag("recipe-step-photo-3", useUnmergedTree = true).assertIsDisplayed()
+            shot("recipe-photography-last")
             ui { Nav.clear(); Nav.tab = 2; Nav.kitchenTab = 2 }
             // Recipe groups are loaded on a background dispatcher after navigation settles.
             compose.waitUntil(30_000) { compose.onAllNodesWithText("Mostra tutte").fetchSemanticsNodes().isNotEmpty() }

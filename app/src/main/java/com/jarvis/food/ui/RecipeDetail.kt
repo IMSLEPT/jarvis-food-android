@@ -429,7 +429,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 val img = EditorialPhotos.step(tpl.id, i, tpl.stepImages.getOrNull(i))
                                 val shape = RoundedCornerShape(26.dp)
                                 Row(
-                                    Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (d) Color(0xFFE4F8EF) else Color.White)
+                                    Modifier.fillMaxWidth().testTag("recipe-step-$i").aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (d) Color(0xFFE4F8EF) else Color.White)
                                         .clickable { if (d) done.remove(i) else done.add(i) }.padding(14.dp),
                                     verticalAlignment = Alignment.Top
                                 ) {
