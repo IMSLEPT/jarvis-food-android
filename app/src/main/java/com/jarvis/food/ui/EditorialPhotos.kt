@@ -148,7 +148,10 @@ object EditorialPhotos {
         "fette_biscottate_con_hummus_e_pomodori_s1" to "photography/fette_biscottate_con_hummus_e_pomodori_s1.webp",
         "fette_biscottate_con_hummus_e_pomodori_s2" to "photography/fette_biscottate_con_hummus_e_pomodori.webp",
         "fette_biscottate_con_mele_cannella_e_ricotta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_mozzarella_pomodoro_e_origano" to "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano.webp",
         "fette_biscottate_con_mozzarella_pomodoro_e_origano_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_mozzarella_pomodoro_e_origano_s1" to "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano_s1.webp",
+        "fette_biscottate_con_mozzarella_pomodoro_e_origano_s2" to "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano.webp",
         "fette_biscottate_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_prosciutto_cotto_e_mozzarella" to "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella.webp",
         "fette_biscottate_con_prosciutto_cotto_e_mozzarella_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "gamberi_couscous_s2" to "photography/gamberi_couscous_s2.webp",
         "gamberi_couscous_s3" to "photography/gamberi_couscous.webp",
         "greco_mela" to "photography/greco_mela.webp",
-        "greco_mela_nocciole" to "photography/greco_mela_nocciole.webp",
-        "greco_mela_nocciole_s0" to "photography/greco_mela_nocciole_s0.webp",
-        "greco_mela_nocciole_s1" to "photography/greco_mela_nocciole_s1.webp",
     )
 
     private fun group1() = mapOf(
+        "greco_mela_nocciole" to "photography/greco_mela_nocciole.webp",
+        "greco_mela_nocciole_s0" to "photography/greco_mela_nocciole_s0.webp",
+        "greco_mela_nocciole_s1" to "photography/greco_mela_nocciole_s1.webp",
         "greco_mela_nocciole_s2" to "photography/greco_mela_nocciole.webp",
         "greco_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "greco_mela_s1" to "photography/greco_mela.webp",
@@ -300,7 +303,10 @@ object EditorialPhotos {
         "pane_con_hummus_e_pomodori_s1" to "photography/pane_con_hummus_e_pomodori_s1.webp",
         "pane_con_hummus_e_pomodori_s2" to "photography/pane_con_hummus_e_pomodori.webp",
         "pane_con_mele_cannella_e_ricotta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_mozzarella_pomodoro_e_origano" to "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_mozzarella_pomodoro_e_origano_s1" to "photography/pane_con_mozzarella_pomodoro_e_origano_s1.webp",
+        "pane_con_mozzarella_pomodoro_e_origano_s2" to "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_prosciutto_cotto_e_mozzarella" to "photography/pane_con_prosciutto_cotto_e_mozzarella.webp",
         "pane_con_prosciutto_cotto_e_mozzarella_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -354,7 +360,10 @@ object EditorialPhotos {
         "pane_integrale_con_hummus_e_pomodori_s1" to "photography/pane_integrale_con_hummus_e_pomodori_s1.webp",
         "pane_integrale_con_hummus_e_pomodori_s2" to "photography/pane_integrale_con_hummus_e_pomodori.webp",
         "pane_integrale_con_mele_cannella_e_ricotta_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_mozzarella_pomodoro_e_origano" to "photography/pane_integrale_con_mozzarella_pomodoro_e_origano.webp",
         "pane_integrale_con_mozzarella_pomodoro_e_origano_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_mozzarella_pomodoro_e_origano_s1" to "photography/pane_integrale_con_mozzarella_pomodoro_e_origano_s1.webp",
+        "pane_integrale_con_mozzarella_pomodoro_e_origano_s2" to "photography/pane_integrale_con_mozzarella_pomodoro_e_origano.webp",
         "pane_integrale_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_prosciutto_cotto_e_mozzarella" to "photography/pane_integrale_con_prosciutto_cotto_e_mozzarella.webp",
         "pane_integrale_con_prosciutto_cotto_e_mozzarella_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -398,6 +407,9 @@ object EditorialPhotos {
         "pasta_lenticchie_s3" to "photography/pasta_lenticchie.webp",
         "pasta_pesto" to "photography/pasta_pesto.webp",
         "pasta_pesto_s0" to "photography/pasta_pesto_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pasta_pesto_s1" to "photography/pasta_pesto_s1.webp",
         "pasta_pesto_s2" to "photography/pasta_pesto.webp",
         "pasta_pollo_zucchine" to "photography/pasta_pollo_zucchine.webp",
@@ -407,9 +419,6 @@ object EditorialPhotos {
         "pasta_pollo_zucchine_s3" to "photography/pasta_pollo_zucchine_s3.webp",
         "pasta_pollo_zucchine_s4" to "photography/pasta_pollo_zucchine.webp",
         "pasta_salmone_zucchine" to "photography/pasta_salmone_zucchine.webp",
-    )
-
-    private fun group2() = mapOf(
         "pasta_salmone_zucchine_s0" to "photography/pasta_salmone_zucchine_s0.webp",
         "pasta_salmone_zucchine_s1" to "photography/pasta_salmone_zucchine_s1.webp",
         "pasta_salmone_zucchine_s2" to "photography/pasta_salmone_zucchine_s2.webp",

@@ -6011,5 +6011,107 @@
     "sha256": "8db0b900b50c3c890b72a68e0d3c161aaec9d088e429b187403f27c0b6b5cfc0",
     "photoGroup": "ab93b151e015809c78cb",
     "sharedFrom": "fette_biscottate_con_ricotta_pesche_e_pistacchi"
+  },
+  "pane_integrale_con_mozzarella_pomodoro_e_origano": {
+    "asset": "photography/pane_integrale_con_mozzarella_pomodoro_e_origano.webp",
+    "recipeId": "pane_integrale_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": null,
+    "subject": "Pane integrale con mozzarella, pomodoro e origano",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con mozzarella, pomodoro e origano. Ingredients: Pane integrale, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Taglia Mozzarella e Pomodori a fette e adagiale sul pane. Cuoci in forno a 200 °C per 6 minuti, poi completa con Origano e Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. The dish is oven-baked: mozzarella is visibly softened and melted, with lightly cooked tomatoes, dried oregano and a light olive oil sheen. No basil.",
+    "sha256": "c127af34cac218f86bcea3e51b348e7c5546380876da6ab2604d5f80f62d12a8",
+    "photoGroup": "4951687c4988fba9970d"
+  },
+  "pane_integrale_con_mozzarella_pomodoro_e_origano_s1": {
+    "asset": "photography/pane_integrale_con_mozzarella_pomodoro_e_origano_s1.webp",
+    "recipeId": "pane_integrale_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 1,
+    "subject": "Taglia {mozzarella} e {pomodori} a fette e adagiale sul pane.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con mozzarella, pomodoro e origano. Ingredients: Pane integrale, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Taglia Mozzarella e Pomodori a fette e adagiale sul pane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. Show hands placing slices of raw fresh mozzarella and raw tomato on toast before the oven. No oregano or oil added yet. No basil.",
+    "sha256": "48fca1be4d5771e0f7970e3a83a9dc516ff8e93ff440676ca8da000907e79a3e",
+    "photoGroup": "3f9b668e885c00c26173"
+  },
+  "pane_con_mozzarella_pomodoro_e_origano": {
+    "asset": "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
+    "recipeId": "pane_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": null,
+    "subject": "Pane con mozzarella, pomodoro e origano",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con mozzarella, pomodoro e origano. Ingredients: Pane comune, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Taglia Mozzarella e Pomodori a fette e adagiale sul pane. Cuoci in forno a 200 °C per 6 minuti, poi completa con Origano e Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. The dish is oven-baked: mozzarella is visibly softened and melted, with lightly cooked tomatoes, dried oregano and a light olive oil sheen. No basil.",
+    "sha256": "6056a22222d70147b906954fcca8ef13f0432129b0c3c0d10c1008e2b2685103",
+    "photoGroup": "4d4dc9c78bd9932bd4d2"
+  },
+  "pane_con_mozzarella_pomodoro_e_origano_s1": {
+    "asset": "photography/pane_con_mozzarella_pomodoro_e_origano_s1.webp",
+    "recipeId": "pane_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 1,
+    "subject": "Taglia {mozzarella} e {pomodori} a fette e adagiale sul pane.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con mozzarella, pomodoro e origano. Ingredients: Pane comune, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Taglia Mozzarella e Pomodori a fette e adagiale sul pane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. Show hands placing slices of raw fresh mozzarella and raw tomato on toast before the oven. No oregano or oil added yet. No basil.",
+    "sha256": "0554630aa38950b5e18388bcf336518aa181a53081a4d9e47418217b117b7f43",
+    "photoGroup": "3f9b668e885c00c26173"
+  },
+  "fette_biscottate_con_mozzarella_pomodoro_e_origano": {
+    "asset": "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano.webp",
+    "recipeId": "fette_biscottate_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": null,
+    "subject": "Fette biscottate con mozzarella, pomodoro e origano",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mozzarella, pomodoro e origano. Ingredients: Fette biscottate, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Taglia Mozzarella e Pomodori a fette e adagiale sul pane. Cuoci in forno a 200 °C per 6 minuti, poi completa con Origano e Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. The dish is oven-baked: mozzarella is visibly softened and melted, with lightly cooked tomatoes, dried oregano and a light olive oil sheen. No basil.",
+    "sha256": "e16a1c4901d2d22b89fd18d5d07ec4214ea91f6c2f4edf5ee538cbd47bedfa22",
+    "photoGroup": "601c9f2274c1dff63552"
+  },
+  "fette_biscottate_con_mozzarella_pomodoro_e_origano_s1": {
+    "asset": "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano_s1.webp",
+    "recipeId": "fette_biscottate_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 1,
+    "subject": "Taglia {mozzarella} e {pomodori} a fette e adagiale sul pane.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mozzarella, pomodoro e origano. Ingredients: Fette biscottate, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Taglia Mozzarella e Pomodori a fette e adagiale sul pane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. Show hands placing slices of raw fresh mozzarella and raw tomato on toast before the oven. No oregano or oil added yet. No basil.",
+    "sha256": "3bbaefcb7dea890882558d9eb8aab80ef19148a309a9293a8f41b05a9fe0ddee",
+    "photoGroup": "3f9b668e885c00c26173"
+  },
+  "pane_integrale_con_mozzarella_pomodoro_e_origano_s2": {
+    "asset": "photography/pane_integrale_con_mozzarella_pomodoro_e_origano.webp",
+    "recipeId": "pane_integrale_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 2,
+    "subject": "Cuoci in forno a 200 °C per 6 minuti, poi completa con {origano} e {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con mozzarella, pomodoro e origano. Ingredients: Pane integrale, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Taglia Mozzarella e Pomodori a fette e adagiale sul pane. Cuoci in forno a 200 °C per 6 minuti, poi completa con Origano e Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. The dish is oven-baked: mozzarella is visibly softened and melted, with lightly cooked tomatoes, dried oregano and a light olive oil sheen. No basil.",
+    "sha256": "c127af34cac218f86bcea3e51b348e7c5546380876da6ab2604d5f80f62d12a8",
+    "photoGroup": "4951687c4988fba9970d",
+    "sharedFrom": "pane_integrale_con_mozzarella_pomodoro_e_origano"
+  },
+  "pane_con_mozzarella_pomodoro_e_origano_s2": {
+    "asset": "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
+    "recipeId": "pane_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 2,
+    "subject": "Cuoci in forno a 200 °C per 6 minuti, poi completa con {origano} e {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con mozzarella, pomodoro e origano. Ingredients: Pane comune, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Taglia Mozzarella e Pomodori a fette e adagiale sul pane. Cuoci in forno a 200 °C per 6 minuti, poi completa con Origano e Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. The dish is oven-baked: mozzarella is visibly softened and melted, with lightly cooked tomatoes, dried oregano and a light olive oil sheen. No basil.",
+    "sha256": "6056a22222d70147b906954fcca8ef13f0432129b0c3c0d10c1008e2b2685103",
+    "photoGroup": "4d4dc9c78bd9932bd4d2",
+    "sharedFrom": "pane_con_mozzarella_pomodoro_e_origano"
+  },
+  "fette_biscottate_con_mozzarella_pomodoro_e_origano_s2": {
+    "asset": "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano.webp",
+    "recipeId": "fette_biscottate_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 2,
+    "subject": "Cuoci in forno a 200 °C per 6 minuti, poi completa con {origano} e {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mozzarella, pomodoro e origano. Ingredients: Fette biscottate, Mozzarella, Pomodori, Origano, Olio extravergine d'oliva.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Taglia Mozzarella e Pomodori a fette e adagiale sul pane. Cuoci in forno a 200 °C per 6 minuti, poi completa con Origano e Olio extravergine d'oliva. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions. The dish is oven-baked: mozzarella is visibly softened and melted, with lightly cooked tomatoes, dried oregano and a light olive oil sheen. No basil.",
+    "sha256": "e16a1c4901d2d22b89fd18d5d07ec4214ea91f6c2f4edf5ee538cbd47bedfa22",
+    "photoGroup": "601c9f2274c1dff63552",
+    "sharedFrom": "fette_biscottate_con_mozzarella_pomodoro_e_origano"
   }
 }
