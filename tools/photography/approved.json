@@ -5909,5 +5909,107 @@
     "sha256": "0cc651120193376c136d9fc7d4b469b8c670c3c7552ea7f3cf9b5a31d76e6a71",
     "photoGroup": "5830a6650e698bbcdd80",
     "sharedFrom": "fette_biscottate_con_caprino_pere_e_noci"
+  },
+  "pane_integrale_con_ricotta_pesche_e_pistacchi": {
+    "asset": "photography/pane_integrale_con_ricotta_pesche_e_pistacchi.webp",
+    "recipeId": "pane_integrale_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": null,
+    "subject": "Pane integrale con ricotta, pesche e pistacchi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, pesche e pistacchi. Ingredients: Pane integrale, Ricotta, Pesca, Pistacchi.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi Pesca a fette e Pistacchi tritati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "760138119dcd46a49b79be1d61f20219bb0da701eda998642cbeb995924d6e37",
+    "photoGroup": "d5f42a04588670347751"
+  },
+  "pane_integrale_con_ricotta_pesche_e_pistacchi_s1": {
+    "asset": "photography/pane_integrale_con_ricotta_pesche_e_pistacchi_s1.webp",
+    "recipeId": "pane_integrale_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, pesche e pistacchi. Ingredients: Pane integrale, Ricotta, Pesca, Pistacchi. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "0d390e15bf6fe451558515683149d3117af098da770c2a6c10025013845bddf6",
+    "photoGroup": "0a3fd4330c8888e5b094"
+  },
+  "pane_con_ricotta_pesche_e_pistacchi": {
+    "asset": "photography/pane_con_ricotta_pesche_e_pistacchi.webp",
+    "recipeId": "pane_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": null,
+    "subject": "Pane con ricotta, pesche e pistacchi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, pesche e pistacchi. Ingredients: Pane comune, Ricotta, Pesca, Pistacchi.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi Pesca a fette e Pistacchi tritati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "52ac91fca080b1c7f74af25e7fb479865c76be95eef74cd7183260f845c740b7",
+    "photoGroup": "0a08dc11425d46729072"
+  },
+  "pane_con_ricotta_pesche_e_pistacchi_s1": {
+    "asset": "photography/pane_con_ricotta_pesche_e_pistacchi_s1.webp",
+    "recipeId": "pane_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, pesche e pistacchi. Ingredients: Pane comune, Ricotta, Pesca, Pistacchi. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "d83a3bb24edc4d83c025d92467f1a843efda19d93ab469e7f69de47e88d1c618",
+    "photoGroup": "fe507862e7851626c3fa"
+  },
+  "fette_biscottate_con_ricotta_pesche_e_pistacchi": {
+    "asset": "photography/fette_biscottate_con_ricotta_pesche_e_pistacchi.webp",
+    "recipeId": "fette_biscottate_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": null,
+    "subject": "Fette biscottate con ricotta, pesche e pistacchi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, pesche e pistacchi. Ingredients: Fette biscottate, Ricotta, Pesca, Pistacchi.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi Pesca a fette e Pistacchi tritati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "8db0b900b50c3c890b72a68e0d3c161aaec9d088e429b187403f27c0b6b5cfc0",
+    "photoGroup": "ab93b151e015809c78cb"
+  },
+  "fette_biscottate_con_ricotta_pesche_e_pistacchi_s1": {
+    "asset": "photography/fette_biscottate_con_ricotta_pesche_e_pistacchi_s1.webp",
+    "recipeId": "fette_biscottate_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, pesche e pistacchi. Ingredients: Fette biscottate, Ricotta, Pesca, Pistacchi. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "32877f5a62f80236b969edefc26d66a9b94d7dfa7d8363269360ca308e55f475",
+    "photoGroup": "3bad6e1961120e846931"
+  },
+  "pane_integrale_con_ricotta_pesche_e_pistacchi_s2": {
+    "asset": "photography/pane_integrale_con_ricotta_pesche_e_pistacchi.webp",
+    "recipeId": "pane_integrale_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pesca} a fette e {pistacchi} tritati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con ricotta, pesche e pistacchi. Ingredients: Pane integrale, Ricotta, Pesca, Pistacchi.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi Pesca a fette e Pistacchi tritati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "760138119dcd46a49b79be1d61f20219bb0da701eda998642cbeb995924d6e37",
+    "photoGroup": "d5f42a04588670347751",
+    "sharedFrom": "pane_integrale_con_ricotta_pesche_e_pistacchi"
+  },
+  "pane_con_ricotta_pesche_e_pistacchi_s2": {
+    "asset": "photography/pane_con_ricotta_pesche_e_pistacchi.webp",
+    "recipeId": "pane_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pesca} a fette e {pistacchi} tritati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con ricotta, pesche e pistacchi. Ingredients: Pane comune, Ricotta, Pesca, Pistacchi.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi Pesca a fette e Pistacchi tritati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "52ac91fca080b1c7f74af25e7fb479865c76be95eef74cd7183260f845c740b7",
+    "photoGroup": "0a08dc11425d46729072",
+    "sharedFrom": "pane_con_ricotta_pesche_e_pistacchi"
+  },
+  "fette_biscottate_con_ricotta_pesche_e_pistacchi_s2": {
+    "asset": "photography/fette_biscottate_con_ricotta_pesche_e_pistacchi.webp",
+    "recipeId": "fette_biscottate_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pesca} a fette e {pistacchi} tritati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con ricotta, pesche e pistacchi. Ingredients: Fette biscottate, Ricotta, Pesca, Pistacchi.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato. Aggiungi Pesca a fette e Pistacchi tritati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "8db0b900b50c3c890b72a68e0d3c161aaec9d088e429b187403f27c0b6b5cfc0",
+    "photoGroup": "ab93b151e015809c78cb",
+    "sharedFrom": "fette_biscottate_con_ricotta_pesche_e_pistacchi"
   }
 }

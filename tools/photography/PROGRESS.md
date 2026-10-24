@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 ## Stato verificato
 
 - 2533 ricette, 10.239 passaggi nel database.
-- 102 ricette complete di foto principale e di tutti i passaggi.
-- 256 WebP distinti (1 fotografie online gratuite), 512 abbinamenti verificati.
-- 294 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
-- 2431 ricette da completare.
-- Sessione continuativa: 6 nuove immagini, 3 ricette ulteriori completate rispetto alle 99 iniziali.
+- 105 ricette complete di foto principale e di tutti i passaggi.
+- 262 WebP distinti (1 fotografie online gratuite), 521 abbinamenti verificati.
+- 303 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
+- 2428 ricette da completare.
+- Sessione continuativa: 12 nuove immagini, 6 ricette ulteriori completate rispetto alle 99 iniziali.
 - Checkpoint precedente 6af589f0: 99 ricette, 250 immagini, 285 passaggi delle ricette complete. Tutti conservati.
 - Ultimo APK consegnato al momento del checkpoint: 1.0.87, con 49 ricette fotografiche complete. Le nuove immagini necessitano di una compilazione aggiornata; non dichiararle presenti nell’APK consegnato senza verifica.
 
@@ -18,12 +18,12 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Pane integrale con caprino, pere e noci (`pane_integrale_con_caprino_pere_e_noci`)
 - Pane con caprino, pere e noci (`pane_con_caprino_pere_e_noci`)
 - Fette biscottate con caprino, pere e noci (`fette_biscottate_con_caprino_pere_e_noci`)
+- Pane integrale con ricotta, pesche e pistacchi (`pane_integrale_con_ricotta_pesche_e_pistacchi`)
+- Pane con ricotta, pesche e pistacchi (`pane_con_ricotta_pesche_e_pistacchi`)
+- Fette biscottate con ricotta, pesche e pistacchi (`fette_biscottate_con_ricotta_pesche_e_pistacchi`)
 
 ## Prossime ricette da completare
 
-- Pane integrale con ricotta, pesche e pistacchi (`pane_integrale_con_ricotta_pesche_e_pistacchi`): 2 nuovi soggetti mancanti.
-- Pane con ricotta, pesche e pistacchi (`pane_con_ricotta_pesche_e_pistacchi`): 2 nuovi soggetti mancanti.
-- Fette biscottate con ricotta, pesche e pistacchi (`fette_biscottate_con_ricotta_pesche_e_pistacchi`): 2 nuovi soggetti mancanti.
 - Pane integrale con mozzarella, pomodoro e origano (`pane_integrale_con_mozzarella_pomodoro_e_origano`): 2 nuovi soggetti mancanti.
 - Pane con mozzarella, pomodoro e origano (`pane_con_mozzarella_pomodoro_e_origano`): 2 nuovi soggetti mancanti.
 - Fette biscottate con mozzarella, pomodoro e origano (`fette_biscottate_con_mozzarella_pomodoro_e_origano`): 2 nuovi soggetti mancanti.
@@ -33,6 +33,9 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Pane integrale con yogurt greco, miele e noci (`pane_integrale_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
 - Pane con yogurt greco, miele e noci (`pane_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
 - Fette biscottate con yogurt greco, miele e noci (`fette_biscottate_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
+- Pane integrale con formaggio spalmabile e frutti di bosco (`pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco`): 2 nuovi soggetti mancanti.
+- Pane con formaggio spalmabile e frutti di bosco (`pane_con_formaggio_spalmabile_e_frutti_di_bosco`): 2 nuovi soggetti mancanti.
+- Fette biscottate con formaggio spalmabile e frutti di bosco (`fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco`): 2 nuovi soggetti mancanti.
 
 ## Metodo e verifiche
 
