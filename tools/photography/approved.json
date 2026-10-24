@@ -4126,5 +4126,97 @@
     "sha256": "54409874b5105a2267410e8c4dba556c964ae1bda5d8644c34ddeec8ed1226c9",
     "photoGroup": "43d22a8ff2bdf9e20443",
     "sharedFrom": "mandorle_e_prugne_secche"
+  },
+  "mela_e_nocciole": {
+    "asset": "photography/mela_e_nocciole.webp",
+    "recipeId": "mela_e_nocciole",
+    "stepIndex": null,
+    "subject": "Mela e nocciole",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Mela e nocciole. Ingredients: Mela, nocciole.  Preparation context (do not print it): Taglia Mela a cubetti. Servi la frutta con nocciole. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "34f48ffe78969569fa652082e2ad8db11fa6b215f0120905202bd45c707c8d9f",
+    "photoGroup": "ef95bf817d7dbca09bef"
+  },
+  "mela_e_noci_pecan": {
+    "asset": "photography/mela_e_noci_pecan.webp",
+    "recipeId": "mela_e_noci_pecan",
+    "stepIndex": null,
+    "subject": "Mela e noci pecan",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Mela e noci pecan. Ingredients: Mela, noci pecan.  Preparation context (do not print it): Taglia Mela a cubetti. Servi la frutta con noci pecan. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "3671ae7bf0aefc619b09064aab4ef3c41dfc951ea37706fde935177ffb542cbe",
+    "photoGroup": "d9239be14e0c0a486c60"
+  },
+  "melone_e_prosciutto_crudo": {
+    "asset": "photography/melone_e_prosciutto_crudo.webp",
+    "recipeId": "melone_e_prosciutto_crudo",
+    "stepIndex": null,
+    "subject": "Melone e prosciutto crudo",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Melone e prosciutto crudo. Ingredients: Melone, Prosciutto crudo.  Preparation context (do not print it): Taglia Melone a spicchi e servi con Prosciutto crudo. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "5cdef2180186933bd427e3d9173f1b14e149038cbfdfb82072b1cd1c91e9d143",
+    "photoGroup": "6a659737882159b7fbdc"
+  },
+  "nocciole_e_cioccolato_fondente": {
+    "asset": "photography/nocciole_e_cioccolato_fondente.webp",
+    "recipeId": "nocciole_e_cioccolato_fondente",
+    "stepIndex": null,
+    "subject": "Nocciole e cioccolato fondente",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Nocciole e cioccolato fondente. Ingredients: Nocciole, cioccolato fondente.  Preparation context (do not print it): Servi Nocciole con cioccolato fondente a quadretti. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "a8cde1f9cf53312d02e45d36ed12a5b2634d8af9e573dcbd1c683b676acb1a3d",
+    "photoGroup": "002ae2cb91ba36860611"
+  },
+  "mela_e_nocciole_s1": {
+    "asset": "photography/mela_e_nocciole.webp",
+    "recipeId": "mela_e_nocciole",
+    "stepIndex": 1,
+    "subject": "Servi la frutta con {nocciole}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Mela e nocciole. Ingredients: Mela, nocciole.  Preparation context (do not print it): Taglia Mela a cubetti. Servi la frutta con nocciole. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "34f48ffe78969569fa652082e2ad8db11fa6b215f0120905202bd45c707c8d9f",
+    "photoGroup": "ef95bf817d7dbca09bef",
+    "sharedFrom": "mela_e_nocciole"
+  },
+  "mela_e_noci_pecan_s1": {
+    "asset": "photography/mela_e_noci_pecan.webp",
+    "recipeId": "mela_e_noci_pecan",
+    "stepIndex": 1,
+    "subject": "Servi la frutta con {pecan}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Mela e noci pecan. Ingredients: Mela, noci pecan.  Preparation context (do not print it): Taglia Mela a cubetti. Servi la frutta con noci pecan. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "3671ae7bf0aefc619b09064aab4ef3c41dfc951ea37706fde935177ffb542cbe",
+    "photoGroup": "d9239be14e0c0a486c60",
+    "sharedFrom": "mela_e_noci_pecan"
+  },
+  "nocciole_e_cioccolato_fondente_s0": {
+    "asset": "photography/nocciole_e_cioccolato_fondente.webp",
+    "recipeId": "nocciole_e_cioccolato_fondente",
+    "stepIndex": 0,
+    "subject": "Servi {nocciole} con {fondente} a quadretti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Nocciole e cioccolato fondente. Ingredients: Nocciole, cioccolato fondente.  Preparation context (do not print it): Servi Nocciole con cioccolato fondente a quadretti. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "a8cde1f9cf53312d02e45d36ed12a5b2634d8af9e573dcbd1c683b676acb1a3d",
+    "photoGroup": "002ae2cb91ba36860611",
+    "sharedFrom": "nocciole_e_cioccolato_fondente"
+  },
+  "melone_e_prosciutto_crudo_s0": {
+    "asset": "photography/melone_e_prosciutto_crudo.webp",
+    "recipeId": "melone_e_prosciutto_crudo",
+    "stepIndex": 0,
+    "subject": "Taglia {melone} a spicchi e servi con {prosciutto_crudo}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Melone e prosciutto crudo. Ingredients: Melone, Prosciutto crudo.  Preparation context (do not print it): Taglia Melone a spicchi e servi con Prosciutto crudo. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "5cdef2180186933bd427e3d9173f1b14e149038cbfdfb82072b1cd1c91e9d143",
+    "photoGroup": "6a659737882159b7fbdc",
+    "sharedFrom": "melone_e_prosciutto_crudo"
   }
 }

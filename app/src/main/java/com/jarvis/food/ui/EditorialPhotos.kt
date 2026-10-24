@@ -155,12 +155,20 @@ object EditorialPhotos {
         "mela_al_forno_con_cannella_e_noci_s1" to "photography/greco_mela_nocciole_s0.webp",
         "mela_alla_piastra_con_yogurt_e_pistacchi_s0" to "photography/greco_mela_nocciole_s0.webp",
         "mela_con_cannella_s0" to "photography/greco_mela_nocciole_s0.webp",
+        "mela_e_nocciole" to "photography/mela_e_nocciole.webp",
         "mela_e_nocciole_s0" to "photography/greco_mela_nocciole_s0.webp",
+        "mela_e_nocciole_s1" to "photography/mela_e_nocciole.webp",
+        "mela_e_noci_pecan" to "photography/mela_e_noci_pecan.webp",
         "mela_e_noci_pecan_s0" to "photography/greco_mela_nocciole_s0.webp",
+        "mela_e_noci_pecan_s1" to "photography/mela_e_noci_pecan.webp",
+        "melone_e_prosciutto_crudo" to "photography/melone_e_prosciutto_crudo.webp",
+        "melone_e_prosciutto_crudo_s0" to "photography/melone_e_prosciutto_crudo.webp",
         "merluzzo_pomodorini" to "photography/merluzzo_pomodorini.webp",
         "merluzzo_pomodorini_s0" to "photography/merluzzo_pomodorini_s0.webp",
         "merluzzo_pomodorini_s1" to "photography/merluzzo_pomodorini_s1.webp",
         "merluzzo_pomodorini_s2" to "photography/merluzzo_pomodorini.webp",
+        "nocciole_e_cioccolato_fondente" to "photography/nocciole_e_cioccolato_fondente.webp",
+        "nocciole_e_cioccolato_fondente_s0" to "photography/nocciole_e_cioccolato_fondente.webp",
         "omelette_cotto" to "photography/omelette_cotto.webp",
         "omelette_cotto_s0" to "photography/omelette_cotto_s0.webp",
         "omelette_cotto_s1" to "photography/omelette_cotto_s1.webp",
@@ -196,6 +204,9 @@ object EditorialPhotos {
         "pane_con_hummus_e_pomodori_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mele_cannella_e_ricotta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+    )
+
+    private fun group1() = mapOf(
         "pane_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_prosciutto_cotto_e_mozzarella_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_e_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -204,9 +215,6 @@ object EditorialPhotos {
         "pane_con_ricotta_pomodorini_e_basilico_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tahina_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
