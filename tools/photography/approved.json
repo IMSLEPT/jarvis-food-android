@@ -7,7 +7,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Professional editorial photograph of creamy oat porridge, milk, banana, chopped walnuts, Greek yogurt and cinnamon. Soft warm window light, ivory ceramic bowl, light wooden kitchen table; realistic homemade plating; no text, watermark or extra ingredients.",
-    "sha256": "9628c6d6e687947aabd0a61340e54a3a56d168ce181cadbf1573c2fdc85637f3"
+    "sha256": "9628c6d6e687947aabd0a61340e54a3a56d168ce181cadbf1573c2fdc85637f3",
+    "photoGroup": "b5c25265e72889e03d8e"
   },
   "porridge_banana_s0": {
     "asset": "photography/porridge_banana_s0.webp",
@@ -17,7 +18,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nStep 1 of banana walnut porridge: a small stainless steel saucepan filled with rolled oats, with a stream of milk pouring into the oats from a simple small jug at the upper edge of the image. The oats are still dry and just beginning to soak. No cooked porridge or toppings yet.",
-    "sha256": "f7e1901c1b98003fc645b19a202efbf8e902fe47d5a0bd6af0b664f312f06745"
+    "sha256": "f7e1901c1b98003fc645b19a202efbf8e902fe47d5a0bd6af0b664f312f06745",
+    "photoGroup": "49d3ea69ea6870806e7c"
   },
   "porridge_banana_s1": {
     "asset": "photography/porridge_banana_s1.webp",
@@ -27,7 +29,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nStep 2 of banana walnut porridge: creamy plain oats and milk gently simmering in a small stainless steel saucepan on a hob, a wooden spoon stirring through the glossy creamy mixture, very light rising steam. No banana or nuts added yet.",
-    "sha256": "56205253f547b28f03fecbf4faf3df17e1ecdfb8926e4b47e455b0d6795f602f"
+    "sha256": "56205253f547b28f03fecbf4faf3df17e1ecdfb8926e4b47e455b0d6795f602f",
+    "photoGroup": "66fe04bbf49fca029d33"
   },
   "porridge_banana_s2": {
     "asset": "photography/porridge_banana_s2.webp",
@@ -37,7 +40,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nStep 3 of banana walnut porridge: freshly peeled banana partly cut into neat rounds on a clean wooden cutting board, and roughly chopped walnut kernels in a separate small pile beside it, a plain kitchen knife resting safely flat. Frame the banana and walnuts close up, no other ingredients and no hands.",
-    "sha256": "7e12727bb89270d44d40b6cc320b0fee65861e31be817cf8431a3315318ce8e1"
+    "sha256": "7e12727bb89270d44d40b6cc320b0fee65861e31be817cf8431a3315318ce8e1",
+    "photoGroup": "24d7a510d925da50a17f"
   },
   "pasta_pollo_zucchine": {
     "asset": "photography/pasta_pollo_zucchine.webp",
@@ -47,7 +51,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nFinished Italian dish: penne pasta tossed with tender golden chicken breast strips and sauteed green zucchini half-moons, light extra virgin olive oil sheen and a modest dusting of finely grated parmesan. Plated beautifully and naturally in a shallow warm ivory ceramic bowl. The ONLY visible ingredients are penne, chicken, zucchini, olive oil and parmesan; no tomatoes, no sauce, no herbs. Three-quarter food photography, the entire bowl in the central 75%.",
-    "sha256": "76647f8c8009ce9e67f319baea1fe848abaf26a75226f3fcb908bf3c1a38c0c6"
+    "sha256": "76647f8c8009ce9e67f319baea1fe848abaf26a75226f3fcb908bf3c1a38c0c6",
+    "photoGroup": "dfed7475721d3b97c9c6"
   },
   "pasta_pollo_zucchine_s0": {
     "asset": "photography/pasta_pollo_zucchine_s0.webp",
@@ -57,7 +62,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: a clean stainless steel pot of clearly boiling water on a hob, an adult hand adding a small pinch of salt. Close view inside the pot, no pasta added yet.",
-    "sha256": "2f1479c5e73ca1320b56e3f46af75c51373d975c2176b760a4b95d498fe338e1"
+    "sha256": "2f1479c5e73ca1320b56e3f46af75c51373d975c2176b760a4b95d498fe338e1",
+    "photoGroup": "d9a8c3965bb2f710e6f0"
   },
   "pasta_pollo_zucchine_s1": {
     "asset": "photography/pasta_pollo_zucchine_s1.webp",
@@ -67,7 +73,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: raw chicken breast cut into clean strips on one food preparation board, and thin zucchini rounds on a SEPARATE board immediately alongside it. A knife resting flat. Clean safe food preparation, raw chicken has natural pale pink color; zucchini fresh green, no cooked food.",
-    "sha256": "cd40f26348fcb4fffb4602d3f85e4b166ff069b6885ab1b4667d6eb7081f18ec"
+    "sha256": "cd40f26348fcb4fffb4602d3f85e4b166ff069b6885ab1b4667d6eb7081f18ec",
+    "photoGroup": "9aafd367ad33c555f91f"
   },
   "pasta_pollo_zucchine_s2": {
     "asset": "photography/pasta_pollo_zucchine_s2.webp",
@@ -77,7 +84,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: green zucchini rounds sauteing gently in a large frying pan in a small amount of olive oil with one peeled garlic clove, a simple wooden spatula at side. No chicken and no pasta added yet.",
-    "sha256": "eb5b60b6f5471f4b6116c7dd86b53ce5206b07e09f9ac63a4a63987e65c7958d"
+    "sha256": "eb5b60b6f5471f4b6116c7dd86b53ce5206b07e09f9ac63a4a63987e65c7958d",
+    "photoGroup": "e6fb6decbda653b1ce1d"
   },
   "pasta_pollo_zucchine_s3": {
     "asset": "photography/pasta_pollo_zucchine_s3.webp",
@@ -87,7 +95,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. A single exquisite real-looking editorial cookbook photograph, warm bright home kitchen, soft natural side-window light, light wooden worktop, clean neutral kitchenware. Extremely appetizing, natural textures, no text, watermark, collage or UI. Frame the action close up so it works as a square thumbnail and a landscape crop. Only ingredients and objects expressly named below.\nRecipe step: chicken breast strips cooking in the same large frying pan with sauteed zucchini rounds and olive oil, chicken pale opaque and lightly golden, no pink visible. Light steam and natural sheen. No pasta or cheese added yet.",
-    "sha256": "5fb6907573122eafd347057572ad85167ad0fa3f044ae63b95ef8e92e482a488"
+    "sha256": "5fb6907573122eafd347057572ad85167ad0fa3f044ae63b95ef8e92e482a488",
+    "photoGroup": "86a28f8f392d1bfcfa57"
   },
   "pane_ricotta_marmellata": {
     "asset": "photography/pane_ricotta_marmellata.webp",
@@ -97,7 +106,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA delicious thick slice of toasted artisan bread, generously spread with fluffy white ricotta and a modest spoonful of ruby red strawberry jam, accompanied by fresh strawberries cut into halves on the same plate. No other berries, no nuts, no honey. Three-quarter close-up angle.",
-    "sha256": "f8df4c80ba5b6e2f5a416558cda4ce03ecdb96a28aa3d5147cd7b8871c6ac3e0"
+    "sha256": "f8df4c80ba5b6e2f5a416558cda4ce03ecdb96a28aa3d5147cd7b8871c6ac3e0",
+    "photoGroup": "8fbef3e2597b2ee89db0"
   },
   "riso_uova_spinaci": {
     "asset": "photography/riso_uova_spinaci.webp",
@@ -107,7 +117,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA balanced dinner plate containing three neat distinct sections: fluffy long-grain white basmati rice, golden softly scrambled eggs, and sauteed dark green spinach with a light olive oil sheen. Only rice, eggs, spinach and olive oil, no other vegetables, garnish or sauces. Three-quarter close angle, entire plate visible.",
-    "sha256": "987dd28567cacd303fea6e9032d4a9ccf0dce199055dfced749b8c4af70b9fee"
+    "sha256": "987dd28567cacd303fea6e9032d4a9ccf0dce199055dfced749b8c4af70b9fee",
+    "photoGroup": "0522cada72da13fefe74"
   },
   "pane_ricotta_marmellata_s0": {
     "asset": "photography/pane_ricotta_marmellata_s0.webp",
@@ -117,7 +128,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
-    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7"
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6"
   },
   "pane_ricotta_marmellata_s1": {
     "asset": "photography/pane_ricotta_marmellata_s1.webp",
@@ -127,7 +139,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a slice of golden toasted bread on an ivory plate, a butter knife spreading fluffy white ricotta onto the toast, a small spoonful of ruby strawberry jam just added on top of part of the ricotta. No fruit or other toppings yet.",
-    "sha256": "c6acd545d12241f6ab105907cb8e39180463d4e68cde1823ca98f123e49792a0"
+    "sha256": "c6acd545d12241f6ab105907cb8e39180463d4e68cde1823ca98f123e49792a0",
+    "photoGroup": "d1c9e07447c8e51c8384"
   },
   "riso_uova_spinaci_s0": {
     "asset": "photography/riso_uova_spinaci_s0.webp",
@@ -137,7 +150,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful real-looking cookbook preparation photo, bright warm home kitchen, soft natural window light, light wooden countertop, clean neutral cookware and true food textures. No text, watermark, collage or UI. Close view meaningful as square thumbnail; only ingredients specified below.\nA stainless steel saucepan on a hob with long-grain white basmati rice simmering in clear water. Rice grains distinct, a very small amount of steam. No other food added.",
-    "sha256": "581eb9c677a4b8c96a0c17a3e40d2f4e776ed608cca00faa54c91a9b539c063c"
+    "sha256": "581eb9c677a4b8c96a0c17a3e40d2f4e776ed608cca00faa54c91a9b539c063c",
+    "photoGroup": "d0f9c861d319755d3bf9"
   },
   "riso_uova_spinaci_s1": {
     "asset": "photography/riso_uova_spinaci_s1.webp",
@@ -147,7 +161,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful real-looking cookbook preparation photo, bright warm home kitchen, soft natural window light, light wooden countertop, clean neutral cookware and true food textures. No text, watermark, collage or UI. Close view meaningful as square thumbnail; only ingredients specified below.\nA clean nonstick frying pan of fresh green spinach leaves gently wilting with a very light sheen of olive oil, a simple wooden spatula at the edge. No rice and no eggs added yet.",
-    "sha256": "270037e794bd3ab1b14d822e933bc40899c3eee750e2a78345b9ba25cf592be6"
+    "sha256": "270037e794bd3ab1b14d822e933bc40899c3eee750e2a78345b9ba25cf592be6",
+    "photoGroup": "372a93fe32d15f5b7e2b"
   },
   "riso_uova_spinaci_s2": {
     "asset": "photography/riso_uova_spinaci_s2.webp",
@@ -157,7 +172,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. A single exquisite realistic editorial cookbook process photograph. Bright warm home kitchen, soft natural window light, clean light wood countertop, a nonstick pan on a hob. Soft golden scrambled eggs being folded with a wooden spatula in the center of the pan, a small portion of previously sauteed dark green spinach pushed to the far edge of the same pan. Eggs opaque and almost set, no raw eggs in view, no rice yet. Only egg, spinach and a light olive oil sheen. No text, watermark, collage, labels or UI. Close framing that works as a square thumbnail and landscape crop.",
-    "sha256": "37cff3fd74b38cc9780df6d9930b02d377af8dce99ecb90910ce1414265fc9fc"
+    "sha256": "37cff3fd74b38cc9780df6d9930b02d377af8dce99ecb90910ce1414265fc9fc",
+    "photoGroup": "35e6aff6593ba4e89b71"
   },
   "porridge_banana_s3": {
     "asset": "photography/porridge_banana.webp",
@@ -167,7 +183,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Professional editorial photograph of creamy oat porridge, milk, banana, chopped walnuts, Greek yogurt and cinnamon. Soft warm window light, ivory ceramic bowl, light wooden kitchen table; realistic homemade plating; no text, watermark or extra ingredients.",
-    "sha256": "9628c6d6e687947aabd0a61340e54a3a56d168ce181cadbf1573c2fdc85637f3"
+    "sha256": "9628c6d6e687947aabd0a61340e54a3a56d168ce181cadbf1573c2fdc85637f3",
+    "photoGroup": "b5c25265e72889e03d8e"
   },
   "pasta_pollo_zucchine_s4": {
     "asset": "photography/pasta_pollo_zucchine.webp",
@@ -177,7 +194,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One beautiful landscape editorial cookbook photograph, soft natural window light, warm light wooden countertop, real food textures, ivory ceramics, same elegant bright home kitchen aesthetic as a professional food magazine. Close crop that stays meaningful as a square thumbnail. No text, collage, labels, watermark or UI. Show only the described recipe action and its actual ingredients.\nFinished Italian dish: penne pasta tossed with tender golden chicken breast strips and sauteed green zucchini half-moons, light extra virgin olive oil sheen and a modest dusting of finely grated parmesan. Plated beautifully and naturally in a shallow warm ivory ceramic bowl. The ONLY visible ingredients are penne, chicken, zucchini, olive oil and parmesan; no tomatoes, no sauce, no herbs. Three-quarter food photography, the entire bowl in the central 75%.",
-    "sha256": "76647f8c8009ce9e67f319baea1fe848abaf26a75226f3fcb908bf3c1a38c0c6"
+    "sha256": "76647f8c8009ce9e67f319baea1fe848abaf26a75226f3fcb908bf3c1a38c0c6",
+    "photoGroup": "dfed7475721d3b97c9c6"
   },
   "pane_ricotta_marmellata_s2": {
     "asset": "photography/pane_ricotta_marmellata.webp",
@@ -187,7 +205,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA delicious thick slice of toasted artisan bread, generously spread with fluffy white ricotta and a modest spoonful of ruby red strawberry jam, accompanied by fresh strawberries cut into halves on the same plate. No other berries, no nuts, no honey. Three-quarter close-up angle.",
-    "sha256": "f8df4c80ba5b6e2f5a416558cda4ce03ecdb96a28aa3d5147cd7b8871c6ac3e0"
+    "sha256": "f8df4c80ba5b6e2f5a416558cda4ce03ecdb96a28aa3d5147cd7b8871c6ac3e0",
+    "photoGroup": "8fbef3e2597b2ee89db0"
   },
   "riso_uova_spinaci_s3": {
     "asset": "photography/riso_uova_spinaci.webp",
@@ -197,7 +216,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. One premium realistic editorial cookbook photograph. Soft warm natural window light, bright home kitchen, pale wooden table, elegant warm ivory ceramic plate, neutral linen, real food textures, naturally beautiful homemade plating. No text, no watermark, no collage or UI. The whole plate comfortably fits central 75% for recipe-card square crops. No extra food except listed ingredients.\nA balanced dinner plate containing three neat distinct sections: fluffy long-grain white basmati rice, golden softly scrambled eggs, and sauteed dark green spinach with a light olive oil sheen. Only rice, eggs, spinach and olive oil, no other vegetables, garnish or sauces. Three-quarter close angle, entire plate visible.",
-    "sha256": "987dd28567cacd303fea6e9032d4a9ccf0dce199055dfced749b8c4af70b9fee"
+    "sha256": "987dd28567cacd303fea6e9032d4a9ccf0dce199055dfced749b8c4af70b9fee",
+    "photoGroup": "0522cada72da13fefe74"
   },
   "yogurt_granola": {
     "asset": "photography/yogurt_granola.webp",
@@ -207,7 +227,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, granola e mirtilli. Ingredients: yogurt greco 0%, Granola, Mirtilli, Mandorle, Miele. Show the completed dish, all components actually present, beautifully plated. No ingredients absent from this list.",
-    "sha256": "c8199c03a6d566aa4dba5a6907d7641756d241c10feee70de2fcccee5e87b74a"
+    "sha256": "c8199c03a6d566aa4dba5a6907d7641756d241c10feee70de2fcccee5e87b74a",
+    "photoGroup": "98a1ca52140d2c2fbff1"
   },
   "yogurt_granola_s2": {
     "asset": "photography/yogurt_granola.webp",
@@ -217,7 +238,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, granola e mirtilli. Ingredients: yogurt greco 0%, Granola, Mirtilli, Mandorle, Miele. Show the completed dish, all components actually present, beautifully plated. No ingredients absent from this list.",
-    "sha256": "c8199c03a6d566aa4dba5a6907d7641756d241c10feee70de2fcccee5e87b74a"
+    "sha256": "c8199c03a6d566aa4dba5a6907d7641756d241c10feee70de2fcccee5e87b74a",
+    "photoGroup": "98a1ca52140d2c2fbff1"
   },
   "yogurt_granola_s0": {
     "asset": "photography/yogurt_granola_s0.webp",
@@ -227,7 +249,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, granola e mirtilli. Ingredients: yogurt greco 0%, Granola, Mirtilli, Mandorle, Miele. Show this preparation action: Versa yogurt greco 0% in una ciotola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "4487633588bc86b802a81e6ecef6c06d7b7ffd5f5880d512439043ff95111512"
+    "sha256": "4487633588bc86b802a81e6ecef6c06d7b7ffd5f5880d512439043ff95111512",
+    "photoGroup": "1dae2166663a6ec1a0b0"
   },
   "yogurt_granola_s1": {
     "asset": "photography/yogurt_granola_s1.webp",
@@ -237,7 +260,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, granola e mirtilli. Ingredients: yogurt greco 0%, Granola, Mirtilli, Mandorle, Miele. Show this preparation action: Aggiungi Granola e Mirtilli.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "5c3fa66a8a98ecd351e1c1ff09479a0ace0685c75cbd4a4c7ce30498f1694551"
+    "sha256": "5c3fa66a8a98ecd351e1c1ff09479a0ace0685c75cbd4a4c7ce30498f1694551",
+    "photoGroup": "9114e907a4b0c91224cc"
   },
   "toast_uova_avocado": {
     "asset": "photography/toast_uova_avocado.webp",
@@ -247,7 +271,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. Create ONE exquisite realistic editorial cookbook photograph for the finished recipe 'Wholemeal toast with SCRAMBLED eggs, mashed avocado and fresh tomatoes'. Two slices of lightly toasted wholemeal bread on an elegant ivory ceramic plate, spread with roughly mashed green avocado and topped with a generous mound of SOFT GOLDEN SCRAMBLED EGGS: small creamy folded egg curds, scrambled whites and yolks fully mixed together. Fresh red tomato slices alongside the toast. Tiny ground black pepper specks. ONLY wholemeal bread, eggs, avocado, tomatoes, black pepper. Important: NO fried eggs, NO intact egg yolk, NO sunny-side-up egg, NO poached egg, no whole round egg shape. The eggs must unmistakably be scrambled, matching the cooking instructions. Bright warm home kitchen, light wooden worktop, beautiful soft natural window light, neutral linen, delicious real food texture and achievable homemade plating. Entire plate in central 80%, landscape 3:2 composition and safe square crop. No text, watermark, collage or UI.",
-    "sha256": "41eff6413dce9da2ae0b3d1b4088e6f514e70cad6730a4a747c5ee146e531450"
+    "sha256": "41eff6413dce9da2ae0b3d1b4088e6f514e70cad6730a4a747c5ee146e531450",
+    "photoGroup": "01766700f14356edf637"
   },
   "toast_uova_avocado_s3": {
     "asset": "photography/toast_uova_avocado.webp",
@@ -257,7 +282,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "Use case: photorealistic-natural. Create ONE exquisite realistic editorial cookbook photograph for the finished recipe 'Wholemeal toast with SCRAMBLED eggs, mashed avocado and fresh tomatoes'. Two slices of lightly toasted wholemeal bread on an elegant ivory ceramic plate, spread with roughly mashed green avocado and topped with a generous mound of SOFT GOLDEN SCRAMBLED EGGS: small creamy folded egg curds, scrambled whites and yolks fully mixed together. Fresh red tomato slices alongside the toast. Tiny ground black pepper specks. ONLY wholemeal bread, eggs, avocado, tomatoes, black pepper. Important: NO fried eggs, NO intact egg yolk, NO sunny-side-up egg, NO poached egg, no whole round egg shape. The eggs must unmistakably be scrambled, matching the cooking instructions. Bright warm home kitchen, light wooden worktop, beautiful soft natural window light, neutral linen, delicious real food texture and achievable homemade plating. Entire plate in central 80%, landscape 3:2 composition and safe square crop. No text, watermark, collage or UI.",
-    "sha256": "41eff6413dce9da2ae0b3d1b4088e6f514e70cad6730a4a747c5ee146e531450"
+    "sha256": "41eff6413dce9da2ae0b3d1b4088e6f514e70cad6730a4a747c5ee146e531450",
+    "photoGroup": "01766700f14356edf637"
   },
   "toast_uova_avocado_s0": {
     "asset": "photography/toast_uova_avocado_s0.webp",
@@ -267,7 +293,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a"
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8"
   },
   "toast_uova_avocado_s1": {
     "asset": "photography/toast_uova_avocado_s1.webp",
@@ -277,7 +304,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Cuoci Uova in padella antiaderente a fuoco medio, strapazzandole per 2-3 minuti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "129dd5825315a585fffcc01eecd980e206922219d0ad197332c1608eb76ddcb0"
+    "sha256": "129dd5825315a585fffcc01eecd980e206922219d0ad197332c1608eb76ddcb0",
+    "photoGroup": "d9a066fe7e183f39d242"
   },
   "toast_uova_avocado_s2": {
     "asset": "photography/toast_uova_avocado_s2.webp",
@@ -287,7 +315,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Schiaccia Avocado con una forchetta e spalmalo sul pane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "a5991b4c12240768981d19bbe63baec63e10147c62a04eedbc619c00c0e66537"
+    "sha256": "a5991b4c12240768981d19bbe63baec63e10147c62a04eedbc619c00c0e66537",
+    "photoGroup": "181e60cd0a5976de9caa"
   },
   "pancake_avena": {
     "asset": "photography/pancake_avena.webp",
@@ -297,7 +326,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Pancake di avena e banana. Ingredients: Fiocchi d'avena, Uova, Albume, Banana, Miele. Show the completed dish, all components actually present, beautifully plated. No ingredients absent from this list.",
-    "sha256": "58720083c4dfbc4828b090f7cc757670858d4021c28fc32cdc392a77f3795ad5"
+    "sha256": "58720083c4dfbc4828b090f7cc757670858d4021c28fc32cdc392a77f3795ad5",
+    "photoGroup": "22eb0047b859ce477adc"
   },
   "pancake_avena_s3": {
     "asset": "photography/pancake_avena.webp",
@@ -307,7 +337,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Pancake di avena e banana. Ingredients: Fiocchi d'avena, Uova, Albume, Banana, Miele. Show the completed dish, all components actually present, beautifully plated. No ingredients absent from this list.",
-    "sha256": "58720083c4dfbc4828b090f7cc757670858d4021c28fc32cdc392a77f3795ad5"
+    "sha256": "58720083c4dfbc4828b090f7cc757670858d4021c28fc32cdc392a77f3795ad5",
+    "photoGroup": "22eb0047b859ce477adc"
   },
   "pancake_avena_s0": {
     "asset": "photography/pancake_avena_s0.webp",
@@ -317,7 +348,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Pancake di avena e banana. Ingredients: Fiocchi d'avena, Uova, Albume, Banana, Miele. Show this preparation action: Frulla Fiocchi d'avena, Uova, Albume e Banana fino a ottenere una pastella liscia.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "ab819e8dfa48213c175493c2238fa7858074206315a58f5c01f692baef89c21e"
+    "sha256": "ab819e8dfa48213c175493c2238fa7858074206315a58f5c01f692baef89c21e",
+    "photoGroup": "28bae694bde735ad35d9"
   },
   "pancake_avena_s1": {
     "asset": "photography/pancake_avena_s1.webp",
@@ -327,7 +359,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Pancake di avena e banana. Ingredients: Fiocchi d'avena, Uova, Albume, Banana, Miele. Show this preparation action: Scalda una padella antiaderente e versa la pastella a cucchiaiate.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "756683f487fe0a0d80199c95ad61f32f0d6e82a4b3350bf59c78619b079fdba1"
+    "sha256": "756683f487fe0a0d80199c95ad61f32f0d6e82a4b3350bf59c78619b079fdba1",
+    "photoGroup": "1b16dc14dd3e5d5a35cf"
   },
   "pancake_avena_s2": {
     "asset": "photography/pancake_avena_s2.webp",
@@ -337,7 +370,8 @@
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Pancake di avena e banana. Ingredients: Fiocchi d'avena, Uova, Albume, Banana, Miele. Show this preparation action: Cuoci 2 minuti per lato finché i pancake sono dorati.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
-    "sha256": "cce285d82698df99f0d1f5ec5b386726f4b3c2afec57a080a4cc4fbb8e952d79"
+    "sha256": "cce285d82698df99f0d1f5ec5b386726f4b3c2afec57a080a4cc4fbb8e952d79",
+    "photoGroup": "b126fe9feac643291185"
   },
   "ciotola_di_yogurt_greco_0_con_banana_e_granola_s0": {
     "asset": "photography/yogurt_granola_s0.webp",
@@ -805,5 +839,1420 @@
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Latte, corn flakes e fragole. Ingredients: latte, Corn flakes, Fragole, Mandorle, yogurt greco 0%. Earlier actions (context only): Versa latte in una tazza grande. Focal action to photograph: Aggiungi Corn flakes.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
     "sha256": "72768a5d2ea3a5c81ecfe25a1702ccc4bdc66464b024a72d25e6cb2edbc637d9",
     "photoGroup": "51056017f1198f25ff2e"
+  },
+  "fiocchi_pane_miele_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "fiocchi_pane_miele",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "fiocchi_pane_miele": {
+    "asset": "photography/fiocchi_pane_miele.webp",
+    "recipeId": "fiocchi_pane_miele",
+    "stepIndex": null,
+    "subject": "Fiocchi di latte, pane integrale, miele e pera",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Fiocchi di latte, pane integrale, miele e pera. Ingredients: Fiocchi di latte, pane integrale, Miele, Pera, Noci.  Preparation context (do not print it): Tosta pane integrale. Spalma Fiocchi di latte sul pane e completa con Miele. Accompagna con Pera a spicchi e Noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "73d938235f8ff9f9e16659e065225842e90c324f519d7be09f72d1cbcdca0052",
+    "photoGroup": "faaa5df3850588ab3eb5"
+  },
+  "fiocchi_pane_miele_s2": {
+    "asset": "photography/fiocchi_pane_miele.webp",
+    "recipeId": "fiocchi_pane_miele",
+    "stepIndex": 2,
+    "subject": "Accompagna con {pera} a spicchi e {noci}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Fiocchi di latte, pane integrale, miele e pera. Ingredients: Fiocchi di latte, pane integrale, Miele, Pera, Noci.  Preparation context (do not print it): Tosta pane integrale. Spalma Fiocchi di latte sul pane e completa con Miele. Accompagna con Pera a spicchi e Noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "73d938235f8ff9f9e16659e065225842e90c324f519d7be09f72d1cbcdca0052",
+    "photoGroup": "faaa5df3850588ab3eb5",
+    "sharedFrom": "fiocchi_pane_miele"
+  },
+  "fiocchi_pane_miele_s1": {
+    "asset": "photography/fiocchi_pane_miele_s1.webp",
+    "recipeId": "fiocchi_pane_miele",
+    "stepIndex": 1,
+    "subject": "Spalma {fiocchi_latte} sul pane e completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Fiocchi di latte, pane integrale, miele e pera. Ingredients: Fiocchi di latte, pane integrale, Miele, Pera, Noci. Earlier actions (context only): Tosta pane integrale. Focal action to photograph: Spalma Fiocchi di latte sul pane e completa con Miele.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "0f56b42bff88951e5eedd835ea4ee2d9fb5a80aa75905a750d002fdae1030ccd",
+    "photoGroup": "eb3d08c288344612210d"
+  },
+  "smoothie_bowl": {
+    "asset": "photography/smoothie_bowl.webp",
+    "recipeId": "smoothie_bowl",
+    "stepIndex": null,
+    "subject": "Smoothie bowl frutti di bosco",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie bowl frutti di bosco. Ingredients: frutti di bosco surgelati, Banana, yogurt greco 0%, Fiocchi d'avena, Semi di chia, burro di arachidi.  Preparation context (do not print it): Frulla frutti di bosco surgelati, Banana e yogurt greco 0% fino a ottenere una crema densa. Versa in una ciotola. Completa con Fiocchi d'avena, Semi di chia e burro di arachidi. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "63bc7895d35352283292a888468b1ecee8aa77e889bd8a476cf1025a480e22b8",
+    "photoGroup": "ee5154f6b076486e9e3f"
+  },
+  "smoothie_bowl_s2": {
+    "asset": "photography/smoothie_bowl.webp",
+    "recipeId": "smoothie_bowl",
+    "stepIndex": 2,
+    "subject": "Completa con {avena}, {chia} e {arachidi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie bowl frutti di bosco. Ingredients: frutti di bosco surgelati, Banana, yogurt greco 0%, Fiocchi d'avena, Semi di chia, burro di arachidi.  Preparation context (do not print it): Frulla frutti di bosco surgelati, Banana e yogurt greco 0% fino a ottenere una crema densa. Versa in una ciotola. Completa con Fiocchi d'avena, Semi di chia e burro di arachidi. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "63bc7895d35352283292a888468b1ecee8aa77e889bd8a476cf1025a480e22b8",
+    "photoGroup": "ee5154f6b076486e9e3f",
+    "sharedFrom": "smoothie_bowl"
+  },
+  "smoothie_bowl_s0": {
+    "asset": "photography/smoothie_bowl_s0.webp",
+    "recipeId": "smoothie_bowl",
+    "stepIndex": 0,
+    "subject": "Frulla {frutti_bosco_surg}, {banana} e {greco0} fino a ottenere una crema densa.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie bowl frutti di bosco. Ingredients: frutti di bosco surgelati, Banana, yogurt greco 0%, Fiocchi d'avena, Semi di chia, burro di arachidi. Earlier actions (context only):  Focal action to photograph: Frulla frutti di bosco surgelati, Banana e yogurt greco 0% fino a ottenere una crema densa.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "3214240294f2ae840029e5b503be27ee812509b9bc0ba82e4bbcb0d34d45f0e7",
+    "photoGroup": "8978ff1b5e7c5504ec0e"
+  },
+  "smoothie_bowl_s1": {
+    "asset": "photography/smoothie_bowl_s1.webp",
+    "recipeId": "smoothie_bowl",
+    "stepIndex": 1,
+    "subject": "Versa in una ciotola.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie bowl frutti di bosco. Ingredients: frutti di bosco surgelati, Banana, yogurt greco 0%, Fiocchi d'avena, Semi di chia, burro di arachidi. Earlier actions (context only): Frulla frutti di bosco surgelati, Banana e yogurt greco 0% fino a ottenere una crema densa. Focal action to photograph: Versa in una ciotola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, subject centered safely for square crop, no text, watermark or UI.",
+    "sha256": "4656a8dcf3a89dcedee5797b549ce8b0861c91c5f32463a4744caf48deda9894",
+    "photoGroup": "c2410247dc291dfdca54"
+  },
+  "pane_integrale_con_ricotta_miele_e_fichi_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_ricotta_miele_e_fichi",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_avocado_e_uova_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_avocado_e_uova",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_burro_di_arachidi_e_banana_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_burro_di_arachidi_e_banana",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_burro_di_mandorle_e_fragole_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_burro_di_mandorle_e_fragole",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_hummus_e_pomodori_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_hummus_e_pomodori",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_ricotta_pomodorini_e_basilico_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_ricotta_e_marmellata_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_ricotta_e_marmellata",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_crema_di_nocciole_e_banana_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_crema_di_nocciole_e_banana",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_prosciutto_cotto_e_mozzarella_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_prosciutto_cotto_e_mozzarella",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_tonno_e_avocado_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_tonno_e_avocado",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_uova_strapazzate_e_spinaci_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_uova_strapazzate_e_spinaci",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_caprino_pere_e_noci_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_caprino_pere_e_noci",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_ricotta_pesche_e_pistacchi_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_mozzarella_pomodoro_e_origano_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_bresaola_e_rucola_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_bresaola_e_rucola",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_yogurt_greco_miele_e_noci_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_tahina_e_banana_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_tahina_e_banana",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_mele_cannella_e_ricotta_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_mele_cannella_e_ricotta",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_pomodori_secchi_caprino_e_rucola_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "pane_integrale_con_feta_cetrioli_e_menta_s0": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "pane_integrale_con_feta_cetrioli_e_menta",
+    "stepIndex": 0,
+    "subject": "Tosta {pane_int} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_spinaci_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_spinaci_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_pomodori_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_pomodori_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_funghi_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_funghi_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_zucchine_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_zucchine_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_peperoni_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_peperoni_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_cipollotti_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_cipollotti_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_asparagi_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_asparagi_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "uova_strapazzate_con_broccoli_e_pane_integrale_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "uova_strapazzate_con_broccoli_e_pane_integrale",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "club_sandwich_di_pollo_con_uovo_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "club_sandwich_di_pollo_con_uovo",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "club_sandwich_di_pollo_con_avocado_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "club_sandwich_di_pollo_con_avocado",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "club_sandwich_di_tacchino_con_uovo_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "club_sandwich_di_tacchino_con_uovo",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "club_sandwich_di_tacchino_con_avocado_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "club_sandwich_di_tacchino_con_avocado",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "club_sandwich_di_tonno_con_uovo_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "club_sandwich_di_tonno_con_uovo",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "club_sandwich_di_tonno_con_avocado_s2": {
+    "asset": "photography/toast_uova_avocado_s0.webp",
+    "recipeId": "club_sandwich_di_tonno_con_avocado",
+    "stepIndex": 2,
+    "subject": "Tosta {pane_int} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast integrale, uova e avocado. Ingredients: pane integrale, Uova, Avocado, Pomodori, Pepe nero. Show this preparation action: Tosta pane integrale in padella o nel tostapane.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "e935095ba7666f5ef42420b0e269fd3de6c323eb6273c2478477a703d507cc6a",
+    "photoGroup": "39de02259213b3599ac8",
+    "sharedFrom": "toast_uova_avocado_s0"
+  },
+  "greco_mela_s0": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "greco_mela",
+    "stepIndex": 0,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "porridge_mela_e_mandorle_vaniglia_s2": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "porridge_mela_e_mandorle_vaniglia",
+    "stepIndex": 2,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "porridge_di_avena_con_mela_pistacchi_e_zenzero_s2": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "porridge_di_avena_con_mela_pistacchi_e_zenzero",
+    "stepIndex": 2,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "overnight_oats_con_mela_e_semi_di_lino_s2": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "overnight_oats_con_mela_e_semi_di_lino",
+    "stepIndex": 2,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena_s1": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "ciotola_di_yogurt_greco_intero_con_mela_e_fiocchi_di_avena",
+    "stepIndex": 1,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "coppa_di_yogurt_magro_con_mela_e_cocco_rape_s1": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "coppa_di_yogurt_magro_con_mela_e_cocco_rape",
+    "stepIndex": 1,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "bowl_di_kefir_con_mela_e_pistacchi_s1": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "bowl_di_kefir_con_mela_e_pistacchi",
+    "stepIndex": 1,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man",
+    "stepIndex": 3,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pancake_alla_ricotta_con_mela_e_cannella_e_yogurt_greco_s3": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "pancake_alla_ricotta_con_mela_e_cannella_e_yogurt_greco",
+    "stepIndex": 3,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pancake_proteici_con_mela_e_cannella_e_miele_s3": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "pancake_proteici_con_mela_e_cannella_e_miele",
+    "stepIndex": 3,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a",
+    "stepIndex": 3,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pancake_al_cocco_con_mela_e_cannella_e_burro_di_mandorle_s3": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "pancake_al_cocco_con_mela_e_cannella_e_burro_di_mandorle",
+    "stepIndex": 3,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco_s3": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco",
+    "stepIndex": 3,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "chia_pudding_con_mela_s2": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "chia_pudding_con_mela",
+    "stepIndex": 2,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "mela_con_cannella_s0": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "mela_con_cannella",
+    "stepIndex": 0,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "mela_e_nocciole_s0": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "mela_e_nocciole",
+    "stepIndex": 0,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "mela_e_noci_pecan_s0": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "mela_e_noci_pecan",
+    "stepIndex": 0,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "yogurt_magro_con_mela_s0": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "yogurt_magro_con_mela",
+    "stepIndex": 0,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "mela_al_forno_con_cannella_e_noci_s1": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "mela_al_forno_con_cannella_e_noci",
+    "stepIndex": 1,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "mela_alla_piastra_con_yogurt_e_pistacchi_s0": {
+    "asset": "photography/greco_mela_nocciole_s0.webp",
+    "recipeId": "mela_alla_piastra_con_yogurt_e_pistacchi",
+    "stepIndex": 0,
+    "subject": "Taglia {mela} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco, mela, cannella e nocciole. Ingredients: yogurt greco 0%, Mela, Nocciole, Fiocchi d'avena, Cannella. Earlier actions (context only):  Focal action to photograph: Taglia Mela a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. Actual food photography, not a drawing. Prefer landscape 3:2, main subject in central 80% for square crop. No typography, menu, illustration, montage or labels.",
+    "sha256": "73b28fc2a5dc368b402bf1e3d066add3eaa8d014c00441b60e1b25ca604515ad",
+    "photoGroup": "69506cdbf6f05b05db45",
+    "sharedFrom": "greco_mela_nocciole_s0"
+  },
+  "pane_con_ricotta_miele_e_fichi_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_ricotta_miele_e_fichi",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_avocado_e_uova_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_avocado_e_uova",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_burro_di_arachidi_e_banana_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_burro_di_arachidi_e_banana",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_burro_di_mandorle_e_fragole_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_burro_di_mandorle_e_fragole",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_formaggio_spalmabile_e_salmone_affumicato_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_salmone_affumicato",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_hummus_e_pomodori_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_hummus_e_pomodori",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_ricotta_pomodorini_e_basilico_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_ricotta_pomodorini_e_basilico",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_ricotta_e_marmellata_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_ricotta_e_marmellata",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_crema_di_nocciole_e_banana_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_crema_di_nocciole_e_banana",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_prosciutto_cotto_e_mozzarella_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_prosciutto_cotto_e_mozzarella",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_tonno_e_avocado_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_tonno_e_avocado",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_uova_strapazzate_e_spinaci_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_uova_strapazzate_e_spinaci",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_fiocchi_di_latte_e_cetrioli_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_fiocchi_di_latte_e_cetrioli",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_caprino_pere_e_noci_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_caprino_pere_e_noci",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_ricotta_pesche_e_pistacchi_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_ricotta_pesche_e_pistacchi",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_mozzarella_pomodoro_e_origano_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_mozzarella_pomodoro_e_origano",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_bresaola_e_rucola_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_bresaola_e_rucola",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_yogurt_greco_miele_e_noci_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_tahina_e_banana_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_tahina_e_banana",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_mele_cannella_e_ricotta_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_mele_cannella_e_ricotta",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_pomodori_secchi_caprino_e_rucola_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "pane_con_feta_cetrioli_e_menta_s0": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "pane_con_feta_cetrioli_e_menta",
+    "stepIndex": 0,
+    "subject": "Tosta {pane} nel tostapane o in padella per 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "club_sandwich_di_pollo_con_uovo_su_pane_bianco_s2": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "club_sandwich_di_pollo_con_uovo_su_pane_bianco",
+    "stepIndex": 2,
+    "subject": "Tosta {pane} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "club_sandwich_di_pollo_con_avocado_su_pane_bianco_s2": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "club_sandwich_di_pollo_con_avocado_su_pane_bianco",
+    "stepIndex": 2,
+    "subject": "Tosta {pane} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "club_sandwich_di_tacchino_con_uovo_su_pane_bianco_s2": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "club_sandwich_di_tacchino_con_uovo_su_pane_bianco",
+    "stepIndex": 2,
+    "subject": "Tosta {pane} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "club_sandwich_di_tacchino_con_avocado_su_pane_bianco_s2": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "club_sandwich_di_tacchino_con_avocado_su_pane_bianco",
+    "stepIndex": 2,
+    "subject": "Tosta {pane} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "club_sandwich_di_tonno_con_uovo_su_pane_bianco_s2": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "club_sandwich_di_tonno_con_uovo_su_pane_bianco",
+    "stepIndex": 2,
+    "subject": "Tosta {pane} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "club_sandwich_di_tonno_con_avocado_su_pane_bianco_s2": {
+    "asset": "photography/pane_ricotta_marmellata_s0.webp",
+    "recipeId": "club_sandwich_di_tonno_con_avocado_su_pane_bianco",
+    "stepIndex": 2,
+    "subject": "Tosta {pane} 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Use case: photorealistic-natural. One exquisite realistic cookbook process photograph, warm bright home kitchen, soft natural window light, light wooden worktop, neutral clean cookware, crisp tactile food texture. No text, no watermark, no labels, no collage or UI. Close framing meaningful as a square thumbnail. Only foods described here.\nRecipe action: a thick slice of rustic bread lightly toasting in a clean dry frying pan. Golden toasted surface, no spread, no jam, no fruit added yet.",
+    "sha256": "91d7df5f8927b689265342a1349073e27f0f030570214dfa247ccae2ca2223b7",
+    "photoGroup": "18978d90e06f947261d6",
+    "sharedFrom": "pane_ricotta_marmellata_s0"
+  },
+  "greco_mela": {
+    "asset": "photography/greco_mela.webp",
+    "recipeId": "greco_mela",
+    "stepIndex": null,
+    "subject": "Yogurt greco e mela",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco e mela. Ingredients: yogurt greco 0%, Mela, Noci.  Preparation context (do not print it): Taglia Mela a cubetti. Unisci a yogurt greco 0% e completa con Noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "7bb093ba4246833a987ea33941b35e8c5132d18cb3f18e6596d4b7167574c1d5",
+    "photoGroup": "8a703da08c7980a41a55"
+  },
+  "greco_mela_s1": {
+    "asset": "photography/greco_mela.webp",
+    "recipeId": "greco_mela",
+    "stepIndex": 1,
+    "subject": "Unisci a {greco0} e completa con {noci}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Yogurt greco e mela. Ingredients: yogurt greco 0%, Mela, Noci.  Preparation context (do not print it): Taglia Mela a cubetti. Unisci a yogurt greco 0% e completa con Noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "7bb093ba4246833a987ea33941b35e8c5132d18cb3f18e6596d4b7167574c1d5",
+    "photoGroup": "8a703da08c7980a41a55",
+    "sharedFrom": "greco_mela"
+  },
+  "mandorle_mandarini": {
+    "asset": "photography/mandorle_mandarini.webp",
+    "recipeId": "mandorle_mandarini",
+    "stepIndex": null,
+    "subject": "Mandorle e mandarini",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Mandorle e mandarini. Ingredients: Mandorle, Mandarini / clementine.  Preparation context (do not print it): Sbuccia Mandarini / clementine e accompagnali con Mandorle. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "a8bfcfb423c6d17cb2ece5b04c36ec920c4eec1a706a54f2b887015c133e9724",
+    "photoGroup": "6e2213578e5d5078ba4d"
+  },
+  "mandorle_mandarini_s0": {
+    "asset": "photography/mandorle_mandarini_s0.webp",
+    "recipeId": "mandorle_mandarini",
+    "stepIndex": 0,
+    "subject": "Sbuccia {mandarini} e accompagnali con {mandorle}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Mandorle e mandarini. Ingredients: Mandorle, Mandarini / clementine. Earlier actions (context only):  Focal action to photograph: Sbuccia Mandarini / clementine e accompagnali con Mandorle.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "894ffe9c19fc6b07a172901ae20d9b1e3bb677c2ba8ed9f01068017c9c2849c4",
+    "photoGroup": "88e44c95fcf2bbe5410e"
+  },
+  "gallette_hummus": {
+    "asset": "photography/gallette_hummus.webp",
+    "recipeId": "gallette_hummus",
+    "stepIndex": null,
+    "subject": "Gallette con hummus e carote",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Gallette con hummus e carote. Ingredients: gallette di riso, Hummus, Carote, Lupini lessati.  Preparation context (do not print it): Taglia Carote a bastoncini. Spalma Hummus sulle gallette di riso. Accompagna con carote e Lupini lessati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "2c605cb89e552a520f02a06489383327af3c6a1df49fd69a06a7f9031ed781c6",
+    "photoGroup": "c3ed9623cb1d34626c31"
+  },
+  "gallette_hummus_s2": {
+    "asset": "photography/gallette_hummus.webp",
+    "recipeId": "gallette_hummus",
+    "stepIndex": 2,
+    "subject": "Accompagna con carote e {lupini}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Gallette con hummus e carote. Ingredients: gallette di riso, Hummus, Carote, Lupini lessati.  Preparation context (do not print it): Taglia Carote a bastoncini. Spalma Hummus sulle gallette di riso. Accompagna con carote e Lupini lessati. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "2c605cb89e552a520f02a06489383327af3c6a1df49fd69a06a7f9031ed781c6",
+    "photoGroup": "c3ed9623cb1d34626c31",
+    "sharedFrom": "gallette_hummus"
+  },
+  "gallette_hummus_s0": {
+    "asset": "photography/gallette_hummus_s0.webp",
+    "recipeId": "gallette_hummus",
+    "stepIndex": 0,
+    "subject": "Taglia {carote} a bastoncini.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Gallette con hummus e carote. Ingredients: gallette di riso, Hummus, Carote, Lupini lessati. Earlier actions (context only):  Focal action to photograph: Taglia Carote a bastoncini.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "aae846afb48d725d3bdd0faadef179dd3d2e22a9235356c56736ff582f984f94",
+    "photoGroup": "dd57e10cfabd175991ea"
+  },
+  "gallette_hummus_s1": {
+    "asset": "photography/gallette_hummus_s1.webp",
+    "recipeId": "gallette_hummus",
+    "stepIndex": 1,
+    "subject": "Spalma {hummus} sulle {gallette}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Gallette con hummus e carote. Ingredients: gallette di riso, Hummus, Carote, Lupini lessati. Earlier actions (context only): Taglia Carote a bastoncini. Focal action to photograph: Spalma Hummus sulle gallette di riso.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "d00de71a063f22d030f9c3f11b42b00f4f5be18cee1c35c5cc90379f5cc53b96",
+    "photoGroup": "1f4bf1ebdb7bcd8c303f"
+  },
+  "fiocchi_crackers": {
+    "asset": "photography/fiocchi_crackers.webp",
+    "recipeId": "fiocchi_crackers",
+    "stepIndex": null,
+    "subject": "Fiocchi di latte, crackers e pomodorini",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Fiocchi di latte, crackers e pomodorini. Ingredients: Fiocchi di latte, crackers integrali, pomodorini.  Preparation context (do not print it): Condisci Fiocchi di latte con un pizzico di pepe. Servi con crackers integrali e pomodorini. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "e48a9dbac86330baf7c561abffac48a8f0cbe31d058402de402ea51373417f88",
+    "photoGroup": "b1bcf408d63b2c8d866c"
+  },
+  "fiocchi_crackers_s1": {
+    "asset": "photography/fiocchi_crackers.webp",
+    "recipeId": "fiocchi_crackers",
+    "stepIndex": 1,
+    "subject": "Servi con {crackers} e {pomodori}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Fiocchi di latte, crackers e pomodorini. Ingredients: Fiocchi di latte, crackers integrali, pomodorini.  Preparation context (do not print it): Condisci Fiocchi di latte con un pizzico di pepe. Servi con crackers integrali e pomodorini. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "e48a9dbac86330baf7c561abffac48a8f0cbe31d058402de402ea51373417f88",
+    "photoGroup": "b1bcf408d63b2c8d866c",
+    "sharedFrom": "fiocchi_crackers"
+  },
+  "fiocchi_crackers_s0": {
+    "asset": "photography/fiocchi_crackers_s0.webp",
+    "recipeId": "fiocchi_crackers",
+    "stepIndex": 0,
+    "subject": "Condisci {fiocchi_latte} con un pizzico di pepe.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Fiocchi di latte, crackers e pomodorini. Ingredients: Fiocchi di latte, crackers integrali, pomodorini. Earlier actions (context only):  Focal action to photograph: Condisci Fiocchi di latte con un pizzico di pepe.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "66d41f1e27b56d67f2c28a884f08908cb2f726c4b819cdc097f43e979d60bcf4",
+    "photoGroup": "ed12985eff18ee7a8af0"
+  },
+  "toast_cotto": {
+    "asset": "photography/toast_cotto.webp",
+    "recipeId": "toast_cotto",
+    "stepIndex": null,
+    "subject": "Toast prosciutto cotto e provola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast prosciutto cotto e provola. Ingredients: pane integrale, prosciutto cotto, Provolone / provola.  Preparation context (do not print it): Farcisci pane integrale con prosciutto cotto e Provolone / provola. Tosta in piastra 3-4 minuti, finché il formaggio fila. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "bf34970d7f14ff68bbc94c05d2d0a276807c7c6624733256a6be913b9a2c52f4",
+    "photoGroup": "b4a96ba0e3e9830a7fc5"
+  },
+  "toast_cotto_s0": {
+    "asset": "photography/toast_cotto_s0.webp",
+    "recipeId": "toast_cotto",
+    "stepIndex": 0,
+    "subject": "Farcisci {pane_int} con {prosciutto_cotto} e {provola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast prosciutto cotto e provola. Ingredients: pane integrale, prosciutto cotto, Provolone / provola. Earlier actions (context only):  Focal action to photograph: Farcisci pane integrale con prosciutto cotto e Provolone / provola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "c82fa4bfedd2852e2ffa26202576cced7d442eeb61e08834660abdc74a66eb94",
+    "photoGroup": "edaeb1b2acff81869e22"
+  },
+  "toast_cotto_s1": {
+    "asset": "photography/toast_cotto_s1.webp",
+    "recipeId": "toast_cotto",
+    "stepIndex": 1,
+    "subject": "Tosta in piastra 3-4 minuti, finché il formaggio fila.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Toast prosciutto cotto e provola. Ingredients: pane integrale, prosciutto cotto, Provolone / provola. Earlier actions (context only): Farcisci pane integrale con prosciutto cotto e Provolone / provola. Focal action to photograph: Tosta in piastra 3-4 minuti, finché il formaggio fila.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "e9477f8022abf9fcfc92bb287fd38ce5929dde3c02f41ab95e2e03612d8c5672",
+    "photoGroup": "d197b4226e1275613aae"
+  },
+  "banana_arachidi": {
+    "asset": "photography/banana_arachidi.webp",
+    "recipeId": "banana_arachidi",
+    "stepIndex": null,
+    "subject": "Banana e burro di arachidi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Banana e burro di arachidi. Ingredients: Banana, Burro di arachidi, yogurt greco 0%.  Preparation context (do not print it): Taglia Banana a rondelle. Servi con Burro di arachidi e yogurt greco 0%. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "63e67686a108110d37984f539d61b2c0c79e6c92ad1a397c9464fe500c4be776",
+    "photoGroup": "b6239c599c6cfac3f854"
+  },
+  "banana_arachidi_s1": {
+    "asset": "photography/banana_arachidi.webp",
+    "recipeId": "banana_arachidi",
+    "stepIndex": 1,
+    "subject": "Servi con {arachidi} e {greco0}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Banana e burro di arachidi. Ingredients: Banana, Burro di arachidi, yogurt greco 0%.  Preparation context (do not print it): Taglia Banana a rondelle. Servi con Burro di arachidi e yogurt greco 0%. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "63e67686a108110d37984f539d61b2c0c79e6c92ad1a397c9464fe500c4be776",
+    "photoGroup": "b6239c599c6cfac3f854",
+    "sharedFrom": "banana_arachidi"
+  },
+  "banana_arachidi_s0": {
+    "asset": "photography/banana_arachidi_s0.webp",
+    "recipeId": "banana_arachidi",
+    "stepIndex": 0,
+    "subject": "Taglia {banana} a rondelle.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Banana e burro di arachidi. Ingredients: Banana, Burro di arachidi, yogurt greco 0%. Earlier actions (context only):  Focal action to photograph: Taglia Banana a rondelle.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "5f4c6a94d88f0c7c1e21725daaf2de398987b9f2c70bb5e6e52030c49051d8ad",
+    "photoGroup": "efb610530a0a853e2377"
+  },
+  "smoothie_proteico": {
+    "asset": "photography/smoothie_proteico.webp",
+    "recipeId": "smoothie_proteico",
+    "stepIndex": null,
+    "subject": "Smoothie proteico banana e avena",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie proteico banana e avena. Ingredients: latte, proteine whey, Banana, Fiocchi d'avena.  Preparation context (do not print it): Frulla latte, proteine whey, Banana e Fiocchi d'avena per 30 secondi. Bevi subito. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "ce4e2185ba475e9ec6df6c1c6984ff432b326fd9f477bb6f94b82a7ded4a9674",
+    "photoGroup": "33247e2808827a19e8ea"
+  },
+  "smoothie_proteico_s0": {
+    "asset": "photography/smoothie_proteico_s0.webp",
+    "recipeId": "smoothie_proteico",
+    "stepIndex": 0,
+    "subject": "Frulla {latte_ps}, {whey}, {banana} e {avena} per 30 secondi.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie proteico banana e avena. Ingredients: latte, proteine whey, Banana, Fiocchi d'avena. Earlier actions (context only):  Focal action to photograph: Frulla latte, proteine whey, Banana e Fiocchi d'avena per 30 secondi.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "33b31f49e002dad9325edc0c6dc6561a57a5d11d49a1970afb07be780d49bd2c",
+    "photoGroup": "e4f605724243cc4ddec8"
+  },
+  "smoothie_proteico_s1": {
+    "asset": "photography/smoothie_proteico.webp",
+    "recipeId": "smoothie_proteico",
+    "stepIndex": 1,
+    "subject": "Bevi subito.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Smoothie proteico banana e avena. Ingredients: latte, proteine whey, Banana, Fiocchi d'avena.  Preparation context (do not print it): Frulla latte, proteine whey, Banana e Fiocchi d'avena per 30 secondi. Bevi subito. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "ce4e2185ba475e9ec6df6c1c6984ff432b326fd9f477bb6f94b82a7ded4a9674",
+    "photoGroup": "33247e2808827a19e8ea",
+    "sharedFrom": "smoothie_proteico"
+  },
+  "kefir_bosco": {
+    "asset": "photography/kefir_bosco.webp",
+    "recipeId": "kefir_bosco",
+    "stepIndex": null,
+    "subject": "Kefir, frutti di bosco e chia",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Kefir, frutti di bosco e chia. Ingredients: Kefir, frutti di bosco, Semi di chia.  Preparation context (do not print it): Versa Kefir in una ciotola. Aggiungi frutti di bosco e Semi di chia. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "33d777c713fdb0b5cb9554cc98c71336569232499b05abc65436e6bdf4adb789",
+    "photoGroup": "613d0075bb6b9c273dc5"
+  },
+  "kefir_bosco_s0": {
+    "asset": "photography/kefir_bosco_s0.webp",
+    "recipeId": "kefir_bosco",
+    "stepIndex": 0,
+    "subject": "Versa {kefir} in una ciotola.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Kefir, frutti di bosco e chia. Ingredients: Kefir, frutti di bosco, Semi di chia. Earlier actions (context only):  Focal action to photograph: Versa Kefir in una ciotola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "9c6b44e047c952413424ae65d6fd3f807e8900358fa0c00684c35c7c08e349b1",
+    "photoGroup": "625a5a0b775faea64b7e"
+  },
+  "kefir_bosco_s1": {
+    "asset": "photography/kefir_bosco_s1.webp",
+    "recipeId": "kefir_bosco",
+    "stepIndex": 1,
+    "subject": "Aggiungi {frutti_bosco_surg} e {chia}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Kefir, frutti di bosco e chia. Ingredients: Kefir, frutti di bosco, Semi di chia. Earlier actions (context only): Versa Kefir in una ciotola. Focal action to photograph: Aggiungi frutti di bosco e Semi di chia.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "f8696bddfbf7dd3331d0826c6aa28d8db1eee8b784a10f6dc5d97dfb47d4d0f3",
+    "photoGroup": "2c33241064783a41f9b9"
+  },
+  "fondente_kiwi": {
+    "asset": "photography/fondente_kiwi.webp",
+    "recipeId": "fondente_kiwi",
+    "stepIndex": null,
+    "subject": "Cioccolato fondente, noci e kiwi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Cioccolato fondente, noci e kiwi. Ingredients: cioccolato fondente, Noci, Kiwi, yogurt greco 0%.  Preparation context (do not print it): Sbuccia e taglia Kiwi. Servi con yogurt greco 0%, cioccolato fondente e Noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "628351d63b261de4377460fef848ddcd44eabb117b87601c477205b0dedc4f96",
+    "photoGroup": "b8208ac44de918355f28"
+  },
+  "fondente_kiwi_s1": {
+    "asset": "photography/fondente_kiwi.webp",
+    "recipeId": "fondente_kiwi",
+    "stepIndex": 1,
+    "subject": "Servi con {greco0}, {fondente} e {noci}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Cioccolato fondente, noci e kiwi. Ingredients: cioccolato fondente, Noci, Kiwi, yogurt greco 0%.  Preparation context (do not print it): Sbuccia e taglia Kiwi. Servi con yogurt greco 0%, cioccolato fondente e Noci. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "628351d63b261de4377460fef848ddcd44eabb117b87601c477205b0dedc4f96",
+    "photoGroup": "b8208ac44de918355f28",
+    "sharedFrom": "fondente_kiwi"
+  },
+  "fondente_kiwi_s0": {
+    "asset": "photography/fondente_kiwi_s0.webp",
+    "recipeId": "fondente_kiwi",
+    "stepIndex": 0,
+    "subject": "Sbuccia e taglia {kiwi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Recipe: Cioccolato fondente, noci e kiwi. Ingredients: cioccolato fondente, Noci, Kiwi, yogurt greco 0%. Earlier actions (context only):  Focal action to photograph: Sbuccia e taglia Kiwi.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.\nUse case: photorealistic-natural. One actual editorial food photograph, no drawing or UI. Bright natural window light, warm light wood, ivory tableware, central 80% safe for a square crop, landscape 3:2 preferred. Match actual foods and preparation; no typography or watermark.",
+    "sha256": "00e47101ae48ded55f47031aae17fdbc4aa520da08d89536b1e038a6492aed0e",
+    "photoGroup": "957d8c00d4d9ae47555f"
   }
 }

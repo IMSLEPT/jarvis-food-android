@@ -1,5 +1,9 @@
 # Fotografia delle ricette — migrazione in corso
 
+**APK finale in attesa delle due modifiche grafiche richieste dall’utente:**
+vedi `docs/FINAL-APK-HOLD.md`. Non integrare su main e non pubblicare la release
+definitiva prima che siano state comunicate, applicate e verificate.
+
 Lo stile richiesto è fotografico: luce naturale, cucina luminosa, piatti curati
 ma riproducibili, ingredienti riconoscibili e inquadrature ravvicinate delle azioni.
 Gli screenshot dell'utente sono riferimenti di stile, non fotografie da ritagliare.
@@ -7,13 +11,11 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 
 ## Stato reale del catalogo
 
-Il database contiene **2.533 ricette e 10.239 passaggi**. Questo primo gruppo
-contiene **11 ricette complete, 74 abbinamenti immagine e 40 fotografie distinte**:
-porridge banana e noci, yogurt granola e mirtilli, toast uova e avocado,
-pancake avena e banana, overnight oats, fette con burro di arachidi, yogurt mela e
-nocciole, latte cereali e fragole, pasta pollo e zucchine, pane ricotta e marmellata,
-riso uova e spinaci. Sono inclusi 24 passaggi condivisi con altre ricette compatibili.
-L'ultimo passaggio di impiattamento può usare la foto del piatto.
+Il database contiene **2.533 ricette e 10.239 passaggi**. La raccolta attuale
+contiene **22 ricette complete, 194 abbinamenti immagine e 65 fotografie distinte**:
+le dieci colazioni e i dieci spuntini del nucleo originale, più pasta pollo e
+zucchine e riso uova e spinaci. Le fotografie di azioni compatibili sono condivise
+anche con altre ricette. L'impiattamento può riutilizzare la foto del piatto finito.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
 Le immagini sono WebP locali: disponibili offline, senza chiavi API o richieste

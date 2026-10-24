@@ -40,7 +40,7 @@ def dish_signature(recipe):
 
 def finishing(recipe, index):
     step = recipe['steps'][index].lower()
-    return index == len(recipe['steps']) - 1 and bool(re.search(r'\b(servi|impiatta|completa|accompagna)\b', step))
+    return index == len(recipe['steps']) - 1 and bool(re.search(r'\b(servi|impiatta|completa|accompagna|bevi|gusta)\b', step))
 
 
 def signature(recipe, index=None):
@@ -50,6 +50,8 @@ def signature(recipe, index=None):
     refs = re.findall(r'\{([^}]+)\}', step)
     normal = re.sub(r'\{([^}]+)\}', lambda m: '{' + canonical(m[1]) + '}', step.lower())
     normal = re.sub(r'\d+(?:[.,]\d+)?', '#', normal)
+    if len(refs) == 1 and normal.startswith('tosta ') and 'forno' not in normal:
+        return ['toast-bread', canonical(refs[0])]
     # Isolated preparation of explicit ingredients can be shared across recipes.
     # Mixing/finishing an existing pan or bowl requires the whole dish context.
     isolated = refs and re.match(r'^(taglia|pela|sbuccia|sciacqua|tosta|lessa|cuoci|griglia|sguscia|versa)\b', normal)

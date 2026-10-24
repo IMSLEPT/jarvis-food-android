@@ -17,6 +17,7 @@ STYLE = (
     'appetizing food textures and achievable homemade plating. Tight food framing '
     'that remains meaningful in a square crop. No text, labels, watermark, collage '
     'or UI. Show the actual ingredients/action described; no invented garnishes. '
+    'Focus on food; hands are allowed when needed, no portraits or visible faces. '
 )
 
 
