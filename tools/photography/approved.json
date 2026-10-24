@@ -5637,5 +5637,73 @@
     "sha256": "ff6b5e8cd5b896040b97a4a2cd59064cd9ebf7869baa952fb368f3810db44636",
     "photoGroup": "65c24708e20cf859a6a3",
     "sharedFrom": "pane_integrale_con_tonno_e_avocado"
+  },
+  "pane_con_tonno_e_avocado": {
+    "asset": "photography/pane_con_tonno_e_avocado.webp",
+    "recipeId": "pane_con_tonno_e_avocado",
+    "stepIndex": null,
+    "subject": "Pane con tonno e avocado",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con tonno e avocado. Ingredients: Pane comune, Tonno al naturale (sgocciolato), Avocado, Succo di limone.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato. Completa con Tonno al naturale (sgocciolato) sgocciolato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Only white common wheat bread, not brown wholemeal, and no seeds. Do not add herbs, pepper, egg, tomatoes or other unlisted garnish. Finished open-faced white bread toast: a spread of mashed avocado topped with drained canned tuna flakes.",
+    "sha256": "71edc7683984d18618fe8a6e411b791fd291f7765b9989cc091b5b21d8850537",
+    "photoGroup": "775339a0e446d81f67d6"
+  },
+  "pane_con_tonno_e_avocado_s1": {
+    "asset": "photography/pane_con_tonno_e_avocado_s1.webp",
+    "recipeId": "pane_con_tonno_e_avocado",
+    "stepIndex": 1,
+    "subject": "Schiaccia {avocado} con {limone} e spalmalo sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con tonno e avocado. Ingredients: Pane comune, Tonno al naturale (sgocciolato), Avocado, Succo di limone. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Only white common wheat bread, not brown wholemeal, and no seeds. Do not add herbs, pepper, egg, tomatoes or other unlisted garnish. Show a butter knife actively spreading mashed avocado mixed with lemon juice on white toast. No tuna on bread yet, the tuna is still in a separate small bowl.",
+    "sha256": "568ac855f9d513d9a96fcfcc02076d605c233b128190e391620f73ee96903a8d",
+    "photoGroup": "06490e9b837fb0447198"
+  },
+  "fette_biscottate_con_tonno_e_avocado": {
+    "asset": "photography/fette_biscottate_con_tonno_e_avocado.webp",
+    "recipeId": "fette_biscottate_con_tonno_e_avocado",
+    "stepIndex": null,
+    "subject": "Fette biscottate con tonno e avocado",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con tonno e avocado. Ingredients: Fette biscottate, Tonno al naturale (sgocciolato), Avocado, Succo di limone.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato. Completa con Tonno al naturale (sgocciolato) sgocciolato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small rectangular dry golden Italian rusks, visibly twice baked with fine crisp porous crumb. Not slices of fresh bread. Only rusks, avocado, canned drained tuna and lemon juice. No egg, pepper, herbs, tomatoes, oil or seeds. Finished open-faced rusks: mashed avocado with drained tuna flakes above, served on an ivory plate.",
+    "sha256": "6d77c93a4b646bc37695938b9f9b72c27f8f6d6d06f2727dfbe1313031f6b20b",
+    "photoGroup": "6d5b16198e9f99d02b53"
+  },
+  "fette_biscottate_con_tonno_e_avocado_s1": {
+    "asset": "photography/fette_biscottate_con_tonno_e_avocado_s1.webp",
+    "recipeId": "fette_biscottate_con_tonno_e_avocado",
+    "stepIndex": 1,
+    "subject": "Schiaccia {avocado} con {limone} e spalmalo sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con tonno e avocado. Ingredients: Fette biscottate, Tonno al naturale (sgocciolato), Avocado, Succo di limone. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: small rectangular dry golden Italian rusks, visibly twice baked with fine crisp porous crumb. Not slices of fresh bread. Only rusks, avocado, canned drained tuna and lemon juice. No egg, pepper, herbs, tomatoes, oil or seeds. A butter knife actively spreading mashed avocado mixed with lemon juice on the crisp rusks. No tuna on the rusks yet; tuna remains in a separate small bowl.",
+    "sha256": "258790db2cdd7bd23208c76cc91e774b76e308dfc30dc1231190b0f0f43e005e",
+    "photoGroup": "f223c167e3bd17a39e4a"
+  },
+  "pane_con_tonno_e_avocado_s2": {
+    "asset": "photography/pane_con_tonno_e_avocado.webp",
+    "recipeId": "pane_con_tonno_e_avocado",
+    "stepIndex": 2,
+    "subject": "Completa con {tonno_nat} sgocciolato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con tonno e avocado. Ingredients: Pane comune, Tonno al naturale (sgocciolato), Avocado, Succo di limone.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato. Completa con Tonno al naturale (sgocciolato) sgocciolato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Only white common wheat bread, not brown wholemeal, and no seeds. Do not add herbs, pepper, egg, tomatoes or other unlisted garnish. Finished open-faced white bread toast: a spread of mashed avocado topped with drained canned tuna flakes.",
+    "sha256": "71edc7683984d18618fe8a6e411b791fd291f7765b9989cc091b5b21d8850537",
+    "photoGroup": "775339a0e446d81f67d6",
+    "sharedFrom": "pane_con_tonno_e_avocado"
+  },
+  "fette_biscottate_con_tonno_e_avocado_s2": {
+    "asset": "photography/fette_biscottate_con_tonno_e_avocado.webp",
+    "recipeId": "fette_biscottate_con_tonno_e_avocado",
+    "stepIndex": 2,
+    "subject": "Completa con {tonno_nat} sgocciolato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con tonno e avocado. Ingredients: Fette biscottate, Tonno al naturale (sgocciolato), Avocado, Succo di limone.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato. Completa con Tonno al naturale (sgocciolato) sgocciolato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small rectangular dry golden Italian rusks, visibly twice baked with fine crisp porous crumb. Not slices of fresh bread. Only rusks, avocado, canned drained tuna and lemon juice. No egg, pepper, herbs, tomatoes, oil or seeds. Finished open-faced rusks: mashed avocado with drained tuna flakes above, served on an ivory plate.",
+    "sha256": "6d77c93a4b646bc37695938b9f9b72c27f8f6d6d06f2727dfbe1313031f6b20b",
+    "photoGroup": "6d5b16198e9f99d02b53",
+    "sharedFrom": "fette_biscottate_con_tonno_e_avocado"
   }
 }

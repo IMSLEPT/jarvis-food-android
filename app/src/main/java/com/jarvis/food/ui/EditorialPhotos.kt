@@ -160,7 +160,10 @@ object EditorialPhotos {
         "fette_biscottate_con_ricotta_pomodorini_e_basilico_s1" to "photography/fette_biscottate_con_ricotta_pomodorini_e_basilico_s1.webp",
         "fette_biscottate_con_ricotta_pomodorini_e_basilico_s2" to "photography/fette_biscottate_con_ricotta_pomodorini_e_basilico.webp",
         "fette_biscottate_con_tahina_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_tonno_e_avocado" to "photography/fette_biscottate_con_tonno_e_avocado.webp",
         "fette_biscottate_con_tonno_e_avocado_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_tonno_e_avocado_s1" to "photography/fette_biscottate_con_tonno_e_avocado_s1.webp",
+        "fette_biscottate_con_tonno_e_avocado_s2" to "photography/fette_biscottate_con_tonno_e_avocado.webp",
         "fette_biscottate_con_uova_strapazzate_e_spinaci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_yogurt_greco_miele_e_noci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fiocchi_crackers" to "photography/fiocchi_crackers.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "insalata_pollo_patate_s2" to "photography/insalata_pollo_patate_s2.webp",
         "insalata_pollo_patate_s3" to "photography/insalata_pollo_patate.webp",
         "kefir_bosco" to "photography/kefir_bosco.webp",
-        "kefir_bosco_s0" to "photography/kefir_bosco_s0.webp",
-        "kefir_bosco_s1" to "photography/kefir_bosco_s1.webp",
-        "latte_cereali_fragole" to "photography/latte_cereali_fragole.webp",
     )
 
     private fun group1() = mapOf(
+        "kefir_bosco_s0" to "photography/kefir_bosco_s0.webp",
+        "kefir_bosco_s1" to "photography/kefir_bosco_s1.webp",
+        "latte_cereali_fragole" to "photography/latte_cereali_fragole.webp",
         "latte_cereali_fragole_s0" to "photography/latte_cereali_fragole_s0.webp",
         "latte_cereali_fragole_s1" to "photography/latte_cereali_fragole_s1.webp",
         "latte_cereali_fragole_s2" to "photography/latte_cereali_fragole.webp",
@@ -300,7 +303,10 @@ object EditorialPhotos {
         "pane_con_ricotta_pomodorini_e_basilico_s1" to "photography/pane_con_ricotta_pomodorini_e_basilico_s1.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s2" to "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
         "pane_con_tahina_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_tonno_e_avocado" to "photography/pane_con_tonno_e_avocado.webp",
         "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_tonno_e_avocado_s1" to "photography/pane_con_tonno_e_avocado_s1.webp",
+        "pane_con_tonno_e_avocado_s2" to "photography/pane_con_tonno_e_avocado.webp",
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_integrale_con_avocado_e_uova" to "photography/pane_integrale_con_avocado_e_uova.webp",
@@ -401,15 +407,15 @@ object EditorialPhotos {
         "pollo_limone_verdure_s3" to "photography/pollo_limone_verdure.webp",
         "porridge_banana" to "photography/porridge_banana.webp",
         "porridge_banana_e_noci_cannella_s2" to "photography/banana_arachidi_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "porridge_banana_s0" to "photography/porridge_banana_s0.webp",
         "porridge_banana_s1" to "photography/porridge_banana_s1.webp",
         "porridge_banana_s2" to "photography/porridge_banana_s2.webp",
         "porridge_banana_s3" to "photography/porridge_banana.webp",
         "porridge_di_avena_con_banana_anacardi_e_cardamomo_s2" to "photography/banana_arachidi_s0.webp",
         "porridge_di_avena_con_mela_pistacchi_e_zenzero_s2" to "photography/greco_mela_nocciole_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "porridge_mela_e_mandorle_vaniglia_s2" to "photography/greco_mela_nocciole_s0.webp",
         "quinoa_ceci" to "photography/quinoa_ceci.webp",
         "quinoa_ceci_s0" to "photography/quinoa_ceci_s0.webp",
