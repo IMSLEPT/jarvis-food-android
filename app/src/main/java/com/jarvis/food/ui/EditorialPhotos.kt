@@ -6,6 +6,9 @@ object EditorialPhotos {
     private fun group0() = mapOf(
         "anacardi_e_fichi_secchi" to "photography/anacardi_e_fichi_secchi.webp",
         "anacardi_e_fichi_secchi_s0" to "photography/anacardi_e_fichi_secchi.webp",
+        "anguria_feta" to "photography/anguria_feta.webp",
+        "anguria_feta_s0" to "photography/anguria_feta_s0.webp",
+        "anguria_feta_s1" to "photography/anguria_feta.webp",
         "banana_al_forno_con_cannella_e_noci_s1" to "photography/banana_arachidi_s0.webp",
         "banana_alla_piastra_con_yogurt_e_pistacchi_s0" to "photography/banana_arachidi_s0.webp",
         "banana_arachidi" to "photography/banana_arachidi.webp",
@@ -44,6 +47,9 @@ object EditorialPhotos {
         "burger_patate_s1" to "photography/burger_patate_s1.webp",
         "burger_patate_s2" to "photography/burger_patate_s2.webp",
         "burger_patate_s3" to "photography/burger_patate.webp",
+        "cetrioli_hummus" to "photography/cetrioli_hummus.webp",
+        "cetrioli_hummus_s0" to "photography/cetrioli_hummus_s0.webp",
+        "cetrioli_hummus_s1" to "photography/cetrioli_hummus.webp",
         "chia_pudding_con_banana_s2" to "photography/banana_arachidi_s0.webp",
         "chia_pudding_con_mela_s2" to "photography/greco_mela_nocciole_s0.webp",
         "ciotola_di_kefir_con_ananas_e_semi_di_zucca_s0" to "photography/kefir_bosco_s0.webp",
@@ -198,15 +204,15 @@ object EditorialPhotos {
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+    )
+
+    private fun group1() = mapOf(
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_caprino_pere_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_crema_di_nocciole_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_feta_cetrioli_e_menta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-    )
-
-    private fun group1() = mapOf(
         "pane_con_formaggio_spalmabile_e_salmone_affumicato_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_hummus_e_pomodori_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mele_cannella_e_ricotta_s0" to "photography/pane_ricotta_marmellata_s0.webp",

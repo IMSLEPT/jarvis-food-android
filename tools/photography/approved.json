@@ -4425,5 +4425,73 @@
     "sha256": "9c4202f6536fe8d07cad106817e9eaeb666ea505412a5b2bcd03877cb9d0f654",
     "photoGroup": "3b5a6cec05d4ea2b26b8",
     "sharedFrom": "ricotta_e_miele"
+  },
+  "cetrioli_hummus": {
+    "asset": "photography/cetrioli_hummus.webp",
+    "recipeId": "cetrioli_hummus",
+    "stepIndex": null,
+    "subject": "Cetrioli e carote con hummus",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Cetrioli e carote con hummus. Ingredients: Cetrioli, Carote, Hummus.  Preparation context (do not print it): Lava Cetrioli e Carote e tagliali a bastoncini. Servi con Hummus per intingere. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "6b2c6b61f1f20fb277a6974d2f05432f4ffe8f76a2c0c462e125332d03341177",
+    "photoGroup": "93236ac195afebaf60a9"
+  },
+  "cetrioli_hummus_s0": {
+    "asset": "photography/cetrioli_hummus_s0.webp",
+    "recipeId": "cetrioli_hummus",
+    "stepIndex": 0,
+    "subject": "Lava {cetrioli} e {carote} e tagliali a bastoncini.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Cetrioli e carote con hummus. Ingredients: Cetrioli, Carote, Hummus. Earlier actions (context only):  Focal action to photograph: Lava Cetrioli e Carote e tagliali a bastoncini.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "fe245da4e23c57534cca1505801564e43ae8842420008fa1247090a19528b68f",
+    "photoGroup": "b62804dfe6ee89f2abac"
+  },
+  "anguria_feta_s0": {
+    "asset": "photography/anguria_feta_s0.webp",
+    "recipeId": "anguria_feta",
+    "stepIndex": 0,
+    "subject": "Taglia {anguria} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Anguria e feta. Ingredients: Anguria, Feta. Earlier actions (context only):  Focal action to photograph: Taglia Anguria a cubetti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "5516579b1fdf2db18102627228988763863ebe5a03399c2af7297cd3c4c98f80",
+    "photoGroup": "1c23bb1f12a982eaea2e"
+  },
+  "anguria_feta": {
+    "asset": "photography/anguria_feta.webp",
+    "recipeId": "anguria_feta",
+    "stepIndex": null,
+    "subject": "Anguria e feta",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Anguria e feta. Ingredients: Anguria, Feta.  Preparation context (do not print it): Taglia Anguria a cubetti. Sbriciola Feta sopra e servi fresco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "d313cf42b9712d0def2c5b67ab32ce93afa0b443185080e6616b7e87e128ff75",
+    "photoGroup": "1ee1b97f8b35d4f46681"
+  },
+  "cetrioli_hummus_s1": {
+    "asset": "photography/cetrioli_hummus.webp",
+    "recipeId": "cetrioli_hummus",
+    "stepIndex": 1,
+    "subject": "Servi con {hummus} per intingere.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Cetrioli e carote con hummus. Ingredients: Cetrioli, Carote, Hummus.  Preparation context (do not print it): Lava Cetrioli e Carote e tagliali a bastoncini. Servi con Hummus per intingere. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "6b2c6b61f1f20fb277a6974d2f05432f4ffe8f76a2c0c462e125332d03341177",
+    "photoGroup": "93236ac195afebaf60a9",
+    "sharedFrom": "cetrioli_hummus"
+  },
+  "anguria_feta_s1": {
+    "asset": "photography/anguria_feta.webp",
+    "recipeId": "anguria_feta",
+    "stepIndex": 1,
+    "subject": "Sbriciola {feta} sopra e servi fresco.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Anguria e feta. Ingredients: Anguria, Feta.  Preparation context (do not print it): Taglia Anguria a cubetti. Sbriciola Feta sopra e servi fresco. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "d313cf42b9712d0def2c5b67ab32ce93afa0b443185080e6616b7e87e128ff75",
+    "photoGroup": "1ee1b97f8b35d4f46681",
+    "sharedFrom": "anguria_feta"
   }
 }
