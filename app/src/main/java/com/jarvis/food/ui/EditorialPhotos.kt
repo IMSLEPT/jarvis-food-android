@@ -144,7 +144,9 @@ object EditorialPhotos {
         "fette_biscottate_con_mele_cannella_e_ricotta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_mozzarella_pomodoro_e_origano_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_prosciutto_cotto_e_mozzarella" to "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella.webp",
         "fette_biscottate_con_prosciutto_cotto_e_mozzarella_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_prosciutto_cotto_e_mozzarella_s1" to "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella_s1.webp",
         "fette_biscottate_con_ricotta_e_marmellata" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
         "fette_biscottate_con_ricotta_e_marmellata_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_ricotta_e_marmellata_s1" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
@@ -202,11 +204,11 @@ object EditorialPhotos {
         "kefir_bosco_s0" to "photography/kefir_bosco_s0.webp",
         "kefir_bosco_s1" to "photography/kefir_bosco_s1.webp",
         "latte_cereali_fragole" to "photography/latte_cereali_fragole.webp",
-        "latte_cereali_fragole_s0" to "photography/latte_cereali_fragole_s0.webp",
-        "latte_cereali_fragole_s1" to "photography/latte_cereali_fragole_s1.webp",
     )
 
     private fun group1() = mapOf(
+        "latte_cereali_fragole_s0" to "photography/latte_cereali_fragole_s0.webp",
+        "latte_cereali_fragole_s1" to "photography/latte_cereali_fragole_s1.webp",
         "latte_cereali_fragole_s2" to "photography/latte_cereali_fragole.webp",
         "lenticchie_umido" to "photography/lenticchie_umido.webp",
         "lenticchie_umido_s0" to "photography/lenticchie_umido_s0.webp",
@@ -340,7 +342,10 @@ object EditorialPhotos {
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s1" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico_s1.webp",
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s2" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico.webp",
         "pane_integrale_con_tahina_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_tonno_e_avocado" to "photography/pane_integrale_con_tonno_e_avocado.webp",
         "pane_integrale_con_tonno_e_avocado_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_tonno_e_avocado_s1" to "photography/pane_integrale_con_tonno_e_avocado_s1.webp",
+        "pane_integrale_con_tonno_e_avocado_s2" to "photography/pane_integrale_con_tonno_e_avocado.webp",
         "pane_integrale_con_uova_strapazzate_e_spinaci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_yogurt_greco_miele_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_ricotta_marmellata" to "photography/pane_ricotta_marmellata.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "porridge_banana_s3" to "photography/porridge_banana.webp",
         "porridge_di_avena_con_banana_anacardi_e_cardamomo_s2" to "photography/banana_arachidi_s0.webp",
         "porridge_di_avena_con_mela_pistacchi_e_zenzero_s2" to "photography/greco_mela_nocciole_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "porridge_mela_e_mandorle_vaniglia_s2" to "photography/greco_mela_nocciole_s0.webp",
         "quinoa_ceci" to "photography/quinoa_ceci.webp",
         "quinoa_ceci_s0" to "photography/quinoa_ceci_s0.webp",
         "quinoa_ceci_s1" to "photography/quinoa_ceci_s1.webp",
         "quinoa_ceci_s2" to "photography/quinoa_ceci_s2.webp",
-    )
-
-    private fun group2() = mapOf(
         "quinoa_ceci_s3" to "photography/quinoa_ceci.webp",
         "ricotta_e_frutti_di_bosco" to "photography/ricotta_e_frutti_di_bosco.webp",
         "ricotta_e_frutti_di_bosco_s0" to "photography/ricotta_e_frutti_di_bosco.webp",

@@ -5581,5 +5581,61 @@
     "sha256": "71cb759c32670ced567a6b582e66d33051dcacdf8fc802ce10fc38d8c7845681",
     "photoGroup": "2627f5a888ce509c9c05",
     "sharedFrom": "fette_biscottate_con_ricotta_pomodorini_e_basilico"
+  },
+  "fette_biscottate_con_prosciutto_cotto_e_mozzarella": {
+    "asset": "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella.webp",
+    "recipeId": "fette_biscottate_con_prosciutto_cotto_e_mozzarella",
+    "stepIndex": null,
+    "subject": "Fette biscottate con prosciutto cotto e mozzarella",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con prosciutto cotto e mozzarella. Ingredients: Fette biscottate, Prosciutto cotto, Mozzarella, Pomodori.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Farcisci il pane con Prosciutto cotto, Mozzarella e Pomodori a fette, poi tosta in padella 2 minuti per lato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact fidelity: small crisp rectangular golden twice-baked Italian rusks, not fresh bread. Pink cooked ham, fresh mozzarella and red sliced tomato only. No herbs, pepper, butter or extra ingredients. Show a warm rusk sandwich with softened mozzarella, plated.",
+    "sha256": "7341daa53785283706fd1c7bc890d7e89d6df056ee97d30ccc81f7edec78c5c6",
+    "photoGroup": "73cadd31458b41e8aef2"
+  },
+  "fette_biscottate_con_prosciutto_cotto_e_mozzarella_s1": {
+    "asset": "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella_s1.webp",
+    "recipeId": "fette_biscottate_con_prosciutto_cotto_e_mozzarella",
+    "stepIndex": 1,
+    "subject": "Farcisci il pane con {prosciutto_cotto}, {mozzarella} e {pomodori} a fette, poi tosta in padella 2 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con prosciutto cotto e mozzarella. Ingredients: Fette biscottate, Prosciutto cotto, Mozzarella, Pomodori. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Farcisci il pane con Prosciutto cotto, Mozzarella e Pomodori a fette, poi tosta in padella 2 minuti per lato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact fidelity: small crisp rectangular golden twice-baked Italian rusks, not fresh bread. Pink cooked ham, fresh mozzarella and red sliced tomato only. No herbs, pepper, butter or extra ingredients. Show hands assembling the ham, mozzarella and sliced tomato between rusks in a dry skillet; an intermediate preparation action.",
+    "sha256": "f89dde414024d8ca652eaa11a5f7f3befc2d950a86335165dc0464d6c38eea26",
+    "photoGroup": "926eb942a3b6fa81811e"
+  },
+  "pane_integrale_con_tonno_e_avocado": {
+    "asset": "photography/pane_integrale_con_tonno_e_avocado.webp",
+    "recipeId": "pane_integrale_con_tonno_e_avocado",
+    "stepIndex": null,
+    "subject": "Pane integrale con tonno e avocado",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con tonno e avocado. Ingredients: Pane integrale, Tonno al naturale (sgocciolato), Avocado, Succo di limone.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato. Completa con Tonno al naturale (sgocciolato) sgocciolato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Wholemeal brown bread, no added seeds. Do not add herbs, pepper, egg, tomatoes or any other unlisted garnish. Show canned drained tuna flakes clearly on a layer of mashed avocado, finished open-faced wholemeal toast on an ivory ceramic plate.",
+    "sha256": "ff6b5e8cd5b896040b97a4a2cd59064cd9ebf7869baa952fb368f3810db44636",
+    "photoGroup": "65c24708e20cf859a6a3"
+  },
+  "pane_integrale_con_tonno_e_avocado_s1": {
+    "asset": "photography/pane_integrale_con_tonno_e_avocado_s1.webp",
+    "recipeId": "pane_integrale_con_tonno_e_avocado",
+    "stepIndex": 1,
+    "subject": "Schiaccia {avocado} con {limone} e spalmalo sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con tonno e avocado. Ingredients: Pane integrale, Tonno al naturale (sgocciolato), Avocado, Succo di limone. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Wholemeal brown bread, no added seeds. Do not add herbs, pepper, egg, tomatoes or any other unlisted garnish. Show a knife spreading mashed avocado mixed with lemon juice onto wholemeal brown toast. No tuna on the bread yet; tuna may only be visible separately in a small bowl.",
+    "sha256": "eb1e1684fb50a05105fcfb15a159ea8d5ba9e5f4336012e845c6345c179f0499",
+    "photoGroup": "64a43065d8f6571e7e23"
+  },
+  "pane_integrale_con_tonno_e_avocado_s2": {
+    "asset": "photography/pane_integrale_con_tonno_e_avocado.webp",
+    "recipeId": "pane_integrale_con_tonno_e_avocado",
+    "stepIndex": 2,
+    "subject": "Completa con {tonno_nat} sgocciolato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con tonno e avocado. Ingredients: Pane integrale, Tonno al naturale (sgocciolato), Avocado, Succo di limone.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Schiaccia Avocado con Succo di limone e spalmalo sul pane tostato. Completa con Tonno al naturale (sgocciolato) sgocciolato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Wholemeal brown bread, no added seeds. Do not add herbs, pepper, egg, tomatoes or any other unlisted garnish. Show canned drained tuna flakes clearly on a layer of mashed avocado, finished open-faced wholemeal toast on an ivory ceramic plate.",
+    "sha256": "ff6b5e8cd5b896040b97a4a2cd59064cd9ebf7869baa952fb368f3810db44636",
+    "photoGroup": "65c24708e20cf859a6a3",
+    "sharedFrom": "pane_integrale_con_tonno_e_avocado"
   }
 }

@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 ## Stato verificato
 
 - 2533 ricette, 10.239 passaggi nel database.
-- 92 ricette complete di foto principale e di tutti i passaggi.
-- 236 WebP distinti (1 fotografie online gratuite), 483 abbinamenti verificati.
-- 265 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
-- 2441 ricette da completare.
-- Sessione continuativa: 11 nuove immagini, 6 ricette ulteriori completate rispetto alle 86 iniziali.
+- 94 ricette complete di foto principale e di tutti i passaggi.
+- 240 WebP distinti (1 fotografie online gratuite), 488 abbinamenti verificati.
+- 270 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
+- 2439 ricette da completare.
+- Sessione continuativa: 15 nuove immagini, 8 ricette ulteriori completate rispetto alle 86 iniziali.
 - Checkpoint precedente 759c31ad: 86 ricette, 225 immagini, 248 passaggi delle ricette complete. Tutti conservati.
 - Ultimo APK consegnato al momento del checkpoint: 1.0.87, con 49 ricette fotografiche complete. Le nuove immagini necessitano di una compilazione aggiornata; non dichiararle presenti nell’APK consegnato senza verifica.
 
@@ -21,11 +21,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Fette biscottate con hummus e pomodori (`fette_biscottate_con_hummus_e_pomodori`)
 - Fette biscottate con ricotta, pomodorini e basilico (`fette_biscottate_con_ricotta_pomodorini_e_basilico`)
 - Pane con prosciutto cotto e mozzarella (`pane_con_prosciutto_cotto_e_mozzarella`)
+- Fette biscottate con prosciutto cotto e mozzarella (`fette_biscottate_con_prosciutto_cotto_e_mozzarella`)
+- Pane integrale con tonno e avocado (`pane_integrale_con_tonno_e_avocado`)
 
 ## Prossime ricette da completare
 
-- Fette biscottate con prosciutto cotto e mozzarella (`fette_biscottate_con_prosciutto_cotto_e_mozzarella`): 2 nuovi soggetti mancanti.
-- Pane integrale con tonno e avocado (`pane_integrale_con_tonno_e_avocado`): 2 nuovi soggetti mancanti.
 - Pane con tonno e avocado (`pane_con_tonno_e_avocado`): 2 nuovi soggetti mancanti.
 - Fette biscottate con tonno e avocado (`fette_biscottate_con_tonno_e_avocado`): 2 nuovi soggetti mancanti.
 - Pane integrale con fiocchi di latte e cetrioli (`pane_integrale_con_fiocchi_di_latte_e_cetrioli`): 2 nuovi soggetti mancanti.
@@ -36,6 +36,8 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Fette biscottate con caprino, pere e noci (`fette_biscottate_con_caprino_pere_e_noci`): 2 nuovi soggetti mancanti.
 - Pane integrale con ricotta, pesche e pistacchi (`pane_integrale_con_ricotta_pesche_e_pistacchi`): 2 nuovi soggetti mancanti.
 - Pane con ricotta, pesche e pistacchi (`pane_con_ricotta_pesche_e_pistacchi`): 2 nuovi soggetti mancanti.
+- Fette biscottate con ricotta, pesche e pistacchi (`fette_biscottate_con_ricotta_pesche_e_pistacchi`): 2 nuovi soggetti mancanti.
+- Pane integrale con mozzarella, pomodoro e origano (`pane_integrale_con_mozzarella_pomodoro_e_origano`): 2 nuovi soggetti mancanti.
 
 ## Metodo e verifiche
 
