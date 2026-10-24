@@ -4493,5 +4493,73 @@
     "sha256": "d313cf42b9712d0def2c5b67ab32ce93afa0b443185080e6616b7e87e128ff75",
     "photoGroup": "1ee1b97f8b35d4f46681",
     "sharedFrom": "anguria_feta"
+  },
+  "ricotta_miele_noci": {
+    "asset": "photography/ricotta_miele_noci.webp",
+    "recipeId": "ricotta_miele_noci",
+    "stepIndex": null,
+    "subject": "Ricotta, miele e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta, miele e noci. Ingredients: Ricotta, Miele, Noci.  Preparation context (do not print it): Metti Ricotta in una ciotola. Aggiungi Miele e Noci spezzettate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f4ba3849b8c3d00a5f46d30a21dbfd1f3846e66a185f84149532b62a517f6683",
+    "photoGroup": "ef8125bb12037be61827"
+  },
+  "ricotta_miele_noci_s0": {
+    "asset": "photography/ricotta_miele_noci_s0.webp",
+    "recipeId": "ricotta_miele_noci",
+    "stepIndex": 0,
+    "subject": "Metti {ricotta} in una ciotola.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta, miele e noci. Ingredients: Ricotta, Miele, Noci. Earlier actions (context only):  Focal action to photograph: Metti Ricotta in una ciotola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "88b039edfab6869b751eba4c06cd669b6d38b22814d93a0c74bb9ff3e71b4ffc",
+    "photoGroup": "4ab57414fc7a620770c7"
+  },
+  "albume_sodo_pomodori_s0": {
+    "asset": "photography/albume_sodo_pomodori_s0.webp",
+    "recipeId": "albume_sodo_pomodori",
+    "stepIndex": 0,
+    "subject": "Cuoci gli {albume} in uno stampo antiaderente a bagnomaria per 8 minuti, oppure usa albumi già sodi.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Albumi sodi e pomodorini. Ingredients: albumi, pomodorini, Pepe nero. Earlier actions (context only):  Focal action to photograph: Cuoci gli albumi in uno stampo antiaderente a bagnomaria per 8 minuti, oppure usa albumi già sodi.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "2970749bfa080f47381d9f0f5e1e9c6e78ff190ed2e6091f1b607b652f34c8ee",
+    "photoGroup": "43ad6e09b285fd200d32"
+  },
+  "albume_sodo_pomodori": {
+    "asset": "photography/albume_sodo_pomodori.webp",
+    "recipeId": "albume_sodo_pomodori",
+    "stepIndex": null,
+    "subject": "Albumi sodi e pomodorini",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Albumi sodi e pomodorini. Ingredients: albumi, pomodorini, Pepe nero.  Preparation context (do not print it): Cuoci gli albumi in uno stampo antiaderente a bagnomaria per 8 minuti, oppure usa albumi già sodi. Taglia a pezzi e servi con pomodorini e Pepe nero. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "cbb8a46a11e72ac1058ad1ab83eb3071c6baba52e75ba74f50268a6bdc03e30c",
+    "photoGroup": "df88ec533d76c326fbb1"
+  },
+  "ricotta_miele_noci_s1": {
+    "asset": "photography/ricotta_miele_noci.webp",
+    "recipeId": "ricotta_miele_noci",
+    "stepIndex": 1,
+    "subject": "Aggiungi {miele} e {noci} spezzettate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Ricotta, miele e noci. Ingredients: Ricotta, Miele, Noci.  Preparation context (do not print it): Metti Ricotta in una ciotola. Aggiungi Miele e Noci spezzettate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "f4ba3849b8c3d00a5f46d30a21dbfd1f3846e66a185f84149532b62a517f6683",
+    "photoGroup": "ef8125bb12037be61827",
+    "sharedFrom": "ricotta_miele_noci"
+  },
+  "albume_sodo_pomodori_s1": {
+    "asset": "photography/albume_sodo_pomodori.webp",
+    "recipeId": "albume_sodo_pomodori",
+    "stepIndex": 1,
+    "subject": "Taglia a pezzi e servi con {pomodori} e {pepe}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Albumi sodi e pomodorini. Ingredients: albumi, pomodorini, Pepe nero.  Preparation context (do not print it): Cuoci gli albumi in uno stampo antiaderente a bagnomaria per 8 minuti, oppure usa albumi già sodi. Taglia a pezzi e servi con pomodorini e Pepe nero. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "cbb8a46a11e72ac1058ad1ab83eb3071c6baba52e75ba74f50268a6bdc03e30c",
+    "photoGroup": "df88ec533d76c326fbb1",
+    "sharedFrom": "albume_sodo_pomodori"
   }
 }

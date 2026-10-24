@@ -4,6 +4,9 @@ package com.jarvis.food.ui
  * Original recipe IDs, quantities, calculations and user photos stay intact. */
 object EditorialPhotos {
     private fun group0() = mapOf(
+        "albume_sodo_pomodori" to "photography/albume_sodo_pomodori.webp",
+        "albume_sodo_pomodori_s0" to "photography/albume_sodo_pomodori_s0.webp",
+        "albume_sodo_pomodori_s1" to "photography/albume_sodo_pomodori.webp",
         "anacardi_e_fichi_secchi" to "photography/anacardi_e_fichi_secchi.webp",
         "anacardi_e_fichi_secchi_s0" to "photography/anacardi_e_fichi_secchi.webp",
         "anguria_feta" to "photography/anguria_feta.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
-        "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-        "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-        "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
     )
 
     private fun group1() = mapOf(
+        "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_bresaola_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_burro_di_arachidi_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_caprino_pere_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_crema_di_nocciole_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -323,6 +326,9 @@ object EditorialPhotos {
         "ricotta_e_frutti_di_bosco_s0" to "photography/ricotta_e_frutti_di_bosco.webp",
         "ricotta_e_miele" to "photography/ricotta_e_miele.webp",
         "ricotta_e_miele_s0" to "photography/ricotta_e_miele.webp",
+        "ricotta_miele_noci" to "photography/ricotta_miele_noci.webp",
+        "ricotta_miele_noci_s0" to "photography/ricotta_miele_noci_s0.webp",
+        "ricotta_miele_noci_s1" to "photography/ricotta_miele_noci.webp",
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
