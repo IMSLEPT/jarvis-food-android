@@ -114,14 +114,25 @@ class AuroraLayoutTest {
             // alone does not guarantee an IME opens on every emulator cold start.
             scenario.onActivity { activity ->
                 ViewCompat.getWindowInsetsController(activity.window.decorView)?.show(WindowInsetsCompat.Type.ime())
+                val inputMethod = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                @Suppress("DEPRECATION")
+                inputMethod.showSoftInput(activity.currentFocus ?: activity.window.decorView, android.view.inputmethod.InputMethodManager.SHOW_FORCED)
             }
             var imeBottom = 0
-            compose.waitUntil(20_000) {
+            try { compose.waitUntil(20_000) {
                 scenario.onActivity { activity ->
                     imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
                         ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
                 }
                 imeBottom > 0 && compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isEmpty()
+            } } catch (failure: Throwable) {
+                println("IME diagnostic: bottom=$imeBottom, bottomBars=${compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().size}, tab=${Nav.tab}")
+                scenario.onActivity { activity ->
+                    val inputMethod = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                    println("IME diagnostic: windowFocus=${activity.hasWindowFocus()}, viewFocus=${activity.currentFocus}, active=${inputMethod.isActive}, accepting=${inputMethod.isAcceptingText}")
+                }
+                shot("chat-keyboard-failure")
+                throw failure
             }
             android.os.SystemClock.sleep(500)
             compose.waitForIdle()

@@ -8,9 +8,10 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. Questo primo gruppo
-contiene **7 ricette complete, 58 abbinamenti immagine e 27 fotografie distinte**:
+contiene **11 ricette complete, 74 abbinamenti immagine e 40 fotografie distinte**:
 porridge banana e noci, yogurt granola e mirtilli, toast uova e avocado,
-pancake avena e banana, pasta pollo e zucchine, pane ricotta e marmellata,
+pancake avena e banana, overnight oats, fette con burro di arachidi, yogurt mela e
+nocciole, latte cereali e fragole, pasta pollo e zucchine, pane ricotta e marmellata,
 riso uova e spinaci. Sono inclusi 24 passaggi condivisi con altre ricette compatibili.
 L'ultimo passaggio di impiattamento può usare la foto del piatto.
 **La sostituzione dell'intero catalogo non è ancora completata.**

@@ -108,6 +108,8 @@ jobs:
             adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
             adb logcat -c
             adb shell settings put secure show_ime_with_hard_keyboard 1
+            KEYBOARD=$(adb shell ime list -s | head -1 | tr -d '\r')
+            if [ -n "$KEYBOARD" ]; then adb shell ime enable "$KEYBOARD"; adb shell ime set "$KEYBOARD"; fi
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-standard.log 2>&1
             cat layout-standard.log
             adb shell wm size 1080x2340

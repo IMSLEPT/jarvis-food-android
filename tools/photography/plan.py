@@ -27,12 +27,14 @@ def briefs():
         names = {i['food']: i.get('label') or foods[i['food']]['name'] for i in recipe['ings']}
         ingredients = ', '.join(dict.fromkeys(names.values()))
         base = f'Recipe: {recipe["name"]}. Ingredients: {ingredients}. '
+        resolved = [re.sub(r'\{([^}]+)\}', lambda match: names.get(match[1], match[1]), step) for step in recipe['steps']]
+        preparation = ' Preparation context (do not print it): ' + ' '.join(resolved) + ' '
         yield {'id': recipe['id'], 'recipeId': recipe['id'], 'stepIndex': None, 'group': group_id(recipe),
-               'prompt': STYLE + base + 'Show the completed dish, all components actually present, beautifully plated. No ingredients absent from this list.'}
+               'prompt': STYLE + base + preparation + 'Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.'}
         for index, step in enumerate(recipe['steps']):
             action = re.sub(r'\{([^}]+)\}', lambda match: names.get(match[1], match[1]), step)
             yield {'id': f'{recipe["id"]}_s{index}', 'recipeId': recipe['id'], 'stepIndex': index, 'group': group_id(recipe, index),
-                   'prompt': STYLE + base + f'Show this preparation action: {action}. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.'}
+                   'prompt': STYLE + base + 'Earlier actions (context only): ' + ' '.join(resolved[:index]) + f' Focal action to photograph: {action}. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.'}
 
 
 def main():
@@ -60,7 +62,7 @@ def main():
     heroes = [item for item in items if item['stepIndex'] is None]
     complete = sum(all(item['id'] in approved for item in items if item['recipeId'] == hero['id']) for hero in heroes)
     print(json.dumps({'recipes': len(heroes), 'steps': len(items) - len(heroes),
-                      'reviewed_slots': len(approved), 'pending_slots': len(pending),
+                      'reviewed_slots': sum(item['id'] in approved for item in items), 'pending_slots': len(pending),
                       'recipes_with_complete_new_photography': complete,
                       'shared_groups': len(groups), 'images_to_produce': sum('reuse' not in r for r in requests)}, indent=2))
     if args.out:
