@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 ## Stato verificato
 
 - 2533 ricette, 10.239 passaggi nel database.
-- 111 ricette complete di foto principale e di tutti i passaggi.
-- 274 WebP distinti (1 fotografie online gratuite), 539 abbinamenti verificati.
-- 321 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
-- 2422 ricette da completare.
-- Sessione continuativa: 24 nuove immagini, 12 ricette ulteriori completate rispetto alle 99 iniziali.
+- 114 ricette complete di foto principale e di tutti i passaggi.
+- 280 WebP distinti (1 fotografie online gratuite), 548 abbinamenti verificati.
+- 330 passaggi delle ricette complete coperti; altri passaggi sono condivisi con varianti compatibili.
+- 2419 ricette da completare.
+- Sessione continuativa: 30 nuove immagini, 15 ricette ulteriori completate rispetto alle 99 iniziali.
 - Checkpoint precedente 6af589f0: 99 ricette, 250 immagini, 285 passaggi delle ricette complete. Tutti conservati.
 - Ultimo APK consegnato al momento del checkpoint: 1.0.87, con 49 ricette fotografiche complete. Le nuove immagini necessitano di una compilazione aggiornata; non dichiararle presenti nell’APK consegnato senza verifica.
 
@@ -27,12 +27,12 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Pane integrale con bresaola e rucola (`pane_integrale_con_bresaola_e_rucola`)
 - Pane con bresaola e rucola (`pane_con_bresaola_e_rucola`)
 - Fette biscottate con bresaola e rucola (`fette_biscottate_con_bresaola_e_rucola`)
+- Pane integrale con yogurt greco, miele e noci (`pane_integrale_con_yogurt_greco_miele_e_noci`)
+- Pane con yogurt greco, miele e noci (`pane_con_yogurt_greco_miele_e_noci`)
+- Fette biscottate con yogurt greco, miele e noci (`fette_biscottate_con_yogurt_greco_miele_e_noci`)
 
 ## Prossime ricette da completare
 
-- Pane integrale con yogurt greco, miele e noci (`pane_integrale_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
-- Pane con yogurt greco, miele e noci (`pane_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
-- Fette biscottate con yogurt greco, miele e noci (`fette_biscottate_con_yogurt_greco_miele_e_noci`): 2 nuovi soggetti mancanti.
 - Pane integrale con formaggio spalmabile e frutti di bosco (`pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco`): 2 nuovi soggetti mancanti.
 - Pane con formaggio spalmabile e frutti di bosco (`pane_con_formaggio_spalmabile_e_frutti_di_bosco`): 2 nuovi soggetti mancanti.
 - Fette biscottate con formaggio spalmabile e frutti di bosco (`fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco`): 2 nuovi soggetti mancanti.
@@ -42,6 +42,9 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi basati sui file approvati effetti
 - Pane integrale con mele, cannella e ricotta (`pane_integrale_con_mele_cannella_e_ricotta`): 2 nuovi soggetti mancanti.
 - Pane con mele, cannella e ricotta (`pane_con_mele_cannella_e_ricotta`): 2 nuovi soggetti mancanti.
 - Fette biscottate con mele, cannella e ricotta (`fette_biscottate_con_mele_cannella_e_ricotta`): 2 nuovi soggetti mancanti.
+- Pane integrale con pomodori secchi, caprino e rucola (`pane_integrale_con_pomodori_secchi_caprino_e_rucola`): 2 nuovi soggetti mancanti.
+- Pane con pomodori secchi, caprino e rucola (`pane_con_pomodori_secchi_caprino_e_rucola`): 2 nuovi soggetti mancanti.
+- Fette biscottate con pomodori secchi, caprino e rucola (`fette_biscottate_con_pomodori_secchi_caprino_e_rucola`): 2 nuovi soggetti mancanti.
 
 ## Metodo e verifiche
 

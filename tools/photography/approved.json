@@ -6215,5 +6215,71 @@
     "sha256": "749523853f7ea972ee6d8eddb3f5c60d69b781ba4a78919540c6497145b0c7c1",
     "photoGroup": "7abfd6bd17694867a047",
     "sharedFrom": "fette_biscottate_con_bresaola_e_rucola"
+  },
+  "pane_integrale_con_yogurt_greco_miele_e_noci": {
+    "asset": "photography/pane_integrale_con_yogurt_greco_miele_e_noci.webp",
+    "recipeId": "pane_integrale_con_yogurt_greco_miele_e_noci",
+    "stepIndex": null,
+    "subject": "Pane integrale con yogurt greco, miele e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con yogurt greco, miele e noci. Ingredients: Pane integrale, yogurt greco 0%, Miele, Noci.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma yogurt greco 0% sul pane tostato. Completa con Miele e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "d09009797ce79bc9ed575a2487a763534a5764e90c84758616a526291c98b193",
+    "photoGroup": "06f8a91ffb2ac9c758fc"
+  },
+  "pane_integrale_con_yogurt_greco_miele_e_noci_s1": {
+    "asset": "photography/pane_integrale_con_yogurt_greco_miele_e_noci_s1.webp",
+    "recipeId": "pane_integrale_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 1,
+    "subject": "Spalma {greco0} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con yogurt greco, miele e noci. Ingredients: Pane integrale, yogurt greco 0%, Miele, Noci. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma yogurt greco 0% sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "8412035b17e06227faf2903225209ff78f0654bb034a0e20174393d6fc6c6afa",
+    "photoGroup": "8bf0eac4790633978fb6"
+  },
+  "pane_con_yogurt_greco_miele_e_noci": {
+    "asset": "photography/pane_con_yogurt_greco_miele_e_noci.webp",
+    "recipeId": "pane_con_yogurt_greco_miele_e_noci",
+    "stepIndex": null,
+    "subject": "Pane con yogurt greco, miele e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con yogurt greco, miele e noci. Ingredients: Pane comune, yogurt greco 0%, Miele, Noci.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma yogurt greco 0% sul pane tostato. Completa con Miele e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "5eb407070256eec93f8324802b97cda6751a01330d6387f31b776ca872ea2601",
+    "photoGroup": "73c6ad9395cf420b858b"
+  },
+  "pane_con_yogurt_greco_miele_e_noci_s1": {
+    "asset": "photography/pane_con_yogurt_greco_miele_e_noci_s1.webp",
+    "recipeId": "pane_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 1,
+    "subject": "Spalma {greco0} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con yogurt greco, miele e noci. Ingredients: Pane comune, yogurt greco 0%, Miele, Noci. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma yogurt greco 0% sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "5d17634529ed0ecb2c90c198425f2687a3a16daab25ba4ee143ba2ab5d9bfa0b",
+    "photoGroup": "649cdb93da3c35674ab2"
+  },
+  "fette_biscottate_con_yogurt_greco_miele_e_noci": {
+    "asset": "photography/fette_biscottate_con_yogurt_greco_miele_e_noci.webp",
+    "recipeId": "fette_biscottate_con_yogurt_greco_miele_e_noci",
+    "stepIndex": null,
+    "subject": "Fette biscottate con yogurt greco, miele e noci",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con yogurt greco, miele e noci. Ingredients: Fette biscottate, yogurt greco 0%, Miele, Noci.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma yogurt greco 0% sul pane tostato. Completa con Miele e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "f63218a2fde88b44273ff43f80c2680cae6c401032205796bef97d5928d1f0ed",
+    "photoGroup": "ba541d11a6d61016db52"
+  },
+  "fette_biscottate_con_yogurt_greco_miele_e_noci_s1": {
+    "asset": "photography/fette_biscottate_con_yogurt_greco_miele_e_noci_s1.webp",
+    "recipeId": "fette_biscottate_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 1,
+    "subject": "Spalma {greco0} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con yogurt greco, miele e noci. Ingredients: Fette biscottate, yogurt greco 0%, Miele, Noci. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma yogurt greco 0% sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "0ce77f00f25dbd19c2dbe61877a741a95f74c7f5c0d9da9a9657354e6c307dbe",
+    "photoGroup": "61f0904d7ee0d2e6b312"
   }
 }

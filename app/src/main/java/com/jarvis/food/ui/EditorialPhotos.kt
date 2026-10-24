@@ -180,7 +180,9 @@ object EditorialPhotos {
         "fette_biscottate_con_tonno_e_avocado_s1" to "photography/fette_biscottate_con_tonno_e_avocado_s1.webp",
         "fette_biscottate_con_tonno_e_avocado_s2" to "photography/fette_biscottate_con_tonno_e_avocado.webp",
         "fette_biscottate_con_uova_strapazzate_e_spinaci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_yogurt_greco_miele_e_noci" to "photography/fette_biscottate_con_yogurt_greco_miele_e_noci.webp",
         "fette_biscottate_con_yogurt_greco_miele_e_noci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_yogurt_greco_miele_e_noci_s1" to "photography/fette_biscottate_con_yogurt_greco_miele_e_noci_s1.webp",
         "fiocchi_crackers" to "photography/fiocchi_crackers.webp",
         "fiocchi_crackers_s0" to "photography/fiocchi_crackers_s0.webp",
         "fiocchi_crackers_s1" to "photography/fiocchi_crackers.webp",
@@ -202,11 +204,11 @@ object EditorialPhotos {
         "gallette_hummus_s1" to "photography/gallette_hummus_s1.webp",
         "gallette_hummus_s2" to "photography/gallette_hummus.webp",
         "gamberi_couscous" to "photography/gamberi_couscous.webp",
-        "gamberi_couscous_s0" to "photography/gamberi_couscous_s0.webp",
-        "gamberi_couscous_s1" to "photography/gamberi_couscous_s1.webp",
     )
 
     private fun group1() = mapOf(
+        "gamberi_couscous_s0" to "photography/gamberi_couscous_s0.webp",
+        "gamberi_couscous_s1" to "photography/gamberi_couscous_s1.webp",
         "gamberi_couscous_s2" to "photography/gamberi_couscous_s2.webp",
         "gamberi_couscous_s3" to "photography/gamberi_couscous.webp",
         "greco_mela" to "photography/greco_mela.webp",
@@ -338,7 +340,9 @@ object EditorialPhotos {
         "pane_con_tonno_e_avocado_s1" to "photography/pane_con_tonno_e_avocado_s1.webp",
         "pane_con_tonno_e_avocado_s2" to "photography/pane_con_tonno_e_avocado.webp",
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_yogurt_greco_miele_e_noci" to "photography/pane_con_yogurt_greco_miele_e_noci.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_yogurt_greco_miele_e_noci_s1" to "photography/pane_con_yogurt_greco_miele_e_noci_s1.webp",
         "pane_integrale_con_avocado_e_uova" to "photography/pane_integrale_con_avocado_e_uova.webp",
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
@@ -398,18 +402,20 @@ object EditorialPhotos {
         "pane_integrale_con_tonno_e_avocado_s1" to "photography/pane_integrale_con_tonno_e_avocado_s1.webp",
         "pane_integrale_con_tonno_e_avocado_s2" to "photography/pane_integrale_con_tonno_e_avocado.webp",
         "pane_integrale_con_uova_strapazzate_e_spinaci_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_yogurt_greco_miele_e_noci" to "photography/pane_integrale_con_yogurt_greco_miele_e_noci.webp",
         "pane_integrale_con_yogurt_greco_miele_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_yogurt_greco_miele_e_noci_s1" to "photography/pane_integrale_con_yogurt_greco_miele_e_noci_s1.webp",
         "pane_ricotta_marmellata" to "photography/pane_ricotta_marmellata.webp",
         "pane_ricotta_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_ricotta_marmellata_s1" to "photography/pane_ricotta_marmellata_s1.webp",
         "pane_ricotta_marmellata_s2" to "photography/pane_ricotta_marmellata.webp",
         "pasta_ceci" to "photography/pasta_ceci.webp",
         "pasta_ceci_s0" to "photography/pasta_ceci_s0.webp",
         "pasta_ceci_s1" to "photography/pasta_ceci_s1.webp",
         "pasta_ceci_s2" to "photography/pasta_ceci_s2.webp",
-    )
-
-    private fun group2() = mapOf(
         "pasta_ceci_s3" to "photography/pasta_ceci_s3.webp",
         "pasta_ceci_s4" to "photography/pasta_ceci.webp",
         "pasta_lenticchie" to "photography/pasta_lenticchie.webp",
