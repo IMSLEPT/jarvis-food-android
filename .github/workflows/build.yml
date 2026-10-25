@@ -272,4 +272,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create v1.0.90 qa/dist/JarvisFood-v1.0.90.apk qa/dist/JarvisFood-v1.0.90.apk.sha256 --target b98706fcaff4f6414482f67742969a06b1e145a2 --title "Jarvis Food v1.0.90 — fotografie aggiornate" --notes-file docs/APK-1.0.90.md --prerelease --latest=false
+          gh release upload v1.0.90 qa/dist/JarvisFood-v1.0.90.apk qa/dist/JarvisFood-v1.0.90.apk.sha256
