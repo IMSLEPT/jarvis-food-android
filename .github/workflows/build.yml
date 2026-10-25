@@ -4,12 +4,19 @@ on:
   push:
     branches: [main, feat/aurora-approved-redesign, feat/aurora-layout-polish, feat/recipe-editorial-photos]
   workflow_dispatch:
+    inputs:
+      publish_existing_run:
+        description: 'Pubblica solo l’APK verificato della build 40217600483 (lascia vuoto per compilare)'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: write
 
 jobs:
   build:
+    if: github.event_name != 'workflow_dispatch' || inputs.publish_existing_run == ''
     runs-on: ubuntu-latest
     timeout-minutes: 75
     steps:
@@ -202,3 +209,67 @@ jobs:
           N=$(find shots -name "*.png" | wc -l); echo "::notice title=Screenshot::$N screenshot"
           if [ "$N" -gt 0 ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then cd shots && zip -q -r ../screenshots.zip . && cd .. && gh release upload "v1.0.${{ github.run_number }}" screenshots.zip --clobber; fi
           exit 0
+
+  publish_verified_apk:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_existing_run != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate existing successful build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_RUN: ${{ inputs.publish_existing_run }}
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          assert os.environ['SOURCE_RUN'] == '40217600483'
+          run = json.loads(subprocess.check_output(['gh', 'api', 'repos/IMSLEPT/jarvis-food-android/actions/runs/40217600483']))
+          assert run['status'] == 'completed' and run['conclusion'] == 'success'
+          assert run['run_number'] == 90
+          assert run['head_sha'] == 'b98706fcaff4f6414482f67742969a06b1e145a2'
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: Aurora-APK-and-QA-90
+          path: qa
+          repository: IMSLEPT/jarvis-food-android
+          run-id: 40217600483
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify exact APK and packaged photographs
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess, zipfile
+          import xml.etree.ElementTree as ET
+          apk = Path('qa/dist/JarvisFood-v1.0.90.apk')
+          digest = hashlib.sha256(apk.read_bytes()).hexdigest()
+          assert digest == 'c735cdd0998bc3ab07596907593d88dcf4684d4f31722c1c5416885d6730c3af'
+          records = json.loads(subprocess.check_output(['git', 'show', 'b98706fcaff4f6414482f67742969a06b1e145a2:tools/photography/approved.json']))
+          paths = {r['asset'] for r in records.values()}
+          assert len(records) == 763 and len(paths) == 435
+          with zipfile.ZipFile(apk) as z:
+              assert {n for n in z.namelist() if n.startswith('assets/photography/') and n.endswith('.webp')} == {'assets/' + p for p in paths}
+              for record in records.values():
+                  assert hashlib.sha256(z.read('assets/' + record['asset'])).hexdigest() == record['sha256']
+              assert len(z.read('assets/food.tflite')) > 1000000
+          totals = {k: 0 for k in ('tests', 'failures', 'errors', 'skipped')}
+          for path in Path('qa/app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'):
+              suite = ET.parse(path).getroot()
+              for k in totals: totals[k] += int(suite.get(k, 0))
+          assert totals == dict(tests=70, failures=0, errors=0, skipped=0), totals
+          for name, count in [('layout-standard.log', 2), ('layout-large-text.log', 2), ('photo-ai.log', 3), ('regression.log', 3), ('emu.log', 1)]:
+              assert f'OK ({count} test' in Path('qa', name).read_text()
+          apk.with_suffix('.apk.sha256').write_text(digest + '  ' + apk.name + '\n')
+          print('APK originale verificato: 435 immagini, 763 abbinamenti, 70 test unitari e 11 test Android.')
+          PY
+      - name: Publish verified snapshot without recompiling
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v1.0.90 qa/dist/JarvisFood-v1.0.90.apk qa/dist/JarvisFood-v1.0.90.apk.sha256 --target b98706fcaff4f6414482f67742969a06b1e145a2 --title "Jarvis Food v1.0.90 — fotografie aggiornate" --notes-file docs/APK-1.0.90.md --prerelease --latest=false
