@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 132 ricette complete di foto principale e di tutti i passaggi.
-- 328 WebP distinti, 613 abbinamenti verificati.
-- 389 passaggi delle ricette complete coperti.
-- 2401 ricette da completare.
+- 133 ricette complete di foto principale e di tutti i passaggi.
+- 332 WebP distinti, 617 abbinamenti verificati.
+- 392 passaggi delle ricette complete coperti.
+- 2400 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -55,7 +55,7 @@ Usare plan.py per i brief, generare un soggetto per immagine, controllare ingred
 
 ## Prosecuzione senza costi aggiuntivi — 25 ottobre 2026
 
-Ripartenza dal commit `4711c04` controllato su GitHub: nessun aggiornamento successivo al checkpoint APK 1.0.89 al momento della clonazione. Aggiunte **3 ricette complete, 12 immagini distinte e 15 abbinamenti** in questa sessione.
+Ripartenza dal commit `4711c04` controllato su GitHub: nessun aggiornamento successivo al checkpoint APK 1.0.89 al momento della clonazione. Aggiunte **4 ricette complete, 16 immagini distinte e 19 abbinamenti** in questa sessione.
 
 Generatore integrato `image_gen` effettivamente utilizzato; nessuna API esterna a pagamento, acquisto di crediti o attivazione di abbonamenti. Nessun generatore locale disponibile (nessuna GPU NVIDIA esposta, Torch/Diffusers assenti). La prova iniziale dei pancake è stata controllata visivamente prima di completarne i passaggi.
 
@@ -64,7 +64,8 @@ Ricette completate, ciascuna con foto principale e tutti i passaggi:
 - Pancake alla ricotta e fragole (`pancake_ricotta_fragole`)
 - Chia pudding al mango (`chia_pudding_mango`)
 - Colazione giapponese: riso, uova e zuppa di miso (`colazione_giapponese`)
+- Edamame al vapore (`edamame_sale`)
 
 Verifiche: tutte le nuove immagini esaminate visivamente per ingredienti, fase, utensili, luce e inquadratura; conversione con `prepare.py`, abbinamenti con `share.py`, controllo `verify.py` e `scripts/verify-aurora-boundary.py` superati. I 316 WebP iniziali e tutti i 598 record preesistenti sono stati confrontati con il commit di ripartenza e sono identici. Database, grammature, dati nutrizionali e funzionalità preservati. Nessun nuovo APK compilato; i test Android e i 70 test unitari restano quelli della consegna 1.0.89, non sono stati rieseguiti per questi gruppi fotografici.
 
-Punto preciso da cui riprendere: **Edamame al vapore (`edamame_sale`)**. Rigenerare l’inventario con `python tools/photography/plan.py --out /tmp/pending.jsonl`; restano 2401 ricette e 12159 abbinamenti mancanti. Nessuna produzione in background. Salvare ogni gruppo con `[skip ci]` prima del successivo.
+Punto preciso da cui riprendere: **Zuppa di miso con tofu e alga (`miso_tofu_alga`)**. Rigenerare l’inventario con `python tools/photography/plan.py --out /tmp/pending.jsonl`; restano 2400 ricette e 12155 abbinamenti mancanti. Nessuna produzione in background. Salvare ogni gruppo con `[skip ci]` prima del successivo.

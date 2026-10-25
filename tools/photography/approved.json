@@ -7049,5 +7049,49 @@
     "sha256": "340934a9ea9c0cd386b035f929639bbc41be1ae43f0422a36304ab725920d6fe",
     "photoGroup": "c8be2821bc89b0915874",
     "sharedFrom": "colazione_giapponese"
+  },
+  "edamame_sale": {
+    "asset": "photography/edamame_sale.webp",
+    "recipeId": "edamame_sale",
+    "stepIndex": null,
+    "subject": "Edamame al vapore",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic botanical food textures, landscape 3:2 with central square-crop-safe framing. No text, watermark, labels, collage or invented ingredients. Finished cooked edamame in their green pods, freshly drained from salted boiling water, in a modest shallow ivory bowl on light wood table. Recognizable small slightly fuzzy curved green soybean pods with two or three rounded bean bumps, natural variation. A very light pinch of fine salt, no big salt chunks, no oil, pepper, garlic, chili, citrus, herbs or sauce. Bright appetizing green, not peas, not broad beans. Single bowl of whole edible-cooked pods.",
+    "sha256": "b5ef419d458e0be64f9d3ef0911b038d679fe47735c9175be3044fcb7b414b99",
+    "photoGroup": "13c0cca922853ef6df76"
+  },
+  "edamame_sale_s0": {
+    "asset": "photography/edamame_sale_s0.webp",
+    "recipeId": "edamame_sale",
+    "stepIndex": 0,
+    "subject": "Porta a bollore acqua salata e cuoci {edamame} 5-6 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic botanical food textures, landscape 3:2 with central square-crop-safe framing. No text, watermark, labels, collage or invented ingredients. Edamame preparation FIRST step: whole green edamame soybean pods with subtle fuzzy texture and two or three bean bumps immersed in gently boiling salted water in a small stainless saucepan on a stove. Small real water bubbles and slight steam; clear water, pods vivid natural green. No steamer basket, no sauce, oil, herbs, seasoning other than dissolved salt, no finished plate. Close view shows pods cooking in water.",
+    "sha256": "fe5bb182d23659c23ffcea1d9cce160e3a588cb34d46115f8820f86cc3b73fe9",
+    "photoGroup": "3d8b8dffc3b1097c7ebf"
+  },
+  "edamame_sale_s1": {
+    "asset": "photography/edamame_sale_s1.webp",
+    "recipeId": "edamame_sale",
+    "stepIndex": 1,
+    "subject": "Scolali e condisci con un pizzico di {sale}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, natural soft window light, bright warm home kitchen and light wood, neutral ivory, landscape 3:2 close food composition useful in square crop. Edamame intermediate draining and salting. A small metal mesh sieve full of cooked fuzzy green edamame pods is securely RESTING ACROSS THE RIM of a deep ivory bowl. The sieve's long metal handle lies directly on the near bowl rim and its opposite metal support hook visibly rests on the far bowl rim; mesh bottom extends DOWN inside bowl. Clear physical support with direct contact at two points, absolutely no floating equipment and no gap between sieve supports and rim. A natural hand from above sprinkles a very small pinch of fine salt. Moist cooked pods, slight steam, a little drained water in bowl underneath. No food except edamame and salt, no oil, herbs or sauce. No text, collage, watermark or labels.",
+    "sha256": "48d9194e6cede3322ccd887f8bc6f48e0923d9233f2da97be189336c029c0635",
+    "photoGroup": "fdec321c62f9a54a22f3"
+  },
+  "edamame_sale_s2": {
+    "asset": "photography/edamame_sale_s2.webp",
+    "recipeId": "edamame_sale",
+    "stepIndex": 2,
+    "subject": "Mangia i semi staccandoli dal baccello.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic botanical food textures and normal hands, landscape 3:2 with central square-crop-safe framing. No text, watermark, labels, collage or extra ingredients. How to eat cooked edamame: close-up of two natural adult hands holding a single cooked pale-green fuzzy soybean pod split along its seam, opening it to reveal two or three plump oval bright green soybean seeds; one thumb gently nudges one bean out over a small ivory bowl. In shallow focus behind, a few whole cooked pods. Realistic pod structure, intact two thin halves connected at end, normal fingers and fingernails, food centered and dominant, no faces. Only cooked edamame with dissolved salt, no sauce, oil or extra food.",
+    "sha256": "9f4538b0415e6d563ffa48ea69aaa5b0d38efa0387872fd1ec67c494ad38316d",
+    "photoGroup": "2987af3c54f534fe5ca0"
   }
 }
