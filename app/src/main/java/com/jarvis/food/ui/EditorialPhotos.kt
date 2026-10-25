@@ -141,7 +141,10 @@ object EditorialPhotos {
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s1" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s2" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s1" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica_s1.webp",
@@ -183,6 +186,7 @@ object EditorialPhotos {
         "fette_biscottate_con_yogurt_greco_miele_e_noci" to "photography/fette_biscottate_con_yogurt_greco_miele_e_noci.webp",
         "fette_biscottate_con_yogurt_greco_miele_e_noci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_yogurt_greco_miele_e_noci_s1" to "photography/fette_biscottate_con_yogurt_greco_miele_e_noci_s1.webp",
+        "fette_biscottate_con_yogurt_greco_miele_e_noci_s2" to "photography/fette_biscottate_con_yogurt_greco_miele_e_noci.webp",
         "fiocchi_crackers" to "photography/fiocchi_crackers.webp",
         "fiocchi_crackers_s0" to "photography/fiocchi_crackers_s0.webp",
         "fiocchi_crackers_s1" to "photography/fiocchi_crackers.webp",
@@ -200,13 +204,13 @@ object EditorialPhotos {
         "frittata_spinaci_s2" to "photography/frittata_spinaci_s2.webp",
         "frittata_spinaci_s3" to "photography/frittata_spinaci.webp",
         "gallette_hummus" to "photography/gallette_hummus.webp",
+    )
+
+    private fun group1() = mapOf(
         "gallette_hummus_s0" to "photography/gallette_hummus_s0.webp",
         "gallette_hummus_s1" to "photography/gallette_hummus_s1.webp",
         "gallette_hummus_s2" to "photography/gallette_hummus.webp",
         "gamberi_couscous" to "photography/gamberi_couscous.webp",
-    )
-
-    private fun group1() = mapOf(
         "gamberi_couscous_s0" to "photography/gamberi_couscous_s0.webp",
         "gamberi_couscous_s1" to "photography/gamberi_couscous_s1.webp",
         "gamberi_couscous_s2" to "photography/gamberi_couscous_s2.webp",
@@ -301,7 +305,10 @@ object EditorialPhotos {
         "pane_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/pane_con_fiocchi_di_latte_e_cetrioli_s1.webp",
         "pane_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/pane_con_fiocchi_di_latte_e_cetrioli.webp",
+        "pane_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/pane_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s1" to "photography/pane_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
+        "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s2" to "photography/pane_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "pane_con_formaggio_spalmabile_e_salmone_affumicato" to "photography/pane_con_formaggio_spalmabile_e_salmone_affumicato.webp",
         "pane_con_formaggio_spalmabile_e_salmone_affumicato_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_formaggio_spalmabile_e_salmone_affumicato_s1" to "photography/pane_con_formaggio_spalmabile_e_salmone_affumicato_s1.webp",
@@ -343,6 +350,7 @@ object EditorialPhotos {
         "pane_con_yogurt_greco_miele_e_noci" to "photography/pane_con_yogurt_greco_miele_e_noci.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci_s1" to "photography/pane_con_yogurt_greco_miele_e_noci_s1.webp",
+        "pane_con_yogurt_greco_miele_e_noci_s2" to "photography/pane_con_yogurt_greco_miele_e_noci.webp",
         "pane_integrale_con_avocado_e_uova" to "photography/pane_integrale_con_avocado_e_uova.webp",
         "pane_integrale_con_avocado_e_uova_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
@@ -363,7 +371,10 @@ object EditorialPhotos {
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
+        "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/toast_uova_avocado_s0.webp",
+        "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s1" to "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
+        "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s2" to "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato" to "photography/pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato.webp",
         "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s1" to "photography/pane_integrale_con_formaggio_spalmabile_e_salmone_affumicato_s1.webp",
@@ -396,6 +407,9 @@ object EditorialPhotos {
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s1" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico_s1.webp",
         "pane_integrale_con_ricotta_pomodorini_e_basilico_s2" to "photography/pane_integrale_con_ricotta_pomodorini_e_basilico.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_integrale_con_tahina_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_tonno_e_avocado" to "photography/pane_integrale_con_tonno_e_avocado.webp",
         "pane_integrale_con_tonno_e_avocado_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -405,11 +419,9 @@ object EditorialPhotos {
         "pane_integrale_con_yogurt_greco_miele_e_noci" to "photography/pane_integrale_con_yogurt_greco_miele_e_noci.webp",
         "pane_integrale_con_yogurt_greco_miele_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_yogurt_greco_miele_e_noci_s1" to "photography/pane_integrale_con_yogurt_greco_miele_e_noci_s1.webp",
+        "pane_integrale_con_yogurt_greco_miele_e_noci_s2" to "photography/pane_integrale_con_yogurt_greco_miele_e_noci.webp",
         "pane_ricotta_marmellata" to "photography/pane_ricotta_marmellata.webp",
         "pane_ricotta_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_ricotta_marmellata_s1" to "photography/pane_ricotta_marmellata_s1.webp",
         "pane_ricotta_marmellata_s2" to "photography/pane_ricotta_marmellata.webp",
         "pasta_ceci" to "photography/pasta_ceci.webp",

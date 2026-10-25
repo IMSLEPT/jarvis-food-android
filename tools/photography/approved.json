@@ -6281,5 +6281,143 @@
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con yogurt greco, miele e noci. Ingredients: Fette biscottate, yogurt greco 0%, Miele, Noci. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma yogurt greco 0% sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
     "sha256": "0ce77f00f25dbd19c2dbe61877a741a95f74c7f5c0d9da9a9657354e6c307dbe",
     "photoGroup": "61f0904d7ee0d2e6b312"
+  },
+  "pane_integrale_con_yogurt_greco_miele_e_noci_s2": {
+    "asset": "photography/pane_integrale_con_yogurt_greco_miele_e_noci.webp",
+    "recipeId": "pane_integrale_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 2,
+    "subject": "Completa con {miele} e {noci} tritate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con yogurt greco, miele e noci. Ingredients: Pane integrale, yogurt greco 0%, Miele, Noci.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma yogurt greco 0% sul pane tostato. Completa con Miele e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: brown wholemeal toasted bread; no added seeds. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "d09009797ce79bc9ed575a2487a763534a5764e90c84758616a526291c98b193",
+    "photoGroup": "06f8a91ffb2ac9c758fc",
+    "sharedFrom": "pane_integrale_con_yogurt_greco_miele_e_noci"
+  },
+  "pane_con_yogurt_greco_miele_e_noci_s2": {
+    "asset": "photography/pane_con_yogurt_greco_miele_e_noci.webp",
+    "recipeId": "pane_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 2,
+    "subject": "Completa con {miele} e {noci} tritate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con yogurt greco, miele e noci. Ingredients: Pane comune, yogurt greco 0%, Miele, Noci.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma yogurt greco 0% sul pane tostato. Completa con Miele e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: toasted white common wheat bread, never wholemeal bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "5eb407070256eec93f8324802b97cda6751a01330d6387f31b776ca872ea2601",
+    "photoGroup": "73c6ad9395cf420b858b",
+    "sharedFrom": "pane_con_yogurt_greco_miele_e_noci"
+  },
+  "fette_biscottate_con_yogurt_greco_miele_e_noci_s2": {
+    "asset": "photography/fette_biscottate_con_yogurt_greco_miele_e_noci.webp",
+    "recipeId": "fette_biscottate_con_yogurt_greco_miele_e_noci",
+    "stepIndex": 2,
+    "subject": "Completa con {miele} e {noci} tritate.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con yogurt greco, miele e noci. Ingredients: Fette biscottate, yogurt greco 0%, Miele, Noci.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma yogurt greco 0% sul pane tostato. Completa con Miele e Noci tritate. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Exact bread fidelity: small rectangular dry golden twice-baked Italian rusks with fine crisp porous crumb, never fresh bread. Use only the exact listed ingredients; no extra herbs, seeds, sauces or garnish. For intermediate steps, show the actual action and leave later toppings off the bread until the stated step. Professional editorial food photography, close framing, believable homemade portions.",
+    "sha256": "f63218a2fde88b44273ff43f80c2680cae6c401032205796bef97d5928d1f0ed",
+    "photoGroup": "ba541d11a6d61016db52",
+    "sharedFrom": "fette_biscottate_con_yogurt_greco_miele_e_noci"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco": {
+    "asset": "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": null,
+    "subject": "Pane integrale con formaggio spalmabile e frutti di bosco",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con formaggio spalmabile e frutti di bosco. Ingredients: Pane integrale, formaggio spalmabile, frutti di bosco, Miele.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi frutti di bosco e Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "273a2b556148985e896fedd2eea26e4b6790ed0cf772a0e826896934e75a2662",
+    "photoGroup": "d3915f809dba1de48a2c"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s1": {
+    "asset": "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 1,
+    "subject": "Spalma {spalmabile} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con formaggio spalmabile e frutti di bosco. Ingredients: Pane integrale, formaggio spalmabile, frutti di bosco, Miele. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma formaggio spalmabile sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "1771cf7b69a523b5bdeaad1c995ac79b7f60c93850d4f8eccfb1cbd29bf3fc7f",
+    "photoGroup": "0ee39ae1a85cac07821e"
+  },
+  "pane_con_formaggio_spalmabile_e_frutti_di_bosco": {
+    "asset": "photography/pane_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": null,
+    "subject": "Pane con formaggio spalmabile e frutti di bosco",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con formaggio spalmabile e frutti di bosco. Ingredients: Pane comune, formaggio spalmabile, frutti di bosco, Miele.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi frutti di bosco e Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "28319f8f67976de1bbbe2ebfcf73d1f9196a6d1dc38c1686a888bfeb4b531045",
+    "photoGroup": "be5dda7630576d6264cb"
+  },
+  "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s1": {
+    "asset": "photography/pane_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 1,
+    "subject": "Spalma {spalmabile} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con formaggio spalmabile e frutti di bosco. Ingredients: Pane comune, formaggio spalmabile, frutti di bosco, Miele. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma formaggio spalmabile sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "2cdc124e96c9f90ca7a68c90db664e2a4d9316c80578dc0543ab87c1c8ee51a1",
+    "photoGroup": "851a227dfc7ce5868d82"
+  },
+  "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco": {
+    "asset": "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+    "recipeId": "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": null,
+    "subject": "Fette biscottate con formaggio spalmabile e frutti di bosco",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con formaggio spalmabile e frutti di bosco. Ingredients: Fette biscottate, formaggio spalmabile, frutti di bosco, Miele.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi frutti di bosco e Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "441545229b779f5b1f37b7bd58194d2041b29c8f687de1e5ac516f61cfdd2552",
+    "photoGroup": "552bcf721ce93f462142"
+  },
+  "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s1": {
+    "asset": "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
+    "recipeId": "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 1,
+    "subject": "Spalma {spalmabile} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con formaggio spalmabile e frutti di bosco. Ingredients: Fette biscottate, formaggio spalmabile, frutti di bosco, Miele. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma formaggio spalmabile sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action.",
+    "sha256": "518161e91f1424f1e39599977b43ee00aa43d0be43a88a7913aa2280b2d72905",
+    "photoGroup": "ec182f76690b8bbe2874"
+  },
+  "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s2": {
+    "asset": "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+    "recipeId": "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 2,
+    "subject": "Aggiungi {frutti_bosco_surg} e {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con formaggio spalmabile e frutti di bosco. Ingredients: Pane integrale, formaggio spalmabile, frutti di bosco, Miele.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi frutti di bosco e Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "273a2b556148985e896fedd2eea26e4b6790ed0cf772a0e826896934e75a2662",
+    "photoGroup": "d3915f809dba1de48a2c",
+    "sharedFrom": "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco"
+  },
+  "pane_con_formaggio_spalmabile_e_frutti_di_bosco_s2": {
+    "asset": "photography/pane_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+    "recipeId": "pane_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 2,
+    "subject": "Aggiungi {frutti_bosco_surg} e {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con formaggio spalmabile e frutti di bosco. Ingredients: Pane comune, formaggio spalmabile, frutti di bosco, Miele.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi frutti di bosco e Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "28319f8f67976de1bbbe2ebfcf73d1f9196a6d1dc38c1686a888bfeb4b531045",
+    "photoGroup": "be5dda7630576d6264cb",
+    "sharedFrom": "pane_con_formaggio_spalmabile_e_frutti_di_bosco"
+  },
+  "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s2": {
+    "asset": "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+    "recipeId": "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco",
+    "stepIndex": 2,
+    "subject": "Aggiungi {frutti_bosco_surg} e {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con formaggio spalmabile e frutti di bosco. Ingredients: Fette biscottate, formaggio spalmabile, frutti di bosco, Miele.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma formaggio spalmabile sul pane tostato. Aggiungi frutti di bosco e Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list.",
+    "sha256": "441545229b779f5b1f37b7bd58194d2041b29c8f687de1e5ac516f61cfdd2552",
+    "photoGroup": "552bcf721ce93f462142",
+    "sharedFrom": "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco"
   }
 }
