@@ -12,6 +12,10 @@ object EditorialPhotos {
         "anguria_feta" to "photography/anguria_feta.webp",
         "anguria_feta_s0" to "photography/anguria_feta_s0.webp",
         "anguria_feta_s1" to "photography/anguria_feta.webp",
+        "arance_finocchi" to "photography/arance_finocchi.webp",
+        "arance_finocchi_s0" to "photography/arance_finocchi_s0.webp",
+        "arance_finocchi_s1" to "photography/arance_finocchi_s1.webp",
+        "arance_finocchi_s2" to "photography/arance_finocchi.webp",
         "banana_al_forno_con_cannella_e_noci_s1" to "photography/banana_arachidi_s0.webp",
         "banana_alla_piastra_con_yogurt_e_pistacchi_s0" to "photography/banana_arachidi_s0.webp",
         "banana_arachidi" to "photography/banana_arachidi.webp",
@@ -200,13 +204,13 @@ object EditorialPhotos {
         "fette_biscottate_con_tahina_e_banana" to "photography/fette_biscottate_con_tahina_e_banana.webp",
         "fette_biscottate_con_tahina_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_tahina_e_banana_s1" to "photography/fette_biscottate_con_tahina_e_banana_s1.webp",
+    )
+
+    private fun group1() = mapOf(
         "fette_biscottate_con_tahina_e_banana_s2" to "photography/fette_biscottate_con_tahina_e_banana.webp",
         "fette_biscottate_con_tonno_e_avocado" to "photography/fette_biscottate_con_tonno_e_avocado.webp",
         "fette_biscottate_con_tonno_e_avocado_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_tonno_e_avocado_s1" to "photography/fette_biscottate_con_tonno_e_avocado_s1.webp",
-    )
-
-    private fun group1() = mapOf(
         "fette_biscottate_con_tonno_e_avocado_s2" to "photography/fette_biscottate_con_tonno_e_avocado.webp",
         "fette_biscottate_con_uova_strapazzate_e_spinaci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_yogurt_greco_miele_e_noci" to "photography/fette_biscottate_con_yogurt_greco_miele_e_noci.webp",
@@ -403,13 +407,13 @@ object EditorialPhotos {
         "pane_integrale_con_bresaola_e_rucola_s2" to "photography/pane_integrale_con_bresaola_e_rucola.webp",
         "pane_integrale_con_burro_di_arachidi_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_burro_di_mandorle_e_fragole_s0" to "photography/toast_uova_avocado_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_integrale_con_caprino_pere_e_noci" to "photography/pane_integrale_con_caprino_pere_e_noci.webp",
         "pane_integrale_con_caprino_pere_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_caprino_pere_e_noci_s1" to "photography/pane_integrale_con_caprino_pere_e_noci_s1.webp",
         "pane_integrale_con_caprino_pere_e_noci_s2" to "photography/pane_integrale_con_caprino_pere_e_noci.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_integrale_con_crema_di_nocciole_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_feta_cetrioli_e_menta_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
@@ -606,13 +610,13 @@ object EditorialPhotos {
         "tortilla_uova_fagioli_s1" to "photography/tortilla_uova_fagioli_s1.webp",
         "tortilla_uova_fagioli_s2" to "photography/tortilla_uova_fagioli_s2.webp",
         "tortilla_uova_fagioli_s3" to "photography/tortilla_uova_fagioli_s3.webp",
+    )
+
+    private fun group3() = mapOf(
         "trota_patate_dolci" to "photography/trota_patate_dolci.webp",
         "trota_patate_dolci_s0" to "photography/trota_patate_dolci_s0.webp",
         "trota_patate_dolci_s1" to "photography/trota_patate_dolci_s1.webp",
         "trota_patate_dolci_s2" to "photography/trota_patate_dolci.webp",
-    )
-
-    private fun group3() = mapOf(
         "uova_feta_pomodorini" to "photography/uova_feta_pomodorini.webp",
         "uova_feta_pomodorini_s0" to "photography/uova_feta_pomodorini_s0.webp",
         "uova_feta_pomodorini_s1" to "photography/uova_feta_pomodorini_s1.webp",

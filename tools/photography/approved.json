@@ -7149,5 +7149,50 @@
     "sha256": "14c6a19dcb6216398f101f24c3395b150a7c583921f723069ac5346a3c1ca1b0",
     "photoGroup": "7355d9acd70808857536",
     "sharedFrom": "miso_tofu_alga"
+  },
+  "arance_finocchi": {
+    "asset": "photography/arance_finocchi.webp",
+    "recipeId": "arance_finocchi",
+    "stepIndex": null,
+    "subject": "Insalata di arance e finocchi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food texture and achievable homemade presentation, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, faces or invented ingredients. Finished Sicilian orange and fennel salad. Exact ingredients: fresh orange peeled completely of rind and white pith then sliced into circular rounds, very thin shaved white fennel bulb, a few GREEN olives, light extra virgin olive oil. Serve modest salad on a shallow ivory plate, orange rounds and fine fennel shavings mixed naturally with only a few green olives, slight natural oil sheen. NO black olives, red onion, fennel green fronds, parsley, mint, pepper, nuts, lettuce, cheese or any garnish. Bright juicy flesh, delicate crisp fennel. One plate only.",
+    "sha256": "9bb006eb48f66ae9b5615019f67f15e2831601e6b11d424714495f534a80ca48",
+    "photoGroup": "ac39ba31b17d40509641"
+  },
+  "arance_finocchi_s0": {
+    "asset": "photography/arance_finocchi_s0.webp",
+    "recipeId": "arance_finocchi",
+    "stepIndex": 0,
+    "subject": "Affetta sottilmente {finocchi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic botanical food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or extra ingredients. Macro preparation photograph of actual Florence fennel (Foeniculum vulgare azoricum), visibly elongated flattened pear-shaped white bulb with broad overlapping LONGITUDINAL RIBBED leaf sheaths and two short pale-green cut stalk bases at its TOP. The chef cuts the bulb LENGTHWISE into very thin long shavings with a normal kitchen knife on a light wood board. Show characteristic irregular lobed layered fennel cross-section, not concentric onion rings, not a spherical bulb. Some long curved thin white fennel shavings on board. A small uncut matching fennel in background retains a couple of green stalks and feathery fronds for identification ONLY, not garnish. Current stage only cutting fennel, no orange, olives, dressing or salad yet. Food focus, normal adult hands, physically plausible knife grip.",
+    "sha256": "9c516a214cad6c12c9c43d1025b2bbbda2c589f9be5ea1944525f7b28167ed90",
+    "photoGroup": "ab9fa9a2011f46869266"
+  },
+  "arance_finocchi_s1": {
+    "asset": "photography/arance_finocchi_s1.webp",
+    "recipeId": "arance_finocchi",
+    "stepIndex": 1,
+    "subject": "Sbuccia {arancia} al vivo e tagliala a rondelle.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic botanical food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or extra ingredients. Orange and fennel salad second preparation stage: on a light wooden cutting board a peeled fresh orange with ALL orange rind and white pith removed is being cut crosswise into thin circular orange rounds with a small kitchen knife. Two or three juicy round slices show radial citrus segments on board; a few strips of discarded orange peel with white pith at far edge, second partially peeled orange optional. Natural hand holding orange safely. Focus on clearly peeled bright orange fruit, knife and rounds. No fennel, olives, oil, herbs, other ingredients or plated salad. No citrus peel left attached to round slices.",
+    "sha256": "be2ed93c2b585806d5254336d61835c83054c08339847715d04e4a6ddfa150ca",
+    "photoGroup": "ad08ffc039a0fc8f98d8"
+  },
+  "arance_finocchi_s2": {
+    "asset": "photography/arance_finocchi.webp",
+    "recipeId": "arance_finocchi",
+    "stepIndex": 2,
+    "subject": "Unisci tutto con {olive} e {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food texture and achievable homemade presentation, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, faces or invented ingredients. Finished Sicilian orange and fennel salad. Exact ingredients: fresh orange peeled completely of rind and white pith then sliced into circular rounds, very thin shaved white fennel bulb, a few GREEN olives, light extra virgin olive oil. Serve modest salad on a shallow ivory plate, orange rounds and fine fennel shavings mixed naturally with only a few green olives, slight natural oil sheen. NO black olives, red onion, fennel green fronds, parsley, mint, pepper, nuts, lettuce, cheese or any garnish. Bright juicy flesh, delicate crisp fennel. One plate only.",
+    "sha256": "9bb006eb48f66ae9b5615019f67f15e2831601e6b11d424714495f534a80ca48",
+    "photoGroup": "ac39ba31b17d40509641",
+    "sharedFrom": "arance_finocchi"
   }
 }
