@@ -24,3 +24,15 @@ Fotografie selezionate e controllate visivamente. Nessun acquisto o abbonamento.
 - Verifica: 2026-10-25, pagina del file, metadati Commons e testo ufficiale della licenza.
 - Modifiche: ridimensionamento proporzionale a massimo 1280 px, conversione in WebP qualità 85; nessun ritocco al soggetto.
 - Credito nell’app: Foto: Lenore Edman · Wikimedia Commons · CC BY 2.0. Attribuzione completa e URL anche in `app/src/main/assets/photography/LICENSED-PHOTOS.txt`, inclusa nel pacchetto offline.
+
+## Eva Bronzini — Pexels
+
+- Titolo: **Blueberries on a Bowl**.
+- Asset: `photography/mirtilli_fresca.webp`.
+- Uso: ricetta di soli mirtilli freschi, foto principale; nessun ingrediente aggiunto. I passaggi hanno fotografie dedicate.
+- Fonte: https://www.pexels.com/photo/blueberries-on-a-bowl-6864155/
+- File scaricato: https://images.pexels.com/photos/6864155/pexels-photo-6864155.jpeg?auto=compress&w=1260&h=750&dpr=2
+- Licenza: [Pexels License](https://www.pexels.com/license/). Pagina ufficiale verificata: foto gratuite utilizzabili in app, anche con attribuzione facoltativa; autore comunque accreditato.
+- Verificata il 2026-10-25 sulla pagina della fotografia e sulla pagina ufficiale della licenza.
+- Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione WebP qualità 85; nessun ritocco al soggetto.
+- Credito nell’app: Foto: Eva Bronzini · Pexels. Attribuzione completa inclusa anche nei crediti offline.

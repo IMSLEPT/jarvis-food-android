@@ -18,3 +18,12 @@ File originale: https://upload.wikimedia.org/wikipedia/commons/7/7e/Melted_choco
 Licenza: CC BY 2.0 — https://creativecommons.org/licenses/by/2.0/
 Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione in WebP (qualità 85); nessun ritocco al soggetto fotografico.
 Verificata: 2026-10-25
+
+photography/mirtilli_fresca.webp
+Blueberries on a Bowl
+Autore: Eva Bronzini
+Fonte: https://www.pexels.com/photo/blueberries-on-a-bowl-6864155/
+File originale: https://images.pexels.com/photos/6864155/pexels-photo-6864155.jpeg?auto=compress&w=1260&h=750&dpr=2
+Licenza: Pexels License — https://www.pexels.com/license/
+Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione WebP qualità 85; nessun ritocco al soggetto.
+Verificata: 2026-10-25

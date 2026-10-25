@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 154 ricette complete di foto principale e di tutti i passaggi.
-- 419 WebP distinti, 717 abbinamenti verificati.
-- 472 passaggi delle ricette complete coperti.
-- 2379 ricette da completare.
+- 155 ricette complete di foto principale e di tutti i passaggi.
+- 422 WebP distinti, 738 abbinamenti verificati.
+- 474 passaggi delle ricette complete coperti.
+- 2378 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -137,4 +137,16 @@ restano da conoscere chip e RAM del Mac e da verificare la qualità di una prova
 
 Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
 
-Punto preciso da cui riprendere: **hamburger_pollo_panino**. Restano 2379 ricette e 12055 abbinamenti; 8015 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Nessun processo in background avviato.
+Punto di ripresa precedente (vedere ultimo gruppo): **hamburger_pollo_panino**. Restano 2379 ricette e 12055 abbinamenti; 8015 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Nessun processo in background avviato.
+
+## Gruppo con pipeline riprendibile — 2026-10-25
+
+Ricette completate: mirtilli_fresca. Nuove immagini: 3; nuovi abbinamenti: 21.
+
+Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
+
+Punto preciso da cui riprendere: **hamburger_pollo_panino**. Restano 2378 ricette e 12034 abbinamenti; 8012 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Nessun processo in background avviato.
+
+Ricerca professionale gratuita su Unsplash, Pexels e Pixabay: licenze ufficiali verificate; nessun acquisto, piano premium o API a pagamento. Le fotografie reali importate sono elencate in LICENSED-PHOTOS.md e nei crediti offline, con fonte/autore/licenza conservati nel manifest e nell’app. Scartati candidati macro poco nitidi o scuri, foto con fragole insieme ai lamponi e risultati non scaricabili in qualità sufficiente. I passaggi mancanti vengono prodotti con image_gen e revisionati individualmente. Tutti i 419 WebP e i 717 record del checkpoint iniziale sono identici; i crediti preesistenti sono conservati integralmente.
+
+Hardware comunicato dall’utente: Mac 13 pollici, Apple M3, 8 GB di memoria. Il Mac non è accessibile dall’ambiente Linux della sessione; nessun modello locale installato o attivato e nessuna qualità/velocità locale dichiarata senza prova.
