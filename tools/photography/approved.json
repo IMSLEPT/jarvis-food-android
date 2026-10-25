@@ -7922,5 +7922,71 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, realistic food textures. Landscape 3:2, all important food centered for square crop. Rice noodles with tofu FINAL WOK-COOKING step: a dark wok securely on stove holds thin round white rice noodles with lightly golden FIRM TOFU CUBES, fine orange carrot julienne, chopped pak choi (dark green leaves and pale stems), white soybean sprouts with small yellow heads. A light soy sauce and sesame oil coating with finely cooked garlic and ginger, no thick gravy. A natural hand uses a wooden spatula to fold noodles and vegetables gently in wok, food visibly supported inside wok, faint steam. Actual stir-frying action in pan, not finished plated bowl, not food flying through air. Only these recipe ingredients. NO eggs or egg crumbs, sesame seeds, peanuts, cilantro, scallions, chili, lime, mushrooms, broccoli or extra garnish. No text, labels, watermark, collage or faces.",
     "sha256": "2e1fedb093e25e0dc9f7562243d44385a0f3eda030b7b983241627a69dc17101",
     "photoGroup": "5a024ac338766c658b37"
+  },
+  "tacos_pollo_avocado": {
+    "asset": "photography/tacos_pollo_avocado.webp",
+    "recipeId": "tacos_pollo_avocado",
+    "stepIndex": null,
+    "subject": "Tacos di pollo, avocado e salsa",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade food. Landscape 3:2, food tightly grouped in center meaningful in square crop. No text, labels, watermark, collage, portraits or invented ingredients. Finished TACOS DI POLLO AVOCADO E SALSA. THREE small soft YELLOW CORN TORTILLAS folded around cooked golden chicken breast STRIPS seasoned with ground CUMIN, very finely shredded pale green/white CABBAGE, MASHED AVOCADO mixed with lime juice (a soft green mash, NOT avocado slices), chunky red MEXICAN SALSA. Modest ivory plate, all three tacos close together and upright enough to see fillings. Only corn tortillas, chicken, cumin, cabbage, avocado, lime juice and red salsa. No hard crunchy shells, wheat tortilla, lettuce, cheese, sour cream, cilantro, extra onion garnish, jalapeno, beans, corn kernels, rice, oil or other ingredients. Soft corn texture, tender cooked chicken strips not cubes.",
+    "sha256": "68399c211f3a7c3e5af8b37528c8e629aaaabb7455cdeb96d6df0a8a4b90ba16",
+    "photoGroup": "97282081b6de5ec2acd1"
+  },
+  "tacos_pollo_avocado_s0": {
+    "asset": "photography/tacos_pollo_avocado_s0.webp",
+    "recipeId": "tacos_pollo_avocado",
+    "stepIndex": 0,
+    "subject": "Taglia {pollo} a striscioline e condiscilo con {cumino}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade food. Landscape 3:2, food tightly grouped in center meaningful in square crop. No text, labels, watermark, collage, portraits or invented ingredients. Tacos FIRST prep step: raw fresh chicken BREAST being cut into long thin STRIPS on a clean light wood board with a normal kitchen knife by natural adult hands. A small amount of fine tan-brown ground CUMIN dust has been sprinkled over already cut raw strips, small uncut piece of breast beside. Raw chicken natural pale pink, clean moist texture, not cooked yet. ONLY chicken and cumin, no oil, paprika, pepper, herbs, lime, cabbage, avocado, salsa, tortillas or finished tacos. Ordinary realistic food preparation, knife grip and fingers plausible, food centered.",
+    "sha256": "9cce3ac93ddf77095f035e7569a861b15492792983c3a2507a52767e7188e11d",
+    "photoGroup": "da5963d204dd7e9be823"
+  },
+  "tacos_pollo_avocado_s1": {
+    "asset": "photography/tacos_pollo_avocado_s1.webp",
+    "recipeId": "tacos_pollo_avocado",
+    "stepIndex": 1,
+    "subject": "Cuocilo in padella antiaderente per 6-8 minuti, finché è dorato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory props, realistic food textures. Landscape 3:2; all important foods compact and centered for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Chicken tacos SECOND step: long thin CHICKEN BREAST STRIPS dusted only with a light amount of ground CUMIN cook in a DRY NONSTICK SKILLET on a clean stove for six to eight minutes until golden. Natural golden browned edges and fully cooked opaque white meat, light tan cumin specks. A wooden spatula turns one strip. No added oil or butter, no paprika, pepper, sauce, lime, cabbage, avocado, salsa, tortillas, garnish or finished tacos yet. Close action in pan, chicken STRIPS not cubes.",
+    "sha256": "729acb597de410fd997458c47685963012e9d59d3296c4ac18250ae9719b6e67",
+    "photoGroup": "d9f007adb829d2be61b9"
+  },
+  "tacos_pollo_avocado_s2": {
+    "asset": "photography/tacos_pollo_avocado_s2.webp",
+    "recipeId": "tacos_pollo_avocado",
+    "stepIndex": 2,
+    "subject": "Affetta finemente {cavolo} e schiaccia {avocado} con succo di {lime}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory props, realistic food textures. Landscape 3:2; all important foods compact and centered for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Chicken tacos vegetable preparation: natural hand uses a simple FORK to MASH ripe AVOCADO mixed with a little fresh LIME JUICE in a small ivory bowl at center. Soft chunky pale green mash, NOT avocado slices. Immediately beside bowl on a small light wood board a compact nest of very finely shredded pale-green/white CABBAGE and a small cut cabbage wedge, a cut lime half tucked close behind bowl. One continuous compact prep scene with all three ingredients visible in central square crop. Only cabbage, avocado and lime juice at this stage. No onion, cilantro, tomato, jalapeno, salt crystals, oil, chicken, tortillas, salsa or finished dish. No complex guacamole toppings.",
+    "sha256": "557860631b49dd27bbadf8f3b9deb05084ce1bfdb48a082dcd6e4bbc76b27927",
+    "photoGroup": "0763026deff711c00529"
+  },
+  "tacos_pollo_avocado_s3": {
+    "asset": "photography/tacos_pollo_avocado_s3.webp",
+    "recipeId": "tacos_pollo_avocado",
+    "stepIndex": 3,
+    "subject": "Scalda {tortilla_mais} in padella asciutta.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures. Landscape 3:2; important food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Chicken tacos tortilla-warming stage: THREE small soft pale-YELLOW CORN TORTILLAS, one flat disc in a clean DRY dark skillet over gentle heat on a stove, two just warmed soft discs stacked on a small ivory plate immediately beside skillet. Light natural toasted freckles and tiny air blisters, tortillas visibly pliable and flat, NOT crunchy U-shaped taco shells, NOT wheat tortillas or flatbread. A simple wooden spatula gently lifts edge of tortilla in pan to turn it. Only corn tortillas, no oil, butter, seasoning, chicken, cabbage, avocado, salsa, lime, garnish or fillings yet. Compact close scene.",
+    "sha256": "632f5579b87638754f89aac07c2083601d180ac32d16a4542c5d7f5afa6a1c77",
+    "photoGroup": "02db4accc2d0c356083b"
+  },
+  "tacos_pollo_avocado_s4": {
+    "asset": "photography/tacos_pollo_avocado_s4.webp",
+    "recipeId": "tacos_pollo_avocado",
+    "stepIndex": 4,
+    "subject": "Farcisci con pollo, cavolo, avocado e {salsa_messicana}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures. Landscape 3:2; important food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. FINAL ASSEMBLY action of chicken avocado tacos: three small soft YELLOW CORN TORTILLAS on an ivory plate, being filled with cooked golden CUMIN-SEASONED CHICKEN STRIPS, finely shredded pale-green/white CABBAGE, MASHED AVOCADO mixed with lime juice and chunky red MEXICAN SALSA. A natural adult hand uses a spoon to place red salsa onto one partially filled taco, two other filled tacos close beside it. Fillings identifiable, actual spoon placement in progress, not only finished plated food. No cheese, sour cream, cilantro, extra onion garnish, jalapeno, beans, corn kernels, rice, lettuce, oil or extra garnish. Soft tortillas not hard shells, avocado mash not slices.\nRevision after visual review: Edit this AI-generated chicken tacos assembly photograph while preserving light, ivory plate, camera angle, realistic food textures and the hand spooning red Mexican salsa onto a taco. Remove BOTH large food bowls from the background completely and replace them with plain light wooden tabletop and neutral folded linen only. The green mashed avocado inside ALL tacos must contain ONLY avocado and lime juice: purely pale green chunky mash with absolutely no red tomato cubes, onion pieces or herb leaves within that green mash. Keep chunky red Mexican salsa as a SEPARATE RED TOPPING spooned ON TOP of the avocado. Preserve shredded pale white-green cabbage, cooked cumin chicken strips and soft yellow corn tortillas. No cilantro or extra garnish, no cheese or sour cream. Keep the visible assembly action; no text, labels, watermark or collage.",
+    "sha256": "fa98306e2e63575f42b77590008590adf3537687b25b39bcba2d55783fba3c1c",
+    "photoGroup": "70eda3d901a7d062bfef"
   }
 }

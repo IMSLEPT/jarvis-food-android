@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 149 ricette complete di foto principale e di tutti i passaggi.
-- 393 WebP distinti, 690 abbinamenti verificati.
-- 450 passaggi delle ricette complete coperti.
-- 2384 ricette da completare.
+- 150 ricette complete di foto principale e di tutti i passaggi.
+- 399 WebP distinti, 696 abbinamenti verificati.
+- 455 passaggi delle ricette complete coperti.
+- 2383 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -103,15 +103,16 @@ Punto di ripresa precedente (superato dalla terza prosecuzione): **Buddha bowl d
 
 ## Terza prosecuzione fotografica — 25 ottobre 2026
 
-Ripresa dal commit `2986464`, verificato su GitHub senza aggiornamenti successivi. Aggiunte **2 ricette complete, 10 immagini distinte e 11 abbinamenti** in questa prosecuzione. Nessun acquisto, credito acquistabile, API esterna a pagamento o abbonamento aggiuntivo. Generatore integrato `image_gen` disponibile ed effettivamente utilizzato.
+Ripresa dal commit `2986464`, verificato su GitHub senza aggiornamenti successivi. Aggiunte **3 ricette complete, 16 immagini distinte e 17 abbinamenti** in questa prosecuzione. Nessun acquisto, credito acquistabile, API esterna a pagamento o abbonamento aggiuntivo. Generatore integrato `image_gen` disponibile ed effettivamente utilizzato.
 
 Ricette completate con immagine principale e tutti i passaggi:
 
 - Buddha bowl di quinoa, tofu e verdure arrosto (`buddha_bowl_tofu`).
 - Noodles di riso con tofu e verdure (`noodles_tofu_verdure`).
+- Tacos di pollo, avocado e salsa (`tacos_pollo_avocado`).
 
 Le immagini sono state controllate visivamente per ingredienti, fase, cottura, utensili e presentazione, quindi integrate con `prepare.py` e `share.py`. Verifiche superate: `verify.py`, `scripts/verify-aurora-boundary.py`, indice Kotlin coerente col manifest, decodifica WebP, assenza di file duplicati con contenuto identico. Ricerca gratuita su Wikimedia Commons per la quinoa: nessun risultato adatto; nessuna nuova fotografia online importata. Le fotografie reali già presenti e le attribuzioni restano intatte.
 
 Tutti i **383 WebP e 679 record** del checkpoint iniziale, insieme ai crediti offline, sono identici. Database, ingredienti, grammature, nutrizione, grafica, funzionalità e distribuzione/condivisione delle immagini preservati. Ogni gruppo salvato su GitHub con `[skip ci]` prima del successivo. Nessun nuovo APK; test unitari e Android non rieseguiti per questi soli aggiornamenti fotografici.
 
-Punto preciso da cui riprendere: **Tacos di pollo, avocado e salsa (`tacos_pollo_avocado`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2384 ricette** e **12082 abbinamenti** mancanti. Nessuna produzione in background.
+Punto preciso da cui riprendere: **Pollo al curry e yogurt con riso basmati (`pollo_curry_basmati`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2383 ricette** e **12076 abbinamenti** mancanti. Nessuna produzione in background.
