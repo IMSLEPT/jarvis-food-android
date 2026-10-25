@@ -280,6 +280,11 @@ object EditorialPhotos {
         "merluzzo_pomodorini_s0" to "photography/merluzzo_pomodorini_s0.webp",
         "merluzzo_pomodorini_s1" to "photography/merluzzo_pomodorini_s1.webp",
         "merluzzo_pomodorini_s2" to "photography/merluzzo_pomodorini.webp",
+        "miso_tofu_alga" to "photography/miso_tofu_alga.webp",
+        "miso_tofu_alga_s0" to "photography/miso_tofu_alga_s0.webp",
+        "miso_tofu_alga_s1" to "photography/miso_tofu_alga_s1.webp",
+        "miso_tofu_alga_s2" to "photography/miso_tofu_alga_s2.webp",
+        "miso_tofu_alga_s3" to "photography/miso_tofu_alga.webp",
         "nocciole_e_cioccolato_fondente" to "photography/nocciole_e_cioccolato_fondente.webp",
         "nocciole_e_cioccolato_fondente_s0" to "photography/nocciole_e_cioccolato_fondente.webp",
         "noci_e_datteri" to "photography/noci_e_datteri.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pane_integrale_con_caprino_pere_e_noci_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_caprino_pere_e_noci_s1" to "photography/pane_integrale_con_caprino_pere_e_noci_s1.webp",
         "pane_integrale_con_caprino_pere_e_noci_s2" to "photography/pane_integrale_con_caprino_pere_e_noci.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_integrale_con_crema_di_nocciole_e_banana_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_feta_cetrioli_e_menta_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli_s1.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_integrale_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/pane_integrale_con_fiocchi_di_latte_e_cetrioli.webp",
         "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/toast_uova_avocado_s0.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "trota_patate_dolci_s0" to "photography/trota_patate_dolci_s0.webp",
         "trota_patate_dolci_s1" to "photography/trota_patate_dolci_s1.webp",
         "trota_patate_dolci_s2" to "photography/trota_patate_dolci.webp",
+    )
+
+    private fun group3() = mapOf(
         "uova_feta_pomodorini" to "photography/uova_feta_pomodorini.webp",
         "uova_feta_pomodorini_s0" to "photography/uova_feta_pomodorini_s0.webp",
         "uova_feta_pomodorini_s1" to "photography/uova_feta_pomodorini_s1.webp",
         "uova_feta_pomodorini_s2" to "photography/uova_feta_pomodorini.webp",
         "uova_strapazzate_con_asparagi_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
-    )
-
-    private fun group3() = mapOf(
         "uova_strapazzate_con_broccoli_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_cipollotti_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_funghi_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",

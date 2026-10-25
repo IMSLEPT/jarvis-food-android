@@ -7093,5 +7093,61 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic botanical food textures and normal hands, landscape 3:2 with central square-crop-safe framing. No text, watermark, labels, collage or extra ingredients. How to eat cooked edamame: close-up of two natural adult hands holding a single cooked pale-green fuzzy soybean pod split along its seam, opening it to reveal two or three plump oval bright green soybean seeds; one thumb gently nudges one bean out over a small ivory bowl. In shallow focus behind, a few whole cooked pods. Realistic pod structure, intact two thin halves connected at end, normal fingers and fingernails, food centered and dominant, no faces. Only cooked edamame with dissolved salt, no sauce, oil or extra food.",
     "sha256": "9f4538b0415e6d563ffa48ea69aaa5b0d38efa0387872fd1ec67c494ad38316d",
     "photoGroup": "2987af3c54f534fe5ca0"
+  },
+  "miso_tofu_alga": {
+    "asset": "photography/miso_tofu_alga.webp",
+    "recipeId": "miso_tofu_alga",
+    "stepIndex": null,
+    "subject": "Zuppa di miso con tofu e alga",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Finished light miso soup made ONLY from water, dissolved miso paste, small white tofu cubes, fresh soybean sprouts and small pieces of nori seaweed. A modest ivory bowl holds warm pale tan cloudy broth with tofu cubes, thin pale soybean sprouts with visible tiny yellow bean heads and thin dark green-black nori pieces, all immersed naturally. Gentle steam. No scallion, sesame, carrot, noodles, mushroom, wakame fronds, herbs, chili or garnish, no rice or other side dish. Soup alone on light wood table.",
+    "sha256": "14c6a19dcb6216398f101f24c3395b150a7c583921f723069ac5346a3c1ca1b0",
+    "photoGroup": "7355d9acd70808857536"
+  },
+  "miso_tofu_alga_s0": {
+    "asset": "photography/miso_tofu_alga_s0.webp",
+    "recipeId": "miso_tofu_alga",
+    "stepIndex": 0,
+    "subject": "Scalda 250 ml d'acqua fino quasi a bollore e spegni.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. First preparation step of miso soup, BEFORE any ingredients are added: a small clean stainless saucepan holding 250 ml CLEAR PLAIN WATER heating on a clean stove, just below boiling, a few tiny air bubbles cling along inside base and a faint wisp of steam. No rolling boil. Focus is clear water surface and pot, calm bright kitchen. NO miso paste or cloudy broth yet, NO tofu, nori, sprouts, salt, oil, vegetables, food bowls, spoonfuls or extra ingredient.",
+    "sha256": "43629c03964ac60aaae0999a5fc42655911fa4bfe5e136586d801323284b17df",
+    "photoGroup": "2f644a7b4a8b964e4052"
+  },
+  "miso_tofu_alga_s1": {
+    "asset": "photography/miso_tofu_alga_s1.webp",
+    "recipeId": "miso_tofu_alga",
+    "stepIndex": 1,
+    "subject": "Sciogli {miso} con un cucchiaio di brodo caldo e rimettilo nella pentola.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or extra ingredients. Intermediate miso soup step BEFORE tofu, sprouts or seaweed: a small ivory prep cup holds a spoonful of warm water and pale tan miso paste being dissolved into a smooth thin slurry by a teaspoon. The cup rests flat on the light wooden counter beside a small stainless saucepan of still warm water off the heat on a trivet. Focus on stirring diluted miso in the small cup, then it will return to saucepan. No solid tofu cubes, seaweed, sprouts, noodles, oil, garnishes or bowls of finished soup. Not boiling.",
+    "sha256": "b8bb736a2d7101157967cef41749ed39f1d5e30d10caed67fb1b5032fade63f2",
+    "photoGroup": "60dcae31bb9179c5600c"
+  },
+  "miso_tofu_alga_s2": {
+    "asset": "photography/miso_tofu_alga_s2.webp",
+    "recipeId": "miso_tofu_alga",
+    "stepIndex": 2,
+    "subject": "Aggiungi {tofu} a cubetti, {germogli_soia} e {nori} a pezzetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or extra ingredients. Intermediate miso soup ingredient addition: small stainless saucepan OFF heat on a trivet, holding still warm pale cloudy miso broth. A natural hand tips small white tofu cubes from an ivory prep dish into the pot; fresh pale soybean sprouts with small yellow bean heads and small dark green-black rectangular nori pieces have just been added to the broth. Some tofu already floating naturally. Show addition action in pot, not plated final soup. Only miso, water, tofu, soybean sprouts and nori. No scallions, sesame, wakame, mushrooms, garnish, oil, noodles or extra ingredients. No boiling bubbles.",
+    "sha256": "42f9c8000a926c7c6ae12c4bcc6e3062121aaa03cd5e6576fe34e18a15681d2f",
+    "photoGroup": "0d8407eef23a3f1d9e8b"
+  },
+  "miso_tofu_alga_s3": {
+    "asset": "photography/miso_tofu_alga.webp",
+    "recipeId": "miso_tofu_alga",
+    "stepIndex": 3,
+    "subject": "Lascia insaporire 2 minuti e servi.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Finished light miso soup made ONLY from water, dissolved miso paste, small white tofu cubes, fresh soybean sprouts and small pieces of nori seaweed. A modest ivory bowl holds warm pale tan cloudy broth with tofu cubes, thin pale soybean sprouts with visible tiny yellow bean heads and thin dark green-black nori pieces, all immersed naturally. Gentle steam. No scallion, sesame, carrot, noodles, mushroom, wakame fronds, herbs, chili or garnish, no rice or other side dish. Soup alone on light wood table.",
+    "sha256": "14c6a19dcb6216398f101f24c3395b150a7c583921f723069ac5346a3c1ca1b0",
+    "photoGroup": "7355d9acd70808857536",
+    "sharedFrom": "miso_tofu_alga"
   }
 }
