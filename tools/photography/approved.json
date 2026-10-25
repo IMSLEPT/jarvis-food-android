@@ -7194,5 +7194,50 @@
     "sha256": "9bb006eb48f66ae9b5615019f67f15e2831601e6b11d424714495f534a80ca48",
     "photoGroup": "ac39ba31b17d40509641",
     "sharedFrom": "arance_finocchi"
+  },
+  "uova_sode_pomodorini_s0": {
+    "asset": "photography/uova_sode_pomodorini_s0.webp",
+    "recipeId": "uova_sode_pomodorini",
+    "stepIndex": 0,
+    "subject": "Cuoci {uova} in acqua bollente per 9 minuti, raffreddale e sgusciale.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food texture, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Preparing hard-boiled eggs: close-up of a natural adult hand peeling a cooled hard-boiled chicken egg over a small ivory bowl, another already peeled intact egg in bowl. Shell being lifted away in a small piece, some loose shell on small saucer nearby, clean smooth white egg underneath. The eggs were boiled 9 minutes then cooled in water. Current action ONLY shell removal, no sliced eggs, yolk visible, tomatoes, oregano, other ingredients or finished plate. Ordinary realistic hands with correct fingers, food dominant.",
+    "sha256": "1a4b81b36e13d84f1637adaae31f8fe6d9725d50beef091e1418f7b90827af5f",
+    "photoGroup": "31cd4cace52c2d28596c"
+  },
+  "uova_sode_pomodorini": {
+    "asset": "photography/uova_sode_pomodorini.webp",
+    "recipeId": "uova_sode_pomodorini",
+    "stepIndex": null,
+    "subject": "Uova sode e pomodorini",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Finished snack on one ivory plate: exactly TWO hard-boiled chicken eggs cut lengthwise in half, so exactly FOUR separate egg halves, each of the four with a fully set firm golden yolk. Arrange four egg halves in a loose row at rear of plate, clearly four visible yolks, alongside a modest handful of fresh cherry tomato halves. Light sprinkle of dried oregano only, no other seasoning. Exact ingredients eggs 100g, cherry tomatoes 100g, oregano. No runny yolk, oil, butter, salt, pepper, basil, lettuce, bread or garnish. Modest homemade portion with all four egg halves within central square crop.",
+    "sha256": "38b4a95b1abe2beb13623ac29429a4cb8b13cb1669a48e2416ecffe42f93b5b1",
+    "photoGroup": "33e35f2cbdbd3d8921c0"
+  },
+  "uova_sode_pomodorini_s1": {
+    "asset": "photography/uova_sode_pomodorini_s1.webp",
+    "recipeId": "uova_sode_pomodorini",
+    "stepIndex": 1,
+    "subject": "Taglia a metà {pomodori}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Uova sode e pomodorini recipe second step: natural hands cutting fresh small cherry tomatoes in HALF with a small kitchen knife on light wood cutting board. Show several whole cherry tomatoes without stems, several freshly cut halves with recognizable juicy seed chambers, one tomato being halved safely. Tomato halves, NOT diced large tomatoes. Current ingredients only tomatoes. No eggs in frame, no oregano yet, no oil, herbs, seasoning or finished plate. Close focus on knife, normal hands and halved cherry tomatoes.",
+    "sha256": "8ea57b0bf64f59bbabd44d7c077222052292ea8b16f1d377d7fc6fb04c0527e1",
+    "photoGroup": "c6215da480ae2c9c5716"
+  },
+  "uova_sode_pomodorini_s2": {
+    "asset": "photography/uova_sode_pomodorini.webp",
+    "recipeId": "uova_sode_pomodorini",
+    "stepIndex": 2,
+    "subject": "Servi con l'origano.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Finished snack on one ivory plate: exactly TWO hard-boiled chicken eggs cut lengthwise in half, so exactly FOUR separate egg halves, each of the four with a fully set firm golden yolk. Arrange four egg halves in a loose row at rear of plate, clearly four visible yolks, alongside a modest handful of fresh cherry tomato halves. Light sprinkle of dried oregano only, no other seasoning. Exact ingredients eggs 100g, cherry tomatoes 100g, oregano. No runny yolk, oil, butter, salt, pepper, basil, lettuce, bread or garnish. Modest homemade portion with all four egg halves within central square crop.",
+    "sha256": "38b4a95b1abe2beb13623ac29429a4cb8b13cb1669a48e2416ecffe42f93b5b1",
+    "photoGroup": "33e35f2cbdbd3d8921c0",
+    "sharedFrom": "uova_sode_pomodorini"
   }
 }
