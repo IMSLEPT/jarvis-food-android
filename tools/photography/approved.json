@@ -7599,5 +7599,60 @@
     "sha256": "e0b74ea251fbe13994eba4dcb5feeb6387707efca1f02d5c10549b636ff2fa79",
     "photoGroup": "a89478644c173bae9cd6",
     "sharedFrom": "banana_con_cioccolato_fondente"
+  },
+  "falafel_bowl": {
+    "asset": "photography/falafel_bowl.webp",
+    "recipeId": "falafel_bowl",
+    "stepIndex": null,
+    "subject": "Bowl con falafel, hummus e cous cous",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing textures and achievable homemade plating, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Finished bowl con falafel, hummus e cous cous. Exact foods: warmed ready-made falafel, traditional fine-grained COUSCOUS (tiny fluffy semolina granules, not pearl couscous), smooth beige hummus, fresh cucumber and tomato diced, arugula (rucola) leaves. One modest broad ivory bowl has a bed of fluffy couscous with a few small golden-brown rough-textured falafel balls, a small spoonful of hummus, small diced cucumber and tomato, a modest few arugula leaves. All six foods clearly present. No olives, feta, red onion, lemon, parsley garnish, sesame, oil drizzle, paprika garnish, pita or extra food. No hummus toppings, realistic cooked falafel crust.",
+    "sha256": "2ec464d5eb06ae9aa87fc9cb618654b69780b121b906c2a7e2a5a3f2397a1073",
+    "photoGroup": "7256ca0e12f46e447b08"
+  },
+  "falafel_bowl_s0": {
+    "asset": "photography/falafel_bowl_s0.webp",
+    "recipeId": "falafel_bowl",
+    "stepIndex": 0,
+    "subject": "Scalda {falafel} in forno o in friggitrice ad aria a 200 °C per 8 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing textures and achievable homemade plating, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Falafel bowl FIRST preparation stage: warming ready-made FALAFEL in oven at 200 degrees. A small parchment-lined metal baking tray holding four modest golden-brown falafel balls or slightly flattened patties rests on oven rack inside an OPEN bright clean oven. Cooked crisp rough chickpea crust, natural food shape, tray securely on rack. Focus close enough to see food, kitchen daylight supplements oven light. No oil puddles, no sesame garnish, couscous, hummus, vegetables, sauce or completed bowl yet. No digital displays or text.",
+    "sha256": "7790aca7967511b716531388d89ad99cdce7188a45e54c3db3c75b67c167301e",
+    "photoGroup": "56c13486d387a14ac70f"
+  },
+  "falafel_bowl_s1": {
+    "asset": "photography/falafel_bowl_s1.webp",
+    "recipeId": "falafel_bowl",
+    "stepIndex": 1,
+    "subject": "Prepara {couscous} con acqua bollente (stessa quantità in peso), copri 5 minuti e sgrana con una forchetta.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Falafel bowl intermediate couscous preparation: traditional fine semolina couscous hydrated with boiling water and rested covered five minutes, now being fluffed and separated with an ordinary fork in a modest ivory prep bowl. Natural hand holding fork lifts a small portion of tiny pale golden fluffy grains, not large round pearl couscous and not rice. An ivory plate used as lid rests beside bowl on light wood counter, very faint residual steam. ONLY plain couscous and absorbed water at this stage. No oil, butter, herbs, vegetables, falafel, hummus or finished dish.",
+    "sha256": "7f52eab127fdf73f56211ea4631515d06684660b393a10ca119bbd512dee04d9",
+    "photoGroup": "5c5b2e8f376b0a78a5c9"
+  },
+  "falafel_bowl_s2": {
+    "asset": "photography/falafel_bowl_s2.webp",
+    "recipeId": "falafel_bowl",
+    "stepIndex": 2,
+    "subject": "Taglia {cetrioli} e {pomodori} a dadini.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Falafel bowl vegetable preparation step: natural hands cut fresh dark-green peeled-edge CUCUMBER and fresh RED TOMATO into small DICE on one light wooden cutting board with a normal kitchen knife. A small pile of cucumber cubes and a small pile of tomato cubes, the blade currently cutting a strip of cucumber to cubes, remaining half cucumber and half tomato behind on same board. Realistic juicy tomato flesh and pale cucumber seeds, cubes consistent modest size. ONLY cucumber and tomato, no onion, herbs, arugula, oil, salt, couscous, falafel, hummus or plated bowl yet.",
+    "sha256": "d92ff4d1feceb045d741362301e57a04e81fd3bba198a8fe94d66e6bb6fa37ad",
+    "photoGroup": "cd5cde2e8d7ef95287c2"
+  },
+  "falafel_bowl_s3": {
+    "asset": "photography/falafel_bowl_s3.webp",
+    "recipeId": "falafel_bowl",
+    "stepIndex": 3,
+    "subject": "Componi la bowl con cous cous, {rucola}, verdure, falafel e {hummus}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. FINAL ASSEMBLY action of falafel hummus couscous bowl: a natural adult hand uses a normal spoon to place a small spoonful of smooth beige hummus into a gap in an ivory bowl with fluffy fine semolina couscous, three modest golden-brown falafel balls, small diced fresh red tomato, small diced cucumber and fresh arugula leaves. The hand and spoon touching the hummus as it is deposited, food components arranged naturally, actual bowl composition in progress. Only falafel, couscous, hummus, cucumber, tomato and arugula. No oil drizzle, sesame, paprika garnish, parsley garnish, onion, lemon, olives, feta or pita. No text, labels, watermark, collage or faces.",
+    "sha256": "47240c6b9492bc8aafa53ba7b30a730218d2365c6de1e8a385a208366b8a9293",
+    "photoGroup": "129c22bab28376a0d0f1"
   }
 }
