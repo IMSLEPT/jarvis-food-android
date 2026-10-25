@@ -1,0 +1,46 @@
+{
+  "version": "1.0.93",
+  "source": "ca86f55a86dce687612af35940bdee84f149b3af",
+  "sha256": "3591fa99251b0735df6ac66b8a0de691550b974df1e7fdab8c67816b425c257e",
+  "bytes": 211897197,
+  "completeRecipes": 158,
+  "images": 435,
+  "mappings": 763,
+  "previousImagesPreserved": 435,
+  "unitTests": {
+    "tests": 70,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "instrumentation": {
+    "layout-standard.log": 2,
+    "layout-large-text.log": 2,
+    "photo-ai.log": 3,
+    "regression.log": 3,
+    "emu.log": 1,
+    "layout-buttons.log": 1,
+    "layout-buttons-large-text.log": 1,
+    "layout-gestures.log": 1,
+    "layout-android10-buttons.log": 1
+  },
+  "screenshots": 141,
+  "manifest": {
+    "manifest": {
+      "versionCode": 93,
+      "versionName": "1.0.93",
+      "compileSdkVersion": 36,
+      "compileSdkVersionCodename": "16",
+      "package": "com.jarvis.food",
+      "platformBuildVersionCode": 36,
+      "platformBuildVersionName": 16
+    },
+    "uses-sdk": {
+      "minSdkVersion": 26,
+      "targetSdkVersion": 35
+    }
+  },
+  "signerCertificateSha256": "a039be1f4e694272f35ac964d46d28185535ce28b2dcfb5bbbedda264b4d80ca",
+  "apkSignatureVerified": true,
+  "visualReview": "Esaminati Obiettivi e Dieta con tre tasti e testo standard/ingrandito, i tre Salva su Android 10, Obiettivi e Dieta con gesti e i cinque altri footer in tre configurazioni Android 15. Nessuna sovrapposizione con la navigazione di sistema nei soggetti esaminati."
+}

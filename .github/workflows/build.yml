@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       publish_existing_run:
-        description: 'Pubblica solo l’APK verificato della build 40217600483 (lascia vuoto per compilare)'
+        description: 'Pubblica solo l’APK verificato della build 40220576079 (lascia vuoto per compilare)'
         required: false
         default: ''
         type: string
@@ -173,12 +173,13 @@ jobs:
             adb shell am instrument -w -e class com.jarvis.food.AuroraRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
             cat regression.log
             grep -q "OK (3 tests)" regression.log
+            adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
+            grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
+            # ScreenshotTest clears files/shots; capture dedicated footer evidence afterwards.
             adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.threebutton
             adb shell am instrument -w -e captureName android10-buttons -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-android10-buttons.log 2>&1
             cat layout-android10-buttons.log
             grep -q "OK (1 test)" layout-android10-buttons.log
-            adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
-            grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
             adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar || true
             adb logcat -d -s AndroidRuntime:E > crash.txt || true
             if grep -q "FATAL EXCEPTION" crash.txt; then cat crash.txt; exit 1; fi
@@ -244,18 +245,18 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os, subprocess
-          assert os.environ['SOURCE_RUN'] == '40217600483'
-          run = json.loads(subprocess.check_output(['gh', 'api', 'repos/IMSLEPT/jarvis-food-android/actions/runs/40217600483']))
+          assert os.environ['SOURCE_RUN'] == '40220576079'
+          run = json.loads(subprocess.check_output(['gh', 'api', 'repos/IMSLEPT/jarvis-food-android/actions/runs/40220576079']))
           assert run['status'] == 'completed' and run['conclusion'] == 'success'
-          assert run['run_number'] == 90
-          assert run['head_sha'] == 'b98706fcaff4f6414482f67742969a06b1e145a2'
+          assert run['run_number'] == 93
+          assert run['head_sha'] == 'ca86f55a86dce687612af35940bdee84f149b3af'
           PY
       - uses: actions/download-artifact@v4
         with:
-          name: Aurora-APK-and-QA-90
+          name: Aurora-APK-and-QA-93
           path: qa
           repository: IMSLEPT/jarvis-food-android
-          run-id: 40217600483
+          run-id: 40220576079
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Verify exact APK and packaged photographs
         run: |
@@ -263,10 +264,10 @@ jobs:
           from pathlib import Path
           import hashlib, json, subprocess, zipfile
           import xml.etree.ElementTree as ET
-          apk = Path('qa/dist/JarvisFood-v1.0.90.apk')
+          apk = Path('qa/dist/JarvisFood-v1.0.93.apk')
           digest = hashlib.sha256(apk.read_bytes()).hexdigest()
-          assert digest == 'c735cdd0998bc3ab07596907593d88dcf4684d4f31722c1c5416885d6730c3af'
-          records = json.loads(subprocess.check_output(['git', 'show', 'b98706fcaff4f6414482f67742969a06b1e145a2:tools/photography/approved.json']))
+          assert digest == json.loads(Path('docs/APK-1.0.93-verification.json').read_text())['sha256']
+          records = json.loads(subprocess.check_output(['git', 'show', 'ca86f55a86dce687612af35940bdee84f149b3af:tools/photography/approved.json']))
           paths = {r['asset'] for r in records.values()}
           assert len(records) == 763 and len(paths) == 435
           with zipfile.ZipFile(apk) as z:
@@ -279,13 +280,13 @@ jobs:
               suite = ET.parse(path).getroot()
               for k in totals: totals[k] += int(suite.get(k, 0))
           assert totals == dict(tests=70, failures=0, errors=0, skipped=0), totals
-          for name, count in [('layout-standard.log', 2), ('layout-large-text.log', 2), ('photo-ai.log', 3), ('regression.log', 3), ('emu.log', 1)]:
+          for name, count in [('layout-standard.log', 2), ('layout-large-text.log', 2), ('photo-ai.log', 3), ('regression.log', 3), ('emu.log', 1), ('layout-buttons.log', 1), ('layout-buttons-large-text.log', 1), ('layout-gestures.log', 1), ('layout-android10-buttons.log', 1)]:
               assert f'OK ({count} test' in Path('qa', name).read_text()
           apk.with_suffix('.apk.sha256').write_text(digest + '  ' + apk.name + '\n')
-          print('APK originale verificato: 435 immagini, 763 abbinamenti, 70 test unitari e 11 test Android.')
+          print('APK originale verificato: 435 immagini, 763 abbinamenti, 70 test unitari e 15 test Android.')
           PY
       - name: Publish verified snapshot without recompiling
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload v1.0.90 qa/dist/JarvisFood-v1.0.90.apk qa/dist/JarvisFood-v1.0.90.apk.sha256
+          gh release upload v1.0.93 qa/dist/JarvisFood-v1.0.93.apk qa/dist/JarvisFood-v1.0.93.apk.sha256
