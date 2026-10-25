@@ -4,6 +4,8 @@
 vedi `docs/FINAL-APK-HOLD.md` per le decisioni aggiornate. La copertura fotografica
 dichiarata deve sempre corrispondere ai file effettivamente approvati.
 
+APK con le fotografie completate finora: [Jarvis Food 1.0.90 — consegna e verifiche](../../docs/APK-1.0.90.md).
+
 Lo stile richiesto è fotografico: luce naturale, cucina luminosa, piatti curati
 ma riproducibili, ingredienti riconoscibili e inquadrature ravvicinate delle azioni.
 Gli screenshot dell'utente sono riferimenti di stile, non fotografie da ritagliare.

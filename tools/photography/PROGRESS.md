@@ -11,10 +11,18 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 - 2375 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
-- APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
-- Build GitHub Actions 40168930071, commit 3b91fa8ffaa42036cac65174066fcbd8faf653f8: compilazione, 70 test unitari e test Android 15/10 superati; modello Foto AI offline incluso.
-- SHA-256 APK: `04f34ee72bef0dd4b2642d726947bdc38aaa523dde2a11d93ea09da5e405a6f8`.
-- File persistente consegnato: `libfile_bb8cca6e0d308191ba6c892ef3563556`.
+- APK precedente consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
+- Build precedente GitHub Actions 40168930071, commit 3b91fa8ffaa42036cac65174066fcbd8faf653f8: compilazione, 70 test unitari e test Android 15/10 superati; modello Foto AI offline incluso.
+- SHA-256 APK 1.0.89: `04f34ee72bef0dd4b2642d726947bdc38aaa523dde2a11d93ea09da5e405a6f8`.
+- File persistente della consegna 1.0.89: `libfile_bb8cca6e0d308191ba6c892ef3563556`.
+
+## APK aggiornato richiesto dall’utente — 25 ottobre 2026
+
+Pubblicato [JarvisFood-v1.0.90.apk](https://github.com/IMSLEPT/jarvis-food-android/releases/download/v1.0.90/JarvisFood-v1.0.90.apk), snapshot del commit `b98706fcaff4f6414482f67742969a06b1e145a2`: **158 ricette complete, 435 immagini distinte e 763 abbinamenti**, su 2533 ricette. Dimensione 211897197 byte; SHA-256 `c735cdd0998bc3ab07596907593d88dcf4684d4f31722c1c5416885d6730c3af`.
+
+Build [40217600483](https://github.com/IMSLEPT/jarvis-food-android/actions/runs/40217600483) completata: **70 test unitari e 11 test strumentati superati su Android 15/10**. Prodotti 120 screenshot; controllati visivamente diario, ricetta con testo standard e ingrandito, conversazione Jarvis. Verificate firma crittografica APK, versione e compatibilità dell’aggiornamento dalla 1.0.89; modello Foto AI offline presente e identico. Tutti i 435 WebP corrispondono agli hash approvati e tutti i 316 WebP della 1.0.89 sono identici. Controlli fotografia e confine funzionale superati. Nessuna modifica a ricette, grammature, nutrizione, grafica o funzionalità.
+
+Pubblicazione del medesimo APK tramite [40219731299](https://github.com/IMSLEPT/jarvis-food-android/actions/runs/40219731299), senza ricompilazione: dimensione e SHA-256 dell’asset GitHub confrontati con il file verificato. Rapporto: [docs/APK-1.0.90.md](../../docs/APK-1.0.90.md). La produzione fotografica resta da riprendere da `salmone_friggitrice_asparagi`; restano 2375 ricette da completare.
 
 ## Ricette completate nella ripresa precedente
 
