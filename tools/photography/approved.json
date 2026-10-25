@@ -7283,5 +7283,50 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Tuna rice cakes final assembly action: three round white puffed rice cakes on an ivory plate on light wood table. One cake has a modest topping of flaked drained pale pink canned tuna mixed with finely diced red tomato and a little extra virgin olive oil; second cake is being topped with a spoon carrying same mixture, third cake still bare so white expanded rice grain texture is visible. A small ivory bowl of remaining tuna tomato mixture sits close behind. Natural hand holding spoon, clear spreading action. Only rice cakes, tuna, tomato, olive oil, no herbs, onion, olives, capers, mayonnaise, cheese, pepper or garnish. Not finished-dish-only photo.",
     "sha256": "8b4f0047b8349059b8a6a8ad82103dc6bdf5d67b0229b494e557bf3cb69a08f0",
     "photoGroup": "144a1c21dfb95169cf81"
+  },
+  "tzatziki_verdure": {
+    "asset": "photography/tzatziki_verdure.webp",
+    "recipeId": "tzatziki_verdure",
+    "stepIndex": null,
+    "subject": "Tzatziki con bastoncini di verdure",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Finished snack: small ivory bowl of thick white tzatziki dip made ONLY from plain fat-free Greek yogurt, finely grated cucumber squeezed dry, a little extra virgin olive oil and lemon juice. The dip contains tiny pale green cucumber shreds, smooth achievable homemade texture, NO herbs at all. Beside bowl on same ivory plate are a modest handful of fresh carrot sticks and cucumber sticks with green peel on one edge, cut lengthwise. Exact ingredients yogurt, cucumber, carrot, oil, lemon juice. Absolutely NO dill, mint, parsley, garlic, black pepper, olives, paprika, bread or garnish. Dip bowl and vegetable sticks close together and central.",
+    "sha256": "e707fc39163dea6e4112d9b049482fd66782e461990153d0e9a27eb60a5dd6a0",
+    "photoGroup": "3162e42f0989721a5d4e"
+  },
+  "tzatziki_verdure_s0": {
+    "asset": "photography/tzatziki_verdure_s0.webp",
+    "recipeId": "tzatziki_verdure",
+    "stepIndex": 0,
+    "subject": "Grattugia metà di {cetrioli} e strizzalo bene.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. First stage preparing cucumber yogurt dip: squeezing water from a modest handful of freshly grated cucumber. Two natural adult hands hold a small clean white cloth containing pale-green grated cucumber and twist gently over a small ivory bowl, a few realistic drops of cucumber water falling into bowl. A normal stainless grater and half a cucumber rest on counter nearby to establish grating action just completed. Cloth visibly contains squeezed grated cucumber, not a solid vegetable. No yogurt, carrot, lemon, oil, herbs or finished dip yet. Focus on actual squeeze action and recognizable grated cucumber, normal fingers and hands.",
+    "sha256": "b860a62aefed2f984dce53bd53e19f393bf3853e1a13ec58e2a384272a745724",
+    "photoGroup": "1a83365a6dd1010d75e0"
+  },
+  "tzatziki_verdure_s1": {
+    "asset": "photography/tzatziki_verdure_s1.webp",
+    "recipeId": "tzatziki_verdure",
+    "stepIndex": 1,
+    "subject": "Mescola {greco0}, il cetriolo grattugiato, {olio} e succo di {limone}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramic bowl, realistic food texture, landscape 3:2 with central food useful in square crop. Intermediate tzatziki preparation: natural hand stirring thick plain fat-free Greek yogurt with squeezed finely grated cucumber, a small amount of extra virgin olive oil and lemon juice in a modest ivory bowl using a normal spoon. White yogurt and pale green cucumber shreds partly mixed, slight pale golden oil streaks becoming incorporated. Half a lemon and small plain oil cruet nearby. Exact ingredients only yogurt, cucumber, olive oil, lemon juice. NO carrot sticks or serving platter yet. NO garlic, dill, parsley, mint, pepper, herbs, olives or any garnish. Clear mixing action, not finished-dish-only shot. No text, labels, watermark, collage, faces or extra ingredients.",
+    "sha256": "9c0b478b369016672aa7709e8edb2eb2ae97389ce6dbc9d6a8833acb154bc019",
+    "photoGroup": "e89a60b469b9fd7be580"
+  },
+  "tzatziki_verdure_s2": {
+    "asset": "photography/tzatziki_verdure.webp",
+    "recipeId": "tzatziki_verdure",
+    "stepIndex": 2,
+    "subject": "Taglia a bastoncini {carote} e il cetriolo rimasto e servi con la salsa.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, watermark, labels, collage, portraits or invented ingredients. Finished snack: small ivory bowl of thick white tzatziki dip made ONLY from plain fat-free Greek yogurt, finely grated cucumber squeezed dry, a little extra virgin olive oil and lemon juice. The dip contains tiny pale green cucumber shreds, smooth achievable homemade texture, NO herbs at all. Beside bowl on same ivory plate are a modest handful of fresh carrot sticks and cucumber sticks with green peel on one edge, cut lengthwise. Exact ingredients yogurt, cucumber, carrot, oil, lemon juice. Absolutely NO dill, mint, parsley, garlic, black pepper, olives, paprika, bread or garnish. Dip bowl and vegetable sticks close together and central.",
+    "sha256": "e707fc39163dea6e4112d9b049482fd66782e461990153d0e9a27eb60a5dd6a0",
+    "photoGroup": "3162e42f0989721a5d4e",
+    "sharedFrom": "tzatziki_verdure"
   }
 }
