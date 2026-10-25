@@ -7740,8 +7740,8 @@
     "subject": "Grattugia {carote}, taglia {pomodori} e scola {tonno_nat} e {mais}.",
     "kind": "ai_illustration",
     "generator": "built-in image_gen",
-    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory prep bowls, realistic food textures, landscape 3:2 central square-crop-safe framing. Cold tuna rice salad intermediate prep BEFORE combining with rice: one continuous counter scene with natural hands grating a peeled orange CARROT against a normal stainless grater on light wood cutting board, a small pile of thin grated carrot threads below. Beside it a few freshly cut RED TOMATO chunks and half tomato. Close beside board a small stainless mesh sieve of drained CANNED TUNA FLAKES and YELLOW SWEETCORN securely rests across rim of a small ivory bowl with actual support contact. Focus clearly on grated carrot and prepared tomato, tuna and corn still identifiable. Only carrot, tomato, tuna and corn present; no rice yet, no olives, oil, herbs, spices or finished salad. No collage or panels, physically one real continuous kitchen scene. No text, labels, watermark or portraits.",
-    "sha256": "afb56cd68e28770473a8f8e3fdc03afb96249e438b2b34655f788c8a60319132",
+    "prompt": "SQUARE 1:1 photorealistic professional editorial cookbook photograph, soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and hands. Intermediate preparation for tuna corn rice salad. TIGHT compact three-quarter-overhead composition showing FOUR ingredients together in central square area: at center-left a natural hand grates a small peeled CARROT on a small hand grater with a little pile of fine orange carrot threads immediately below; at center-right immediately touching the board edge a small shallow metal sieve of pale flaked canned TUNA and bright YELLOW CORN KERNELS rests securely on an ivory bowl, tuna on one half and corn on other both clearly visible; at front-center a small pile of fresh red TOMATO chunks with half tomato. Arrange everything very close together as a compact triangle; entire tuna-and-corn bowl must be inside frame and its yellow corn must remain a central visible subject, no crop hiding corn. Only carrot, tomato, tuna, corn; no rice yet, no olives, oil, herbs or spices. One real continuous kitchen scene, not collage, no text, labels, watermark, faces or invented ingredients.",
+    "sha256": "5eeecc3adb7e36c568fd80f4e37302b3447bf8a02e405440bfaaab804133c506",
     "photoGroup": "fefde1c7ff05e6cffe27"
   },
   "riso_tonno_mais_s2": {
@@ -7755,5 +7755,50 @@
     "sha256": "cbd3b4713878a09c7f5cd78cbc14320a3260a54c44fea295670bec13fa1b9d3d",
     "photoGroup": "f54f9fef9d930e1d953e",
     "sharedFrom": "riso_tonno_mais"
+  },
+  "pasta_fredda_caprese": {
+    "asset": "photography/pasta_fredda_caprese.webp",
+    "recipeId": "pasta_fredda_caprese",
+    "stepIndex": null,
+    "subject": "Pasta fredda alla caprese",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional Italian cookbook photograph, soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic appetizing textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark or collage. Finished cold FUSILLI caprese salad: cooked cooled semolina fusilli spirals, fresh cherry tomatoes chopped small, FRESH MOZZARELLA FIOR DI LATTE cut into small irregular cubes, a few basil leaves, two or three green olives, a little extra virgin olive oil, all tossed in one modest ivory bowl. Important visual identity: the FRESH MOZZARELLA pieces are pure porcelain WHITE, very soft, smooth slightly glossy wet surface, moist elastic and slightly rounded cut edges, delicate visible fine stretched-curd layers, NOT yellow, NOT crumbly, NOT granular, no pores or holes like feta or paneer. The white cheese contrasts clearly with golden pasta. Fresh simple salad only, no pesto, sauce, pepper, onion, lettuce, parmesan, balsamic vinegar, nuts or other ingredients. No extra garnish beyond basil in recipe.\nRevision after visual review: Edit this AI-generated caprese pasta salad photograph, preserving the food arrangement, camera angle, natural lighting, ivory bowl and quality. Remove the small white garlic-bulb-like object on the background table at upper left completely and replace that spot with plain light wooden tabletop and neutral folded linen only. No garlic or extra food anywhere. Ingredients allowed anywhere in image: fusilli pasta, fresh mozzarella, cherry tomatoes, fresh basil, green olives, olive oil. Also make the white mozzarella cubes subtly smoother, moist and elastic with soft rounded cut edges typical of fresh fior di latte, rather than coarse curds. Preserve their cut cube serving form. No text, labels, watermark, collage or invented ingredients.",
+    "sha256": "428f6ee99f1cc69fba448e76debf3c43b6752bf53d0487166fa345e55671d2d0",
+    "photoGroup": "c3276307419427a2753e"
+  },
+  "pasta_fredda_caprese_s0": {
+    "asset": "photography/pasta_fredda_caprese_s0.webp",
+    "recipeId": "pasta_fredda_caprese",
+    "stepIndex": 0,
+    "subject": "Cuoci {pasta} al dente, scolala e raffreddala sotto acqua fredda.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Caprese cold pasta salad FIRST step: cooked al dente plain semolina FUSILLI SPIRALS in a stainless colander being cooled under a gentle stream of COLD TAP WATER in a clean bright kitchen sink. Natural hand securely holds colander long handle, colander drains inside sink, realistic water stream and droplets, no steam, no floating unsupported equipment. Same recognizable classic short fusilli spiral shape throughout. Only pasta and water present. NO mozzarella, tomatoes, basil, olives, oil, sauce or finished salad yet.",
+    "sha256": "ec6661231f64c4af4c32704079eae6dc2fd92c2312b6f930be01b0636526dc9f",
+    "photoGroup": "1727387ca616af132fff"
+  },
+  "pasta_fredda_caprese_s1": {
+    "asset": "photography/pasta_fredda_caprese_s1.webp",
+    "recipeId": "pasta_fredda_caprese",
+    "stepIndex": 1,
+    "subject": "Taglia {pomodori} e {mozzarella} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional Italian cookbook photograph, soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic appetizing textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark or collage. Close food preparation scene on a light wood board: a natural hand uses a normal knife to cut a FRESH MOZZARELLA FIOR DI LATTE ball into strips and small irregular cubes, next to chopped small cherry tomatoes. Mozzarella is unmistakably FRESH: sphere has a SMOOTH STRETCHED GLOSSY PORCELAIN-WHITE skin, cut interior is SMOOTH MILKY WHITE with fine subtle stretched-curd layers and beads of milky moisture on board. Soft elastic cheese and slightly rounded cut edges. Absolutely NOT crumbly curds, ricotta, feta, paneer, coarse grain, yellow cheese, or dry porous cheese. A few fresh mozzarella cubes already prepared beside ball, tomatoes separate. Only mozzarella and cherry tomatoes, no pasta, basil, olives, oil, herbs or finished salad. Normal fingers and knife grip.",
+    "sha256": "bcf0808d38f7b1addd905e3a6aaf438b38cc6b9f411a8fd1fb92642d08e1bbd1",
+    "photoGroup": "531b1d2f3bd7030a1d8f"
+  },
+  "pasta_fredda_caprese_s2": {
+    "asset": "photography/pasta_fredda_caprese.webp",
+    "recipeId": "pasta_fredda_caprese",
+    "stepIndex": 2,
+    "subject": "Unisci tutto con {basilico} e {olive} e condisci con {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional Italian cookbook photograph, soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic appetizing textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark or collage. Finished cold FUSILLI caprese salad: cooked cooled semolina fusilli spirals, fresh cherry tomatoes chopped small, FRESH MOZZARELLA FIOR DI LATTE cut into small irregular cubes, a few basil leaves, two or three green olives, a little extra virgin olive oil, all tossed in one modest ivory bowl. Important visual identity: the FRESH MOZZARELLA pieces are pure porcelain WHITE, very soft, smooth slightly glossy wet surface, moist elastic and slightly rounded cut edges, delicate visible fine stretched-curd layers, NOT yellow, NOT crumbly, NOT granular, no pores or holes like feta or paneer. The white cheese contrasts clearly with golden pasta. Fresh simple salad only, no pesto, sauce, pepper, onion, lettuce, parmesan, balsamic vinegar, nuts or other ingredients. No extra garnish beyond basil in recipe.\nRevision after visual review: Edit this AI-generated caprese pasta salad photograph, preserving the food arrangement, camera angle, natural lighting, ivory bowl and quality. Remove the small white garlic-bulb-like object on the background table at upper left completely and replace that spot with plain light wooden tabletop and neutral folded linen only. No garlic or extra food anywhere. Ingredients allowed anywhere in image: fusilli pasta, fresh mozzarella, cherry tomatoes, fresh basil, green olives, olive oil. Also make the white mozzarella cubes subtly smoother, moist and elastic with soft rounded cut edges typical of fresh fior di latte, rather than coarse curds. Preserve their cut cube serving form. No text, labels, watermark, collage or invented ingredients.",
+    "sha256": "428f6ee99f1cc69fba448e76debf3c43b6752bf53d0487166fa345e55671d2d0",
+    "photoGroup": "c3276307419427a2753e",
+    "sharedFrom": "pasta_fredda_caprese"
   }
 }

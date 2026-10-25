@@ -513,6 +513,10 @@ object EditorialPhotos {
         "pasta_ceci_s2" to "photography/pasta_ceci_s2.webp",
         "pasta_ceci_s3" to "photography/pasta_ceci_s3.webp",
         "pasta_ceci_s4" to "photography/pasta_ceci.webp",
+        "pasta_fredda_caprese" to "photography/pasta_fredda_caprese.webp",
+        "pasta_fredda_caprese_s0" to "photography/pasta_fredda_caprese_s0.webp",
+        "pasta_fredda_caprese_s1" to "photography/pasta_fredda_caprese_s1.webp",
+        "pasta_fredda_caprese_s2" to "photography/pasta_fredda_caprese.webp",
         "pasta_lenticchie" to "photography/pasta_lenticchie.webp",
         "pasta_lenticchie_s0" to "photography/pasta_lenticchie_s0.webp",
         "pasta_lenticchie_s1" to "photography/pasta_lenticchie_s1.webp",
@@ -606,13 +610,13 @@ object EditorialPhotos {
         "risotto_zucca_s3" to "photography/risotto_zucca_s3.webp",
         "salmone_patate" to "photography/salmone_patate.webp",
         "salmone_patate_s0" to "photography/salmone_patate_s0.webp",
+    )
+
+    private fun group3() = mapOf(
         "salmone_patate_s1" to "photography/salmone_patate_s1.webp",
         "salmone_patate_s2" to "photography/salmone_patate_s2.webp",
         "salmone_patate_s3" to "photography/salmone_patate.webp",
         "smoothie_bowl" to "photography/smoothie_bowl.webp",
-    )
-
-    private fun group3() = mapOf(
         "smoothie_bowl_s0" to "photography/smoothie_bowl_s0.webp",
         "smoothie_bowl_s1" to "photography/smoothie_bowl_s1.webp",
         "smoothie_bowl_s2" to "photography/smoothie_bowl.webp",
