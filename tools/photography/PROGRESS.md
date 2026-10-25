@@ -150,3 +150,19 @@ Punto preciso da cui riprendere: **hamburger_pollo_panino**. Restano 2378 ricett
 Ricerca professionale gratuita su Unsplash, Pexels e Pixabay: licenze ufficiali verificate; nessun acquisto, piano premium o API a pagamento. Le fotografie reali importate sono elencate in LICENSED-PHOTOS.md e nei crediti offline, con fonte/autore/licenza conservati nel manifest e nell’app. Scartati candidati macro poco nitidi o scuri, foto con fragole insieme ai lamponi e risultati non scaricabili in qualità sufficiente. I passaggi mancanti vengono prodotti con image_gen e revisionati individualmente. Tutti i 419 WebP e i 717 record del checkpoint iniziale sono identici; i crediti preesistenti sono conservati integralmente.
 
 Hardware comunicato dall’utente: Mac 13 pollici, Apple M3, 8 GB di memoria. Il Mac non è accessibile dall’ambiente Linux della sessione; nessun modello locale installato o attivato e nessuna qualità/velocità locale dichiarata senza prova.
+
+## Richiesta di produzione con PC spento — 25 ottobre 2026
+
+Configurata e abilitata l'attività cloud **Foto Jarvis Food**, con un gruppo
+completo per tentativo e cadenza oraria; prima finestra dalle 17:15 Europe/Rome.
+La creazione e il calendario sono confermati, ma **non è ancora verificata
+un'esecuzione che produca e pubblichi fotografie**. Il comando di avvio immediato
+ha restituito `404 Action not found`; nessun risultato viene attribuito a questo
+tentativo. Vedere `AUTOMATION.md` per stato e vincoli della prova.
+
+Nessun costo o servizio a pagamento attivato. Il prompt richiede di fermarsi e
+disattivarsi se manca una capacità indispensabile o se servono risorse a pagamento;
+include revisione visiva, licenze, conservazione dei file, verifiche e commit
+`[skip ci]`. Nessun agente locale o nuovo APK. I conteggi restano 155 ricette
+complete, 422 immagini e 738 abbinamenti fino a un nuovo gruppo realmente salvato.
+La candidata Pixabay dei lamponi di Saramukitza non è ancora integrata.

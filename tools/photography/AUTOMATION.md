@@ -116,3 +116,33 @@ Finché la prova non passa, usare il generatore incluso entro i suoi limiti.
 Nessun worker locale, modello o pianificazione automatica è stato attivato da
 questi script. L'avvio locale richiede un'esecuzione nell'ambiente del Mac;
 la produzione autonoma completa non è verificata nell'ambiente attuale.
+
+## Prova di esecuzione cloud — 25 ottobre 2026
+
+Su richiesta dell'utente di controllare il lavoro da smartphone con il PC spento,
+è stata creata tramite lo strumento delle attività programmate un'attività cloud
+abilitata, denominata **Foto Jarvis Food**. Cadenza: un tentativo ogni ora;
+prima finestra impostata dalle 17:15 del 25 ottobre, fuso Europe/Rome. La
+pianificazione è flessibile: la creazione non conferma l'orario esatto né il
+buon esito di un'esecuzione. Non è stato installato un agente sul Mac/Pixel e
+non è stato aggiunto alcun workflow GitHub Actions.
+
+Il prompt limita ogni esecuzione a un gruppo completo: legge lo stato attuale,
+usa solo strumenti inclusi o fonti gratuite con licenza verificata, richiede
+revisione visiva originale/ritaglio, esegue gli script e salva con `[skip ci]`.
+Sono vietati API/runner a pagamento, acquisti, APK ripetuti e modifiche a ricette
+o funzionalità. Non deve partire un secondo gruppo mentre uno è in corso.
+
+Se mancano generazione, visione, esecuzione degli script o scrittura GitHub e
+le fonti gratuite non consentono di completare fedelmente un gruppo, l'attività
+deve riportare il blocco e disattivarsi. Deve disattivarsi anche a catalogo finito.
+L'utente può richiederne sospensione e ripresa dalla conversazione.
+
+Verificato l'accesso in lettura al repository mediante il connettore GitHub
+(permesso push presente). Creazione, abilitazione e modifica del calendario
+confermate dagli strumenti. **Produzione fotografica programmata non ancora
+verificata:** al momento della configurazione non risultano esecuzioni o output
+registrati. Il comando di avvio immediato ha restituito `404 Action not found`
+prima dell'invocazione; non è una prova avviata o completata. Verificare il primo
+risultato registrato e il commit effettivo prima di dichiarare la produzione
+automatica funzionante. Non inferire avanzamento dalla sola attività abilitata.
