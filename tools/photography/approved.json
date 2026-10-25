@@ -7710,5 +7710,50 @@
     "sha256": "3c7fc3a8f6864ce10768671b828ef61fccc27afb62427a5f73bef30372e7c452",
     "photoGroup": "09157aa4f4f91de4cfc8",
     "sharedFrom": "insalata_greca_pollo"
+  },
+  "riso_tonno_mais": {
+    "asset": "photography/riso_tonno_mais.webp",
+    "recipeId": "riso_tonno_mais",
+    "stepIndex": null,
+    "subject": "Insalatona di riso, tonno e mais",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Finished COLD rice salad with tuna and sweetcorn. Exact foods: plain cooked cooled WHITE RICE, naturally flaked drained canned TUNA in water, YELLOW SWEETCORN, fresh red TOMATO chunks, finely GRATED ORANGE CARROT, a few GREEN OLIVES, small amount of extra virgin olive oil. One modest ivory bowl contains all these foods tossed together loosely, separate cooked white rice grains clearly visible, moist pale tuna flakes not raw fish, thin grated carrot threads not carrot cubes or slices. No peas, egg, cheese, ham, pepper, herbs, parsley, basil, lemon, mayonnaise, onion or extra ingredients. Cold homemade Italian rice salad, not risotto.",
+    "sha256": "cbd3b4713878a09c7f5cd78cbc14320a3260a54c44fea295670bec13fa1b9d3d",
+    "photoGroup": "f54f9fef9d930e1d953e"
+  },
+  "riso_tonno_mais_s0": {
+    "asset": "photography/riso_tonno_mais_s0.webp",
+    "recipeId": "riso_tonno_mais",
+    "stepIndex": 0,
+    "subject": "Cuoci {riso} in acqua salata, scolalo e raffreddalo sotto l'acqua fredda.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Cold rice salad FIRST step: freshly cooked plain white rice in a small stainless colander being COOLED UNDER A GENTLE STREAM OF COLD TAP WATER in a bright clean kitchen sink. Colander rests securely on sink ledge supports or sink bottom, not floating. Clear water runs through rice and drains, rice individual cooked grains. Natural hand may hold long handle at rim, food and water stream dominant. Only cooked rice, water and dissolved cooking salt. No tuna, corn, tomato, carrot, olives, oil or finished salad yet. Avoid running water outside sink, no steam.",
+    "sha256": "2e2baa46de32746a431c3c6d01183d8d1c8cfc07d56ff50ad88b7d03f4f9b162",
+    "photoGroup": "192ab4b97ef731bc5cdc"
+  },
+  "riso_tonno_mais_s1": {
+    "asset": "photography/riso_tonno_mais_s1.webp",
+    "recipeId": "riso_tonno_mais",
+    "stepIndex": 1,
+    "subject": "Grattugia {carote}, taglia {pomodori} e scola {tonno_nat} e {mais}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory prep bowls, realistic food textures, landscape 3:2 central square-crop-safe framing. Cold tuna rice salad intermediate prep BEFORE combining with rice: one continuous counter scene with natural hands grating a peeled orange CARROT against a normal stainless grater on light wood cutting board, a small pile of thin grated carrot threads below. Beside it a few freshly cut RED TOMATO chunks and half tomato. Close beside board a small stainless mesh sieve of drained CANNED TUNA FLAKES and YELLOW SWEETCORN securely rests across rim of a small ivory bowl with actual support contact. Focus clearly on grated carrot and prepared tomato, tuna and corn still identifiable. Only carrot, tomato, tuna and corn present; no rice yet, no olives, oil, herbs, spices or finished salad. No collage or panels, physically one real continuous kitchen scene. No text, labels, watermark or portraits.",
+    "sha256": "afb56cd68e28770473a8f8e3fdc03afb96249e438b2b34655f788c8a60319132",
+    "photoGroup": "fefde1c7ff05e6cffe27"
+  },
+  "riso_tonno_mais_s2": {
+    "asset": "photography/riso_tonno_mais.webp",
+    "recipeId": "riso_tonno_mais",
+    "stepIndex": 2,
+    "subject": "Unisci tutto con {olive} e condisci con {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Finished COLD rice salad with tuna and sweetcorn. Exact foods: plain cooked cooled WHITE RICE, naturally flaked drained canned TUNA in water, YELLOW SWEETCORN, fresh red TOMATO chunks, finely GRATED ORANGE CARROT, a few GREEN OLIVES, small amount of extra virgin olive oil. One modest ivory bowl contains all these foods tossed together loosely, separate cooked white rice grains clearly visible, moist pale tuna flakes not raw fish, thin grated carrot threads not carrot cubes or slices. No peas, egg, cheese, ham, pepper, herbs, parsley, basil, lemon, mayonnaise, onion or extra ingredients. Cold homemade Italian rice salad, not risotto.",
+    "sha256": "cbd3b4713878a09c7f5cd78cbc14320a3260a54c44fea295670bec13fa1b9d3d",
+    "photoGroup": "f54f9fef9d930e1d953e",
+    "sharedFrom": "riso_tonno_mais"
   }
 }
