@@ -6937,5 +6937,61 @@
     "sha256": "ba8f3ef937f1bb2cd3ea66ea41385d3617740662d12205007f236586ba83e325",
     "photoGroup": "d589e056f6677cfe647a",
     "sharedFrom": "pancake_ricotta_fragole"
+  },
+  "chia_pudding_mango": {
+    "asset": "photography/chia_pudding_mango.webp",
+    "recipeId": "chia_pudding_mango",
+    "stepIndex": null,
+    "subject": "Chia pudding al mango",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food texture, landscape 3:2, tight central food framing useful in square crop. No text, watermarks, labels, collage, portraits, or extra ingredients. Finished chia pudding al mango, made of chia seeds soaked six hours in soy drink with a little honey, in a modest plain cylindrical glass jar. The thick pale off-white pudding has many individually visible hydrated dark chia seeds evenly suspended. Fresh ripe golden mango cut into small cubes sits on top, sprinkled with fine white desiccated grated coconut (cocco rape). Not large coconut flakes, no mint, no berries, no banana, no yogurt. Single open jar on the table, beautiful achievable breakfast.",
+    "sha256": "d0611834f5279491701e57835ada0e415a0ad4f830df6f3a656512bbe60903b9",
+    "photoGroup": "e6bc6f73bc3f47e81a9e"
+  },
+  "chia_pudding_mango_s0": {
+    "asset": "photography/chia_pudding_mango_s0.webp",
+    "recipeId": "chia_pudding_mango",
+    "stepIndex": 0,
+    "subject": "La sera prima mescola {chia} e {soia_drink} in un barattolo e un po' di {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food texture, landscape 3:2, tight central food framing useful in square crop. No text, watermarks, labels, collage, portraits, or extra ingredients. First moment of making chia pudding, BEFORE seeds swell: three-quarter overhead close-up looking into an open plain cylindrical glass jar half-filled with visibly THIN WATERY off-white soy drink. A teaspoon stirs loose dry black chia seeds floating throughout the smooth flat liquid surface. Tiny dark seeds with no swollen gel halos, sparse enough that thin fluid soy drink is obvious. A thin stream of pale soy drink is being poured from a small ivory jug into the jar, creating small liquid ripples; a little honey has already dissolved. This is a liquid mixing action, not thick creamy set pudding, no ridges holding their shape, no yogurt texture. NO fruit, mango, coconut, other ingredients or garnish.",
+    "sha256": "198b0e842142fff797322f9863438095d323b949364b53b185b74ddfef440f42",
+    "photoGroup": "2685d1170d9208018eef"
+  },
+  "chia_pudding_mango_s1": {
+    "asset": "photography/chia_pudding_mango_s1.webp",
+    "recipeId": "chia_pudding_mango",
+    "stepIndex": 1,
+    "subject": "Mescola ancora dopo 10 minuti per evitare i grumi, poi chiudi e metti in frigorifero per almeno 6 ore.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food texture, landscape 3:2, tight central food framing useful in square crop. No text, watermarks, labels, collage, portraits, or extra ingredients. Chia pudding recipe intermediate refrigeration stage: a single plain cylindrical glass jar, filled three-quarters with pale soy drink mixed with many small dark chia seeds and dissolved honey, tightly closed with a simple metal screw lid, sitting on an otherwise empty clean glass refrigerator shelf. View through open fridge door, natural kitchen light softens the clean interior. Jar centered, clearly closed and cooling, no spoon inside, no fruit, no mango, no coconut, no finished toppings, no labels or writing.",
+    "sha256": "ef5b6b4d56f4352df402e12996a1e096c2e1ae2a66e47ab3e2177d8bed9e0942",
+    "photoGroup": "cda270275392ae7a835c"
+  },
+  "chia_pudding_mango_s2": {
+    "asset": "photography/chia_pudding_mango_s2.webp",
+    "recipeId": "chia_pudding_mango",
+    "stepIndex": 2,
+    "subject": "Al mattino taglia {mango} a cubetti e disponilo sopra.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food texture, landscape 3:2 with central food useful in square crop. Chia pudding intermediate morning step: adding freshly cut small golden mango cubes onto the surface of set thick pale chia and soy drink pudding in a plain cylindrical glass jar. A spoon carrying a few mango cubes is placing them onto the top, some mango already covers half the surface, remaining surface shows swollen black chia seeds. In background on small cutting board a few cut mango cubes and a simple knife. A little honey already dissolved in pudding. NO coconut at this stage, no white garnish, no mint, no other fruit, no extra ingredients. One continuous photograph, no text, watermark, labels or collage.",
+    "sha256": "d6bbf60bc38491e76622097957e19af02a5cb75c37e08b4bddda093101c142c1",
+    "photoGroup": "6501a94402839d60b4f5"
+  },
+  "chia_pudding_mango_s3": {
+    "asset": "photography/chia_pudding_mango.webp",
+    "recipeId": "chia_pudding_mango",
+    "stepIndex": 3,
+    "subject": "Completa con {cocco_rapè}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food texture, landscape 3:2, tight central food framing useful in square crop. No text, watermarks, labels, collage, portraits, or extra ingredients. Finished chia pudding al mango, made of chia seeds soaked six hours in soy drink with a little honey, in a modest plain cylindrical glass jar. The thick pale off-white pudding has many individually visible hydrated dark chia seeds evenly suspended. Fresh ripe golden mango cut into small cubes sits on top, sprinkled with fine white desiccated grated coconut (cocco rape). Not large coconut flakes, no mint, no berries, no banana, no yogurt. Single open jar on the table, beautiful achievable breakfast.",
+    "sha256": "d0611834f5279491701e57835ada0e415a0ad4f830df6f3a656512bbe60903b9",
+    "photoGroup": "e6bc6f73bc3f47e81a9e",
+    "sharedFrom": "chia_pudding_mango"
   }
 }
