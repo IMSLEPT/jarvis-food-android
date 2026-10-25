@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 117 ricette complete di foto principale e di tutti i passaggi.
-- 286 WebP distinti, 557 abbinamenti verificati.
-- 339 passaggi delle ricette complete coperti.
-- 2416 ricette da completare.
-- Ripresa del 25 ottobre: 3 nuove ricette e 6 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
+- 120 ricette complete di foto principale e di tutti i passaggi.
+- 292 WebP distinti, 566 abbinamenti verificati.
+- 348 passaggi delle ricette complete coperti.
+- 2413 ricette da completare.
+- Ripresa del 25 ottobre: 6 nuove ricette e 12 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - Ultimo APK consegnato noto: 1.0.87 con 49 ricette complete. Queste aggiunte sono nei sorgenti, non ancora in un nuovo APK verificato.
 
@@ -18,6 +18,9 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 - Pane integrale con formaggio spalmabile e frutti di bosco (`pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco`)
 - Pane con formaggio spalmabile e frutti di bosco (`pane_con_formaggio_spalmabile_e_frutti_di_bosco`)
 - Fette biscottate con formaggio spalmabile e frutti di bosco (`fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco`)
+- Pane integrale con tahina e banana (`pane_integrale_con_tahina_e_banana`)
+- Pane con tahina e banana (`pane_con_tahina_e_banana`)
+- Fette biscottate con tahina e banana (`fette_biscottate_con_tahina_e_banana`)
 
 ## Prossime ricette da completare
 

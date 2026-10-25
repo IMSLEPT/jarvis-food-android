@@ -6419,5 +6419,107 @@
     "sha256": "441545229b779f5b1f37b7bd58194d2041b29c8f687de1e5ac516f61cfdd2552",
     "photoGroup": "552bcf721ce93f462142",
     "sharedFrom": "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco"
+  },
+  "pane_integrale_con_tahina_e_banana": {
+    "asset": "photography/pane_integrale_con_tahina_e_banana.webp",
+    "recipeId": "pane_integrale_con_tahina_e_banana",
+    "stepIndex": null,
+    "subject": "Pane integrale con tahina e banana",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con tahina e banana. Ingredients: Pane integrale, Tahina, Banana, Cannella.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Tahina sul pane tostato. Aggiungi Banana a rondelle e Cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be whole-wheat bread slices with brown crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "387ffa67869939919a78e3dd923def66d7c493ab4508aa3445dc884741ca5ecc",
+    "photoGroup": "f122e54c7a6a305e87d5"
+  },
+  "pane_integrale_con_tahina_e_banana_s1": {
+    "asset": "photography/pane_integrale_con_tahina_e_banana_s1.webp",
+    "recipeId": "pane_integrale_con_tahina_e_banana",
+    "stepIndex": 1,
+    "subject": "Spalma {tahina} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con tahina e banana. Ingredients: Pane integrale, Tahina, Banana, Cannella. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Tahina sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be whole-wheat bread slices with brown crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "75eb08e6dd74270c6dc92e421d92286f629a26a0ad62bbc82598c54948783574",
+    "photoGroup": "102d5a489a27afe074fa"
+  },
+  "pane_con_tahina_e_banana": {
+    "asset": "photography/pane_con_tahina_e_banana.webp",
+    "recipeId": "pane_con_tahina_e_banana",
+    "stepIndex": null,
+    "subject": "Pane con tahina e banana",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con tahina e banana. Ingredients: Pane comune, Tahina, Banana, Cannella.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Tahina sul pane tostato. Aggiungi Banana a rondelle e Cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be ordinary white country bread slices with pale crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "20863f4eb1ce6aa2213d9320ea572a68bc9cf30cc2bafee8768392e718af5624",
+    "photoGroup": "94e4c8ae84c5f12d4d72"
+  },
+  "pane_con_tahina_e_banana_s1": {
+    "asset": "photography/pane_con_tahina_e_banana_s1.webp",
+    "recipeId": "pane_con_tahina_e_banana",
+    "stepIndex": 1,
+    "subject": "Spalma {tahina} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con tahina e banana. Ingredients: Pane comune, Tahina, Banana, Cannella. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Tahina sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be ordinary white country bread slices with pale crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "e38ad40bb4fccd1de7010e02c47a047f6569558bf0293f6b72e1586124a00fab",
+    "photoGroup": "ea1e15e4cabe650ee9d5"
+  },
+  "fette_biscottate_con_tahina_e_banana": {
+    "asset": "photography/fette_biscottate_con_tahina_e_banana.webp",
+    "recipeId": "fette_biscottate_con_tahina_e_banana",
+    "stepIndex": null,
+    "subject": "Fette biscottate con tahina e banana",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con tahina e banana. Ingredients: Fette biscottate, Tahina, Banana, Cannella.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Tahina sul pane tostato. Aggiungi Banana a rondelle e Cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "ec48fefcdcec7229135bf2a856b078616a1fe6bcbb8dfd6fe598ef04b6820c34",
+    "photoGroup": "46490ce3a7c7522c85f0"
+  },
+  "fette_biscottate_con_tahina_e_banana_s1": {
+    "asset": "photography/fette_biscottate_con_tahina_e_banana_s1.webp",
+    "recipeId": "fette_biscottate_con_tahina_e_banana",
+    "stepIndex": 1,
+    "subject": "Spalma {tahina} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con tahina e banana. Ingredients: Fette biscottate, Tahina, Banana, Cannella. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Tahina sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "f88d8d048ea3dbd0506839f26a9ea7e3a9e85d20e92ddda25c596f05f756a4e5",
+    "photoGroup": "1728e25fc7b9c826cf56"
+  },
+  "pane_integrale_con_tahina_e_banana_s2": {
+    "asset": "photography/pane_integrale_con_tahina_e_banana.webp",
+    "recipeId": "pane_integrale_con_tahina_e_banana",
+    "stepIndex": 2,
+    "subject": "Aggiungi {banana} a rondelle e {cannella}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con tahina e banana. Ingredients: Pane integrale, Tahina, Banana, Cannella.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Tahina sul pane tostato. Aggiungi Banana a rondelle e Cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be whole-wheat bread slices with brown crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "387ffa67869939919a78e3dd923def66d7c493ab4508aa3445dc884741ca5ecc",
+    "photoGroup": "f122e54c7a6a305e87d5",
+    "sharedFrom": "pane_integrale_con_tahina_e_banana"
+  },
+  "pane_con_tahina_e_banana_s2": {
+    "asset": "photography/pane_con_tahina_e_banana.webp",
+    "recipeId": "pane_con_tahina_e_banana",
+    "stepIndex": 2,
+    "subject": "Aggiungi {banana} a rondelle e {cannella}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con tahina e banana. Ingredients: Pane comune, Tahina, Banana, Cannella.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Tahina sul pane tostato. Aggiungi Banana a rondelle e Cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be ordinary white country bread slices with pale crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "20863f4eb1ce6aa2213d9320ea572a68bc9cf30cc2bafee8768392e718af5624",
+    "photoGroup": "94e4c8ae84c5f12d4d72",
+    "sharedFrom": "pane_con_tahina_e_banana"
+  },
+  "fette_biscottate_con_tahina_e_banana_s2": {
+    "asset": "photography/fette_biscottate_con_tahina_e_banana.webp",
+    "recipeId": "fette_biscottate_con_tahina_e_banana",
+    "stepIndex": 2,
+    "subject": "Aggiungi {banana} a rondelle e {cannella}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con tahina e banana. Ingredients: Fette biscottate, Tahina, Banana, Cannella.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Tahina sul pane tostato. Aggiungi Banana a rondelle e Cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Tahini is smooth beige sesame paste, not white cheese. No sesame seed garnish. Square single photograph.",
+    "sha256": "ec48fefcdcec7229135bf2a856b078616a1fe6bcbb8dfd6fe598ef04b6820c34",
+    "photoGroup": "46490ce3a7c7522c85f0",
+    "sharedFrom": "fette_biscottate_con_tahina_e_banana"
   }
 }
