@@ -6521,5 +6521,71 @@
     "sha256": "ec48fefcdcec7229135bf2a856b078616a1fe6bcbb8dfd6fe598ef04b6820c34",
     "photoGroup": "46490ce3a7c7522c85f0",
     "sharedFrom": "fette_biscottate_con_tahina_e_banana"
+  },
+  "pane_integrale_con_mele_cannella_e_ricotta": {
+    "asset": "photography/pane_integrale_con_mele_cannella_e_ricotta.webp",
+    "recipeId": "pane_integrale_con_mele_cannella_e_ricotta",
+    "stepIndex": null,
+    "subject": "Pane integrale con mele, cannella e ricotta",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con mele, cannella e ricotta. Ingredients: Pane integrale, Ricotta, Mela, Cannella, Miele.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella. Completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be whole-wheat bread slices with brown crumb. Apples are raw thin slices, not cooked. Completed apple ricotta cinnamon toast with modest drizzle of honey. Square single photograph.",
+    "sha256": "43987ec99d8e32e37fbff610c14978e84170e6c3f1b3aa5608b3e9f9c1627389",
+    "photoGroup": "35e5e95f43f1777953ce"
+  },
+  "pane_integrale_con_mele_cannella_e_ricotta_s1": {
+    "asset": "photography/pane_integrale_con_mele_cannella_e_ricotta_s1.webp",
+    "recipeId": "pane_integrale_con_mele_cannella_e_ricotta",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato, aggiungi {mela} a fettine sottili e {cannella}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con mele, cannella e ricotta. Ingredients: Pane integrale, Ricotta, Mela, Cannella, Miele. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be whole-wheat bread slices with brown crumb. Apples are raw thin slices, not cooked. Close-up fingers arranging apple slices onto ricotta, dusting of cinnamon, NO honey yet, show action in progress. Square single photograph.",
+    "sha256": "f52a1c33a08345800c31da2b1ff55f6d169f950a69ad846666cfbf30225ca5bd",
+    "photoGroup": "e9c144cb5410c4796212"
+  },
+  "pane_con_mele_cannella_e_ricotta": {
+    "asset": "photography/pane_con_mele_cannella_e_ricotta.webp",
+    "recipeId": "pane_con_mele_cannella_e_ricotta",
+    "stepIndex": null,
+    "subject": "Pane con mele, cannella e ricotta",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con mele, cannella e ricotta. Ingredients: Pane comune, Ricotta, Mela, Cannella, Miele.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella. Completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be ordinary white country bread slices with pale crumb. Apples are raw thin slices, not cooked. Completed apple ricotta cinnamon toast with modest drizzle of honey. Square single photograph.",
+    "sha256": "2408ae534427b28f03369fde6eb5933037f55e28c9255490a22fb3fb55361095",
+    "photoGroup": "19443e8f9a58a35e01fb"
+  },
+  "pane_con_mele_cannella_e_ricotta_s1": {
+    "asset": "photography/pane_con_mele_cannella_e_ricotta_s1.webp",
+    "recipeId": "pane_con_mele_cannella_e_ricotta",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato, aggiungi {mela} a fettine sottili e {cannella}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con mele, cannella e ricotta. Ingredients: Pane comune, Ricotta, Mela, Cannella, Miele. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be ordinary white country bread slices with pale crumb. Apples are raw thin slices, not cooked. Close-up fingers arranging apple slices onto ricotta, dusting of cinnamon, NO honey yet, show action in progress. Square single photograph.",
+    "sha256": "0cc2b4ebd4ef54e42f0a70f96649d70cbb8cf30f969ab900e0d803e89d69a4cc",
+    "photoGroup": "63dee875152c22790940"
+  },
+  "fette_biscottate_con_mele_cannella_e_ricotta": {
+    "asset": "photography/fette_biscottate_con_mele_cannella_e_ricotta.webp",
+    "recipeId": "fette_biscottate_con_mele_cannella_e_ricotta",
+    "stepIndex": null,
+    "subject": "Fette biscottate con mele, cannella e ricotta",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mele, cannella e ricotta. Ingredients: Fette biscottate, Ricotta, Mela, Cannella, Miele.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella. Completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Apples are raw thin slices, not cooked. Completed apple ricotta cinnamon toast with modest drizzle of honey. Square single photograph.",
+    "sha256": "9157f9de943dd0e5d282771b6662535890757a5dbc772d389f8f84a6e2cad39e",
+    "photoGroup": "1388add000ea34adbdfb"
+  },
+  "fette_biscottate_con_mele_cannella_e_ricotta_s1": {
+    "asset": "photography/fette_biscottate_con_mele_cannella_e_ricotta_s1.webp",
+    "recipeId": "fette_biscottate_con_mele_cannella_e_ricotta",
+    "stepIndex": 1,
+    "subject": "Spalma {ricotta} sul pane tostato, aggiungi {mela} a fettine sottili e {cannella}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mele, cannella e ricotta. Ingredients: Fette biscottate, Ricotta, Mela, Cannella, Miele. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Apples are raw thin slices, not cooked. Close-up fingers arranging apple slices onto ricotta, dusting of cinnamon, NO honey yet, show action in progress. Square single photograph.",
+    "sha256": "fbdf1e2ea29a320eff45d4f27d3f0077beca583cd573cc3b9966fbb212ad4298",
+    "photoGroup": "34356222ad45386a3ca1"
   }
 }
