@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 138 ricette complete di foto principale e di tutti i passaggi.
-- 349 WebP distinti, 638 abbinamenti verificati.
-- 408 passaggi delle ricette complete coperti.
-- 2395 ricette da completare.
+- 139 ricette complete di foto principale e di tutti i passaggi.
+- 353 WebP distinti, 643 abbinamenti verificati.
+- 412 passaggi delle ricette complete coperti.
+- 2394 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -55,7 +55,7 @@ Usare plan.py per i brief, generare un soggetto per immagine, controllare ingred
 
 ## Prosecuzione senza costi aggiuntivi — 25 ottobre 2026
 
-Ripartenza dal commit `4711c04` controllato su GitHub: nessun aggiornamento successivo al checkpoint APK 1.0.89 al momento della clonazione. Aggiunte **9 ricette complete, 33 immagini distinte e 40 abbinamenti** in questa sessione.
+Ripartenza dal commit `4711c04` controllato su GitHub: nessun aggiornamento successivo al checkpoint APK 1.0.89 al momento della clonazione. Aggiunte **10 ricette complete, 37 immagini distinte e 45 abbinamenti** in questa sessione.
 
 Generatore integrato `image_gen` effettivamente utilizzato; nessuna API esterna a pagamento, acquisto di crediti o attivazione di abbonamenti. Nessun generatore locale disponibile (nessuna GPU NVIDIA esposta, Torch/Diffusers assenti). La prova iniziale dei pancake è stata controllata visivamente prima di completarne i passaggi.
 
@@ -70,7 +70,8 @@ Ricette completate, ciascuna con foto principale e tutti i passaggi:
 - Uova sode e pomodorini (`uova_sode_pomodorini`)
 - Gallette con tonno e pomodoro (`tonno_gallette`)
 - Tzatziki con bastoncini di verdure (`tzatziki_verdure`)
+- Burrito bowl con pollo e fagioli neri (`burrito_bowl_pollo`)
 
 Verifiche: tutte le nuove immagini esaminate visivamente per ingredienti, fase, utensili, luce e inquadratura; conversione con `prepare.py`, abbinamenti con `share.py`, controllo `verify.py` e `scripts/verify-aurora-boundary.py` superati. I 316 WebP iniziali e tutti i 598 record preesistenti sono stati confrontati con il commit di ripartenza e sono identici. Database, grammature, dati nutrizionali e funzionalità preservati. Nessun nuovo APK compilato; i test Android e i 70 test unitari restano quelli della consegna 1.0.89, non sono stati rieseguiti per questi gruppi fotografici.
 
-Punto preciso da cui riprendere: **Burrito bowl con pollo e fagioli neri (`burrito_bowl_pollo`)**. Rigenerare l’inventario con `python tools/photography/plan.py --out /tmp/pending.jsonl`; restano 2395 ricette e 12134 abbinamenti mancanti. Nessuna produzione in background. Salvare ogni gruppo con `[skip ci]` prima del successivo.
+Punto preciso da cui riprendere: **Chili vegano di fagioli neri e riso (`chili_fagioli_neri`)**. Rigenerare l’inventario con `python tools/photography/plan.py --out /tmp/pending.jsonl`; restano 2394 ricette e 12129 abbinamenti mancanti. Nessuna produzione in background. Salvare ogni gruppo con `[skip ci]` prima del successivo.

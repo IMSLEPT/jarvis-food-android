@@ -7328,5 +7328,61 @@
     "sha256": "e707fc39163dea6e4112d9b049482fd66782e461990153d0e9a27eb60a5dd6a0",
     "photoGroup": "3162e42f0989721a5d4e",
     "sharedFrom": "tzatziki_verdure"
+  },
+  "burrito_bowl_pollo": {
+    "asset": "photography/burrito_bowl_pollo.webp",
+    "recipeId": "burrito_bowl_pollo",
+    "stepIndex": null,
+    "subject": "Burrito bowl con pollo e fagioli neri",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood and ivory ceramics, realistic textures, landscape 3:2 with central square-crop-safe composition. Finished burrito bowl made ONLY of white rice, chicken breast in small 2cm diced cubes browned in a dry nonstick pan with salt ONLY, cooked BLACK beans, yellow sweetcorn, avocado slices, chunky red Mexican salsa and lime juice. One modest ivory bowl shows rice beneath gently golden smooth chicken cubes, black beans, corn, a few avocado slices, red salsa; lime half beside bowl. Chicken must be PLAIN golden and white with soft caramelized brown patches only, no black dots or dark specks, no ground pepper, no paprika, spice rub, herbs, grill marks or charring. Chicken surface same as simple unseasoned pan-cooked breast. No tortilla, lettuce, cilantro, sour cream, cheese, garnish or other ingredients. No text, labels, watermark or collage.",
+    "sha256": "c2717276f5d086c5f9bd3254df0816903bd6089e6e65d8eefbbe91f53ddfa383",
+    "photoGroup": "620baa5cd22ab82f6076"
+  },
+  "burrito_bowl_pollo_s0": {
+    "asset": "photography/burrito_bowl_pollo_s0.webp",
+    "recipeId": "burrito_bowl_pollo",
+    "stepIndex": 0,
+    "subject": "Cuoci {riso} in acqua salata per 12-15 minuti e scolalo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable plating, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Burrito bowl FIRST step: plain white rice cooked in salted water and now being drained. A small stainless mesh strainer full of moist cooked white rice is securely resting across the rim of a deeper ivory bowl, long handle and opposite support hook visibly contacting rim, sieve bottom inside bowl, water below. Gentle steam and small droplets. Only white rice, water and dissolved salt. No chicken, beans, corn, avocado, salsa, lime, herbs or finished bowl yet. No floating strainer. Focus on actual rice draining.",
+    "sha256": "49ea8a76763298b9a997af343ec92f182277a680cce05213f756380a947cc2cd",
+    "photoGroup": "1e010155c19fc697e79a"
+  },
+  "burrito_bowl_pollo_s1": {
+    "asset": "photography/burrito_bowl_pollo_s1.webp",
+    "recipeId": "burrito_bowl_pollo",
+    "stepIndex": 1,
+    "subject": "Taglia {pollo} a dadini e rosolalo in padella antiaderente 6-7 minuti con un pizzico di sale.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Burrito bowl preparation second stage ONLY: modest portion of chicken breast cut into small 2cm cubes browning in a dry dark nonstick skillet on a stove, six or seven minutes until cooked. Chicken cubes naturally golden on some surfaces, pale cooked white on other surfaces, tender moist interiors and lightly toasted patches, not charred. A normal wooden spatula nudges cubes. Just chicken and a pinch of dissolved salt. NO pepper, herbs, spice flakes, oil, butter, sauce, onion, tomato, rice, beans, corn or finished dish. Focus on small cooked diced chicken in pan.",
+    "sha256": "3c3301ec729472d3e71518c14bec8863056a04fe21789b991ce2a101ba47057e",
+    "photoGroup": "c19dd4170b71e026e7a2"
+  },
+  "burrito_bowl_pollo_s2": {
+    "asset": "photography/burrito_bowl_pollo_s2.webp",
+    "recipeId": "burrito_bowl_pollo",
+    "stepIndex": 2,
+    "subject": "Scalda {fagioli_neri} e {mais} in un pentolino.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Burrito bowl third preparation stage ONLY: cooked BLACK beans and canned yellow sweetcorn kernels being warmed together in a small stainless saucepan on a clean stove, a little residual bean liquid at bottom, light steam. A normal wooden spoon stirring mixture. Beans clearly black, not kidney-red, corn small yellow kernels, natural balance about two parts beans to one part corn. Only cooked black beans and corn, no rice, chicken, oil, sauce, tomato, avocado, herbs, spices or completed bowl. Close-up warm ingredients in saucepan.",
+    "sha256": "efec18ec24a88d50a990fa13245754883d1d351c83e672c956e1856d3a9e6596",
+    "photoGroup": "1d038b263226d99664be"
+  },
+  "burrito_bowl_pollo_s3": {
+    "asset": "photography/burrito_bowl_pollo.webp",
+    "recipeId": "burrito_bowl_pollo",
+    "stepIndex": 3,
+    "subject": "Componi la bowl con riso, pollo, fagioli e mais; aggiungi {avocado} a fettine, {salsa_messicana} e succo di {lime}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood and ivory ceramics, realistic textures, landscape 3:2 with central square-crop-safe composition. Finished burrito bowl made ONLY of white rice, chicken breast in small 2cm diced cubes browned in a dry nonstick pan with salt ONLY, cooked BLACK beans, yellow sweetcorn, avocado slices, chunky red Mexican salsa and lime juice. One modest ivory bowl shows rice beneath gently golden smooth chicken cubes, black beans, corn, a few avocado slices, red salsa; lime half beside bowl. Chicken must be PLAIN golden and white with soft caramelized brown patches only, no black dots or dark specks, no ground pepper, no paprika, spice rub, herbs, grill marks or charring. Chicken surface same as simple unseasoned pan-cooked breast. No tortilla, lettuce, cilantro, sour cream, cheese, garnish or other ingredients. No text, labels, watermark or collage.",
+    "sha256": "c2717276f5d086c5f9bd3254df0816903bd6089e6e65d8eefbbe91f53ddfa383",
+    "photoGroup": "620baa5cd22ab82f6076",
+    "sharedFrom": "burrito_bowl_pollo"
   }
 }
