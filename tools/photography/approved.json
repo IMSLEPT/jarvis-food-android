@@ -8724,5 +8724,60 @@
     "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood table, neutral ivory ceramics, realistic appetizing food texture and achievable modest homemade portions. Landscape 3:2 with all essential food centered and legible in a square crop. No text, labels, watermark, collage, portraits or invented ingredients. FOURTH preparation stage, ACTUAL ASSEMBLY of a homemade CHICKEN CHEESEBURGER, not a static finished sandwich. On one ivory plate a lightly toasted plain bottom HAMBURGER BUN holds one golden pan-cooked GROUND CHICKEN PATTY with a single melted orange CHEDDAR slice, fresh red TOMATO slices, a few thin RAW WHITE ONION rings and green LETTUCE. One natural hand is visibly LOWERING the matching plain top bun onto the open burger, holding it two or three centimeters above the lettuce, with the lightly toasted cut face partly angled toward the camera so a modest smear of YELLOW MUSTARD is visible inside. All food and hand action compactly CENTERED for a square crop, continuous kitchen scene, natural fingers and bread geometry, no visible face. Pale cooked minced poultry sides with gentle golden sear, not red beef, not a breaded fried fillet. Plain unseeded wheat bun, no sesame. Only chicken, bun, cheddar, lettuce, tomato, onion, mustard and salt. No ketchup, mayonnaise, pickles, cucumber, bacon, fries, herbs, black pepper or extra ingredients. Professional bright realistic food photograph showing the precise sandwich-closing action.",
     "sha256": "6258b063a68391c05386eac60d584610b7d2a9c67907b467b6af2dd6b4ef4e14",
     "photoGroup": "312bb8e81e7bdad0bc88"
+  },
+  "pollo_friggitrice_patate": {
+    "asset": "photography/pollo_friggitrice_patate.webp",
+    "recipeId": "pollo_friggitrice_patate",
+    "stepIndex": null,
+    "subject": "Cosce di pollo croccanti in friggitrice con patate",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. Finished simple dinner: AIR-FRIED SKINLESS CHICKEN THIGHS with PAPRIKA-ROSEMARY POTATO WEDGES and STEAMED BROCCOLI. On one ivory plate, two modest irregular boneless SKINLESS chicken THIGH pieces, browned naturally with a little olive oil, salt and black pepper. Chicken is exposed thigh MEAT with visible cooked grain and lightly crisp browned edges, absolutely NO chicken skin, no dimpled skin, no drumsticks, no breading and no chicken breast. Beside it a modest portion of six or seven golden potato wedges seasoned with paprika and small rosemary needles, and a small portion of bright green steamed broccoli florets. All three components visible together, balanced home-cooked serving. Exact ingredients: skinless chicken thigh meat, potatoes, broccoli, extra virgin olive oil, paprika and rosemary, plus salt and pepper for the chicken. Paprika and rosemary belong on POTATOES; chicken simply oil, salt, pepper. No lemon, parsley, thyme, garlic, butter, sauces, cream, salad, tomatoes or additional garnishes. Realistic roasted skinless thigh texture, crisp potato edges, moist broccoli, not deep-fried food.\n\nRevision: Remove the green leafy sprig visible on the tabletop in the extreme UPPER LEFT background, and replace only that little background area with the same clean light wood and neutral window light. Do not add any herbs, ingredients or other objects. Preserve the food exactly: two browned boneless skinless chicken THIGH pieces seasoned only with salt and black pepper, paprika-rosemary potato wedges, and green steamed broccoli. Preserve the same plate, arrangement, realistic textures, bright natural light, landscape framing and square-safe composition. No text or collage. This cleanup ensures no parsley or other unlisted garnish appears anywhere.",
+    "sha256": "5467d8d08f7432376960298b66985ae9b44d892488ccf947f8831bc43cc49d46",
+    "photoGroup": "0ffaea7539b3f60d8fb2"
+  },
+  "pollo_friggitrice_patate_s0": {
+    "asset": "photography/pollo_friggitrice_patate_s0.webp",
+    "recipeId": "pollo_friggitrice_patate",
+    "stepIndex": 0,
+    "subject": "Taglia {patate} a spicchi e condiscile con metà {olio}, {paprika} e {rosmarino}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. FIRST preparation stage of air-fryer chicken with potatoes: seasoning RAW POTATO WEDGES. A small clear glass mixing bowl on a light wood counter contains six or seven freshly cut raw potato wedges, their flesh pale cream and uncooked, thin natural potato skins allowed. One natural hand gently tosses and turns the wedges using a plain spoon, coating them very lightly with a little extra virgin OLIVE OIL, ground red PAPRIKA and tiny fresh ROSEMARY needles. Clear thin oil sheen, modest paprika dusting and recognizable rosemary needles; no pool of oil. Knife and half uncut potato on a small separate board immediately beside bowl if visible, compact arrangement. Main focus on raw wedges and actual seasoning action, square-crop safe. Only potatoes, olive oil, paprika and rosemary. No chicken yet, no broccoli, garlic, onion, lemon, parsley, butter, other spices or cooked final food. Accurate natural hands and utensils, bright realistic kitchen photo.",
+    "sha256": "689761f0c4d23a92f3ae40726d74f8f01007c484145b9659eca33d2813ddd6bf",
+    "photoGroup": "5a0c541d8c8313e9ff56"
+  },
+  "pollo_friggitrice_patate_s1": {
+    "asset": "photography/pollo_friggitrice_patate_s1.webp",
+    "recipeId": "pollo_friggitrice_patate",
+    "stepIndex": 1,
+    "subject": "Condisci {pollo_cosce} con il resto di {olio}, sale e pepe.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. SECOND preparation stage of air-fryer chicken with potatoes: SEASONING RAW SKINLESS CHICKEN THIGHS. A small ivory dish on light wood counter contains two modest irregular pieces of RAW BONELESS SKINLESS chicken THIGH MEAT, pale pink with visible natural muscle grain and folded thigh form, not a whole drumstick, not chicken breast, no skin and no yellow dimpled surface. One natural hand holds a small silicone kitchen brush, spreading a very small amount of extra virgin OLIVE OIL on a thigh; a light scattering of SALT and finely cracked BLACK PEPPER already visible on the meat. Small plain glass oil dish immediately beside plate. Actual oil seasoning action before any cooking, raw flesh clearly uncooked, no browned edges. ONLY raw skinless chicken thighs, olive oil, salt and black pepper. No paprika or rosemary on the chicken (these season the potatoes separately), no potato, broccoli, herbs, garlic, lemon, butter, flour or breadcrumbs. Keep plate and brush action at center so square crop remains meaningful; realistic food and hand geometry.",
+    "sha256": "f007e84a5b1849fdf057fcec5a05f9ad290c7b36e82538570791c172fca040dd",
+    "photoGroup": "64c9cb92ed335a61bd34"
+  },
+  "pollo_friggitrice_patate_s2": {
+    "asset": "photography/pollo_friggitrice_patate_s2.webp",
+    "recipeId": "pollo_friggitrice_patate",
+    "stepIndex": 2,
+    "subject": "Cuoci in friggitrice ad aria a 190 °C: il pollo 20 minuti e le patate 18 minuti, girando a metà.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. THIRD preparation stage: turning CHICKEN AND POTATOES HALFWAY through cooking in a real countertop AIR FRYER. A realistic black drawer-style air fryer stands on the kitchen counter. Its rectangular perforated dark nonstick cooking basket drawer is pulled out and rests securely on a heatproof trivet immediately in front of the matching air-fryer body. Inside are two modest irregular boneless SKINLESS CHICKEN THIGH pieces, their exposed meat already opaque with early light golden browning, and six or seven POTATO WEDGES lightly seasoned with PAPRIKA and ROSEMARY. The wedges have pale centers and beginning golden edges, not fully roasted yet. One natural hand uses plain stainless kitchen TONGS to gently turn one thigh piece in the basket, other thigh and potato wedges remain in one uncrowded layer beside it. Actual halfway turning action, delicate steam, correct basket/handle/appliance geometry, no digital text. Chicken seasoned only with olive oil, salt and black pepper; paprika and rosemary only on potatoes. NO chicken skin, no drumsticks, no breading, no deep frying, no broccoli at this stage, no lemon, garlic, parsley, sauce or extra food. Keep chicken, wedges and tongs centered for square crop. Not a finished serving plate and not a conventional oven tray.",
+    "sha256": "23b6cd2ac432f41b943504cb7c8399b42a590a3a63fd6e24c7a8337046b1c010",
+    "photoGroup": "4674a2fddf565f7b5370"
+  },
+  "pollo_friggitrice_patate_s3": {
+    "asset": "photography/pollo_friggitrice_patate_s3.webp",
+    "recipeId": "pollo_friggitrice_patate",
+    "stepIndex": 3,
+    "subject": "Cuoci {broccoli} a vapore o nella friggitrice per gli ultimi 8 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. FOURTH preparation step of air-fryer chicken with potatoes: STEAMING BROCCOLI, the recipe explicitly allows steaming as the alternative to adding it to the air fryer. Close view of a small stainless steel pot on a clean kitchen stove with a correctly supported perforated stainless steamer insert containing a modest portion of fresh bright GREEN BROCCOLI FLORETS. A natural hand lifts the matching glass lid just above the pot, revealing broccoli and delicate escaping steam. Florets are vivid green with natural small stems, moist and tender-crisp, not mushy and not roasted, clearly cooked by steam above water below the insert, not submerged. Only broccoli and water in this scene. No oil, salt crystals, pepper, herbs, garlic, lemon, butter, sauces, chicken, potato or other foods. Keep broccoli and perforated steaming insert in the center of a compact frame, actual steaming action visible also after square crop. Realistic supported cookware, natural hand anatomy, bright professional kitchen photograph, not a finished dinner plate.",
+    "sha256": "71603f11c0db67ec809b17536d08310686b2053ff2f6da6387976f5e3b949184",
+    "photoGroup": "00dde668a464bec28870"
   }
 }
