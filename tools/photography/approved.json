@@ -7867,5 +7867,60 @@
     "sha256": "9fb6c3a8a6d4f7f2ac40b56d6f0966140194404391fa41eeeecff6a84f8d2d45",
     "photoGroup": "d6819bc7720795c407de",
     "sharedFrom": "buddha_bowl_tofu"
+  },
+  "noodles_tofu_verdure": {
+    "asset": "photography/noodles_tofu_verdure.webp",
+    "recipeId": "noodles_tofu_verdure",
+    "stepIndex": null,
+    "subject": "Noodles di riso con tofu e verdure",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2, all important foods compact and centered for a square crop. No text, labels, watermark, collage, portraits or invented ingredients. Finished RICE NOODLES with tofu and vegetables. Exact ingredients: thin ROUND white/translucent rice spaghetti noodles, golden pan-cooked FIRM TOFU CUBES, chopped PAK CHOI with soft dark-green leaves and pale white-green stems, fine orange CARROT JULIENNE, pale SOYBEAN SPROUTS with small yellow heads, a light soy sauce and sesame oil coating with cooked finely chopped garlic and grated ginger. One modest ivory bowl holds noodles and all these ingredients tossed together, recognizably rice noodles (not wheat egg noodles, not broad flat pasta), tofu cubes about1.5cm, vegetables tender crisp. No sesame seeds, peanuts, cilantro, scallions, chili, lime, broccoli, mushrooms, pepper, meat, egg or extra garnish. Sauce light, not thick brown gravy.",
+    "sha256": "cb6b98f498f21e5def166a8e6e6214a99b6e297a49f2ebc00179bdddb5d4e7dc",
+    "photoGroup": "f0836cb354246b8941df"
+  },
+  "noodles_tofu_verdure_s0": {
+    "asset": "photography/noodles_tofu_verdure_s0.webp",
+    "recipeId": "noodles_tofu_verdure",
+    "stepIndex": 0,
+    "subject": "Metti {noodles_riso} in ammollo in acqua molto calda per 6-8 minuti e scolali.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2, all important foods compact and centered for a square crop. No text, labels, watermark, collage, portraits or invented ingredients. FIRST step preparing rice noodles: thin ROUND white rice spaghetti noodles SOAKING IN VERY HOT WATER in a plain wide heatproof ivory bowl on light wood counter, not on a flame. Some softening strands gently lifted with ordinary kitchen tongs by a natural hand to check flexibility, most strands still submerged in clear hot water; faint steam. No rolling boil, no large flat ribbons or yellow egg noodles. Only rice noodles and water at this stage. No tofu, vegetables, oil, soy sauce, garlic, ginger, garnish or finished meal yet.",
+    "sha256": "8812cb4dfad68104ba950c04c83ef358467426d3a8eeece755fea3e6be7f3ace",
+    "photoGroup": "08a6e3ca6ae1ceba42ed"
+  },
+  "noodles_tofu_verdure_s1": {
+    "asset": "photography/noodles_tofu_verdure_s1.webp",
+    "recipeId": "noodles_tofu_verdure",
+    "stepIndex": 1,
+    "subject": "Taglia {tofu} a dadi e {carote} a julienne; affetta {pak_choi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food textures. Landscape 3:2, keep ALL current ingredients compact within central square-crop-safe area. No text, labels, watermark, collage, portraits or invented ingredients. Rice noodles with tofu vegetable-prep step BEFORE cooking: natural hands use a normal kitchen knife to cut a block of RAW WHITE FIRM TOFU into small cubes at center of a light wood board. Immediately in front a small tidy nest of raw ORANGE CARROT JULIENNE strips, immediately behind and beside the tofu a small pile of sliced fresh PAK CHOI, both dark green leaf pieces and crisp white-green stem pieces. Compact triangular arrangement of these THREE foods, all recognizable together even in square crop; not a long row extending beyond frame. Only raw tofu, carrot and pak choi, no noodles, sprouts, soy sauce, sesame oil, garlic, ginger, seeds or finished meal yet.",
+    "sha256": "b538fb4a03d7f41b4bfdb1735dcfbec865b068816e35fb8eb92b2c8c2082e9bd",
+    "photoGroup": "e5354c45ec4f34ec3dd4"
+  },
+  "noodles_tofu_verdure_s2": {
+    "asset": "photography/noodles_tofu_verdure_s2.webp",
+    "recipeId": "noodles_tofu_verdure",
+    "stepIndex": 2,
+    "subject": "Scalda {olio_sesamo} in un wok, rosola {aglio} e {zenzero} 30 secondi, poi aggiungi il tofu e fallo dorare 4 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory props, realistic food textures. Landscape 3:2, keep ALL current ingredients compact within central square-crop-safe area. No text, labels, watermark, collage, portraits or invented ingredients. Rice noodle recipe intermediate tofu-roasting step in a WOK: a small amount of sesame oil has warmed finely chopped GARLIC and grated fresh GINGER, now FIRM WHITE TOFU CUBES are gently frying until lightly golden, about four minutes. Close-up dark wok securely resting on clean stove, tofu white on some sides and golden on others, tiny cooked garlic and ginger bits in pan, wooden spatula turning one cube. Only tofu, sesame oil, garlic and ginger visible at this stage. No soy sauce yet, no noodles, carrot, pak choi, sprouts, herbs, sesame seeds, pepper, chili, egg or finished plate.",
+    "sha256": "17d6e3115ae9d8c460d1c6cceb2ffaeaa4e41af817011d65c74ad32c5c6c0143",
+    "photoGroup": "959c991c8cc79bfa0e92"
+  },
+  "noodles_tofu_verdure_s3": {
+    "asset": "photography/noodles_tofu_verdure_s3.webp",
+    "recipeId": "noodles_tofu_verdure",
+    "stepIndex": 3,
+    "subject": "Unisci verdure e {germogli_soia} e salta 3 minuti, poi aggiungi i noodles e {salsa_soia}. Salta ancora 2 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, realistic food textures. Landscape 3:2, all important food centered for square crop. Rice noodles with tofu FINAL WOK-COOKING step: a dark wok securely on stove holds thin round white rice noodles with lightly golden FIRM TOFU CUBES, fine orange carrot julienne, chopped pak choi (dark green leaves and pale stems), white soybean sprouts with small yellow heads. A light soy sauce and sesame oil coating with finely cooked garlic and ginger, no thick gravy. A natural hand uses a wooden spatula to fold noodles and vegetables gently in wok, food visibly supported inside wok, faint steam. Actual stir-frying action in pan, not finished plated bowl, not food flying through air. Only these recipe ingredients. NO eggs or egg crumbs, sesame seeds, peanuts, cilantro, scallions, chili, lime, mushrooms, broccoli or extra garnish. No text, labels, watermark, collage or faces.",
+    "sha256": "2e1fedb093e25e0dc9f7562243d44385a0f3eda030b7b983241627a69dc17101",
+    "photoGroup": "5a024ac338766c658b37"
   }
 }

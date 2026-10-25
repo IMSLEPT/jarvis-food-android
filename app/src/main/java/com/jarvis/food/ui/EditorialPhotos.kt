@@ -327,6 +327,11 @@ object EditorialPhotos {
         "nocciole_e_cioccolato_fondente_s0" to "photography/nocciole_e_cioccolato_fondente.webp",
         "noci_e_datteri" to "photography/noci_e_datteri.webp",
         "noci_e_datteri_s0" to "photography/noci_e_datteri.webp",
+        "noodles_tofu_verdure" to "photography/noodles_tofu_verdure.webp",
+        "noodles_tofu_verdure_s0" to "photography/noodles_tofu_verdure_s0.webp",
+        "noodles_tofu_verdure_s1" to "photography/noodles_tofu_verdure_s1.webp",
+        "noodles_tofu_verdure_s2" to "photography/noodles_tofu_verdure_s2.webp",
+        "noodles_tofu_verdure_s3" to "photography/noodles_tofu_verdure_s3.webp",
         "olive_e_cubetti_di_formaggio" to "photography/olive_e_cubetti_di_formaggio.webp",
         "olive_e_cubetti_di_formaggio_s0" to "photography/olive_e_cubetti_di_formaggio.webp",
         "omelette_cotto" to "photography/omelette_cotto.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pane_con_pomodori_secchi_caprino_e_rucola_s2" to "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
         "pane_con_prosciutto_cotto_e_mozzarella" to "photography/pane_con_prosciutto_cotto_e_mozzarella.webp",
         "pane_con_prosciutto_cotto_e_mozzarella_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_con_prosciutto_cotto_e_mozzarella_s1" to "photography/pane_con_prosciutto_cotto_e_mozzarella_s1.webp",
         "pane_con_ricotta_e_marmellata" to "photography/pane_con_ricotta_e_marmellata.webp",
         "pane_con_ricotta_e_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_e_marmellata_s1" to "photography/pane_con_ricotta_e_marmellata.webp",
         "pane_con_ricotta_miele_e_fichi" to "photography/pane_con_ricotta_miele_e_fichi.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_con_ricotta_miele_e_fichi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_miele_e_fichi_s1" to "photography/pane_con_ricotta_miele_e_fichi_s1.webp",
         "pane_con_ricotta_miele_e_fichi_s2" to "photography/pane_con_ricotta_miele_e_fichi.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "riso_tonno_mais_s1" to "photography/riso_tonno_mais_s1.webp",
         "riso_tonno_mais_s2" to "photography/riso_tonno_mais.webp",
         "riso_uova_spinaci" to "photography/riso_uova_spinaci.webp",
+    )
+
+    private fun group3() = mapOf(
         "riso_uova_spinaci_s0" to "photography/riso_uova_spinaci_s0.webp",
         "riso_uova_spinaci_s1" to "photography/riso_uova_spinaci_s1.webp",
         "riso_uova_spinaci_s2" to "photography/riso_uova_spinaci_s2.webp",
         "riso_uova_spinaci_s3" to "photography/riso_uova_spinaci.webp",
         "risotto_zucca" to "photography/risotto_zucca.webp",
-    )
-
-    private fun group3() = mapOf(
         "risotto_zucca_s0" to "photography/risotto_zucca_s0.webp",
         "risotto_zucca_s1" to "photography/risotto_zucca_s1.webp",
         "risotto_zucca_s2" to "photography/risotto_zucca_s2.webp",
