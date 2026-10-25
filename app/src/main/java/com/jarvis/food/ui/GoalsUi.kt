@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -84,5 +85,7 @@ fun GHead(text: String, sub: String? = null) {
 /** Pulsante "Salva" fisso in fondo (arancione, 56 px). */
 @Composable
 fun GSave(text: String, enabled: Boolean = true, onClick: () -> Unit) {
-    APrimary(text, Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp), height = 56.dp, enabled = enabled, onClick = onClick)
+    // Keep the entire touch target above Android's buttons or gesture handle.
+    // imePadding on the form already consumes this inset when the keyboard is open.
+    APrimary(text, Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 20.dp, vertical = 12.dp), height = 56.dp, enabled = enabled, onClick = onClick)
 }
