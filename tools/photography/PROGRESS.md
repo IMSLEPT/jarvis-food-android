@@ -11,7 +11,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 - 2404 ricette da completare.
 - Ripresa del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
-- Ultimo APK consegnato noto: 1.0.87 con 49 ricette complete. Queste aggiunte sono nei sorgenti, non ancora in un nuovo APK verificato.
+- APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
+- Build GitHub Actions 40168930071, commit 3b91fa8ffaa42036cac65174066fcbd8faf653f8: compilazione, 70 test unitari e test Android 15/10 superati; modello Foto AI offline incluso.
+- SHA-256 APK: `04f34ee72bef0dd4b2642d726947bdc38aaa523dde2a11d93ea09da5e405a6f8`.
+- File persistente consegnato: `libfile_bb8cca6e0d308191ba6c892ef3563556`.
 
 ## Ricette completate in questa ripresa
 
