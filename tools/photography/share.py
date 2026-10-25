@@ -1,10 +1,9 @@
 """Reuse reviewed compatible photos without publishing incomplete recipe heroes."""
 from pathlib import Path
 import json
-import subprocess
-import sys
 import tempfile
 from plan import briefs
+from prepare import main as prepare_photos
 
 
 def main():
@@ -29,7 +28,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='jarvis-photography-') as temporary:
         inputs = Path(temporary) / 'aliases.json'
         inputs.write_text(json.dumps(approved, ensure_ascii=False))
-        subprocess.run([sys.executable, str(directory / 'prepare.py'), str(inputs)], check=True)
+        prepare_photos(inputs)
     print(f'Shared {len(approved)} compatible photographs; incomplete heroes stay unpublished.')
 
 

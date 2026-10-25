@@ -75,14 +75,14 @@ object EditorialPhotos {
 ''')
 
 
-def main():
+def main(input_path=None):
     recipes = {r['id']: r for r in json.loads((ASSETS / 'recipes.json').read_text())['recipes']}
     manifest = SOURCE / 'approved.json'
     records = json.loads(manifest.read_text()) if manifest.exists() else {}
     for key, record in records.items():
         recipe, step = subject(recipes, key)
         record['photoGroup'] = group_id(recipe, step)
-    inputs = json.loads(Path(sys.argv[1]).read_text())
+    inputs = json.loads(Path(input_path or sys.argv[1]).read_text())
     for item in inputs:
         key = item['id']
         recipe, step = subject(recipes, key)
