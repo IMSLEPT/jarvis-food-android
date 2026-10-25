@@ -8779,5 +8779,49 @@
     "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. FOURTH preparation step of air-fryer chicken with potatoes: STEAMING BROCCOLI, the recipe explicitly allows steaming as the alternative to adding it to the air fryer. Close view of a small stainless steel pot on a clean kitchen stove with a correctly supported perforated stainless steamer insert containing a modest portion of fresh bright GREEN BROCCOLI FLORETS. A natural hand lifts the matching glass lid just above the pot, revealing broccoli and delicate escaping steam. Florets are vivid green with natural small stems, moist and tender-crisp, not mushy and not roasted, clearly cooked by steam above water below the insert, not submerged. Only broccoli and water in this scene. No oil, salt crystals, pepper, herbs, garlic, lemon, butter, sauces, chicken, potato or other foods. Keep broccoli and perforated steaming insert in the center of a compact frame, actual steaming action visible also after square crop. Realistic supported cookware, natural hand anatomy, bright professional kitchen photograph, not a finished dinner plate.",
     "sha256": "71603f11c0db67ec809b17536d08310686b2053ff2f6da6387976f5e3b949184",
     "photoGroup": "00dde668a464bec28870"
+  },
+  "salmone_friggitrice_asparagi": {
+    "asset": "photography/salmone_friggitrice_asparagi.webp",
+    "recipeId": "salmone_friggitrice_asparagi",
+    "stepIndex": null,
+    "subject": "Salmone in friggitrice ad aria con asparagi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Completed air-fryer salmon with asparagus: one cooked salmon fillet with gently browned golden top, clearly opaque coral flesh and moist flaky edge, resting beside a small orderly pile of cooked green asparagus spears with their characteristic intact tips on a simple ivory dinner plate. Light sheen of olive oil and lemon juice, just a few tiny black pepper flecks on salmon. No sauce pools or additional ingredients, no lemon slices or wedges, no side bowls, no cutlery crossing the food. Close three-quarter overhead view, dish centered, professional and achievable plating.",
+    "sha256": "d6e57c4401c52a6056b927486e04f35a53d1ebe410e10acceb097238c2c5a06b",
+    "photoGroup": "4d641fb637aed45fbe15"
+  },
+  "salmone_friggitrice_asparagi_s0": {
+    "asset": "photography/salmone_friggitrice_asparagi_s0.webp",
+    "recipeId": "salmone_friggitrice_asparagi",
+    "stepIndex": 0,
+    "subject": "Condisci {salmone} con metà {olio}, {pepe} e succo di {limone}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Intermediate preparation, not finished dish: one fresh raw uncooked salmon fillet, translucent vivid orange flesh with natural white fat lines, in a shallow ivory preparation dish. A small plain glass spoon tilted just above the fillet is pouring a thin clear mixture of olive oil and lemon juice onto it; a few tiny black pepper flecks already on the raw fish. Tightly framed close view of seasoning raw salmon, entire fillet and pouring spoon in central square. No cooked fish, no asparagus yet, no hands or other objects needed.",
+    "sha256": "300187cf696305605a328d8a77235cbcd493be79f1adceaa06161a7540de5bf4",
+    "photoGroup": "bd2b9d5dc6ce49d8a2a9"
+  },
+  "salmone_friggitrice_asparagi_s1": {
+    "asset": "photography/salmone_friggitrice_asparagi_s1.webp",
+    "recipeId": "salmone_friggitrice_asparagi",
+    "stepIndex": 1,
+    "subject": "Condisci {asparagi} con il resto di {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Intermediate preparation, not finished dish: a small bunch of fresh RAW bright green asparagus spears, intact pointed tips and trimmed stalk ends, lying in a shallow ivory preparation dish. A small plain glass pitcher tilted just above the asparagus pours a thin stream of olive oil across the stalks. Focus is seasoning asparagus with oil only, a delicate oil sheen on crisp raw spears. Entire asparagus and pouring stream centrally visible. No fish in this frame, no pepper on asparagus, no herbs, no cooked or charred stalks, no other food.",
+    "sha256": "ebbf634f07e47d41f7064380415a40e3e46642dd4a40fefd83545e47b548e861",
+    "photoGroup": "562ca8329b16d85c5676"
+  },
+  "salmone_friggitrice_asparagi_s2": {
+    "asset": "photography/salmone_friggitrice_asparagi_s2.webp",
+    "recipeId": "salmone_friggitrice_asparagi",
+    "stepIndex": 2,
+    "subject": "Cuoci in friggitrice ad aria a 180 °C per 8-10 minuti, finché il salmone è cotto.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Final cooking stage inside the appliance, not plated food: close view into an open modern air fryer drawer with a dark perforated crisper tray, sitting securely on a light wood kitchen counter. One just-cooked salmon fillet with golden browned surface and opaque coral flaky edge rests directly on the perforated tray beside green asparagus spears with intact tips, both visibly lightly cooked with slight browning. Small black pepper flecks on salmon and olive oil sheen. All food sits inside the basket and is centered in square-safe view, enough air fryer basket rim visible to identify air-frying. No baking paper, no foil, no dinner plate, no herbs, no sauces, no extra ingredients. No display text or temperature digits.",
+    "sha256": "648e1a0a8ba139c4358da1d4bd96cdb2bbd78d1336b6f0601f0837df6b3ca8d2",
+    "photoGroup": "c203c9193efee2819d3a"
   }
 }

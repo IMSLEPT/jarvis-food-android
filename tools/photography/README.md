@@ -14,11 +14,11 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. La raccolta attuale
-contiene **158 ricette complete, 763 abbinamenti immagine e 435 fotografie distinte**.
+contiene **159 ricette complete, 767 abbinamenti immagine e 439 fotografie distinte**.
 Tutte le 49 ricette che avevano immagini nel catalogo originale sono complete.
-La raccolta attuale copre 484 passaggi fotografici di 158 ricette.
+La raccolta attuale copre 487 passaggi fotografici di 159 ricette.
 Le fotografie di azioni compatibili sono condivise anche con altre ricette.
-Restano 2375 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
+Restano 2374 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
 Le immagini sono WebP locali: disponibili offline, senza chiavi API o richieste

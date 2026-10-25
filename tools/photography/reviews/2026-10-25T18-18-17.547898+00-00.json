@@ -1,0 +1,88 @@
+{
+  "createdAt": "2026-10-25T18:18:17.547898+00:00",
+  "recipes": [
+    "salmone_friggitrice_asparagi"
+  ],
+  "images": [
+    {
+      "id": "salmone_friggitrice_asparagi",
+      "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Completed air-fryer salmon with asparagus: one cooked salmon fillet with gently browned golden top, clearly opaque coral flesh and moist flaky edge, resting beside a small orderly pile of cooked green asparagus spears with their characteristic intact tips on a simple ivory dinner plate. Light sheen of olive oil and lemon juice, just a few tiny black pepper flecks on salmon. No sauce pools or additional ingredients, no lemon slices or wedges, no side bowls, no cutlery crossing the food. Close three-quarter overhead view, dish centered, professional and achievable plating.",
+      "originalSha256": "37f984fe28c8b16356f911cae293b0a87281ee882804c6c984d9647df63e442d",
+      "webpSha256": "d6e57c4401c52a6056b927486e04f35a53d1ebe410e10acceb097238c2c5a06b",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e ritaglio quadrato: filetto di salmone cotto, superficie dorata e carne opaca, asparagi riconoscibili e pepe nero; nessuna guarnizione sul piatto. Luce naturale luminosa e ceramica avorio coerenti. Il ritaglio conserva entrambi i componenti e la texture del pesce, pur tagliando parti periferiche del piatto.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "37f984fe28c8b16356f911cae293b0a87281ee882804c6c984d9647df63e442d",
+        "at": "2026-10-25T18:22:13.985871+00:00"
+      }
+    },
+    {
+      "id": "salmone_friggitrice_asparagi_s0",
+      "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Intermediate preparation, not finished dish: one fresh raw uncooked salmon fillet, translucent vivid orange flesh with natural white fat lines, in a shallow ivory preparation dish. A small plain glass spoon tilted just above the fillet is pouring a thin clear mixture of olive oil and lemon juice onto it; a few tiny black pepper flecks already on the raw fish. Tightly framed close view of seasoning raw salmon, entire fillet and pouring spoon in central square. No cooked fish, no asparagus yet, no hands or other objects needed.",
+      "originalSha256": "20dde4a1c81aeb1900888211dcabd8d31ba9371e3e51c0884a2ad79629ae9259",
+      "webpSha256": "300187cf696305605a328d8a77235cbcd493be79f1adceaa06161a7540de5bf4",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e ritaglio: salmone crudo traslucido con venature naturali, pepe nero e cucchiaio che versa olio e succo di limone. Fase di condimento distinta dal piatto cotto; assenti asparagi o alimenti non ancora usati. Cucchiaio, liquido e pesce realistici; azione e superficie cruda restano leggibili nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "20dde4a1c81aeb1900888211dcabd8d31ba9371e3e51c0884a2ad79629ae9259",
+        "at": "2026-10-25T18:22:14.360348+00:00"
+      }
+    },
+    {
+      "id": "salmone_friggitrice_asparagi_s1",
+      "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Intermediate preparation, not finished dish: a small bunch of fresh RAW bright green asparagus spears, intact pointed tips and trimmed stalk ends, lying in a shallow ivory preparation dish. A small plain glass pitcher tilted just above the asparagus pours a thin stream of olive oil across the stalks. Focus is seasoning asparagus with oil only, a delicate oil sheen on crisp raw spears. Entire asparagus and pouring stream centrally visible. No fish in this frame, no pepper on asparagus, no herbs, no cooked or charred stalks, no other food.",
+      "originalSha256": "b9d1c256687910dcc08d42b38b660bd3c781f1ee400e293ede99ef840ea937a1",
+      "webpSha256": "ebbf634f07e47d41f7064380415a40e3e46642dd4a40fefd83545e47b548e861",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: asparagi crudi verdi con punte intatte e basi tagliate, conditi da un filo di olio versato da una piccola brocca. Nessun pesce, pepe o altro cibo nella lavorazione. Mano parziale e utensile plausibili, luce luminosa coerente; il quadrato conserva versamento, gambi e punte riconoscibili.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "b9d1c256687910dcc08d42b38b660bd3c781f1ee400e293ede99ef840ea937a1",
+        "at": "2026-10-25T18:22:14.705145+00:00"
+      }
+    },
+    {
+      "id": "salmone_friggitrice_asparagi_s2",
+      "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Final cooking stage inside the appliance, not plated food: close view into an open modern air fryer drawer with a dark perforated crisper tray, sitting securely on a light wood kitchen counter. One just-cooked salmon fillet with golden browned surface and opaque coral flaky edge rests directly on the perforated tray beside green asparagus spears with intact tips, both visibly lightly cooked with slight browning. Small black pepper flecks on salmon and olive oil sheen. All food sits inside the basket and is centered in square-safe view, enough air fryer basket rim visible to identify air-frying. No baking paper, no foil, no dinner plate, no herbs, no sauces, no extra ingredients. No display text or temperature digits.",
+      "originalSha256": "13ded492701bd1551e229232ba94d5b76aa871ab8837ac77db9fc31aede05ab1",
+      "webpSha256": "648e1a0a8ba139c4358da1d4bd96cdb2bbd78d1336b6f0601f0837df6b3ca8d2",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e ritaglio: salmone cotto e asparagi leggermente dorati direttamente sul vassoio forato del cestello aperto di una friggitrice ad aria. Non usata una foto del piatto come passaggio. Cestello appoggiato stabilmente, nessuna carta o guarnizione estranea. Il quadrato conserva il metodo di cottura e i due alimenti, con luce e texture realistiche.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "13ded492701bd1551e229232ba94d5b76aa871ab8837ac77db9fc31aede05ab1",
+        "at": "2026-10-25T18:22:15.069920+00:00"
+      }
+    }
+  ]
+}
