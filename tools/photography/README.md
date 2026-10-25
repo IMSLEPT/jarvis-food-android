@@ -12,11 +12,11 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. La raccolta attuale
-contiene **153 ricette complete, 712 abbinamenti immagine e 414 fotografie distinte**.
+contiene **154 ricette complete, 717 abbinamenti immagine e 419 fotografie distinte**.
 Tutte le 49 ricette che avevano immagini nel catalogo originale sono complete.
-La raccolta attuale copre 468 passaggi fotografici di 153 ricette.
+La raccolta attuale copre 472 passaggi fotografici di 154 ricette.
 Le fotografie di azioni compatibili sono condivise anche con altre ricette.
-Restano 2380 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
+Restano 2379 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
 Le immagini sono WebP locali: disponibili offline, senza chiavi API o richieste
@@ -33,6 +33,12 @@ asset nelle viste condivise senza riscrivere il database nutrizionale.
 Il ripristino si effettua con Revert della PR su GitHub, senza selettori nell'app.
 
 ## Produrre e verificare gli altri gruppi
+
+Per il ciclo riprendibile con coda, anteprime, revisioni legate all'hash e
+integrazione verificata vedere [AUTOMATION.md](AUTOMATION.md). Il comando
+`python tools/photography/batch.py stats` riporta anche i gruppi da produrre.
+Il generatore incluso richiede la sessione assistita: la pipeline non promette
+produzione illimitata o in background e non chiama API a pagamento.
 
 1. Eseguire `python tools/photography/plan.py --out /tmp/pending.jsonl` per ottenere
    un inventario aggiornato e i brief specifici di tutte le immagini mancanti.

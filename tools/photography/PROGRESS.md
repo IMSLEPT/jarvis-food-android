@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 153 ricette complete di foto principale e di tutti i passaggi.
-- 414 WebP distinti, 712 abbinamenti verificati.
-- 468 passaggi delle ricette complete coperti.
-- 2380 ricette da completare.
+- 154 ricette complete di foto principale e di tutti i passaggi.
+- 419 WebP distinti, 717 abbinamenti verificati.
+- 472 passaggi delle ricette complete coperti.
+- 2379 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -120,4 +120,21 @@ Tutti i **383 WebP e 679 record** del checkpoint iniziale, insieme ai crediti of
 
 Verifica visiva finale dei 31 nuovi WebP anche nel ritaglio quadrato centrale: ingredienti principali e azioni conservati nell’inquadratura. In questa prosecuzione prodotti 32 output del generatore integrato: 31 approvati e una prima versione del servizio dei tacos sostituita prima dell’integrazione per eliminare ingredienti ambigui nelle ciotole sullo sfondo. Le prove scartate non sono negli asset né negli abbinamenti. Nessuna regola di condivisione modificata.
 
-Punto preciso da cui riprendere: **Fajitas di pollo e peperoni (`fajitas_pollo_peperoni`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2380 ricette** e **12060 abbinamenti** mancanti. Nessuna produzione in background.
+Punto di ripresa precedente (vedere ultimo gruppo): **Fajitas di pollo e peperoni (`fajitas_pollo_peperoni`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2380 ricette** e **12060 abbinamenti** mancanti. Nessuna produzione in background.
+
+## Gruppo con pipeline riprendibile — 2026-10-25
+
+Ricette completate: fajitas_pollo_peperoni. Nuove immagini: 5; nuovi abbinamenti: 5.
+
+Aggiunti `batch.py`, `doctor.py` e `AUTOMATION.md`: coda riprendibile, revisione
+legata all'hash e rapporto salvato in `tools/photography/reviews/`, blocco dei
+gruppi incompleti o delle modifiche successive alla pianificazione, ripristino
+dei metadati dopo errori. Otto test della pipeline superati, senza rete o generazione.
+Prova reale completata con il generatore incluso e revisione visiva assistita;
+nessun generatore locale o processo programmato installato/attivato. L'ambiente
+attuale è Linux x86_64, non il Mac dell'utente; per valutare la generazione locale
+restano da conoscere chip e RAM del Mac e da verificare la qualità di una prova.
+
+Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
+
+Punto preciso da cui riprendere: **hamburger_pollo_panino**. Restano 2379 ricette e 12055 abbinamenti; 8015 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Nessun processo in background avviato.
