@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 159 ricette complete di foto principale e di tutti i passaggi.
-- 439 WebP distinti, 767 abbinamenti verificati.
-- 487 passaggi delle ricette complete coperti.
-- 2374 ricette da completare.
+- 160 ricette complete di foto principale e di tutti i passaggi.
+- 443 WebP distinti, 772 abbinamenti verificati.
+- 491 passaggi delle ricette complete coperti.
+- 2373 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK precedente consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -219,8 +219,19 @@ Ricette completate: salmone_friggitrice_asparagi. Nuove immagini: 4; nuovi abbin
 
 Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
 
-Punto preciso da cui riprendere: **parmigiana_light**. Restano 2374 ricette e 12005 abbinamenti; 7995 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo del salmone.
+Punto di ripresa precedente (vedere ultimo gruppo): **parmigiana_light**. Restano 2374 ricette e 12005 abbinamenti; 7995 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo del salmone.
 
 Ripresa dal checkpoint fotografico `b98706f`, con gli aggiornamenti successivi fino a `ca86f55` conservati e verificati contro GitHub. Generatore incluso `image_gen` realmente disponibile: quattro output singoli, approvati dopo esame individuale di originali e ritagli quadrati e ricontrollati nei WebP convertiti (1280×853). Soggetti: piatto finito, salmone crudo condito con olio/limone/pepe, asparagi crudi conditi con olio e cottura nel cestello della friggitrice ad aria. Nessuna fotografia online aggiunta; nessun costo aggiuntivo. Tutti i **435 WebP e 763 record** precedenti sono identici, insieme alle attribuzioni online e offline. Rapporto con prompt effettivi, hash e osservazioni in `tools/photography/reviews/2026-10-25T18-18-17.547898+00-00.json`.
 
 Separatamente, l’utente ha richiesto la correzione dei pulsanti Salva sovrapposti alla navigazione Android. La modifica del componente condiviso è nel commit `ca86f55`, precedente a questo gruppo, e la relativa build UI `40220576079` usa quel preciso snapshot fotografico (158 ricette, 435 immagini). Nessuna build aggiuntiva richiesta dal gruppo fotografico e nessuna modifica di interfaccia inserita nel suo commit.
+
+## Gruppo con pipeline riprendibile — 2026-10-25
+
+Ricette completate: parmigiana_light. Nuove immagini: 4; nuovi abbinamenti: 5.
+
+Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
+
+Punto preciso da cui riprendere: **pollo_panna_broccoli**. Restano 2373 ricette e 12000 abbinamenti; 7991 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo della parmigiana.
+
+
+Ripresa da `112c80b`, verificato contro GitHub e conservando le correzioni UI e la consegna APK 1.0.93. Prodotti cinque output del generatore incluso: quattro approvati e una prima principale scartata perché il ritaglio quadrato tagliava parte della porzione e del pane. La versione corretta conserva entrambi interamente nel ritaglio. Originali e ritagli esaminati individualmente, poi ricontrollati nei quattro WebP 1280×853. Soggetti: parmigiana con pane integrale, melanzane al forno, assemblaggio con passata/mozzarella/basilico e gratinatura nella pirofila in forno. Il solo riuso aggiunto da `share.py` è la principale per il passaggio finale di servizio con pane, già previsto dalle regole esistenti. Tutti i **439 WebP e 767 record** precedenti e le attribuzioni online/offline sono identici; verificati indice Kotlin/manifest e decodifica/dimensioni. Rapporto con prompt effettivi, hash, osservazioni e candidata scartata: `tools/photography/reviews/2026-10-25T19-11-38.906108+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica funzionale o nuovo APK.

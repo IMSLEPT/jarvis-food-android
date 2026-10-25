@@ -5,7 +5,7 @@ vedi `docs/FINAL-APK-HOLD.md` per le decisioni aggiornate. La copertura fotograf
 dichiarata deve sempre corrispondere ai file effettivamente approvati.
 
 APK fotografico precedente: [Jarvis Food 1.0.90 — consegna e verifiche](../../docs/APK-1.0.90.md).
-Aggiornamento con correzione dei pulsanti Salva: [Jarvis Food 1.0.93](../../docs/APK-1.0.93.md), con lo stesso snapshot fotografico della 1.0.90. Il successivo gruppo del salmone è salvato nel repository e non è incluso in questi APK.
+Aggiornamento con correzione dei pulsanti Salva: [Jarvis Food 1.0.93](../../docs/APK-1.0.93.md), con lo stesso snapshot fotografico della 1.0.90. I gruppi fotografici aggiunti successivamente sono salvati nel repository e non sono inclusi in questi APK.
 
 Lo stile richiesto è fotografico: luce naturale, cucina luminosa, piatti curati
 ma riproducibili, ingredienti riconoscibili e inquadrature ravvicinate delle azioni.
@@ -15,11 +15,11 @@ Il primo gruppo è prodotto con lo strumento integrato `image_gen`.
 ## Stato reale del catalogo
 
 Il database contiene **2.533 ricette e 10.239 passaggi**. La raccolta attuale
-contiene **159 ricette complete, 767 abbinamenti immagine e 439 fotografie distinte**.
+contiene **160 ricette complete, 772 abbinamenti immagine e 443 fotografie distinte**.
 Tutte le 49 ricette che avevano immagini nel catalogo originale sono complete.
-La raccolta attuale copre 487 passaggi fotografici di 159 ricette.
+La raccolta attuale copre 491 passaggi fotografici di 160 ricette.
 Le fotografie di azioni compatibili sono condivise anche con altre ricette.
-Restano 2374 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
+Restano 2373 ricette da completare. L’impiattamento può riutilizzare la foto del piatto finito.
 **La sostituzione dell'intero catalogo non è ancora completata.**
 
 Le immagini sono WebP locali: disponibili offline, senza chiavi API o richieste

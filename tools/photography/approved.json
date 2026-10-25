@@ -8823,5 +8823,61 @@
     "prompt": "One single photorealistic professional editorial food photograph, landscape 3:2, softly sunlit bright warm home kitchen with light oak counter and ivory ceramics. Natural appetizing textures, accurate food anatomy, realistic home cooking, premium cookbook photography. Keep the entire relevant food and action in the central square safe crop with space around them. No text, logo, watermark, collage, illustration, invented garnish, herbs, garlic, rice, potatoes, tomatoes, seeds or decorative food. Only salmon, green asparagus, extra virgin olive oil, lemon juice and black pepper are allowed. Final cooking stage inside the appliance, not plated food: close view into an open modern air fryer drawer with a dark perforated crisper tray, sitting securely on a light wood kitchen counter. One just-cooked salmon fillet with golden browned surface and opaque coral flaky edge rests directly on the perforated tray beside green asparagus spears with intact tips, both visibly lightly cooked with slight browning. Small black pepper flecks on salmon and olive oil sheen. All food sits inside the basket and is centered in square-safe view, enough air fryer basket rim visible to identify air-frying. No baking paper, no foil, no dinner plate, no herbs, no sauces, no extra ingredients. No display text or temperature digits.",
     "sha256": "648e1a0a8ba139c4358da1d4bd96cdb2bbd78d1336b6f0601f0837df6b3ca8d2",
     "photoGroup": "c203c9193efee2819d3a"
+  },
+  "parmigiana_light": {
+    "asset": "photography/parmigiana_light.webp",
+    "recipeId": "parmigiana_light",
+    "stepIndex": null,
+    "subject": "Parmigiana di melanzane light",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this food photograph to fix ONLY framing and arrangement for the square app crop, while preserving its realistic professional bright natural-light style, textures and the SAME recipe ingredients. Zoom the camera OUT substantially; show more empty ivory plate and light wood around the food. Place the two small slices of plain brown WHOLEMEAL bread BEHIND the compact square portion of eggplant parmigiana, near 12 o'clock on the SAME plate, rather than far to its right. Keep the ENTIRE parmigiana portion and BOTH bread slices COMPLETELY inside a centered square area occupying no more than the middle sixty percent of the image width. The food should appear smaller in the wider landscape composition. All four sides of the parmigiana portion and all edges of both bread slices must be visible with clear empty plate margins around the combined food. Moderate overhead three-quarter camera view. Keep the actual cooked eggplant layers with purple skin edges, smooth tomato passata, melted light mozzarella, lightly golden grated Parmesan topping and a few fresh basil leaves; no pasta, no garlic, no pepper, no extra herbs, no seeds in the bread, no additional ingredients, no cutlery, no bowls, no garnish on the background. Keep it a single appetizing photorealistic cookbook photograph, no text, watermark, collage or graphic borders. Preserve the warm bright home kitchen editorial look. This final serving photograph must show the parmigiana together with its wholemeal bread.\n",
+    "sha256": "ed8742537efff31be21923018389f288dbe79078ffc52f6bbb76292df3a18b3a",
+    "photoGroup": "d16d1e863a558d254553"
+  },
+  "parmigiana_light_s0": {
+    "asset": "photography/parmigiana_light_s0.webp",
+    "recipeId": "parmigiana_light",
+    "stepIndex": 0,
+    "subject": "Scalda il forno a 200 °C. Affetta {melanzane} e cuocile in forno o in friggitrice ad aria 15 minuti con poco {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. First preparation stage: roasting only sliced eggplant with a light brush of olive oil, BEFORE any tomato or cheese has been added. View into a clean open home oven: a metal baking tray rests securely on an oven rack and holds a single layer of oval lengthwise eggplant slices, with thin purple skin rims, pale golden flesh with natural tiny seeds and a few gently browned patches from dry oven roasting. Very lightly oiled, not deep fried, no heavy grill stripes, no breading. The oven rack and tray rim are visible enough to clearly identify the cooking method, while the central eggplant slices stay large and clear in a square crop. No cheese, tomato, basil, bread or other food at this stage. Soft window light reaches the open oven, bright photographic exposure rather than dark dramatic lighting.\n",
+    "sha256": "4f38d03d2a5116ddf208db9c89da2fa3d2e6eb7f0c32bac83189e635434174f0",
+    "photoGroup": "0ee218aa1177807bb90f"
+  },
+  "parmigiana_light_s1": {
+    "asset": "photography/parmigiana_light_s1.webp",
+    "recipeId": "parmigiana_light",
+    "stepIndex": 1,
+    "subject": "In una pirofila alterna strati di melanzane, {passata}, {mozzarella_light} a fette e {basilico}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. Second preparation stage, assembling eggplant parmigiana BEFORE final baking: an ivory rectangular baking dish on a light wood counter contains partly assembled layers of already ROASTED eggplant slices with thin purple skin edges, smooth red tomato passata, small fresh uncooked white light-mozzarella rounds, and a few fresh green basil leaves. One natural human hand with anatomically plausible short clean fingertips is placing a fresh mozzarella slice onto the top layer. Leave an adjacent portion of roasted eggplant and smooth passata exposed so the layers and assembly action are unmistakable. Mozzarella is still white, fresh and unmelted; no golden baked crust yet. No grated Parmesan at this stage, no bread, no tomato chunks, no pasta, no other ingredients. The dish and the placing fingertips are centered with enough breathing room to remain clear in a central square crop. Professional bright natural light, realistic tidy kitchen.\n",
+    "sha256": "26f80c95bc3c045aadec6fb4706d521115aa16cf58a1d7ffdc882858a9555fcb",
+    "photoGroup": "a1e77db214c7943e8cee"
+  },
+  "parmigiana_light_s2": {
+    "asset": "photography/parmigiana_light_s2.webp",
+    "recipeId": "parmigiana_light",
+    "stepIndex": 2,
+    "subject": "Completa con {parmigiano} e cuoci 20 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. Third preparation stage, oven baking AFTER finishing the assembled layers with finely grated Parmesan: an ivory rectangular baking dish sits securely on a metal rack inside an open clean home oven. The dish contains layered roasted eggplant with smooth red tomato passata, mozzarella and basil under a thin lightly golden melted Parmesan topping, gentle irregular browned cheese patches and a few purple eggplant skin edges visible along the sides. The oven-baked cheese crust looks delicate and realistic, not an excessively thick blanket of cheese. View from slightly above the oven opening; baking dish, food and supporting oven rack are centrally visible in the square-safe area. This is the actual cooking stage in its baking dish, NOT a portion on a serving plate. No wholemeal bread until the next serving step, no bowls of ingredients, no hands or utensils required. Bright balanced exposure from daylight, clean surfaces, no text on oven or knobs.\n",
+    "sha256": "c4fb4b14442eaa0e30e46ec0b7db1d2352e56ba73fd441c7e6da7bba6bbb61cb",
+    "photoGroup": "0e039108856275356562"
+  },
+  "parmigiana_light_s3": {
+    "asset": "photography/parmigiana_light.webp",
+    "recipeId": "parmigiana_light",
+    "stepIndex": 3,
+    "subject": "Servi con {pane_int}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this food photograph to fix ONLY framing and arrangement for the square app crop, while preserving its realistic professional bright natural-light style, textures and the SAME recipe ingredients. Zoom the camera OUT substantially; show more empty ivory plate and light wood around the food. Place the two small slices of plain brown WHOLEMEAL bread BEHIND the compact square portion of eggplant parmigiana, near 12 o'clock on the SAME plate, rather than far to its right. Keep the ENTIRE parmigiana portion and BOTH bread slices COMPLETELY inside a centered square area occupying no more than the middle sixty percent of the image width. The food should appear smaller in the wider landscape composition. All four sides of the parmigiana portion and all edges of both bread slices must be visible with clear empty plate margins around the combined food. Moderate overhead three-quarter camera view. Keep the actual cooked eggplant layers with purple skin edges, smooth tomato passata, melted light mozzarella, lightly golden grated Parmesan topping and a few fresh basil leaves; no pasta, no garlic, no pepper, no extra herbs, no seeds in the bread, no additional ingredients, no cutlery, no bowls, no garnish on the background. Keep it a single appetizing photorealistic cookbook photograph, no text, watermark, collage or graphic borders. Preserve the warm bright home kitchen editorial look. This final serving photograph must show the parmigiana together with its wholemeal bread.\n",
+    "sha256": "ed8742537efff31be21923018389f288dbe79078ffc52f6bbb76292df3a18b3a",
+    "photoGroup": "d16d1e863a558d254553",
+    "sharedFrom": "parmigiana_light"
   }
 }

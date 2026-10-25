@@ -570,6 +570,11 @@ object EditorialPhotos {
         "pane_ricotta_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_ricotta_marmellata_s1" to "photography/pane_ricotta_marmellata_s1.webp",
         "pane_ricotta_marmellata_s2" to "photography/pane_ricotta_marmellata.webp",
+        "parmigiana_light" to "photography/parmigiana_light.webp",
+        "parmigiana_light_s0" to "photography/parmigiana_light_s0.webp",
+        "parmigiana_light_s1" to "photography/parmigiana_light_s1.webp",
+        "parmigiana_light_s2" to "photography/parmigiana_light_s2.webp",
+        "parmigiana_light_s3" to "photography/parmigiana_light.webp",
         "pasta_ceci" to "photography/pasta_ceci.webp",
         "pasta_ceci_s0" to "photography/pasta_ceci_s0.webp",
         "pasta_ceci_s1" to "photography/pasta_ceci_s1.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "pasta_tonno_s1" to "photography/pasta_tonno_s1.webp",
         "pasta_tonno_s2" to "photography/pasta_tonno_s2.webp",
         "pasta_tonno_s3" to "photography/pasta_tonno.webp",
+    )
+
+    private fun group3() = mapOf(
         "piadina_tacchino" to "photography/piadina_tacchino.webp",
         "piadina_tacchino_s0" to "photography/piadina_tacchino_s0.webp",
         "piadina_tacchino_s1" to "photography/piadina_tacchino_s1.webp",
         "piadina_tacchino_s2" to "photography/piadina_tacchino_s2.webp",
         "pistacchi_e_albicocche_secche" to "photography/pistacchi_e_albicocche_secche.webp",
-    )
-
-    private fun group3() = mapOf(
         "pistacchi_e_albicocche_secche_s0" to "photography/pistacchi_e_albicocche_secche.webp",
         "poke_salmone" to "photography/poke_salmone.webp",
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
