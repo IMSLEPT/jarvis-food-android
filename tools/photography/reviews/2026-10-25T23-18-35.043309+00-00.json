@@ -1,0 +1,97 @@
+{
+  "createdAt": "2026-10-25T23:18:35.043309+00:00",
+  "recipes": [
+    "zuppa_legumi"
+  ],
+  "images": [
+    {
+      "id": "zuppa_legumi",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak worktop and neutral ivory ceramics, realistic appetizing textures and achievable homemade cooking. Premium editorial food photography, moderate close framing, not extreme macro. Landscape 3:2; the food and relevant action must fit comfortably in the CENTRAL SIXTY PERCENT of image width for a meaningful square center crop, with space around them. No text, logos, watermark, collage, illustration, graphic border, UI or faces. The recipe ingredients are cooked WHITE CANNELLINI beans from a can, diced white potatoes, finely chopped orange carrot, pale-green celery and onion, a modest amount of smooth tomato passata, water, extra virgin olive oil and rosemary, with TOASTED BROWN WHOLEMEAL BREAD only at final serving. NO mixed legumes, chickpeas, lentils, red or black beans, pasta, rice, meat, garlic, cheese, cream, butter, parsley, basil, black pepper or other ingredients. No unrelated ingredient props in the background. Completed homemade white-cannellini and vegetable SOUP served in a small ivory bowl, one realistic portion. Distinct creamy white kidney-shaped cannellini beans are visible with small soft white-potato cubes, finely chopped carrot, pale-green celery and translucent onion in a light warm RED-ORANGE broth made with only a modest amount of tomato passata and water. The broth is gently thickened by a few mashed beans but still clearly a SOUP, not a dry bean salad, opaque puree, heavy red chili or thick tomato paste. A few tiny cooked rosemary needles are mixed into the soup, no decorative fresh herb sprig. Two small slices of TOASTED BROWN WHOLEMEAL BREAD, plain with no seeds, rest together on the SAME ivory saucer BEHIND the bowl, near 12 o'clock, so bowl AND bread remain completely within the central square-safe area. Entire soup portion, beans, vegetables and toasted bread clearly visible together with empty rim around the food. Bright three-quarter overhead view, warm professional natural-light food photography.\n",
+      "originalSha256": "c1266b434b991878cca584c521b89a5b8d534663197603daed7655427f580c46",
+      "webpSha256": "94d6dbab3ea65d871bb37edf7b5eb06afa8ce455de8547a3347734e85c88f1f3",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: cannellini bianchi, patate a cubetti, carote, sedano e cipolla in zuppa al pomodoro con rosmarino; pane integrale tostato sullo stesso piatto dietro la ciotola. Nessun altro legume, cereale o guarnizione estranea. Il ritaglio conserva zuppa e pane riconoscibile, con luce naturale e ceramica avorio coerenti. Idonea anche al servizio finale con pane tostato, già previsto dalla regola di riuso.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "c1266b434b991878cca584c521b89a5b8d534663197603daed7655427f580c46",
+        "at": "2026-10-25T23:23:22.766982+00:00"
+      }
+    },
+    {
+      "id": "zuppa_legumi_s0",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak worktop and neutral ivory ceramics, realistic appetizing textures and achievable homemade cooking. Premium editorial food photography, moderate close framing, not extreme macro. Landscape 3:2; the food and relevant action must fit comfortably in the CENTRAL SIXTY PERCENT of image width for a meaningful square center crop, with space around them. No text, logos, watermark, collage, illustration, graphic border, UI or faces. The recipe ingredients are cooked WHITE CANNELLINI beans from a can, diced white potatoes, finely chopped orange carrot, pale-green celery and onion, a modest amount of smooth tomato passata, water, extra virgin olive oil and rosemary, with TOASTED BROWN WHOLEMEAL BREAD only at final serving. NO mixed legumes, chickpeas, lentils, red or black beans, pasta, rice, meat, garlic, cheese, cream, butter, parsley, basil, black pepper or other ingredients. No unrelated ingredient props in the background. FIRST preparation stage ONLY: finely chopped onion, carrot and celery gently SOFTENING in a LITTLE olive oil in a small stainless-steel saucepan supported on the kitchen hob. Small orange carrot dice, pale green finely chopped celery and translucent white onion are clearly recognizable together; vegetables look moist and softened with only a gentle sheen, not burnt, heavily caramelized or deep fried. A plain wooden spoon rests securely against the pot rim. NO POTATO, tomato passata, beans, rosemary or bread in the pot yet; no large unrelated vegetables or herb garnish. The vegetable mixture, pot surface and hob support are centrally framed and identifiable in the square crop. Bright clean kitchen light, no faces or floating utensils.\n",
+      "originalSha256": "23712ef2a5a08958094f0ea72c0aa9c4edc13a43d44659c2db7b8586da6ef1b0",
+      "webpSha256": "1829f6525e600c265eb8789b35cc209f13838a839bd24b137d12b48befc09b14",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: cipolla traslucida, carota arancione e sedano verde chiaro tritati e appassiti con poco olio nella casseruola sul fornello. Assenti patate, passata, fagioli e rosmarino prima delle rispettive fasi. Cucchiaio appoggiato al bordo, pentola sostenuta; consistenza umida e doratura lieve plausibili. Il quadrato conserva le tre verdure e il contesto di cottura, stile luminoso coerente.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "23712ef2a5a08958094f0ea72c0aa9c4edc13a43d44659c2db7b8586da6ef1b0",
+        "at": "2026-10-25T23:23:23.189029+00:00"
+      }
+    },
+    {
+      "id": "zuppa_legumi_s1",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak worktop and neutral ivory ceramics, realistic appetizing textures and achievable homemade cooking. Premium editorial food photography, moderate close framing, not extreme macro. Landscape 3:2; the food and relevant action must fit comfortably in the CENTRAL SIXTY PERCENT of image width for a meaningful square center crop, with space around them. No text, logos, watermark, collage, illustration, graphic border, UI or faces. The recipe ingredients are cooked WHITE CANNELLINI beans from a can, diced white potatoes, finely chopped orange carrot, pale-green celery and onion, a modest amount of smooth tomato passata, water, extra virgin olive oil and rosemary, with TOASTED BROWN WHOLEMEAL BREAD only at final serving. NO mixed legumes, chickpeas, lentils, red or black beans, pasta, rice, meat, garlic, cheese, cream, butter, parsley, basil, black pepper or other ingredients. No unrelated ingredient props in the background. SECOND preparation stage, BEFORE beans and rosemary are added: a small stainless-steel saucepan sits securely on the hob and contains small DICED WHITE POTATO cubes with the already softened finely chopped carrot, celery and onion in a LIGHT RED-ORANGE broth of water and a modest amount of smooth tomato passata. Show gentle simmering with a few small bubbles and a little steam; potato cubes are clearly visible in the broth. This is a vegetable-and-potato soup base that still contains NO WHITE BEANS, no rosemary yet and no bread. The broth is relatively thin and softly translucent, not thick tomato sauce and not an orange puree. No herbs, pepper, garlic, stock cubes, meat or extra ingredients. Clear pot rim and hob support visible, entire relevant cooking stage central and square-safe, professional bright natural window light.\n",
+      "originalSha256": "06e55492c5f410548cbba0111e975bf7b3d1402a65182ebe300dc6322c9cbfe8",
+      "webpSha256": "472e3e625ca0200fa1ea496c5a73c37e3cea4496cdbdcaeed8e3e0c88fe153ef",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: patate a cubetti e verdure del soffritto in base liquida rosso-arancio di passata e acqua, con sobbollitura e vapore leggero. Fagioli e rosmarino ancora assenti, nessun pane o altro ingrediente. Pentola e fornello plausibili, patate riconoscibili nel ritaglio. Non sostituita la lavorazione con una zuppa già completa e servita.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "06e55492c5f410548cbba0111e975bf7b3d1402a65182ebe300dc6322c9cbfe8",
+        "at": "2026-10-25T23:23:23.631961+00:00"
+      }
+    },
+    {
+      "id": "zuppa_legumi_s2",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak worktop and neutral ivory ceramics, realistic appetizing textures and achievable homemade cooking. Premium editorial food photography, moderate close framing, not extreme macro. Landscape 3:2; the food and relevant action must fit comfortably in the CENTRAL SIXTY PERCENT of image width for a meaningful square center crop, with space around them. No text, logos, watermark, collage, illustration, graphic border, UI or faces. The recipe ingredients are cooked WHITE CANNELLINI beans from a can, diced white potatoes, finely chopped orange carrot, pale-green celery and onion, a modest amount of smooth tomato passata, water, extra virgin olive oil and rosemary, with TOASTED BROWN WHOLEMEAL BREAD only at final serving. NO mixed legumes, chickpeas, lentils, red or black beans, pasta, rice, meat, garlic, cheese, cream, butter, parsley, basil, black pepper or other ingredients. No unrelated ingredient props in the background. THIRD preparation stage: cooked WHITE CANNELLINI beans and a few rosemary needles have now been added to the vegetable-and-potato soup IN A SMALL STAINLESS-STEEL SAUCEPAN ON THE HOB. Plump creamy-white elongated kidney-shaped cannellini beans, diced soft white potato, tiny orange carrot, pale-green celery and onion are visible in gently simmering light red-orange tomato-and-water broth. One realistic partial human hand uses a wooden spoon to PRESS AND MASH A FEW BEANS AGAINST THE INNER WALL OF THE POT to thicken it; show a few visibly squashed creamy white beans under the spoon and many whole beans remaining in the soup. The broth is slightly more creamy from mashed beans but remains a soup, not a puree or chili. A few sparse cooked rosemary needles, no fresh decorative sprig, no other herbs or seasonings. NO BREAD IN THE POT and no meat, chickpeas, lentils, red beans, cream or cheese. Center the spoon/mashed-bean action and soup so they remain legible in a square crop, bright warm natural-light professional preparation photo.\n",
+      "originalSha256": "5acb33d576b8510d23c73edeb80aae3de43cb62721c8a8d097025aca050474af",
+      "webpSha256": "7bfba8e89bd7989617707cceececaaa6123774e2adb6328dc38f8216c269aceb",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: aggiunti cannellini bianchi e aghi di rosmarino alla base con patate e verdure; il cucchiaio schiaccia alcuni fagioli contro la parete della pentola e altri restano interi. Mano parziale e utensile plausibili, zuppa leggermente addensata. Pane assente prima del servizio. Il quadrato conserva gesto, cannellini schiacciati e ingredienti; luce e metodo coerenti.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "5acb33d576b8510d23c73edeb80aae3de43cb62721c8a8d097025aca050474af",
+        "at": "2026-10-25T23:23:24.129451+00:00"
+      }
+    }
+  ],
+  "convertedVisualReview": "Quattro WebP 1280×853 esaminati anche nel quadrato dopo conversione: zuppa con cannellini e pane tostato, soffritto delle tre verdure, base con patate/passata senza fagioli e addensamento con cannellini schiacciati. Ingredienti, fasi e strumenti coerenti; nessuna fotografia impiattata usata come lavorazione intermedia.",
+  "preservation": {
+    "sourceCommit": "bdb11a2855923e0de733ea9465d2a5347ff9c878",
+    "previousWebpFiles": 456,
+    "previousRecords": 786,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 791
+  }
+}

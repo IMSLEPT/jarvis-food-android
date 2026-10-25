@@ -799,6 +799,11 @@ object EditorialPhotos {
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mirtilli_s0" to "photography/mirtilli_fresca_s0.webp",
+        "zuppa_legumi" to "photography/zuppa_legumi.webp",
+        "zuppa_legumi_s0" to "photography/zuppa_legumi_s0.webp",
+        "zuppa_legumi_s1" to "photography/zuppa_legumi_s1.webp",
+        "zuppa_legumi_s2" to "photography/zuppa_legumi_s2.webp",
+        "zuppa_legumi_s3" to "photography/zuppa_legumi.webp",
     )
 
     private val assets = buildMap<String, String> {
