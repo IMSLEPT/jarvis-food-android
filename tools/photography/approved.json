@@ -8669,5 +8669,60 @@
     "sha256": "81a66c2b6f7df06da74d4e3a79414aa960f54bf51be363e2d28b1ce03425dd2c",
     "photoGroup": "1408d16e008b3650217b",
     "sharedFrom": "lamponi_fresca_s0"
+  },
+  "hamburger_pollo_panino": {
+    "asset": "photography/hamburger_pollo_panino.webp",
+    "recipeId": "hamburger_pollo_panino",
+    "stepIndex": null,
+    "subject": "Hamburger di pollo nel panino con cheddar",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood table, neutral ivory ceramics, realistic appetizing food texture and achievable modest homemade portions. Landscape 3:2 with all essential food centered and legible in a square crop. No text, labels, watermark, collage, portraits or invented ingredients. Finished HAMBURGER DI POLLO NEL PANINO CON CHEDDAR. One modest plain golden round HAMBURGER BUN, without sesame seeds, lightly toasted on the inside, holds ONE thick fully cooked GROUND CHICKEN PATTY, approximately 2 cm thick, a single melted orange CHEDDAR slice, green LETTUCE, fresh red TOMATO slices, a few thin RAW WHITE ONION rings and a modest amount of YELLOW MUSTARD. A small gap between the bun halves makes each filling clearly visible, side-front three-quarter view, on a simple ivory plate. Chicken patty must look like pale cooked ground POULTRY with a lightly golden-brown pan-seared surface and pale textured edges, NOT a dark beef patty and NOT breaded or deep-fried chicken. Exact recipe contains only ground chicken, hamburger bun, cheddar, lettuce, tomato, onion, mustard and a little salt for the patty. No breadcrumbs, egg, flour coating, sesame garnish, pepper, garlic, herbs, pickles, cucumber, mayonnaise, ketchup, bacon, fries or other food. Honest attractive homemade chicken cheeseburger, realistic bread and melted cheese.",
+    "sha256": "4f7fa8abc0376c85a1b6a6e2b90b6ef74fb3fdba0e4a8f6d1f0dea31fb129eb4",
+    "photoGroup": "c76198a2ddf090cdc01b"
+  },
+  "hamburger_pollo_panino_s0": {
+    "asset": "photography/hamburger_pollo_panino_s0.webp",
+    "recipeId": "hamburger_pollo_panino",
+    "stepIndex": 0,
+    "subject": "Forma con {pollo_macinato} un hamburger di circa 2 cm e salalo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood table, neutral ivory ceramics, realistic appetizing food texture and achievable modest homemade portions. Landscape 3:2 with all essential food centered and legible in a square crop. No text, labels, watermark, collage, portraits or invented ingredients. FIRST preparation stage for a chicken burger: FORMING A RAW GROUND CHICKEN PATTY. Close view of two natural clean hands gently shaping one round patty about two centimeters thick from RAW MINCED CHICKEN, on a small sheet of baking parchment resting on a clean light wood board. Raw minced chicken is pale pink and slightly moist with fine irregular minced meat texture, NOT red beef, not smooth dough, not cooked. A small clear bowl immediately next to the board contains a little remaining raw ground chicken; a tiny pinch of salt visible in a small ivory pinch dish. The scene contains ONLY raw ground chicken and salt. No oil, flour, breadcrumbs, egg, herbs, pepper, garlic, cheese, bun or vegetables. Hands have natural anatomy, no jewelry, patty centered and action clear inside square crop. Not a finished burger and not a fried cutlet. Hygienic compact preparation, realistic food textures.",
+    "sha256": "3b0614d58615d99bd47451b595f3d31170fa2166509574953e59a04f499cce9f",
+    "photoGroup": "bf427a939407739e32a4"
+  },
+  "hamburger_pollo_panino_s1": {
+    "asset": "photography/hamburger_pollo_panino_s1.webp",
+    "recipeId": "hamburger_pollo_panino",
+    "stepIndex": 1,
+    "subject": "Cuocilo in padella antiaderente calda 5-6 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood table, neutral ivory ceramics, realistic appetizing food texture and achievable modest homemade portions. Landscape 3:2 with all essential food centered and legible in a square crop. No text, labels, watermark, collage, portraits or invented ingredients. SECOND preparation stage for a chicken burger: cooking ONE round GROUND CHICKEN PATTY about 2 cm thick in a clean hot dark NONSTICK FRYING PAN for five to six minutes per side. The patty is fully opaque pale poultry at the sides with a golden-brown pan-seared top showing fine minced meat texture, no red beef and no breadcrumbs or fried breading. One natural hand uses a thin stainless turner slid just under the edge to turn the patty, actual pan-cooking action. Modest natural meat juices and a hint of steam, no pool of oil or butter, no visible pink raw center. Only minced chicken and salt. No cheese yet, no bun, lettuce, tomatoes, onion, mustard, pepper, garlic or herbs. Center patty and utensil together for clear square crop, realistic pan and hand geometry. Not a finished sandwich.",
+    "sha256": "effd48f2f9636afca57961cbcfaa17faf44774cbf4145cbd79c5df3a3aa9eed9",
+    "photoGroup": "de5cee65244a0427d2c2"
+  },
+  "hamburger_pollo_panino_s2": {
+    "asset": "photography/hamburger_pollo_panino_s2.webp",
+    "recipeId": "hamburger_pollo_panino",
+    "stepIndex": 2,
+    "subject": "Aggiungi {cheddar} sopra e copri 1 minuto per farlo sciogliere.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood table, neutral ivory ceramics, realistic appetizing food texture and achievable modest homemade portions. Landscape 3:2 with all essential food centered and legible in a square crop. No text, labels, watermark, collage, portraits or invented ingredients. THIRD preparation stage of a homemade chicken burger. Close view of ONE cooked round GROUND CHICKEN PATTY, two centimeters thick, in a dark NONSTICK FRYING PAN on stove. A SINGLE square slice of orange CHEDDAR has been placed on top and is melting softly over the patty edges. A realistic clear glass lid with a metal rim is placed correctly on the pan and fully covers it, tiny condensation droplets and light steam on the inner glass; the patty and melting cheese remain clearly visible through a central clear area. One natural hand lightly holds the lid knob, actual covered one-minute cheese melting stage. Patty has pale cooked minced poultry sides and a lightly golden-brown seared top, not beef and not breaded. Only cooked ground chicken, salt and cheddar. No oil pool, butter, herbs, black pepper, bun, vegetables, sauces, raw chicken or other ingredients. Center the covered patty for square crop. Professional believable kitchen photograph.",
+    "sha256": "973c6ea86affa2bb6bd34a29fb0119bb4094dfc29e0c4a61d6c3a5dca5423820",
+    "photoGroup": "78855dcc508d302af344"
+  },
+  "hamburger_pollo_panino_s3": {
+    "asset": "photography/hamburger_pollo_panino_s3.webp",
+    "recipeId": "hamburger_pollo_panino",
+    "stepIndex": 3,
+    "subject": "Tosta {panino_hamb} e componi con {lattuga}, {pomodori}, {cipolla} e {senape}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood table, neutral ivory ceramics, realistic appetizing food texture and achievable modest homemade portions. Landscape 3:2 with all essential food centered and legible in a square crop. No text, labels, watermark, collage, portraits or invented ingredients. FOURTH preparation stage, ACTUAL ASSEMBLY of a homemade CHICKEN CHEESEBURGER, not a static finished sandwich. On one ivory plate a lightly toasted plain bottom HAMBURGER BUN holds one golden pan-cooked GROUND CHICKEN PATTY with a single melted orange CHEDDAR slice, fresh red TOMATO slices, a few thin RAW WHITE ONION rings and green LETTUCE. One natural hand is visibly LOWERING the matching plain top bun onto the open burger, holding it two or three centimeters above the lettuce, with the lightly toasted cut face partly angled toward the camera so a modest smear of YELLOW MUSTARD is visible inside. All food and hand action compactly CENTERED for a square crop, continuous kitchen scene, natural fingers and bread geometry, no visible face. Pale cooked minced poultry sides with gentle golden sear, not red beef, not a breaded fried fillet. Plain unseeded wheat bun, no sesame. Only chicken, bun, cheddar, lettuce, tomato, onion, mustard and salt. No ketchup, mayonnaise, pickles, cucumber, bacon, fries, herbs, black pepper or extra ingredients. Professional bright realistic food photograph showing the precise sandwich-closing action.",
+    "sha256": "6258b063a68391c05386eac60d584610b7d2a9c67907b467b6af2dd6b4ef4e14",
+    "photoGroup": "312bb8e81e7bdad0bc88"
   }
 }

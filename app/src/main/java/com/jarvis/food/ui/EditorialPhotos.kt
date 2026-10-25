@@ -295,6 +295,11 @@ object EditorialPhotos {
         "greco_mela_nocciole_s2" to "photography/greco_mela_nocciole.webp",
         "greco_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "greco_mela_s1" to "photography/greco_mela.webp",
+        "hamburger_pollo_panino" to "photography/hamburger_pollo_panino.webp",
+        "hamburger_pollo_panino_s0" to "photography/hamburger_pollo_panino_s0.webp",
+        "hamburger_pollo_panino_s1" to "photography/hamburger_pollo_panino_s1.webp",
+        "hamburger_pollo_panino_s2" to "photography/hamburger_pollo_panino_s2.webp",
+        "hamburger_pollo_panino_s3" to "photography/hamburger_pollo_panino_s3.webp",
         "insalata_greca_pollo" to "photography/insalata_greca_pollo.webp",
         "insalata_greca_pollo_s0" to "photography/insalata_greca_pollo_s0.webp",
         "insalata_greca_pollo_s1" to "photography/insalata_greca_pollo_s1.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mirtilli_e_miele_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pancake_proteici_con_mirtilli_e_yogurt_greco_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_ricotta_fragole" to "photography/pancake_ricotta_fragole.webp",
         "pancake_ricotta_fragole_s0" to "photography/pancake_ricotta_fragole_s0.webp",
         "pancake_ricotta_fragole_s1" to "photography/pancake_ricotta_fragole_s1.webp",
         "pancake_ricotta_fragole_s2" to "photography/pancake_ricotta_fragole_s2.webp",
-    )
-
-    private fun group2() = mapOf(
         "pancake_ricotta_fragole_s3" to "photography/pancake_ricotta_fragole.webp",
         "pane_con_avocado_e_uova" to "photography/pane_con_avocado_e_uova.webp",
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "piadina_tacchino_s1" to "photography/piadina_tacchino_s1.webp",
         "piadina_tacchino_s2" to "photography/piadina_tacchino_s2.webp",
         "pistacchi_e_albicocche_secche" to "photography/pistacchi_e_albicocche_secche.webp",
+    )
+
+    private fun group3() = mapOf(
         "pistacchi_e_albicocche_secche_s0" to "photography/pistacchi_e_albicocche_secche.webp",
         "poke_salmone" to "photography/poke_salmone.webp",
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
         "poke_salmone_s2" to "photography/poke_salmone_s2.webp",
-    )
-
-    private fun group3() = mapOf(
         "poke_salmone_s3" to "photography/poke_salmone.webp",
         "pollo_curry_basmati" to "photography/pollo_curry_basmati.webp",
         "pollo_curry_basmati_s0" to "photography/pollo_curry_basmati_s0.webp",
