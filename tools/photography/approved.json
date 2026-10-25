@@ -7495,5 +7495,61 @@
     "sha256": "f4524eaef039e42cc6bf9adf9455346da8ce7c9580ed26b6134945327116bdfb",
     "photoGroup": "691fb1b6a5fde340d85c",
     "sharedFrom": "curry_ceci_spinaci"
+  },
+  "riso_salmone_edamame": {
+    "asset": "photography/riso_salmone_edamame.webp",
+    "recipeId": "riso_salmone_edamame",
+    "stepIndex": null,
+    "subject": "Bowl di riso, salmone ed edamame",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic appetizing food textures, achievable homemade plating, landscape 3:2 central food meaningful in square crop. Finished bowl di riso salmone ed edamame. Exact ingredients: plain cooked WHITE RICE, salmon cooked in a dry nonstick skillet and FLAKED into tender large irregular pieces with cooked opaque pink interiors and lightly browned edges, shelled green edamame beans briefly boiled, fresh CUCUMBER ROUNDS with green peel, thin dark NORI strips, light sprinkling of SESAME SEEDS and a little SOY SAUCE. Modest ivory bowl holds rice topped with all these components, gentle soy drizzle visible, edamame shelled seeds only, no pods. No raw salmon cubes, avocado, mango, lime, ginger, chili, scallion, herbs, dressing, oil, mayonnaise or extra garnish. No text, labels, watermark or collage.",
+    "sha256": "251dd45fd21c9ca9c9c1e7affa4b15eff03b39887bde584a98500e2bc8015c81",
+    "photoGroup": "4aaffc2dec05ad5f373d"
+  },
+  "riso_salmone_edamame_s0": {
+    "asset": "photography/riso_salmone_edamame_s0.webp",
+    "recipeId": "riso_salmone_edamame",
+    "stepIndex": 0,
+    "subject": "Cuoci {riso} e lascialo intiepidire.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central subject meaningful in a square crop. No text, labels, watermark, collage, faces or invented ingredients. First stage preparing rice salmon edamame bowl: plain cooked WHITE RICE cooling until lukewarm in a shallow ivory prep bowl on light wood counter. Soft separated cooked rice grains, gentle spoon fluffing it, only very faint residual steam. NO other food: no salmon, edamame, cucumber, soy sauce, nori, sesame, oil or garnish yet. Show freshly cooked rice being spread slightly with spoon to cool, natural realistic rice texture, not long basmati grains.",
+    "sha256": "6b80430d747f7d08e9777806ba2d2bc9fee6b7991f7ad5ef46750ab0d063c97a",
+    "photoGroup": "cba88c8d69a950e4ff3e"
+  },
+  "riso_salmone_edamame_s1": {
+    "asset": "photography/riso_salmone_edamame_s1.webp",
+    "recipeId": "riso_salmone_edamame",
+    "stepIndex": 1,
+    "subject": "Cuoci {salmone} in padella antiaderente 3-4 minuti per lato e sfaldalo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central subject meaningful in a square crop. No text, labels, watermark, collage, faces or invented ingredients. Second stage rice salmon edamame bowl: plain salmon fillet just cooked through in a dark dry nonstick skillet on clean stove, being FLAKED with a simple fork. A portion remains intact with lightly golden seared outer surface, fork gently separates large tender irregular flakes showing fully cooked opaque pale-pink interiors. No skin debris, oil, butter, mushrooms, herbs, pepper, lemon, sauce or seasonings. Only cooked salmon in pan. No rice, edamame, cucumber, sesame, nori or finished bowl yet. Close view actual flaking action.",
+    "sha256": "7d7e6c3fbfbd42e3ec2b881cd7c7e4db8a7f5a632274ce05d149b38a3a2d48d6",
+    "photoGroup": "69bd6aaf27044f4a9bda"
+  },
+  "riso_salmone_edamame_s2": {
+    "asset": "photography/riso_salmone_edamame_s2.webp",
+    "recipeId": "riso_salmone_edamame",
+    "stepIndex": 2,
+    "subject": "Sbollenta {edamame} 4 minuti e taglia {cetrioli} a rondelle.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory props, realistic food textures, landscape 3:2 central composition useful in a square crop. Rice salmon edamame bowl intermediate vegetable preparation: in ONE continuous kitchen-counter scene a small stainless sieve of freshly blanched SHELLED GREEN EDAMAME BEANS rests securely on rim of ivory bowl, moist green soybeans with a faint wisp of steam. Immediately beside it a natural hand cuts a fresh cucumber with dark green peel into thin ROUND slices on a small light wood cutting board using a normal knife. Focus on cucumber cutting with recognizable cooked shelled edamame close beside it. Two preparations within one real continuous scene, NOT a split-screen or collage. No pods, broad beans, peas, rice, salmon, sesame, nori, soy sauce, oil or finished bowl yet. No text, labels, watermark, faces or invented ingredients.",
+    "sha256": "3fb5a7422437103556a39c5edd0d6c6c5a01d17204c1ad78d1b808fc8c497019",
+    "photoGroup": "14674b38d81b4f0696ab"
+  },
+  "riso_salmone_edamame_s3": {
+    "asset": "photography/riso_salmone_edamame.webp",
+    "recipeId": "riso_salmone_edamame",
+    "stepIndex": 3,
+    "subject": "Componi la bowl e condisci con {salsa_soia}, {sesamo} e {nori} a striscioline.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic appetizing food textures, achievable homemade plating, landscape 3:2 central food meaningful in square crop. Finished bowl di riso salmone ed edamame. Exact ingredients: plain cooked WHITE RICE, salmon cooked in a dry nonstick skillet and FLAKED into tender large irregular pieces with cooked opaque pink interiors and lightly browned edges, shelled green edamame beans briefly boiled, fresh CUCUMBER ROUNDS with green peel, thin dark NORI strips, light sprinkling of SESAME SEEDS and a little SOY SAUCE. Modest ivory bowl holds rice topped with all these components, gentle soy drizzle visible, edamame shelled seeds only, no pods. No raw salmon cubes, avocado, mango, lime, ginger, chili, scallion, herbs, dressing, oil, mayonnaise or extra garnish. No text, labels, watermark or collage.",
+    "sha256": "251dd45fd21c9ca9c9c1e7affa4b15eff03b39887bde584a98500e2bc8015c81",
+    "photoGroup": "4aaffc2dec05ad5f373d",
+    "sharedFrom": "riso_salmone_edamame"
   }
 }

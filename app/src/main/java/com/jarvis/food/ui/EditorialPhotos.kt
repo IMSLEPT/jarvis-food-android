@@ -567,6 +567,11 @@ object EditorialPhotos {
         "ricotta_miele_noci" to "photography/ricotta_miele_noci.webp",
         "ricotta_miele_noci_s0" to "photography/ricotta_miele_noci_s0.webp",
         "ricotta_miele_noci_s1" to "photography/ricotta_miele_noci.webp",
+        "riso_salmone_edamame" to "photography/riso_salmone_edamame.webp",
+        "riso_salmone_edamame_s0" to "photography/riso_salmone_edamame_s0.webp",
+        "riso_salmone_edamame_s1" to "photography/riso_salmone_edamame_s1.webp",
+        "riso_salmone_edamame_s2" to "photography/riso_salmone_edamame_s2.webp",
+        "riso_salmone_edamame_s3" to "photography/riso_salmone_edamame.webp",
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "tacchino_funghi_s3" to "photography/tacchino_funghi.webp",
         "tagliata_rucola" to "photography/tagliata_rucola.webp",
         "tagliata_rucola_s0" to "photography/tagliata_rucola_s0.webp",
+    )
+
+    private fun group3() = mapOf(
         "tagliata_rucola_s1" to "photography/tagliata_rucola_s1.webp",
         "tagliata_rucola_s2" to "photography/tagliata_rucola.webp",
         "toast_cotto" to "photography/toast_cotto.webp",
         "toast_cotto_s0" to "photography/toast_cotto_s0.webp",
         "toast_cotto_s1" to "photography/toast_cotto_s1.webp",
-    )
-
-    private fun group3() = mapOf(
         "toast_uova_avocado" to "photography/toast_uova_avocado.webp",
         "toast_uova_avocado_s0" to "photography/toast_uova_avocado_s0.webp",
         "toast_uova_avocado_s1" to "photography/toast_uova_avocado_s1.webp",
