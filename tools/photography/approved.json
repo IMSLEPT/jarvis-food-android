@@ -7384,5 +7384,60 @@
     "sha256": "c2717276f5d086c5f9bd3254df0816903bd6089e6e65d8eefbbe91f53ddfa383",
     "photoGroup": "620baa5cd22ab82f6076",
     "sharedFrom": "burrito_bowl_pollo"
+  },
+  "chili_fagioli_neri": {
+    "asset": "photography/chili_fagioli_neri.webp",
+    "recipeId": "chili_fagioli_neri",
+    "stepIndex": null,
+    "subject": "Chili vegano di fagioli neri e riso",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable home cooking, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Finished vegan BLACK BEAN chili served with plain cooked white rice, in one modest broad ivory bowl. Chili is thick tomato passata sauce with abundant recognizable glossy black beans, diced bell pepper and cooked chopped onion, seasoned only with ground cumin and paprika, cooked with a little olive oil. White rice on one side, chili on other. ALL ingredients black beans, white rice, tomato passata, onion, bell pepper, olive oil, cumin, paprika. No kidney beans, no beef, chicken, corn, avocado, sour cream, cheese, cilantro, parsley, lime, tortilla or garnish. Natural thick simmered texture, not watery soup.",
+    "sha256": "75a4858cc3c0412813ab1cb957075981b9724c2f34cbd048338611bf308e0d54",
+    "photoGroup": "b146ea1bec6162130c82"
+  },
+  "chili_fagioli_neri_s0": {
+    "asset": "photography/chili_fagioli_neri_s0.webp",
+    "recipeId": "chili_fagioli_neri",
+    "stepIndex": 0,
+    "subject": "Trita {cipolla} e tagliare {peperoni} a dadini; falli rosolare in {olio} per 5 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable home cooking, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. FIRST step making vegan black bean chili: finely chopped onion and small diced red bell pepper gently sauteing in a small amount of extra virgin olive oil in a deep dark nonstick skillet on clean stove. Onion turning translucent with slight golden edges, pepper softened but vivid red, wooden spatula stirring. CURRENT ingredients ONLY onion, bell pepper and olive oil. No spices added yet, no tomato sauce, black beans, rice, garlic, corn, herbs or finished chili. Focus on recognizable chopped vegetables browning in pan.",
+    "sha256": "afde1d943858a6e487db03785a4c3103f79ddd6d44cfbf632e32bd6ab8b8772f",
+    "photoGroup": "450032df89c797e8862c"
+  },
+  "chili_fagioli_neri_s1": {
+    "asset": "photography/chili_fagioli_neri_s1.webp",
+    "recipeId": "chili_fagioli_neri",
+    "stepIndex": 1,
+    "subject": "Aggiungi {cumino} e {paprika}, poi {passata} e {fagioli_neri}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Vegan black bean chili intermediate ingredient addition: in a deep dark nonstick skillet on stove, sauteed chopped onion and diced red bell pepper lightly coated with ground cumin and paprika, then cooked BLACK beans being combined with smooth red tomato passata. A natural hand pours a modest stream of tomato passata from small ivory jug into the pan, beans and vegetables still visible around red sauce. Only onion, red bell pepper, olive oil, cumin, paprika, tomato passata and black beans. No rice yet, no corn, kidney beans, meat, garlic, herbs, cheese or garnish. Clear action of adding sauce, not finished meal.",
+    "sha256": "e3ad546a330d1943931b6af050f404c56bc178bea3fdaf15e1f7969e6717354c",
+    "photoGroup": "b4c2aef25d22aabd3256"
+  },
+  "chili_fagioli_neri_s2": {
+    "asset": "photography/chili_fagioli_neri_s2.webp",
+    "recipeId": "chili_fagioli_neri",
+    "stepIndex": 2,
+    "subject": "Cuoci coperto 15 minuti a fuoco basso, aggiungendo poca acqua se si asciuga troppo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Vegan black bean chili intermediate SLOW COVERED COOKING stage: a deep dark nonstick skillet on clean stove, closed with its well-fitted transparent glass lid with simple black knob. Through clear lower part of lid show thick red tomato sauce, glossy black beans, small cooked onion and red bell pepper pieces gently simmering, a few small bubbles. Light natural condensation droplets toward top of lid, not obscuring all food, small steam at rim. Lid clearly resting ON skillet rim and fully covering pan, low flame only. No hand lifting lid, no rice, plated bowl, corn, meat, herbs, garnish or extra ingredients. Focus on covered pan showing actual cooking method.",
+    "sha256": "7d84e231bf5c11757f809deea214271ba5da7ee9228dab55ec684b528ae0e9e8",
+    "photoGroup": "c27b085e2486a9c51e9b"
+  },
+  "chili_fagioli_neri_s3": {
+    "asset": "photography/chili_fagioli_neri_s3.webp",
+    "recipeId": "chili_fagioli_neri",
+    "stepIndex": 3,
+    "subject": "Intanto cuoci {riso} e servilo con il chili.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. Final cooking-and-serving step of vegan BLACK BEAN chili with WHITE RICE: a natural hand holding a normal serving spoon transfers freshly cooked steaming white rice from a small stainless saucepan into the empty half of an ivory bowl; the other half already contains thick tomato chili with black beans, diced red bell pepper and cooked chopped onion, cumin and paprika, cooked with olive oil. Clearly visible spoonful of rice in motion touching rice already placed in bowl; saucepan of plain cooked rice nearby. Show actual rice serving action, not a static finished-dish-only image. No corn, meat, kidney beans, cilantro, parsley, sour cream, cheese, lime, herbs or garnish. No text, watermark, labels, collage or portraits.",
+    "sha256": "961b5f2305045ef1af72191b66b49717ac41ec4b121d94df073d6e08fd72d2f1",
+    "photoGroup": "d54b511e2b252867d379"
   }
 }
