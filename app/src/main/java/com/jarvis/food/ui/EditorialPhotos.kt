@@ -350,6 +350,12 @@ object EditorialPhotos {
         "overnight_oats_s0" to "photography/overnight_oats_s0.webp",
         "overnight_oats_s1" to "photography/overnight_oats_s1.webp",
         "overnight_oats_s2" to "photography/overnight_oats_s2.webp",
+        "pad_thai_gamberi" to "photography/pad_thai_gamberi.webp",
+        "pad_thai_gamberi_s0" to "photography/pad_thai_gamberi_s0.webp",
+        "pad_thai_gamberi_s1" to "photography/pad_thai_gamberi_s1.webp",
+        "pad_thai_gamberi_s2" to "photography/pad_thai_gamberi_s2.webp",
+        "pad_thai_gamberi_s3" to "photography/pad_thai_gamberi_s3.webp",
+        "pad_thai_gamberi_s4" to "photography/pad_thai_gamberi.webp",
         "pancake_al_cocco_con_mela_e_cannella_e_burro_di_mandorle_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_ricotta_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
@@ -401,15 +407,15 @@ object EditorialPhotos {
         "pane_con_mele_cannella_e_ricotta" to "photography/pane_con_mele_cannella_e_ricotta.webp",
         "pane_con_mele_cannella_e_ricotta_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mele_cannella_e_ricotta_s1" to "photography/pane_con_mele_cannella_e_ricotta_s1.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_con_mele_cannella_e_ricotta_s2" to "photography/pane_con_mele_cannella_e_ricotta.webp",
         "pane_con_mozzarella_pomodoro_e_origano" to "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s1" to "photography/pane_con_mozzarella_pomodoro_e_origano_s1.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s2" to "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola" to "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola_s1" to "photography/pane_con_pomodori_secchi_caprino_e_rucola_s1.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola_s2" to "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
@@ -604,15 +610,15 @@ object EditorialPhotos {
         "ricotta_e_miele_s0" to "photography/ricotta_e_miele.webp",
         "ricotta_miele_noci" to "photography/ricotta_miele_noci.webp",
         "ricotta_miele_noci_s0" to "photography/ricotta_miele_noci_s0.webp",
+    )
+
+    private fun group3() = mapOf(
         "ricotta_miele_noci_s1" to "photography/ricotta_miele_noci.webp",
         "riso_salmone_edamame" to "photography/riso_salmone_edamame.webp",
         "riso_salmone_edamame_s0" to "photography/riso_salmone_edamame_s0.webp",
         "riso_salmone_edamame_s1" to "photography/riso_salmone_edamame_s1.webp",
         "riso_salmone_edamame_s2" to "photography/riso_salmone_edamame_s2.webp",
         "riso_salmone_edamame_s3" to "photography/riso_salmone_edamame.webp",
-    )
-
-    private fun group3() = mapOf(
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",

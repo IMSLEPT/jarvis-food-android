@@ -8098,5 +8098,72 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, ivory ceramics. Landscape 3:2, all important food and serving action compactly centered for a square crop. No text, watermark, collage or labels. Actual final SERVING ACTION for red split lentil dal with basmati rice: one natural hand holds a stainless ladle, gently spooning thick creamy orange-gold RED SPLIT HULLED LENTIL DAL onto the empty half of an ivory bowl beside a modest mound of freshly cooked plain white long-grain BASMATI RICE. Ladle and a short thick flow of dal visibly connect above the bowl. A small stainless saucepan of the same cooked dal sits immediately behind the bowl. Dal is made only from red split lentils cooked until creamy, finely chopped onion, grated fresh ginger, smooth tomato passata, turmeric, curry powder, a little extra virgin olive oil and water; some tiny softened lentil texture and cooked onion remain visible. Clear distinct white long rice grains. No garnish, coriander, parsley, garlic, chili, whole beans, chickpeas, black seeds, coconut, yogurt, cream, lemon, lime or bread. Realistic kitchen utensils, attractive simple homemade food, actual portioning motion rather than a static finished dish.",
     "sha256": "149fdb6fe9cfb09254107635c49bb0cdd7e4bd61a19ca09c7fe7d191b85b4c27",
     "photoGroup": "9c5da50aeb8442c91881"
+  },
+  "pad_thai_gamberi": {
+    "asset": "photography/pad_thai_gamberi.webp",
+    "recipeId": "pad_thai_gamberi",
+    "stepIndex": null,
+    "subject": "Noodles di riso con gamberi, uova e germogli",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and utensils. Landscape 3:2 with all essential subjects compactly centered for square cropping. No text, labels, watermark or collage. Finished NOODLES DI RISO CON GAMBERI, UOVA E GERMOGLI. A modest ivory shallow bowl of thin round translucent white RICE SPAGHETTI lightly coated in soy sauce, cooked peeled pink SHRIMP, small tender SCRAMBLED EGG pieces, fine orange CARROT julienne and pale SOYBEAN SPROUTS. Finished with a modest scattering of CHOPPED PEANUTS and fresh lime juice. A small lime half on counter. Exact recipe contains rice noodles, shrimp, egg, carrot, soybean sprouts, peanuts, soy sauce, extra virgin olive oil and lime, nothing else. Bright natural colors, distinguish shrimp and egg and sprouts, noodles softly ivory-light brown not wheat yellow. No coriander, parsley, scallion, garlic, ginger, chili, sesame, fish sauce, tamarind, peanut butter, broccoli, mushrooms or added garnish.",
+    "sha256": "ceed6d13b8fdbd16584c7d69c85da8d1a855e87eb1936816bb9be7efcc30a318",
+    "photoGroup": "eb0ad9beb59ef03cc215"
+  },
+  "pad_thai_gamberi_s0": {
+    "asset": "photography/pad_thai_gamberi_s0.webp",
+    "recipeId": "pad_thai_gamberi",
+    "stepIndex": 0,
+    "subject": "Metti {noodles_riso} in ammollo in acqua molto calda per 6-8 minuti e scolali.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and utensils. Landscape 3:2 with all essential subjects compactly centered for square cropping. No text, labels, watermark or collage. Actual FIRST preparation step: thin round white dry RICE SPAGHETTI soaking in a wide heatproof clear glass bowl of very hot water on light wood counter. Natural hand gently loosens submerged strands with plain stainless kitchen tongs, pale translucent softened strands bending naturally in the water. Fine wisps of steam, stainless colander ready on a small ivory plate immediately beside bowl. Only rice noodles and water, no oil, salt, shrimp, egg, vegetables, garnishes, chopsticks or finished dish. Focus on realistic soaking action before draining, centered compact arrangement.",
+    "sha256": "f2026d542e37947742355d37fa8d8865b7fa93c3f8eaabd1f4994d6b55f3c531",
+    "photoGroup": "62709d122c18c734ba9c"
+  },
+  "pad_thai_gamberi_s1": {
+    "asset": "photography/pad_thai_gamberi_s1.webp",
+    "recipeId": "pad_thai_gamberi",
+    "stepIndex": 1,
+    "subject": "Scalda {olio} in un wok e cuoci {gamberi} 3 minuti; spostali da un lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and utensils. Landscape 3:2 with all essential subjects compactly centered for square cropping. No text, labels, watermark or collage. Actual SECOND preparation stage for rice noodles with shrimp: a clean dark carbon-steel WOK on stove contains only peeled deveined SHRIMP cooking in a little extra virgin OLIVE OIL. Shrimp have just turned opaque pink after three minutes. A wooden spatula held by one natural hand gently pushes the cooked shrimp to ONE SIDE of the wok, leaving a clear empty lightly oiled area on the other side for later egg. Close view showing the pink shrimp and empty wok area together at center, delicate steam and a little oil sheen. No noodles, eggs, vegetables, peanuts, garlic, ginger, herbs, spices, sauce or garnish at this stage. Realistic full-body peeled shrimp without heads, modest portions, natural kitchen action.",
+    "sha256": "ff623bb2926d8883f8ffb4dd1ca207546c6de866986b42a499fa6489dfb4aa35",
+    "photoGroup": "969676429c7454a242dd"
+  },
+  "pad_thai_gamberi_s2": {
+    "asset": "photography/pad_thai_gamberi_s2.webp",
+    "recipeId": "pad_thai_gamberi",
+    "stepIndex": 2,
+    "subject": "Rompi {uova} nel wok e strapazzale.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and utensils. Landscape 3:2 with all essential subjects compactly centered for square cropping. No text, labels, watermark or collage. Actual THIRD preparation stage for rice noodles with shrimp: a clean dark carbon-steel WOK on stove contains cooked peeled pink SHRIMP gathered to one side and ONE EGG being SCRAMBLED in the free oiled half. A natural hand uses a wooden spatula to gently break the just-setting yellow and white egg into tender irregular curds. Shrimp and egg stay mostly separated at this stage, both central and clearly visible, realistic olive oil sheen. No noodles, carrot, sprouts, peanuts, lime, herbs, garlic, ginger, scallions, sauce or other ingredients yet. Close realistic cooking action, accurate egg texture partially set and partially glossy, no raw egg on shrimp.",
+    "sha256": "bbadb26e5d01139650ceeca8c5c8708cf26fd7c4476f5f6bde77bb023d833cb8",
+    "photoGroup": "a56258af75c84799d40a"
+  },
+  "pad_thai_gamberi_s3": {
+    "asset": "photography/pad_thai_gamberi_s3.webp",
+    "recipeId": "pad_thai_gamberi",
+    "stepIndex": 3,
+    "subject": "Aggiungi {carote} a julienne, {germogli_soia}, i noodles e {salsa_soia}; salta 3 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and utensils. Landscape 3:2 with all essential subjects compactly centered for square cropping. No text, labels, watermark or collage. Actual FOURTH preparation stage for rice noodles with shrimp: a dark carbon-steel WOK on stove contains thin round softened RICE SPAGHETTI, cooked peeled pink SHRIMP, tender scrambled EGG curds, fine orange CARROT julienne and pale SOYBEAN SPROUTS, lightly seasoned with SOY SAUCE and extra virgin olive oil. A natural hand uses a wooden wok spatula to actively lift and fold a small bundle of noodles together with shrimp, egg, carrot and sprouts; realistic food remains mostly in wok, no impossible flying ingredients. Delicate steam, actual three-minute stir-frying stage. All main ingredients clearly visible inside central square crop. No chopped peanuts or lime yet: those are added only at serving. No coriander, herbs, scallion, garlic, ginger, chili, sesame, fish sauce, tamarind, broccoli or invented ingredients. Rice noodles pale translucent ivory-light brown, not yellow wheat noodles.",
+    "sha256": "46e37ebd72161fc4d1c75ff2ce8af1acaac04945e3c85fba5db3c1fedd4622e0",
+    "photoGroup": "d846d54bb37eeded2f5a"
+  },
+  "pad_thai_gamberi_s4": {
+    "asset": "photography/pad_thai_gamberi.webp",
+    "recipeId": "pad_thai_gamberi",
+    "stepIndex": 4,
+    "subject": "Servi con {arachidi} tritate e succo di {lime}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright warm kitchen, light wood, ivory ceramics, realistic food and utensils. Landscape 3:2 with all essential subjects compactly centered for square cropping. No text, labels, watermark or collage. Finished NOODLES DI RISO CON GAMBERI, UOVA E GERMOGLI. A modest ivory shallow bowl of thin round translucent white RICE SPAGHETTI lightly coated in soy sauce, cooked peeled pink SHRIMP, small tender SCRAMBLED EGG pieces, fine orange CARROT julienne and pale SOYBEAN SPROUTS. Finished with a modest scattering of CHOPPED PEANUTS and fresh lime juice. A small lime half on counter. Exact recipe contains rice noodles, shrimp, egg, carrot, soybean sprouts, peanuts, soy sauce, extra virgin olive oil and lime, nothing else. Bright natural colors, distinguish shrimp and egg and sprouts, noodles softly ivory-light brown not wheat yellow. No coriander, parsley, scallion, garlic, ginger, chili, sesame, fish sauce, tamarind, peanut butter, broccoli, mushrooms or added garnish.",
+    "sha256": "ceed6d13b8fdbd16584c7d69c85da8d1a855e87eb1936816bb9be7efcc30a318",
+    "photoGroup": "eb0ad9beb59ef03cc215",
+    "sharedFrom": "pad_thai_gamberi"
   }
 }
