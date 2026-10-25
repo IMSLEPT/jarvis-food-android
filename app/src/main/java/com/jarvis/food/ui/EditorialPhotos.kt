@@ -22,7 +22,10 @@ object EditorialPhotos {
         "banana_arachidi_s0" to "photography/banana_arachidi_s0.webp",
         "banana_arachidi_s1" to "photography/banana_arachidi.webp",
         "banana_con_cannella_s0" to "photography/banana_arachidi_s0.webp",
+        "banana_con_cioccolato_fondente" to "photography/banana_con_cioccolato_fondente.webp",
         "banana_con_cioccolato_fondente_s0" to "photography/banana_arachidi_s0.webp",
+        "banana_con_cioccolato_fondente_s1" to "photography/banana_con_cioccolato_fondente_s1.webp",
+        "banana_con_cioccolato_fondente_s2" to "photography/banana_con_cioccolato_fondente.webp",
         "banana_e_anacardi" to "photography/banana_e_anacardi.webp",
         "banana_e_anacardi_s0" to "photography/banana_arachidi_s0.webp",
         "banana_e_anacardi_s1" to "photography/banana_e_anacardi.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "fette_biscottate_con_prosciutto_cotto_e_mozzarella" to "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella.webp",
         "fette_biscottate_con_prosciutto_cotto_e_mozzarella_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_prosciutto_cotto_e_mozzarella_s1" to "photography/fette_biscottate_con_prosciutto_cotto_e_mozzarella_s1.webp",
-        "fette_biscottate_con_ricotta_e_marmellata" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
-        "fette_biscottate_con_ricotta_e_marmellata_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
-        "fette_biscottate_con_ricotta_e_marmellata_s1" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
     )
 
     private fun group1() = mapOf(
+        "fette_biscottate_con_ricotta_e_marmellata" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
+        "fette_biscottate_con_ricotta_e_marmellata_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
+        "fette_biscottate_con_ricotta_e_marmellata_s1" to "photography/fette_biscottate_con_ricotta_e_marmellata.webp",
         "fette_biscottate_con_ricotta_miele_e_fichi" to "photography/fette_biscottate_con_ricotta_miele_e_fichi.webp",
         "fette_biscottate_con_ricotta_miele_e_fichi_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_ricotta_miele_e_fichi_s1" to "photography/fette_biscottate_con_ricotta_miele_e_fichi_s1.webp",
@@ -404,12 +407,12 @@ object EditorialPhotos {
         "pane_con_tahina_e_banana_s1" to "photography/pane_con_tahina_e_banana_s1.webp",
         "pane_con_tahina_e_banana_s2" to "photography/pane_con_tahina_e_banana.webp",
         "pane_con_tonno_e_avocado" to "photography/pane_con_tonno_e_avocado.webp",
-        "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-        "pane_con_tonno_e_avocado_s1" to "photography/pane_con_tonno_e_avocado_s1.webp",
-        "pane_con_tonno_e_avocado_s2" to "photography/pane_con_tonno_e_avocado.webp",
     )
 
     private fun group2() = mapOf(
+        "pane_con_tonno_e_avocado_s0" to "photography/pane_ricotta_marmellata_s0.webp",
+        "pane_con_tonno_e_avocado_s1" to "photography/pane_con_tonno_e_avocado_s1.webp",
+        "pane_con_tonno_e_avocado_s2" to "photography/pane_con_tonno_e_avocado.webp",
         "pane_con_uova_strapazzate_e_spinaci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_yogurt_greco_miele_e_noci" to "photography/pane_con_yogurt_greco_miele_e_noci.webp",
         "pane_con_yogurt_greco_miele_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -607,12 +610,12 @@ object EditorialPhotos {
         "tacchino_funghi_s0" to "photography/tacchino_funghi_s0.webp",
         "tacchino_funghi_s1" to "photography/tacchino_funghi_s1.webp",
         "tacchino_funghi_s2" to "photography/tacchino_funghi_s2.webp",
-        "tacchino_funghi_s3" to "photography/tacchino_funghi.webp",
-        "tagliata_rucola" to "photography/tagliata_rucola.webp",
-        "tagliata_rucola_s0" to "photography/tagliata_rucola_s0.webp",
     )
 
     private fun group3() = mapOf(
+        "tacchino_funghi_s3" to "photography/tacchino_funghi.webp",
+        "tagliata_rucola" to "photography/tagliata_rucola.webp",
+        "tagliata_rucola_s0" to "photography/tagliata_rucola_s0.webp",
         "tagliata_rucola_s1" to "photography/tagliata_rucola_s1.webp",
         "tagliata_rucola_s2" to "photography/tagliata_rucola.webp",
         "toast_cotto" to "photography/toast_cotto.webp",
@@ -681,6 +684,7 @@ object EditorialPhotos {
     }
 
     private val photoCredits: Map<String, String> = mapOf(
+        "photography/banana_con_cioccolato_fondente_s1.webp" to "Foto: Lenore Edman · Wikimedia Commons · CC BY 2.0",
         "photography/pane_integrale_con_avocado_e_uova_s1.webp" to "Foto: hartono subagio · Unsplash",
     )
 

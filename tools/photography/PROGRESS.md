@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 142 ricette complete di foto principale e di tutti i passaggi.
-- 366 WebP distinti, 658 abbinamenti verificati.
-- 424 passaggi delle ricette complete coperti.
-- 2391 ricette da completare.
+- 143 ricette complete di foto principale e di tutti i passaggi.
+- 368 WebP distinti, 661 abbinamenti verificati.
+- 427 passaggi delle ricette complete coperti.
+- 2390 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -82,14 +82,15 @@ Punto di ripresa dopo i primi 12 gruppi (superato dalla prosecuzione seguente): 
 
 ## Prosecuzione con ricerca di foto gratuite — 25 ottobre 2026
 
-Ripresa dal commit `bb13fb2`, controllato contro GitHub senza aggiornamenti successivi. Aggiunte **1 ricette complete, 4 nuove immagini distinte e 5 abbinamenti**. Di queste nuove immagini, **0 fotografie online** e **4 illustrazioni fotografiche con il generatore integrato**. Nessuna API a pagamento, acquisto di crediti o abbonamento attivato.
+Ripresa dal commit `bb13fb2`, controllato contro GitHub senza aggiornamenti successivi. Aggiunte **2 ricette complete, 6 nuove immagini distinte e 8 abbinamenti**. Di queste nuove immagini, **1 fotografie online** e **5 illustrazioni fotografiche con il generatore integrato**. Nessuna API a pagamento, acquisto di crediti o abbonamento attivato.
 
 Ricette completate in questa prosecuzione, con tutti i passaggi:
 
 - Bowl di riso, salmone ed edamame (`riso_salmone_edamame`).
+- Banana con cioccolato fondente (`banana_con_cioccolato_fondente`).
 
-Ricerca online tramite API pubblica gratuita di Wikimedia Commons, con verifica di autore, pagina del file e licenza ufficiale, seguita da esame delle fotografie. Scartate immagini con ingredienti diversi, preparazioni diverse o qualità insufficiente. Le foto mancanti sono prodotte con `image_gen`, un soggetto per fotografia.
+Ricerca online tramite API pubblica gratuita di Wikimedia Commons, con verifica di autore, pagina del file e licenza ufficiale, seguita da esame delle fotografie. Scartate immagini con ingredienti diversi, preparazioni diverse o qualità insufficiente. Fotografie importate con metadati completi in `approved.json`, attribuzioni in `LICENSED-PHOTOS.md` e copia dei crediti inclusa negli asset offline. I crediti all’autore sono conservati dall’indice esistente; nessuna fotografia reale etichettata AI. Le foto mancanti sono prodotte con `image_gen`, un soggetto per fotografia.
 
 Controlli superati: `verify.py`, `scripts/verify-aurora-boundary.py`, corrispondenza completa indice Kotlin/manifest, decodifica WebP e controllo visivo dei nuovi soggetti. Tutti i **362 WebP e 653 record del checkpoint iniziale sono identici**; nessuna modifica a database, ingredienti, grammature, nutrizione, funzionalità o regole di distribuzione/condivisione. Ogni gruppo salvato separatamente con `[skip ci]` prima di produrre il successivo. Nessun APK compilato; test unitari e Android non rieseguiti per questi aggiornamenti fotografici.
 
-Punto preciso da cui riprendere: **Bowl con falafel, hummus e cous cous (`falafel_bowl`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2391 ricette** e **12114 abbinamenti** da completare. Nessuna produzione in background.
+Punto preciso da cui riprendere: **Bowl con falafel, hummus e cous cous (`falafel_bowl`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2390 ricette** e **12111 abbinamenti** da completare. Nessuna produzione in background.

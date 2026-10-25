@@ -7551,5 +7551,53 @@
     "sha256": "251dd45fd21c9ca9c9c1e7affa4b15eff03b39887bde584a98500e2bc8015c81",
     "photoGroup": "4aaffc2dec05ad5f373d",
     "sharedFrom": "riso_salmone_edamame"
+  },
+  "banana_con_cioccolato_fondente": {
+    "asset": "photography/banana_con_cioccolato_fondente.webp",
+    "recipeId": "banana_con_cioccolato_fondente",
+    "stepIndex": null,
+    "subject": "Banana con cioccolato fondente",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light in a bright warm home kitchen, light wood table and neutral ivory ceramics. Realistic appetizing homemade food, landscape 3:2 composition central food fits square crop. Finished dessert Banana con cioccolato fondente: a modest portion of ONE peeled banana sliced into round discs on an ivory plate, accompanied by a small ivory dipping bowl of warm melted DARK CHOCOLATE, with a thin drizzle of the same dark chocolate across a few banana rounds. ONLY banana about110g and dark chocolate about20g. No nuts, coconut, berries, mint, sugar, whipped cream, honey, peanut butter, extra fruit or garnish. Banana rounds fresh pale cream with natural small central seed marks, dark chocolate deep brown glossy and smooth. Not frozen, not baked. No text, labels, watermark, collage or portraits.",
+    "sha256": "e0b74ea251fbe13994eba4dcb5feeb6387707efca1f02d5c10549b636ff2fa79",
+    "photoGroup": "a89478644c173bae9cd6"
+  },
+  "banana_con_cioccolato_fondente_s1": {
+    "asset": "photography/banana_con_cioccolato_fondente_s1.webp",
+    "recipeId": "banana_con_cioccolato_fondente",
+    "stepIndex": 1,
+    "subject": "Sciogli {fondente} a bagnomaria.",
+    "kind": "licensed_photo",
+    "generator": "Wikimedia Commons · CC BY 2.0",
+    "source": {
+      "provider": "Wikimedia Commons · CC BY 2.0",
+      "author": "Lenore Edman",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Melted_chocolate_(6547776815).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Melted_chocolate_%286547776815%29.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "verifiedAt": "2026-10-25",
+      "changes": "Ridimensionamento proporzionale a massimo 1280 px e conversione in WebP (qualità 85); nessun ritocco al soggetto fotografico.",
+      "title": "Melted chocolate",
+      "originalPageUrl": "https://www.flickr.com/photos/lenore-m/6547776815/",
+      "originalSha256": "419d176025d73b602ebc88f6d69439ca053da3dbf8188ec87f6a852f69f1c2b3",
+      "licenseEvidenceSha256": "a949dd5d7f931e974f835f62fac19b1c812e55fa2d5aa053dcd4ed53f2d30536"
+    },
+    "prompt": "Fotografia reale verificata: cioccolato fondente fuso in recipiente da bagnomaria con spatola di legno. Immagine selezionata per il solo passaggio Sciogli il cioccolato fondente a bagnomaria; nessun ingrediente aggiuntivo visibile.",
+    "sha256": "3035d5e8d58e0954e32f60eb722f6c256b793773965c5e8c58e47fec674b291a",
+    "photoGroup": "8dcced46b9c80dc41f68"
+  },
+  "banana_con_cioccolato_fondente_s2": {
+    "asset": "photography/banana_con_cioccolato_fondente.webp",
+    "recipeId": "banana_con_cioccolato_fondente",
+    "stepIndex": 2,
+    "subject": "Servi la frutta con il cioccolato fuso.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light in a bright warm home kitchen, light wood table and neutral ivory ceramics. Realistic appetizing homemade food, landscape 3:2 composition central food fits square crop. Finished dessert Banana con cioccolato fondente: a modest portion of ONE peeled banana sliced into round discs on an ivory plate, accompanied by a small ivory dipping bowl of warm melted DARK CHOCOLATE, with a thin drizzle of the same dark chocolate across a few banana rounds. ONLY banana about110g and dark chocolate about20g. No nuts, coconut, berries, mint, sugar, whipped cream, honey, peanut butter, extra fruit or garnish. Banana rounds fresh pale cream with natural small central seed marks, dark chocolate deep brown glossy and smooth. Not frozen, not baked. No text, labels, watermark, collage or portraits.",
+    "sha256": "e0b74ea251fbe13994eba4dcb5feeb6387707efca1f02d5c10549b636ff2fa79",
+    "photoGroup": "a89478644c173bae9cd6",
+    "sharedFrom": "banana_con_cioccolato_fondente"
   }
 }

@@ -1,0 +1,20 @@
+Jarvis Food — attribuzioni delle fotografie online
+Licenze e fonti verificate; nessuna fotografia reale etichettata AI.
+
+photography/pane_integrale_con_avocado_e_uova_s1.webp
+Fotografia
+Autore: hartono subagio
+Fonte: https://unsplash.com/photos/two-fried-eggs-sizzling-in-a-black-pan-erKGr4qNOH8
+File originale: https://images.unsplash.com/photo-1760192716247-382af2aa9b35?auto=format&fit=max&w=1600&q=90
+Licenza: Unsplash License — https://unsplash.com/license
+Modifiche: Ridimensionata a massimo 1280 px e convertita in WebP; soggetto fotografico invariato.
+Verificata: 2026-10-24
+
+photography/banana_con_cioccolato_fondente_s1.webp
+Melted chocolate
+Autore: Lenore Edman
+Fonte: https://commons.wikimedia.org/wiki/File:Melted_chocolate_(6547776815).jpg
+File originale: https://upload.wikimedia.org/wikipedia/commons/7/7e/Melted_chocolate_%286547776815%29.jpg
+Licenza: CC BY 2.0 — https://creativecommons.org/licenses/by/2.0/
+Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione in WebP (qualità 85); nessun ritocco al soggetto fotografico.
+Verificata: 2026-10-25
