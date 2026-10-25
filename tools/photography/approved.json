@@ -6826,5 +6826,60 @@
     "sha256": "54e398e77877e1a3b4efb8df0a4534a754525d3d30ada2463cde6a2bc5df4a7b",
     "photoGroup": "493c6400e292d4f84545",
     "sharedFrom": "uova_feta_pomodorini"
+  },
+  "tortilla_uova_fagioli": {
+    "asset": "photography/tortilla_uova_fagioli.webp",
+    "recipeId": "tortilla_uova_fagioli",
+    "stepIndex": null,
+    "subject": "Tortillas con uova, fagioli neri e salsa",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Tortillas con uova, fagioli neri e salsa. Ingredients: tortillas di mais, Uova, Fagioli neri (cotti), salsa messicana, Avocado, Coriandolo fresco.  Preparation context (do not print it): Scalda tortillas di mais in padella asciutta 30 secondi per lato e tienile al caldo. Scalda Fagioli neri (cotti) in un pentolino con un cucchiaio d'acqua e schiacciali appena. Strapazza Uova in padella antiaderente per 2-3 minuti. Farcisci le tortillas con fagioli, uova, salsa messicana, Avocado a fettine e Coriandolo fresco tritato. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Specific visual instruction: Finished two soft CORN tortillas, filled with lightly mashed BLACK beans, yellow scrambled eggs, red Mexican tomato salsa, sliced avocado and chopped coriander. Open tacos, not burritos; no cheese, lime, sour cream or other garnishes. Square single photograph.",
+    "sha256": "56d40f120189bbb5a2faa037bc891d1cfb291feb3a219b303581b9383cee521d",
+    "photoGroup": "7af29e4d7ff7f64261cd"
+  },
+  "tortilla_uova_fagioli_s0": {
+    "asset": "photography/tortilla_uova_fagioli_s0.webp",
+    "recipeId": "tortilla_uova_fagioli",
+    "stepIndex": 0,
+    "subject": "Scalda {tortilla_mais} in padella asciutta 30 secondi per lato e tienile al caldo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Tortillas con uova, fagioli neri e salsa. Ingredients: tortillas di mais, Uova, Fagioli neri (cotti), salsa messicana, Avocado, Coriandolo fresco. Earlier actions (context only):  Focal action to photograph: Scalda tortillas di mais in padella asciutta 30 secondi per lato e tienile al caldo.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Specific visual instruction: Only plain soft corn tortillas warming in DRY skillet, hand turning one with tongs. No filling, no oil, no garnishes. Square single photograph.",
+    "sha256": "3b8f7e9e4325a53cdaddb7b60dd4960574b828cf85f8736344a9a9b772c50cdb",
+    "photoGroup": "1ecf3ec98f1bb63cfbc4"
+  },
+  "tortilla_uova_fagioli_s1": {
+    "asset": "photography/tortilla_uova_fagioli_s1.webp",
+    "recipeId": "tortilla_uova_fagioli",
+    "stepIndex": 1,
+    "subject": "Scalda {fagioli_neri} in un pentolino con un cucchiaio d'acqua e schiacciali appena.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Tortillas con uova, fagioli neri e salsa. Ingredients: tortillas di mais, Uova, Fagioli neri (cotti), salsa messicana, Avocado, Coriandolo fresco. Earlier actions (context only): Scalda tortillas di mais in padella asciutta 30 secondi per lato e tienile al caldo. Focal action to photograph: Scalda Fagioli neri (cotti) in un pentolino con un cucchiaio d'acqua e schiacciali appena.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Specific visual instruction: Only cooked BLACK beans with little water warming in small saucepan, hand lightly crushing some beans with wooden spoon, most beans still recognizable. No eggs, tortilla, salsa or garnishes in pan. Square single photograph.",
+    "sha256": "142661e9457cf61c254a39e53dad571c23c151ed89887bee1e1842dde4b434b5",
+    "photoGroup": "ebae8342c460784037ec"
+  },
+  "tortilla_uova_fagioli_s2": {
+    "asset": "photography/tortilla_uova_fagioli_s2.webp",
+    "recipeId": "tortilla_uova_fagioli",
+    "stepIndex": 2,
+    "subject": "Strapazza {uova} in padella antiaderente per 2-3 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Tortillas con uova, fagioli neri e salsa. Ingredients: tortillas di mais, Uova, Fagioli neri (cotti), salsa messicana, Avocado, Coriandolo fresco. Earlier actions (context only): Scalda tortillas di mais in padella asciutta 30 secondi per lato e tienile al caldo. Scalda Fagioli neri (cotti) in un pentolino con un cucchiaio d'acqua e schiacciali appena. Focal action to photograph: Strapazza Uova in padella antiaderente per 2-3 minuti.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Specific visual instruction: Only yellow eggs being scrambled in nonstick frying pan, spatula folding moist soft curds. No beans, tomatoes, avocado, cheese or other ingredients in pan. Square single photograph.",
+    "sha256": "ca1e3569738f7ec9a36ed52b8b36c2dd1e041a1c3e1f73e60929efcaa77eea31",
+    "photoGroup": "56700a5820a17ad8de44"
+  },
+  "tortilla_uova_fagioli_s3": {
+    "asset": "photography/tortilla_uova_fagioli_s3.webp",
+    "recipeId": "tortilla_uova_fagioli",
+    "stepIndex": 3,
+    "subject": "Farcisci le tortillas con fagioli, uova, {salsa_messicana}, {avocado} a fettine e {coriandolo} tritato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Tortillas con uova, fagioli neri e salsa. Ingredients: tortillas di mais, Uova, Fagioli neri (cotti), salsa messicana, Avocado, Coriandolo fresco. Earlier actions (context only): Scalda tortillas di mais in padella asciutta 30 secondi per lato e tienile al caldo. Scalda Fagioli neri (cotti) in un pentolino con un cucchiaio d'acqua e schiacciali appena. Strapazza Uova in padella antiaderente per 2-3 minuti. Focal action to photograph: Farcisci le tortillas con fagioli, uova, salsa messicana, Avocado a fettine e Coriandolo fresco tritato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Specific visual instruction: Assembly action: a hand adds red tomato Mexican salsa to two warm soft corn tortillas already containing BLACK beans and scrambled eggs. Sliced avocado and chopped coriander are being arranged on top. No cheese, lime or sour cream. Square single photograph.",
+    "sha256": "8bfe1eb492e9678f94436bc6cdc88bbd80498108901aad9acd6e82bfc41c748b",
+    "photoGroup": "644586de8732f6317b27"
   }
 }
