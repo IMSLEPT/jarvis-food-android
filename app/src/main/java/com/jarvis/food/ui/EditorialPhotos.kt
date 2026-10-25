@@ -272,6 +272,11 @@ object EditorialPhotos {
         "greco_mela_nocciole_s2" to "photography/greco_mela_nocciole.webp",
         "greco_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "greco_mela_s1" to "photography/greco_mela.webp",
+        "insalata_greca_pollo" to "photography/insalata_greca_pollo.webp",
+        "insalata_greca_pollo_s0" to "photography/insalata_greca_pollo_s0.webp",
+        "insalata_greca_pollo_s1" to "photography/insalata_greca_pollo_s1.webp",
+        "insalata_greca_pollo_s2" to "photography/insalata_greca_pollo_s2.webp",
+        "insalata_greca_pollo_s3" to "photography/insalata_greca_pollo.webp",
         "insalata_pollo_patate" to "photography/insalata_pollo_patate.webp",
         "insalata_pollo_patate_s0" to "photography/insalata_pollo_patate_s0.webp",
         "insalata_pollo_patate_s1" to "photography/insalata_pollo_patate_s1.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pane_con_ricotta_pesche_e_pistacchi" to "photography/pane_con_ricotta_pesche_e_pistacchi.webp",
         "pane_con_ricotta_pesche_e_pistacchi_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_pesche_e_pistacchi_s1" to "photography/pane_con_ricotta_pesche_e_pistacchi_s1.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_con_ricotta_pesche_e_pistacchi_s2" to "photography/pane_con_ricotta_pesche_e_pistacchi.webp",
         "pane_con_ricotta_pomodorini_e_basilico" to "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s1" to "photography/pane_con_ricotta_pomodorini_e_basilico_s1.webp",
         "pane_con_ricotta_pomodorini_e_basilico_s2" to "photography/pane_con_ricotta_pomodorini_e_basilico.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_con_tahina_e_banana" to "photography/pane_con_tahina_e_banana.webp",
         "pane_con_tahina_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_tahina_e_banana_s1" to "photography/pane_con_tahina_e_banana_s1.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "smoothie_bowl_s1" to "photography/smoothie_bowl_s1.webp",
         "smoothie_bowl_s2" to "photography/smoothie_bowl.webp",
         "smoothie_proteico" to "photography/smoothie_proteico.webp",
+    )
+
+    private fun group3() = mapOf(
         "smoothie_proteico_s0" to "photography/smoothie_proteico_s0.webp",
         "smoothie_proteico_s1" to "photography/smoothie_proteico.webp",
         "spaghetti_pomodoro" to "photography/spaghetti_pomodoro.webp",
         "spaghetti_pomodoro_s0" to "photography/spaghetti_pomodoro_s0.webp",
         "spaghetti_pomodoro_s1" to "photography/spaghetti_pomodoro_s1.webp",
-    )
-
-    private fun group3() = mapOf(
         "spaghetti_pomodoro_s2" to "photography/spaghetti_pomodoro.webp",
         "tacchino_funghi" to "photography/tacchino_funghi.webp",
         "tacchino_funghi_s0" to "photography/tacchino_funghi_s0.webp",
