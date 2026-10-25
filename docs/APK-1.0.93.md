@@ -16,4 +16,6 @@ Dimensione: 211897197 byte. SHA-256 APK: `3591fa99251b0735df6ac66b8a0de691550b97
 
 Build e prove: https://github.com/IMSLEPT/jarvis-food-android/actions/runs/40220576079
 
+Pubblicazione del medesimo APK senza ricompilazione: https://github.com/IMSLEPT/jarvis-food-android/actions/runs/40221825447. La release contiene il file da 211897197 byte con SHA-256 identico al rapporto locale; versione 1.0.93 e firma sono state verificate prima del caricamento.
+
 [Scarica APK 1.0.93](https://github.com/IMSLEPT/jarvis-food-android/releases/download/v1.0.93/JarvisFood-v1.0.93.apk). [Rapporto verifiche](APK-1.0.93-verification.json).

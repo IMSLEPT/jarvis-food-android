@@ -24,6 +24,12 @@ Build [40217600483](https://github.com/IMSLEPT/jarvis-food-android/actions/runs/
 
 Pubblicazione del medesimo APK tramite [40219731299](https://github.com/IMSLEPT/jarvis-food-android/actions/runs/40219731299), senza ricompilazione: dimensione e SHA-256 dell’asset GitHub confrontati con il file verificato. Rapporto: [docs/APK-1.0.90.md](../../docs/APK-1.0.90.md). La produzione fotografica resta da riprendere da `salmone_friggitrice_asparagi`; restano 2375 ricette da completare.
 
+## Aggiornamento UI richiesto dopo la consegna 1.0.90 — 25 ottobre 2026
+
+Pubblicato [JarvisFood-v1.0.93.apk](https://github.com/IMSLEPT/jarvis-food-android/releases/download/v1.0.93/JarvisFood-v1.0.93.apk), source `ca86f55`, con la correzione dei Salva di Obiettivi, Preferenze della dieta e modifica del nome. Questo APK conserva lo snapshot fotografico della 1.0.90 (158 ricette complete, 435 immagini, 763 abbinamenti); il gruppo successivo del salmone resta nel repository. Firma di aggiornamento identica, modello AI offline e tutte le 435 immagini del precedente APK preservati byte per byte.
+
+Build `40220576079` riuscita: 70 test unitari e 15 esecuzioni di test Android 15/10 superate, inclusi sette footer con navigazione a tre tasti, gesti e testo ingrandito; controllati visivamente gli screenshot dei Salva e degli altri footer. Pubblicazione senza ricompilazione `40221825447` riuscita. Asset GitHub: 211897197 byte, SHA-256 `3591fa99251b0735df6ac66b8a0de691550b974df1e7fdab8c67816b425c257e`, uguale al file verificato. Rapporti: [APK-1.0.93.md](../../docs/APK-1.0.93.md) e [verifiche JSON](../../docs/APK-1.0.93-verification.json). Nessuna compilazione aggiuntiva per il gruppo fotografico.
+
 ## Ricette completate nella ripresa precedente
 
 - Porridge vegano alla mandorla e mirtilli (`porridge_mandorla_mirtilli`)

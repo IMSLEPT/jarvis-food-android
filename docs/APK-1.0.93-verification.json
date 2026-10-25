@@ -42,5 +42,8 @@
   },
   "signerCertificateSha256": "a039be1f4e694272f35ac964d46d28185535ce28b2dcfb5bbbedda264b4d80ca",
   "apkSignatureVerified": true,
-  "visualReview": "Esaminati Obiettivi e Dieta con tre tasti e testo standard/ingrandito, i tre Salva su Android 10, Obiettivi e Dieta con gesti e i cinque altri footer in tre configurazioni Android 15. Nessuna sovrapposizione con la navigazione di sistema nei soggetti esaminati."
+  "visualReview": "Esaminati Obiettivi e Dieta con tre tasti e testo standard/ingrandito, i tre Salva su Android 10, Obiettivi e Dieta con gesti e i cinque altri footer in tre configurazioni Android 15. Nessuna sovrapposizione con la navigazione di sistema nei soggetti esaminati.",
+  "publicationRun": 40221825447,
+  "publishedAssetSha256Matches": true,
+  "downloadUrl": "https://github.com/IMSLEPT/jarvis-food-android/releases/download/v1.0.93/JarvisFood-v1.0.93.apk"
 }
