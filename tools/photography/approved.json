@@ -6881,5 +6881,61 @@
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Tortillas con uova, fagioli neri e salsa. Ingredients: tortillas di mais, Uova, Fagioli neri (cotti), salsa messicana, Avocado, Coriandolo fresco. Earlier actions (context only): Scalda tortillas di mais in padella asciutta 30 secondi per lato e tienile al caldo. Scalda Fagioli neri (cotti) in un pentolino con un cucchiaio d'acqua e schiacciali appena. Strapazza Uova in padella antiaderente per 2-3 minuti. Focal action to photograph: Farcisci le tortillas con fagioli, uova, salsa messicana, Avocado a fettine e Coriandolo fresco tritato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Specific visual instruction: Assembly action: a hand adds red tomato Mexican salsa to two warm soft corn tortillas already containing BLACK beans and scrambled eggs. Sliced avocado and chopped coriander are being arranged on top. No cheese, lime or sour cream. Square single photograph.",
     "sha256": "8bfe1eb492e9678f94436bc6cdc88bbd80498108901aad9acd6e82bfc41c748b",
     "photoGroup": "644586de8732f6317b27"
+  },
+  "pancake_ricotta_fragole": {
+    "asset": "photography/pancake_ricotta_fragole.webp",
+    "recipeId": "pancake_ricotta_fragole",
+    "stepIndex": null,
+    "subject": "Pancake alla ricotta e fragole",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light in a bright warm home kitchen, light wood table and neutral ivory ceramics, realistic appetizing food textures, achievable homemade plating. Tight food framing meaningful in a square crop. No text, labels, watermark, collage or UI. Recipe: Pancake alla ricotta e fragole. Exact ingredients: light ricotta, eggs, wheat flour, fresh strawberries, honey. Preparation: mix ricotta, eggs and flour into thick smooth batter; spoon small pancakes into an ungreased nonstick skillet; cook gently two minutes per side until golden; serve with sliced strawberries and a thin drizzle of honey. Show only the finished dish, three small modest homemade ricotta pancakes on an ivory plate, tender naturally slightly irregular golden surfaces, strawberry slices and thin honey drizzle. No banana, no oats, no blueberries, no cream, no mint, no icing sugar, no butter, no syrup jug, no extra garnish. Landscape 3:2 single photograph, central food fits square crop. Save a downloadable image file usable as source for Android WebP conversion.",
+    "sha256": "ba8f3ef937f1bb2cd3ea66ea41385d3617740662d12205007f236586ba83e325",
+    "photoGroup": "d589e056f6677cfe647a"
+  },
+  "pancake_ricotta_fragole_s0": {
+    "asset": "photography/pancake_ricotta_fragole_s0.webp",
+    "recipeId": "pancake_ricotta_fragole",
+    "stepIndex": 0,
+    "subject": "Mescola {ricotta_light}, {uova} e {farina} fino a ottenere una pastella densa e liscia.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph, natural soft window light, bright warm home kitchen, light wood, neutral ivory ceramic bowl, professional food textures, close framing remaining meaningful in square crop, landscape 3:2. No text, labels, watermark, collage, faces, or invented ingredients. Recipe ricotta pancakes with strawberries and honey. Current stage only: mixing light ricotta, eggs and wheat flour into thick smooth pale cream batter in a bowl with a whisk. Show the whisk stirring the dense batter, small ricotta texture becoming smooth. No pancakes, no strawberries, no honey yet, no oats, no banana, no milk, no garnish. A single bowl is the focus.",
+    "sha256": "beb77a53fd8de4211b289739f7813a5c5bb339386b8f45dc086459de1ba686a7",
+    "photoGroup": "8d7d257e67e28f8aae3f"
+  },
+  "pancake_ricotta_fragole_s1": {
+    "asset": "photography/pancake_ricotta_fragole_s1.webp",
+    "recipeId": "pancake_ricotta_fragole",
+    "stepIndex": 1,
+    "subject": "Scalda una padella antiaderente e versa piccoli mucchietti di pastella.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph, natural soft window light, bright warm home kitchen, light wood, neutral ivory ceramic bowl, professional food textures, close framing remaining meaningful in square crop, landscape 3:2. No text, labels, watermark, collage, faces, or invented ingredients. Recipe ricotta pancakes with strawberries and honey. Current stage only: spooning small mounds of uncooked thick pale cream batter made only of light ricotta, eggs and wheat flour onto a heated dark matte nonstick frying pan. Three small raw round mounds, one spoon letting a small dollop join a mound. Surfaces still pale wet uncooked, no golden pancakes yet. No oil or butter in pan. No strawberries, honey, garnishes, extra ingredients or finished dish. Pan sits on a clean stovetop.",
+    "sha256": "cc94c3c8758d69522cc19f27a38ce5537bfc3e7677ede6798130f2ad0c34b2bb",
+    "photoGroup": "1ce88e6906e33916314c"
+  },
+  "pancake_ricotta_fragole_s2": {
+    "asset": "photography/pancake_ricotta_fragole_s2.webp",
+    "recipeId": "pancake_ricotta_fragole",
+    "stepIndex": 2,
+    "subject": "Cuoci 2 minuti per lato a fuoco medio-basso, finché sono dorati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph, natural soft window light, bright warm home kitchen, light wood, neutral ivory ceramic bowl, professional food textures, close framing remaining meaningful in square crop, landscape 3:2. No text, labels, watermark, collage, faces, or invented ingredients. Recipe ricotta pancakes with strawberries and honey. Current stage only: cooking three small ricotta pancakes made only with ricotta, eggs and wheat flour in a dark matte nonstick skillet over gentle heat on a clean stovetop. Two pancakes showing a naturally irregular golden cooked surface and a simple silicone spatula partly under a third freshly turned golden pancake, all flat in pan. Tender thick modest small pancakes, browned naturally, no burned edges. No butter or oil, no strawberries or honey yet, no plate of finished pancakes, no extra ingredients.",
+    "sha256": "c92bb5ab7f9b8aef63bbfa3bd149d55f7dc6e3a35dbadecea84e4deccb6164e5",
+    "photoGroup": "c93be592e28eb80cba9b"
+  },
+  "pancake_ricotta_fragole_s3": {
+    "asset": "photography/pancake_ricotta_fragole.webp",
+    "recipeId": "pancake_ricotta_fragole",
+    "stepIndex": 3,
+    "subject": "Servi con {fragole} a fettine e un filo di {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light in a bright warm home kitchen, light wood table and neutral ivory ceramics, realistic appetizing food textures, achievable homemade plating. Tight food framing meaningful in a square crop. No text, labels, watermark, collage or UI. Recipe: Pancake alla ricotta e fragole. Exact ingredients: light ricotta, eggs, wheat flour, fresh strawberries, honey. Preparation: mix ricotta, eggs and flour into thick smooth batter; spoon small pancakes into an ungreased nonstick skillet; cook gently two minutes per side until golden; serve with sliced strawberries and a thin drizzle of honey. Show only the finished dish, three small modest homemade ricotta pancakes on an ivory plate, tender naturally slightly irregular golden surfaces, strawberry slices and thin honey drizzle. No banana, no oats, no blueberries, no cream, no mint, no icing sugar, no butter, no syrup jug, no extra garnish. Landscape 3:2 single photograph, central food fits square crop. Save a downloadable image file usable as source for Android WebP conversion.",
+    "sha256": "ba8f3ef937f1bb2cd3ea66ea41385d3617740662d12205007f236586ba83e325",
+    "photoGroup": "d589e056f6677cfe647a",
+    "sharedFrom": "pancake_ricotta_fragole"
   }
 }

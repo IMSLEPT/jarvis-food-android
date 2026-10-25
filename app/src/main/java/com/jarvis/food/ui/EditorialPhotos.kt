@@ -294,6 +294,11 @@ object EditorialPhotos {
         "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
+        "pancake_ricotta_fragole" to "photography/pancake_ricotta_fragole.webp",
+        "pancake_ricotta_fragole_s0" to "photography/pancake_ricotta_fragole_s0.webp",
+        "pancake_ricotta_fragole_s1" to "photography/pancake_ricotta_fragole_s1.webp",
+        "pancake_ricotta_fragole_s2" to "photography/pancake_ricotta_fragole_s2.webp",
+        "pancake_ricotta_fragole_s3" to "photography/pancake_ricotta_fragole.webp",
         "pane_con_avocado_e_uova" to "photography/pane_con_avocado_e_uova.webp",
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_avocado_e_uova_s1" to "photography/pane_integrale_con_avocado_e_uova_s1.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pane_integrale_con_hummus_e_pomodori_s1" to "photography/pane_integrale_con_hummus_e_pomodori_s1.webp",
         "pane_integrale_con_hummus_e_pomodori_s2" to "photography/pane_integrale_con_hummus_e_pomodori.webp",
         "pane_integrale_con_mele_cannella_e_ricotta" to "photography/pane_integrale_con_mele_cannella_e_ricotta.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_integrale_con_mele_cannella_e_ricotta_s0" to "photography/toast_uova_avocado_s0.webp",
         "pane_integrale_con_mele_cannella_e_ricotta_s1" to "photography/pane_integrale_con_mele_cannella_e_ricotta_s1.webp",
         "pane_integrale_con_mele_cannella_e_ricotta_s2" to "photography/pane_integrale_con_mele_cannella_e_ricotta.webp",
         "pane_integrale_con_mozzarella_pomodoro_e_origano" to "photography/pane_integrale_con_mozzarella_pomodoro_e_origano.webp",
         "pane_integrale_con_mozzarella_pomodoro_e_origano_s0" to "photography/toast_uova_avocado_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_integrale_con_mozzarella_pomodoro_e_origano_s1" to "photography/pane_integrale_con_mozzarella_pomodoro_e_origano_s1.webp",
         "pane_integrale_con_mozzarella_pomodoro_e_origano_s2" to "photography/pane_integrale_con_mozzarella_pomodoro_e_origano.webp",
         "pane_integrale_con_pomodori_secchi_caprino_e_rucola" to "photography/pane_integrale_con_pomodori_secchi_caprino_e_rucola.webp",
@@ -605,6 +610,9 @@ object EditorialPhotos {
         "yogurt_greco_intero_con_banana" to "photography/yogurt_greco_intero_con_banana.webp",
         "yogurt_greco_intero_con_banana_s0" to "photography/banana_arachidi_s0.webp",
         "yogurt_greco_intero_con_banana_s1" to "photography/yogurt_greco_intero_con_banana.webp",
+    )
+
+    private fun group3() = mapOf(
         "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",
@@ -614,6 +622,7 @@ object EditorialPhotos {
         putAll(group0())
         putAll(group1())
         putAll(group2())
+        putAll(group3())
     }
 
     private val photoCredits: Map<String, String> = mapOf(
