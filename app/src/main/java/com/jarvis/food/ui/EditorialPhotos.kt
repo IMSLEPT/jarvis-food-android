@@ -42,6 +42,7 @@ object EditorialPhotos {
         "bowl_di_kefir_con_melograno_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
         "bowl_di_kefir_con_mirtilli_e_pistacchi_s0" to "photography/kefir_bosco_s0.webp",
         "bowl_di_kefir_con_mirtilli_e_pistacchi_s1" to "photography/mirtilli_fresca_s0.webp",
+        "bowl_di_yogurt_bianco_con_lamponi_e_granola_s1" to "photography/lamponi_fresca_s0.webp",
         "bowl_di_yogurt_greco_0_con_ananas_e_fiocchi_di_avena_s0" to "photography/yogurt_granola_s0.webp",
         "bowl_di_yogurt_greco_0_con_arancia_e_fiocchi_di_avena_s0" to "photography/yogurt_granola_s0.webp",
         "bowl_di_yogurt_greco_0_con_frutti_di_bosco_e_fiocchi_di_aven_s0" to "photography/yogurt_granola_s0.webp",
@@ -109,6 +110,7 @@ object EditorialPhotos {
         "ciotola_di_yogurt_greco_intero_con_melograno_e_fiocchi_di_av_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_intero_con_mirtilli_e_fiocchi_di_ave_s0" to "photography/yogurt_granola_s0.webp",
         "ciotola_di_yogurt_greco_intero_con_mirtilli_e_fiocchi_di_ave_s1" to "photography/mirtilli_fresca_s0.webp",
+        "ciotola_di_yogurt_magro_con_lamponi_e_mandorle_s1" to "photography/lamponi_fresca_s0.webp",
         "club_sandwich_di_pollo_con_avocado_s2" to "photography/toast_uova_avocado_s0.webp",
         "club_sandwich_di_pollo_con_avocado_su_pane_bianco_s2" to "photography/pane_ricotta_marmellata_s0.webp",
         "club_sandwich_di_pollo_con_uovo_s2" to "photography/toast_uova_avocado_s0.webp",
@@ -127,6 +129,7 @@ object EditorialPhotos {
         "colazione_giapponese_s2" to "photography/colazione_giapponese_s2.webp",
         "colazione_giapponese_s3" to "photography/colazione_giapponese.webp",
         "coppa_di_kefir_con_lamponi_e_semi_di_chia_s0" to "photography/kefir_bosco_s0.webp",
+        "coppa_di_kefir_con_lamponi_e_semi_di_chia_s1" to "photography/lamponi_fresca_s0.webp",
         "coppa_di_kefir_con_mango_e_semi_di_chia_s0" to "photography/kefir_bosco_s0.webp",
         "coppa_di_kefir_con_papaya_e_semi_di_chia_s0" to "photography/kefir_bosco_s0.webp",
         "coppa_di_kefir_con_pera_e_semi_di_chia_s0" to "photography/kefir_bosco_s0.webp",
@@ -201,12 +204,12 @@ object EditorialPhotos {
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1.webp",
-        "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
-        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
-        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
     )
 
     private fun group1() = mapOf(
+        "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
+        "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s1" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s1.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s2" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica" to "photography/fette_biscottate_con_formaggio_spalmabile_e_salmone_affumica.webp",
@@ -305,6 +308,15 @@ object EditorialPhotos {
         "kefir_bosco" to "photography/kefir_bosco.webp",
         "kefir_bosco_s0" to "photography/kefir_bosco_s0.webp",
         "kefir_bosco_s1" to "photography/kefir_bosco_s1.webp",
+        "kefir_con_lamponi_s0" to "photography/lamponi_fresca_s0.webp",
+        "lamponi_con_cioccolato_fondente_s0" to "photography/lamponi_fresca_s0.webp",
+        "lamponi_con_ricotta_e_miele_s0" to "photography/lamponi_fresca_s0.webp",
+        "lamponi_e_anacardi_s0" to "photography/lamponi_fresca_s0.webp",
+        "lamponi_e_noci_s0" to "photography/lamponi_fresca_s0.webp",
+        "lamponi_fresca" to "photography/lamponi_fresca.webp",
+        "lamponi_fresca_s0" to "photography/lamponi_fresca_s0.webp",
+        "lamponi_fresca_s1" to "photography/lamponi_fresca_s1.webp",
+        "lamponi_in_coppa_con_crema_di_yogurt_e_cacao_s0" to "photography/lamponi_fresca_s0.webp",
         "latte_cereali_fragole" to "photography/latte_cereali_fragole.webp",
         "latte_cereali_fragole_s0" to "photography/latte_cereali_fragole_s0.webp",
         "latte_cereali_fragole_s1" to "photography/latte_cereali_fragole_s1.webp",
@@ -362,6 +374,7 @@ object EditorialPhotos {
         "omelette_cotto_s3" to "photography/omelette_cotto.webp",
         "overnight_oats" to "photography/overnight_oats.webp",
         "overnight_oats_con_banana_e_chia_s2" to "photography/banana_arachidi_s0.webp",
+        "overnight_oats_con_lamponi_e_sesamo_s2" to "photography/lamponi_fresca_s0.webp",
         "overnight_oats_con_mela_e_semi_di_lino_s2" to "photography/greco_mela_nocciole_s0.webp",
         "overnight_oats_con_mirtilli_e_semi_di_zucca_s2" to "photography/mirtilli_fresca_s0.webp",
         "overnight_oats_s0" to "photography/overnight_oats_s0.webp",
@@ -394,6 +407,9 @@ object EditorialPhotos {
         "pancake_ricotta_fragole_s0" to "photography/pancake_ricotta_fragole_s0.webp",
         "pancake_ricotta_fragole_s1" to "photography/pancake_ricotta_fragole_s1.webp",
         "pancake_ricotta_fragole_s2" to "photography/pancake_ricotta_fragole_s2.webp",
+    )
+
+    private fun group2() = mapOf(
         "pancake_ricotta_fragole_s3" to "photography/pancake_ricotta_fragole.webp",
         "pane_con_avocado_e_uova" to "photography/pane_con_avocado_e_uova.webp",
         "pane_con_avocado_e_uova_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -407,9 +423,6 @@ object EditorialPhotos {
         "pane_con_burro_di_mandorle_e_fragole_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_caprino_pere_e_noci" to "photography/pane_con_caprino_pere_e_noci.webp",
         "pane_con_caprino_pere_e_noci_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_con_caprino_pere_e_noci_s1" to "photography/pane_con_caprino_pere_e_noci_s1.webp",
         "pane_con_caprino_pere_e_noci_s2" to "photography/pane_con_caprino_pere_e_noci.webp",
         "pane_con_crema_di_nocciole_e_banana_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -597,6 +610,9 @@ object EditorialPhotos {
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
         "poke_salmone_s2" to "photography/poke_salmone_s2.webp",
+    )
+
+    private fun group3() = mapOf(
         "poke_salmone_s3" to "photography/poke_salmone.webp",
         "pollo_curry_basmati" to "photography/pollo_curry_basmati.webp",
         "pollo_curry_basmati_s0" to "photography/pollo_curry_basmati_s0.webp",
@@ -610,16 +626,15 @@ object EditorialPhotos {
         "pollo_limone_verdure_s3" to "photography/pollo_limone_verdure.webp",
         "porridge_banana" to "photography/porridge_banana.webp",
         "porridge_banana_e_noci_cannella_s2" to "photography/banana_arachidi_s0.webp",
-    )
-
-    private fun group3() = mapOf(
         "porridge_banana_s0" to "photography/porridge_banana_s0.webp",
         "porridge_banana_s1" to "photography/porridge_banana_s1.webp",
         "porridge_banana_s2" to "photography/porridge_banana_s2.webp",
         "porridge_banana_s3" to "photography/porridge_banana.webp",
         "porridge_di_avena_con_banana_anacardi_e_cardamomo_s2" to "photography/banana_arachidi_s0.webp",
+        "porridge_di_avena_con_lamponi_anacardi_e_cacao_s2" to "photography/lamponi_fresca_s0.webp",
         "porridge_di_avena_con_mela_pistacchi_e_zenzero_s2" to "photography/greco_mela_nocciole_s0.webp",
         "porridge_di_avena_con_mirtilli_nocciole_e_zenzero_s2" to "photography/mirtilli_fresca_s0.webp",
+        "porridge_lamponi_e_noci_cardamomo_s2" to "photography/lamponi_fresca_s0.webp",
         "porridge_mandorla_mirtilli" to "photography/porridge_mandorla_mirtilli.webp",
         "porridge_mandorla_mirtilli_s0" to "photography/porridge_mandorla_mirtilli_s0.webp",
         "porridge_mandorla_mirtilli_s1" to "photography/porridge_mandorla_mirtilli_s1.webp",
@@ -762,6 +777,7 @@ object EditorialPhotos {
 
     private val photoCredits: Map<String, String> = mapOf(
         "photography/banana_con_cioccolato_fondente_s1.webp" to "Foto: Lenore Edman · Wikimedia Commons · CC BY 2.0",
+        "photography/lamponi_fresca.webp" to "Foto: Saramukitza · Pixabay",
         "photography/mirtilli_fresca.webp" to "Foto: Eva Bronzini · Pexels",
         "photography/pane_integrale_con_avocado_e_uova_s1.webp" to "Foto: hartono subagio · Unsplash",
     )

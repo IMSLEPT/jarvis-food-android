@@ -146,3 +146,7 @@ registrati. Il comando di avvio immediato ha restituito `404 Action not found`
 prima dell'invocazione; non è una prova avviata o completata. Verificare il primo
 risultato registrato e il commit effettivo prima di dichiarare la produzione
 automatica funzionante. Non inferire avanzamento dalla sola attività abilitata.
+
+## Esecuzione del gruppo lamponi — 25 ottobre 2026
+
+Il prompt di prosecuzione è stato eseguito su un checkout aggiornato al commit `51ec955`. Il generatore incluso è stato effettivamente chiamato per risciacquo e consumo dei lamponi; originale e ritaglio di tutte e tre le immagini sono stati esaminati. Conversione, abbinamenti, verifica fotografica e controllo degli originali superati. Fonte Pixabay, autore e licenza sincronizzati anche offline. Questa prova riguarda un solo gruppo e non garantisce disponibilità o qualità dei gruppi futuri; la pubblicazione va verificata dal commit effettivo sul ramo. Nessun agente open source autonomo installato su GitHub.

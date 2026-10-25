@@ -27,3 +27,12 @@ File originale: https://images.pexels.com/photos/6864155/pexels-photo-6864155.jp
 Licenza: Pexels License — https://www.pexels.com/license/
 Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione WebP qualità 85; nessun ritocco al soggetto.
 Verificata: 2026-10-25
+
+photography/lamponi_fresca.webp
+Fresh ripe raspberries in a white bowl on a clean white background.
+Autore: Saramukitza
+Fonte: https://pixabay.com/photos/bowl-raspberries-bay-fruit-table-2747181/
+File originale: https://cdn.pixabay.com/photo/2017/09/13/21/57/bowl-2747181_1280.jpg
+Licenza: Pixabay Content License — https://pixabay.com/service/license-summary/
+Modifiche: Conversione del file 1280×853 in WebP qualità 85, senza ritocchi al soggetto né ritaglio del file distribuito.
+Verificata: 2026-10-25

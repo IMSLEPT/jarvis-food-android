@@ -36,3 +36,16 @@ Fotografie selezionate e controllate visivamente. Nessun acquisto o abbonamento.
 - Verificata il 2026-10-25 sulla pagina della fotografia e sulla pagina ufficiale della licenza.
 - Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione WebP qualità 85; nessun ritocco al soggetto.
 - Credito nell’app: Foto: Eva Bronzini · Pexels. Attribuzione completa inclusa anche nei crediti offline.
+
+## Saramukitza — Pixabay
+
+- Titolo: **Fresh ripe raspberries in a white bowl on a clean white background.**.
+- Asset: `photography/lamponi_fresca.webp`.
+- Uso: foto principale della ricetta di soli lamponi; i due passaggi hanno foto dedicate.
+- Fonte: https://pixabay.com/photos/bowl-raspberries-bay-fruit-table-2747181/
+- Autore: https://pixabay.com/users/saramukitza-2447148/
+- File scaricato: https://cdn.pixabay.com/photo/2017/09/13/21/57/bowl-2747181_1280.jpg
+- Licenza: [Pixabay Content License](https://pixabay.com/service/license-summary/). Verificata il 2026-10-25 insieme alla pagina specifica.
+- Uso come illustrazione della ricetta nell’app; nessuna distribuzione come fotografia autonoma o servizio di stock.
+- Modifiche: Conversione del file 1280×853 in WebP qualità 85, senza ritocchi al soggetto né ritaglio del file distribuito.
+- Credito nell’app: Foto: Saramukitza · Pixabay. Fonte e licenza complete conservate anche negli asset offline.
