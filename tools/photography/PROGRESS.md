@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 162 ricette complete di foto principale e di tutti i passaggi.
-- 452 WebP distinti, 781 abbinamenti verificati.
-- 498 passaggi delle ricette complete coperti.
-- 2371 ricette da completare.
+- 163 ricette complete di foto principale e di tutti i passaggi.
+- 456 WebP distinti, 786 abbinamenti verificati.
+- 502 passaggi delle ricette complete coperti.
+- 2370 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK precedente consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -253,7 +253,18 @@ Ricette completate: frittata_zucchine_feta. Nuove immagini: 4; nuovi abbinamenti
 
 Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
 
-Punto preciso da cui riprendere: **polpette_pollo_polenta**. Restano 2371 ricette e 11991 abbinamenti; 7982 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo della frittata con zucchine e feta.
+Punto di ripresa precedente (vedere ultimo gruppo): **polpette_pollo_polenta**. Restano 2371 ricette e 11991 abbinamenti; 7982 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo della frittata con zucchine e feta.
 
 
 Ripresa da `06664e1`, verificato contro GitHub senza aggiornamenti successivi; conservate tutte le modifiche precedenti. Generatore incluso realmente disponibile: cinque output prodotti, quattro approvati e una prima versione delle zucchine scartata per granelli bianchi sulla spatola e ciotola di ingredienti sullo sfondo, rimossi nella sostitutiva. Originali e ritagli esaminati individualmente, poi ricontrollati nei WebP convertiti: tre 1280×853 e uno quadrato 1254×1254. Soggetti: frittata servita con fetta tagliata, rondelle di zucchine saltate, versamento di uova e origano senza feta e cottura in forno dopo aggiunta della feta. Nessun riuso compatibile aggiuntivo da `share.py`; regole invariate. Tutti i **448 WebP e 777 record** precedenti e le attribuzioni online/offline sono identici. Verifiche superate: fotografia, confine funzionale, indice Kotlin/manifest e decodifica/dimensioni. Rapporto con prompt effettivi, hash, osservazioni e candidata scartata: `tools/photography/reviews/2026-10-25T21-20-31.680838+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica a ricette/funzionalità o compilazione APK; test unitari/Android non ripetuti per questo gruppo fotografico.
+
+## Gruppo con pipeline riprendibile — 2026-10-25
+
+Ricette completate: polpette_pollo_polenta. Nuove immagini: 4; nuovi abbinamenti: 5.
+
+Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
+
+Punto preciso da cui riprendere: **zuppa_legumi**. Restano 2370 ricette e 11986 abbinamenti; 7978 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo delle polpette di pollo con polenta.
+
+
+Ripresa da `7d6d1d5`, verificato contro GitHub senza aggiornamenti successivi; conservati tutti i gruppi e le correzioni precedenti. Generatore incluso effettivamente disponibile: quattro output prodotti, tutti approvati dopo esame individuale degli originali e dei ritagli; ricontrollati anche nei quattro WebP convertiti 1280×853. Soggetti: polpette di pollo al sugo servite sulla polenta, formazione delle polpette crude con uovo/Parmigiano e sale/pepe previsti dal procedimento, cottura coperta nella passata e polenta di mais mescolata in pentola. Il solo riuso aggiunto da `share.py` è la principale per il servizio finale sulla polenta, già consentito dalle regole esistenti. Tutti i **452 WebP e 781 record** precedenti e le attribuzioni online/offline sono identici; verificati esattamente i 786 abbinamenti indice Kotlin/manifest, decodifica/dimensioni, fotografia e confine funzionale. Rapporto con prompt effettivi, hash e osservazioni: `tools/photography/reviews/2026-10-25T22-16-48.704680+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica a ricette/funzionalità o compilazione APK; test unitari/Android non ripetuti per questo gruppo fotografico.
