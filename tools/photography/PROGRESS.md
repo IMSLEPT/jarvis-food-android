@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 147 ricette complete di foto principale e di tutti i passaggi.
-- 383 WebP distinti, 679 abbinamenti verificati.
-- 441 passaggi delle ricette complete coperti.
-- 2386 ricette da completare.
+- 148 ricette complete di foto principale e di tutti i passaggi.
+- 388 WebP distinti, 685 abbinamenti verificati.
+- 446 passaggi delle ricette complete coperti.
+- 2385 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -99,4 +99,18 @@ Controlli superati: `verify.py`, `scripts/verify-aurora-boundary.py`, corrispond
 
 Verifica visiva finale anche sui ritagli quadrati dei 21 nuovi WebP. Prodotti 24 output del generatore integrato: 20 immagini AI nella raccolta attuale e 4 versioni intermedie scartate o sostituite (consistenza della mozzarella, ingrediente estraneo sullo sfondo della caprese, mais escluso dal ritaglio della preparazione del riso). La foto di preparazione del riso è stata corretta con una composizione quadrata che conserva visibili carota, pomodoro, tonno e mais. La fotografia reale di Lenore Edman è stata verificata nell’originale e dopo conversione, senza ritocchi al soggetto; credito e licenza conservati anche offline.
 
-Punto preciso da cui riprendere: **Buddha bowl di quinoa, tofu e verdure arrosto (`buddha_bowl_tofu`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2386 ricette** e **12093 abbinamenti** da completare. Nessuna produzione in background.
+Punto di ripresa precedente (superato dalla terza prosecuzione): **Buddha bowl di quinoa, tofu e verdure arrosto (`buddha_bowl_tofu`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2386 ricette** e **12093 abbinamenti** da completare. Nessuna produzione in background.
+
+## Terza prosecuzione fotografica — 25 ottobre 2026
+
+Ripresa dal commit `2986464`, verificato su GitHub senza aggiornamenti successivi. Aggiunte **1 ricette complete, 5 immagini distinte e 6 abbinamenti** in questa prosecuzione. Nessun acquisto, credito acquistabile, API esterna a pagamento o abbonamento aggiuntivo. Generatore integrato `image_gen` disponibile ed effettivamente utilizzato.
+
+Ricette completate con immagine principale e tutti i passaggi:
+
+- Buddha bowl di quinoa, tofu e verdure arrosto (`buddha_bowl_tofu`).
+
+Le immagini sono state controllate visivamente per ingredienti, fase, cottura, utensili e presentazione, quindi integrate con `prepare.py` e `share.py`. Verifiche superate: `verify.py`, `scripts/verify-aurora-boundary.py`, indice Kotlin coerente col manifest, decodifica WebP, assenza di file duplicati con contenuto identico. Ricerca gratuita su Wikimedia Commons per la quinoa: nessun risultato adatto; nessuna nuova fotografia online importata. Le fotografie reali già presenti e le attribuzioni restano intatte.
+
+Tutti i **383 WebP e 679 record** del checkpoint iniziale, insieme ai crediti offline, sono identici. Database, ingredienti, grammature, nutrizione, grafica, funzionalità e distribuzione/condivisione delle immagini preservati. Ogni gruppo salvato su GitHub con `[skip ci]` prima del successivo. Nessun nuovo APK; test unitari e Android non rieseguiti per questi soli aggiornamenti fotografici.
+
+Punto preciso da cui riprendere: **Noodles di riso con tofu e verdure (`noodles_tofu_verdure`)**. Rigenerare `python tools/photography/plan.py --out /tmp/pending.jsonl`. Restano **2385 ricette** e **12087 abbinamenti** mancanti. Nessuna produzione in background.

@@ -7800,5 +7800,72 @@
     "sha256": "428f6ee99f1cc69fba448e76debf3c43b6752bf53d0487166fa345e55671d2d0",
     "photoGroup": "c3276307419427a2753e",
     "sharedFrom": "pasta_fredda_caprese"
+  },
+  "buddha_bowl_tofu": {
+    "asset": "photography/buddha_bowl_tofu.webp",
+    "recipeId": "buddha_bowl_tofu",
+    "stepIndex": null,
+    "subject": "Buddha bowl di quinoa, tofu e verdure arrosto",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2; keep all important foods tightly grouped in central square-crop-safe area. No text, labels, watermark, collage, portraits or invented ingredients. Finished Buddha bowl of QUINOA, TOFU and ROASTED VEGETABLES. Exact ingredients: cooked white quinoa with tiny translucent grains and visible curled germ rings, firm tofu cut into CUBES dusted with PAPRIKA and roasted, orange PUMPKIN cubes roasted, green BROCCOLI florets roasted, TAHINI thinned with lemon juice and water as a small light beige drizzle. One modest broad ivory bowl holds quinoa base with paprika-tofu cubes, tender roasted pumpkin cubes and broccoli florets with lightly browned edges, small tahini-lemon drizzle over them. Dry-roasted texture, no added oil. Tofu recognizably off-white inside, pale golden outside with red paprika dust, not meat. No rice, couscous, chickpeas, avocado, carrot, pepper, raw salad, sesame garnish, seeds, nuts, herbs, garlic or other garnish.",
+    "sha256": "9fb6c3a8a6d4f7f2ac40b56d6f0966140194404391fa41eeeecff6a84f8d2d45",
+    "photoGroup": "d6819bc7720795c407de"
+  },
+  "buddha_bowl_tofu_s0": {
+    "asset": "photography/buddha_bowl_tofu_s0.webp",
+    "recipeId": "buddha_bowl_tofu",
+    "stepIndex": 0,
+    "subject": "Scalda il forno a 200 °C. Taglia {zucca} a cubetti e {broccoli} a cimette.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2; keep all important foods tightly grouped in central square-crop-safe area. No text, labels, watermark, collage, portraits or invented ingredients. Buddha bowl FIRST step, raw vegetable preparation: natural hands use a normal kitchen knife to cut a peeled orange PUMPKIN wedge into small CUBES on a light wood cutting board. Immediately beside it a small pile of fresh raw green BROCCOLI FLORETS already cut from stalk. Pumpkin cubes and broccoli florets both clearly recognizable and together in central framing. Raw firm texture, no browning or cooking yet. Only pumpkin and broccoli present at this stage, no tofu, quinoa, paprika, tahini, lemon, oil, herbs or finished bowl. No split scene; one continuous cutting board.",
+    "sha256": "a4f7e2752f24dc4caca7f0174cca0e172745c9f49ed8cb9c208212823571c6ea",
+    "photoGroup": "c62328962cf5dac6fb3b"
+  },
+  "buddha_bowl_tofu_s1": {
+    "asset": "photography/buddha_bowl_tofu_s1.webp",
+    "recipeId": "buddha_bowl_tofu",
+    "stepIndex": 1,
+    "subject": "Taglia {tofu} a dadi, condiscilo con {paprika} e disponi tutto su una teglia con carta forno.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 with main foods compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Buddha bowl BEFORE ROASTING: a small parchment-lined metal oven tray on a light wood counter holding RAW white FIRM TOFU CUBES dusted with red PAPRIKA, raw orange PUMPKIN CUBES and fresh raw green BROCCOLI FLORETS in a single even layer. Natural hand finishes placing one paprika-tofu cube on tray. Tofu clearly uncooked white inside with dry red paprika dust; pumpkin raw firm matte orange, broccoli fresh green, parchment clean and not yet browned. Only tofu, paprika, pumpkin and broccoli. NO cooked browning, quinoa, tahini, lemon, oil, herbs or plated bowl. Show complete tray preparation in continuous kitchen scene.",
+    "sha256": "0a9e8f0cc70dead0fbdf601615c8559f926833bdfcf8c45a97ac43c639e6ebe0",
+    "photoGroup": "6566311895626d7df58a"
+  },
+  "buddha_bowl_tofu_s2": {
+    "asset": "photography/buddha_bowl_tofu_s2.webp",
+    "recipeId": "buddha_bowl_tofu",
+    "stepIndex": 2,
+    "subject": "Cuoci 25 minuti, girando a metà cottura.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 with main foods compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Buddha bowl ROASTING step: small metal oven tray on a secure oven rack in a clean open oven after 25 minutes at 200 degrees. On lightly browned parchment, PAPRIKA-DUSTED TOFU CUBES now lightly golden, tender orange PUMPKIN CUBES with caramelized edges, green BROCCOLI FLORETS with lightly toasted brown tips, NOT burnt. A simple silicone spatula is turning one tofu cube midway through roasting, food remains on tray. Dry roast with no added oil. All three foods on ONE tray, central close view, clearly COOKED unlike raw tray. NO quinoa, tahini sauce, lemon, herbs or finished bowl yet.",
+    "sha256": "d318706058c6105973483d244b852032b962f3a1fc23c8c39e0ea462394bd565",
+    "photoGroup": "4cdf37f7397396cb1394"
+  },
+  "buddha_bowl_tofu_s3": {
+    "asset": "photography/buddha_bowl_tofu_s3.webp",
+    "recipeId": "buddha_bowl_tofu",
+    "stepIndex": 3,
+    "subject": "Cuoci {quinoa} in acqua per 12 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, neutral light wood, realistic food textures, landscape 3:2 central square-crop-safe framing. Buddha bowl intermediate QUINOA cooking step: a small stainless saucepan on clean stove with plain WHITE QUINOA simmering gently in water, now near end of twelve minutes cooking. Recognizable tiny ivory/translucent quinoa grains, fine WHITE CURLED GERM RINGS emerging, a little water still present, gentle small bubbles and faint steam. Natural wooden spoon gently stirs grains. Quinoa grains truly tiny and delicate, NOT rice, couscous or large round pearls. Only quinoa and water at this stage. No vegetables, tofu, pumpkin, broccoli, paprika, tahini, lemon, oil, herbs, garnish or finished bowl. No text, labels, watermark, collage, portraits or extra ingredients.",
+    "sha256": "19603bdd4c8224994793cc8756804eb65ed183f82bde671f2bbcd751abc1780a",
+    "photoGroup": "393154a6f84edd9a7cf2"
+  },
+  "buddha_bowl_tofu_s4": {
+    "asset": "photography/buddha_bowl_tofu.webp",
+    "recipeId": "buddha_bowl_tofu",
+    "stepIndex": 4,
+    "subject": "Componi la bowl e condisci con {tahina} diluita con succo di {limone} e poca acqua.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2; keep all important foods tightly grouped in central square-crop-safe area. No text, labels, watermark, collage, portraits or invented ingredients. Finished Buddha bowl of QUINOA, TOFU and ROASTED VEGETABLES. Exact ingredients: cooked white quinoa with tiny translucent grains and visible curled germ rings, firm tofu cut into CUBES dusted with PAPRIKA and roasted, orange PUMPKIN cubes roasted, green BROCCOLI florets roasted, TAHINI thinned with lemon juice and water as a small light beige drizzle. One modest broad ivory bowl holds quinoa base with paprika-tofu cubes, tender roasted pumpkin cubes and broccoli florets with lightly browned edges, small tahini-lemon drizzle over them. Dry-roasted texture, no added oil. Tofu recognizably off-white inside, pale golden outside with red paprika dust, not meat. No rice, couscous, chickpeas, avocado, carrot, pepper, raw salad, sesame garnish, seeds, nuts, herbs, garlic or other garnish.",
+    "sha256": "9fb6c3a8a6d4f7f2ac40b56d6f0966140194404391fa41eeeecff6a84f8d2d45",
+    "photoGroup": "d6819bc7720795c407de",
+    "sharedFrom": "buddha_bowl_tofu"
   }
 }
