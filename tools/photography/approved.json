@@ -6725,5 +6725,61 @@
     "sha256": "1b04fd76b6cca2d8b25fd77a55f7a2bb2bdef954acd169a0e8a599d0cea1fe14",
     "photoGroup": "5eeb82d8b9428cc808ee",
     "sharedFrom": "fette_biscottate_con_pomodori_secchi_caprino_e_rucola"
+  },
+  "porridge_mandorla_mirtilli": {
+    "asset": "photography/porridge_mandorla_mirtilli.webp",
+    "recipeId": "porridge_mandorla_mirtilli",
+    "stepIndex": null,
+    "subject": "Porridge vegano alla mandorla e mirtilli",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Porridge vegano alla mandorla e mirtilli. Ingredients: Fiocchi d'avena, bevanda di mandorla, Mirtilli, Semi di chia, semi di zucca, Cannella.  Preparation context (do not print it): Versa Fiocchi d'avena e bevanda di mandorla in un pentolino e mescola. Cuoci a fuoco dolce per 5-6 minuti mescolando finché si addensa. Versa in una ciotola e aggiungi Mirtilli, Semi di chia e semi di zucca. Completa con un pizzico di cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. No almonds as garnish, no banana, no honey, no ingredients outside this exact recipe. Finished creamy oat bowl topped with fresh blueberries, small black chia seeds, green pumpkin seeds and a light pinch of cinnamon. Square single photograph.",
+    "sha256": "d4463b52f288f39171c60a62a7f24ae678c8893820db4a734fcd5f9604824be9",
+    "photoGroup": "7bd3645316d501ab3ad8"
+  },
+  "porridge_mandorla_mirtilli_s0": {
+    "asset": "photography/porridge_mandorla_mirtilli_s0.webp",
+    "recipeId": "porridge_mandorla_mirtilli",
+    "stepIndex": 0,
+    "subject": "Versa {avena} e {mandorla_drink} in un pentolino e mescola.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Porridge vegano alla mandorla e mirtilli. Ingredients: Fiocchi d'avena, bevanda di mandorla, Mirtilli, Semi di chia, semi di zucca, Cannella. Earlier actions (context only):  Focal action to photograph: Versa Fiocchi d'avena e bevanda di mandorla in un pentolino e mescola.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. No almonds as garnish, no banana, no honey, no ingredients outside this exact recipe. Starting stage: dry oat flakes being added to fluid almond drink in small saucepan, loose and uncooked, hand stirring. Square single photograph.",
+    "sha256": "9ff714a93f52551e86970bdf9d2d21125bc3bcc896e816da2c5f73e66e900615",
+    "photoGroup": "f950bb51b1b65e1d8f16"
+  },
+  "porridge_mandorla_mirtilli_s1": {
+    "asset": "photography/porridge_mandorla_mirtilli_s1.webp",
+    "recipeId": "porridge_mandorla_mirtilli",
+    "stepIndex": 1,
+    "subject": "Cuoci a fuoco dolce per 5-6 minuti mescolando finché si addensa.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Porridge vegano alla mandorla e mirtilli. Ingredients: Fiocchi d'avena, bevanda di mandorla, Mirtilli, Semi di chia, semi di zucca, Cannella. Earlier actions (context only): Versa Fiocchi d'avena e bevanda di mandorla in un pentolino e mescola. Focal action to photograph: Cuoci a fuoco dolce per 5-6 minuti mescolando finché si addensa.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. No almonds as garnish, no banana, no honey, no ingredients outside this exact recipe. Cooking stage: thickened creamy cooked oats stirred with wooden spoon in small saucepan on low stovetop heat, a little steam, no toppings yet. Square single photograph.",
+    "sha256": "8cd31bc6e6c9a43ddd4032e626b6005382e8bd85bc17bcf9cce2923865b7e312",
+    "photoGroup": "7c5f57cd6a8fe39c9bb7"
+  },
+  "porridge_mandorla_mirtilli_s2": {
+    "asset": "photography/porridge_mandorla_mirtilli_s2.webp",
+    "recipeId": "porridge_mandorla_mirtilli",
+    "stepIndex": 2,
+    "subject": "Versa in una ciotola e aggiungi {mirtilli}, {chia} e {zucca_semi}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Porridge vegano alla mandorla e mirtilli. Ingredients: Fiocchi d'avena, bevanda di mandorla, Mirtilli, Semi di chia, semi di zucca, Cannella. Earlier actions (context only): Versa Fiocchi d'avena e bevanda di mandorla in un pentolino e mescola. Cuoci a fuoco dolce per 5-6 minuti mescolando finché si addensa. Focal action to photograph: Versa in una ciotola e aggiungi Mirtilli, Semi di chia e semi di zucca.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. No almonds as garnish, no banana, no honey, no ingredients outside this exact recipe. Topping stage: cooked oatmeal in ivory bowl, hand adding blueberries, black chia seeds and green pumpkin seeds; no cinnamon yet. Square single photograph.",
+    "sha256": "c9d3ffe7ead97e02f53438524e958684cd5d215b8d4ad91729b58fe1b709aa04",
+    "photoGroup": "4625c087d96e4ede765f"
+  },
+  "porridge_mandorla_mirtilli_s3": {
+    "asset": "photography/porridge_mandorla_mirtilli.webp",
+    "recipeId": "porridge_mandorla_mirtilli",
+    "stepIndex": 3,
+    "subject": "Completa con un pizzico di cannella.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Porridge vegano alla mandorla e mirtilli. Ingredients: Fiocchi d'avena, bevanda di mandorla, Mirtilli, Semi di chia, semi di zucca, Cannella.  Preparation context (do not print it): Versa Fiocchi d'avena e bevanda di mandorla in un pentolino e mescola. Cuoci a fuoco dolce per 5-6 minuti mescolando finché si addensa. Versa in una ciotola e aggiungi Mirtilli, Semi di chia e semi di zucca. Completa con un pizzico di cannella. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. No almonds as garnish, no banana, no honey, no ingredients outside this exact recipe. Finished creamy oat bowl topped with fresh blueberries, small black chia seeds, green pumpkin seeds and a light pinch of cinnamon. Square single photograph.",
+    "sha256": "d4463b52f288f39171c60a62a7f24ae678c8893820db4a734fcd5f9604824be9",
+    "photoGroup": "7bd3645316d501ab3ad8",
+    "sharedFrom": "porridge_mandorla_mirtilli"
   }
 }
