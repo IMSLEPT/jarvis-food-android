@@ -6993,5 +6993,61 @@
     "sha256": "d0611834f5279491701e57835ada0e415a0ad4f830df6f3a656512bbe60903b9",
     "photoGroup": "e6bc6f73bc3f47e81a9e",
     "sharedFrom": "chia_pudding_mango"
+  },
+  "colazione_giapponese": {
+    "asset": "photography/colazione_giapponese.webp",
+    "recipeId": "colazione_giapponese",
+    "stepIndex": null,
+    "subject": "Colazione giapponese: riso, uova e zuppa di miso",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic textures and achievable homemade food, landscape 3:2 composition with central subjects remaining meaningful in square crop. No text, watermark, labels or collage. Finished Japanese breakfast made ONLY of cooked plain white rice, two eggs cooked as a thin rolled omelet, miso, tofu, nori seaweed, a very small drizzle of soy sauce and water. An ivory rice bowl holds white rice with sliced thin rolled golden omelet on top, a few fine dark nori strips, subtle soy drizzle. Beside it a small ivory soup bowl with warm cloudy pale miso broth and small tofu cubes ONLY, no nori in soup. Both bowls close together fit central square crop. No scallions, sesame, salmon, pickles, mushrooms, herbs, wakame, chopsticks across food, or any extra ingredient.",
+    "sha256": "340934a9ea9c0cd386b035f929639bbc41be1ae43f0422a36304ab725920d6fe",
+    "photoGroup": "c8be2821bc89b0915874"
+  },
+  "colazione_giapponese_s0": {
+    "asset": "photography/colazione_giapponese_s0.webp",
+    "recipeId": "colazione_giapponese",
+    "stepIndex": 0,
+    "subject": "Cuoci {riso} in acqua per 12-15 minuti, poi scolalo e tienilo caldo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic textures and achievable homemade food, landscape 3:2 composition with central subjects remaining meaningful in square crop. No text, watermark, labels or collage. Japanese breakfast FIRST stage: plain white rice cooking in water in a small stainless saucepan on clean stove. Close view slightly from above, individual rice grains visible under gently simmering water, small steam, no hard boil and no huge foam. A plain wooden spoon rests near edge. Only rice and water present. No eggs, miso, tofu, seaweed, sauce, vegetables or finished breakfast.",
+    "sha256": "3a12b7b1cdf83d91868945d204cf787e19e8a4e051ca37b027bfc9bbc80d2451",
+    "photoGroup": "cbaedecbd20b1055b8f8"
+  },
+  "colazione_giapponese_s1": {
+    "asset": "photography/colazione_giapponese_s1.webp",
+    "recipeId": "colazione_giapponese",
+    "stepIndex": 1,
+    "subject": "Porta a bollore 250 ml di acqua, spegni e sciogli {miso}; aggiungi {tofu} a cubetti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable home cooking, landscape 3:2 composition with central food useful in square crop. No text, watermark, labels, collage or extra ingredients. Japanese breakfast intermediate miso soup preparation: small saucepan OFF the heat, sitting on a heatproof trivet on light wood counter. Warm still pale cloudy miso broth, NO active boiling bubbles. A wooden spoon stirs dissolved miso and several small white tofu cubes have just been added. Delicate steam only. Show miso and tofu in water ONLY. No seaweed in this soup, no scallions, mushrooms, sprouts, rice, egg, garnish or other foods. Close view shows broth, tofu and stirring action.",
+    "sha256": "844010b4879a8adabe93f4535b4c7f79eb14b7ff4dd73e52a16310fab91bcec3",
+    "photoGroup": "00bea8d4fdd405aa189c"
+  },
+  "colazione_giapponese_s2": {
+    "asset": "photography/colazione_giapponese_s2.webp",
+    "recipeId": "colazione_giapponese",
+    "stepIndex": 2,
+    "subject": "Cuoci {uova} in padella antiaderente a frittata sottile e arrotolala.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable home cooking, landscape 3:2 composition with central food useful in square crop. No text, watermark, labels, collage or extra ingredients. Japanese breakfast intermediate egg cooking step: in a dry dark nonstick skillet on clean stove a thin plain golden yellow omelet made from two eggs is being rolled from one edge with a simple silicone spatula. Show a modest small roll with the remaining flat thin sheet still visibly attached in the same pan, soft golden eggs not browned hard. No separate rice, no nori, no soy sauce, no miso, tofu, herbs, fillings, butter or oil, no finished plated breakfast.",
+    "sha256": "bc5d201c62ae763bb2898dd4ea3ab0a72edacede2e760492730ed5d9b31fb984",
+    "photoGroup": "bb786f05632a51f0be32"
+  },
+  "colazione_giapponese_s3": {
+    "asset": "photography/colazione_giapponese.webp",
+    "recipeId": "colazione_giapponese",
+    "stepIndex": 3,
+    "subject": "Servi il riso con la frittata, un filo di {salsa_soia} e {nori} a striscioline; accompagna con la zuppa.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic textures and achievable homemade food, landscape 3:2 composition with central subjects remaining meaningful in square crop. No text, watermark, labels or collage. Finished Japanese breakfast made ONLY of cooked plain white rice, two eggs cooked as a thin rolled omelet, miso, tofu, nori seaweed, a very small drizzle of soy sauce and water. An ivory rice bowl holds white rice with sliced thin rolled golden omelet on top, a few fine dark nori strips, subtle soy drizzle. Beside it a small ivory soup bowl with warm cloudy pale miso broth and small tofu cubes ONLY, no nori in soup. Both bowls close together fit central square crop. No scallions, sesame, salmon, pickles, mushrooms, herbs, wakame, chopsticks across food, or any extra ingredient.",
+    "sha256": "340934a9ea9c0cd386b035f929639bbc41be1ae43f0422a36304ab725920d6fe",
+    "photoGroup": "c8be2821bc89b0915874",
+    "sharedFrom": "colazione_giapponese"
   }
 }
