@@ -605,14 +605,18 @@ object EditorialPhotos {
         "tofu_verdure_s1" to "photography/tofu_verdure_s1.webp",
         "tofu_verdure_s2" to "photography/tofu_verdure_s2.webp",
         "tofu_verdure_s3" to "photography/tofu_verdure.webp",
+        "tonno_gallette" to "photography/tonno_gallette.webp",
+        "tonno_gallette_s0" to "photography/tonno_gallette_s0.webp",
+        "tonno_gallette_s1" to "photography/tonno_gallette_s1.webp",
+        "tonno_gallette_s2" to "photography/tonno_gallette_s2.webp",
         "tortilla_uova_fagioli" to "photography/tortilla_uova_fagioli.webp",
+    )
+
+    private fun group3() = mapOf(
         "tortilla_uova_fagioli_s0" to "photography/tortilla_uova_fagioli_s0.webp",
         "tortilla_uova_fagioli_s1" to "photography/tortilla_uova_fagioli_s1.webp",
         "tortilla_uova_fagioli_s2" to "photography/tortilla_uova_fagioli_s2.webp",
         "tortilla_uova_fagioli_s3" to "photography/tortilla_uova_fagioli_s3.webp",
-    )
-
-    private fun group3() = mapOf(
         "trota_patate_dolci" to "photography/trota_patate_dolci.webp",
         "trota_patate_dolci_s0" to "photography/trota_patate_dolci_s0.webp",
         "trota_patate_dolci_s1" to "photography/trota_patate_dolci_s1.webp",

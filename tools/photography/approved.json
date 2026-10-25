@@ -7239,5 +7239,49 @@
     "sha256": "38b4a95b1abe2beb13623ac29429a4cb8b13cb1669a48e2416ecffe42f93b5b1",
     "photoGroup": "33e35f2cbdbd3d8921c0",
     "sharedFrom": "uova_sode_pomodorini"
+  },
+  "tonno_gallette": {
+    "asset": "photography/tonno_gallette.webp",
+    "recipeId": "tonno_gallette",
+    "stepIndex": null,
+    "subject": "Gallette con tonno e pomodoro",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Finished snack of THREE round puffed white RICE CAKES (gallette di riso), recognizable dry bumpy expanded rice-grain surface and scalloped round edges, each topped with a modest mixture of flaked canned tuna in water drained, finely diced fresh red tomato and a little extra virgin olive oil. Served on ivory plate on light wood table. Only rice cakes, tuna, tomato, oil. No bread, toast, crackers, mayonnaise, cream cheese, capers, olives, onion, basil, parsley, pepper or garnish. Texture should clearly look like puffed rice cakes, not flour crackers.",
+    "sha256": "ed96bfaedba85ca38cf119f9347ffb2bad94eae407c90531f223b5c5dc0bfe16",
+    "photoGroup": "0d7736a2177160ea0819"
+  },
+  "tonno_gallette_s0": {
+    "asset": "photography/tonno_gallette_s0.webp",
+    "recipeId": "tonno_gallette",
+    "stepIndex": 0,
+    "subject": "Scola {tonno_nat}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. First step preparing tuna rice cakes: draining canned tuna packed in WATER. A small stainless fine mesh sieve securely rests across rim of ivory bowl, sieve handle and opposite hook visibly in direct contact with bowl rim; inside are natural pale pink-beige tuna flakes and small chunks with a few clear water droplets collecting underneath. An opened small unlabeled tuna tin sits on counter nearby, no hand required. Drained tuna alone, no rice cakes yet, no tomato, oil, herbs, other foods or finished dish. No suspended or floating sieve.",
+    "sha256": "b42fd6d20ab289dcd06a57436363745d574143df36868a6d1d17359324e45969",
+    "photoGroup": "0ab16ba3c5fd7dd0158e"
+  },
+  "tonno_gallette_s1": {
+    "asset": "photography/tonno_gallette_s1.webp",
+    "recipeId": "tonno_gallette",
+    "stepIndex": 1,
+    "subject": "Condiscilo con {olio} e {pomodori} a dadini.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Tuna rice cakes intermediate mixing step BEFORE putting anything on rice cakes: in a small ivory bowl, naturally flaked drained pale pink canned tuna is being stirred with finely diced fresh red tomato and a small drizzle of extra virgin olive oil using a normal fork held by a natural hand. Tuna and red tomato cubes remain clearly recognizable, modest loose mixture, not mayonnaise paste. Only tuna, tomato and oil in frame; no rice cakes yet, no bread, herbs, onion, capers, olives, pepper, salt, mayonnaise, cheese or finished serving.",
+    "sha256": "efcef960b3bada49316d0a471d21dfe168a01f538f7a142e3c8c81828b982f56",
+    "photoGroup": "cc691114a276a3651edc"
+  },
+  "tonno_gallette_s2": {
+    "asset": "photography/tonno_gallette_s2.webp",
+    "recipeId": "tonno_gallette",
+    "stepIndex": 2,
+    "subject": "Spalma sulle {gallette}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Tuna rice cakes final assembly action: three round white puffed rice cakes on an ivory plate on light wood table. One cake has a modest topping of flaked drained pale pink canned tuna mixed with finely diced red tomato and a little extra virgin olive oil; second cake is being topped with a spoon carrying same mixture, third cake still bare so white expanded rice grain texture is visible. A small ivory bowl of remaining tuna tomato mixture sits close behind. Natural hand holding spoon, clear spreading action. Only rice cakes, tuna, tomato, olive oil, no herbs, onion, olives, capers, mayonnaise, cheese, pepper or garnish. Not finished-dish-only photo.",
+    "sha256": "8b4f0047b8349059b8a6a8ad82103dc6bdf5d67b0229b494e557bf3cb69a08f0",
+    "photoGroup": "144a1c21dfb95169cf81"
   }
 }
