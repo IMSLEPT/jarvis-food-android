@@ -5,17 +5,18 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 127 ricette complete di foto principale e di tutti i passaggi.
-- 308 WebP distinti, 589 abbinamenti verificati.
-- 370 passaggi delle ricette complete coperti.
-- 2406 ricette da completare.
-- Ripresa del 25 ottobre: 13 nuove ricette e 28 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
+- 128 ricette complete di foto principale e di tutti i passaggi.
+- 311 WebP distinti, 593 abbinamenti verificati.
+- 373 passaggi delle ricette complete coperti.
+- 2405 ricette da completare.
+- Ripresa del 25 ottobre: 14 nuove ricette e 31 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - Ultimo APK consegnato noto: 1.0.87 con 49 ricette complete. Queste aggiunte sono nei sorgenti, non ancora in un nuovo APK verificato.
 
 ## Ricette completate in questa ripresa
 
 - Porridge vegano alla mandorla e mirtilli (`porridge_mandorla_mirtilli`)
+- Uova strapazzate, feta e pomodorini (`uova_feta_pomodorini`)
 - Pane integrale con formaggio spalmabile e frutti di bosco (`pane_integrale_con_formaggio_spalmabile_e_frutti_di_bosco`)
 - Pane con formaggio spalmabile e frutti di bosco (`pane_con_formaggio_spalmabile_e_frutti_di_bosco`)
 - Fette biscottate con formaggio spalmabile e frutti di bosco (`fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco`)
@@ -31,7 +32,6 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 
 ## Prossime ricette da completare
 
-- Uova strapazzate, feta e pomodorini (`uova_feta_pomodorini`): 4 abbinamenti mancanti.
 - Tortillas con uova, fagioli neri e salsa (`tortilla_uova_fagioli`): 5 abbinamenti mancanti.
 - Pancake alla ricotta e fragole (`pancake_ricotta_fragole`): 5 abbinamenti mancanti.
 - Chia pudding al mango (`chia_pudding_mango`): 5 abbinamenti mancanti.
@@ -43,6 +43,7 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 - Gallette con tonno e pomodoro (`tonno_gallette`): 4 abbinamenti mancanti.
 - Tzatziki con bastoncini di verdure (`tzatziki_verdure`): 4 abbinamenti mancanti.
 - Burrito bowl con pollo e fagioli neri (`burrito_bowl_pollo`): 5 abbinamenti mancanti.
+- Chili vegano di fagioli neri e riso (`chili_fagioli_neri`): 5 abbinamenti mancanti.
 
 ## Metodo e verifiche
 

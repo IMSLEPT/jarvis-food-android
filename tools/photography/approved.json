@@ -6781,5 +6781,50 @@
     "sha256": "d4463b52f288f39171c60a62a7f24ae678c8893820db4a734fcd5f9604824be9",
     "photoGroup": "7bd3645316d501ab3ad8",
     "sharedFrom": "porridge_mandorla_mirtilli"
+  },
+  "uova_feta_pomodorini": {
+    "asset": "photography/uova_feta_pomodorini.webp",
+    "recipeId": "uova_feta_pomodorini",
+    "stepIndex": null,
+    "subject": "Uova strapazzate, feta e pomodorini",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Uova strapazzate, feta e pomodorini. Ingredients: Uova, Feta, pomodorini, olio EVO, Origano.  Preparation context (do not print it): Taglia pomodorini a metà e scaldali 2 minuti in padella con olio EVO. Sbatti Uova e versale in padella, mescolando piano a fuoco medio-basso. Quando sono quasi cotte aggiungi Feta a pezzetti e l'origano. Servi subito. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Use small halved cherry tomatoes. Finished soft scrambled egg curds with warmed cherry tomatoes, small visible feta pieces and dried oregano, plated on ivory ceramic. No bread, basil or parsley. Square single photograph.",
+    "sha256": "54e398e77877e1a3b4efb8df0a4534a754525d3d30ada2463cde6a2bc5df4a7b",
+    "photoGroup": "493c6400e292d4f84545"
+  },
+  "uova_feta_pomodorini_s0": {
+    "asset": "photography/uova_feta_pomodorini_s0.webp",
+    "recipeId": "uova_feta_pomodorini",
+    "stepIndex": 0,
+    "subject": "Taglia {pomodori} a metà e scaldali 2 minuti in padella con {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Uova strapazzate, feta e pomodorini. Ingredients: Uova, Feta, pomodorini, olio EVO, Origano. Earlier actions (context only):  Focal action to photograph: Taglia pomodorini a metà e scaldali 2 minuti in padella con olio EVO.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Use small halved cherry tomatoes. First stage: only halved cherry tomatoes warming in olive oil in a nonstick frying pan on low stovetop; no eggs, feta, oregano yet. Square single photograph.",
+    "sha256": "0592f1a2d85dccb43be144fdfa12b74bb3443fd15f748ad0be6ceace811ab6d4",
+    "photoGroup": "ba1e6f7611fbae9dca08"
+  },
+  "uova_feta_pomodorini_s1": {
+    "asset": "photography/uova_feta_pomodorini_s1.webp",
+    "recipeId": "uova_feta_pomodorini",
+    "stepIndex": 1,
+    "subject": "Sbatti {uova} e versale in padella, mescolando piano a fuoco medio-basso.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Uova strapazzate, feta e pomodorini. Ingredients: Uova, Feta, pomodorini, olio EVO, Origano. Earlier actions (context only): Taglia pomodorini a metà e scaldali 2 minuti in padella con olio EVO. Focal action to photograph: Sbatti Uova e versale in padella, mescolando piano a fuoco medio-basso.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Use small halved cherry tomatoes. Second stage: hand gently stirring freshly poured beaten eggs among warmed cherry tomatoes in nonstick frying pan, partially forming soft curds, still moist, no feta or oregano yet. Square single photograph.",
+    "sha256": "6e05f9ef3e812f974917f515c25a4a7cf27f9d0e01e8afcf332a8d401d6b2854",
+    "photoGroup": "4f5ff91bc750bceaec68"
+  },
+  "uova_feta_pomodorini_s2": {
+    "asset": "photography/uova_feta_pomodorini.webp",
+    "recipeId": "uova_feta_pomodorini",
+    "stepIndex": 2,
+    "subject": "Quando sono quasi cotte aggiungi {feta} a pezzetti e l'origano. Servi subito.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Uova strapazzate, feta e pomodorini. Ingredients: Uova, Feta, pomodorini, olio EVO, Origano.  Preparation context (do not print it): Taglia pomodorini a metà e scaldali 2 minuti in padella con olio EVO. Sbatti Uova e versale in padella, mescolando piano a fuoco medio-basso. Quando sono quasi cotte aggiungi Feta a pezzetti e l'origano. Servi subito. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Use small halved cherry tomatoes. Finished soft scrambled egg curds with warmed cherry tomatoes, small visible feta pieces and dried oregano, plated on ivory ceramic. No bread, basil or parsley. Square single photograph.",
+    "sha256": "54e398e77877e1a3b4efb8df0a4534a754525d3d30ada2463cde6a2bc5df4a7b",
+    "photoGroup": "493c6400e292d4f84545",
+    "sharedFrom": "uova_feta_pomodorini"
   }
 }
