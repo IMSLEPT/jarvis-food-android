@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 161 ricette complete di foto principale e di tutti i passaggi.
-- 448 WebP distinti, 777 abbinamenti verificati.
-- 495 passaggi delle ricette complete coperti.
-- 2372 ricette da completare.
+- 162 ricette complete di foto principale e di tutti i passaggi.
+- 452 WebP distinti, 781 abbinamenti verificati.
+- 498 passaggi delle ricette complete coperti.
+- 2371 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK precedente consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -242,7 +242,18 @@ Ricette completate: pollo_panna_broccoli. Nuove immagini: 5; nuovi abbinamenti: 
 
 Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
 
-Punto preciso da cui riprendere: **frittata_zucchine_feta**. Restano 2372 ricette e 11995 abbinamenti; 7986 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo del pollo cremoso con broccoli.
+Punto di ripresa precedente (vedere ultimo gruppo): **frittata_zucchine_feta**. Restano 2372 ricette e 11995 abbinamenti; 7986 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo del pollo cremoso con broccoli.
 
 
 Ripresa da `057c75b`, verificato contro GitHub senza aggiornamenti successivi e conservando le correzioni UI e le consegne APK precedenti. Generatore incluso effettivamente disponibile: sei output prodotti, cinque approvati e una prima versione della crema scartata per puntini scuri simili a pepe non previsto e salsa troppo abbondante. La sostitutiva mostra una copertura più contenuta. Tutti gli originali e i ritagli sono stati esaminati individualmente, poi ricontrollati nei cinque WebP 1280×853. Soggetti: piatto finito, broccoli al vapore, rosolatura del petto di pollo con aglio, crema di panna/Parmigiano e aggiunta dei broccoli in padella. Nessun nuovo riuso compatibile trovato da `share.py`, senza cambiarne le regole. Tutti i **443 WebP e 772 record** precedenti e le attribuzioni online/offline sono identici; controllo fotografia, confine funzionale, indice Kotlin/manifest e decodifica/dimensioni superati. Rapporto con prompt effettivi, hash, osservazioni e candidata scartata: `tools/photography/reviews/2026-10-25T20-13-41.293726+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica a ricette/funzionalità o nuovo APK.
+
+## Gruppo con pipeline riprendibile — 2026-10-25
+
+Ricette completate: frittata_zucchine_feta. Nuove immagini: 4; nuovi abbinamenti: 4.
+
+Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
+
+Punto preciso da cui riprendere: **polpette_pollo_polenta**. Restano 2371 ricette e 11991 abbinamenti; 7982 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo della frittata con zucchine e feta.
+
+
+Ripresa da `06664e1`, verificato contro GitHub senza aggiornamenti successivi; conservate tutte le modifiche precedenti. Generatore incluso realmente disponibile: cinque output prodotti, quattro approvati e una prima versione delle zucchine scartata per granelli bianchi sulla spatola e ciotola di ingredienti sullo sfondo, rimossi nella sostitutiva. Originali e ritagli esaminati individualmente, poi ricontrollati nei WebP convertiti: tre 1280×853 e uno quadrato 1254×1254. Soggetti: frittata servita con fetta tagliata, rondelle di zucchine saltate, versamento di uova e origano senza feta e cottura in forno dopo aggiunta della feta. Nessun riuso compatibile aggiuntivo da `share.py`; regole invariate. Tutti i **448 WebP e 777 record** precedenti e le attribuzioni online/offline sono identici. Verifiche superate: fotografia, confine funzionale, indice Kotlin/manifest e decodifica/dimensioni. Rapporto con prompt effettivi, hash, osservazioni e candidata scartata: `tools/photography/reviews/2026-10-25T21-20-31.680838+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica a ricette/funzionalità o compilazione APK; test unitari/Android non ripetuti per questo gruppo fotografico.

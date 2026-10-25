@@ -1,0 +1,118 @@
+{
+  "createdAt": "2026-10-25T21:20:31.680838+00:00",
+  "recipes": [
+    "frittata_zucchine_feta"
+  ],
+  "images": [
+    {
+      "id": "frittata_zucchine_feta",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic appetizing food textures and achievable home cooking. Clean premium natural-light photography consistent across the series. Landscape 3:2 with moderate close framing, not extreme macro. Keep the food and relevant action comfortably inside the CENTRAL SIXTY PERCENT of image width so the important subject remains visible in a square center crop. No text, logos, watermark, collage, illustration, graphic border or faces. The ONLY recipe ingredients are eggs, zucchini sliced into ROUND COINS, feta cheese in small pieces, a little extra virgin olive oil and a few tiny dried oregano flakes. NO flour, pastry, crust, breadcrumbs, milk, cream, Parmesan, mozzarella, tomato, onion, garlic, black pepper, other vegetables, meat, bread or invented garnish. No fresh parsley or basil sprigs, no herbs as decorative food props. Completed Italian OVEN-BAKED zucchini and feta frittata served on a simple ivory plate, one small round homemade frittata about 16 cm across and only 1.5 to 2 cm thick, not a tall cake. It has a lightly golden set egg surface with recognizable round green-skinned zucchini slices and small white feta pieces embedded in it, a few tiny dried oregano flecks in the egg. A single triangular wedge has been cut and moved slightly forward on the SAME plate so its moist but fully set yellow egg interior and zucchini/feta are visible. No pastry or bread base, no quiche crust. All the round frittata AND the cut wedge are centrally grouped and fully inside the square-safe composition with empty plate around them. No additional food, no sauce, no garnish or cutlery. Warm bright professional three-quarter overhead view.\n",
+      "originalSha256": "4e1f9f121df32f1b8dce2c7147a4ff09c8a96fedd5c97df966b497c69df3b010",
+      "webpSha256": "493915a35800787eaac0124eff95c0d3e1995f6c7ce4537304613400c6090234",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: frittata cotta e dorata con rondelle di zucchine, feta bianca a pezzetti e origano secco; fetta separata che mostra uovo completamente rappreso e interno con verdura/formaggio. Nessuna base di pasta, pane o guarnizione estranea. Piatto avorio e luce naturale coerenti. Il quadrato conserva superficie, fetta e interno, tagliando solo parti periferiche della forma tonda.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "4e1f9f121df32f1b8dce2c7147a4ff09c8a96fedd5c97df966b497c69df3b010",
+        "at": "2026-10-25T21:26:38.852920+00:00"
+      }
+    },
+    {
+      "id": "frittata_zucchine_feta_s0",
+      "prompt": "Edit this single professional cooking photograph while preserving the realistic bright soft window light, warm light-oak kitchen, dark nonstick skillet on the hob and the SAME lightly golden ROUND zucchini coins with green skin rims. Correct the scene to show ONLY zucchini sautéing with a LITTLE olive oil in the pan. REMOVE the wooden spatula ENTIRELY, including every white grain on it. REMOVE every food bowl, herb plant, salt container, cheese or other food from the background; leave a clean plain light-oak worktop and a soft neutral bright wall. A plain unlabelled olive oil bottle may remain on the far left because olive oil is the only other ingredient used at this stage, but no other ingredient props. Zucchini rounds must have natural pale green-yellow flesh, thin green circular skins and a few gentle broad golden sautéed patches, with just a light realistic oil sheen, no oil pool or deep frying. No white crystals, salt grains, black pepper, herb flakes, eggs, feta, garlic, flour, butter or other food anywhere in the image. Keep the pan securely on the hob with a clear recognizable pan rim and burner support, entire central cluster of zucchini clearly visible and meaningful in a square crop. Single photorealistic editorial cookbook preparation photo, no collage, text, graphics, logo, watermark or border.\n",
+      "originalSha256": "8b4b62e6f9961084902a536e55c9e174efd36aba6e3d4ff28024e4d34b8ab09a",
+      "webpSha256": "7ea13ec232e452b5d621672d7e125d895e6de1ab1a7b7f0b35048c807125dc49",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale corretto e ritaglio: sole rondelle di zucchine con buccia verde e superficie lievemente dorata nella padella antiaderente, con velo di olio; padella stabile sul fornello. Rimossi spatola con granelli bianchi e ciotola di ingredienti della prima candidata. Nessun uovo, feta o origano in padella prima della fase prevista. Quadrato conserva forma delle rondelle e metodo; luce naturale e texture realistiche.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "8b4b62e6f9961084902a536e55c9e174efd36aba6e3d4ff28024e4d34b8ab09a",
+        "at": "2026-10-25T21:26:39.214841+00:00"
+      },
+      "referenceImageSha256": "8112cdac961ca78c1ad6a7e15bd03dac91fcbb531285e1aeebdf75a0cc58f822"
+    },
+    {
+      "id": "frittata_zucchine_feta_s1",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic appetizing food textures and achievable home cooking. Clean premium natural-light photography consistent across the series. Landscape 3:2 with moderate close framing, not extreme macro. Keep the food and relevant action comfortably inside the CENTRAL SIXTY PERCENT of image width so the important subject remains visible in a square center crop. No text, logos, watermark, collage, illustration, graphic border or faces. The ONLY recipe ingredients are eggs, zucchini sliced into ROUND COINS, feta cheese in small pieces, a little extra virgin olive oil and a few tiny dried oregano flakes. NO flour, pastry, crust, breadcrumbs, milk, cream, Parmesan, mozzarella, tomato, onion, garlic, black pepper, other vegetables, meat, bread or invented garnish. No fresh parsley or basil sprigs, no herbs as decorative food props. Second preparation stage BEFORE baking: a small round shallow ivory oven-safe baking dish, lightly oiled, sits flat on the light oak worktop and contains the already sautéed round zucchini coins. A clear glass jug held naturally by one partial human hand is pouring RAW beaten eggs with a FEW TINY DRIED OREGANO flakes into the dish. The egg mixture is still fluid, glossy yellow, with a few natural whisking bubbles; zucchini rounds are visible partly submerged. No feta cheese has been added yet, absolutely no cooked crust or finished omelette. The pouring stream, jug spout, raw egg mixture and zucchini are grouped centrally in the square-safe region with space around them. No bowls of extra ingredients or additional food, no flour or cream. Realistic anatomy and pouring angle, professional bright kitchen photography.\n",
+      "originalSha256": "f0778fdee3be03749627a677761da4145a98f001d56c24f0f66d99206a18ae96",
+      "webpSha256": "951c822d46842a8babcd59bb12670ac8ff93617d0cf6dd354ff20f3526857151",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: uova crude sbattute con origano, liquide e con bolle naturali, versate dalla brocca di vetro nella teglia con zucchine già saltate a rondelle. Feta assente in questa fase. Mano e flusso plausibili, teglia appoggiata sul piano. Il ritaglio conserva brocca, versamento e ingredienti crudi, senza usare la frittata finita come lavorazione intermedia.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "f0778fdee3be03749627a677761da4145a98f001d56c24f0f66d99206a18ae96",
+        "at": "2026-10-25T21:26:39.557694+00:00"
+      }
+    },
+    {
+      "id": "frittata_zucchine_feta_s2",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic appetizing food textures and achievable home cooking. Clean premium natural-light photography consistent across the series. Landscape 3:2 with moderate close framing, not extreme macro. Keep the food and relevant action comfortably inside the CENTRAL SIXTY PERCENT of image width so the important subject remains visible in a square center crop. No text, logos, watermark, collage, illustration, graphic border or faces. The ONLY recipe ingredients are eggs, zucchini sliced into ROUND COINS, feta cheese in small pieces, a little extra virgin olive oil and a few tiny dried oregano flakes. NO flour, pastry, crust, breadcrumbs, milk, cream, Parmesan, mozzarella, tomato, onion, garlic, black pepper, other vegetables, meat, bread or invented garnish. No fresh parsley or basil sprigs, no herbs as decorative food props. Third preparation stage, final OVEN BAKING after adding small pieces of feta: a small round shallow ivory oven-safe baking dish sits securely on a metal oven rack inside an open clean domestic oven. The baked egg frittata is low-profile, about 1.5 to 2 cm thick, with a softly golden set egg surface, clearly recognizable green-rimmed ROUND zucchini coins, small white feta chunks with a few lightly golden edges, and very sparse tiny dried oregano flakes. No pastry crust, no grated Parmesan blanket, no bread, no tomato, no decorative fresh herbs. Show the baking dish, food and supporting oven rack centrally with square-safe framing, bright balanced daylight exposure from the open oven. This is the cooking stage IN THE OVEN, not a wedge or plated serving; the frittata is still whole in its baking dish. Clean realistic oven and cookware, no temperature display or text.\n",
+      "originalSha256": "983e30ffe73528a8c35ffadbc39498583ff70c416720d0702657eb39cf6c5fa1",
+      "webpSha256": "11b58f03c03d4b85e4ed25560de77de33959c7b2d39c7ec648b470f83112d510",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: frittata intera cotta e dorata nella teglia tonda sostenuta dalla griglia del forno, con zucchine a rondelle, feta a pezzetti e origano. Metodo al forno riconoscibile; distinta dalla principale già servita sul piatto con fetta tagliata. Nessuna crosta di sfoglia o ingrediente aggiunto. Il quadrato mantiene teglia, cibo e supporto del forno; esposizione luminosa e coerente.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "983e30ffe73528a8c35ffadbc39498583ff70c416720d0702657eb39cf6c5fa1",
+        "at": "2026-10-25T21:26:39.901454+00:00"
+      }
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "frittata_zucchine_feta_s0",
+      "originalSha256": "8112cdac961ca78c1ad6a7e15bd03dac91fcbb531285e1aeebdf75a0cc58f822",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic appetizing food textures and achievable home cooking. Clean premium natural-light photography consistent across the series. Landscape 3:2 with moderate close framing, not extreme macro. Keep the food and relevant action comfortably inside the CENTRAL SIXTY PERCENT of image width so the important subject remains visible in a square center crop. No text, logos, watermark, collage, illustration, graphic border or faces. The ONLY recipe ingredients are eggs, zucchini sliced into ROUND COINS, feta cheese in small pieces, a little extra virgin olive oil and a few tiny dried oregano flakes. NO flour, pastry, crust, breadcrumbs, milk, cream, Parmesan, mozzarella, tomato, onion, garlic, black pepper, other vegetables, meat, bread or invented garnish. No fresh parsley or basil sprigs, no herbs as decorative food props. First preparation stage: sautéing ONLY round zucchini slices in a dark nonstick skillet on the hob, before egg, oregano or feta has been added. Zucchini coins have clear thin dark-green circular skin rims and pale yellow-green flesh, some sides only gently golden from five minutes of sautéing in a SMALL amount of olive oil. Slices retain a clearly round coin shape, not ribbons, cubes or eggplant. An ordinary wooden spatula rests securely against the skillet rim. The skillet sits stably on the hob, with light wood worktop nearby. No eggs, cheese or herb flakes at this stage. Entire relevant cluster of zucchini and the pan surface remain centrally visible in a square crop. Bright natural window light, realistic lightly oiled cooking rather than deep frying.\n",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Esaminati originale e quadrato: granelli bianchi sulla spatola simili a sale e ciotola di ingredienti sullo sfondo. Sostituita prima della integrazione con sole zucchine e olio, rimuovendo spatola e ciotola."
+    }
+  ],
+  "webpDimensions": {
+    "frittata_zucchine_feta.webp": [
+      1280,
+      853
+    ],
+    "frittata_zucchine_feta_s0.webp": [
+      1254,
+      1254
+    ],
+    "frittata_zucchine_feta_s1.webp": [
+      1280,
+      853
+    ],
+    "frittata_zucchine_feta_s2.webp": [
+      1280,
+      853
+    ]
+  },
+  "convertedVisualReview": "Tutti e quattro i WebP convertiti esaminati anche nel quadrato: frittata servita con fetta, sole zucchine saltate nella versione corretta, uova liquide versate sulle zucchine prima della feta e cottura della frittata in teglia nel forno. Tre immagini 1280×853 e una 1254×1254; decodifica valida e nessuna lavorazione sostituita dalla foto impiattata."
+}

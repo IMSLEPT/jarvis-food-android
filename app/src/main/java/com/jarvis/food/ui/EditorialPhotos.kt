@@ -279,6 +279,10 @@ object EditorialPhotos {
         "frittata_spinaci_s1" to "photography/frittata_spinaci_s1.webp",
         "frittata_spinaci_s2" to "photography/frittata_spinaci_s2.webp",
         "frittata_spinaci_s3" to "photography/frittata_spinaci.webp",
+        "frittata_zucchine_feta" to "photography/frittata_zucchine_feta.webp",
+        "frittata_zucchine_feta_s0" to "photography/frittata_zucchine_feta_s0.webp",
+        "frittata_zucchine_feta_s1" to "photography/frittata_zucchine_feta_s1.webp",
+        "frittata_zucchine_feta_s2" to "photography/frittata_zucchine_feta_s2.webp",
         "gallette_hummus" to "photography/gallette_hummus.webp",
         "gallette_hummus_s0" to "photography/gallette_hummus_s0.webp",
         "gallette_hummus_s1" to "photography/gallette_hummus_s1.webp",
@@ -403,13 +407,13 @@ object EditorialPhotos {
         "pancake_avena_s2" to "photography/pancake_avena_s2.webp",
         "pancake_avena_s3" to "photography/pancake_avena.webp",
         "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3" to "photography/greco_mela_nocciole_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pancake_di_avena_e_banana_con_mirtilli_e_sciroppo_d_acero_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mirtilli_e_miele_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_proteici_con_mela_e_cannella_e_miele_s3" to "photography/greco_mela_nocciole_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pancake_proteici_con_mirtilli_e_yogurt_greco_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_ricotta_fragole" to "photography/pancake_ricotta_fragole.webp",
         "pancake_ricotta_fragole_s0" to "photography/pancake_ricotta_fragole_s0.webp",
@@ -606,13 +610,13 @@ object EditorialPhotos {
         "pasta_salmone_zucchine_s2" to "photography/pasta_salmone_zucchine_s2.webp",
         "pasta_salmone_zucchine_s3" to "photography/pasta_salmone_zucchine.webp",
         "pasta_tonno" to "photography/pasta_tonno.webp",
+    )
+
+    private fun group3() = mapOf(
         "pasta_tonno_s0" to "photography/pasta_tonno_s0.webp",
         "pasta_tonno_s1" to "photography/pasta_tonno_s1.webp",
         "pasta_tonno_s2" to "photography/pasta_tonno_s2.webp",
         "pasta_tonno_s3" to "photography/pasta_tonno.webp",
-    )
-
-    private fun group3() = mapOf(
         "piadina_tacchino" to "photography/piadina_tacchino.webp",
         "piadina_tacchino_s0" to "photography/piadina_tacchino_s0.webp",
         "piadina_tacchino_s1" to "photography/piadina_tacchino_s1.webp",
