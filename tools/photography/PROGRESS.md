@@ -5,11 +5,11 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 123 ricette complete di foto principale e di tutti i passaggi.
-- 298 WebP distinti, 575 abbinamenti verificati.
-- 357 passaggi delle ricette complete coperti.
-- 2410 ricette da completare.
-- Ripresa del 25 ottobre: 9 nuove ricette e 18 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
+- 126 ricette complete di foto principale e di tutti i passaggi.
+- 304 WebP distinti, 584 abbinamenti verificati.
+- 366 passaggi delle ricette complete coperti.
+- 2407 ricette da completare.
+- Ripresa del 25 ottobre: 12 nuove ricette e 24 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - Ultimo APK consegnato noto: 1.0.87 con 49 ricette complete. Queste aggiunte sono nei sorgenti, non ancora in un nuovo APK verificato.
 
@@ -24,6 +24,9 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 - Pane integrale con mele, cannella e ricotta (`pane_integrale_con_mele_cannella_e_ricotta`)
 - Pane con mele, cannella e ricotta (`pane_con_mele_cannella_e_ricotta`)
 - Fette biscottate con mele, cannella e ricotta (`fette_biscottate_con_mele_cannella_e_ricotta`)
+- Pane integrale con pomodori secchi, caprino e rucola (`pane_integrale_con_pomodori_secchi_caprino_e_rucola`)
+- Pane con pomodori secchi, caprino e rucola (`pane_con_pomodori_secchi_caprino_e_rucola`)
+- Fette biscottate con pomodori secchi, caprino e rucola (`fette_biscottate_con_pomodori_secchi_caprino_e_rucola`)
 
 ## Prossime ricette da completare
 

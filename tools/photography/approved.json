@@ -6587,5 +6587,143 @@
     "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mele, cannella e ricotta. Ingredients: Fette biscottate, Ricotta, Mela, Cannella, Miele. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Apples are raw thin slices, not cooked. Close-up fingers arranging apple slices onto ricotta, dusting of cinnamon, NO honey yet, show action in progress. Square single photograph.",
     "sha256": "fbdf1e2ea29a320eff45d4f27d3f0077beca583cd573cc3b9966fbb212ad4298",
     "photoGroup": "34356222ad45386a3ca1"
+  },
+  "pane_integrale_con_mele_cannella_e_ricotta_s2": {
+    "asset": "photography/pane_integrale_con_mele_cannella_e_ricotta.webp",
+    "recipeId": "pane_integrale_con_mele_cannella_e_ricotta",
+    "stepIndex": 2,
+    "subject": "Completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con mele, cannella e ricotta. Ingredients: Pane integrale, Ricotta, Mela, Cannella, Miele.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella. Completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be whole-wheat bread slices with brown crumb. Apples are raw thin slices, not cooked. Completed apple ricotta cinnamon toast with modest drizzle of honey. Square single photograph.",
+    "sha256": "43987ec99d8e32e37fbff610c14978e84170e6c3f1b3aa5608b3e9f9c1627389",
+    "photoGroup": "35e5e95f43f1777953ce",
+    "sharedFrom": "pane_integrale_con_mele_cannella_e_ricotta"
+  },
+  "pane_con_mele_cannella_e_ricotta_s2": {
+    "asset": "photography/pane_con_mele_cannella_e_ricotta.webp",
+    "recipeId": "pane_con_mele_cannella_e_ricotta",
+    "stepIndex": 2,
+    "subject": "Completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con mele, cannella e ricotta. Ingredients: Pane comune, Ricotta, Mela, Cannella, Miele.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella. Completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be ordinary white country bread slices with pale crumb. Apples are raw thin slices, not cooked. Completed apple ricotta cinnamon toast with modest drizzle of honey. Square single photograph.",
+    "sha256": "2408ae534427b28f03369fde6eb5933037f55e28c9255490a22fb3fb55361095",
+    "photoGroup": "19443e8f9a58a35e01fb",
+    "sharedFrom": "pane_con_mele_cannella_e_ricotta"
+  },
+  "fette_biscottate_con_mele_cannella_e_ricotta_s2": {
+    "asset": "photography/fette_biscottate_con_mele_cannella_e_ricotta.webp",
+    "recipeId": "fette_biscottate_con_mele_cannella_e_ricotta",
+    "stepIndex": 2,
+    "subject": "Completa con {miele}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con mele, cannella e ricotta. Ingredients: Fette biscottate, Ricotta, Mela, Cannella, Miele.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Ricotta sul pane tostato, aggiungi Mela a fettine sottili e Cannella. Completa con Miele. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Apples are raw thin slices, not cooked. Completed apple ricotta cinnamon toast with modest drizzle of honey. Square single photograph.",
+    "sha256": "9157f9de943dd0e5d282771b6662535890757a5dbc772d389f8f84a6e2cad39e",
+    "photoGroup": "1388add000ea34adbdfb",
+    "sharedFrom": "fette_biscottate_con_mele_cannella_e_ricotta"
+  },
+  "pane_integrale_con_pomodori_secchi_caprino_e_rucola": {
+    "asset": "photography/pane_integrale_con_pomodori_secchi_caprino_e_rucola.webp",
+    "recipeId": "pane_integrale_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": null,
+    "subject": "Pane integrale con pomodori secchi, caprino e rucola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con pomodori secchi, caprino e rucola. Ingredients: Pane integrale, Caprino fresco, Pomodori secchi, Rucola.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pomodori secchi a pezzetti e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be whole-wheat bread slices with brown crumb. Caprino is soft spreadable fresh goat cheese. Sun-dried tomatoes in small dark-red wrinkled pieces, NOT fresh tomatoes; a few fresh arugula leaves on the soft goat cheese. Square single photograph.",
+    "sha256": "3902033380587fa900b47986d6374375e21eedc62d273bf4e7617669938de533",
+    "photoGroup": "c2126eee0b3503edbc39"
+  },
+  "pane_integrale_con_pomodori_secchi_caprino_e_rucola_s1": {
+    "asset": "photography/pane_integrale_con_pomodori_secchi_caprino_e_rucola_s1.webp",
+    "recipeId": "pane_integrale_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 1,
+    "subject": "Spalma {caprino} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con pomodori secchi, caprino e rucola. Ingredients: Pane integrale, Caprino fresco, Pomodori secchi, Rucola. Earlier actions (context only): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Caprino fresco sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be whole-wheat bread slices with brown crumb. Caprino is soft spreadable fresh goat cheese. Hands actively spreading only white fresh goat cheese on toast; no tomatoes or arugula added yet. Square single photograph.",
+    "sha256": "fa1011ff54837a006a6bcbf14d5f52a837eb99df0ad666a6baaa55986ae2b678",
+    "photoGroup": "8b588945cba982d89b2c"
+  },
+  "pane_con_pomodori_secchi_caprino_e_rucola": {
+    "asset": "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
+    "recipeId": "pane_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": null,
+    "subject": "Pane con pomodori secchi, caprino e rucola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con pomodori secchi, caprino e rucola. Ingredients: Pane comune, Caprino fresco, Pomodori secchi, Rucola.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pomodori secchi a pezzetti e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be ordinary white country bread slices with pale crumb. Caprino is soft spreadable fresh goat cheese. Sun-dried tomatoes in small dark-red wrinkled pieces, NOT fresh tomatoes; a few fresh arugula leaves on the soft goat cheese. Square single photograph.",
+    "sha256": "fbd0b8f4d22520e87f31bf34a17bbbc2c28348bfa1099cf91a1e29f6408bc8f9",
+    "photoGroup": "7532bad8615091591c73"
+  },
+  "pane_con_pomodori_secchi_caprino_e_rucola_s1": {
+    "asset": "photography/pane_con_pomodori_secchi_caprino_e_rucola_s1.webp",
+    "recipeId": "pane_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 1,
+    "subject": "Spalma {caprino} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con pomodori secchi, caprino e rucola. Ingredients: Pane comune, Caprino fresco, Pomodori secchi, Rucola. Earlier actions (context only): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Caprino fresco sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be ordinary white country bread slices with pale crumb. Caprino is soft spreadable fresh goat cheese. Hands actively spreading only white fresh goat cheese on toast; no tomatoes or arugula added yet. Square single photograph.",
+    "sha256": "b5f8bae97caf861aba9b8c536a74cee393744800c892dc9e65c71fd53927667f",
+    "photoGroup": "a863ea3c192ea8db2b02"
+  },
+  "fette_biscottate_con_pomodori_secchi_caprino_e_rucola": {
+    "asset": "photography/fette_biscottate_con_pomodori_secchi_caprino_e_rucola.webp",
+    "recipeId": "fette_biscottate_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": null,
+    "subject": "Fette biscottate con pomodori secchi, caprino e rucola",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con pomodori secchi, caprino e rucola. Ingredients: Fette biscottate, Caprino fresco, Pomodori secchi, Rucola.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pomodori secchi a pezzetti e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Caprino is soft spreadable fresh goat cheese. Sun-dried tomatoes in small dark-red wrinkled pieces, NOT fresh tomatoes; a few fresh arugula leaves on the soft goat cheese. Square single photograph.",
+    "sha256": "1b04fd76b6cca2d8b25fd77a55f7a2bb2bdef954acd169a0e8a599d0cea1fe14",
+    "photoGroup": "5eeb82d8b9428cc808ee"
+  },
+  "fette_biscottate_con_pomodori_secchi_caprino_e_rucola_s1": {
+    "asset": "photography/fette_biscottate_con_pomodori_secchi_caprino_e_rucola_s1.webp",
+    "recipeId": "fette_biscottate_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 1,
+    "subject": "Spalma {caprino} sul pane tostato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con pomodori secchi, caprino e rucola. Ingredients: Fette biscottate, Caprino fresco, Pomodori secchi, Rucola. Earlier actions (context only): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Focal action to photograph: Spalma Caprino fresco sul pane tostato.. Only show ingredients already used at this stage; no finished-dish photo in place of an intermediate action. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Caprino is soft spreadable fresh goat cheese. Hands actively spreading only white fresh goat cheese on toast; no tomatoes or arugula added yet. Square single photograph.",
+    "sha256": "7abbe956d7a023b7fcb70d1d8e1047352047dcd3986c7726916a1c16a7bd88dd",
+    "photoGroup": "cbb558dda37a12761032"
+  },
+  "pane_integrale_con_pomodori_secchi_caprino_e_rucola_s2": {
+    "asset": "photography/pane_integrale_con_pomodori_secchi_caprino_e_rucola.webp",
+    "recipeId": "pane_integrale_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori_secchi} a pezzetti e {rucola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane integrale con pomodori secchi, caprino e rucola. Ingredients: Pane integrale, Caprino fresco, Pomodori secchi, Rucola.  Preparation context (do not print it): Tosta Pane integrale nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pomodori secchi a pezzetti e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be whole-wheat bread slices with brown crumb. Caprino is soft spreadable fresh goat cheese. Sun-dried tomatoes in small dark-red wrinkled pieces, NOT fresh tomatoes; a few fresh arugula leaves on the soft goat cheese. Square single photograph.",
+    "sha256": "3902033380587fa900b47986d6374375e21eedc62d273bf4e7617669938de533",
+    "photoGroup": "c2126eee0b3503edbc39",
+    "sharedFrom": "pane_integrale_con_pomodori_secchi_caprino_e_rucola"
+  },
+  "pane_con_pomodori_secchi_caprino_e_rucola_s2": {
+    "asset": "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
+    "recipeId": "pane_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori_secchi} a pezzetti e {rucola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Pane con pomodori secchi, caprino e rucola. Ingredients: Pane comune, Caprino fresco, Pomodori secchi, Rucola.  Preparation context (do not print it): Tosta Pane comune nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pomodori secchi a pezzetti e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be ordinary white country bread slices with pale crumb. Caprino is soft spreadable fresh goat cheese. Sun-dried tomatoes in small dark-red wrinkled pieces, NOT fresh tomatoes; a few fresh arugula leaves on the soft goat cheese. Square single photograph.",
+    "sha256": "fbd0b8f4d22520e87f31bf34a17bbbc2c28348bfa1099cf91a1e29f6408bc8f9",
+    "photoGroup": "7532bad8615091591c73",
+    "sharedFrom": "pane_con_pomodori_secchi_caprino_e_rucola"
+  },
+  "fette_biscottate_con_pomodori_secchi_caprino_e_rucola_s2": {
+    "asset": "photography/fette_biscottate_con_pomodori_secchi_caprino_e_rucola.webp",
+    "recipeId": "fette_biscottate_con_pomodori_secchi_caprino_e_rucola",
+    "stepIndex": 2,
+    "subject": "Aggiungi {pomodori_secchi} a pezzetti e {rucola}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic editorial cookbook photograph. Soft natural window light, a bright warm home kitchen, light wood, neutral ivory ceramics, realistic appetizing food textures and achievable homemade plating. Tight food framing that remains meaningful in a square crop. No text, labels, watermark, collage or UI. Show the actual ingredients/action described; no invented garnishes. Focus on food; hands are allowed when needed, no portraits or visible faces. Recipe: Fette biscottate con pomodori secchi, caprino e rucola. Ingredients: Fette biscottate, Caprino fresco, Pomodori secchi, Rucola.  Preparation context (do not print it): Tosta Fette biscottate nel tostapane o in padella per 2 minuti per lato. Spalma Caprino fresco sul pane tostato. Aggiungi Pomodori secchi a pezzetti e Rucola. Show the completed dish, all components actually present, beautifully plated. Match the actual cooking method and serving form. No ingredients absent from this list. Bread must be Italian fette biscottate rusks, dry crisp rectangular golden slices, fine uniform crumb. Caprino is soft spreadable fresh goat cheese. Sun-dried tomatoes in small dark-red wrinkled pieces, NOT fresh tomatoes; a few fresh arugula leaves on the soft goat cheese. Square single photograph.",
+    "sha256": "1b04fd76b6cca2d8b25fd77a55f7a2bb2bdef954acd169a0e8a599d0cea1fe14",
+    "photoGroup": "5eeb82d8b9428cc808ee",
+    "sharedFrom": "fette_biscottate_con_pomodori_secchi_caprino_e_rucola"
   }
 }
