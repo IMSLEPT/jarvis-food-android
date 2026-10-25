@@ -8043,5 +8043,60 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. Chicken yogurt curry FINAL RICE COOKING-AND-SERVING stage: a natural hand uses a normal serving spoon to transfer freshly cooked long slender WHITE BASMATI RICE from a small stainless saucepan into one half of an ivory bowl; other half already contains tender chicken breast chunks stewed in creamy golden Greek-yogurt-and-curry sauce with cooked onion and fresh tomato pieces. A SMALL pinch of chopped fresh CORIANDER is already on chicken as final garnish. Clearly actual spoonful of rice being lowered onto rice in bowl, not only a finished static dish. Exact ingredients chicken, Greek yogurt, curry powder, onion, tomato, olive oil, basmati rice, coriander. No coconut milk, cream, butter, garlic, ginger, chili, lemon, lime, naan, nuts, seeds or extra garnish. No text, labels, watermark, collage or faces.",
     "sha256": "7729cbde07ac7932900ddf972e379680225b0e61b7ae328ce2fe892276e82cf6",
     "photoGroup": "bbcd45b285295b7934e3"
+  },
+  "dal_lenticchie_rosse": {
+    "asset": "photography/dal_lenticchie_rosse.webp",
+    "recipeId": "dal_lenticchie_rosse",
+    "stepIndex": null,
+    "subject": "Dal di lenticchie rosse con riso",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2; important foods compact and centered for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Finished DAL DI LENTICCHIE ROSSE WITH RICE. Exact ingredients: RED SPLIT HULLED LENTILS cooked until creamy with finely chopped ONION, grated fresh GINGER, smooth TOMATO PASSATA, TURMERIC, CURRY POWDER, a little extra virgin olive oil and water; served with plain long-grain white BASMATI RICE. One modest ivory bowl has thick warm orange-gold creamy dal beside a modest mound of long separate basmati grains. Dal shows softened partly broken-down tiny lentil texture and fine cooked onion, not whole beans or chickpeas, not carrot puree. No whole red beans, chickpeas, black mustard seeds, cumin garnish, chili, garlic, coriander, parsley, spinach, coconut milk, yogurt, cream, lemon, lime, naan or ANY garnish. Honest simple homemade lentil stew, not watery soup.",
+    "sha256": "dcf03d221ad0617295a1ab2784d632cba8bb27a463d99604c41a090ae595c668",
+    "photoGroup": "24a087d883e47c1958f5"
+  },
+  "dal_lenticchie_rosse_s0": {
+    "asset": "photography/dal_lenticchie_rosse_s0.webp",
+    "recipeId": "dal_lenticchie_rosse",
+    "stepIndex": 0,
+    "subject": "Sciacqua {lenticchie_rosse}. Rosola {cipolla} e {zenzero} in {olio} per 4 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2; important foods compact and centered for square crop. No text, labels, watermark, collage, portraits or invented ingredients. FIRST preparation stage of RED LENTIL DAL: a small stainless saucepan on a clean stove contains finely chopped ONION and finely grated fresh GINGER gently sauteing in a little extra virgin OLIVE OIL for four minutes, wooden spoon stirring them. Immediately beside the saucepan on light wood counter, a small fine mesh sieve with freshly RINSED RAW ORANGE-RED SPLIT HULLED LENTILS rests securely on an ivory bowl, moist tiny flat split lentil discs clearly visible. One compact continuous kitchen scene, keep onion/ginger pan and orange lentil sieve close together inside central square crop. Lentils NOT in pan yet. Only onion, ginger, olive oil, rinsed red lentils and residual water. No tomato passata, spices, garlic, rice, herbs or finished dal yet.",
+    "sha256": "1e522dfc9d4992155c7b2efe27946f3f464465c87a7626896ad205845a668176",
+    "photoGroup": "221463669d7a5fbf034d"
+  },
+  "dal_lenticchie_rosse_s1": {
+    "asset": "photography/dal_lenticchie_rosse_s1.webp",
+    "recipeId": "dal_lenticchie_rosse",
+    "stepIndex": 1,
+    "subject": "Aggiungi {curcuma}, {curry}, {passata}, le lenticchie e 350 ml di acqua.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures. Landscape 3:2, food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. RED LENTIL DAL intermediate ingredient-addition step in a small STAINLESS SAUCEPAN: sauteed finely chopped onion and grated ginger in a little olive oil have been coated with ground TURMERIC and CURRY POWDER, smooth red TOMATO PASSATA and rinsed RAW ORANGE-RED SPLIT HULLED LENTILS have just been added. A natural hand pours clear WATER from a small unmarked glass jug into saucepan, creating thin reddish-orange liquid around tiny still-distinct flat split lentils. Early uncooked watery stage, NOT thick cooked dal. Current ingredients only onion, ginger, olive oil, turmeric, curry powder, smooth passata, red split lentils and water. No rice, garlic, carrot, chickpeas, whole kidney beans, herbs, yogurt or garnish.",
+    "sha256": "e4ba12f97df141a17a53f8d892f2467b92ed7c9a1da6b9546e3b27eaa7e1d2aa",
+    "photoGroup": "b8fc889937cbacbf8b12"
+  },
+  "dal_lenticchie_rosse_s2": {
+    "asset": "photography/dal_lenticchie_rosse_s2.webp",
+    "recipeId": "dal_lenticchie_rosse",
+    "stepIndex": 2,
+    "subject": "Cuoci 15-18 minuti mescolando finché diventa cremoso.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures. Landscape 3:2, food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. RED LENTIL DAL cooking step after fifteen to eighteen minutes: small STAINLESS SAUCEPAN on clean stove, uncovered, with thick creamy orange-gold dal made of red split hulled lentils now softened and PARTLY BROKEN DOWN into a creamy stew. Tiny softened lentil texture, finely cooked onion and ginger, smooth passata, turmeric, curry powder and olive oil. Natural hand uses a wooden spoon to stir and lift a small spoonful demonstrating creaminess; spoon leaves a short trail that slowly fills, gentle steam and a few small bubbles at edge. No rice yet, no intact whole red beans or chickpeas, no herbs, garlic, spinach, yogurt, coconut, cream, spices sprinkled on top or garnish. Only actual cooked dal in pot.",
+    "sha256": "2249b43e0740eaabd1a3c87d6441781ddd39bb3fa1e8684c7b21b0f4fbfa3dab",
+    "photoGroup": "5724a22dbfe560cfba55"
+  },
+  "dal_lenticchie_rosse_s3": {
+    "asset": "photography/dal_lenticchie_rosse_s3.webp",
+    "recipeId": "dal_lenticchie_rosse",
+    "stepIndex": 3,
+    "subject": "Cuoci {basmati} e servilo con il dal.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, ivory ceramics. Landscape 3:2, all important food and serving action compactly centered for a square crop. No text, watermark, collage or labels. Actual final SERVING ACTION for red split lentil dal with basmati rice: one natural hand holds a stainless ladle, gently spooning thick creamy orange-gold RED SPLIT HULLED LENTIL DAL onto the empty half of an ivory bowl beside a modest mound of freshly cooked plain white long-grain BASMATI RICE. Ladle and a short thick flow of dal visibly connect above the bowl. A small stainless saucepan of the same cooked dal sits immediately behind the bowl. Dal is made only from red split lentils cooked until creamy, finely chopped onion, grated fresh ginger, smooth tomato passata, turmeric, curry powder, a little extra virgin olive oil and water; some tiny softened lentil texture and cooked onion remain visible. Clear distinct white long rice grains. No garnish, coriander, parsley, garlic, chili, whole beans, chickpeas, black seeds, coconut, yogurt, cream, lemon, lime or bread. Realistic kitchen utensils, attractive simple homemade food, actual portioning motion rather than a static finished dish.",
+    "sha256": "149fdb6fe9cfb09254107635c49bb0cdd7e4bd61a19ca09c7fe7d191b85b4c27",
+    "photoGroup": "9c5da50aeb8442c91881"
   }
 }

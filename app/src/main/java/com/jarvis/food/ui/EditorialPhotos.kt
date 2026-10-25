@@ -150,6 +150,11 @@ object EditorialPhotos {
         "curry_ceci_spinaci_s1" to "photography/curry_ceci_spinaci_s1.webp",
         "curry_ceci_spinaci_s2" to "photography/curry_ceci_spinaci_s2.webp",
         "curry_ceci_spinaci_s3" to "photography/curry_ceci_spinaci.webp",
+        "dal_lenticchie_rosse" to "photography/dal_lenticchie_rosse.webp",
+        "dal_lenticchie_rosse_s0" to "photography/dal_lenticchie_rosse_s0.webp",
+        "dal_lenticchie_rosse_s1" to "photography/dal_lenticchie_rosse_s1.webp",
+        "dal_lenticchie_rosse_s2" to "photography/dal_lenticchie_rosse_s2.webp",
+        "dal_lenticchie_rosse_s3" to "photography/dal_lenticchie_rosse_s3.webp",
         "edamame_sale" to "photography/edamame_sale.webp",
         "edamame_sale_s0" to "photography/edamame_sale_s0.webp",
         "edamame_sale_s1" to "photography/edamame_sale_s1.webp",
@@ -199,14 +204,14 @@ object EditorialPhotos {
         "fette_biscottate_con_hummus_e_pomodori" to "photography/fette_biscottate_con_hummus_e_pomodori.webp",
         "fette_biscottate_con_hummus_e_pomodori_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_hummus_e_pomodori_s1" to "photography/fette_biscottate_con_hummus_e_pomodori_s1.webp",
+    )
+
+    private fun group1() = mapOf(
         "fette_biscottate_con_hummus_e_pomodori_s2" to "photography/fette_biscottate_con_hummus_e_pomodori.webp",
         "fette_biscottate_con_mele_cannella_e_ricotta" to "photography/fette_biscottate_con_mele_cannella_e_ricotta.webp",
         "fette_biscottate_con_mele_cannella_e_ricotta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_mele_cannella_e_ricotta_s1" to "photography/fette_biscottate_con_mele_cannella_e_ricotta_s1.webp",
         "fette_biscottate_con_mele_cannella_e_ricotta_s2" to "photography/fette_biscottate_con_mele_cannella_e_ricotta.webp",
-    )
-
-    private fun group1() = mapOf(
         "fette_biscottate_con_mozzarella_pomodoro_e_origano" to "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano.webp",
         "fette_biscottate_con_mozzarella_pomodoro_e_origano_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_mozzarella_pomodoro_e_origano_s1" to "photography/fette_biscottate_con_mozzarella_pomodoro_e_origano_s1.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pane_con_mozzarella_pomodoro_e_origano_s1" to "photography/pane_con_mozzarella_pomodoro_e_origano_s1.webp",
         "pane_con_mozzarella_pomodoro_e_origano_s2" to "photography/pane_con_mozzarella_pomodoro_e_origano.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola" to "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
+    )
+
+    private fun group2() = mapOf(
         "pane_con_pomodori_secchi_caprino_e_rucola_s0" to "photography/pane_ricotta_marmellata_s0.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola_s1" to "photography/pane_con_pomodori_secchi_caprino_e_rucola_s1.webp",
         "pane_con_pomodori_secchi_caprino_e_rucola_s2" to "photography/pane_con_pomodori_secchi_caprino_e_rucola.webp",
         "pane_con_prosciutto_cotto_e_mozzarella" to "photography/pane_con_prosciutto_cotto_e_mozzarella.webp",
         "pane_con_prosciutto_cotto_e_mozzarella_s0" to "photography/pane_ricotta_marmellata_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pane_con_prosciutto_cotto_e_mozzarella_s1" to "photography/pane_con_prosciutto_cotto_e_mozzarella_s1.webp",
         "pane_con_ricotta_e_marmellata" to "photography/pane_con_ricotta_e_marmellata.webp",
         "pane_con_ricotta_e_marmellata_s0" to "photography/pane_ricotta_marmellata_s0.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "riso_salmone_edamame_s1" to "photography/riso_salmone_edamame_s1.webp",
         "riso_salmone_edamame_s2" to "photography/riso_salmone_edamame_s2.webp",
         "riso_salmone_edamame_s3" to "photography/riso_salmone_edamame.webp",
+    )
+
+    private fun group3() = mapOf(
         "riso_tacchino_broccoli" to "photography/riso_tacchino_broccoli.webp",
         "riso_tacchino_broccoli_s0" to "photography/riso_tacchino_broccoli_s0.webp",
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
         "riso_tacchino_broccoli_s2" to "photography/riso_tacchino_broccoli_s2.webp",
         "riso_tacchino_broccoli_s3" to "photography/riso_tacchino_broccoli.webp",
-    )
-
-    private fun group3() = mapOf(
         "riso_tonno_mais" to "photography/riso_tonno_mais.webp",
         "riso_tonno_mais_s0" to "photography/riso_tonno_mais_s0.webp",
         "riso_tonno_mais_s1" to "photography/riso_tonno_mais_s1.webp",
