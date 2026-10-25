@@ -7988,5 +7988,60 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures. Landscape 3:2; important food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. FINAL ASSEMBLY action of chicken avocado tacos: three small soft YELLOW CORN TORTILLAS on an ivory plate, being filled with cooked golden CUMIN-SEASONED CHICKEN STRIPS, finely shredded pale-green/white CABBAGE, MASHED AVOCADO mixed with lime juice and chunky red MEXICAN SALSA. A natural adult hand uses a spoon to place red salsa onto one partially filled taco, two other filled tacos close beside it. Fillings identifiable, actual spoon placement in progress, not only finished plated food. No cheese, sour cream, cilantro, extra onion garnish, jalapeno, beans, corn kernels, rice, lettuce, oil or extra garnish. Soft tortillas not hard shells, avocado mash not slices.\nRevision after visual review: Edit this AI-generated chicken tacos assembly photograph while preserving light, ivory plate, camera angle, realistic food textures and the hand spooning red Mexican salsa onto a taco. Remove BOTH large food bowls from the background completely and replace them with plain light wooden tabletop and neutral folded linen only. The green mashed avocado inside ALL tacos must contain ONLY avocado and lime juice: purely pale green chunky mash with absolutely no red tomato cubes, onion pieces or herb leaves within that green mash. Keep chunky red Mexican salsa as a SEPARATE RED TOPPING spooned ON TOP of the avocado. Preserve shredded pale white-green cabbage, cooked cumin chicken strips and soft yellow corn tortillas. No cilantro or extra garnish, no cheese or sour cream. Keep the visible assembly action; no text, labels, watermark or collage.",
     "sha256": "fa98306e2e63575f42b77590008590adf3537687b25b39bcba2d55783fba3c1c",
     "photoGroup": "70eda3d901a7d062bfef"
+  },
+  "pollo_curry_basmati": {
+    "asset": "photography/pollo_curry_basmati.webp",
+    "recipeId": "pollo_curry_basmati",
+    "stepIndex": null,
+    "subject": "Pollo al curry e yogurt con riso basmati",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2, all important components compact and centered for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Finished POLLO AL CURRY E YOGURT WITH BASMATI RICE. Exact ingredients: chicken BREAST CHUNKS marinated in full-fat Greek yogurt and curry powder, then stewed covered with chopped onion, fresh tomato pieces and a little extra virgin olive oil; served with plain cooked long-grain white BASMATI rice and a SMALL finishing sprinkle of chopped fresh CORIANDER. One ivory bowl has tender fully cooked pale chicken chunks coated in creamy golden yellow-orange YOGURT curry sauce, soft onion and cooked tomato pieces, beside a modest mound of basmati with long separate slender grains. Chicken softly STEWED, no grill marks or char. No coconut milk, cream, butter, garlic, ginger, chickpeas, spinach, chili, lime, lemon, naan, seeds, nuts or garnish other than coriander.",
+    "sha256": "adf408ac65854e57ae194fabac38bc582506fc3f1e8c7913e4f10550d6a968fb",
+    "photoGroup": "af537216172d427c3166"
+  },
+  "pollo_curry_basmati_s0": {
+    "asset": "photography/pollo_curry_basmati_s0.webp",
+    "recipeId": "pollo_curry_basmati",
+    "stepIndex": 0,
+    "subject": "Taglia {pollo} a bocconcini e marinalo 10 minuti con {greco_intero} e {curry}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures and achievable homemade plating. Landscape 3:2, all important components compact and centered for square crop. No text, labels, watermark, collage, portraits or invented ingredients. FIRST step of chicken yogurt curry: RAW CHICKEN BREAST cut into small bite-sized chunks MARINATING in thick plain full-fat GREEK YOGURT and golden-yellow CURRY POWDER in one modest ivory bowl. A natural hand uses a spoon to fold yogurt and curry around the raw pale-pink chicken chunks, creamy yellow-white marinade with visible little curry streaks, no cooked browning yet. Ten-minute marinade stage. Only raw chicken, Greek yogurt and curry powder. No onion, tomato, oil, rice, herbs, garlic, ginger, coconut, lemon or finished meal yet. Realistic raw food preparation, compact food focus.",
+    "sha256": "fce6d19a00610f4b08fc5105861624b34d98761a13a4e8a9cdeb982dc64baf84",
+    "photoGroup": "c76c264c046f4be22493"
+  },
+  "pollo_curry_basmati_s1": {
+    "asset": "photography/pollo_curry_basmati_s1.webp",
+    "recipeId": "pollo_curry_basmati",
+    "stepIndex": 1,
+    "subject": "Rosola {cipolla} tritata in {olio} per 4 minuti, poi aggiungi {pomodori} a pezzi.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures. Landscape 3:2, food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Chicken yogurt curry SECOND step BEFORE adding marinated chicken: finely chopped ONION gently sauteed in a little extra virgin OLIVE OIL for four minutes in a deep dark nonstick pan, then freshly chopped RED TOMATO PIECES have just been added. A wooden spatula stirs translucent slightly golden onion and juicy red tomato pieces together, slight steam, no thick sauce yet. CURRENT ingredients ONLY onion, tomato and olive oil. No chicken, yogurt, curry powder, coriander, garlic, ginger, coconut, cream, rice, spices, herb leaves or finished meal. Close recognizable chopped vegetables in pan.",
+    "sha256": "c9c14fc77948635eeaead6d8df12bb4740fee9f738c112eaf0ed655348d8ef95",
+    "photoGroup": "a3c8397fd762edf1d4ec"
+  },
+  "pollo_curry_basmati_s2": {
+    "asset": "photography/pollo_curry_basmati_s2.webp",
+    "recipeId": "pollo_curry_basmati",
+    "stepIndex": 2,
+    "subject": "Unisci il pollo con la marinata e cuoci coperto 12-15 minuti a fuoco basso.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures. Landscape 3:2, food compact and central for square crop. No text, labels, watermark, collage, portraits or invented ingredients. Chicken yogurt curry covered-cooking step: a deep dark nonstick skillet on clean stove, closed with a well-fitted transparent GLASS LID resting firmly on rim. Through clearer lower portion of lid show bite-sized CHICKEN BREAST CHUNKS gently simmering in a creamy golden YOGURT-and-CURRY sauce with soft chopped ONION and RED TOMATO PIECES. Light condensation droplets toward upper lid, faint steam at rim, low gentle flame, actual pan covered as chicken cooks twelve to fifteen minutes. No browning or grill marks on chicken, softly stewed. Only chicken, Greek yogurt, curry powder, onion, tomato and olive oil. NO rice, coriander, garlic, ginger, coconut, cream, butter, herb garnish or serving bowl yet.",
+    "sha256": "a6cbc5ce783872504a6f189b58820d081473a6ba577893be45c409ba91ea7b39",
+    "photoGroup": "6dd4f46d020472e59f6b"
+  },
+  "pollo_curry_basmati_s3": {
+    "asset": "photography/pollo_curry_basmati_s3.webp",
+    "recipeId": "pollo_curry_basmati",
+    "stepIndex": 3,
+    "subject": "Cuoci {basmati} e servilo con il pollo e {coriandolo} tritato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. Chicken yogurt curry FINAL RICE COOKING-AND-SERVING stage: a natural hand uses a normal serving spoon to transfer freshly cooked long slender WHITE BASMATI RICE from a small stainless saucepan into one half of an ivory bowl; other half already contains tender chicken breast chunks stewed in creamy golden Greek-yogurt-and-curry sauce with cooked onion and fresh tomato pieces. A SMALL pinch of chopped fresh CORIANDER is already on chicken as final garnish. Clearly actual spoonful of rice being lowered onto rice in bowl, not only a finished static dish. Exact ingredients chicken, Greek yogurt, curry powder, onion, tomato, olive oil, basmati rice, coriander. No coconut milk, cream, butter, garlic, ginger, chili, lemon, lime, naan, nuts, seeds or extra garnish. No text, labels, watermark, collage or faces.",
+    "sha256": "7729cbde07ac7932900ddf972e379680225b0e61b7ae328ce2fe892276e82cf6",
+    "photoGroup": "bbcd45b285295b7934e3"
   }
 }

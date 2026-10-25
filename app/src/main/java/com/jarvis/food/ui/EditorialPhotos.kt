@@ -564,6 +564,11 @@ object EditorialPhotos {
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
         "poke_salmone_s2" to "photography/poke_salmone_s2.webp",
         "poke_salmone_s3" to "photography/poke_salmone.webp",
+        "pollo_curry_basmati" to "photography/pollo_curry_basmati.webp",
+        "pollo_curry_basmati_s0" to "photography/pollo_curry_basmati_s0.webp",
+        "pollo_curry_basmati_s1" to "photography/pollo_curry_basmati_s1.webp",
+        "pollo_curry_basmati_s2" to "photography/pollo_curry_basmati_s2.webp",
+        "pollo_curry_basmati_s3" to "photography/pollo_curry_basmati_s3.webp",
         "pollo_limone_verdure" to "photography/pollo_limone_verdure.webp",
         "pollo_limone_verdure_s0" to "photography/pollo_limone_verdure_s0.webp",
         "pollo_limone_verdure_s1" to "photography/pollo_limone_verdure_s1.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "riso_tacchino_broccoli_s1" to "photography/riso_tacchino_broccoli_s1.webp",
         "riso_tacchino_broccoli_s2" to "photography/riso_tacchino_broccoli_s2.webp",
         "riso_tacchino_broccoli_s3" to "photography/riso_tacchino_broccoli.webp",
+    )
+
+    private fun group3() = mapOf(
         "riso_tonno_mais" to "photography/riso_tonno_mais.webp",
         "riso_tonno_mais_s0" to "photography/riso_tonno_mais_s0.webp",
         "riso_tonno_mais_s1" to "photography/riso_tonno_mais_s1.webp",
         "riso_tonno_mais_s2" to "photography/riso_tonno_mais.webp",
         "riso_uova_spinaci" to "photography/riso_uova_spinaci.webp",
-    )
-
-    private fun group3() = mapOf(
         "riso_uova_spinaci_s0" to "photography/riso_uova_spinaci_s0.webp",
         "riso_uova_spinaci_s1" to "photography/riso_uova_spinaci_s1.webp",
         "riso_uova_spinaci_s2" to "photography/riso_uova_spinaci_s2.webp",
