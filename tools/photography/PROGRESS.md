@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 140 ricette complete di foto principale e di tutti i passaggi.
-- 358 WebP distinti, 648 abbinamenti verificati.
-- 416 passaggi delle ricette complete coperti.
-- 2393 ricette da completare.
+- 141 ricette complete di foto principale e di tutti i passaggi.
+- 362 WebP distinti, 653 abbinamenti verificati.
+- 420 passaggi delle ricette complete coperti.
+- 2392 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK aggiornato consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -55,7 +55,7 @@ Usare plan.py per i brief, generare un soggetto per immagine, controllare ingred
 
 ## Prosecuzione senza costi aggiuntivi — 25 ottobre 2026
 
-Ripartenza dal commit `4711c04` controllato su GitHub: nessun aggiornamento successivo al checkpoint APK 1.0.89 al momento della clonazione. Aggiunte **11 ricette complete, 42 immagini distinte e 50 abbinamenti** in questa sessione.
+Ripartenza dal commit `4711c04` controllato su GitHub: nessun aggiornamento successivo al checkpoint APK 1.0.89 al momento della clonazione. Aggiunte **12 ricette complete, 46 immagini distinte e 55 abbinamenti** in questa sessione.
 
 Generatore integrato `image_gen` effettivamente utilizzato; nessuna API esterna a pagamento, acquisto di crediti o attivazione di abbonamenti. Nessun generatore locale disponibile (nessuna GPU NVIDIA esposta, Torch/Diffusers assenti). La prova iniziale dei pancake è stata controllata visivamente prima di completarne i passaggi.
 
@@ -72,7 +72,10 @@ Ricette completate, ciascuna con foto principale e tutti i passaggi:
 - Tzatziki con bastoncini di verdure (`tzatziki_verdure`)
 - Burrito bowl con pollo e fagioli neri (`burrito_bowl_pollo`)
 - Chili vegano di fagioli neri e riso (`chili_fagioli_neri`)
+- Curry di ceci e spinaci al latte di cocco (`curry_ceci_spinaci`)
 
 Verifiche: tutte le nuove immagini esaminate visivamente per ingredienti, fase, utensili, luce e inquadratura; conversione con `prepare.py`, abbinamenti con `share.py`, controllo `verify.py` e `scripts/verify-aurora-boundary.py` superati. I 316 WebP iniziali e tutti i 598 record preesistenti sono stati confrontati con il commit di ripartenza e sono identici. Database, grammature, dati nutrizionali e funzionalità preservati. Nessun nuovo APK compilato; i test Android e i 70 test unitari restano quelli della consegna 1.0.89, non sono stati rieseguiti per questi gruppi fotografici.
 
-Punto preciso da cui riprendere: **Curry di ceci e spinaci al latte di cocco (`curry_ceci_spinaci`)**. Rigenerare l’inventario con `python tools/photography/plan.py --out /tmp/pending.jsonl`; restano 2393 ricette e 12124 abbinamenti mancanti. Nessuna produzione in background. Salvare ogni gruppo con `[skip ci]` prima del successivo.
+Sono state generate 52 prove singole: 46 approvate e 6 scartate e rigenerate prima dell’integrazione (miscela chia già troppo densa, scolapasta edamame senza appoggio, finocchio simile a cipolla, porzione uova incompleta, pollo con puntini simili a pepe, curry con pezzi di pomodoro invece di passata). Le prove scartate non sono nel repository né negli abbinamenti. Ricontrollati tutti i 46 WebP convertiti anche nel ritaglio quadrato; dimensioni 1280×853, decodifica valida. Il controllo del chili ha rilevato il passaggio finale mancante: aggiunta una quinta foto dedicata al servizio del riso, poi verifica ripetuta con esito positivo. Nessuna regola di condivisione modificata.
+
+Punto preciso da cui riprendere: **Bowl di riso, salmone ed edamame (`riso_salmone_edamame`)**. Rigenerare l’inventario con `python tools/photography/plan.py --out /tmp/pending.jsonl`; restano 2392 ricette e 12119 abbinamenti mancanti. Nessuna produzione in background. Salvare ogni gruppo con `[skip ci]` prima del successivo.

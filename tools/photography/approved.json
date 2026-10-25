@@ -7439,5 +7439,61 @@
     "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe framing. Final cooking-and-serving step of vegan BLACK BEAN chili with WHITE RICE: a natural hand holding a normal serving spoon transfers freshly cooked steaming white rice from a small stainless saucepan into the empty half of an ivory bowl; the other half already contains thick tomato chili with black beans, diced red bell pepper and cooked chopped onion, cumin and paprika, cooked with olive oil. Clearly visible spoonful of rice in motion touching rice already placed in bowl; saucepan of plain cooked rice nearby. Show actual rice serving action, not a static finished-dish-only image. No corn, meat, kidney beans, cilantro, parsley, sour cream, cheese, lime, herbs or garnish. No text, watermark, labels, collage or portraits.",
     "sha256": "961b5f2305045ef1af72191b66b49717ac41ec4b121d94df073d6e08fd72d2f1",
     "photoGroup": "d54b511e2b252867d379"
+  },
+  "curry_ceci_spinaci_s0": {
+    "asset": "photography/curry_ceci_spinaci_s0.webp",
+    "recipeId": "curry_ceci_spinaci",
+    "stepIndex": 0,
+    "subject": "Cuoci {basmati} in acqua salata per 10-12 minuti e scolalo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures and achievable home cooking, landscape 3:2 central square-crop-safe framing. No text, labels, watermark, collage, portraits or invented ingredients. Chickpea spinach curry FIRST step: cooked white BASMATI rice draining in a small stainless mesh strainer securely supported across rim of ivory bowl. Clearly LONG SLENDER separate basmati grains, not short round rice. Gentle steam and little drained water below. Strainer handle and opposite hook rest directly on bowl rim, bottom extends into bowl. Rice cooked in water with dissolved salt ONLY, no other food, oil or spices. No chickpeas, spinach, coconut, curry, sauce, onion or finished dish yet. Close-up clear rice-draining scene.",
+    "sha256": "41bf779b599164d210bcf48c5da9c8e22d1812c8f707cd557ed6e976937f55f2",
+    "photoGroup": "0aa510f48874fb9e1231"
+  },
+  "curry_ceci_spinaci": {
+    "asset": "photography/curry_ceci_spinaci.webp",
+    "recipeId": "curry_ceci_spinaci",
+    "stepIndex": null,
+    "subject": "Curry di ceci e spinaci al latte di cocco",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Finished chickpea spinach coconut curry ON basmati rice in one modest ivory bowl. Long slender separate WHITE BASMATI grains visible at sides. Curry consists of many whole beige chickpeas and tender wilted DARK GREEN SPINACH LEAVES in a completely SMOOTH creamy orange-gold sauce from pure strained tomato passata, coconut milk, ground curry powder, finely MINCED onion, garlic and grated ginger. Onion pieces tiny and fully softened, sauce homogeneous smooth with no red chunks or diced vegetables. Exact ingredients chickpeas, coconut milk, spinach, smooth strained tomato passata, onion, basmati rice, curry powder, ginger, garlic. NO tomato pieces, red pepper, carrot, peas, cilantro, parsley, yogurt, lime, coconut flakes, oil garnish, naan or other garnish. Professional realistic bright appetizing homemade food.",
+    "sha256": "f4524eaef039e42cc6bf9adf9455346da8ce7c9580ed26b6134945327116bdfb",
+    "photoGroup": "691fb1b6a5fde340d85c"
+  },
+  "curry_ceci_spinaci_s1": {
+    "asset": "photography/curry_ceci_spinaci_s1.webp",
+    "recipeId": "curry_ceci_spinaci",
+    "stepIndex": 1,
+    "subject": "Rosola {cipolla} tritata con {aglio} e {zenzero} grattugiato per 4 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Curry preparation intermediate stage before spices, chickpeas, tomato, coconut or spinach: finely MINCED onion with a small amount of finely chopped garlic and freshly GRATED pale golden ginger gently sauteing for four minutes in a dark nonstick skillet on clean stove. Modest small quantity of mixture, tiny irregular onion pieces turning translucent with a few gently golden edges, ginger fine fibers, garlic small ivory bits, no large garlic cloves. A wooden spatula stirring. NO added oil or butter (neither is in this recipe), no oil pools. ONLY onion, garlic and ginger, no chickpeas, rice, tomato, sauce, curry powder, green herbs, spinach or finished dish yet.",
+    "sha256": "6274f37be4128cc0c69bff727c779cdd840715ca4fce7606dba33899185bbb74",
+    "photoGroup": "6898eb6b548e1091bbfb"
+  },
+  "curry_ceci_spinaci_s2": {
+    "asset": "photography/curry_ceci_spinaci_s2.webp",
+    "recipeId": "curry_ceci_spinaci",
+    "stepIndex": 2,
+    "subject": "Aggiungi {curry} e tostalo 30 secondi, poi versa {passata}, {latte_cocco} e {ceci} sgocciolati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, realistic food textures, landscape 3:2 central square-crop-safe framing. Chickpea spinach coconut curry intermediate stage BEFORE spinach or rice: a deep dark nonstick skillet on clean stove contains gently sauteed finely minced onion, garlic and grated ginger coated in toasted ground curry powder, smooth strained red tomato passata and many whole drained beige chickpeas. A natural hand pours creamy WHITE COCONUT MILK from a small ivory jug into the pan, white stream and ribbons beginning to mix into smooth tomato sauce to make orange cream sauce. Clear ingredient addition action, chickpeas visible. Exact current ingredients onion, garlic, ginger, curry powder, smooth tomato passata, coconut milk, chickpeas. Absolutely NO spinach yet, no green leaves, herbs, rice, tomato chunks, diced peppers, oil, butter, yogurt or finished plated curry. No text, labels, watermark, collage or portraits.",
+    "sha256": "7948b43160bae12a5e94a7680b80e0b2f7344d574afbe05e0b9ec19e4747de77",
+    "photoGroup": "81591357db390cac6253"
+  },
+  "curry_ceci_spinaci_s3": {
+    "asset": "photography/curry_ceci_spinaci.webp",
+    "recipeId": "curry_ceci_spinaci",
+    "stepIndex": 3,
+    "subject": "Cuoci 10 minuti, aggiungi {spinaci} e cuoci ancora 2 minuti. Servi sul riso.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood, neutral ivory ceramics, realistic food textures, landscape 3:2 central square-crop-safe composition. No text, labels, watermark, collage, portraits or invented ingredients. Finished chickpea spinach coconut curry ON basmati rice in one modest ivory bowl. Long slender separate WHITE BASMATI grains visible at sides. Curry consists of many whole beige chickpeas and tender wilted DARK GREEN SPINACH LEAVES in a completely SMOOTH creamy orange-gold sauce from pure strained tomato passata, coconut milk, ground curry powder, finely MINCED onion, garlic and grated ginger. Onion pieces tiny and fully softened, sauce homogeneous smooth with no red chunks or diced vegetables. Exact ingredients chickpeas, coconut milk, spinach, smooth strained tomato passata, onion, basmati rice, curry powder, ginger, garlic. NO tomato pieces, red pepper, carrot, peas, cilantro, parsley, yogurt, lime, coconut flakes, oil garnish, naan or other garnish. Professional realistic bright appetizing homemade food.",
+    "sha256": "f4524eaef039e42cc6bf9adf9455346da8ce7c9580ed26b6134945327116bdfb",
+    "photoGroup": "691fb1b6a5fde340d85c",
+    "sharedFrom": "curry_ceci_spinaci"
   }
 }
