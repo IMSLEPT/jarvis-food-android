@@ -9258,5 +9258,60 @@
     "sha256": "d3a63b74e0c9dc4f01cc2ff3d0d9e3e4a773f2f82cb0e8603c87fe799aedee0c",
     "photoGroup": "0b870b77b49a6efe3b6a",
     "sharedFrom": "ramen_pollo_uovo"
+  },
+  "chili_con_carne": {
+    "asset": "photography/chili_con_carne.webp",
+    "recipeId": "chili_con_carne",
+    "stepIndex": null,
+    "subject": "Chili con carne e fagioli rossi",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Finished chili con carne with red kidney beans, served with plain cooked WHITE RICE in one modest shallow ivory bowl. Single portion:130g lean ground beef crumbled,120g drained dark red kidney beans,150g smooth tomato passata,60g finely diced onion,5g olive oil,2g ground paprika,1g ground cumin, rice from60g dry white rice. Rich natural brick-red thick tomato sauce binds browned beef crumbles, whole kidney beans and translucent onion bits; not watery soup, no tomato chunks. Place a modest mound of plain white rice beside the chili with both fully visible, natural neat home plating. Only these ingredients. Absolutely no bell peppers, fresh chili peppers, cilantro, herbs, cheese, sour cream, avocado, corn, lime, tortilla or black pepper. Entire portion centrally framed to keep all components inside the square crop.\n",
+    "sha256": "3d8f9914e7997221a87343881be402e7422910876be185a0ea6492ecdf0b1bc1",
+    "photoGroup": "6975ce2daf687188a927"
+  },
+  "chili_con_carne_s0": {
+    "asset": "photography/chili_con_carne_s0.webp",
+    "recipeId": "chili_con_carne",
+    "stepIndex": 0,
+    "subject": "Rosola {cipolla} in {olio}, poi aggiungi {macinato} e cuoci 6 minuti sgranandolo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Intermediate cooking stage for chili: a small dark nonstick sauté pan on hob holds finely diced translucent yellow onion sautéed in a light sheen of olive oil, with lean ground beef browning and being broken into small separate crumbles by the broad edge of a plain wooden spatula. About130g meat and60g diced onion with5g oil, modest single portion. Meat mostly brown, moist natural texture, no big meatballs. Visible pan surface between crumbles, light steam. ONLY onion, beef and olive oil at this stage. No beans, tomato, paprika, cumin, peppers, herbs, rice or garnish. Close view that makes the crumbling action clear.\n",
+    "sha256": "cf15904d29809fcddb9fdcc9613a5285e3af4cb055bec34c8fe31ea5456904c3",
+    "photoGroup": "7ad8a99a986508544190"
+  },
+  "chili_con_carne_s1": {
+    "asset": "photography/chili_con_carne_s1.webp",
+    "recipeId": "chili_con_carne",
+    "stepIndex": 1,
+    "subject": "Unisci {paprika}, {cumino}, {passata} e {fagioli_rossi} sgocciolati.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this realistic cooking photograph precisely: reduce BOTH spice piles by 85 percent. There should only be a light sparse dusting of finely ground paprika (2 grams, less than a teaspoon) and cumin (1 gram, a small pinch), partly scattered over nearby meat and beans. Remove the large mounds and keep at most very small low patches. Preserve the smooth tomato passata pouring into the pan, kidney beans, browned beef, diced onion, natural kitchen and bright realistic professional style. No other ingredients or decorations.\n",
+    "sha256": "5f46acbca97f673decea61fc4db38c4147f1c2ab8c38c36831b59b7342232c7c",
+    "photoGroup": "5d31b236f18805bdb334"
+  },
+  "chili_con_carne_s2": {
+    "asset": "photography/chili_con_carne_s2.webp",
+    "recipeId": "chili_con_carne",
+    "stepIndex": 2,
+    "subject": "Cuoci a fuoco basso 20 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Intermediate slow cooking stage: the same type of small dark nonstick sauté pan on a domestic hob contains thick brick-red chili gently simmering at LOW heat after twenty minutes. Clearly visible browned lean beef crumbles, dark red kidney beans and tiny translucent onion pieces bound by reduced SMOOTH tomato passata seasoned with finely ground paprika and cumin; natural few small simmer bubbles and faint steam. A simple wooden spoon rests at one side of the pan with its tip in the chili. No pouring ingredients now. Only beef, kidney beans, tomato passata, onion, olive oil, ground paprika and ground cumin. No rice yet, no peppers, tomato chunks, fresh chilies, herbs, cheese, cream or garnish. This is a cooking photo in the pan, not a plated meal.\n",
+    "sha256": "3ab70d8f24678a0f9a682a7ab2ba62cc03bc911c04216ff7a55a3680008f2d38",
+    "photoGroup": "4de068844db386587792"
+  },
+  "chili_con_carne_s3": {
+    "asset": "photography/chili_con_carne_s3.webp",
+    "recipeId": "chili_con_carne",
+    "stepIndex": 3,
+    "subject": "Cuoci {riso} e servilo con il chili.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this realistic serving-action photograph precisely: REMOVE every large bright-red tomato-like chunk in the chili. The recipe uses strained SMOOTH tomato passata, not chopped tomatoes. Replace those chunks with homogeneous thick brick-red tomato SAUCE, with only small browned beef crumbles, whole dark red kidney beans and translucent pale diced onion distinguishable inside. Preserve the spoon actively dropping plain white rice into the bowl, and natural bright professional cookbook photography. No fresh or chopped tomatoes, peppers, herbs, garnish or extra ingredients. Keep spoon tip and falling rice within the center-square crop.\n",
+    "sha256": "c68446a80b0462353657d1696dcde743c87557581821d3f8e8a947becd95d36e",
+    "photoGroup": "4737c77147f87f196f26"
   }
 }

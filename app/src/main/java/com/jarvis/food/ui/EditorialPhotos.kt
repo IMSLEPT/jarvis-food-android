@@ -84,6 +84,11 @@ object EditorialPhotos {
         "chia_pudding_mango_s1" to "photography/chia_pudding_mango_s1.webp",
         "chia_pudding_mango_s2" to "photography/chia_pudding_mango_s2.webp",
         "chia_pudding_mango_s3" to "photography/chia_pudding_mango.webp",
+        "chili_con_carne" to "photography/chili_con_carne.webp",
+        "chili_con_carne_s0" to "photography/chili_con_carne_s0.webp",
+        "chili_con_carne_s1" to "photography/chili_con_carne_s1.webp",
+        "chili_con_carne_s2" to "photography/chili_con_carne_s2.webp",
+        "chili_con_carne_s3" to "photography/chili_con_carne_s3.webp",
         "chili_fagioli_neri" to "photography/chili_fagioli_neri.webp",
         "chili_fagioli_neri_s0" to "photography/chili_fagioli_neri_s0.webp",
         "chili_fagioli_neri_s1" to "photography/chili_fagioli_neri_s1.webp",
@@ -199,14 +204,14 @@ object EditorialPhotos {
         "fette_biscottate_con_caprino_pere_e_noci_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_caprino_pere_e_noci_s1" to "photography/fette_biscottate_con_caprino_pere_e_noci_s1.webp",
         "fette_biscottate_con_caprino_pere_e_noci_s2" to "photography/fette_biscottate_con_caprino_pere_e_noci.webp",
+    )
+
+    private fun group1() = mapOf(
         "fette_biscottate_con_crema_di_nocciole_e_banana_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_feta_cetrioli_e_menta_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s1.webp",
-    )
-
-    private fun group1() = mapOf(
         "fette_biscottate_con_fiocchi_di_latte_e_cetrioli_s2" to "photography/fette_biscottate_con_fiocchi_di_latte_e_cetrioli.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco" to "photography/fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco.webp",
         "fette_biscottate_con_formaggio_spalmabile_e_frutti_di_bosco_s0" to "photography/fette_biscottate_con_ricotta_e_marmellata_s0.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pad_thai_gamberi_s4" to "photography/pad_thai_gamberi.webp",
         "pancake_al_cocco_con_mela_e_cannella_e_burro_di_mandorle_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_al_cocco_con_mirtilli_e_sciroppo_d_acero_s3" to "photography/mirtilli_fresca_s0.webp",
+    )
+
+    private fun group2() = mapOf(
         "pancake_alla_ricotta_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_ricotta_con_mirtilli_e_burro_di_mandorle_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_zucca_con_mirtilli_e_burro_di_mandorle_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_avena" to "photography/pancake_avena.webp",
-    )
-
-    private fun group2() = mapOf(
         "pancake_avena_s0" to "photography/pancake_avena_s0.webp",
         "pancake_avena_s1" to "photography/pancake_avena_s1.webp",
         "pancake_avena_s2" to "photography/pancake_avena_s2.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "pasta_pesto_s2" to "photography/pasta_pesto.webp",
         "pasta_pollo_zucchine" to "photography/pasta_pollo_zucchine.webp",
         "pasta_pollo_zucchine_s0" to "photography/pasta_pollo_zucchine_s0.webp",
+    )
+
+    private fun group3() = mapOf(
         "pasta_pollo_zucchine_s1" to "photography/pasta_pollo_zucchine_s1.webp",
         "pasta_pollo_zucchine_s2" to "photography/pasta_pollo_zucchine_s2.webp",
         "pasta_pollo_zucchine_s3" to "photography/pasta_pollo_zucchine_s3.webp",
         "pasta_pollo_zucchine_s4" to "photography/pasta_pollo_zucchine.webp",
         "pasta_salmone_zucchine" to "photography/pasta_salmone_zucchine.webp",
-    )
-
-    private fun group3() = mapOf(
         "pasta_salmone_zucchine_s0" to "photography/pasta_salmone_zucchine_s0.webp",
         "pasta_salmone_zucchine_s1" to "photography/pasta_salmone_zucchine_s1.webp",
         "pasta_salmone_zucchine_s2" to "photography/pasta_salmone_zucchine_s2.webp",
@@ -808,14 +813,14 @@ object EditorialPhotos {
         "yogurt_granola_s1" to "photography/yogurt_granola_s1.webp",
         "yogurt_granola_s2" to "photography/yogurt_granola.webp",
         "yogurt_greco_intero_con_banana" to "photography/yogurt_greco_intero_con_banana.webp",
+    )
+
+    private fun group4() = mapOf(
         "yogurt_greco_intero_con_banana_s0" to "photography/banana_arachidi_s0.webp",
         "yogurt_greco_intero_con_banana_s1" to "photography/yogurt_greco_intero_con_banana.webp",
         "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",
-    )
-
-    private fun group4() = mapOf(
         "yogurt_magro_con_mirtilli_s0" to "photography/mirtilli_fresca_s0.webp",
         "zuppa_legumi" to "photography/zuppa_legumi.webp",
         "zuppa_legumi_s0" to "photography/zuppa_legumi_s0.webp",
