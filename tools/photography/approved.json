@@ -9090,5 +9090,61 @@
     "sha256": "94d6dbab3ea65d871bb37edf7b5eb06afa8ce455de8547a3347734e85c88f1f3",
     "photoGroup": "9a026937891ec49754a7",
     "sharedFrom": "zuppa_legumi"
+  },
+  "gamberi_curry_cocco": {
+    "asset": "photography/gamberi_curry_cocco.webp",
+    "recipeId": "gamberi_curry_cocco",
+    "stepIndex": null,
+    "subject": "Gamberi al curry e latte di cocco con riso",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this photorealistic food photograph precisely: remove EVERY long pale yellow/white strip that looks like onion or ginger matchsticks from between the shrimp and red bell peppers. There is NO onion in this recipe. Ginger is only 4 grams finely minced and dissolved in the sauce, with at most tiny submillimeter flecks, never strips or chunks. Keep only cooked peeled pink shrimp, RED bell pepper strips, golden coconut curry sauce and white basmati rice. Preserve the natural warm bright professional cookbook photography. Pull the camera back slightly so the entire food portion fits within the central 60% of the image width for a center-square crop. Do not add food props, herbs or garnish.\n",
+    "sha256": "6845520baf6a0d5afa5b3588af5ab8afe2648e0f81e60e5f6f1add474296266f",
+    "photoGroup": "367e24fe2dfacb217c4e"
+  },
+  "gamberi_curry_cocco_s0": {
+    "asset": "photography/gamberi_curry_cocco_s0.webp",
+    "recipeId": "gamberi_curry_cocco",
+    "stepIndex": 0,
+    "subject": "Cuoci {basmati} in acqua salata e scolalo.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side window light, warm clean light oak kitchen, ivory ceramics where appropriate, realistic homemade food textures, restrained elegant styling. Close three-quarter overhead view. Keep the food and the action within the central square-safe 60 percent of the width; sufficient room around it for the app's center square crop. Single scene, no collage, no text, logos, watermark, labels or faces. No unrelated food in the background, no decorative food props or invented garnishes. Intermediate cooking action, basmati rice before preparing shrimp curry: freshly boiled white long-grain basmati rice draining in a fine stainless steel mesh strainer securely resting across the rim of a stainless steel pot on the worktop, a little steam. Crisp clean separate elongated white rice grains, moist but not mushy. Close view of the rice and the practical supported strainer and pot, no hands needed. ONLY rice and its cooking water with dissolved salt; no butter, oil, herbs, shrimp, peppers, curry or coconut milk. This is a preparation photo, no plated meal.\n",
+    "sha256": "8eb874a5558210e73626844bc836316ac3f5bef028e480fe2e6f00d92b09cd1c",
+    "photoGroup": "bd4967cfe1ebe3c380c9"
+  },
+  "gamberi_curry_cocco_s1": {
+    "asset": "photography/gamberi_curry_cocco_s1.webp",
+    "recipeId": "gamberi_curry_cocco",
+    "stepIndex": 1,
+    "subject": "Rosola {zenzero} e {peperoni} a listarelle per 4 minuti in padella.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this photorealistic intermediate cooking photograph precisely: reduce the pale minced ginger by about 85 percent. Only a scant teaspoon of very finely minced fresh ginger, four grams total, is scattered very sparingly among 100 grams red bell pepper strips. Remove the large ginger clumps and most of the pale ginger pieces, leaving tiny sparse flecks. Preserve the red pepper strips, dark nonstick pan, wooden spatula, bright natural window light and realistic kitchen scene. No oil pool, no curry, coconut milk, shrimp, rice, onions, garlic or garnish.\n",
+    "sha256": "08ccc0618bc731dfbf3c5a823e090e730a30a7c0bada60f87290cff61a3db5ee",
+    "photoGroup": "4d2b73c24fadda943d0c"
+  },
+  "gamberi_curry_cocco_s2": {
+    "asset": "photography/gamberi_curry_cocco_s2.webp",
+    "recipeId": "gamberi_curry_cocco",
+    "stepIndex": 2,
+    "subject": "Aggiungi {curry}, {latte_cocco} e cuoci 5 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side window light, warm clean light oak kitchen, ivory ceramics where appropriate, realistic homemade food textures, restrained elegant styling. Close three-quarter overhead view. Keep the food and the action within the central square-safe 60 percent of the width; sufficient room around it for the app's center square crop. Single scene, no collage, no text, logos, watermark, labels or faces. No unrelated food in the background, no decorative food props or invented garnishes. Intermediate preparation for shrimp coconut curry, BEFORE adding any shrimp: a small dark nonstick skillet contains softened thin RED bell pepper strips and finely chopped ginger in a small amount of golden yellow coconut curry sauce, gently simmering after coconut milk and yellow curry powder have been added. An unadorned wooden spoon draws a short path through the lightly creamy sauce. For a single portion, about 100g pepper strips and 70g coconut milk, 4g ginger and 3g curry powder: visibly modest sauce quantity in a small pan, no deep soup. Only red peppers, ginger, coconut milk and curry powder visible. No shrimp yet, no rice, no onions, garlic, herbs, lime, chili or garnish. The simmering sauce stage must be unmistakable.\n",
+    "sha256": "977c927f707e26d11ba35d1e22f2e22f5264b58dc0d4d312f4a178d1f160b8b1",
+    "photoGroup": "b8861c2b08402304eab4"
+  },
+  "gamberi_curry_cocco_s3": {
+    "asset": "photography/gamberi_curry_cocco.webp",
+    "recipeId": "gamberi_curry_cocco",
+    "stepIndex": 3,
+    "subject": "Unisci {gamberi} e cuoci 4 minuti. Servi sul riso.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this photorealistic food photograph precisely: remove EVERY long pale yellow/white strip that looks like onion or ginger matchsticks from between the shrimp and red bell peppers. There is NO onion in this recipe. Ginger is only 4 grams finely minced and dissolved in the sauce, with at most tiny submillimeter flecks, never strips or chunks. Keep only cooked peeled pink shrimp, RED bell pepper strips, golden coconut curry sauce and white basmati rice. Preserve the natural warm bright professional cookbook photography. Pull the camera back slightly so the entire food portion fits within the central 60% of the image width for a center-square crop. Do not add food props, herbs or garnish.\n",
+    "sha256": "6845520baf6a0d5afa5b3588af5ab8afe2648e0f81e60e5f6f1add474296266f",
+    "photoGroup": "367e24fe2dfacb217c4e",
+    "sharedFrom": "gamberi_curry_cocco"
   }
 }

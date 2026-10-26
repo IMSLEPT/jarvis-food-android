@@ -292,6 +292,11 @@ object EditorialPhotos {
         "gamberi_couscous_s1" to "photography/gamberi_couscous_s1.webp",
         "gamberi_couscous_s2" to "photography/gamberi_couscous_s2.webp",
         "gamberi_couscous_s3" to "photography/gamberi_couscous.webp",
+        "gamberi_curry_cocco" to "photography/gamberi_curry_cocco.webp",
+        "gamberi_curry_cocco_s0" to "photography/gamberi_curry_cocco_s0.webp",
+        "gamberi_curry_cocco_s1" to "photography/gamberi_curry_cocco_s1.webp",
+        "gamberi_curry_cocco_s2" to "photography/gamberi_curry_cocco_s2.webp",
+        "gamberi_curry_cocco_s3" to "photography/gamberi_curry_cocco.webp",
         "greco_mela" to "photography/greco_mela.webp",
         "greco_mela_nocciole" to "photography/greco_mela_nocciole.webp",
         "greco_mela_nocciole_s0" to "photography/greco_mela_nocciole_s0.webp",
@@ -402,14 +407,14 @@ object EditorialPhotos {
         "pancake_alla_zucca_con_mela_e_cannella_e_yogurt_greco_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_alla_zucca_con_mirtilli_e_burro_di_mandorle_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_avena" to "photography/pancake_avena.webp",
+    )
+
+    private fun group2() = mapOf(
         "pancake_avena_s0" to "photography/pancake_avena_s0.webp",
         "pancake_avena_s1" to "photography/pancake_avena_s1.webp",
         "pancake_avena_s2" to "photography/pancake_avena_s2.webp",
         "pancake_avena_s3" to "photography/pancake_avena.webp",
         "pancake_di_avena_e_banana_con_mela_e_cannella_e_burro_di_man_s3" to "photography/greco_mela_nocciole_s0.webp",
-    )
-
-    private fun group2() = mapOf(
         "pancake_di_avena_e_banana_con_mirtilli_e_sciroppo_d_acero_s3" to "photography/mirtilli_fresca_s0.webp",
         "pancake_di_grano_saraceno_con_mela_e_cannella_e_sciroppo_d_a_s3" to "photography/greco_mela_nocciole_s0.webp",
         "pancake_di_grano_saraceno_con_mirtilli_e_miele_s3" to "photography/mirtilli_fresca_s0.webp",
@@ -605,14 +610,14 @@ object EditorialPhotos {
         "pasta_pollo_zucchine_s3" to "photography/pasta_pollo_zucchine_s3.webp",
         "pasta_pollo_zucchine_s4" to "photography/pasta_pollo_zucchine.webp",
         "pasta_salmone_zucchine" to "photography/pasta_salmone_zucchine.webp",
+    )
+
+    private fun group3() = mapOf(
         "pasta_salmone_zucchine_s0" to "photography/pasta_salmone_zucchine_s0.webp",
         "pasta_salmone_zucchine_s1" to "photography/pasta_salmone_zucchine_s1.webp",
         "pasta_salmone_zucchine_s2" to "photography/pasta_salmone_zucchine_s2.webp",
         "pasta_salmone_zucchine_s3" to "photography/pasta_salmone_zucchine.webp",
         "pasta_tonno" to "photography/pasta_tonno.webp",
-    )
-
-    private fun group3() = mapOf(
         "pasta_tonno_s0" to "photography/pasta_tonno_s0.webp",
         "pasta_tonno_s1" to "photography/pasta_tonno_s1.webp",
         "pasta_tonno_s2" to "photography/pasta_tonno_s2.webp",
