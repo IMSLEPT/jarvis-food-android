@@ -9313,5 +9313,61 @@
     "prompt": "Edit this realistic serving-action photograph precisely: REMOVE every large bright-red tomato-like chunk in the chili. The recipe uses strained SMOOTH tomato passata, not chopped tomatoes. Replace those chunks with homogeneous thick brick-red tomato SAUCE, with only small browned beef crumbles, whole dark red kidney beans and translucent pale diced onion distinguishable inside. Preserve the spoon actively dropping plain white rice into the bowl, and natural bright professional cookbook photography. No fresh or chopped tomatoes, peppers, herbs, garnish or extra ingredients. Keep spoon tip and falling rice within the center-square crop.\n",
     "sha256": "c68446a80b0462353657d1696dcde743c87557581821d3f8e8a947becd95d36e",
     "photoGroup": "4737c77147f87f196f26"
+  },
+  "pizza_padella_piadina": {
+    "asset": "photography/pizza_padella_piadina.webp",
+    "recipeId": "pizza_padella_piadina",
+    "stepIndex": null,
+    "subject": "Pizza veloce in padella con piadina",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this realistic cookbook photograph only to widen the framing: pull camera back so the entire plate AND entire circular thin piadina pizza are fully visible within the center square crop. Make plate about25percent smaller in the landscape frame and center it with clear light oak tabletop around all sides. Keep all existing ingredients exactly: smooth tomato passata, melted white mozzarella, pale pink cooked ham, tiny dried oregano flakes and a light olive oil sheen. Preserve the thin flat low-rim piadina with toasted spots, no puffed pizza crust, no additional toppings, bright natural professional style.\n",
+    "sha256": "f12ed07fc0ac06902cb7ce334a01f509fcbff521ec556b4c76acb101f1f579ea",
+    "photoGroup": "dc91e98a95728f36bb53"
+  },
+  "pizza_padella_piadina_s0": {
+    "asset": "photography/pizza_padella_piadina_s0.webp",
+    "recipeId": "pizza_padella_piadina",
+    "stepIndex": 0,
+    "subject": "Spalma {passata} sulla {piadina}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, clean warm light oak home kitchen, ivory ceramics, realistic simple homemade food and natural textures. Gentle overhead three-quarter angle. Food/action centered with the important components fully within central60 percent of image width, generous margin for center square app crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props or invented garnish. Intermediate preparation: ONE plain thin round precooked piadina flatbread lies flat on a clean light wooden board. The back of a stainless steel tablespoon is spreading a small amount of smooth RED tomato passata in a thin circular layer over the center, some untouched pale flatbread still visible and a narrow bare rim. Spoon head touches sauce, handle enters from the upper edge, no hand needed. Piadina is thin and dense with small tan toasted spots, not raw dough and absolutely no puffy pizza crust. ONLY piadina and tomato passata at this stage, no mozzarella, ham, oregano, oil or garnish. No food bowls in background. Entire round base centrally framed for square crop.\n",
+    "sha256": "ca496d7f1d550bd8f881f5a6b989104434324be03e12132a549247c7d861a2aa",
+    "photoGroup": "3da8c0ebd6c0a699d87a"
+  },
+  "pizza_padella_piadina_s1": {
+    "asset": "photography/pizza_padella_piadina_s1.webp",
+    "recipeId": "pizza_padella_piadina",
+    "stepIndex": 1,
+    "subject": "Aggiungi {mozzarella} a pezzetti, {prosciutto_cotto} e {origano}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this realistic intermediate assembly photograph precisely. Replace EVERY crumbly porous white cheese mound with small distinct chunks of UNMELTED FRESH MOZZARELLA, smooth moist WHITE surfaces and compact slightly fibrous interiors, like a fresh mozzarella ball cut into short pieces. Absolutely no ricotta, cottage cheese, feta, granules or curds. Replace the cheese on the spoon AND in background bowl too. Keep the same modest amount, tomato passata, pale pink cooked ham pieces and sparse dried oregano on the thin flat piadina. Preserve the spoon adding the final piece BEFORE cooking, no melted cheese yet. No oil, added ingredients or garnish, natural bright professional food photography.\n",
+    "sha256": "737936ea13c1e3c07e8416fb2175798cb79ced9fa27e0fe59ba7bba73a633537",
+    "photoGroup": "6710c171ce6ba4ba3732"
+  },
+  "pizza_padella_piadina_s2": {
+    "asset": "photography/pizza_padella_piadina_s2.webp",
+    "recipeId": "pizza_padella_piadina",
+    "stepIndex": 2,
+    "subject": "Cuoci in padella antiaderente coperta a fuoco medio per 6-7 minuti, finché la mozzarella fonde.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, clean warm light oak home kitchen, ivory ceramics, realistic simple homemade food and natural textures. Gentle overhead three-quarter angle. Food/action centered with the important components fully within central60 percent of image width, generous margin for center square app crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props or invented garnish. Cooking step: ONE thin round PIADINA pizza cooking in a small dark nonstick frying pan on domestic hob, the pan fully COVERED by a realistic transparent glass lid with a single centered dark knob and metal rim. Through the glass one can clearly see the flat thin piadina topped with smooth tomato passata, WHITE mozzarella gently melting, soft pale PINK cooked ham pieces and a few tiny oregano flakes. A few condensation droplets only near lid rim, central glass clear enough to inspect food, no opaque fog. Lid correctly sits on pan rim, pan securely on hob. Gently melted cheese without oven browning or grilled crust; thin flatbread with flat narrow rim, absolutely no puffed pizza dough. No olive oil finishing drizzle yet, basil, extra vegetables, seasoning or garnish. Close view of covered pan and distinct melting stage, entirely stovetop, no oven.\n",
+    "sha256": "b0a76c002fadeff9e2444b208babe8b1494cc349d07e12ba7de2c1402da6bb08",
+    "photoGroup": "e7438727072f76dae79e"
+  },
+  "pizza_padella_piadina_s3": {
+    "asset": "photography/pizza_padella_piadina.webp",
+    "recipeId": "pizza_padella_piadina",
+    "stepIndex": 3,
+    "subject": "Completa con un filo di {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this realistic cookbook photograph only to widen the framing: pull camera back so the entire plate AND entire circular thin piadina pizza are fully visible within the center square crop. Make plate about25percent smaller in the landscape frame and center it with clear light oak tabletop around all sides. Keep all existing ingredients exactly: smooth tomato passata, melted white mozzarella, pale pink cooked ham, tiny dried oregano flakes and a light olive oil sheen. Preserve the thin flat low-rim piadina with toasted spots, no puffed pizza crust, no additional toppings, bright natural professional style.\n",
+    "sha256": "f12ed07fc0ac06902cb7ce334a01f509fcbff521ec556b4c76acb101f1f579ea",
+    "photoGroup": "dc91e98a95728f36bb53",
+    "sharedFrom": "pizza_padella_piadina"
   }
 }

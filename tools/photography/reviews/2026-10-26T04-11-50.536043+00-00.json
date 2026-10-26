@@ -1,0 +1,136 @@
+{
+  "createdAt": "2026-10-26T04:11:50.536043+00:00",
+  "recipes": [
+    "pizza_padella_piadina"
+  ],
+  "images": [
+    {
+      "id": "pizza_padella_piadina",
+      "prompt": "Edit this realistic cookbook photograph only to widen the framing: pull camera back so the entire plate AND entire circular thin piadina pizza are fully visible within the center square crop. Make plate about25percent smaller in the landscape frame and center it with clear light oak tabletop around all sides. Keep all existing ingredients exactly: smooth tomato passata, melted white mozzarella, pale pink cooked ham, tiny dried oregano flakes and a light olive oil sheen. Preserve the thin flat low-rim piadina with toasted spots, no puffed pizza crust, no additional toppings, bright natural professional style.\n",
+      "originalSha256": "f641c32d8580b60694aee8978594e9a3aaf534cb09e077092622c952d5a2a966",
+      "webpSha256": "f12ed07fc0ac06902cb7ce334a01f509fcbff521ec556b4c76acb101f1f579ea",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: piadina intera, sottile e piatta con passata, mozzarella fusa bianca, prosciutto cotto rosa e poco origano. Leggero velo di olio, niente basilico o topping estranei. Piatto e forma circolare ora interamente conservati nel ritaglio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "f641c32d8580b60694aee8978594e9a3aaf534cb09e077092622c952d5a2a966",
+        "at": "2026-10-26T04:17:33.035692+00:00"
+      },
+      "referenceImageSha256": "eebbbb82e369515e8a2dfb073b5e2a28e00f07b741b4a0faad389d4b353eb96f"
+    },
+    {
+      "id": "pizza_padella_piadina_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, clean warm light oak home kitchen, ivory ceramics, realistic simple homemade food and natural textures. Gentle overhead three-quarter angle. Food/action centered with the important components fully within central60 percent of image width, generous margin for center square app crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props or invented garnish. Intermediate preparation: ONE plain thin round precooked piadina flatbread lies flat on a clean light wooden board. The back of a stainless steel tablespoon is spreading a small amount of smooth RED tomato passata in a thin circular layer over the center, some untouched pale flatbread still visible and a narrow bare rim. Spoon head touches sauce, handle enters from the upper edge, no hand needed. Piadina is thin and dense with small tan toasted spots, not raw dough and absolutely no puffy pizza crust. ONLY piadina and tomato passata at this stage, no mozzarella, ham, oregano, oil or garnish. No food bowls in background. Entire round base centrally framed for square crop.\n",
+      "originalSha256": "dbb888f5d00e1048da70fbdb58a3f51240d3cba23c0787fa43d4d42bc590673e",
+      "webpSha256": "ca496d7f1d550bd8f881f5a6b989104434324be03e12132a549247c7d861a2aa",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: passata rossa spalmata con cucchiaio su base piatta sottile e precotta. Nessuna farcitura anticipata, olio o erbe. Movimento circolare e superfici realistici, azione leggibile nel ritaglio ravvicinato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "dbb888f5d00e1048da70fbdb58a3f51240d3cba23c0787fa43d4d42bc590673e",
+        "at": "2026-10-26T04:15:21.826593+00:00"
+      }
+    },
+    {
+      "id": "pizza_padella_piadina_s1",
+      "prompt": "Edit this realistic intermediate assembly photograph precisely. Replace EVERY crumbly porous white cheese mound with small distinct chunks of UNMELTED FRESH MOZZARELLA, smooth moist WHITE surfaces and compact slightly fibrous interiors, like a fresh mozzarella ball cut into short pieces. Absolutely no ricotta, cottage cheese, feta, granules or curds. Replace the cheese on the spoon AND in background bowl too. Keep the same modest amount, tomato passata, pale pink cooked ham pieces and sparse dried oregano on the thin flat piadina. Preserve the spoon adding the final piece BEFORE cooking, no melted cheese yet. No oil, added ingredients or garnish, natural bright professional food photography.\n",
+      "originalSha256": "b797e5c9876ed160650f442fcdb3f3be81bbf466a337313dcefa326db64f6b17",
+      "webpSha256": "737936ea13c1e3c07e8416fb2175798cb79ced9fa27e0fe59ba7bba73a633537",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: pezzetti bianchi di mozzarella fresca ora compatti e con superfici di taglio lisce, distinti dalla mozzarella fusa della cottura. Prosciutto cotto e origano su passata, cucchiaio aggiunge un pezzo. Nessuna guarnizione estranea; farcitura leggibile nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "b797e5c9876ed160650f442fcdb3f3be81bbf466a337313dcefa326db64f6b17",
+        "at": "2026-10-26T04:17:33.272647+00:00"
+      },
+      "referenceImageSha256": "c8d0089a9ced4ec45150c0e3cbd80732c8e8c282f61bbc9aca05f815b33ae32e"
+    },
+    {
+      "id": "pizza_padella_piadina_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, clean warm light oak home kitchen, ivory ceramics, realistic simple homemade food and natural textures. Gentle overhead three-quarter angle. Food/action centered with the important components fully within central60 percent of image width, generous margin for center square app crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props or invented garnish. Cooking step: ONE thin round PIADINA pizza cooking in a small dark nonstick frying pan on domestic hob, the pan fully COVERED by a realistic transparent glass lid with a single centered dark knob and metal rim. Through the glass one can clearly see the flat thin piadina topped with smooth tomato passata, WHITE mozzarella gently melting, soft pale PINK cooked ham pieces and a few tiny oregano flakes. A few condensation droplets only near lid rim, central glass clear enough to inspect food, no opaque fog. Lid correctly sits on pan rim, pan securely on hob. Gently melted cheese without oven browning or grilled crust; thin flatbread with flat narrow rim, absolutely no puffed pizza dough. No olive oil finishing drizzle yet, basil, extra vegetables, seasoning or garnish. Close view of covered pan and distinct melting stage, entirely stovetop, no oven.\n",
+      "originalSha256": "c3331fc97f29223eb59430d85f9b05d8f74b6cc5611515beddcb7a48455c4b1a",
+      "webpSha256": "b0a76c002fadeff9e2444b208babe8b1494cc349d07e12ba7de2c1402da6bb08",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: piadina sottile con passata, prosciutto cotto rosa, origano e mozzarella fusa bianca sotto coperchio di vetro su padella. Coperchio appoggiato al bordo, condensa ai margini e cibo leggibile. Nessuna gratinatura da forno o guarnizione estranea.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "c3331fc97f29223eb59430d85f9b05d8f74b6cc5611515beddcb7a48455c4b1a",
+        "at": "2026-10-26T04:15:22.029572+00:00"
+      }
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "pizza_padella_piadina",
+      "originalSha256": "eebbbb82e369515e8a2dfb073b5e2a28e00f07b741b4a0faad389d4b353eb96f",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, clean warm light oak home kitchen, ivory ceramics, realistic simple homemade food and natural textures. Gentle overhead three-quarter angle. Food/action centered with the important components fully within central60 percent of image width, generous margin for center square app crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props or invented garnish. Finished Italian quick skillet PIADINA pizza: ONE thin round pre-cooked piadina flatbread100g, roughly22cm diameter, topped with a thin layer of SMOOTH red tomato passata60g, modest melted WHITE fresh mozzarella90g, soft irregular pieces of PALE PINK cooked ham40g and a very light sprinkle of tiny dried oregano flakes0.5g, finished with just3g olive oil, a subtle sheen. Served flat on an ivory plate with entire circular piadina clearly visible in the center-square crop. Piadina is thin, dense, flat, with small light brown toasted spots and a flat low rim, NO puffy raised dough crust, no Neapolitan cornicione. Cheese melted gently under lid on stovetop, white and soft, not oven-browned, ham remains pale pink without crispy edges. Only listed foods. No basil, arugula, parsley, olives, tomato slices, mushrooms, pepper, raw prosciutto, salami or other toppings. Realistic appealing home meal, plate and flatbread small enough to fit centrally.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Forma circolare tagliata ai lati nel quadrato; richiesta inquadratura più ampia."
+    },
+    {
+      "id": "pizza_padella_piadina_s1",
+      "originalSha256": "c8d0089a9ced4ec45150c0e3cbd80732c8e8c282f61bbc9aca05f815b33ae32e",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, clean warm light oak home kitchen, ivory ceramics, realistic simple homemade food and natural textures. Gentle overhead three-quarter angle. Food/action centered with the important components fully within central60 percent of image width, generous margin for center square app crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props or invented garnish. Intermediate assembly BEFORE cooking: ONE thin round piadina flatbread on a light wooden board has a thin layer of smooth red tomato passata and small distinctly UNMELTED moist WHITE fresh mozzarella chunks distributed evenly, with a modest quantity of irregular pieces torn from soft PALE PINK cooked ham and just a sparse tiny sprinkle of dried oregano. A clean stainless steel spoon near the upper edge is placing one final small fresh mozzarella chunk on the piadina, no hand needed. Toppings remain separate and cool, cheese not melted. Single portion100gpiadina60gpassata90gmozzarella40gham0.5goregano. Base completely flat and thin, low rim, small tan toasted spots, no dough puff or thick pizza crust. No olive oil added yet, no basil, other herbs, pepper, raw cured ham or other toppings. Whole circular base central and square-safe.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Formaggio troppo granuloso e poroso, simile a ricotta; richiesti pezzetti compatti e lisci di mozzarella fresca."
+    }
+  ],
+  "convertedVisualReview": "Esaminati individualmente originali e ritagli dei quattro candidati approvati; ricontrollati tutti i WebP 1280×853 dopo conversione nei ritagli quadrati: principale intera, passata spalmata, farcitura con mozzarella non fusa e cottura coperta. Nessun difetto di conversione visibile.",
+  "preservation": {
+    "sourceCommit": "c16b7a153c1625f6a600d37be4f13d6ace53b830",
+    "previousWebpFiles": 477,
+    "previousRecords": 811,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 816,
+    "newWebpDimensions": {
+      "photography/pizza_padella_piadina.webp": [
+        1280,
+        853
+      ],
+      "photography/pizza_padella_piadina_s0.webp": [
+        1280,
+        853
+      ],
+      "photography/pizza_padella_piadina_s1.webp": [
+        1280,
+        853
+      ],
+      "photography/pizza_padella_piadina_s2.webp": [
+        1280,
+        853
+      ]
+    }
+  },
+  "generationOutputs": 6
+}

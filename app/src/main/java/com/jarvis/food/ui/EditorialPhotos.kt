@@ -638,6 +638,11 @@ object EditorialPhotos {
         "piadina_tacchino_s2" to "photography/piadina_tacchino_s2.webp",
         "pistacchi_e_albicocche_secche" to "photography/pistacchi_e_albicocche_secche.webp",
         "pistacchi_e_albicocche_secche_s0" to "photography/pistacchi_e_albicocche_secche.webp",
+        "pizza_padella_piadina" to "photography/pizza_padella_piadina.webp",
+        "pizza_padella_piadina_s0" to "photography/pizza_padella_piadina_s0.webp",
+        "pizza_padella_piadina_s1" to "photography/pizza_padella_piadina_s1.webp",
+        "pizza_padella_piadina_s2" to "photography/pizza_padella_piadina_s2.webp",
+        "pizza_padella_piadina_s3" to "photography/pizza_padella_piadina.webp",
         "poke_salmone" to "photography/poke_salmone.webp",
         "poke_salmone_s0" to "photography/poke_salmone_s0.webp",
         "poke_salmone_s1" to "photography/poke_salmone_s1.webp",
@@ -808,14 +813,14 @@ object EditorialPhotos {
         "uova_strapazzate_con_pomodori_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_spinaci_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_zucchine_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
+    )
+
+    private fun group4() = mapOf(
         "yogurt_granola" to "photography/yogurt_granola.webp",
         "yogurt_granola_s0" to "photography/yogurt_granola_s0.webp",
         "yogurt_granola_s1" to "photography/yogurt_granola_s1.webp",
         "yogurt_granola_s2" to "photography/yogurt_granola.webp",
         "yogurt_greco_intero_con_banana" to "photography/yogurt_greco_intero_con_banana.webp",
-    )
-
-    private fun group4() = mapOf(
         "yogurt_greco_intero_con_banana_s0" to "photography/banana_arachidi_s0.webp",
         "yogurt_greco_intero_con_banana_s1" to "photography/yogurt_greco_intero_con_banana.webp",
         "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
