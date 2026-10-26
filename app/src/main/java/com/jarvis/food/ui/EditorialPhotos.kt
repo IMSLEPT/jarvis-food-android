@@ -686,6 +686,11 @@ object EditorialPhotos {
         "quinoa_ceci_s1" to "photography/quinoa_ceci_s1.webp",
         "quinoa_ceci_s2" to "photography/quinoa_ceci_s2.webp",
         "quinoa_ceci_s3" to "photography/quinoa_ceci.webp",
+        "ramen_pollo_uovo" to "photography/ramen_pollo_uovo.webp",
+        "ramen_pollo_uovo_s0" to "photography/ramen_pollo_uovo_s0.webp",
+        "ramen_pollo_uovo_s1" to "photography/ramen_pollo_uovo_s1.webp",
+        "ramen_pollo_uovo_s2" to "photography/ramen_pollo_uovo_s2.webp",
+        "ramen_pollo_uovo_s3" to "photography/ramen_pollo_uovo.webp",
         "ricotta_e_frutti_di_bosco" to "photography/ricotta_e_frutti_di_bosco.webp",
         "ricotta_e_frutti_di_bosco_s0" to "photography/ricotta_e_frutti_di_bosco.webp",
         "ricotta_e_miele" to "photography/ricotta_e_miele.webp",
@@ -808,14 +813,14 @@ object EditorialPhotos {
         "yogurt_magro_con_mela" to "photography/yogurt_magro_con_mela.webp",
         "yogurt_magro_con_mela_s0" to "photography/greco_mela_nocciole_s0.webp",
         "yogurt_magro_con_mela_s1" to "photography/yogurt_magro_con_mela.webp",
+    )
+
+    private fun group4() = mapOf(
         "yogurt_magro_con_mirtilli_s0" to "photography/mirtilli_fresca_s0.webp",
         "zuppa_legumi" to "photography/zuppa_legumi.webp",
         "zuppa_legumi_s0" to "photography/zuppa_legumi_s0.webp",
         "zuppa_legumi_s1" to "photography/zuppa_legumi_s1.webp",
         "zuppa_legumi_s2" to "photography/zuppa_legumi_s2.webp",
-    )
-
-    private fun group4() = mapOf(
         "zuppa_legumi_s3" to "photography/zuppa_legumi.webp",
     )
 

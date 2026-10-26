@@ -1,0 +1,117 @@
+{
+  "createdAt": "2026-10-26T02:16:49.896981+00:00",
+  "recipes": [
+    "ramen_pollo_uovo"
+  ],
+  "images": [
+    {
+      "id": "ramen_pollo_uovo",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side-window light, clean warm light oak home kitchen, ivory ceramics, believable homemade food textures, restrained elegant styling. Three-quarter overhead close view. Keep the important food and action in the central 60 percent of image width with enough room to remain legible in the app's center square crop. Single scene, no collage, text, labels, logos, watermark or faces. No unrelated food props or invented garnish. Finished light ramen recipe in one modest ivory bowl. White RICE noodles, long thin smooth slightly translucent strands (not yellow curly wheat ramen), in a light tan cloudy miso-soy broth. Visible moist white POACHED chicken breast strips, sliced brown shiitake mushrooms with natural gills, tender small pak choi leaves with pale green/white stalks, and exactly TWO halves of ONE peeled seven-minute boiled egg, fully set white and golden softly set yolk, no liquid spill. Single portion made with 60g dry rice noodles, 100g chicken breast, one50g egg,80g pak choi,60g shiitake,15g miso,8g soy sauce,400ml water. Chicken is boiled/poached, absolutely no seared crust or grill marks. Separate recognizable components with some noodles above broth. ONLY these ingredients, no scallions, sesame, nori, chili, cilantro, corn, oil, pepper, ginger or garnish. Entire bowl and toppings centered and fully retained in square crop, not overly close.\n",
+      "originalSha256": "bbd2b07512778525af92298803443f6e40a53f71a01c3fc69bb669c88241c4f4",
+      "webpSha256": "d3a63b74e0c9dc4f01cc2ff3d0d9e3e4a773f2f82cb0e8603c87fe799aedee0c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: noodles bianchi lisci di riso, pollo lessato chiaro senza crosta, shiitake a fette, pak choi e due metà di un solo uovo con tuorlo morbido ma formato. Brodo chiaro opaco, nessun topping estraneo; tutti i componenti leggibili nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "bbd2b07512778525af92298803443f6e40a53f71a01c3fc69bb669c88241c4f4",
+        "at": "2026-10-26T02:20:22.158765+00:00"
+      }
+    },
+    {
+      "id": "ramen_pollo_uovo_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side-window light, clean warm light oak home kitchen, ivory ceramics, believable homemade food textures, restrained elegant styling. Three-quarter overhead close view. Keep the important food and action in the central 60 percent of image width with enough room to remain legible in the app's center square crop. Single scene, no collage, text, labels, logos, watermark or faces. No unrelated food props or invented garnish. Intermediate preparation for ramen: exactly ONE whole unpeeled plain light-brown hen egg, freshly boiled for seven minutes, being cooled in a small ivory bowl of clean cool water. A narrow clear stream of cool water pours from a small unmarked glass jug at the upper edge into the bowl beside the egg; no hands or faces. Egg partly above water surface and recognizable, small ripples and natural water reflections. Bowl supported on a clean kitchen worktop. This is cooling a boiled egg, not a bowl of soup. ONLY one egg and water; no noodles, chicken, vegetables, garnishes, broken shell pieces or ice. Central close view of the egg and water bowl, uncluttered.\n",
+      "originalSha256": "2a771cdea1015a4ae1834e5fb39b6d2216ac9bca399e2f796f0a71240088f100",
+      "webpSha256": "f51c3919cde553f4b705d337130e6d3fe1dd1f72677c0325ff6163fedbf6ff02",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: un solo uovo con guscio in ciotola di acqua pulita, getto da brocca e increspature plausibili. Raffreddamento distinto dal servizio, nessun ingrediente futuro; uovo e azione al centro del quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "2a771cdea1015a4ae1834e5fb39b6d2216ac9bca399e2f796f0a71240088f100",
+        "at": "2026-10-26T02:20:22.295809+00:00"
+      }
+    },
+    {
+      "id": "ramen_pollo_uovo_s1",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side-window light, clean warm light oak home kitchen, ivory ceramics, believable homemade food textures, restrained elegant styling. Three-quarter overhead close view. Keep the important food and action in the central 60 percent of image width with enough room to remain legible in the app's center square crop. Single scene, no collage, text, labels, logos, watermark or faces. No unrelated food props or invented garnish. Intermediate cooking stage for light ramen: a small stainless steel saucepan on the hob holds 400ml clear light-brown water seasoned ONLY with8g soy sauce, with100g chicken breast cut into thin strips poaching gently for six minutes. Chicken strips turning opaque white, moist smooth surfaces, not fried, no golden crust or grill marks. Light steam and a few gentle simmer bubbles, clear broth with chicken visible, a plain wooden spoon touching the broth at one side. ONLY chicken breast strips, soy sauce and water. No oil, noodles, mushrooms, greens, miso, egg, salt crystals, spices or herbs yet. Central close view inside the pot.\n",
+      "originalSha256": "4400bc9689858740e0be681d5f2b7e37a27a6cbf87069433b4de7fcadb939efb",
+      "webpSha256": "4d81a89a59631dcf7b6500793363fbffb4218fe8db2fda516972116b2aba4a32",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: strisce di petto di pollo opache e chiare che cuociono nel brodo bruno trasparente di acqua e soia, con bolle e vapore. Nessuna rosolatura, verdura, miso o noodle anticipati. Azione chiara nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "4400bc9689858740e0be681d5f2b7e37a27a6cbf87069433b4de7fcadb939efb",
+        "at": "2026-10-26T02:20:22.448791+00:00"
+      }
+    },
+    {
+      "id": "ramen_pollo_uovo_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side-window light, clean warm light oak home kitchen, ivory ceramics, believable homemade food textures, restrained elegant styling. Three-quarter overhead close view. Keep the important food and action in the central 60 percent of image width with enough room to remain legible in the app's center square crop. Single scene, no collage, text, labels, logos, watermark or faces. No unrelated food props or invented garnish. Intermediate cooking stage for light ramen AFTER turning OFF the heat: a small stainless steel saucepan contains poached white chicken breast strips, sliced brown shiitake mushrooms and tender green pak choi leaves and pale stalks in hot light tan soy broth. A small wooden spoon held naturally across the rim touches the broth, with a SMALL remaining smear of beige miso paste on its tip as the miso dissolves into the liquid; faint cloudy swirls, most paste already dissolved. Broth is STILL with a little steam, no boiling bubbles, burner visibly unlit. Modest single portion100g chicken,60g shiitake,80g pak choi,400mlwater,8gsoy,15gmiso. No egg or noodles in this pot yet: they are prepared separately. No oil, herbs, scallions, pepper, ginger or garnish. Clear view of actual vegetables and chicken, practical real kitchen scene.\n",
+      "originalSha256": "76ff073d2bd40e2795ca85bd65c479aa334e87f3e25b1a5cd2088ab763b992c9",
+      "webpSha256": "bfeb8abdcb57d3812f5f61cea2d4c6b1fcb7aadd4861dad53977d1915cfb1e07",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: pollo, shiitake e pak choi nel brodo, piccola traccia di miso sul cucchiaio e scie che si sciolgono. Superficie senza bollitura e fornello senza fiamma. Assenti uova e noodles, aggiunti solo al servizio. Luce e utensili realistici.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "76ff073d2bd40e2795ca85bd65c479aa334e87f3e25b1a5cd2088ab763b992c9",
+        "at": "2026-10-26T02:20:22.566506+00:00"
+      }
+    }
+  ],
+  "convertedVisualReview": "Esaminati individualmente i quattro originali e i rispettivi ritagli quadrati, poi ricontrollati tutti i WebP 1280×853 dopo conversione nei ritagli: servizio completo, raffreddamento uovo, pollo nel brodo di soia, aggiunta del miso con verdure senza bollitura. Nessun difetto di conversione visibile.",
+  "preservation": {
+    "sourceCommit": "dcc9bb4ab68e41779cfadbfb5cbb079c80eb2bce",
+    "previousWebpFiles": 468,
+    "previousRecords": 801,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 806,
+    "newWebpDimensions": {
+      "photography/ramen_pollo_uovo.webp": [
+        1280,
+        853
+      ],
+      "photography/ramen_pollo_uovo_s0.webp": [
+        1280,
+        853
+      ],
+      "photography/ramen_pollo_uovo_s1.webp": [
+        1280,
+        853
+      ],
+      "photography/ramen_pollo_uovo_s2.webp": [
+        1280,
+        853
+      ]
+    }
+  },
+  "generationOutputs": 4,
+  "rejectedCandidates": []
+}
