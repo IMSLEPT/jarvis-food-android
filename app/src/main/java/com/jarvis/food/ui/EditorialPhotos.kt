@@ -741,6 +741,11 @@ object EditorialPhotos {
         "salmone_patate_s1" to "photography/salmone_patate_s1.webp",
         "salmone_patate_s2" to "photography/salmone_patate_s2.webp",
         "salmone_patate_s3" to "photography/salmone_patate.webp",
+        "shakshuka" to "photography/shakshuka.webp",
+        "shakshuka_s0" to "photography/shakshuka_s0.webp",
+        "shakshuka_s1" to "photography/shakshuka_s1.webp",
+        "shakshuka_s2" to "photography/shakshuka_s2.webp",
+        "shakshuka_s3" to "photography/shakshuka.webp",
         "smoothie_bowl" to "photography/smoothie_bowl.webp",
         "smoothie_bowl_s0" to "photography/smoothie_bowl_s0.webp",
         "smoothie_bowl_s1" to "photography/smoothie_bowl_s1.webp",
@@ -808,14 +813,14 @@ object EditorialPhotos {
         "uova_strapazzate_con_asparagi_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_broccoli_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_cipollotti_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
+    )
+
+    private fun group4() = mapOf(
         "uova_strapazzate_con_funghi_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_peperoni_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_pomodori_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_spinaci_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
         "uova_strapazzate_con_zucchine_e_pane_integrale_s2" to "photography/toast_uova_avocado_s0.webp",
-    )
-
-    private fun group4() = mapOf(
         "yogurt_granola" to "photography/yogurt_granola.webp",
         "yogurt_granola_s0" to "photography/yogurt_granola_s0.webp",
         "yogurt_granola_s1" to "photography/yogurt_granola_s1.webp",

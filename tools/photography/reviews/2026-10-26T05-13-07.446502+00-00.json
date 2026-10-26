@@ -1,0 +1,136 @@
+{
+  "createdAt": "2026-10-26T05:13:07.446502+00:00",
+  "recipes": [
+    "shakshuka"
+  ],
+  "images": [
+    {
+      "id": "shakshuka",
+      "prompt": "Edit this professional food photograph to improve the center-square crop. Move the small plate with BOTH plain white bread slices to directly BEHIND THE CENTER of the skillet, closer to the skillet, rather than off to the right. Pull camera back about20percent, center the compact whole composition. All THREE cooked eggs, the skillet food area, and BOTH COMPLETE bread slices must be entirely visible within the central square crop. Keep exactly three eggs with set whites, sauce of smooth passata with diced red bell pepper/onion and ground paprika/cumin, no herbs or other toppings. Keep bright natural cookbook quality and realistic common white bread, no other changes.\n",
+      "originalSha256": "800cff10ae5686be4a6f280ed8f5935143bb1ae036191036536bbc396249f2a6",
+      "webpSha256": "2e7938a15716228241fb32e0b6a9136a1402be429fb4cabe1814fe025114fba7",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: tre uova con albumi rappresi nella salsa di peperoni e cipolla; due fette di pane comune bianco intere dietro al centro della padella. Tutti i componenti preservati nel quadrato, nessuna erba o topping estraneo.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "800cff10ae5686be4a6f280ed8f5935143bb1ae036191036536bbc396249f2a6",
+        "at": "2026-10-26T05:18:40.213777+00:00"
+      },
+      "referenceImageSha256": "a3aaee3f9a527589ec22da4115b8eb9b1bfd71b8a7c58012ebd05fd21682027d"
+    },
+    {
+      "id": "shakshuka_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, believable homemade food textures and restrained professional food styling. Gentle overhead three-quarter angle. Important food and action fully inside central60% of image width, enough clear margin for the app center-square crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props, no invented garnish. Intermediate preparation for shakshuka: small dark nonstick skillet on the hob contains finely DICED red bell pepper and finely diced yellow onion softening in a light sheen of olive oil after six minutes. Modest quantity100g diced red pepper50g diced onion8g oil; vegetables slightly glossy, onions translucent, no charred black bits. Plain wooden spatula gently pushes a few diced vegetables through the pan, some empty pan surface visible. ONLY onion, RED bell pepper and olive oil at this stage. No tomato, eggs, paprika, cumin, garlic, herbs, bread or garnish. Bright natural cooking action, not a served meal.\n",
+      "originalSha256": "c9634d326992e2fe47c06b1da1ce5d841d27d10938041c93864411f60a3246f9",
+      "webpSha256": "025c3379894b2cb58fc475b3305a5325dee8d12645b49934d513c0fb9303018a",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: soli peperoni a dadini e cipolla traslucida in poco olio, spatola in padella. Nessuna passata, uova o spezie anticipate. Cottura e consistenze credibili, soggetto leggibile nel ritaglio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "c9634d326992e2fe47c06b1da1ce5d841d27d10938041c93864411f60a3246f9",
+        "at": "2026-10-26T05:16:57.467780+00:00"
+      }
+    },
+    {
+      "id": "shakshuka_s1",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, believable homemade food textures and restrained professional food styling. Gentle overhead three-quarter angle. Important food and action fully inside central60% of image width, enough clear margin for the app center-square crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props, no invented garnish. Intermediate cooking stage: small dark nonstick skillet on domestic hob contains a thick RED sauce of SMOOTH tomato passata with small softened DICED red bell pepper and translucent diced onion, seasoned with a very small amount of finely GROUND cumin and paprika already mixed in. Gently simmering after eight minutes, a few small bubbles and faint steam. Plain wooden spoon draws a short path through the thick sauce, clearly showing its consistency. Only200gpassata100gredpepper50gonion8goliveoil1gcumin1gpaprika. NO eggs or egg whites yet, no bread. NO tomato chunks, whole spice seeds, garlic, herbs, green ingredients or garnish. This is the tomato sauce preparation before eggs are added.\n",
+      "originalSha256": "50806a3e5b254d0d746a19a42d274f80b816d5a9a9d5f9f50f9380651c7e50b6",
+      "webpSha256": "3474745b9d5a3b38231ef42f5b5dd2d2ceb0601692d051b3e82eb2d09eb61cbb",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: salsa di passata con dadini di peperone e cipolla, sobbollore e vapore, cucchiaio apre una traccia. Assenti uova, pane e guarnizioni. Preparazione distinta dal soffritto e leggibile nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "50806a3e5b254d0d746a19a42d274f80b816d5a9a9d5f9f50f9380651c7e50b6",
+        "at": "2026-10-26T05:16:57.560281+00:00"
+      }
+    },
+    {
+      "id": "shakshuka_s2",
+      "prompt": "Edit this intermediate cooking photograph precisely. There must be EXACTLY THREE egg yolks TOTAL in the entire image: TWO yolks already in the pan (the left well and the lower central well), and ONE yolk still in the glass cup at upper right. REMOVE the EXTRA yolk that is currently in the right well directly under the pouring cup. That right well should contain just a little clear egg white starting to flow in from the cup, with the third yolk still visibly in the cup above it, poised to slide into the empty well. Both eggs already in pan must have clear translucent RAW unset whites. Also REMOVE ALL dry powder piles on the sauce: the tiny ground paprika and cumin were already mixed into the smooth tomato sauce with diced red bell pepper and onion. No shell fragments, cooked whites, herbs, bread, extra ingredients. Preserve bright photoreal professional food styling and the practical egg-adding action.\n",
+      "originalSha256": "759ea9b6ec2c9ee660efc0f89cd0bd7a7c7ae1469ceb4ce52e54f12a92f74099",
+      "webpSha256": "c0e8a29e7f20acc66b363649a0f08b7149460eabbba842134084bda4f1f5cbc2",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: esattamente tre tuorli totali, due in padella e uno nel bicchiere; albume trasparente cola nel terzo incavo. Eliminati i cumuli di spezie. Fase cruda distinta dalla principale cotta, senza pane o guarnizioni.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "759ea9b6ec2c9ee660efc0f89cd0bd7a7c7ae1469ceb4ce52e54f12a92f74099",
+        "at": "2026-10-26T05:18:40.311227+00:00"
+      },
+      "referenceImageSha256": "0cde6a66bfe25554f436281d2ee79fd2b8ed92519531bbaa45483c12330a3a70"
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "shakshuka",
+      "originalSha256": "a3aaee3f9a527589ec22da4115b8eb9b1bfd71b8a7c58012ebd05fd21682027d",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, believable homemade food textures and restrained professional food styling. Gentle overhead three-quarter angle. Important food and action fully inside central60% of image width, enough clear margin for the app center-square crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props, no invented garnish. Finished shakshuka served in a SMALL dark skillet on a simple heatproof trivet, with exactly THREE eggs (150g total) gently poached in a thick red sauce of smooth tomato passata200g, finely DICED RED bell pepper100g, translucent diced onion50g, oliveoil8g and a small amount of finely ground cumin1g and paprika1g. Egg whites completely opaque and set, yolks orange-gold still soft and intact, no crisp fried edges. The eggs sit in three separate shallow wells of the tomato/pepper sauce. Two modest slices of plain COMMON WHITE BREAD (60g total, white crumb and simple golden crust, no seeds, not wholegrain) on a tiny ivory side plate tucked closely just behind the skillet. Include ALL three eggs and both slices fully within central square crop, make compact food composition with space around it. Only the listed ingredients. No cilantro, parsley, fresh herbs, feta, chili peppers, black pepper, garlic, tomato chunks, other garnishes or toppings. Natural appetizing realistic bright food photography.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Parte del pane tagliata dal quadrato; richiesta composizione più compatta con pane centrato dietro la padella."
+    },
+    {
+      "id": "shakshuka_s2",
+      "originalSha256": "0cde6a66bfe25554f436281d2ee79fd2b8ed92519531bbaa45483c12330a3a70",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, believable homemade food textures and restrained professional food styling. Gentle overhead three-quarter angle. Important food and action fully inside central60% of image width, enough clear margin for the app center-square crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props, no invented garnish. Intermediate egg insertion stage for shakshuka, BEFORE covering and cooking eggs: small dark nonstick skillet contains cooked red tomato passata sauce with finely diced RED bell pepper and onion. Three shallow wells have been made in the sauce. Exactly TWO newly cracked RAW eggs already sit in two wells with intact orange yolks and visibly translucent clear unset egg whites. A third RAW egg is gently sliding from a small clear glass cup partly cropped at the upper edge INTO THE THIRD WELL, its yolk intact with a small ribbon of translucent white, giving exactly THREE yolks total in the scene. No shell fragments, no extra egg, no opaque cooked whites. Composition centered so all three wells and pouring action remain in square crop. Only eggs, smooth tomato sauce, diced peppers, onion, olive oil and tiny ground cumin/paprika. No bread, herbs, feta, garlic or garnish. Realistic practical close cooking-action photograph.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Quattro tuorli anziché tre e cumuli di spezie ancora visibili; richiesta rimozione del tuorlo extra e amalgamazione delle spezie."
+    }
+  ],
+  "convertedVisualReview": "Visti individualmente originali e ritagli dei quattro candidati approvati; ricontrollati tutti i WebP nei ritagli dopo conversione: principale 1254×1254, tre passaggi 1280×853. Tre uova cotte e pane al servizio; soffritto; salsa; due uova crude più il terzo uovo versato nel relativo incavo. Nessun difetto di conversione visibile.",
+  "preservation": {
+    "sourceCommit": "194d196a521940f65039fa49dcca4396bc604034",
+    "previousWebpFiles": 481,
+    "previousRecords": 816,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 821,
+    "newWebpDimensions": {
+      "photography/shakshuka.webp": [
+        1254,
+        1254
+      ],
+      "photography/shakshuka_s0.webp": [
+        1280,
+        853
+      ],
+      "photography/shakshuka_s1.webp": [
+        1280,
+        853
+      ],
+      "photography/shakshuka_s2.webp": [
+        1280,
+        853
+      ]
+    }
+  },
+  "generationOutputs": 6
+}

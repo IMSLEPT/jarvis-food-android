@@ -9369,5 +9369,61 @@
     "sha256": "f12ed07fc0ac06902cb7ce334a01f509fcbff521ec556b4c76acb101f1f579ea",
     "photoGroup": "dc91e98a95728f36bb53",
     "sharedFrom": "pizza_padella_piadina"
+  },
+  "shakshuka": {
+    "asset": "photography/shakshuka.webp",
+    "recipeId": "shakshuka",
+    "stepIndex": null,
+    "subject": "Shakshuka con uova, peperoni e pane",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this professional food photograph to improve the center-square crop. Move the small plate with BOTH plain white bread slices to directly BEHIND THE CENTER of the skillet, closer to the skillet, rather than off to the right. Pull camera back about20percent, center the compact whole composition. All THREE cooked eggs, the skillet food area, and BOTH COMPLETE bread slices must be entirely visible within the central square crop. Keep exactly three eggs with set whites, sauce of smooth passata with diced red bell pepper/onion and ground paprika/cumin, no herbs or other toppings. Keep bright natural cookbook quality and realistic common white bread, no other changes.\n",
+    "sha256": "2e7938a15716228241fb32e0b6a9136a1402be429fb4cabe1814fe025114fba7",
+    "photoGroup": "edcd2c6637eedaa969e0"
+  },
+  "shakshuka_s0": {
+    "asset": "photography/shakshuka_s0.webp",
+    "recipeId": "shakshuka",
+    "stepIndex": 0,
+    "subject": "Rosola {cipolla} e {peperoni} a dadini in {olio} per 6 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, believable homemade food textures and restrained professional food styling. Gentle overhead three-quarter angle. Important food and action fully inside central60% of image width, enough clear margin for the app center-square crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props, no invented garnish. Intermediate preparation for shakshuka: small dark nonstick skillet on the hob contains finely DICED red bell pepper and finely diced yellow onion softening in a light sheen of olive oil after six minutes. Modest quantity100g diced red pepper50g diced onion8g oil; vegetables slightly glossy, onions translucent, no charred black bits. Plain wooden spatula gently pushes a few diced vegetables through the pan, some empty pan surface visible. ONLY onion, RED bell pepper and olive oil at this stage. No tomato, eggs, paprika, cumin, garlic, herbs, bread or garnish. Bright natural cooking action, not a served meal.\n",
+    "sha256": "025c3379894b2cb58fc475b3305a5325dee8d12645b49934d513c0fb9303018a",
+    "photoGroup": "fc88dce5faf7148355f4"
+  },
+  "shakshuka_s1": {
+    "asset": "photography/shakshuka_s1.webp",
+    "recipeId": "shakshuka",
+    "stepIndex": 1,
+    "subject": "Aggiungi {cumino}, {paprika} e {passata} e cuoci 8 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, believable homemade food textures and restrained professional food styling. Gentle overhead three-quarter angle. Important food and action fully inside central60% of image width, enough clear margin for the app center-square crop. Single scene, no collage, text, labels, logo, watermark or faces. No unrelated food props, no invented garnish. Intermediate cooking stage: small dark nonstick skillet on domestic hob contains a thick RED sauce of SMOOTH tomato passata with small softened DICED red bell pepper and translucent diced onion, seasoned with a very small amount of finely GROUND cumin and paprika already mixed in. Gently simmering after eight minutes, a few small bubbles and faint steam. Plain wooden spoon draws a short path through the thick sauce, clearly showing its consistency. Only200gpassata100gredpepper50gonion8goliveoil1gcumin1gpaprika. NO eggs or egg whites yet, no bread. NO tomato chunks, whole spice seeds, garlic, herbs, green ingredients or garnish. This is the tomato sauce preparation before eggs are added.\n",
+    "sha256": "3474745b9d5a3b38231ef42f5b5dd2d2ceb0601692d051b3e82eb2d09eb61cbb",
+    "photoGroup": "1befceeaa34610c3f032"
+  },
+  "shakshuka_s2": {
+    "asset": "photography/shakshuka_s2.webp",
+    "recipeId": "shakshuka",
+    "stepIndex": 2,
+    "subject": "Fai dei piccoli incavi e rompi dentro {uova}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this intermediate cooking photograph precisely. There must be EXACTLY THREE egg yolks TOTAL in the entire image: TWO yolks already in the pan (the left well and the lower central well), and ONE yolk still in the glass cup at upper right. REMOVE the EXTRA yolk that is currently in the right well directly under the pouring cup. That right well should contain just a little clear egg white starting to flow in from the cup, with the third yolk still visibly in the cup above it, poised to slide into the empty well. Both eggs already in pan must have clear translucent RAW unset whites. Also REMOVE ALL dry powder piles on the sauce: the tiny ground paprika and cumin were already mixed into the smooth tomato sauce with diced red bell pepper and onion. No shell fragments, cooked whites, herbs, bread, extra ingredients. Preserve bright photoreal professional food styling and the practical egg-adding action.\n",
+    "sha256": "c0e8a29e7f20acc66b363649a0f08b7149460eabbba842134084bda4f1f5cbc2",
+    "photoGroup": "3487d6bb96c314922b37"
+  },
+  "shakshuka_s3": {
+    "asset": "photography/shakshuka.webp",
+    "recipeId": "shakshuka",
+    "stepIndex": 3,
+    "subject": "Copri e cuoci 5 minuti finché gli albumi si rapprendono. Servi con {pane}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this professional food photograph to improve the center-square crop. Move the small plate with BOTH plain white bread slices to directly BEHIND THE CENTER of the skillet, closer to the skillet, rather than off to the right. Pull camera back about20percent, center the compact whole composition. All THREE cooked eggs, the skillet food area, and BOTH COMPLETE bread slices must be entirely visible within the central square crop. Keep exactly three eggs with set whites, sauce of smooth passata with diced red bell pepper/onion and ground paprika/cumin, no herbs or other toppings. Keep bright natural cookbook quality and realistic common white bread, no other changes.\n",
+    "sha256": "2e7938a15716228241fb32e0b6a9136a1402be429fb4cabe1814fe025114fba7",
+    "photoGroup": "edcd2c6637eedaa969e0",
+    "sharedFrom": "shakshuka"
   }
 }
