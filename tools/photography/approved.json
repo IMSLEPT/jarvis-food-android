@@ -9146,5 +9146,61 @@
     "sha256": "6845520baf6a0d5afa5b3588af5ab8afe2648e0f81e60e5f6f1add474296266f",
     "photoGroup": "367e24fe2dfacb217c4e",
     "sharedFrom": "gamberi_curry_cocco"
+  },
+  "pesce_spada_peperoni": {
+    "asset": "photography/pesce_spada_peperoni.webp",
+    "recipeId": "pesce_spada_peperoni",
+    "stepIndex": null,
+    "subject": "Pesce spada alla griglia con peperoni e patate",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this cookbook photograph. Remove all scattered black pepper-like flecks and herb-like specks from the swordfish and potato surfaces, retaining only natural continuous golden griddle lines on the swordfish and golden roast browning on the potatoes. There is NO pepper, herb, spice or lemon in the recipe. Keep only swordfish steak, potato wedges, red bell pepper strips, a few small capers and a thin olive oil sheen. Pull the camera back substantially: make the food and plate about 25 percent smaller in the landscape frame, centered, with the complete food portion fitting within the central 60 percent of width and generous clear oak tabletop around it. All potatoes, peppers and fish must remain entirely visible in a CENTER SQUARE crop. Preserve bright natural realistic professional cookbook style, no extra props.\n",
+    "sha256": "72a99fb6a53aab99c1a782fd424be8354088f34059239213207ee4e6e1525b47",
+    "photoGroup": "8bdb44c332b80007f672"
+  },
+  "pesce_spada_peperoni_s0": {
+    "asset": "photography/pesce_spada_peperoni_s0.webp",
+    "recipeId": "pesce_spada_peperoni",
+    "stepIndex": 0,
+    "subject": "Taglia {patate} a spicchi e cuocile in forno a 200 °C per 25 minuti con metà {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this oven preparation photograph precisely. Reduce the quantity of potato wedges to EIGHT medium wedges TOTAL representing one portion from about 180g potato. Remove all other wedges and spread the eight remaining wedges naturally in a loose single layer near the CENTER of a smaller parchment-lined dark tray, which is securely supported on the oven rack. The eight wedges have clean potato surfaces, golden roasted cut faces and thin skins with only a very light olive oil sheen. No herbs, spices, pepper-like flecks, added salt crystals or other food. Preserve the oven doorway, natural bright kitchen lighting and professional realistic cooking-photo style. Keep all eight wedges in the central square crop.\n",
+    "sha256": "830e01a7b5b3a3286de9c443953392685a415ff44f63a573b79300de9b15f53a",
+    "photoGroup": "92d392666eba1fd454a5"
+  },
+  "pesce_spada_peperoni_s1": {
+    "asset": "photography/pesce_spada_peperoni_s1.webp",
+    "recipeId": "pesce_spada_peperoni",
+    "stepIndex": 1,
+    "subject": "Griglia {peperoni} a listarelle in padella 8 minuti.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak kitchen, neutral ivory ceramics, believable homemade cooking and appetizing realistic food textures. Gentle overhead three-quarter angle. Food/action centered with the important components entirely inside the central square crop; restrained composition with room around the subject. One scene, no collage, text, watermark, logo, labels or faces. No unrelated food props in background. Intermediate preparation: thin RED bell pepper strips grilling in a dark ridged nonstick pan on a domestic hob for eight minutes. The strips are softening with a few natural golden brown contact marks, slight moisture sheen, no liquid or oil pool. A plain wooden spatula touching the peppers at the edge. Close view of red peppers on grill ridges, natural and realistic. ONLY red bell pepper strips. No ginger, garlic, onion, herbs, capers, potatoes, fish, sauce or background ingredients. This is a cooking step, not a plated meal.\n",
+    "sha256": "fe714788ce579cfbe574ba1d413cb2ac0c05908f02ec27d68b425b31c3771527",
+    "photoGroup": "e021184e81b528e19058"
+  },
+  "pesce_spada_peperoni_s2": {
+    "asset": "photography/pesce_spada_peperoni_s2.webp",
+    "recipeId": "pesce_spada_peperoni",
+    "stepIndex": 2,
+    "subject": "Cuoci {pesce_spada} sulla piastra calda 3 minuti per lato.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak kitchen, neutral ivory ceramics, believable homemade cooking and appetizing realistic food textures. Gentle overhead three-quarter angle. Food/action centered with the important components entirely inside the central square crop; restrained composition with room around the subject. One scene, no collage, text, watermark, logo, labels or faces. No unrelated food props in background. Intermediate cooking stage: ONE 160g swordfish steak cooking on a hot dark ridged griddle on a domestic hob, its visible surface opaque pale ivory with subtle golden brown parallel griddle marks, firm dense swordfish flesh and natural thin grey skin edge. Steak roughly triangular/oval, about 1.5 to 2cm thick, anatomically plausible, no salmon color, no chicken fibers. Light wisp of steam, bright natural side light. Close focus on the fish and ridges, no hands needed. ONLY swordfish in the pan, no oil pool, marinade, capers, herbs, pepper specks, lemon, peppers or potatoes at this stage. No completed plate.\n",
+    "sha256": "9d2ffbcf47f5e80d04c5f8ba7672cf082aa93982fbd9d7bd6586ebac62a4431b",
+    "photoGroup": "00c38491ea45adc44651"
+  },
+  "pesce_spada_peperoni_s3": {
+    "asset": "photography/pesce_spada_peperoni.webp",
+    "recipeId": "pesce_spada_peperoni",
+    "stepIndex": 3,
+    "subject": "Servi con i peperoni, {capperi} e il resto di {olio}.",
+    "kind": "ai_illustration",
+    "generator": "built-in image_gen",
+    "prompt": "Edit this cookbook photograph. Remove all scattered black pepper-like flecks and herb-like specks from the swordfish and potato surfaces, retaining only natural continuous golden griddle lines on the swordfish and golden roast browning on the potatoes. There is NO pepper, herb, spice or lemon in the recipe. Keep only swordfish steak, potato wedges, red bell pepper strips, a few small capers and a thin olive oil sheen. Pull the camera back substantially: make the food and plate about 25 percent smaller in the landscape frame, centered, with the complete food portion fitting within the central 60 percent of width and generous clear oak tabletop around it. All potatoes, peppers and fish must remain entirely visible in a CENTER SQUARE crop. Preserve bright natural realistic professional cookbook style, no extra props.\n",
+    "sha256": "72a99fb6a53aab99c1a782fd424be8354088f34059239213207ee4e6e1525b47",
+    "photoGroup": "8bdb44c332b80007f672",
+    "sharedFrom": "pesce_spada_peperoni"
   }
 }

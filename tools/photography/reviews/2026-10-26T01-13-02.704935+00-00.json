@@ -1,0 +1,135 @@
+{
+  "createdAt": "2026-10-26T01:13:02.704935+00:00",
+  "recipes": [
+    "pesce_spada_peperoni"
+  ],
+  "images": [
+    {
+      "id": "pesce_spada_peperoni",
+      "prompt": "Edit this cookbook photograph. Remove all scattered black pepper-like flecks and herb-like specks from the swordfish and potato surfaces, retaining only natural continuous golden griddle lines on the swordfish and golden roast browning on the potatoes. There is NO pepper, herb, spice or lemon in the recipe. Keep only swordfish steak, potato wedges, red bell pepper strips, a few small capers and a thin olive oil sheen. Pull the camera back substantially: make the food and plate about 25 percent smaller in the landscape frame, centered, with the complete food portion fitting within the central 60 percent of width and generous clear oak tabletop around it. All potatoes, peppers and fish must remain entirely visible in a CENTER SQUARE crop. Preserve bright natural realistic professional cookbook style, no extra props.\n",
+      "originalSha256": "83c8c2a96ff59acc1302ce0b59f5619215492a03acd3168f3886d6cb3713936d",
+      "webpSha256": "72a99fb6a53aab99c1a782fd424be8354088f34059239213207ee4e6e1525b47",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: porzione completa di pesce spada, patate a spicchi, peperoni rossi e piccoli capperi, con velo di olio. Rimossi i puntini scuri estranei più evidenti; restano dorature di cottura. Piatto e tutti i componenti interi nel quadrato, niente limone o erbe.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "83c8c2a96ff59acc1302ce0b59f5619215492a03acd3168f3886d6cb3713936d",
+        "at": "2026-10-26T01:17:45.169895+00:00"
+      },
+      "referenceImageSha256": "a7bd1ef7f8d8e6782e5d001711b87dc3d2569513c68cb9d36823b8c263c86723"
+    },
+    {
+      "id": "pesce_spada_peperoni_s0",
+      "prompt": "Edit this oven preparation photograph precisely. Reduce the quantity of potato wedges to EIGHT medium wedges TOTAL representing one portion from about 180g potato. Remove all other wedges and spread the eight remaining wedges naturally in a loose single layer near the CENTER of a smaller parchment-lined dark tray, which is securely supported on the oven rack. The eight wedges have clean potato surfaces, golden roasted cut faces and thin skins with only a very light olive oil sheen. No herbs, spices, pepper-like flecks, added salt crystals or other food. Preserve the oven doorway, natural bright kitchen lighting and professional realistic cooking-photo style. Keep all eight wedges in the central square crop.\n",
+      "originalSha256": "a5d01499a5b63fe4d653c986ffe5abf45a635ed7271c20fd54ccb3a7af0d61e4",
+      "webpSha256": "830e01a7b5b3a3286de9c443953392685a415ff44f63a573b79300de9b15f53a",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: quantità ridotta a pochi spicchi di patata ben distinti sulla carta forno, doratura e sottile lucentezza di olio. Teglia sostenuta sulla griglia del forno. Nessuna erba o ingrediente futuro, tutti gli spicchi leggibili nel ritaglio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "a5d01499a5b63fe4d653c986ffe5abf45a635ed7271c20fd54ccb3a7af0d61e4",
+        "at": "2026-10-26T01:17:45.284739+00:00"
+      },
+      "referenceImageSha256": "35cb5688ea2b7dbf20cd639778896379662f52f2f4675e6cdd09a1dcc272dfab"
+    },
+    {
+      "id": "pesce_spada_peperoni_s1",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak kitchen, neutral ivory ceramics, believable homemade cooking and appetizing realistic food textures. Gentle overhead three-quarter angle. Food/action centered with the important components entirely inside the central square crop; restrained composition with room around the subject. One scene, no collage, text, watermark, logo, labels or faces. No unrelated food props in background. Intermediate preparation: thin RED bell pepper strips grilling in a dark ridged nonstick pan on a domestic hob for eight minutes. The strips are softening with a few natural golden brown contact marks, slight moisture sheen, no liquid or oil pool. A plain wooden spatula touching the peppers at the edge. Close view of red peppers on grill ridges, natural and realistic. ONLY red bell pepper strips. No ginger, garlic, onion, herbs, capers, potatoes, fish, sauce or background ingredients. This is a cooking step, not a plated meal.\n",
+      "originalSha256": "e655c568004490b4f3322d5c90bf69129abcab6c1d92827b271cd8b72a1705dd",
+      "webpSha256": "fe714788ce579cfbe574ba1d413cb2ac0c05908f02ec27d68b425b31c3771527",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: solo listarelle di peperone rosso su padella rigata, segni di cottura, lieve vapore e spatola plausibile. Niente zenzero, salse o ingredienti futuri. Azione leggibile e luce coerente.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "e655c568004490b4f3322d5c90bf69129abcab6c1d92827b271cd8b72a1705dd",
+        "at": "2026-10-26T01:16:17.077592+00:00"
+      }
+    },
+    {
+      "id": "pesce_spada_peperoni_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak kitchen, neutral ivory ceramics, believable homemade cooking and appetizing realistic food textures. Gentle overhead three-quarter angle. Food/action centered with the important components entirely inside the central square crop; restrained composition with room around the subject. One scene, no collage, text, watermark, logo, labels or faces. No unrelated food props in background. Intermediate cooking stage: ONE 160g swordfish steak cooking on a hot dark ridged griddle on a domestic hob, its visible surface opaque pale ivory with subtle golden brown parallel griddle marks, firm dense swordfish flesh and natural thin grey skin edge. Steak roughly triangular/oval, about 1.5 to 2cm thick, anatomically plausible, no salmon color, no chicken fibers. Light wisp of steam, bright natural side light. Close focus on the fish and ridges, no hands needed. ONLY swordfish in the pan, no oil pool, marinade, capers, herbs, pepper specks, lemon, peppers or potatoes at this stage. No completed plate.\n",
+      "originalSha256": "7cccf983a09cff8442bd2a2311b02fccf8552bfab9b2df0fa94fe6db624cf849",
+      "webpSha256": "9d2ffbcf47f5e80d04c5f8ba7672cf082aa93982fbd9d7bd6586ebac62a4431b",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: trancio di pesce spada con carne chiara compatta e bordo grigio sulla piastra, righe dorate e lieve vapore. Nessun contorno o cappero anticipato. Fase di cottura riconoscibile anche nel ritaglio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "7cccf983a09cff8442bd2a2311b02fccf8552bfab9b2df0fa94fe6db624cf849",
+        "at": "2026-10-26T01:16:17.220824+00:00"
+      }
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "pesce_spada_peperoni",
+      "originalSha256": "a7bd1ef7f8d8e6782e5d001711b87dc3d2569513c68cb9d36823b8c263c86723",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak kitchen, neutral ivory ceramics, believable homemade cooking and appetizing realistic food textures. Gentle overhead three-quarter angle. Food/action centered with the important components entirely inside the central square crop; restrained composition with room around the subject. One scene, no collage, text, watermark, logo, labels or faces. No unrelated food props in background. Finished Mediterranean recipe: ONE grilled swordfish steak of about 160g, golden oven-roasted potato wedges from 180g potato, and tender pan-grilled RED bell pepper strips from 120g pepper, with a few small olive-green capers (5g) and a light sheen of extra virgin olive oil. Plated as a complete single portion on a modest ivory ceramic plate. Swordfish is a firm pale ivory dense fish steak with a natural thin grey skin edge and subtle golden griddle lines, not salmon, tuna, chicken or flaky cod. Potatoes are wedges, not fries or round slices. Red peppers are strips, not whole peppers. Approximately seven small capers distributed on the fish and peppers; no caperberries with stems. Fit ALL the fish, potatoes and peppers centrally within 60% of image width, clearly distinguish the components and leave space around the plate. ONLY the listed food: swordfish, potatoes, red bell peppers, capers and olive oil. No lemon, herbs, parsley, rosemary, salad, pepper specks or garnish.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Contorni parzialmente tagliati nel quadrato e puntini simili a pepe non previsto; richiesta inquadratura più ampia e rimozione."
+    },
+    {
+      "id": "pesce_spada_peperoni_s0",
+      "originalSha256": "35cb5688ea2b7dbf20cd639778896379662f52f2f4675e6cdd09a1dcc272dfab",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak kitchen, neutral ivory ceramics, believable homemade cooking and appetizing realistic food textures. Gentle overhead three-quarter angle. Food/action centered with the important components entirely inside the central square crop; restrained composition with room around the subject. One scene, no collage, text, watermark, logo, labels or faces. No unrelated food props in background. Intermediate oven cooking stage: a small dark metal oven tray lined with plain parchment paper holds a single layer of potato wedges, lightly brushed with about 4g olive oil, turning golden as they roast at 200 degrees Celsius. Tray securely supported on an oven rack at the open oven doorway; bright natural kitchen light illuminates the food, oven interior softly visible behind, no hands. Some cut faces golden and edges crisp, natural pale potato centers and thin skins. Central close view of the potato wedges and tray. ONLY potato wedges and a very light olive oil sheen. No herbs, spices, salt crystals, peppers, fish, capers or other ingredients. Preparation photo in oven, not a finished plated meal.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Teglia troppo piena rispetto alla porzione prevista; richiesta riduzione a pochi spicchi senza ingredienti aggiunti."
+    }
+  ],
+  "convertedVisualReview": "Visti individualmente originali e ritagli di tutti i candidati approvati, poi ricontrollati i quattro WebP nei ritagli quadrati dopo conversione: principale 1254×1254, patate 1280×1170 e due cotture 1280×853. Componenti e azioni riconoscibili, nessun difetto di conversione visibile.",
+  "preservation": {
+    "sourceCommit": "d9ebd3e923bbc34715b0bce8ae2801c5aa1dc134",
+    "previousWebpFiles": 464,
+    "previousRecords": 796,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 801,
+    "newWebpDimensions": {
+      "photography/pesce_spada_peperoni.webp": [
+        1254,
+        1254
+      ],
+      "photography/pesce_spada_peperoni_s0.webp": [
+        1280,
+        1170
+      ],
+      "photography/pesce_spada_peperoni_s1.webp": [
+        1280,
+        853
+      ],
+      "photography/pesce_spada_peperoni_s2.webp": [
+        1280,
+        853
+      ]
+    }
+  }
+}

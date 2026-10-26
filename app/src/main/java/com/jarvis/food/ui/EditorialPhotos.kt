@@ -622,6 +622,11 @@ object EditorialPhotos {
         "pasta_tonno_s1" to "photography/pasta_tonno_s1.webp",
         "pasta_tonno_s2" to "photography/pasta_tonno_s2.webp",
         "pasta_tonno_s3" to "photography/pasta_tonno.webp",
+        "pesce_spada_peperoni" to "photography/pesce_spada_peperoni.webp",
+        "pesce_spada_peperoni_s0" to "photography/pesce_spada_peperoni_s0.webp",
+        "pesce_spada_peperoni_s1" to "photography/pesce_spada_peperoni_s1.webp",
+        "pesce_spada_peperoni_s2" to "photography/pesce_spada_peperoni_s2.webp",
+        "pesce_spada_peperoni_s3" to "photography/pesce_spada_peperoni.webp",
         "piadina_tacchino" to "photography/piadina_tacchino.webp",
         "piadina_tacchino_s0" to "photography/piadina_tacchino_s0.webp",
         "piadina_tacchino_s1" to "photography/piadina_tacchino_s1.webp",
@@ -808,6 +813,9 @@ object EditorialPhotos {
         "zuppa_legumi_s0" to "photography/zuppa_legumi_s0.webp",
         "zuppa_legumi_s1" to "photography/zuppa_legumi_s1.webp",
         "zuppa_legumi_s2" to "photography/zuppa_legumi_s2.webp",
+    )
+
+    private fun group4() = mapOf(
         "zuppa_legumi_s3" to "photography/zuppa_legumi.webp",
     )
 
@@ -816,6 +824,7 @@ object EditorialPhotos {
         putAll(group1())
         putAll(group2())
         putAll(group3())
+        putAll(group4())
     }
 
     private val photoCredits: Map<String, String> = mapOf(

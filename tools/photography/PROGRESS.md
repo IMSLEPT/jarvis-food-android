@@ -5,10 +5,10 @@ Ramo: `feat/recipe-editorial-photos`. Conteggi verificati sui file approvati.
 ## Stato verificato
 
 - 2533 ricette, 10239 passaggi nel database.
-- 165 ricette complete di foto principale e di tutti i passaggi.
-- 464 WebP distinti, 796 abbinamenti verificati.
-- 510 passaggi delle ricette complete coperti.
-- 2368 ricette da completare.
+- 166 ricette complete di foto principale e di tutti i passaggi.
+- 468 WebP distinti, 801 abbinamenti verificati.
+- 514 passaggi delle ricette complete coperti.
+- 2367 ricette da completare.
 - Ripresa precedente del 25 ottobre: 15 nuove ricette e 36 nuove immagini rispetto al checkpoint da 114 ricette e 280 immagini.
 - Ripristinati i tre abbinamenti s2 yogurt/miele/noci mancanti nel commit 6098540: immagini esistenti, ora tutte collegate.
 - APK precedente consegnato il 25 ottobre 2026: **JarvisFood-v1.0.89.apk**, 129 ricette complete e 316 immagini effettivamente verificate nel pacchetto (196,0 MB).
@@ -286,7 +286,18 @@ Ricette completate: gamberi_curry_cocco. Nuove immagini: 4; nuovi abbinamenti: 5
 
 Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
 
-Punto preciso da cui riprendere: **pesce_spada_peperoni**. Restano 2368 ricette e 11976 abbinamenti; 7970 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo dei gamberi al curry con riso.
+Punto di ripresa precedente (vedere ultimo gruppo): **pesce_spada_peperoni**. Restano 2368 ricette e 11976 abbinamenti; 7970 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo dei gamberi al curry con riso.
 
 
 Ripresa da `96b5e69`, verificato contro GitHub senza aggiornamenti successivi; conservati tutti i gruppi e le correzioni precedenti. Generatore incluso realmente disponibile: sei output prodotti, quattro approvati e due prime versioni scartate (principale con striscioline chiare simili a cipolla non prevista; rosolatura con troppo zenzero visibile). Le sostitutive eliminano le striscioline e riducono lo zenzero. Originali e ritagli esaminati individualmente, poi ricontrollati nei quattro WebP convertiti 1280×853. Soggetti: gamberi al curry e cocco sul basmati, riso scolato, peperoni e zenzero in antiaderente, salsa al cocco e curry prima dei gamberi. Il solo riuso aggiunto da `share.py` è la principale per il passaggio finale di servizio sul riso, consentito dalle regole esistenti. Tutti i **460 WebP e 791 record** precedenti e le attribuzioni online/offline sono identici; verificati i 796 abbinamenti indice Kotlin/manifest, decodifica/dimensioni, fotografia e confine funzionale. Rapporto con prompt effettivi, hash, osservazioni e candidati scartati: `tools/photography/reviews/2026-10-26T00-19-40.036862+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica a ricette/funzionalità o compilazione APK; test unitari/Android non ripetuti per questo gruppo fotografico.
+
+## Gruppo con pipeline riprendibile — 2026-10-26
+
+Ricette completate: pesce_spada_peperoni. Nuove immagini: 4; nuovi abbinamenti: 5.
+
+Revisione visiva individuale registrata per ingredienti, fase, realismo, stile e ritaglio. Conversione con prepare.py, riuso con share.py, verify.py e controllo degli originali superati. File fotografici e record precedenti preservati; database e funzionalità invariati. Nessuna API a pagamento, nessun nuovo APK; test unitari/Android non rieseguiti.
+
+Punto preciso da cui riprendere: **ramen_pollo_uovo**. Restano 2367 ricette e 11971 abbinamenti; 7966 gruppi fotografici ancora da produrre. Commit [skip ci] e push del gruppo prima del successivo. Questa esecuzione termina dopo il solo gruppo del pesce spada con peperoni e patate.
+
+
+Ripresa da `d9ebd3e`, verificato contro GitHub senza aggiornamenti successivi; conservati tutti i gruppi e le correzioni precedenti. Generatore incluso effettivamente disponibile: sei output prodotti, quattro approvati e due prime versioni scartate (principale con contorni tagliati nel quadrato e puntini simili a pepe non previsto; patate con teglia troppo piena rispetto alla porzione). Le sostitutive ampliano l’inquadratura, eliminano i puntini estranei più evidenti e riducono le patate. Originali e ritagli esaminati individualmente, poi ricontrollati nei quattro WebP convertiti: principale 1254×1254, patate 1280×1170, peperoni e pesce 1280×853. Soggetti: pesce spada con patate a spicchi, peperoni e capperi; patate in forno; peperoni a listarelle sulla griglia; trancio di pesce spada sulla piastra. Il solo riuso aggiunto da `share.py` è la principale per il passaggio finale di servizio, già consentito dalle regole esistenti. Tutti i **464 WebP e 796 record** precedenti e le attribuzioni online/offline sono identici; verificati gli 801 abbinamenti indice Kotlin/manifest, decodifica/dimensioni, fotografia e confine funzionale. Rapporto con prompt effettivi, hash, osservazioni e candidati scartati: `tools/photography/reviews/2026-10-26T01-13-02.704935+00-00.json`. Nessuna fotografia online aggiunta, costo aggiuntivo, modifica a ricette/funzionalità o compilazione APK; test unitari/Android non ripetuti per questo gruppo fotografico.
