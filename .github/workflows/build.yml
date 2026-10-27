@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_dispatch' || inputs.publish_existing_run == ''
+    if: (github.event_name != 'workflow_dispatch' || inputs.publish_existing_run == '') && github.event.head_commit.message != 'Deliver verified APK 118'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     steps:
@@ -338,3 +338,24 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload v1.0.93 qa/dist/JarvisFood-v1.0.93.apk qa/dist/JarvisFood-v1.0.93.apk.sha256
+
+  deliver_verified_118:
+    if: github.event_name == 'push' && github.event.head_commit.message == 'Deliver verified APK 118'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Prepare visual verification
+        run: python3 -m pip install --quiet Pillow==11.3.0
+      - name: Verify and deliver the successful signed APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/deliver-verified-118.py
