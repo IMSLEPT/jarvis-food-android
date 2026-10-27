@@ -61,8 +61,8 @@ object A {
     val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
     val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
     val FastSoft = Color(0xFFEDE7FF); val FastInk = Color(0xFF6D28D9)
-    val Tonal = Color(0xFFFFF0E5); val TonalInk = Color(0xFFB94C1C)
-    val Link = Color(0xFFB94C1C)
+    val Tonal = Color(0xFFFFF0E5); val TonalInk = C.AccentDeep
+    val Link = C.AccentDeep
     val Peach = Color(0xFFFFF8F0)
     val Dashed = Color(0xFFD9D4EC)
 

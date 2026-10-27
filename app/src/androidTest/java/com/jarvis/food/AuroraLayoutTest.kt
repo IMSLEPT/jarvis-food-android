@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.text.TextLayoutResult
@@ -236,6 +237,25 @@ class AuroraLayoutTest {
             compose.onNodeWithText("Vegana", useUnmergedTree = true).performScrollTo()
             readable(compose.onNodeWithText("Vegana", useUnmergedTree = true))
             shot("categories")
+
+            // The approved profile must keep every destination readable at both font scales.
+            ui { Nav.clear(); Nav.go(Screen.Profile) }
+            compose.onNodeWithContentDescription("Modifica profilo").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            compose.waitForIdle()
+            assertTrue("Profile edit action changed destination", Nav.stack.last() is Screen.ProfileEdit)
+            ui { Nav.back() }
+            compose.waitForIdle()
+            readable(compose.onNodeWithText("Dati e obiettivi", useUnmergedTree = true).performScrollTo())
+            shot("profile-overview")
+            for (key in listOf("profile", "weight", "measurements", "goals", "diet", "chat", "watch", "ai", "fasting", "reminders", "foods", "backup", "about")) {
+                val tag = "profile-item-$key"
+                val card = compose.onNodeWithTag(tag).performScrollTo()
+                card.assertHasClickAction().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(72f))
+                val texts = compose.onAllNodes(hasAnyAncestor(hasTestTag(tag)) and SemanticsMatcher.keyIsDefined(SemanticsProperties.Text), useUnmergedTree = true)
+                assertTrue("Missing title or description for $key", texts.fetchSemanticsNodes().size >= 2)
+                for (index in texts.fetchSemanticsNodes().indices) readable(texts[index])
+            }
+            shot("profile-tools")
         }
     }
 
