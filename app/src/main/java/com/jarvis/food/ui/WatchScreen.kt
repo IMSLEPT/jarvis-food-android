@@ -94,7 +94,7 @@ fun WatchScreen() {
             // Connessione
             Column(
                 Modifier.padding(top = 6.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x803B82F6)).clip(shape34)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp)
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.size(64.dp).clip(RoundedCornerShape(24.dp)).background(C.Navy), contentAlignment = Alignment.Center) {
@@ -190,7 +190,7 @@ fun WatchScreen() {
                     ASegment(pcts.map { "$it%" }, pcts.indexOf(s.energy.eatBackPct), modifier = Modifier.padding(top = 12.dp)) { i -> Store.setEnergy(Store.current.energy.copy(eatBackPct = pcts[i])) }
                     Column(
                         Modifier.padding(top = 16.dp).fillMaxWidth().clip(RoundedCornerShape(22.dp))
-                            .background(Brush.linearGradient(listOf(Color(0xFFFFF1EB), Color(0xFFFFF7E0)))).padding(horizontal = 16.dp, vertical = 14.dp)
+                            .background(C.Surface).padding(horizontal = 16.dp, vertical = 14.dp)
                     ) {
                         val lab = T.Body.copy(fontSize = 13.5.sp, color = Color(0xFF4B4A6A))
                         val num = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.Bold, color = A.Ink)
@@ -269,7 +269,7 @@ private class WTile(val label: String, val value: String, val unit: String, val 
 @Composable
 private fun WatchTile(t: WTile, modifier: Modifier) {
     val shape = RoundedCornerShape(28.dp)
-    Column(modifier.aShadow(shape, 8.dp, t.glow).clip(shape).background(t.bg).border(1.dp, Color(0xE6FFFFFF), shape).padding(16.dp)) {
+    Column(modifier.aShadow(shape, 8.dp, t.glow).clip(shape).background(C.cardSurface(t.bg)).border(1.dp, Color(0xE6FFFFFF), shape).padding(16.dp)) {
         TonalIcon(t.icon, t.ink, Color(0xD9FFFFFF), box = 40.dp, radius = 15.dp, size = 21.dp)
         Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.padding(top = 12.dp)) {
             Text(t.value, style = T.H1.copy(fontSize = 26.sp, lineHeight = 28.sp, letterSpacing = (-0.5).sp), maxLines = 1)
@@ -301,7 +301,7 @@ private fun WatchMode(id: Int, current: Int, name: String, desc: String, icon: S
 @Composable
 private fun ChainStep(label: String, icon: String, bg: Color?, ink: Color, modifier: Modifier) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(Modifier.size(48.dp).clip(RoundedCornerShape(18.dp)).background(bg ?: Color.Transparent).then(if (bg == null) Modifier.background(A.Dawn) else Modifier), contentAlignment = Alignment.Center) {
+        Box(Modifier.size(48.dp).clip(RoundedCornerShape(18.dp)).background(bg?.let { C.cardSurface(it) } ?: Color.Transparent).then(if (bg == null) Modifier.background(A.Dawn) else Modifier), contentAlignment = Alignment.Center) {
             AIcon(icon, ink, 24.dp, if (bg == null) 2.2f else 2f)
         }
         Text(label, style = T.Body.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Ink, textAlign = TextAlign.Center), modifier = Modifier.padding(top = 6.dp))

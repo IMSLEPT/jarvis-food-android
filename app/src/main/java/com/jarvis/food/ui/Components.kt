@@ -99,7 +99,7 @@ fun JCard(
     val shape = RoundedCornerShape(24.dp)
     val base = modifier.fillMaxWidth()
         .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
-        .clip(shape).let { if (brush != null) it.background(brush) else it.background(color).border(1.dp, A.Hair, shape) }
+        .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)).border(1.dp, A.Hair, shape) }
     Column(modifier = (if (onClick != null) base.clickable(onClick = onClick) else base).padding(padding), content = content)
 }
 
@@ -214,7 +214,7 @@ fun JField(value: String, onChange: (String) -> Unit, label: String, modifier: M
 
 @Composable
 fun Tag(text: String, color: Color, bg: Color = color.copy(alpha = 0.13f)) {
-    Box(Modifier.clip(RoundedCornerShape(50)).background(bg).padding(horizontal = 9.dp, vertical = 3.dp)) {
+    Box(Modifier.clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(50)).padding(horizontal = 9.dp, vertical = 3.dp)) {
         Text(text, style = T.Small.copy(color = color))
     }
 }
@@ -232,7 +232,7 @@ fun EmptyState(emoji: String, title: String, text: String) {
 /** Riquadro con un valore e un'etichetta (es. "Proteine 21 g"). */
 @Composable
 fun StatTile(label: String, value: String, modifier: Modifier = Modifier, color: Color = C.Text, bg: Color = C.SurfaceAlt) {
-    Column(modifier.clip(RoundedCornerShape(16.dp)).background(bg).padding(vertical = 12.dp, horizontal = 8.dp),
+    Column(modifier.clip(RoundedCornerShape(16.dp)).background(C.cardSurface(bg)).padding(vertical = 12.dp, horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(label, style = T.Small)
         Spacer(Modifier.height(2.dp))
@@ -304,7 +304,7 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
     if (b != null) {
         Image(b.asImageBitmap(), contentDescription = null, contentScale = ContentScale.Crop, modifier = modifier.clip(shape))
     } else {
-        Box(modifier.clip(shape).background(Brush.linearGradient(listOf(C.AccentSoft, C.GoldSoft))), contentAlignment = Alignment.Center) {
+        Box(modifier.clip(shape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
             Text(emoji, style = T.Big)
         }
     }

@@ -112,14 +112,14 @@ fun FastingScreen() {
         // Timer
         val cardShape = RoundedCornerShape(36.dp)
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(cardShape, 14.dp, Color(0xA68B5CF6)).clip(cardShape)
-            .background(Brush.linearGradient(listOf(Color(0xFFE6DCFF), Color(0xFFF5F0FF), Color(0xFFDDE9FF)))).border(1.dp, Color(0xE6FFFFFF), cardShape)
+            .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), cardShape)
             .padding(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 18.dp)) {
             Box(Modifier.size(260.dp).align(Alignment.CenterHorizontally), contentAlignment = Alignment.Center) {
                 Canvas(Modifier.fillMaxSize()) {
                     val st = 22.dp.toPx()
                     val tl = Offset(st / 2 + 2.dp.toPx(), st / 2 + 2.dp.toPx())
                     val sz = Size(size.width - st - 4.dp.toPx(), size.height - st - 4.dp.toPx())
-                    drawArc(Color(0xE6FFFFFF), -90f, 360f, false, tl, sz, style = Stroke(st))
+                    drawArc(C.SurfaceHi, -90f, 360f, false, tl, sz, style = Stroke(st))
                     if (progress > 0f) drawArc(
                         Brush.linearGradient(listOf(Color(0xFF6D45E0), Color(0xFF8B5CF6), Color(0xFF5AA9FF)), Offset(0f, size.height), Offset(size.width, 0f)),
                         -90f, 360f * progress.coerceAtMost(1f), false, tl, sz, style = Stroke(st, cap = StrokeCap.Round)

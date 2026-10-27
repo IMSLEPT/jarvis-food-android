@@ -137,7 +137,7 @@ fun ProfileScreen() {
         // Scheda utente
         Column(
             Modifier.padding(top = 16.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x99E88C60)).clip(shape34)
-                .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp)
+                .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Avatar(s.profile.name, s.profile.photo, 72.dp, Modifier.aShadow(RoundedCornerShape(26.dp), 8.dp, Color(0xB3E88C60)).clickable { Nav.go(Screen.ProfileEdit) }, RoundedCornerShape(26.dp))
@@ -190,7 +190,7 @@ fun ProfileScreen() {
         // Privacy
         Column(
             Modifier.padding(top = 20.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0x9910B981)).clip(shape30)
-                .background(Brush.linearGradient(listOf(Color(0xFFE4F6EE), Color(0xFFE7EFFA)))).padding(18.dp)
+                .background(C.Surface).padding(18.dp)
         ) {
             Row(verticalAlignment = Alignment.Top) {
                 TonalIcon(PIc.Shield, A.GreenInk, Color.White, box = 46.dp, radius = 17.dp, size = 23.dp)
@@ -253,7 +253,7 @@ fun ProfileEditScreen() {
             if (!p.detailed) {
                 GapH(12.dp)
                 ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 18.dp, elevation = 8.dp, glow = Color(0x66E88C60),
-                    brush = Brush.linearGradient(listOf(Color(0xFFFFE9DC), Color(0xFFFFF5E6))), onClick = { Nav.go(Screen.Questionnaire(null)) }) {
+                    color = C.Surface, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
                     Column {
                         Text("Rendi il calcolo più preciso", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = A.Ink))
                         Text("Rispondi alle domande su lavoro, passi e allenamenti: il fabbisogno smette di essere una stima generica.",
@@ -343,7 +343,7 @@ fun GoalsScreen() {
             val heroShape = RoundedCornerShape(34.dp)
             Column(
                 Modifier.padding(top = 6.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x99E88C60)).clip(heroShape)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), heroShape)
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape)
                     .padding(horizontal = 20.dp, vertical = 22.dp)
             ) {
                 Text("IL TUO OBIETTIVO GIORNALIERO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E), letterSpacing = 0.5.sp))
@@ -519,7 +519,7 @@ fun GoalsScreen() {
             val waterShape = RoundedCornerShape(30.dp)
             Row(
                 Modifier.padding(top = 12.dp).fillMaxWidth().aShadow(waterShape, 12.dp, Color(0x993B82F6)).clip(waterShape)
-                    .background(Brush.linearGradient(listOf(Color(0xFFDDF6FB), Color(0xFFE6EEFF)))).padding(16.dp),
+                    .background(C.Surface).padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TonalIcon(Ic.Drop, Color(0xFF2563EB), Color.White, box = 52.dp, radius = 19.dp, size = 26.dp)

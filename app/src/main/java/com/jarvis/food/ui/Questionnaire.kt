@@ -155,7 +155,7 @@ private fun HoldStep(plus: Boolean, onStep: () -> Unit) {
     val scope = rememberCoroutineScope()
     val cb = rememberUpdatedState(onStep)
     Box(
-        Modifier.size(48.dp).clip(CircleShape).background(Color(0xFFFFE9E1)).pointerInput(Unit) {
+        Modifier.size(48.dp).clip(CircleShape).background(C.Surface).pointerInput(Unit) {
             detectTapGestures(onPress = {
                 cb.value()
                 val job = scope.launch { delay(420); var n = 0; while (true) { cb.value(); n++; delay(if (n < 8) 130L else 55L) } }
@@ -400,7 +400,7 @@ fun PlanPreview(d: QDraft) {
 
     Row(
         Modifier.padding(top = 18.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x99E88C60)).clip(shape34)
-            .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp),
+            .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(Modifier.size(164.dp), contentAlignment = Alignment.Center) {
@@ -437,7 +437,7 @@ fun PlanPreview(d: QDraft) {
     }
 
     Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        Column(Modifier.weight(1f).aShadow(shape30, 10.dp, Color(0x803B82F6)).clip(shape30).background(Brush.linearGradient(listOf(Color(0xFFDDF6FB), Color(0xFFE6EEFF)))).padding(16.dp)) {
+        Column(Modifier.weight(1f).aShadow(shape30, 10.dp, Color(0x803B82F6)).clip(shape30).background(C.Surface).padding(16.dp)) {
             TonalIcon(Ic.Drop, Color(0xFF2563EB), Color.White, box = 40.dp, radius = 15.dp, size = 21.dp)
             Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.Bottom) {
                 Text(g.waterMl.thousands(), style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = (-0.4).sp), maxLines = 1)
@@ -447,7 +447,7 @@ fun PlanPreview(d: QDraft) {
         }
         val delta = Nutrition.safeDelta(p, tdee)
         val pace = when { p.special == 1 || p.goal == 0 -> "stabile"; p.goal == -1 -> "−${p.weeklyRate.toString().replace('.', ',').removeSuffix(",0")}"; else -> "+${p.weeklyRate.toString().replace('.', ',').removeSuffix(",0")}" }
-        Column(Modifier.weight(1f).aShadow(shape30, 10.dp, Color(0x80F59E0B)).clip(shape30).background(Brush.linearGradient(listOf(Color(0xFFE4F6EE), Color(0xFFFFF7E0)))).padding(16.dp)) {
+        Column(Modifier.weight(1f).aShadow(shape30, 10.dp, Color(0x80F59E0B)).clip(shape30).background(C.Surface).padding(16.dp)) {
             TonalIcon("M4 7l6 6 4-4 6 6M20 15v-4M20 15h-4", Color(0xFF047857), Color.White, box = 40.dp, radius = 15.dp, size = 21.dp)
             Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.Bottom) {
                 Text(pace, style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = (-0.4).sp), maxLines = 1)
@@ -513,7 +513,7 @@ fun QuestionnaireFlow(d: QDraft, steps: List<QStep>, finishLabel: String, onBack
                 steps.indices.forEach { k ->
                     Box(
                         Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(3.dp))
-                            .background(if (k <= i) Brush.horizontalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF8C089))) else SolidColor(Color(0xFFDDE3EA)))
+                            .background(if (k <= i) Brush.horizontalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF8C089))) else SolidColor(C.SurfaceHi))
                     )
                 }
             }

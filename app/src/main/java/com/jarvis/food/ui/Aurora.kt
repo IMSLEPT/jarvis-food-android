@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.sp
 
 /** Colori "inchiostro" delle etichette tonali e sfumature del design. */
 object A {
-    val Ink = Color(0xFF1D1B3A)
-    val Muted = Color(0xFF5E5B7A)
+    val Ink = C.Text
+    val Muted = C.Muted
     val Hair = Color(0x0F1D1B3A)              // bordo schede: inchiostro al 6%
     val Shadow = Color(0xFF1D1B3A)
 
@@ -139,14 +139,14 @@ fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Bo
 /** Riquadro tonale con icona dentro (44 px, raggio 16 nel design). */
 @Composable
 fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 16.dp, size: Dp = 22.dp, stroke: Float = 2f, modifier: Modifier = Modifier) {
-    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(bg), contentAlignment = Alignment.Center) { AIcon(d, tint, size, stroke) }
+    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) { AIcon(d, tint, size, stroke) }
 }
 
 // ---------- Sfondo e schede ----------
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
 fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
-    this.shadow(elevation * 0.4f, shape, ambientColor = color.copy(alpha = 0.10f), spotColor = color.copy(alpha = 0.14f))
+    this.shadow(elevation * 0.2f, shape, ambientColor = C.Navy.copy(alpha = 0.05f), spotColor = C.Navy.copy(alpha = 0.07f))
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
@@ -157,7 +157,7 @@ fun ACard(
 ) {
     val shape = RoundedCornerShape(radius)
     var m = modifier.aShadow(shape, elevation, glow).clip(shape)
-    m = if (brush != null) m.background(brush) else m.background(color)
+    m = if (brush != null) m.background(brush) else m.background(C.cardSurface(color))
     if (bordered) m = m.border(1.dp, A.Hair, shape)
     if (onClick != null) m = m.clickable(onClick = onClick)
     Box(m.padding(padding)) { content() }
@@ -175,7 +175,7 @@ fun ASection(title: String, modifier: Modifier = Modifier, action: String? = nul
 /** Chip tonale con macro: "P 28 g" ecc. */
 @Composable
 fun MacroChip(text: String, bg: Color, ink: Color) {
-    Box(Modifier.clip(RoundedCornerShape(14.dp)).background(bg).padding(horizontal = 12.dp, vertical = 6.dp)) {
+    Box(Modifier.clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(14.dp)).padding(horizontal = 12.dp, vertical = 6.dp)) {
         Text(text, style = T.Chip.copy(color = ink), maxLines = 1)
     }
 }
@@ -206,7 +206,7 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, en
 @Composable
 fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    Box(modifier.heightIn(min = height).clip(shape).background(bg).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
+    Box(modifier.heightIn(min = height).clip(shape).background(C.cardSurface(bg)).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
         Text(text, style = T.BtnM.copy(color = fg), textAlign = TextAlign.Center)
     }
 }
@@ -252,7 +252,7 @@ fun ABar(fraction: Float, fill: Brush, track: Color, height: Dp = 10.dp, modifie
 /** Tessera con iniziale colorata per alimenti senza foto. */
 @Composable
 fun InitialTile(name: String, bg: Color, ink: Color, size: Dp = 52.dp, radius: Dp = 19.dp) {
-    Box(Modifier.size(size).clip(RoundedCornerShape(radius)).background(bg), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(size).clip(RoundedCornerShape(radius)).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) {
         Text(name.trim().take(1).uppercase(), style = T.Num.copy(color = ink, fontSize = (size.value * 0.42f).sp, fontWeight = FontWeight.ExtraBold))
     }
 }

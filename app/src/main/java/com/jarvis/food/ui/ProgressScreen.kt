@@ -136,7 +136,7 @@ fun ProgressScreen() {
         // Serie
         val streakDays = streak(s)
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
-            .background(Brush.linearGradient(listOf(Color(0xFFFFE9C2), Color(0xFFFFF4E3), Color(0xFFFFE4D6)))).padding(16.dp)) {
+            .background(C.Surface).padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, Color(0xFFFF8A2B), 30.dp, fill = true) }
                 GapW(14.dp)
@@ -171,7 +171,7 @@ fun ProgressScreen() {
                 if (ws.size >= 2) {
                     val down = wd <= 0
                     val ink = if (down) Color(0xFF065F46) else A.FatInk
-                    Row(Modifier.padding(bottom = 6.dp).height(30.dp).clip(RoundedCornerShape(15.dp)).background(if (down) A.GreenSoft else A.FatSoft).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.padding(bottom = 6.dp).height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                         AIcon(if (down) "M12 5v14M6 13l6 6 6-6" else "M12 19V5M6 11l6-6 6 6", ink, 14.dp, 2.6f)
                         GapW(4.dp)
                         Text((if (wd > 0) "+" else if (wd < 0) "−" else "") + kotlin.math.abs(wd).r1() + " kg", style = T.Chip.copy(fontWeight = FontWeight.Bold, color = ink))
@@ -184,13 +184,13 @@ fun ProgressScreen() {
             val tw = s.profile.targetWeight
             val left = kotlin.math.abs(weight - tw)
             val prog = if (sw == tw) 1f else ((sw - weight) / (sw - tw)).toFloat().coerceIn(0f, 1f)
-            Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(A.CarbSoft).padding(horizontal = 14.dp, vertical = 12.dp)) {
+            Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text("Verso l'obiettivo ${tw.r1().removeSuffix(",0")} kg", style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
                     Text("${left.r1()} kg", style = T.Chip.copy(fontWeight = FontWeight.Bold, color = A.CarbInk))
                 }
                 GapH(8.dp)
-                ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), Color.White, 8.dp)
+                ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), C.SurfaceHi, 8.dp)
             }
         }
 
@@ -207,7 +207,7 @@ fun ProgressScreen() {
             }
             val pk = picked.coerceIn(0, days.size - 1)
             val diff = (daily[pk].kcal - goalKcal).roundToInt()
-            Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFFFFF1E8)).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
+            Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
                 Text(days[pk].format(dName).replace(".", "").replaceFirstChar { it.uppercase() } + " · " + kcalFmt(daily[pk].kcal) + " kcal · " + (if (diff >= 0) "+" else "−") + kotlin.math.abs(diff) + " dall'obiettivo",
                     style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF8F2A14)))
             }
@@ -251,7 +251,7 @@ fun ProgressScreen() {
         ASection("Acqua", top = 28.dp)
         GapH(12.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(Brush.linearGradient(listOf(Color(0xFFD2F4FA), Color(0xFFE9F1FF)))).padding(16.dp)) {
+        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).padding(16.dp)) {
             BarsRow(water, maxOf(water.maxOrNull() ?: 0.0, s.goals.waterMl / 1000.0 * 1.1).coerceAtLeast(0.1), 110.dp, if (period == 7) 12.dp else 5.dp, if (period == 7) 8.dp else 3.dp,
                 fill = { i, _ -> if (i == days.size - 1) Brush.verticalGradient(listOf(Color(0xFF9FE6F1), Color(0xFF8DB8FA))) else Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6))) },
                 labels = if (period == 7) days.map(letter) else null, sel = days.size - 1)
@@ -313,7 +313,7 @@ fun ProgressScreen() {
 
 @Composable
 private fun MacroShare(pct: String, name: String, sub: String, bg: Color, ink: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(bg).padding(12.dp)) {
+    Column(modifier.clip(RoundedCornerShape(20.dp)).background(C.cardSurface(bg)).padding(12.dp)) {
         Text(pct, style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, color = ink))
         Text(name, style = T.Chip.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold))
         Text(sub, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted))

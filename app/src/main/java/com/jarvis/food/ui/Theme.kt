@@ -15,6 +15,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -27,13 +28,13 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF7F9FC)
+    val Bg = Color(0xFFF8F9F8)
     val Surface = Color(0xFFFFFFFF)
-    val SurfaceAlt = Color(0xFFEBEFF3)
-    val SurfaceHi = Color(0xFFE3E8EE)
+    val SurfaceAlt = Color(0xFFF2F4F5)
+    val SurfaceHi = Color(0xFFE7EBEF)
     val Line = Color(0xFFE9ECF1)
-    val Text = Color(0xFF1D1B3A)
-    val Muted = Color(0xFF5E5B7A)
+    val Text = Color(0xFF15264F)
+    val Muted = Color(0xFF58647C)
     val Faint = Color(0xFFA6A4BC)
     val Accent = Color(0xFFF25E00)
     // Orange reserved for white button labels; the brighter brand accent stays on icons and charts.
@@ -42,9 +43,9 @@ object C {
     val AccentSoft = Color(0xFFFFE9E1)
     val AccentDeep = Color(0xFFC93A1F)
     val OnAccent = Color(0xFFFFFFFF)
-    val Navy = Color(0xFF17286B)
+    val Navy = Color(0xFF172653)
     val NavySoft = Color(0xFFE4E9F6)
-    val NavyDeep = Color(0xFF13225F)
+    val NavyDeep = Color(0xFF132044)
     val Ink = Navy
     val Green = Color(0xFF10B981)
     val GreenSoft = Color(0xFFD9F6EA)
@@ -63,8 +64,11 @@ object C {
     /** Arancione dei pulsanti principali (bianco sopra). */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382)))
+    val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF203565)))
     val OrangeArc = listOf(Color(0xFFF25E00), Color(0xFFFF8A1C), Color(0xFFFFB02E))
+    /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
+    fun cardSurface(tone: Color): Color =
+        if (tone.alpha > 0.5f && tone.luminance() > 0.60f) Surface else tone
 }
 
 val Bricolage = FontFamily(
@@ -125,7 +129,7 @@ fun JarvisTheme(content: @Composable () -> Unit) {
 fun AppBackground(content: @Composable BoxScope.() -> Unit) {
     Box(
         Modifier.fillMaxSize()
-            .background(Brush.verticalGradient(listOf(C.Bg, Color(0xFFF0F4F9))))
+            .background(C.Bg)
             .drawBehind {
                 drawRect(Brush.radialGradient(listOf(Color.White, Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
             },

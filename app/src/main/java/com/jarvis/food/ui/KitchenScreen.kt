@@ -86,10 +86,10 @@ fun KitchenScreen() {
             listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, l) ->
                 val sel = Nav.kitchenTab == i
                 val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) when(i) { 2 -> A.GreenSoft; 0 -> A.CarbSoft; else -> A.FatSoft } else Color.Transparent).clickable { Nav.kitchenTab = i },
+                Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i },
                     horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) when(i) { 2 -> A.GreenInk; 0 -> A.CarbInk; else -> A.FatInk } else A.Ink), maxLines = 1)
-                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 11.sp, color = A.Muted))
+                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), maxLines = 1)
+                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 11.sp, color = if (sel) Color.White else A.Muted))
                 }
             }
         }
@@ -137,7 +137,7 @@ private fun CookTodayBlock(s: AppState) {
     GapH(12.dp)
     val cs = RoundedCornerShape(30.dp)
     Column(Modifier.fillMaxWidth().aShadow(cs, 10.dp, Color(0x66E88C60)).clip(cs)
-        .background(Brush.linearGradient(listOf(Color(0xFFFFEBDD), Color(0xFFFFE4E8)))).padding(16.dp)) {
+        .background(C.Surface).padding(16.dp)) {
         Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
         Row(Modifier.padding(top = 12.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
@@ -241,7 +241,7 @@ private fun PantryTab(s: AppState) {
                         Text((p.grams?.let { "${it.toInt()} ${if (Db.db.food(p.foodId ?: "")?.liquid == true) "ml" else "g"}" } ?: "quantità non indicata") +
                                 (if (p.foodId == null) " · non nel database" else ""), style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFF6F1EA)).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }
@@ -261,7 +261,7 @@ private fun PantryTab(s: AppState) {
 @Composable
 private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, glow: Color, onClick: () -> Unit) {
     val shape = RoundedCornerShape(28.dp)
-    Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, glow).clip(shape).background(bg).clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 18.dp),
+    Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, glow).clip(shape).background(C.Surface).border(1.dp, C.Line, shape).clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(60.dp).clip(RoundedCornerShape(22.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 30.dp, 2f) }
         GapW(16.dp)
@@ -339,7 +339,7 @@ private fun ShoppingTab(s: AppState) {
                         val d = Shopping.describe(it, f)
                         if (d.isNotBlank()) Text(d + if (it.note.isNotBlank() && !it.manual) " · ${it.note}" else "", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFF6F1EA)).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }

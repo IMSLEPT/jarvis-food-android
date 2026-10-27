@@ -254,7 +254,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             val b = bitmap
             Box(
                 Modifier.padding(top = 6.dp).fillMaxWidth().height(330.dp).aShadow(photoShape, 14.dp, Color(0x80E88C60)).clip(photoShape)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFE9C2), Color(0xFFFFF4E3), Color(0xFFFFE4D6))))
+                    .background(C.Surface)
             ) {
                 if (b != null) Image(b.asImageBitmap(), "Foto del pasto", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                 else Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -359,7 +359,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 val heroShape = RoundedCornerShape(34.dp)
                 Column(
                     Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x99E88C60)).clip(heroShape)
-                        .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp)
+                        .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp)
                 ) {
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text(kcalFmt(kcal), style = T.H1.copy(fontSize = 56.sp, lineHeight = 60.sp, letterSpacing = (-1.7).sp))

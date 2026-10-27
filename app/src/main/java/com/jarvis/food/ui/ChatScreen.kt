@@ -89,7 +89,9 @@ private fun gb(b: Long) = String.format(Locale.ITALY, "%.1f GB", b / 1_000_000_0
 
 @Composable
 fun JarvisLogo(size: Dp, modifier: Modifier = Modifier) {
-    Image(painterResource(R.drawable.jarvis_logo), "Jarvis", modifier.size(size).clip(CircleShape), contentScale = ContentScale.Crop)
+    Box(modifier.size(size).clip(RoundedCornerShape(size * 0.25f)).background(C.Navy), contentAlignment = Alignment.Center) {
+        Image(painterResource(R.drawable.jarvis_logo), "Jarvis", Modifier.fillMaxSize().padding(size * 0.08f), contentScale = ContentScale.Fit)
+    }
 }
 
 @Composable
@@ -262,7 +264,7 @@ private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> U
             CAPABILITIES.chunked(2).forEachIndexed { rowIndex, row ->
                 Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (emoji, title, example) ->
-                        Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(listOf(A.Tonal, A.GreenSoft, A.FastSoft)[rowIndex % 3]).border(1.dp, C.Line, RoundedCornerShape(18.dp))
+                        Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
                             .clickable { onPick(example) }.padding(12.dp)) {
                             Text("$emoji  $title", style = T.Label)
                             Spacer(Modifier.height(4.dp))
@@ -321,7 +323,7 @@ private fun Bubble(m: ChatMsg, suggestions: List<String>, onPick: (String) -> Un
         } else AssistantCard { ChatResponseText(m.text) }
         if (m.pending.isNotEmpty()) {
             val shape = RoundedCornerShape(20.dp)
-            Column(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.DangerSoft).border(1.dp, C.Danger.copy(alpha = 0.35f), shape).padding(14.dp)) {
+            Column(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Danger.copy(alpha = 0.35f), shape).padding(14.dp)) {
                 Text("Conferma eliminazione", style = T.Label.copy(color = C.Danger))
                 m.pending.forEach { p -> Text("• " + p.label, style = T.Body, modifier = Modifier.padding(top = 4.dp)) }
                 Spacer(Modifier.height(10.dp))
@@ -341,7 +343,7 @@ private fun Bubble(m: ChatMsg, suggestions: List<String>, onPick: (String) -> Un
                 val ok = a.startsWith("✓")
                 val warn = a.startsWith("⚠")
                 Text(a, style = T.Small.copy(color = if (ok) A.GreenInk else if (warn) C.Danger else C.Muted),
-                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(if (ok) C.GreenSoft else if (warn) C.DangerSoft else C.SurfaceAlt)
+                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).background(if (ok) C.Surface else if (warn) C.DangerSoft else C.SurfaceAlt)
                         .padding(horizontal = 12.dp, vertical = 7.dp))
             }
             if (Jarvis.canUndo(m.id) && !Jarvis.busy) Text("Annulla le modifiche", style = T.Label.copy(color = C.AccentDeep),

@@ -104,7 +104,7 @@ private fun toUserRecipe(r: SolvedRecipe, servings: Int): Recipe {
 @Composable
 private fun ActionChip(icon: String, label: String, active: Boolean = false, onClick: () -> Unit) {
     val shape = RoundedCornerShape(22.dp)
-    Row(Modifier.height(44.dp).clip(shape).background(if (active) A.ProteinSoft else Color.White).border(1.dp, if (active) C.Protein else Color(0x1A1D1B3A), shape)
+    Row(Modifier.height(44.dp).clip(shape).background(C.Surface).border(1.dp, if (active) C.Protein else Color(0x1A1D1B3A), shape)
         .clickable(onClick = onClick).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(icon, if (active) A.ProteinInk else A.Ink, 18.dp, 2.2f, fill = active && icon == Ic.Heart)
         GapW(8.dp)
@@ -215,7 +215,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             .padding(start = 20.dp, end = 20.dp, top = 26.dp, bottom = 24.dp)
                     ) {
                         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(A.GreenSoft).padding(horizontal = 14.dp), contentAlignment = Alignment.Center) {
+                            Box(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 14.dp), contentAlignment = Alignment.Center) {
                                 Text(RecipeMeta.label(RecipeMeta.MEALS, tpl.meal), style = T.Chip.copy(color = A.GreenInk))
                             }
                             Row(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(15.dp)).padding(horizontal = 14.dp),
@@ -257,7 +257,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         // Valori nutrizionali
                         GapH(20.dp)
                         ACard(radius = 32.dp, padding = 18.dp, glow = Color(0x8C10B981),
-                            brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5)))) {
+                            color = C.Surface) {
                             Column {
                                 Text("${r.total.kcal.r0()} kcal a porzione", style = T.Title)
                                 GapH(12.dp)
@@ -335,7 +335,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                         } else {
                                             val lvl = if (sideNow != null) Practical.level(adaptedR ?: ad.practical) else ad.level
                                             val tone = when (lvl) { Practical.Level.GOOD -> A.GreenSoft to A.GreenInk; Practical.Level.LIMITED -> Color(0xFFFFF0C4) to Color(0xFF8A5A00); else -> Color(0xFFFFE0DC) to Color(0xFFB3261E) }
-                                            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(tone.first).padding(14.dp)) {
+                                            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.cardSurface(tone.first)).padding(14.dp)) {
                                                 Text(if (sideNow != null && lvl == Practical.Level.GOOD) "Con il contorno l'obiettivo è centrato." else ad.headline, style = T.Label.copy(color = tone.second, fontWeight = FontWeight.Bold))
                                                 if (errPct > 5) Text("Scarto sulle calorie: ${if (a.kcal > target.kcal) "+" else "−"}${abs(a.kcal - target.kcal).r0()} kcal (${errPct.r0()}%).", style = T.Small.copy(color = tone.second))
                                                 else Text("Calorie entro il 5% dall'obiettivo.", style = T.Small.copy(color = tone.second))
@@ -434,14 +434,14 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 val img = EditorialPhotos.step(tpl.id, i, tpl.stepImages.getOrNull(i))
                                 val shape = RoundedCornerShape(26.dp)
                                 Row(
-                                    Modifier.fillMaxWidth().testTag("recipe-step-$i").aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (d) Color(0xFFE4F8EF) else Color.White)
+                                    Modifier.fillMaxWidth().testTag("recipe-step-$i").aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(C.Surface)
                                         .clickable { if (d) done.remove(i) else done.add(i) }.padding(14.dp),
                                     verticalAlignment = Alignment.Top
                                 ) {
                                     if (img != null) {
                                         RecipeImage("${tpl.id}_s$i", img, null, Modifier.size(88.dp).testTag("recipe-step-photo-$i"), "🍳", 18.dp)
                                     } else {
-                                        Box(Modifier.size(40.dp).clip(CircleShape).background(if (d) C.Green else C.AccentSoft), contentAlignment = Alignment.Center) {
+                                        Box(Modifier.size(40.dp).clip(CircleShape).background(if (d) C.Green else C.Surface), contentAlignment = Alignment.Center) {
                                             Text("${i + 1}", style = T.H2.copy(fontSize = 18.sp, color = if (d) Color.White else Color(0xFF8F2A14)))
                                         }
                                     }
@@ -646,6 +646,6 @@ private fun RecipeMacroBar(label: String, v: Double, target: Double, color: Colo
             Text("${v.r0()} / ${target.r0()} g", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
         }
         GapH(5.dp)
-        ABar((v / target.coerceAtLeast(1.0)).toFloat(), Brush.horizontalGradient(listOf(color, color)), Color(0xD9FFFFFF), 7.dp)
+        ABar((v / target.coerceAtLeast(1.0)).toFloat(), Brush.horizontalGradient(listOf(color, color)), C.SurfaceHi, 7.dp)
     }
 }

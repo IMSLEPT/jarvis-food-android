@@ -194,18 +194,19 @@ private fun Tabs() {
 @Composable
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
-    val colors = listOf(A.Tonal, A.CarbSoft, A.GreenSoft, A.FastSoft, A.FatSoft)
     val shape = RoundedCornerShape(30.dp)
     Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp)) {
         Row(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(6.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
-            items.forEachIndexed { index, (tab, icon, label) ->
+            items.forEach { (tab, icon, label) ->
                 val selected = Nav.tab == tab
-                Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp)).background(if (selected) colors[index] else Color.Transparent)
+                Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
                     .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 2.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                     if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.ButtonOrange else A.Muted, 22.dp)
                     Spacer(Modifier.height(4.dp))
-                    Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
+                    Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.Normal, color = if (selected) C.ButtonOrange else A.Muted), textAlign = TextAlign.Center)
+                    Spacer(Modifier.height(4.dp))
+                    Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.ButtonOrange else Color.Transparent))
                 }
             }
         }

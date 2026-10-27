@@ -112,7 +112,7 @@ fun PlanScreen() {
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
-            ACard(radius = 34.dp, brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5))), glow = Color(0x99FF963C), padding = 20.dp) {
+            ACard(radius = 34.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 20.dp) {
                 Column {
                     Text("Crea la tua dieta personalizzata", style = T.Title)
                     Spacer(Modifier.height(6.dp))
@@ -165,7 +165,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
             AIcon(if (expanded) "M6 15l6-6 6 6" else Ic.Right, C.Navy, 20.dp)
         }
     }
-    if (expanded) ACard(radius = 24.dp, brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5))), glow = Color(0x99FF963C), padding = 0.dp) {
+    if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
         Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 20.dp, bottom = 12.dp)) {
             Text("Totale con le tue scelte", style = T.Muted.copy(fontWeight = FontWeight.Medium))
             Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {
@@ -205,7 +205,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
 
 @Composable
 private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(18.dp)).background(androidx.compose.ui.graphics.lerp(soft, Color.White, 0.4f)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
+    Column(modifier.clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
             Text(" g", style = T.Small.copy(fontSize = 11.5.sp), modifier = Modifier.padding(bottom = 3.dp))
@@ -269,7 +269,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
             Text("INGREDIENTI E GRAMMATURE", style = T.Eyebrow.copy(letterSpacing = 0.3.sp), modifier = Modifier.padding(top = 10.dp))
             FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 r.items.filter { it.ing.role != "x" }.forEach { it2 ->
-                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(Color(0xFFFFF6EC)).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(it2.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 13.sp), maxLines = 1)
                         Spacer(Modifier.width(8.dp))
                         Box(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 5.dp)) {
@@ -284,7 +284,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                     Spacer(Modifier.width(8.dp))
                     AIcon(Ic.Right, Color.White, 16.dp, 2.4f)
                 }
-                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (eaten) A.GreenSoft else A.Tonal).clickable {
+                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Surface).border(1.dp, if (eaten) C.Green else C.Line, RoundedCornerShape(24.dp)).clickable {
                     if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
                 }, contentAlignment = Alignment.Center) {
                     Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else Color(0xFF8F2A14)), maxLines = 1)
@@ -436,7 +436,7 @@ fun EnergyInfoScreen() {
             val hero = RoundedCornerShape(34.dp)
             Column(
                 Modifier.padding(top = 4.dp).fillMaxWidth().aShadow(hero, 14.dp, Color(0x99E88C60)).clip(hero)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFE9DC), Color(0xFFFFF5E6)))).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
             ) {
                 Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = Color(0xFFB4381E)))
                 Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.Bottom) {

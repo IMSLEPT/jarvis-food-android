@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 /** Pulsante tondo 44 px con "−" o "+" (stepper del design Obiettivi). */
 @Composable
 fun AStepBtn(plus: Boolean, bg: Color, ink: Color, onClick: () -> Unit) {
-    Box(Modifier.size(44.dp).clip(CircleShape).background(bg).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(44.dp).clip(CircleShape).background(C.cardSurface(bg)).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", ink, 20.dp, 2.8f)
     }
 }
@@ -57,9 +57,9 @@ fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, mo
             Text(options[i], style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) Color.White else A.Ink), maxLines = 1, textAlign = TextAlign.Center)
         }
     }
-    if (vertical) Column(modifier.fillMaxWidth().clip(track).background(Color(0xFFE3E8EE)).padding(5.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    if (vertical) Column(modifier.fillMaxWidth().clip(track).background(C.Surface).padding(5.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         options.indices.forEach { item(it, Modifier.fillMaxWidth()) }
-    } else Row(modifier.fillMaxWidth().clip(track).background(Color(0xFFE3E8EE)).padding(5.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+    } else Row(modifier.fillMaxWidth().clip(track).background(C.Surface).padding(5.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         options.indices.forEach { item(it, Modifier.weight(1f)) }
     }
 }

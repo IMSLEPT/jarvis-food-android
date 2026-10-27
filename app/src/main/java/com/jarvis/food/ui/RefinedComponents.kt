@@ -30,9 +30,9 @@ import java.time.LocalDate
 
 /** App-owned header, shared by the five main destinations. */
 @Composable
-fun MainHeader(title: String, eyebrow: String? = null) {
+fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null) {
     val s by Store.state.collectAsState()
-    val separateGreeting = eyebrow != null && LocalDensity.current.fontScale > 1.2f
+    val separateGreeting = eyebrow != null && homeName == null && LocalDensity.current.fontScale > 1.2f
     Column(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp)) {
         if (separateGreeting) {
             HeaderGreeting(eyebrow!!)
@@ -41,7 +41,12 @@ fun MainHeader(title: String, eyebrow: String? = null) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f).padding(end = 8.dp)) {
             if (eyebrow != null && !separateGreeting) HeaderGreeting(eyebrow)
-            Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+            if (homeName != null) {
+                Text(homeName, style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(title, style = T.Body.copy(color = C.Muted), maxLines = 2)
+            } else {
+                Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
         }
         Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).border(1.dp, C.Line, CircleShape)
             .semantics { contentDescription = "Famiglia" }.clickable { Nav.go(Screen.Family) }, contentAlignment = Alignment.Center) {
@@ -105,11 +110,11 @@ private fun CompactPlanAction(text: String, icon: String, color: Color, modifier
 
 /** The header and bottom navigation stay in place while app-owned content scrolls. */
 @Composable
-fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, content: @Composable ColumnScope.() -> Unit) {
+fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, homeName: String? = null, content: @Composable ColumnScope.() -> Unit) {
     val scroll = androidx.compose.foundation.rememberScrollState()
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
-        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(title, eyebrow) }
+        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(title, eyebrow, homeName) }
         Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp), content = content)
     }
 }

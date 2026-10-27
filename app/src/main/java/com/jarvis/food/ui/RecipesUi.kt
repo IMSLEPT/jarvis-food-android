@@ -175,7 +175,7 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
                 Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 11.sp), maxLines = 1)
             }
         }
-        Column(Modifier.background(listOf(A.Peach, A.GreenSoft, A.FastSoft, A.CarbSoft)[Math.floorMod(tpl.id.hashCode(), 4)]).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
@@ -189,7 +189,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
-        Column(Modifier.background(listOf(A.Peach, A.GreenSoft, A.FastSoft, A.CarbSoft)[Math.floorMod(r.id.hashCode(), 4)]).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
@@ -240,10 +240,12 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 @Composable
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(24.dp)
-    val (bg, blob) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
+    val (bg, marker) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
+    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
         .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Box(Modifier.width(24.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).background(marker))
+        GapH(6.dp)
         Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)
         GapH(8.dp)
         Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,

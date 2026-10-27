@@ -61,7 +61,7 @@ fun MicroSummaryCard(s: AppState) {
     val shape = androidx.compose.foundation.shape.RoundedCornerShape(30.dp)
     Row(
         Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x9910B981)).clip(shape)
-            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(Color(0xFFDDF6EC), Color(0xFFE8F0FF))))
+            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(C.Surface, C.Surface)))
             .clickable { Nav.go(Screen.Micronutrients) }.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -139,7 +139,7 @@ fun MicronutrientsScreen() {
             // Hero
             Row(
                 Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x8C10B981)).clip(heroShape)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp),
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(Modifier.size(112.dp), contentAlignment = Alignment.Center) {
@@ -213,7 +213,7 @@ fun MicronutrientsScreen() {
             // Da limitare
             if (rep.high.isNotEmpty()) {
                 GHead("Da limitare")
-                MCard(brush = Brush.linearGradient(listOf(Color(0xFFFFF1EB), Color(0xFFFFFFFF))), glow = Color(0x80E88C60)) {
+                MCard(glow = C.Navy) {
                     rep.high.forEachIndexed { i, st ->
                         Column(Modifier.padding(top = 14.dp, bottom = 10.dp)) {
                             Row(verticalAlignment = Alignment.Bottom) {

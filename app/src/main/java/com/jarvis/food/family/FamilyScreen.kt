@@ -106,7 +106,7 @@ private fun FamilyIntro() {
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).navigationBarsPadding()) {
         st.notice?.let {
-            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(A.FatSoft).padding(14.dp)) { Text(it, style = T.Body.copy(color = A.FatInk)) }
+            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(14.dp)) { Text(it, style = T.Body.copy(color = A.FatInk)) }
             GapH(12.dp)
         }
         ACard(radius = 28.dp, padding = 18.dp) {
@@ -219,7 +219,7 @@ private fun MembersStrip(d: FamilyDoc, me: String) {
         d.activeMembers().forEachIndexed { i, m ->
             val (bg, ink) = MEMBER_COLORS[i % MEMBER_COLORS.size]
             Row(Modifier.height(40.dp).clip(RoundedCornerShape(20.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(20.dp)).padding(start = 4.dp, end = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(32.dp).clip(CircleShape).background(bg), contentAlignment = Alignment.Center) { Text(m.name.take(1).uppercase(), style = T.BtnS.copy(color = ink)) }
+                Box(Modifier.size(32.dp).clip(CircleShape).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) { Text(m.name.take(1).uppercase(), style = T.BtnS.copy(color = ink)) }
                 GapW(8.dp)
                 Text(if (m.id == me) "${m.name} (tu)" else m.name, style = T.BtnS, maxLines = 1)
             }
@@ -398,7 +398,7 @@ private fun MembersTab(d: FamilyDoc, link: com.jarvis.food.data.FamilyLink, ctx:
             GapH(6.dp)
             Text("Manda questo codice: chi lo inserisce in Famiglia entra nella lista condivisa. Chi ha il codice può leggere e modificare la lista, quindi condividilo solo con le persone di fiducia.", style = T.Muted)
             GapH(10.dp)
-            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(A.Peach).border(1.dp, A.Hair, RoundedCornerShape(16.dp)).padding(12.dp)) {
+            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(16.dp)).padding(12.dp)) {
                 Text(link.code, style = T.Small.copy(color = A.Ink, fontSize = 11.5.sp, lineHeight = 16.sp))
             }
             GapH(10.dp)
@@ -421,7 +421,7 @@ private fun MembersTab(d: FamilyDoc, link: com.jarvis.food.data.FamilyLink, ctx:
     d.activeMembers().forEachIndexed { i, m ->
         val (bg, ink) = MEMBER_COLORS[i % MEMBER_COLORS.size]
         Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(20.dp)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(40.dp).clip(CircleShape).background(bg), contentAlignment = Alignment.Center) { Text(m.name.take(1).uppercase(), style = T.Num.copy(color = ink, fontSize = 18.sp)) }
+            Box(Modifier.size(40.dp).clip(CircleShape).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) { Text(m.name.take(1).uppercase(), style = T.Num.copy(color = ink, fontSize = 18.sp)) }
             GapW(12.dp)
             Column(Modifier.weight(1f)) {
                 Text(if (m.id == link.memberId) "${m.name} (tu)" else m.name, style = T.Label)
