@@ -285,7 +285,7 @@ private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id)
 @Composable
 private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>) {
     var selected by rememberSaveable { mutableStateOf("pasto") }
-    var showAll by rememberSaveable { mutableStatfalse) }
+    var showAll by rememberSaveable { mutableStateOf(false) }
     val labels = mapOf("pasto" to "🍽️ Pasto", "tempo" to "⏱️ Tempo", "kcal" to "🔥 Calorie", "obiettivo" to "🎯 Obiettivo", "dieta" to "🌿 Dieta", "metodo" to "🍳 Metodo", "cucina" to "🌍 Cucina")
     ASection("Esplora le ricette", action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
@@ -536,7 +536,7 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
                         Column(Modifier.weight(1f)) {
                             Text(sc.title, style = T.Title2)
                             Text("${hits.size} ricette", style = T.Small)
-                 }
+                        }
                         TextButton(onClick = { f = RecipeFilter() }) { Text("Rimuovi", style = T.Link) }
                     }
                 }

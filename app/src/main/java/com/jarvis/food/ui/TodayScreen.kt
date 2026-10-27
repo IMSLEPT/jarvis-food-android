@@ -559,7 +559,7 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
                         Text("passi", style = T.Small.copy(fontSize = 11.sp))
                     }
                 }
-                Spacer(Modifier.widh(16.dp))
+                Spacer(Modifier.width(16.dp))
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text(steps.thousands(), style = T.Num.copy(fontSize = 20.sp))
