@@ -43,6 +43,24 @@ class MealOptionsFlowTest {
             assertEquals(MealSchedule.order, MealSchedule.selected(Store.current.dietPrefs))
             assertEquals(6, Store.dayPlan(Store.current, today)!!.slots.size)
             assertEquals(6, Store.plannedMeals(Store.current, today).size)
+            ui { Nav.clear(); Nav.tab = 1 }
+            compose.onNodeWithTag("plan-meal-header-0").performScrollTo().assertIsDisplayed()
+            shot("plan-separated-meals")
+            compose.onNodeWithTag("plan-recipe-0").performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue(Nav.stack.last() is Screen.RecipeView)
+            ui { Nav.back() }
+            compose.onNodeWithTag("plan-alternatives-0").performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue(Nav.stack.last() is Screen.Alternatives)
+            ui { Nav.back() }
+            compose.onNodeWithTag("plan-eaten-0").performScrollTo().performClick()
+            compose.waitForIdle()
+            assertEquals(1, Store.current.diary.size)
+            assertEquals(0, Store.current.diary.single().meal)
+            compose.onNodeWithTag("plan-eaten-0").performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue(Store.current.diary.isEmpty())
             ui { Nav.clear(); Nav.go(Screen.DietSettings) }
             for (id in listOf(4, 3, 5)) compose.onNodeWithTag("meal-enabled-$id").performScrollTo().performClick()
             compose.onNodeWithText("Salva e ricalcola il piano").performClick()

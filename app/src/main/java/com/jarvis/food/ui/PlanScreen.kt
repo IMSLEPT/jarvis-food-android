@@ -137,7 +137,7 @@ fun PlanScreen() {
         ASection("I pasti del giorno", action = "Preferenze") { Nav.go(Screen.DietSettings) }
         Spacer(Modifier.height(14.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
+        Column(verticalArrangement = Arrangement.spacedBy(26.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
         Spacer(Modifier.height(18.dp))
         PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
             val start = maxOf(LocalDate.now(), monday)
