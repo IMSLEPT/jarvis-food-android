@@ -233,7 +233,7 @@ private fun ChatSendControl(canSend: Boolean, busy: Boolean, size: Dp, onSend: (
             val w = this.size.width; val h = this.size.height
             if (busy) drawRoundRect(Color.White, Offset(w * 0.25f, h * 0.25f), androidx.compose.ui.geometry.Size(w * 0.5f, h * 0.5f), androidx.compose.ui.geometry.CornerRadius(4f, 4f))
             else {
-                val stroke = 2.4.dp.toPx(); val ink = if (canSend) Color.White else C.Faint
+                val stroke = 2.4.dp.toPx(); val ink = if (canSend) C.OnOrange else C.Faint
                 drawLine(ink, Offset(w / 2, h * 0.88f), Offset(w / 2, h * 0.14f), stroke, StrokeCap.Round)
                 drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.18f, h * 0.45f), stroke, StrokeCap.Round)
                 drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.82f, h * 0.45f), stroke, StrokeCap.Round)
@@ -363,8 +363,8 @@ private fun ChatSuggestions(suggestions: List<String>, onPick: (String) -> Unit)
             Row(Modifier.heightIn(min = 48.dp).clip(shape)
                 .then(if (primary) Modifier.background(C.OrangeBrush) else Modifier.background(C.Surface).border(1.dp, C.Navy.copy(alpha = 0.3f), shape))
                 .clickable(role = Role.Button) { onPick(text) }.padding(horizontal = 18.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                if (primary) { AIcon(Ic.Check, Color.White, 18.dp, 2.3f); Spacer(Modifier.size(8.dp)) }
-                Text(text, style = T.BtnM.copy(color = if (primary) Color.White else C.Navy))
+                if (primary) { AIcon(Ic.Check, C.OnOrange, 18.dp, 2.3f); Spacer(Modifier.size(8.dp)) }
+                Text(text, style = T.BtnM.copy(color = if (primary) C.OnOrange else C.Navy))
             }
         }
     }

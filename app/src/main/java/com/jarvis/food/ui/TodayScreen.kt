@@ -310,20 +310,20 @@ private fun MacroRing(label: String, value: Double, goal: Double, color: Color, 
 
 @Composable
 private fun QuickTile(label: String, icon: String, modifier: Modifier, primary: Boolean = false, onClick: () -> Unit) {
-    val ink = if (primary) C.ButtonOrange else C.Navy
-    Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 8.dp),
+    val ink = C.Navy
+    Column(modifier.heightIn(min = 88.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(34.dp).clip(CircleShape).background(if (primary) C.Accent else Color.Transparent), contentAlignment = Alignment.Center) {
-            AIcon(icon, if (primary) Color.White else ink, 23.dp, 2f)
+        Box(Modifier.size(42.dp).clip(CircleShape).background(if (primary) C.Accent else Color.Transparent), contentAlignment = Alignment.Center) {
+            AIcon(icon, if (primary) Color.White else ink, 28.dp, 2f)
         }
-        Spacer(Modifier.height(6.dp))
-        Text(label, style = T.Small.copy(fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)
+        Spacer(Modifier.height(8.dp))
+        Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)
     }
 }
 
 @Composable
 private fun HomeDivider() {
-    Box(Modifier.width(1.dp).height(50.dp).background(C.Line))
+    Box(Modifier.width(1.dp).height(60.dp).background(C.Line))
 }
 
 // ---------------------------------------------------------------- Diario

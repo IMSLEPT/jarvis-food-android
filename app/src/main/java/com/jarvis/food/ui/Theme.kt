@@ -28,26 +28,30 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF1F0ED)
+    val Bg = Color(0xFFF6F5F1)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
     val SurfaceHi = Color(0xFFE2E2DF)
     val Line = Color(0xFFE5E3DF)
-    val ProfileBorder = Color(0xFFD5D3CE)
-    val Text = Color(0xFF162853)
+    val ProfileBorder = Color(0xFFE2E2DF)
+    val Text = Color(0xFF09194D)
     val Muted = Color(0xFF5E6678)
     val Faint = Color(0xFFA6A4BC)
     val Accent = Color(0xFFEA7138)
-    // Orange reserved for white button labels; the brighter brand accent stays on icons and charts.
-    val ButtonOrange = Color(0xFFA36349)
-    val ButtonOrangeEnd = Color(0xFFA36349)
-    val AccentSoft = Color(0xFFFFF0E5)
-    val AccentDeep = Color(0xFF9B593F)
+    // The primary buttons use the exact same orange as the home Add circle.
+    val ButtonOrange = Accent
+    val ButtonOrangeEnd = Accent
+    val AccentSoft = Color(0xFFFFF2EA)
+    val AccentDeep = Color(0xFFB94C1C)
     val OnAccent = Color(0xFFFFFFFF)
-    val Navy = Color(0xFF162853)
-    val NavySoft = Color(0xFFE5EAF4)
+    val Navy = Color(0xFF09194D)
+    val NavySoft = Color(0xFFECF2FE)
     val NavyDeep = Color(0xFF14234B)
     val Ink = Navy
+    val OnOrange = Navy
+    val ProfileSurface = Color(0xFFFEFEFE)
+    val ProfileMuted = Color(0xFF777D91)
+    val ProfileOrange = Color(0xFFDC6F2C)
     val Green = Color(0xFF10B981)
     val GreenSoft = Color(0xFFD9F6EA)
     val Blue = Color(0xFF3B82F6)
@@ -62,7 +66,7 @@ object C {
     val Danger = Color(0xFFE5484D)
     val DangerSoft = Color(0xFFFDE3E4)
 
-    /** Arancione dei pulsanti principali (bianco sopra). */
+    /** Arancione del + Aggiungi; testo navy per mantenere leggibilità. */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
     val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF223C70)))

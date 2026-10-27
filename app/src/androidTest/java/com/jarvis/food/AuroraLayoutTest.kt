@@ -250,18 +250,35 @@ class AuroraLayoutTest {
             for (key in listOf("profile", "weight", "measurements", "goals", "diet", "chat", "watch", "ai", "fasting", "reminders", "foods", "backup", "about")) {
                 val tag = "profile-item-$key"
                 val card = compose.onNodeWithTag(tag).performScrollTo()
-                card.assertHasClickAction().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(72f))
+                card.assertHasClickAction().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
                 val texts = compose.onAllNodes(hasAnyAncestor(hasTestTag(tag)) and SemanticsMatcher.keyIsDefined(SemanticsProperties.Text), useUnmergedTree = true)
                 assertTrue("Missing title or description for $key", texts.fetchSemanticsNodes().size >= 2)
                 for (index in texts.fetchSemanticsNodes().indices) readable(texts[index])
             }
             shot("profile-tools")
+            val profileScroll = compose.onNodeWithTag("profile-scroll").fetchSemanticsNode().boundsInRoot
+            assertTrue("Profile content overlaps Android navigation", profileScroll.bottom <= windowHeight - navigationBottom + 1f)
+            val profileRoutes = listOf(
+                "profile" to Screen.ProfileEdit, "weight" to Screen.Weight,
+                "measurements" to Screen.Measurements, "goals" to Screen.Goals,
+                "diet" to Screen.DietSettings, "chat" to Screen.Chat,
+                "watch" to Screen.Watch, "ai" to Screen.AiSettings,
+                "fasting" to Screen.Fasting, "reminders" to Screen.RemindersSet,
+                "foods" to Screen.MyFoods, "backup" to Screen.Backup, "about" to Screen.About
+            )
+            for ((key, destination) in profileRoutes) {
+                compose.onNodeWithTag("profile-item-$key").performScrollTo().performClick()
+                compose.waitForIdle()
+                assertEquals("Wrong profile destination: $key", destination, Nav.stack.last())
+                ui { Nav.back() }
+                compose.waitForIdle()
+            }
         }
     }
 
-    @Test fun smallTextAndWhiteOrangeLabelsMeetContrast() {
+    @Test fun smallTextAndActionLabelsMeetContrast() {
         val pairs = listOf(
-            Color.White to C.ButtonOrange, Color.White to C.ButtonOrangeEnd,
+            C.OnOrange to C.ButtonOrange, C.OnOrange to C.ButtonOrangeEnd,
             A.ProteinInk to A.ProteinSoft, A.CarbInk to A.CarbSoft,
             A.FatInk to A.FatSoft, A.GreenInk to A.GreenSoft,
             A.TonalInk to A.Tonal, A.FastInk to A.FastSoft,

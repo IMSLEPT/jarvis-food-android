@@ -314,7 +314,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
             val fs = RoundedCornerShape(26.dp)
             Row(Modifier.height(52.dp).aShadow(fs, 8.dp, Color(0x73F25E00)).clip(fs).background(C.OrangeBrush).clickable { Nav.back() }.padding(horizontal = 24.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Text("Fatto", style = T.BtnM.copy(color = Color.White)); GapW(6.dp); AIcon(Ic.Check, Color.White, 18.dp, 2.6f)
+                Text("Fatto", style = T.BtnM.copy(color = C.OnOrange)); GapW(6.dp); AIcon(Ic.Check, C.OnOrange, 18.dp, 2.6f)
             }
         }
     }

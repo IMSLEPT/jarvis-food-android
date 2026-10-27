@@ -453,9 +453,9 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                     }.padding(horizontal = 26.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Aggiungi", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White))
+                    Text("Aggiungi", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = if (canAdd) C.OnOrange else Color.White))
                     GapW(8.dp)
-                    AIcon(Ic.Check, Color.White, 20.dp, 3f)
+                    AIcon(Ic.Check, if (canAdd) C.OnOrange else Color.White, 20.dp, 3f)
                 }
             }
         }

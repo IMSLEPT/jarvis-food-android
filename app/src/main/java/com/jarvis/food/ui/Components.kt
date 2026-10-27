@@ -139,7 +139,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
         modifier.heightIn(min = 52.dp).then(fill)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (enabled) C.OnAccent else C.Muted), textAlign = TextAlign.Center) }
+    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else if (orange) C.OnOrange else C.OnAccent), textAlign = TextAlign.Center) }
 }
 
 @Composable

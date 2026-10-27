@@ -61,7 +61,7 @@ object A {
     val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
     val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
     val FastSoft = Color(0xFFEDE7FF); val FastInk = Color(0xFF6D28D9)
-    val Tonal = Color(0xFFFFF0E5); val TonalInk = C.AccentDeep
+    val Tonal = C.AccentSoft; val TonalInk = C.AccentDeep
     val Link = C.AccentDeep
     val Peach = Color(0xFFFFF8F0)
     val Dashed = Color(0xFFD9D4EC)
@@ -199,7 +199,7 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, en
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(color = if (enabled) Color.White else C.Muted), textAlign = TextAlign.Center) }
+    ) { Text(text, style = T.BtnM.copy(color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center) }
 }
 
 /** Pulsante "inchiostro" navy (52 px) e variante tonale. */
