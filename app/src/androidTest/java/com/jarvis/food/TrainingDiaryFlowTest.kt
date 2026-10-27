@@ -3,7 +3,6 @@ package com.jarvis.food
 import android.graphics.Bitmap
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
-import androidx.test.espresso.Espresso
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -39,7 +38,7 @@ class TrainingDiaryFlowTest {
         val first = DiaryEntry("replace-original", today.toString(), 1, pasta, 200.0, 100L)
         val other = first.copy(id = "untouched", food = pasta.copy(id = "test-other", name = "Altro alimento"), grams = 30.0)
         prepare(AppState(onboarded = true, profile = Profile(name = "Alessandro", detailed = true), customFoods = listOf(fish), diary = listOf(first, other)))
-        ActivityScenario.launch(MainActivity::class.java).use {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             compose.onNodeWithText("Pranzo").performScrollTo().performClick()
             compose.onNodeWithTag("diary-entry-${first.id}").performScrollTo().assertIsDisplayed()
             compose.onAllNodesWithText("P", substring = false).assertCountEquals(0)
@@ -57,7 +56,19 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithTag("food-quantity").performScrollTo().performTextReplacement("150")
             // IME animation is driven by Android, independently of Compose's test clock.
             // Close it before injecting the footer tap so its moving bounds cannot consume the click.
-            Espresso.closeSoftKeyboard()
+            scenario.onActivity { activity ->
+                val input = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                input.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
+                activity.currentFocus?.clearFocus()
+            }
+            compose.waitUntil(timeoutMillis = 5000) {
+                var visible = false
+                scenario.onActivity { activity ->
+                    visible = androidx.core.view.ViewCompat.getRootWindowInsets(activity.window.decorView)
+                        ?.isVisible(androidx.core.view.WindowInsetsCompat.Type.ime()) == true
+                }
+                !visible
+            }
             compose.waitForIdle()
             compose.onNode(hasText("Sostituisci") and hasClickAction()).assertIsDisplayed().assertIsEnabled().performClick()
             compose.waitUntil(timeoutMillis = 5000) { Store.current.diary.firstOrNull { item -> item.id == first.id }?.food?.id == fish.id }
