@@ -3,6 +3,7 @@ package com.jarvis.food
 import android.graphics.Bitmap
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.test.espresso.Espresso
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -54,7 +55,12 @@ class TrainingDiaryFlowTest {
             assertEquals(listOf(first, other), Store.current.diary)
             compose.onNodeWithTag("replacement-${fish.id}").performScrollTo().performClick()
             compose.onNodeWithTag("food-quantity").performScrollTo().performTextReplacement("150")
-            compose.onNode(hasText("Sostituisci") and hasClickAction()).performClick()
+            // IME animation is driven by Android, independently of Compose's test clock.
+            // Close it before injecting the footer tap so its moving bounds cannot consume the click.
+            Espresso.closeSoftKeyboard()
+            compose.waitForIdle()
+            compose.onNode(hasText("Sostituisci") and hasClickAction()).assertIsDisplayed().assertIsEnabled().performClick()
+            compose.waitUntil(timeoutMillis = 5000) { Store.current.diary.firstOrNull { item -> item.id == first.id }?.food?.id == fish.id }
             compose.waitForIdle()
             val result = Store.current.diary
             assertEquals(2, result.size)
