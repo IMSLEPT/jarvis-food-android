@@ -38,6 +38,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,6 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -61,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import com.jarvis.food.data.AppState
 import com.jarvis.food.data.Db
 import com.jarvis.food.data.DietPrefs
+import com.jarvis.food.data.MealSchedule
 import com.jarvis.food.data.Store
 import com.jarvis.food.engine.Micros
 import com.jarvis.food.engine.PlannedMeal
@@ -110,6 +114,7 @@ fun PlanScreen() {
         Spacer(Modifier.height(16.dp))
         WeekStrip(s, date) { Nav.planDate = it }
         DayTypeControl(s, date)
+        TextButton(onClick = { Nav.go(Screen.DietSettings) }) { Text("Gestisci pasti della giornata", color = C.AccentDeep) }
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
@@ -343,20 +348,12 @@ private fun AltRow(s: AppState, a: SolvedRecipe, current: Boolean, onPick: () ->
 fun DietSettingsScreen() {
     val s by Store.state.collectAsState()
     var p by remember { mutableStateOf(s.dietPrefs) }
-    val shares = remember { mutableStateMapOf<Int, Int>().apply { p.slots.forEachIndexed { i, sl -> put(i, sl.share) } } }
     val tags = listOf("lattosio" to "Senza lattosio", "glutine" to "Senza glutine", "frutta_secca" to "Frutta a guscio", "uova" to "Uova", "pesce" to "Pesce",
         "crostacei" to "Crostacei", "carne" to "Carne", "maiale" to "Maiale", "soia" to "Soia")
-    // Preset nell'ordine dei pasti dell'app: colazione, pranzo, merenda, cena.
-    val splits = listOf(
-        "Classica · 25 / 35 / 10 / 30" to listOf(25, 35, 10, 30),
-        "Cena leggera · 25 / 40 / 10 / 25" to listOf(25, 40, 10, 25),
-        "Pranzo forte · 20 / 45 / 5 / 30" to listOf(20, 45, 5, 30)
-    )
-    val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
-    val cur = p.slots.indices.map { shares[it] ?: p.slots[it].share }
-    val selSplit = splits.indexOfFirst { it.second.size == cur.size && it.second == cur }
-    val mealColors = listOf(C.Accent, C.Navy, C.AccentDeep, C.Navy)
-    val sum = cur.sum().coerceAtLeast(1)
+    val kcal = Store.energyFor(s, LocalDate.now()).targetKcal
+    val sum = p.slots.sumOf { it.share }.coerceAtLeast(1)
+    val mealColors = listOf(C.Navy, C.Accent)
+    val advice = MealSchedule.advice(s.profile)
 
     Column(Modifier.fillMaxSize()) {
         TopBar("Preferenze della dieta", onBack = { Nav.back() })
@@ -375,26 +372,38 @@ fun DietSettingsScreen() {
                 }
             }
 
-            GHead("Ripartizione dei pasti")
-            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
-                Column {
-                    ASegment(splits.map { it.first }, selSplit, vertical = true) { i -> splits[i].second.forEachIndexed { j, v -> if (j < p.slots.size) shares[j] = v } }
-                    Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(14.dp).clip(RoundedCornerShape(7.dp)), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                        cur.forEachIndexed { i, v -> Box(Modifier.weight(v.coerceAtLeast(1).toFloat()).height(14.dp).clip(RoundedCornerShape(7.dp)).background(mealColors[i % 4])) }
+            GHead("I tuoi pasti", "La stessa scelta viene usata in Oggi e Piano. Gli alimenti già registrati restano nel diario.")
+            JCard {
+                MealSchedule.definitions.forEach { def ->
+                    val selected = p.slots.any { it.diaryMeal == def.diaryMeal }
+                    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(def.name, style = T.Label, modifier = Modifier.weight(1f))
+                        Switch(selected, { checked ->
+                            val ids = MealSchedule.selected(p)
+                            if (checked || ids.size > 1) p = MealSchedule.withMeals(p, if (checked) ids + def.diaryMeal else ids - def.diaryMeal)
+                        }, modifier = Modifier.testTag("meal-enabled-${def.diaryMeal}"),
+                            enabled = !selected || p.slots.size > 1,
+                            colors = SwitchDefaults.colors(checkedThumbColor = C.Surface, checkedTrackColor = C.Navy))
                     }
-                    p.slots.forEachIndexed { i, sl ->
-                        val share = cur[i]
-                        Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.size(12.dp).clip(CircleShape).background(mealColors[i % 4]))
-                            GapW(10.dp)
-                            Text(sl.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.Medium, color = A.Ink), modifier = Modifier.weight(1f))
-                            Text("$share%", style = T.Small.copy(fontSize = 13.sp, color = A.Muted))
-                            Text("${kcalFmt(kcal * share / sum)} kcal", style = T.H1.copy(fontSize = 16.sp, lineHeight = 20.sp, letterSpacing = 0.sp),
-                                modifier = Modifier.width(92.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End, maxLines = 1)
-                        }
-                        if (i < p.slots.size - 1) Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
+                }
+                Text("Mantieni almeno un pasto. Puoi attivare ogni momento separatamente.", style = T.Small)
+            }
+            Spacer(Modifier.height(12.dp))
+            JCard {
+                Text("Il suggerimento di Jarvis", style = T.Title2)
+                Text(advice.second, style = T.Small, modifier = Modifier.padding(top = 8.dp))
+                TextButton(onClick = { p = MealSchedule.withMeals(p, advice.first) }) { Text("Usa questa suddivisione", color = C.AccentDeep) }
+                Text("Proposta organizzativa: il numero di pasti non modifica il fabbisogno totale.", style = T.Small)
+            }
+            GHead("Ripartizione delle calorie", "Imposta le quote: Jarvis le riporta in proporzione al totale giornaliero.")
+            JCard {
+                p.slots.forEachIndexed { i, sl ->
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(sl.name, style = T.Label, modifier = Modifier.weight(1f))
+                        Text("${(100.0 * sl.share / sum).r0()}% · ${kcalFmt(kcal * sl.share / sum)} kcal", style = T.Small)
                     }
-                    if (sum != 100) Text("Totale $sum%: verrà riportato in proporzione a 100%.", style = T.Small.copy(fontSize = 12.5.sp, color = A.FatInk))
+                    Slider(sl.share.toFloat(), { v -> p = p.copy(slots = p.slots.map { if (it.diaryMeal == sl.diaryMeal) it.copy(share = v.toInt().coerceAtLeast(1)) else it }) },
+                        valueRange = 1f..80f, colors = SliderDefaults.colors(thumbColor = mealColors[i % 2], activeTrackColor = mealColors[i % 2]))
                 }
             }
 
@@ -417,7 +426,7 @@ fun DietSettingsScreen() {
             GapH(16.dp)
         }
         GSave("Salva e ricalcola il piano") {
-            val np = p.copy(slots = p.slots.mapIndexed { i, sl -> sl.copy(share = shares[i] ?: sl.share) })
+            val np = p
             Store.setDietPrefs(np)
             Store.generatePlan(maxOf(LocalDate.now(), Nav.planDate.with(DayOfWeek.MONDAY)),
                 7 - (maxOf(LocalDate.now(), Nav.planDate.with(DayOfWeek.MONDAY)).toEpochDay() - Nav.planDate.with(DayOfWeek.MONDAY).toEpochDay()).toInt().coerceIn(0, 6))

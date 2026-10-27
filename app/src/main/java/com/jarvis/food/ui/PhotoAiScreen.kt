@@ -178,7 +178,7 @@ private fun GramStep(plus: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun PhotoAiScreen(date: LocalDate, meal: Int) {
+fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null) {
     val ctx = LocalContext.current
     val s by Store.state.collectAsState()
     val scope = rememberCoroutineScope()
@@ -247,7 +247,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             GapW(12.dp)
             Column(Modifier.weight(1f)) {
                 Text("Foto AI · ${MEAL_NAMES[meal]}", style = T.Body.copy(fontSize = 13.sp, color = A.Muted))
-                Text("Fotografa il tuo piatto", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp), maxLines = 2)
+                Text(if (replacementEntryId != null) "Fotografa il nuovo alimento" else "Fotografa il tuo piatto", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp), maxLines = 2)
             }
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
@@ -419,7 +419,8 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                     labels.forEach { l ->
                         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = {
                             val query = l.label.takeIf { com.jarvis.food.data.Db.db.search(it).isNotEmpty() }.orEmpty()
-                            Nav.go(Screen.AddFood(date, meal, query, offlineOnly = true))
+                            if (replacementEntryId != null) Nav.go(Screen.ReplaceFood(replacementEntryId, query, offlineOnly = true))
+                            else Nav.go(Screen.AddFood(date, meal, query, offlineOnly = true))
                         }) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(l.label, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
@@ -444,16 +445,23 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 val addShape = RoundedCornerShape(50)
                 Row(
                     Modifier.height(54.dp).clip(addShape).background(if (canAdd) C.OrangeBrush else Brush.linearGradient(listOf(C.Muted, C.Muted))).clickable(enabled = canAdd) {
-                        sel.forEach { e ->
+                        val portions = sel.map { e ->
                             val g = parseNum(e.grams) ?: return@clickable
                             val dbf = e.base.foodId?.let { id -> com.jarvis.food.data.Db.db.food(id) }
-                            Store.addEntry(date, meal, dbf?.toFood() ?: e.base.toEstimatedFood(), g)
+                            (dbf?.toFood() ?: e.base.toEstimatedFood()) to g
                         }
-                        Nav.backTo { it !is Screen.AddFood && it !is Screen.PhotoAi }
+                        if (replacementEntryId != null) {
+                            val entry = Store.current.diary.firstOrNull { it.id == replacementEntryId } ?: return@clickable
+                            val replacement = com.jarvis.food.data.ReplacementFoods.combine(portions, "ai-replacement:${Store.newId()}")
+                            Nav.go(Screen.FoodDetail(replacement.first, LocalDate.parse(entry.date), entry.meal, replacement.second, entry, replacing = true))
+                        } else {
+                            portions.forEach { (food, grams) -> Store.addEntry(date, meal, food, grams) }
+                            Nav.backTo { it !is Screen.AddFood && it !is Screen.PhotoAi }
+                        }
                     }.padding(horizontal = 26.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Aggiungi", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = if (canAdd) C.OnOrange else Color.White))
+                    Text(if (replacementEntryId != null) "Continua" else "Aggiungi", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = if (canAdd) C.OnOrange else Color.White))
                     GapW(8.dp)
                     AIcon(Ic.Check, if (canAdd) C.OnOrange else Color.White, 20.dp, 3f)
                 }

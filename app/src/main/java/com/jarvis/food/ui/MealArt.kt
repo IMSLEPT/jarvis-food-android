@@ -16,6 +16,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.jarvis.food.data.MealSchedule
+import com.jarvis.food.data.Store
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -157,8 +161,9 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
 /** Selettore dei pasti: chip a larghezza naturale in riga scorrevole (nessun testo tagliato). */
 @Composable
 fun MealChips(selected: Int, modifier: Modifier = Modifier, onSelect: (Int) -> Unit) {
+    val state by Store.state.collectAsState()
     Row(modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        MEAL_ORDER.forEach { m ->
+        MEAL_ORDER.filter { it == selected || it in MealSchedule.selected(state.dietPrefs) }.forEach { m ->
             val sel = m == selected
             Box(
                 Modifier.height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.White)

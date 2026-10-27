@@ -64,10 +64,10 @@ import java.time.LocalDate
 sealed class Screen {
     data class AddFood(val date: LocalDate, val meal: Int, val query: String = "", val offlineOnly: Boolean = false) : Screen()
     data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null, val replacing: Boolean = false) : Screen()
-    data class ReplaceFood(val entryId: String) : Screen()
+    data class ReplaceFood(val entryId: String, val query: String = "", val offlineOnly: Boolean = false) : Screen()
     data object TrainingGoals : Screen()
-    data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null) : Screen()
-    data class PhotoAi(val date: LocalDate, val meal: Int) : Screen()
+    data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null, val replacementEntryId: String? = null) : Screen()
+    data class PhotoAi(val date: LocalDate, val meal: Int, val replacementEntryId: String? = null) : Screen()
     /** Ricetta del database (o creata dall'AI) calcolata su un obiettivo. [slot] valorizzato se viene dal piano. */
     data class RecipeView(val recipeId: String, val target: Macro, val date: LocalDate, val slot: Int? = null,
                           val diaryMeal: Int = 1, val adHoc: RecipeTemplate? = null,
@@ -137,10 +137,10 @@ private fun ScreenHost(s: Screen) {
         when (s) {
             is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly)
             is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry, s.replacing)
-            is Screen.ReplaceFood -> ReplaceFoodScreen(s.entryId)
+            is Screen.ReplaceFood -> ReplaceFoodScreen(s.entryId, s.query, s.offlineOnly)
             Screen.TrainingGoals -> TrainingGoalsScreen()
-            is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit)
-            is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal)
+            is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit, s.replacementEntryId)
+            is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal, s.replacementEntryId)
             is Screen.RecipeView -> RecipeViewScreen(s)
             is Screen.RecipeList -> RecipeListScreen(s)
             Screen.WhatNow -> WhatNowScreen()

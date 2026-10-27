@@ -64,8 +64,8 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "c90c0addaa6fcd201862672c613e3456b07564f7eea117855f705b231ca68f9b",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+    "sha256": "fa1b4f575d169902f089d58e09c019f75786594b1a97831f755b11ad04d79ee3",
+    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: pasti attivabili singolarmente condivisi tra diario e piano con conservazione degli alimenti registrati; modalità ON/OFF automatica e manuale con stima dal profilo e allenamento; sostituzione anche da barcode e foto AI, solo dopo conferma."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
     "sha256": "7262bad72ea287648d93950e8a0ab438d154872d8a4b115afa0e0c4ab58352cb",

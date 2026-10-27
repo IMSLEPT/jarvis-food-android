@@ -32,6 +32,12 @@ fun TrainingGoalsScreen() {
     val base = remember { Store.energyFor(s.copy(trainingNutrition = TrainingNutrition()), LocalDate.now()) }
     val fallback = DailyTargets(base.baseKcal.roundToInt(), base.protein, (base.carbs - base.extraKcal / 4).coerceAtLeast(0.0), base.fat)
     fun values(t: DailyTargets) = listOf(t.kcal.toString(), amountText(t.protein), amountText(t.carbs), amountText(t.fat))
+    var automatic by remember { mutableStateOf(original.automatic) }
+    val initialLoad = AutomaticTraining.load(s.profile, original)
+    var minutes by remember { mutableStateOf(initialLoad.minutes.toString()) }
+    var trainingType by remember { mutableIntStateOf(initialLoad.type) }
+    var intensity by remember { mutableIntStateOf(initialLoad.intensity) }
+    var showCalculation by remember { mutableStateOf(false) }
     var enabled by remember { mutableStateOf(original.enabled) }
     var days by remember { mutableStateOf(original.trainingDays) }
     var onValues by remember { mutableStateOf(values(original.on ?: fallback)) }
@@ -41,6 +47,9 @@ fun TrainingGoalsScreen() {
         if (nums.any { !it.isFinite() } || nums[0] % 1.0 != 0.0) return null
         return DailyTargets(nums[0].toInt(), nums[1], nums[2], nums[3]).takeIf { it.valid }
     }
+    val pendingSettings = original.copy(enabled = enabled, automatic = automatic, trainingDays = days,
+        workout = TrainingLoad(minutes.toIntOrNull() ?: 0, trainingType, intensity))
+    val estimate = AutomaticTraining.calculate(s.profile, Store.currentWeight(s), pendingSettings)
     val on = target(onValues)
     val off = target(offValues)
     Column(Modifier.fillMaxSize().imePadding()) {
@@ -56,6 +65,22 @@ fun TrainingGoalsScreen() {
                 }
                 Text("Quando sono attivi vengono usati i valori impostati qui. Le attività restano registrate senza aggiungere altre calorie.", style = T.Small, modifier = Modifier.padding(top = 12.dp))
             }
+            ASegment(listOf("Manuale", "Automatico Jarvis"), if (automatic) 1 else 0) { automatic = it == 1 }
+            if (automatic) {
+                JCard {
+                    Text("Il tuo allenamento", style = T.Title2)
+                    Text("Uso ${Store.currentWeight(s).r1()} kg, altezza ${s.profile.heightCm.r0()} cm, età ${Nutrition.age(s.profile)}, lavoro e passi dal profilo. Il calendario sotto determina quante sessioni fai a settimana.", style = T.Small)
+                    TextButton(onClick = { Nav.go(Screen.ProfileEdit) }) { Text("Controlla dati del profilo", color = C.AccentDeep) }
+                    Text("Tipo di allenamento", style = T.Label)
+                    ASegment(Nutrition.TRAINING_LABELS, trainingType, vertical = true) { trainingType = it }
+                    Spacer(Modifier.height(12.dp))
+                    JField(minutes, { minutes = it.filter { c -> c.isDigit() }.take(3) }, "Minuti per sessione (pause comprese)", Modifier.testTag("auto-training-minutes"), number = true)
+                    Spacer(Modifier.height(12.dp))
+                    Text("Intensità media della sessione", style = T.Label)
+                    ASegment(listOf("Leggera", "Moderata", "Intensa"), intensity, vertical = true) { intensity = it }
+                    Text("Stima energetica, non una misura: le pause e lo sforzo reale possono cambiare il consumo.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
+                }
+            }
             Text("La tua settimana", style = T.H2)
             Text("Seleziona i giorni di allenamento. Gli altri saranno di riposo.", style = T.Small)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -70,16 +95,44 @@ fun TrainingGoalsScreen() {
                     }
                 }
             }
-            TargetFields("ON · Allenamento", "on", onValues) { i, value -> onValues = onValues.toMutableList().also { it[i] = value } }
-            TargetFields("OFF · Riposo", "off", offValues) { i, value -> offValues = offValues.toMutableList().also { it[i] = value } }
+            if (automatic) {
+                if (estimate != null) {
+                    AutoTargetSummary("ON · Allenamento", estimate.on)
+                    AutoTargetSummary("OFF · Riposo", estimate.off)
+                    JCard {
+                        Text("${estimate.sessions} allenamenti/settimana · media ${estimate.weeklyAverage.r0()} kcal", style = T.Label)
+                        Text("Proteine mantenute anche nei giorni di riposo; il recupero continua. La differenza energetica va soprattutto ai carboidrati.", style = T.Small)
+                        TextButton(onClick = { showCalculation = !showCalculation }) { Text(if (showCalculation) "Nascondi calcolo" else "Mostra come viene calcolato", color = C.AccentDeep) }
+                        if (showCalculation) {
+                            Text("Basale: ${estimate.bmr.r0()} kcal (${if (s.profile.bodyFatPct != null && s.profile.bodyFatPct!! in 5.0..55.0) "Katch-McArdle" else "Mifflin-St Jeor"}).\nMovimento quotidiano: × ${"%.3f".format(java.util.Locale.ITALY, estimate.movementFactor)}.\nAllenamento: (${estimate.met.r1()} MET − 1) × ${Store.currentWeight(s).r1()} kg × ${estimate.load.minutes} / 60 = ${estimate.sessionKcal.r0()} kcal nette.\nObiettivo peso: ${if (estimate.dailyAdjustment >= 0) "+" else ""}${estimate.dailyAdjustment.r0()} kcal/giorno, con limiti del modello.\nMedia settimanale: (ON × ${estimate.sessions} + OFF × ${7 - estimate.sessions}) / 7.\nP ${estimate.proteinPerKg.r1()} g/kg; grassi circa 27% o minimo indicativo 0,8 g/kg, carboidrati dalle calorie residue. La preferenza low carb modifica questa ripartizione. Arrotondamento calorie a 10 kcal.", style = T.Small)
+                            Text("Fonti: Adult Compendium 2024 (MET); ISSN 2017, protein and exercise. Lavoro/passi e variazione del peso sono stime del modello dell'app, non una misura individuale.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
+                        }
+                        TextButton(onClick = {
+                            onValues = values(estimate.on); offValues = values(estimate.off); automatic = false
+                        }) { Text("Modifica manualmente questa proposta", color = C.AccentDeep) }
+                    }
+                } else Text("Completa i dati del profilo e inserisci una durata fra 5 e 300 minuti. La proposta automatica è disponibile per adulti senza condizioni speciali indicate nel profilo; negli altri casi usa gli obiettivi concordati con il professionista.", style = T.Small.copy(color = C.Danger))
+            } else {
+                TargetFields("ON · Allenamento", "on", onValues) { i, value -> onValues = onValues.toMutableList().also { it[i] = value } }
+                TargetFields("OFF · Riposo", "off", offValues) { i, value -> offValues = offValues.toMutableList().also { it[i] = value } }
+            }
             Text("Puoi cambiare ON/OFF per una singola data da Oggi o Piano, senza modificare la settimana abituale.", style = T.Small)
-            if (enabled && (on == null || off == null)) Text("Inserisci calorie positive e quantità valide per tutti i macronutrienti, sia ON sia OFF.", style = T.Small.copy(color = C.Danger))
+            if (enabled && !automatic && (on == null || off == null)) Text("Inserisci calorie positive e quantità valide per tutti i macronutrienti, sia ON sia OFF.", style = T.Small.copy(color = C.Danger))
             Spacer(Modifier.height(8.dp))
         }
-        GSave("Salva giorni ON/OFF", enabled = !enabled || (on != null && off != null)) {
-            Store.setTrainingNutrition(original.copy(enabled = enabled, trainingDays = days, on = on ?: original.on, off = off ?: original.off))
+        GSave("Salva giorni ON/OFF", enabled = !enabled || (if (automatic) estimate != null else on != null && off != null)) {
+            Store.setTrainingNutrition(pendingSettings.copy(on = on ?: original.on, off = off ?: original.off))
             Nav.back()
         }
+    }
+}
+
+@Composable
+private fun AutoTargetSummary(title: String, target: DailyTargets) {
+    JCard {
+        Text(title, style = T.Title2)
+        Text("${target.kcal} kcal", style = T.H2.copy(color = C.Accent), modifier = Modifier.padding(top = 8.dp))
+        Text("P ${target.protein.r1()} g · C ${target.carbs.r1()} g · G ${target.fat.r1()} g", style = T.Label)
     }
 }
 
@@ -117,7 +170,7 @@ private fun TargetFields(title: String, key: String, values: List<String>, onEdi
 fun DayTypeControl(s: AppState, date: LocalDate) {
     if (!s.trainingNutrition.active) return
     var dialog by remember(date) { mutableStateOf(false) }
-    val settings = s.trainingNutrition
+    val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
     val shape = RoundedCornerShape(16.dp)
     Row(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {

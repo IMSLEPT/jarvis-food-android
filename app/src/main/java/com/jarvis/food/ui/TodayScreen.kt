@@ -64,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.AppState
 import com.jarvis.food.data.Db
+import com.jarvis.food.data.MealSchedule
 import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
 import com.jarvis.food.engine.MicroAnalysis
@@ -90,7 +91,11 @@ fun dayLabel(d: LocalDate): String {
 fun fullDay(d: LocalDate): String =
     "${d.dayOfWeek.getDisplayName(TextStyle.FULL, IT).replaceFirstChar { it.uppercase() }} ${d.dayOfMonth} ${d.month.getDisplayName(TextStyle.FULL, IT)}"
 
-fun defaultMeal(): Int = mealForHour(LocalTime.now().hour)
+fun defaultMeal(): Int {
+    val candidate = mealForHour(LocalTime.now().hour)
+    val selected = MealSchedule.selected(Store.current.dietPrefs)
+    return if (candidate in selected) candidate else selected.firstOrNull { MEAL_ORDER.indexOf(it) >= MEAL_ORDER.indexOf(candidate) } ?: selected.firstOrNull() ?: 0
+}
 
 val MEAL_SOFT = mapOf(0 to A.FatSoft, 1 to A.GreenSoft, 3 to A.ProteinSoft, 2 to A.CarbSoft, 4 to A.FatSoft, 5 to A.FastSoft)
 val MEAL_DOT = mapOf(0 to Color(0xFFFFB820), 1 to Color(0xFF10B981), 3 to Color(0xFFF43F6E), 2 to Color(0xFF3B82F6), 4 to Color(0xFFFF8A3D), 5 to Color(0xFF8B5CF6))
@@ -173,9 +178,9 @@ fun TodayScreen() {
 
         // ---- Diario
         Spacer(Modifier.height(10.dp))
-        Text("Diario", style = T.H2)
+        ASection("Diario", action = "Gestisci pasti") { Nav.go(Screen.DietSettings) }
         Spacer(Modifier.height(12.dp))
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) { for (meal in MEAL_ORDER) MealCard(meal, date, s) }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) { for (meal in MealSchedule.visible(s, date.toString())) MealCard(meal, date, s) }
 
         FastingMini(s)
 
@@ -336,7 +341,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
     val entries = Store.entriesFor(s, date).filter { it.meal == meal }.sortedBy { it.time }
     val t = Nutrition.sum(entries)
     var open by rememberSaveable(meal, date.toString()) { mutableStateOf(false) }
-    val planned = remember(s.plan, s.dietPrefs, date) { Store.plannedMeals(s, date).firstOrNull { it.diaryMeal == meal } }
+    val planned = remember(s.plan, s.dietPrefs, s.trainingNutrition, s.weights, s.profile, s.goals, s.energy, date) { Store.plannedMeals(s, date).firstOrNull { it.diaryMeal == meal } }
     val shape = RoundedCornerShape(26.dp)
     val chevron by animateFloatAsState(if (open) 180f else 0f, tween(250), label = "chev")
     Column(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x591D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).animateContentSize(tween(260))) {

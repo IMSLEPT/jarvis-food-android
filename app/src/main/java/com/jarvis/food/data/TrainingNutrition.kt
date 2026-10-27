@@ -18,9 +18,11 @@ data class TrainingNutrition(
     /** ISO weekdays: Monday = 1, Sunday = 7. */
     val trainingDays: List<Int> = emptyList(),
     /** Per-date exceptions; absence means follow the weekly calendar. */
-    val overrides: Map<String, Boolean> = emptyMap()
+    val overrides: Map<String, Boolean> = emptyMap(),
+    val automatic: Boolean = false,
+    val workout: TrainingLoad? = null
 ) {
-    val active: Boolean get() = enabled && on?.valid == true && off?.valid == true
+    val active: Boolean get() = enabled && (automatic || (on?.valid == true && off?.valid == true))
     fun isTraining(date: LocalDate): Boolean = overrides[date.toString()] ?: (date.dayOfWeek.value in trainingDays)
     fun target(date: LocalDate): DailyTargets? = if (!active) null else if (isTraining(date)) on else off
     fun withOverride(date: LocalDate, training: Boolean?): TrainingNutrition = copy(overrides =

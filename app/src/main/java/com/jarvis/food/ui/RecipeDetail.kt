@@ -158,9 +158,9 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     var dlgFridge by remember { mutableStateOf(false) }
     val done = remember(tpl.id) { mutableStateListOf<Int>() }
 
-    val dayRem = remember(s.diary, s.energy, s.goals, s.trainingNutrition, s.profile, sc.date) { dayRemaining(s, sc.date) }
+    val dayRem = remember(s.diary, s.energy, s.goals, s.trainingNutrition, s.weights, s.profile, sc.date) { dayRemaining(s, sc.date) }
     // "Mancante di oggi": ciò che resta nella giornata, diviso tra questo pasto e quelli ancora da fare (tenendo conto del piano)
-    val smart = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.trainingNutrition, s.profile, tpl.meal) {
+    val smart = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.trainingNutrition, s.weights, s.profile, tpl.meal) {
         nowContext(s, if (tpl.meal == "dessert") "spuntino" else tpl.meal, true)
     }
     val isToday = sc.date == LocalDate.now()

@@ -124,16 +124,17 @@ object Store {
     }
 
     fun setTrainingNutrition(settings: TrainingNutrition) {
-        require(!settings.enabled || (settings.on?.valid == true && settings.off?.valid == true))
+        require(!settings.enabled || if (settings.automatic) AutomaticTraining.calculate(current.profile, currentWeight(current), settings) != null
+            else settings.on?.valid == true && settings.off?.valid == true)
         update { it.copy(trainingNutrition = settings.copy(trainingDays = settings.trainingDays.filter { d -> d in 1..7 }.distinct().sorted())) }
     }
 
     fun updateDayTargets(date: LocalDate, change: (DailyTargets) -> DailyTargets) = update { s ->
-        val n = s.trainingNutrition
+        val n = resolvedTraining(s)
         val target = n.target(date) ?: return@update s
         val next = change(target)
         require(next.valid)
-        s.copy(trainingNutrition = if (n.isTraining(date)) n.copy(on = next) else n.copy(off = next))
+        s.copy(trainingNutrition = if (n.isTraining(date)) n.copy(on = next, automatic = false) else n.copy(off = next, automatic = false))
     }
 
     fun setDayType(date: LocalDate, training: Boolean?) = update {
@@ -202,6 +203,13 @@ object Store {
     fun entriesFor(s: AppState, date: LocalDate) = s.diary.filter { it.date == date.toString() }
     fun currentWeight(s: AppState) = s.weights.lastOrNull()?.kg ?: s.profile.startWeight
 
+    fun resolvedTraining(s: AppState): TrainingNutrition {
+        val n = s.trainingNutrition
+        if (!n.enabled || !n.automatic) return n
+        val estimate = AutomaticTraining.calculate(s.profile, currentWeight(s), n) ?: return n.copy(enabled = false)
+        return n.copy(on = estimate.on, off = estimate.off)
+    }
+
     /** Fabbisogno del giorno con l'eventuale adattamento all'attività. */
     fun energyFor(s: AppState, date: LocalDate): DayEnergy {
         val frac = if (date == LocalDate.now()) LocalTime.now().toSecondOfDay() / 86400.0 else 1.0
@@ -211,7 +219,13 @@ object Store {
             s.activities.filter { it.date == date.toString() }, s.steps[date.toString()] ?: 0, frac,
             Energy.calibration(s.profile, w, s.energy, s.health, date)
         )
-        return s.trainingNutrition.apply(base, date)
+        val n = resolvedTraining(s)
+        val result = n.apply(base, date)
+        return if (n.enabled && n.automatic) result.copy(explanation = listOf(
+            "Stima automatica ON/OFF dal profilo e dall'allenamento configurato; cambia con peso e impostazioni.") + result.explanation)
+        else if (s.trainingNutrition.enabled && s.trainingNutrition.automatic && !n.enabled)
+            base.copy(explanation = listOf("ON/OFF automatico non disponibile con i dati attuali: rivedi Profilo e Giorni ON e OFF. Uso gli obiettivi generali.") + base.explanation)
+        else result
     }
 
     /** Calorie bruciate con l'attività da mostrare nel diario (non sempre aggiunte al budget: vedi [DayEnergy]). */
@@ -291,7 +305,7 @@ object Store {
         ids.forEach { removeEntry(it) }
     }
 
-    fun setDietPrefs(p: DietPrefs) = update { it.copy(dietPrefs = p) }
+    fun setDietPrefs(p: DietPrefs) = update { MealSchedule.apply(it, p) }
 
     // ---------------------------------------------------------------- Dispensa e spesa
 

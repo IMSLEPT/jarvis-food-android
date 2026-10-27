@@ -169,7 +169,7 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
                 GhostButton("Annulla", Modifier.weight(1f)) { Nav.back() }
                 PrimaryButton("Sostituisci", Modifier.weight(2f), enabled = grams.isFinite() && grams > 0) {
                     Store.replaceEntry(entry.id, food, grams)
-                    Nav.backTo { it !is Screen.FoodDetail && it !is Screen.ReplaceFood }
+                    Nav.backTo { it !is Screen.FoodDetail && it !is Screen.ReplaceFood && it !is Screen.PhotoAi && it !is Screen.CustomFood }
                 }
             } else if (entry != null) {
                 GhostButton("Elimina", Modifier.weight(1f), color = C.Danger) { Store.removeEntry(entry.id); Nav.back() }

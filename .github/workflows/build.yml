@@ -174,6 +174,16 @@ jobs:
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (2 tests)" layout-features-large-text.log
             adb shell settings put system font_scale 1.0
+            adb shell am instrument -w -e captureName standard -e class com.jarvis.food.MealOptionsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-options-standard.log 2>&1
+            cat layout-options-standard.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (3 tests)" layout-options-standard.log
+            adb shell settings put system font_scale 1.3
+            adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.MealOptionsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-options-large-text.log 2>&1
+            cat layout-options-large-text.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (3 tests)" layout-options-large-text.log
+            adb shell settings put system font_scale 1.0
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb logcat -d -s AndroidRuntime:E > layout-crash.txt
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi

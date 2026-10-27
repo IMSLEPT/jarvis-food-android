@@ -28,7 +28,7 @@ import com.jarvis.food.data.Store
 import java.time.LocalDate
 
 @Composable
-fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?) {
+fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?, replacementEntryId: String? = null) {
     var name by remember { mutableStateOf(edit?.name ?: "") }
     var brand by remember { mutableStateOf(edit?.brand ?: "") }
     var kcal by remember { mutableStateOf(edit?.kcal?.r1() ?: "") }
@@ -79,7 +79,7 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?)
             if (edit != null) GhostButton("Elimina", Modifier.weight(1f), color = C.Danger) {
                 Store.deleteCustomFood(edit.id); Nav.back(); Nav.back()
             }
-            PrimaryButton(if (date != null) "Salva e aggiungi" else "Salva", Modifier.weight(2f), enabled = valid) {
+            PrimaryButton(if (replacementEntryId != null) "Salva e continua" else if (date != null) "Salva e aggiungi" else "Salva", Modifier.weight(2f), enabled = valid) {
                 val food = Food(
                     id = edit?.id ?: "custom:${Store.newId()}",
                     name = name.trim(), brand = brand.trim(),
@@ -93,7 +93,10 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?)
                 Store.saveCustomFood(food)
                 Nav.back()
                 if (edit != null) Nav.back()
-                if (date != null && edit == null) Nav.go(Screen.FoodDetail(food, date, meal))
+                if (replacementEntryId != null) {
+                    val entry = Store.current.diary.firstOrNull { it.id == replacementEntryId }
+                    if (entry != null) Nav.go(Screen.FoodDetail(food, LocalDate.parse(entry.date), entry.meal, entry.grams, entry, replacing = true))
+                } else if (date != null && edit == null) Nav.go(Screen.FoodDetail(food, date, meal))
             }
         }
     }
