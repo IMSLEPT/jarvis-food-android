@@ -39,7 +39,9 @@ object AutomaticTraining {
         val rest = bmr * factor
         val mean = rest + session * sessions / 7.0
         val delta = Nutrition.safeDelta(p, mean).coerceAtMost(mean * 0.15)
-        val sportProfile = p.copy(detailed = true, workouts = sessions)
+        // Any recurring training uses the exercising profile for protein; frequency still
+        // enters the energy calculation with its exact session count above.
+        val sportProfile = p.copy(detailed = true, workouts = if (sessions > 0) maxOf(2, sessions) else 0)
         val proteinKg = Nutrition.proteinPerKg(sportProfile)
         val protein = weight * proteinKg
         fun calories(exercise: Double) = (max(Nutrition.minKcal(p).toDouble(), rest + exercise + delta) / 10).roundToInt() * 10

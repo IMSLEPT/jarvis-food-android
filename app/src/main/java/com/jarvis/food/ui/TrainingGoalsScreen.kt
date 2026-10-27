@@ -100,7 +100,7 @@ fun TrainingGoalsScreen() {
                     AutoTargetSummary("ON · Allenamento", estimate.on)
                     AutoTargetSummary("OFF · Riposo", estimate.off)
                     JCard {
-                        Text("${estimate.sessions} allenamenti/settimana · media ${estimate.weeklyAverage.r0()} kcal", style = T.Label)
+                        Text("${estimate.sessions} ${if (estimate.sessions == 1) "allenamento" else "allenamenti"}/settimana · media ${estimate.weeklyAverage.r0()} kcal", style = T.Label)
                         Text("Proteine mantenute anche nei giorni di riposo; il recupero continua. La differenza energetica va soprattutto ai carboidrati.", style = T.Small)
                         TextButton(onClick = { showCalculation = !showCalculation }) { Text(if (showCalculation) "Nascondi calcolo" else "Mostra come viene calcolato", color = C.AccentDeep) }
                         if (showCalculation) {

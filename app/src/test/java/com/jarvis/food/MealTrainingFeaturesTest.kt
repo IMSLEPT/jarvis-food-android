@@ -46,6 +46,8 @@ class MealTrainingFeaturesTest {
         val few = AutomaticTraining.calculate(p, 71.0, n.copy(trainingDays = listOf(1)))!!
         val many = AutomaticTraining.calculate(p, 71.0, n)!!
         assertTrue(many.weeklyAverage > few.weeklyAverage)
+        assertTrue(few.proteinPerKg >= 1.6)
+        assertEquals(few.on.protein, few.off.protein, 0.0001)
         assertEquals(4, AutomaticTraining.calculate(p, 71.0, n.copy(trainingDays = listOf(1, 1, 2, 4, 5, 9)))!!.sessions)
         assertTrue(AutomaticTraining.calculate(p.copy(goal = -1), 71.0, n)!!.dailyAdjustment < 0)
         assertTrue(AutomaticTraining.calculate(p.copy(goal = 1), 71.0, n)!!.dailyAdjustment > 0)
