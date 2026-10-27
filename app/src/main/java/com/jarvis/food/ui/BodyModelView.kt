@@ -41,6 +41,10 @@ fun BodyModelView(selected: String, male: Boolean, onSelect: (String) -> Unit) {
     Box(Modifier.fillMaxWidth().height(340.dp).testTag("body-model-3d").semantics { stateDescription = status }) {
         AndroidView(modifier = Modifier.fillMaxWidth().height(340.dp), factory = { context ->
             WebView(context).apply {
+                // A WRAP_CONTENT WebView forces a zero-height HTML viewport even when
+                // Compose measures its wrapper to 340 dp. Percent-sized WebGL needs
+                // MATCH_PARENT on the native view as well as a bounded Compose parent.
+                layoutParams = android.view.ViewGroup.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
                 tag = "body-model-webview"
                 setBackgroundColor(android.graphics.Color.TRANSPARENT)
                 settings.javaScriptEnabled = true
