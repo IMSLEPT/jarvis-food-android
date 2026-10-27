@@ -435,7 +435,7 @@ fun GoalsScreen() {
             }
             SettingsHeading("Macronutrienti", "Valori riferiti all'obiettivo generale di questa pagina.", warm = true)
             SettingsCard {
-                listOf(Triple("Proteine", p to 4, C.Protein), Triple("Carboidrati", c to 4, C.Blue), Triple("Grassi", f to 9, C.Gold)).forEach { (label, share, color) ->
+                listOf(Triple("Proteine", p to 4, A.ProteinInk), Triple("Carboidrati", c to 4, A.CarbInk), Triple("Grassi", f to 9, A.FatInk)).forEach { (label, share, color) ->
                     Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Bg).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         Box(Modifier.size(8.dp).clip(CircleShape).background(color))
                         Text(label, style = T.Label, modifier = Modifier.padding(start = 10.dp).weight(1f))

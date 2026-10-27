@@ -1,6 +1,8 @@
 package com.jarvis.food.ui
 
 import android.app.DatePickerDialog
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,12 +25,15 @@ import com.jarvis.food.data.Store
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MeasurementsScreen() {
     val s by Store.state.collectAsState()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val recordForm = remember { BringIntoViewRequester() }
     var type by remember { mutableStateOf("vita") }
     var value by remember { mutableStateOf("") }
     var date by remember { mutableStateOf(LocalDate.now()) }
@@ -65,7 +70,7 @@ fun MeasurementsScreen() {
                     }
                 }
             }
-            SettingsCard(title = "Registra ${guide.name.lowercase()}") {
+            SettingsCard(title = "Registra ${guide.name.lowercase()}", modifier = Modifier.bringIntoViewRequester(recordForm)) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) { Text("Data della misura", style = T.Small); Text(date.format(format), style = T.Label) }
                     TextButton(onClick = {
@@ -97,7 +102,7 @@ fun MeasurementsScreen() {
                                 Text(LocalDate.parse(item.date).format(format), style = T.Small)
                                 Text("${item.value.r1()} ${guide.unit}", style = T.Label)
                             }
-                            IconButton(onClick = { date = LocalDate.parse(item.date); value = amountText(item.value); saved = false }, modifier = Modifier.semantics { contentDescription = "Modifica misura del ${item.date}" }) { AIcon("M4 20l4.5-1 12-12a2.1 2.1 0 0 0-3-3l-12 12L4 20zM15.5 5.5l3 3", C.Navy, 22.dp) }
+                            IconButton(onClick = { date = LocalDate.parse(item.date); value = amountText(item.value); saved = false; scope.launch { recordForm.bringIntoView() } }, modifier = Modifier.semantics { contentDescription = "Modifica misura del ${item.date}" }) { AIcon("M4 20l4.5-1 12-12a2.1 2.1 0 0 0-3-3l-12 12L4 20zM15.5 5.5l3 3", C.Navy, 22.dp) }
                             IconButton(onClick = { deleting = item.date }, modifier = Modifier.semantics { contentDescription = "Elimina misura del ${item.date}" }) { AIcon("M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12", C.Faint, 20.dp) }
                         }
                     }

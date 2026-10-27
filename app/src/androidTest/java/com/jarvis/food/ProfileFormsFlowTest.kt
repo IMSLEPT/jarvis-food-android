@@ -3,9 +3,9 @@ package com.jarvis.food
 import android.graphics.Bitmap
 import android.os.SystemClock
 import android.view.View
-import android.view.MotionEvent
 import org.json.JSONArray
 import android.view.ViewGroup
+import androidx.compose.ui.geometry.Offset
 import android.webkit.WebView
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -72,7 +72,9 @@ class ProfileFormsFlowTest {
         prepare(AppState(onboarded = true, profile = Profile(name = "Alessandro", detailed = true), measurements = listOf(old, arm)))
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             ui { Nav.go(Screen.Measurements) }
-            compose.waitUntil(20000) { js(scenario, "Boolean(window.bodyState && window.bodyState.ready)") == "true" }
+            try { compose.waitUntil(20000) { js(scenario, "Boolean(window.bodyState && window.bodyState.ready)") == "true" } }
+            catch (failure: Throwable) { throw AssertionError("3D renderer: " + js(scenario, "JSON.stringify(window.bodyState)"), failure) }
+            assertEquals("true", js(scenario, "window.bodyState.pixel[3]>0 && window.bodyState.glError===0"))
             assertEquals("true", js(scenario, "window.bodyState.triangles > 1000 && !window.bodyState.error"))
             shot("body-3d-waist")
             // Native choice updates the actual renderer, then a rendered-surface pick returns through the JS bridge.
@@ -81,16 +83,13 @@ class ProfileFormsFlowTest {
             compose.onNodeWithTag("body-model-3d").performScrollTo()
             js(scenario, "window.rotateTo(0)")
             val point = JSONArray(js(scenario, "[window.bodyPoint('collo')[0],window.bodyPoint('collo')[1],document.getElementById('model').clientWidth]"))
-            scenario.onActivity { a ->
-                val w = web(a.window.decorView)!!
-                val scale = w.width / point.getDouble(2)
-                val x = (point.getDouble(0) * scale).toFloat(); val y = (point.getDouble(1) * scale).toFloat()
-                val time = SystemClock.uptimeMillis()
-                val down = MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, x, y, 0)
-                val up = MotionEvent.obtain(time, time + 80, MotionEvent.ACTION_UP, x, y, 0)
-                w.dispatchTouchEvent(down); w.dispatchTouchEvent(up); down.recycle(); up.recycle()
+            val bounds = compose.onNodeWithTag("body-model-3d").fetchSemanticsNode().boundsInRoot
+            val scale = bounds.width / point.getDouble(2)
+            compose.onNodeWithTag("body-model-3d").performTouchInput {
+                click(Offset((point.getDouble(0)*scale).toFloat(), (point.getDouble(1)*scale).toFloat()))
             }
-            compose.waitUntil(5000) { js(scenario, "window.bodyState.selected") == "\"collo\"" }
+            try { compose.waitUntil(5000) { js(scenario, "window.bodyState.selected") == "\"collo\"" } }
+            catch (failure: Throwable) { throw AssertionError("3D touch: " + js(scenario, "JSON.stringify(window.bodyState)"), failure) }
             compose.waitForIdle()
             compose.onNodeWithText("Dove misurare · Collo").performScrollTo().assertIsDisplayed()
             assertEquals("true", js(scenario, "window.rotateTo(Math.PI);Math.abs(window.bodyState.angle-Math.PI)<0.01"))

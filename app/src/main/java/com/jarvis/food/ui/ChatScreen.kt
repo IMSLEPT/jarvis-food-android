@@ -385,12 +385,9 @@ fun ChatSetup() {
     val ready = ModelManager.isReady(ctx, model)
     val notifPermission = androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { }
     fun askNotif() { if (android.os.Build.VERSION.SDK_INT >= 33) notifPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS) }
-    JCard {
-        Text("Motore di Jarvis", style = T.Title2)
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Pill("Sul telefono", cfg.chatEngine == 0) { Store.update { it.copy(ai = it.ai.copy(chatEngine = 0)) } }
-            Pill("Cloud gratuito", cfg.chatEngine == 1) { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1)) } }
+    SettingsCard(title = "Motore di Jarvis", subtitle = "Scegli dove elaborare le conversazioni") {
+        SettingsSegment(listOf("Sul telefono", "Cloud gratuito"), cfg.chatEngine) { engine ->
+            Store.update { it.copy(ai = it.ai.copy(chatEngine = engine)) }
         }
         Spacer(Modifier.height(10.dp))
         if (cfg.chatEngine == 0) {

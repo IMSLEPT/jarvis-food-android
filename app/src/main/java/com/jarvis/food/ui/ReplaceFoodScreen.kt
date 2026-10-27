@@ -105,7 +105,7 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
                 JField(query, { query = it }, "Cerca un alimento", Modifier.fillMaxWidth().testTag("replace-food-search"))
             }
             item {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     ReplacementSource("Scansiona codice a barre", Ic.Barcode, false, Modifier.weight(1f).testTag("replace-barcode")) { scan() }
                     ReplacementSource("Fotografa con AI", Ic.Camera, true, Modifier.weight(1f).testTag("replace-photo")) {
                         Nav.go(Screen.PhotoAi(LocalDate.parse(entry.date), entry.meal, entry.id))
@@ -158,7 +158,7 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
 @Composable
 private fun ReplacementSource(title: String, icon: String, warm: Boolean, modifier: Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(20.dp)
-    Column(modifier.heightIn(min = 112.dp).clip(shape).background(if (warm) C.AccentSoft else C.NavySoft)
+    Column(modifier.fillMaxHeight().heightIn(min = 112.dp).clip(shape).background(if (warm) C.AccentSoft else C.NavySoft)
         .border(1.dp, C.Line, shape).clickable(onClick = onClick).padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         AIcon(icon, if (warm) C.AccentDeep else C.Navy, 30.dp)
         Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp))

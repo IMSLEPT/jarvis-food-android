@@ -129,6 +129,17 @@ jobs:
             adb shell settings put secure show_ime_with_hard_keyboard 1
             KEYBOARD=$(adb shell ime list -s | head -1 | tr -d '\r')
             if [ -n "$KEYBOARD" ]; then adb shell ime enable "$KEYBOARD"; adb shell ime set "$KEYBOARD"; fi
+            adb shell settings put system font_scale 1.0
+            adb shell am instrument -w -e captureName standard -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-standard.log 2>&1
+            cat layout-profile-standard.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-profile-standard.log
+            adb shell settings put system font_scale 1.3
+            adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-large-text.log 2>&1
+            cat layout-profile-large-text.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-profile-large-text.log
+            adb shell settings put system font_scale 1.0
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-standard.log 2>&1
             cat layout-standard.log
             adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.threebutton
@@ -183,16 +194,6 @@ jobs:
             cat layout-options-large-text.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (3 tests)" layout-options-large-text.log
-            adb shell settings put system font_scale 1.0
-            adb shell am instrument -w -e captureName standard -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-standard.log 2>&1
-            cat layout-profile-standard.log
-            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-profile-standard.log
-            adb shell settings put system font_scale 1.3
-            adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-large-text.log 2>&1
-            cat layout-profile-large-text.log
-            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-profile-large-text.log
             adb shell settings put system font_scale 1.0
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb logcat -d -s AndroidRuntime:E > layout-crash.txt

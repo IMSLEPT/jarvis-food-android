@@ -44,6 +44,8 @@ fun BodyModelView(selected: String, male: Boolean, onSelect: (String) -> Unit) {
                 tag = "body-model-webview"
                 setBackgroundColor(android.graphics.Color.TRANSPARENT)
                 settings.javaScriptEnabled = true
+                settings.useWideViewPort = true
+                settings.loadWithOverviewMode = true
                 settings.allowFileAccess = false
                 settings.allowContentAccess = false
                 settings.domStorageEnabled = false
@@ -57,7 +59,7 @@ fun BodyModelView(selected: String, male: Boolean, onSelect: (String) -> Unit) {
                     override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse =
                         WebResourceResponse("text/plain", "UTF-8", ByteArrayInputStream(ByteArray(0)))
                     override fun onPageFinished(view: WebView, url: String) {
-                        view.evaluateJavascript("window.setGender(${maleNow});window.setSelection('${selectedNow}');", null)
+                        view.evaluateJavascript("window.setGender(${maleNow});window.setSelection('${selectedNow}');window.dispatchEvent(new Event('resize'));", null)
                     }
                 }
                 val html = context.assets.open("body-guide/index.html").bufferedReader().use { it.readText() }
