@@ -19,6 +19,8 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import kotlinx.coroutines.launch
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
 import com.jarvis.food.data.*
 import com.jarvis.food.engine.toFood
 import com.jarvis.food.net.OpenFoodFacts
@@ -54,7 +56,7 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
     }
     fun lookup(raw: String) {
         val code = raw.trim()
-        if (code.length !in 8..14 || code.any { !it.isDigit() }) { barcodeError = "Inserisci un codice numerico da 8 a 14 cifre."; return }
+        if (code.length !in 8..14 || code.any { !it.isDigit() }) { barcodeDialog = true; barcodeError = "Inserisci un codice numerico da 8 a 14 cifre."; return }
         barcodeError = null; missingCode = null
         val mine = (s.customFoods + s.favorites + s.diary.map { it.food }).firstOrNull { it.barcode == code }
         if (mine != null) { barcodeDialog = false; preview(mine); return }
@@ -90,36 +92,54 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
             Text("Questa voce non è più nel diario.", style = T.Body, modifier = Modifier.padding(20.dp))
             return@Column
         }
-        Text("Al posto di ${entry.food.name}", style = T.Small, modifier = Modifier.padding(horizontal = 20.dp))
-        Text("${MEAL_NAMES[entry.meal]} · scegli il nuovo alimento, poi controlla la quantità.", style = T.Small, modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp))
-        JField(query, { query = it }, "Cerca un alimento", Modifier.fillMaxWidth().padding(horizontal = 20.dp).testTag("replace-food-search"))
-        Spacer(Modifier.height(8.dp))
-        GhostButton("Scansiona codice a barre", Modifier.fillMaxWidth().padding(horizontal = 20.dp).testTag("replace-barcode")) { scan() }
-        TextButton(onClick = { barcodeDialog = true }, modifier = Modifier.align(Alignment.CenterHorizontally)) { Text("Inserisci codice a mano", color = C.AccentDeep) }
-        GhostButton("Fotografa con AI", Modifier.fillMaxWidth().padding(horizontal = 20.dp).testTag("replace-photo")) {
-            Nav.go(Screen.PhotoAi(LocalDate.parse(entry.date), entry.meal, entry.id))
-        }
-        if (barcodeLoading) LinearProgressIndicator(Modifier.fillMaxWidth().padding(20.dp), color = C.Accent)
-        Spacer(Modifier.height(12.dp))
         val foods = (local + online).distinctBy { it.id }
-        LazyColumn(Modifier.weight(1f).testTag("replacement-results"), contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        LazyColumn(Modifier.weight(1f).testTag("replacement-results"), contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item {
+                val previous = Nutrition.of(entry.food, entry.grams)
+                SettingsCard(title = "Alimento da sostituire", warm = true) {
+                    Text(entry.food.name, style = T.Title2.copy(fontSize = 19.sp, lineHeight = 25.sp))
+                    Text("${MEAL_NAMES[entry.meal]} · ${amountText(entry.grams)} ${if (entry.food.liquid) "ml" else "g"} · ${previous.kcal.r0()} kcal", style = T.Small)
+                }
+            }
+            item {
+                JField(query, { query = it }, "Cerca un alimento", Modifier.fillMaxWidth().testTag("replace-food-search"))
+            }
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    ReplacementSource("Scansiona codice a barre", Ic.Barcode, false, Modifier.weight(1f).testTag("replace-barcode")) { scan() }
+                    ReplacementSource("Fotografa con AI", Ic.Camera, true, Modifier.weight(1f).testTag("replace-photo")) {
+                        Nav.go(Screen.PhotoAi(LocalDate.parse(entry.date), entry.meal, entry.id))
+                    }
+                }
+                TextButton(onClick = { barcodeDialog = true }, modifier = Modifier.fillMaxWidth()) { Text("Inserisci codice a mano", color = C.AccentDeep) }
+            }
+            if (barcodeLoading) item { LinearProgressIndicator(Modifier.fillMaxWidth(), color = C.Accent) }
+            item {
+                SettingsHeading(if (query.isBlank()) "Recenti e preferiti" else "Risultati della ricerca", "Seleziona il nuovo alimento: nel passaggio successivo controlli quantità e valori.")
+            }
             items(foods, key = { it.id }) { food ->
                 val shape = RoundedCornerShape(20.dp)
-                Row(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).testTag("replacement-${food.id}").clickable {
-                    preview(food)
-                }.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(food.name, style = T.Label)
-                        Text("${food.kcal.r0()} kcal / 100 ${if (food.liquid) "ml" else "g"}" + if (food.brand.isNotBlank()) " · ${food.brand}" else "", style = T.Small)
+                Row(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).testTag("replacement-${food.id}").clickable { preview(food) }.padding(15.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f).padding(end = 10.dp)) {
+                        Text(food.name, style = T.Label.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold))
+                        if (food.brand.isNotBlank()) Text(food.brand, style = T.Small)
+                        Spacer(Modifier.height(7.dp))
+                        Text("P ${food.protein.r0()} · C ${food.carbs.r0()} · G ${food.fat.r0()} g", style = T.Small)
                     }
-                    Spacer(Modifier.width(12.dp)); AIcon(Ic.Swap, C.Navy, 24.dp)
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(food.kcal.r0(), style = T.Title2.copy(fontSize = 19.sp))
+                        Text("kcal / 100 ${if (food.liquid) "ml" else "g"}", style = T.Small.copy(fontSize = 10.sp))
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Box(Modifier.size(32.dp).clip(RoundedCornerShape(11.dp)).background(C.NavySoft), contentAlignment = Alignment.Center) { AIcon(Ic.Swap, C.Navy, 19.dp) }
                 }
             }
             if (loading) item { LinearProgressIndicator(Modifier.fillMaxWidth(), color = C.Accent) }
             if (error != null) item { Text(error!!, style = T.Small) }
-            if (foods.isEmpty() && !loading) item { Text(if (query.isBlank()) "Cerca il nome dell'alimento da usare." else "Nessun alimento trovato. Prova un altro nome.", style = T.Small) }
+            if (foods.isEmpty() && !loading) item { SettingsCard { Text(if (query.isBlank()) "Scrivi il nome, scansiona la confezione o fotografa l'alimento." else "Nessun risultato. Prova un altro nome o usa il codice della confezione.", style = T.Small) } }
         }
     }
+
     if (barcodeDialog) AlertDialog(onDismissRequest = { if (!barcodeLoading) barcodeDialog = false },
         title = { Text("Sostituisci da codice a barre", style = T.Title2) },
         text = { Column {
@@ -133,4 +153,14 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
         } }, confirmButton = { TextButton(enabled = !barcodeLoading, onClick = { lookup(barcode) }) { Text("Cerca", color = C.Navy) } },
         dismissButton = { TextButton(enabled = !barcodeLoading, onClick = { barcodeDialog = false }) { Text("Annulla", color = C.Muted) } }, containerColor = C.Surface)
 
+}
+
+@Composable
+private fun ReplacementSource(title: String, icon: String, warm: Boolean, modifier: Modifier, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(20.dp)
+    Column(modifier.heightIn(min = 112.dp).clip(shape).background(if (warm) C.AccentSoft else C.NavySoft)
+        .border(1.dp, C.Line, shape).clickable(onClick = onClick).padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        AIcon(icon, if (warm) C.AccentDeep else C.Navy, 30.dp)
+        Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp))
+    }
 }

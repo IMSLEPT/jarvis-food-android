@@ -174,7 +174,7 @@ object Store {
     fun removeWeight(date: String) = update { s -> s.copy(weights = s.weights.filterNot { it.date == date }) }
 
     fun addMeasurement(date: LocalDate, type: String, value: Double) = update { s ->
-        s.copy(measurements = s.measurements.filterNot { it.date == date.toString() && it.type == type } + Measurement(date.toString(), type, value))
+        s.copy(measurements = BodyMeasurements.save(s.measurements, date, type, value))
     }
 
     fun addActivity(date: LocalDate, name: String, minutes: Int, kcal: Int) = update {

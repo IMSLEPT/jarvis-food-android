@@ -90,7 +90,7 @@ fun WatchScreen() {
 
     Column(Modifier.fillMaxSize()) {
         TopBar("Smartwatch e attività", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, bottom = 120.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp)) {
             if (s.trainingNutrition.active) {
                 JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
                     Text("Obiettivi ON/OFF attivi", style = T.Title2)
@@ -153,7 +153,7 @@ fun WatchScreen() {
             }
 
             // Oggi dal watch
-            GHead("Oggi dal watch")
+            SettingsHeading("Oggi dal watch", "I dati dell’ultima sincronizzazione disponibile.")
             if (today != null) {
                 val tiles = listOf(
                     WTile("Passi", today.steps.thousands(), "", WIc.Steps, A.Tonal, A.TonalInk, Color(0x99E88C60)),
@@ -176,7 +176,7 @@ fun WatchScreen() {
             }
 
             // Come contare l'attività
-            GHead("Come contare l'attività")
+            SettingsHeading("Fonte delle calorie attive", "Scegli una modalità di conteggio.", warm = true)
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 WatchMode(0, s.energy.mode, "Livello fisso", "Usa solo il livello di attività del profilo. Il watch non cambia l'obiettivo.", WIc.Sliders, A.CarbSoft, A.CarbInk) { Store.setEnergy(s.energy.copy(mode = 0)) }
                 WatchMode(1, s.energy.mode, "Attività a mano", "Aggiungi tu gli allenamenti nel diario; l'obiettivo cresce di conseguenza.", WIc.Pencil, A.FatSoft, A.FatInk) { Store.setEnergy(s.energy.copy(mode = 1)) }
@@ -234,7 +234,7 @@ fun WatchScreen() {
             }
 
             // Come arrivano i dati
-            GHead("Come arrivano i dati")
+            SettingsHeading("Collegamento del dispositivo", "Amazfit → Zepp → Health Connect → Jarvis Food")
             ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                 Column {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {

@@ -138,9 +138,8 @@ class QDraft(p: Profile, val isNew: Boolean, weightNow: Double) {
 
 @Composable
 private fun StepHeader(title: String, why: String? = null) {
-    Text(title, style = T.H1.copy(fontSize = 34.sp, lineHeight = 38.sp, letterSpacing = (-1).sp), modifier = Modifier.padding(top = 8.dp))
-    if (why != null) Text(why, style = T.Body.copy(fontSize = 15.sp, lineHeight = 22.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 8.dp))
-    GapH(20.dp)
+    SettingsHeading(title, why)
+
 }
 
 @Composable
@@ -184,7 +183,8 @@ private fun StepRow(label: String, value: String, unit: String, divider: Boolean
 
 @Composable
 private fun QCard(content: @Composable () -> Unit) {
-    ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 0.dp, elevation = 8.dp) { Column(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) { content() } }
+    SettingsCard { content() }
+
 }
 
 /** Scheda grande con icona tonale (sesso, obiettivo). */

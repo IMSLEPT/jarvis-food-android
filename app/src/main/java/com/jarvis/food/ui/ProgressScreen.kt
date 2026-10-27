@@ -364,67 +364,32 @@ fun WeightScreen() {
     var kg by remember { mutableStateOf(Store.currentWeight(s).r1()) }
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Peso", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            JCard {
-                Text("Peso di oggi", style = T.Title2)
-                Spacer(Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    GhostButton("−0,1") { kg = ((parseNum(kg) ?: 0.0) - 0.1).r1() }
-                    Spacer(Modifier.width(8.dp))
-                    JField(kg, { kg = it }, "kg", Modifier.weight(1f), number = true, suffix = "kg")
-                    Spacer(Modifier.width(8.dp))
-                    GhostButton("+0,1") { kg = ((parseNum(kg) ?: 0.0) + 0.1).r1() }
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            SettingsCard(title = "La pesata di oggi") {
+                JField(kg, { kg = it }, "Peso", number = true, suffix = "kg")
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    GhostButton("−0,1 kg", Modifier.weight(1f)) { kg = ((parseNum(kg) ?: 0.0) - 0.1).r1() }
+                    GhostButton("+0,1 kg", Modifier.weight(1f)) { kg = ((parseNum(kg) ?: 0.0) + 0.1).r1() }
                 }
-                Spacer(Modifier.height(10.dp))
-                PrimaryButton("Salva", Modifier.fillMaxWidth(), enabled = (parseNum(kg) ?: 0.0) in 30.0..300.0) {
-                    Store.addWeight(LocalDate.now(), parseNum(kg)!!)
-                }
-                if (s.goals.auto) Text("L'obiettivo calorico si aggiorna in automatico con il nuovo peso.", style = T.Small, modifier = Modifier.padding(top = 6.dp))
+                PrimaryButton("Salva peso", Modifier.fillMaxWidth(), enabled = (parseNum(kg) ?: 0.0) in 30.0..300.0) { Store.addWeight(LocalDate.now(), parseNum(kg)!!) }
+                if (s.goals.auto || s.trainingNutrition.automatic) Text("Il nuovo peso viene usato dal calcolo automatico degli obiettivi.", style = T.Small)
             }
-            SectionTitle("Storico")
-            s.weights.reversed().forEach { w ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(LocalDate.parse(w.date).format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", IT)), style = T.Body, modifier = Modifier.weight(1f))
-                    Text("${w.kg.r1()} kg", style = T.Label)
-                    Spacer(Modifier.width(10.dp))
-                    if (s.weights.size > 1) GhostButton("✕", color = C.Faint) { Store.removeWeight(w.date) }
+            SettingsHeading("Il tuo storico", "Le pesate sono ordinate dalla più recente.", warm = true)
+            if (s.weights.size > 1) SettingsCard { LineChart(s.weights.map { it.kg }, s.weights.map { LocalDate.parse(it.date).format(DM) }, C.Navy) }
+            s.weights.reversed().forEach { item ->
+                SettingsCard {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(LocalDate.parse(item.date).format(DateTimeFormatter.ofPattern("d MMMM yyyy", IT)), style = T.Small)
+                            Text("${item.kg.r1()} kg", style = T.Title2)
+                        }
+                        if (s.weights.size > 1) GhostButton("✕", color = C.Faint) { Store.removeWeight(item.date) }
+                    }
                 }
-                HorizontalDivider(color = C.Line)
             }
+            Spacer(Modifier.height(10.dp))
         }
     }
 }
 
-@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
-@Composable
-fun MeasurementsScreen() {
-    val s by Store.state.collectAsState()
-    var type by remember { mutableStateOf(MEASURES.first().first) }
-    var value by remember { mutableStateOf("") }
-    val hist = s.measurements.filter { it.type == type }.sortedBy { it.date }
-    Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Misure corporee", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                MEASURES.forEach { (k, l) -> Pill(l.substringBefore(" ("), type == k) { type = k; value = "" } }
-            }
-            Spacer(Modifier.height(12.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                JField(value, { value = it }, MEASURES.first { it.first == type }.second, Modifier.weight(1f), number = true)
-                Spacer(Modifier.width(8.dp))
-                PrimaryButton("Salva", enabled = parseNum(value) != null) {
-                    Store.addMeasurement(LocalDate.now(), type, parseNum(value)!!); value = ""
-                }
-            }
-            Spacer(Modifier.height(14.dp))
-            JCard { LineChart(hist.map { it.value }, hist.map { LocalDate.parse(it.date).format(DM) }, C.Carbs) }
-            Spacer(Modifier.height(10.dp))
-            hist.reversed().forEach { m ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
-                    Text(LocalDate.parse(m.date).format(DM), style = T.Body, modifier = Modifier.weight(1f))
-                    Text(m.value.r1(), style = T.Label)
-                }
-            }
-        }
-    }
-}
+// Interactive measurements are implemented in BodyMeasurementsScreen.kt.

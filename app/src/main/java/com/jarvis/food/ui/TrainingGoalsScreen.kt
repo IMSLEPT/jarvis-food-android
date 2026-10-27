@@ -55,51 +55,66 @@ fun TrainingGoalsScreen() {
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Giorni ON e OFF", { Nav.back() })
         Column(Modifier.weight(1f).testTag("training-goals-scroll").verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            JCard {
+            SettingsCard(title = "Modalità della giornata") {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f).padding(end = 12.dp)) {
-                        Text("Obiettivi ON/OFF", style = T.Title2)
+                        Text("Attiva ON/OFF", style = T.Label)
                         Text("Calorie e macro diversi per allenamento e riposo.", style = T.Small)
                     }
                     Switch(enabled, { enabled = it }, modifier = Modifier.testTag("training-enabled"), colors = SwitchDefaults.colors(checkedThumbColor = C.Surface, checkedTrackColor = C.Navy))
                 }
                 Text("Quando sono attivi vengono usati i valori impostati qui. Le attività restano registrate senza aggiungere altre calorie.", style = T.Small, modifier = Modifier.padding(top = 12.dp))
             }
-            ASegment(listOf("Manuale", "Automatico Jarvis"), if (automatic) 1 else 0) { automatic = it == 1 }
+            SettingsSegment(listOf("Manuale", "Automatico Jarvis"), if (automatic) 1 else 0) { automatic = it == 1 }
             if (automatic) {
-                JCard {
-                    Text("Il tuo allenamento", style = T.Title2)
-                    Text("Uso ${Store.currentWeight(s).r1()} kg, altezza ${s.profile.heightCm.r0()} cm, età ${Nutrition.age(s.profile)}, lavoro e passi dal profilo. Il calendario sotto determina quante sessioni fai a settimana.", style = T.Small)
+                SettingsCard(title = "Dati usati dal calcolo") {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        listOf("Peso" to "${Store.currentWeight(s).r1()} kg", "Altezza" to "${s.profile.heightCm.r0()} cm", "Età" to "${Nutrition.age(s.profile)} anni").forEach { (label, value) ->
+                            Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).background(C.Bg).padding(10.dp)) {
+                                Text(label, style = T.Small)
+                                Text(value, style = T.Label)
+                            }
+                        }
+                    }
+                    Text("Lavoro: ${Nutrition.JOB_LABELS[s.profile.job.coerceIn(0, 2)]}. Passi abituali: ${Nutrition.STEPS_LABELS[s.profile.stepsLevel.coerceIn(0, 4)]}.", style = T.Small)
                     TextButton(onClick = { Nav.go(Screen.ProfileEdit) }) { Text("Controlla dati del profilo", color = C.AccentDeep) }
+                }
+                SettingsCard(title = "Allenamento abituale", subtitle = "Configura una sessione tipo, comprese le pause.", warm = true) {
                     Text("Tipo di allenamento", style = T.Label)
-                    ASegment(Nutrition.TRAINING_LABELS, trainingType, vertical = true) { trainingType = it }
-                    Spacer(Modifier.height(12.dp))
-                    JField(minutes, { minutes = it.filter { c -> c.isDigit() }.take(3) }, "Minuti per sessione (pause comprese)", Modifier.testTag("auto-training-minutes"), number = true)
-                    Spacer(Modifier.height(12.dp))
-                    Text("Intensità media della sessione", style = T.Label)
-                    ASegment(listOf("Leggera", "Moderata", "Intensa"), intensity, vertical = true) { intensity = it }
-                    Text("Stima energetica, non una misura: le pause e lo sforzo reale possono cambiare il consumo.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
+                    Nutrition.TRAINING_LABELS.forEachIndexed { index, label ->
+                        SettingsChoice(label, selected = trainingType == index) { trainingType = index }
+                    }
+                    JField(minutes, { minutes = it.filter { c -> c.isDigit() }.take(3) }, "Durata della sessione", Modifier.testTag("auto-training-minutes"), number = true, suffix = "min")
+                    Text("Intensità media", style = T.Label)
+                    SettingsSegment(listOf("Leggera", "Moderata", "Intensa"), intensity) { intensity = it }
+                    Text("Il consumo è stimato: pause e sforzo reale possono modificarlo.", style = T.Small)
                 }
             }
-            Text("La tua settimana", style = T.H2)
-            Text("Seleziona i giorni di allenamento. Gli altri saranno di riposo.", style = T.Small)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom").forEachIndexed { i, day ->
-                    val isOn = i + 1 in days
-                    val shape = RoundedCornerShape(16.dp)
-                    Box(Modifier.testTag("training-weekday-${i + 1}").heightIn(min = 48.dp).widthIn(min = 48.dp).clip(shape)
-                        .background(if (isOn) C.Navy else C.Surface).border(1.dp, C.Line, shape)
-                        .semantics { selected = isOn; stateDescription = if (isOn) "Allenamento ON" else "Riposo OFF" }
-                        .clickable(role = Role.Button) { days = if (isOn) days - (i + 1) else days + (i + 1) }.padding(12.dp), contentAlignment = Alignment.Center) {
-                        Text(day, style = T.Label.copy(color = if (isOn) C.Surface else C.Navy))
+            SettingsCard(title = "La tua settimana", subtitle = "I giorni selezionati sono ON. Gli altri sono OFF.") {
+                val labels = listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom")
+                labels.indices.toList().chunked(4).forEach { row ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        row.forEach { i ->
+                            val isOn = i + 1 in days
+                            val shape = RoundedCornerShape(14.dp)
+                            Column(Modifier.weight(1f).testTag("training-weekday-${i + 1}").heightIn(min = 58.dp).clip(shape)
+                                .background(if (isOn) C.Navy else C.Bg).border(1.dp, if (isOn) C.Navy else C.Line, shape)
+                                .semantics { selected = isOn; stateDescription = if (isOn) "Allenamento ON" else "Riposo OFF" }
+                                .clickable(role = Role.Button) { days = if (isOn) days - (i + 1) else days + (i + 1) }.padding(vertical = 9.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(labels[i], style = T.Label.copy(color = if (isOn) C.Surface else C.Navy))
+                                Text(if (isOn) "ON" else "OFF", style = T.Small.copy(fontSize = 10.sp, color = if (isOn) C.Surface.copy(alpha = .8f) else C.Muted))
+                            }
+                        }
                     }
                 }
             }
+            SettingsHeading("I tuoi obiettivi", if (automatic) "Proposta calcolata dal profilo e dalla sessione tipo." else "Imposta calorie e grammi separatamente per ON e OFF.", warm = true)
+
             if (automatic) {
                 if (estimate != null) {
                     AutoTargetSummary("ON · Allenamento", estimate.on)
                     AutoTargetSummary("OFF · Riposo", estimate.off)
-                    JCard {
+                    SettingsCard(title = "Il calcolo di Jarvis") {
                         Text("${estimate.sessions} ${if (estimate.sessions == 1) "allenamento" else "allenamenti"}/settimana · media ${estimate.weeklyAverage.r0()} kcal", style = T.Label)
                         Text("Proteine mantenute anche nei giorni di riposo; il recupero continua. La differenza energetica va soprattutto ai carboidrati.", style = T.Small)
                         TextButton(onClick = { showCalculation = !showCalculation }) { Text(if (showCalculation) "Nascondi calcolo" else "Mostra come viene calcolato", color = C.AccentDeep) }
@@ -129,38 +144,40 @@ fun TrainingGoalsScreen() {
 
 @Composable
 private fun AutoTargetSummary(title: String, target: DailyTargets) {
-    JCard {
-        Text(title, style = T.Title2)
-        Text("${target.kcal} kcal", style = T.H2.copy(color = C.Accent), modifier = Modifier.padding(top = 8.dp))
-        Text("P ${target.protein.r1()} g · C ${target.carbs.r1()} g · G ${target.fat.r1()} g", style = T.Label)
+    val warm = title.startsWith("ON")
+    SettingsCard(title = title, warm = warm) {
+        Text("${target.kcal} kcal", style = T.H2.copy(fontSize = 28.sp, color = if (warm) C.Accent else C.Navy))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("Proteine" to target.protein, "Carboidrati" to target.carbs, "Grassi" to target.fat).forEach { (label, grams) ->
+                Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).background(C.Bg).padding(10.dp)) {
+                    Text(label, style = T.Small.copy(fontSize = 11.sp))
+                    Text("${grams.r1()} g", style = T.Label)
+                }
+            }
+        }
     }
 }
 
 @Composable
 private fun TargetFields(title: String, key: String, values: List<String>, onEdit: (Int, String) -> Unit) {
-    JCard {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(8.dp).clip(RoundedCornerShape(4.dp)).background(if (key == "on") C.Accent else C.Navy))
-            Spacer(Modifier.width(8.dp)); Text(title, style = T.Title2)
-        }
-        Spacer(Modifier.height(16.dp))
-        val labels = listOf("Calorie (kcal)", "Proteine (g)", "Carboidrati (g)", "Grassi (g)")
+    SettingsCard(title = title, warm = key == "on") {
+        val labels = listOf("Calorie", "Proteine", "Carboidrati", "Grassi")
         for (row in 0..1) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 for (column in 0..1) {
                     val i = row * 2 + column
-                    JField(values[i], { value -> onEdit(i, value.filter { it.isDigit() || it == ',' || it == '.' }.take(8)) }, labels[i], Modifier.weight(1f).testTag("target-$key-$i"), number = true)
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(labels[i], style = T.Label.copy(fontSize = 13.sp))
+                        JField(values[i], { value -> onEdit(i, value.filter { it.isDigit() || it == ',' || it == '.' }.take(8)) }, if (i == 0) "kcal" else "g", Modifier.testTag("target-$key-$i"), number = true)
+                    }
                 }
             }
-            Spacer(Modifier.height(12.dp))
         }
         val nums = values.map { parseNum(it) }
         if (nums.drop(1).all { it != null && it.isFinite() }) {
-            val macroEnergy = nums[1]!! * 4 + nums[2]!! * 4 + nums[3]!! * 9
-            Text("Energia dai macro: ${macroEnergy.r0()} kcal", style = T.Small)
-            if (macroEnergy > 0 && macroEnergy <= 50000 && kotlin.math.abs(macroEnergy - (nums[0] ?: 0.0)) > 10) {
-                TextButton(onClick = { onEdit(0, macroEnergy.roundToInt().toString()) }) { Text("Usa queste calorie", color = C.AccentDeep) }
-            }
+            val energy = nums[1]!! * 4 + nums[2]!! * 4 + nums[3]!! * 9
+            Text("Energia dai macro: ${energy.r0()} kcal", style = T.Small)
+            if (energy > 0 && energy <= 50000 && kotlin.math.abs(energy - (nums[0] ?: 0.0)) > 10) TextButton(onClick = { onEdit(0, energy.roundToInt().toString()) }) { Text("Usa queste calorie", color = C.AccentDeep) }
         }
     }
 }

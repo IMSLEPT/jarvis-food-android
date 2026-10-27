@@ -26,7 +26,7 @@ class MealOptionsFlowTest {
         ui { Store.update { s }; Nav.clear(); Nav.tab = 0; Nav.diaryDate = today; Nav.planDate = today }
     }
     private fun shot(name: String) {
-        compose.waitForIdle()
+        compose.waitForIdle(); ins.waitForIdleSync(); android.os.SystemClock.sleep(400)
         val capture = InstrumentationRegistry.getArguments().getString("captureName") ?: "standard"
         val dir = File(ins.targetContext.filesDir, "shots/options-$capture").apply { mkdirs() }
         File(dir, "$name.png").outputStream().use { ins.uiAutomation.takeScreenshot().compress(Bitmap.CompressFormat.PNG, 100, it) }
@@ -99,10 +99,12 @@ class MealOptionsFlowTest {
         prepare(AppState(onboarded = true, profile = Profile(detailed = true), diary = listOf(entry), customFoods = listOf(product)))
         ActivityScenario.launch(MainActivity::class.java).use {
             ui { Nav.go(Screen.ReplaceFood(entry.id)) }
+            compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replace-photo"))
             compose.onNodeWithTag("replace-photo").performClick()
             compose.onNodeWithText("Fotografa il nuovo alimento").assertIsDisplayed()
             assertEquals(listOf(entry), Store.current.diary)
             ui { Nav.back() }
+            compose.onNodeWithTag("replacement-results").performScrollToNode(hasText("Inserisci codice a mano"))
             compose.onNodeWithText("Inserisci codice a mano").performClick()
             compose.onNodeWithText("Codice prodotto").performTextInput("8001234567890")
             compose.onNodeWithText("Cerca").performClick()

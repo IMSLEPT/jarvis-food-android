@@ -97,6 +97,7 @@ fun FastingScreen() {
             Text("Digiuno intermittente", style = T.H1.copy(fontSize = 27.sp, lineHeight = 31.sp), modifier = Modifier.weight(1f))
         }
 
+        SettingsHeading("Il tuo protocollo", "Scegli la finestra che vuoi seguire.")
         // Piani
         Row(Modifier.padding(top = 16.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             FastingPlans.plans.forEach { p ->

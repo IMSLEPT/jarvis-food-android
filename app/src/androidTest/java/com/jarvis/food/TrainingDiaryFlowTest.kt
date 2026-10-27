@@ -46,13 +46,15 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithTag("diary-entry-${first.id}").performClick()
             compose.onNodeWithText("Sostituisci alimento").performScrollTo().performClick()
             compose.onNodeWithTag("replace-food-search").performTextInput("Merluzzo test")
-            compose.onNodeWithTag("replacement-${fish.id}").performScrollTo().performClick()
+            compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replacement-${fish.id}"))
+            compose.onNodeWithTag("replacement-${fish.id}").performClick()
             compose.waitForIdle()
             assertEquals(listOf(first, other), Store.current.diary)
             compose.onNodeWithText("Annulla").performClick()
             compose.waitForIdle()
             assertEquals(listOf(first, other), Store.current.diary)
-            compose.onNodeWithTag("replacement-${fish.id}").performScrollTo().performClick()
+            compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replacement-${fish.id}"))
+            compose.onNodeWithTag("replacement-${fish.id}").performClick()
             compose.onNodeWithTag("food-quantity").performScrollTo().performTextReplacement("150")
             // IME animation is driven by Android, independently of Compose's test clock.
             // Close it before injecting the footer tap so its moving bounds cannot consume the click.

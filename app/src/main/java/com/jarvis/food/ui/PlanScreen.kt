@@ -359,22 +359,8 @@ fun DietSettingsScreen() {
     Column(Modifier.fillMaxSize()) {
         TopBar("Preferenze della dieta", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
-            GHead("Preferenze della dieta", "Gli alimenti esclusi non compaiono nel piano né nei suggerimenti.")
-            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
-                Column {
-                    Text("Esclusioni", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(bottom = 10.dp))
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        tags.forEach { (k, l) ->
-                            AChip(l, k in p.exclude) { p = p.copy(exclude = if (k in p.exclude) p.exclude - k else p.exclude + k) }
-                        }
-                    }
-                    if ("lattosio" in p.exclude) Text("Con \"Senza lattosio\" i piatti usano latte delattosato e formaggi stagionati come il Parmigiano.",
-                        style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
-                }
-            }
-
-            GHead("I tuoi pasti", "La stessa scelta viene usata in Oggi e Piano. Gli alimenti già registrati restano nel diario.")
-            JCard {
+            SettingsHeading("I tuoi pasti", "La stessa scelta viene usata in Oggi e Piano. Gli alimenti già registrati restano nel diario.")
+            SettingsCard(title = "Momenti della giornata") {
                 MealSchedule.definitions.forEach { def ->
                     val selected = p.slots.any { it.diaryMeal == def.diaryMeal }
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -390,14 +376,13 @@ fun DietSettingsScreen() {
                 Text("Mantieni almeno un pasto. Puoi attivare ogni momento separatamente.", style = T.Small)
             }
             Spacer(Modifier.height(12.dp))
-            JCard {
-                Text("Il suggerimento di Jarvis", style = T.Title2)
+            SettingsCard(title = "Il suggerimento di Jarvis", warm = true) {
                 Text(advice.second, style = T.Small, modifier = Modifier.padding(top = 8.dp))
                 TextButton(onClick = { p = MealSchedule.withMeals(p, advice.first) }) { Text("Usa questa suddivisione", color = C.AccentDeep) }
                 Text("Proposta organizzativa: il numero di pasti non modifica il fabbisogno totale.", style = T.Small)
             }
-            GHead("Ripartizione delle calorie", "Imposta le quote: Jarvis le riporta in proporzione al totale giornaliero.")
-            JCard {
+            SettingsHeading("Ripartizione delle calorie", "Imposta le quote: Jarvis le riporta in proporzione al totale giornaliero.")
+            SettingsCard(title = "Quote dei pasti") {
                 p.slots.forEachIndexed { i, sl ->
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Text(sl.name, style = T.Label, modifier = Modifier.weight(1f))
@@ -408,11 +393,25 @@ fun DietSettingsScreen() {
                 }
             }
 
-            GHead("Tempo massimo di preparazione")
+            SettingsHeading("Esclusioni alimentari", "Le preferenze si applicano al piano e ai suggerimenti.", warm = true)
+            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+                Column {
+                    Text("Esclusioni", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(bottom = 10.dp))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        tags.forEach { (k, l) ->
+                            AChip(l, k in p.exclude) { p = p.copy(exclude = if (k in p.exclude) p.exclude - k else p.exclude + k) }
+                        }
+                    }
+                    if ("lattosio" in p.exclude) Text("Con \"Senza lattosio\" i piatti usano latte delattosato e formaggi stagionati come il Parmigiano.",
+                        style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                }
+            }
+
+            SettingsHeading("Tempo di preparazione")
             ASegment(listOf(15, 25, 40).map { "$it min" }, listOf(15, 25, 40).indexOf(p.maxMinutes)) { i -> p = p.copy(maxMinutes = listOf(15, 25, 40)[i]) }
 
             if (p.disliked.isNotEmpty()) {
-                GHead("Piatti nascosti")
+                SettingsHeading("Piatti nascosti")
                 ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         p.disliked.forEach { id ->

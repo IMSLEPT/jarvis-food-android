@@ -284,7 +284,7 @@ fun ProfileEditScreen() {
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Profilo e obiettivi", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 8.dp)) {
-            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+            SettingsCard(title = "Identità", subtitle = "La foto e il nome che vedi nell’app") {
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp, shape = RoundedCornerShape(30.dp)) }
@@ -309,17 +309,17 @@ fun ProfileEditScreen() {
                     }
                 }
             }
-            ASection("Le mie risposte")
+            SettingsHeading("Il tuo profilo", "Apri una sezione per aggiornare le risposte.")
             GapH(12.dp)
             Column {
-                ProfRow(Ic.User, A.CarbSoft, A.CarbInk, "Dati personali", "${if (p.male) "Uomo" else "Donna"} · $age anni · ${p.heightCm.r0()} cm") { Nav.go(Screen.Questionnaire(QStep.About)) }
-                ProfRow(PIc.Scale, A.GreenSoft, A.GreenInk, "Peso e composizione", "Ora ${w.r1()} kg · obiettivo ${p.targetWeight.r1()} kg" +
+                ProfRow(Ic.User, C.NavySoft, C.Navy, "Dati personali", "${if (p.male) "Uomo" else "Donna"} · $age anni · ${p.heightCm.r0()} cm") { Nav.go(Screen.Questionnaire(QStep.About)) }
+                ProfRow(PIc.Scale, C.AccentSoft, C.AccentDeep, "Peso e composizione", "Ora ${w.r1()} kg · obiettivo ${p.targetWeight.r1()} kg" +
                         (p.bodyFatPct?.let { " · grasso ${it.r0()}%" } ?: "")) { Nav.go(Screen.Questionnaire(QStep.Body)) }
-                ProfRow(bagIc, A.FatSoft, A.FatInk, "Lavoro", Nutrition.JOB_LABELS[p.job.coerceIn(0, 2)]) { Nav.go(Screen.Questionnaire(QStep.Job)) }
-                ProfRow(stepsIc, A.ProteinSoft, A.ProteinInk, "Passi al giorno", Nutrition.STEPS_LABELS[p.stepsLevel.coerceIn(0, 4)]) { Nav.go(Screen.Questionnaire(QStep.Steps)) }
-                ProfRow(dumbIc, A.FastSoft, A.FastInk, "Allenamenti", if (p.workouts == 0) "Nessuno" else "${p.workouts} a settimana · ${p.workoutMin} min · ${Nutrition.TRAINING_LABELS[p.trainingType.coerceIn(0, 3)].lowercase()}") { Nav.go(Screen.Questionnaire(QStep.Training)) }
-                ProfRow(PIc.Target, A.Tonal, A.TonalInk, "Obiettivo", when (p.goal) { -1 -> "Dimagrire · ${p.weeklyRate.r1()} kg a settimana"; 1 -> "Aumentare massa · ${p.weeklyRate.r1()} kg a settimana"; else -> "Mantenere il peso" }) { Nav.go(Screen.Questionnaire(QStep.Goal)) }
-                ProfRow(PIc.Leaf, A.GreenSoft, A.GreenInk, "Preferenze", when (p.dietStyle) { 1 -> "Più proteine"; 2 -> "Pochi carboidrati"; else -> "Bilanciato" } +
+                ProfRow(bagIc, C.NavySoft, C.Navy, "Lavoro", Nutrition.JOB_LABELS[p.job.coerceIn(0, 2)]) { Nav.go(Screen.Questionnaire(QStep.Job)) }
+                ProfRow(stepsIc, C.AccentSoft, C.AccentDeep, "Passi al giorno", Nutrition.STEPS_LABELS[p.stepsLevel.coerceIn(0, 4)]) { Nav.go(Screen.Questionnaire(QStep.Steps)) }
+                ProfRow(dumbIc, C.NavySoft, C.Navy, "Allenamenti", if (p.workouts == 0) "Nessuno" else "${p.workouts} a settimana · ${p.workoutMin} min · ${Nutrition.TRAINING_LABELS[p.trainingType.coerceIn(0, 3)].lowercase()}") { Nav.go(Screen.Questionnaire(QStep.Training)) }
+                ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Obiettivo", when (p.goal) { -1 -> "Dimagrire · ${p.weeklyRate.r1()} kg a settimana"; 1 -> "Aumentare massa · ${p.weeklyRate.r1()} kg a settimana"; else -> "Mantenere il peso" }) { Nav.go(Screen.Questionnaire(QStep.Goal)) }
+                ProfRow(PIc.Leaf, C.NavySoft, C.Navy, "Preferenze", when (p.dietStyle) { 1 -> "Più proteine"; 2 -> "Pochi carboidrati"; else -> "Bilanciato" } +
                         (if (p.special != 0) " · situazione particolare" else ""), divider = false) { Nav.go(Screen.Questionnaire(QStep.Diet)) }
             }
             GapH(14.dp)
@@ -382,241 +382,97 @@ fun GoalsScreen() {
         else if (auto) { c = recommended.carbsPct; p = recommended.proteinPct; f = recommended.fatPct }
     }
 
+    var details by remember { mutableStateOf(false) }
+    var presets by remember { mutableStateOf(false) }
+    val advice = if (k >= 800) Nutrition.macroAdvice(pr, w, k) else null
+    val protKg = if (w > 0) k * p / 100.0 / 4.0 / w else 0.0
+    fun setProt(kg: Double) {
+        if (k < 800 || w <= 0) return
+        val np = (kg * w * 4 / k * 100).roundToInt().coerceIn(10, 45)
+        p = np; c = (100 - np - f).coerceAtLeast(5); f = 100 - np - c
+    }
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Obiettivi", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, bottom = 8.dp)) {
-            JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
-                Text("Giorni ON e OFF", style = T.Title2)
-                Text(if (s.trainingNutrition.active) "Attivi: gestisci gli obiettivi per allenamento e riposo. I valori generali sotto si applicano quando ON/OFF è disattivato." else "Configura obiettivi diversi per allenamento e riposo.", style = T.Small)
+        Column(Modifier.weight(1f).testTag("goals-scroll").verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            if (s.trainingNutrition.active) SettingsCard(title = "Giorni ON e OFF attivi", warm = true) {
+                Text("Gli obiettivi di oggi seguono ON/OFF. Le impostazioni generali di questa pagina si applicano quando ON/OFF è disattivato.", style = T.Small)
+                TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Gestisci giorni ON e OFF", color = C.AccentDeep) }
+            } else SettingsCard(title = "La tua settimana") {
+                Text("Puoi usare un obiettivo unico oppure differenziare allenamento e riposo.", style = T.Small)
+                TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Configura giorni ON e OFF", color = C.AccentDeep) }
             }
-            GapH(12.dp)
-            // Hero: come è calcolato
-            val heroShape = RoundedCornerShape(34.dp)
-            Column(
-                Modifier.padding(top = 6.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x99E88C60)).clip(heroShape)
-                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape)
-                    .padding(horizontal = 20.dp, vertical = 22.dp)
-            ) {
-                Text("IL TUO OBIETTIVO GIORNALIERO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = C.AccentDeep, letterSpacing = 0.5.sp))
-                Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.padding(top = 2.dp)) {
-                    Text(kcalFmt(k), style = T.H1.copy(fontSize = 56.sp, lineHeight = 60.sp, letterSpacing = (-1.7).sp))
-                    Text("kcal", style = T.Body.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = C.AccentDeep), modifier = Modifier.padding(start = 6.dp, bottom = 10.dp))
+            SettingsCard(title = if (s.trainingNutrition.active) "Obiettivo generale di riferimento" else "Il tuo obiettivo giornaliero", modifier = Modifier.testTag("goals-summary")) {
+                Text("${kcalFmt(k)} kcal", style = T.H1.copy(fontSize = 36.sp, lineHeight = 43.sp))
+                SwitchRow("Calcolo automatico", "Calorie dal profilo e dal peso", auto) {
+                    auto = it
+                    if (it) { c = recommended.carbsPct; p = recommended.proteinPct; f = recommended.fatPct }
+                    else kcalTxt = recommended.kcal.toString()
                 }
-                Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = 16.dp, vertical = 14.dp)) {
-                    val lab = TextStyle(fontFamily = T.Body.fontFamily, fontSize = 13.5.sp, color = C.Muted)
-                    val num = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.Bold, color = A.Ink)
-                    Row {
-                        Text(buildAnnotatedString {
-                            append("Metabolismo basale ")
-                            withStyle(SpanStyle(color = C.Muted)) { append(if (pr.bodyFatPct != null) "(Katch-McArdle)" else "(Mifflin-St Jeor)") }
-                        }, style = lab, modifier = Modifier.weight(1f))
-                        Text(kcalFmt(bmr), style = num)
-                    }
-                    Row(Modifier.padding(top = 8.dp)) {
-                        Text("× attività ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = lab, modifier = Modifier.weight(1f))
-                        Text(kcalFmt(tdee), style = num)
-                    }
-                    Row(Modifier.padding(top = 8.dp)) {
-                        Text(when {
-                            delta == 0.0 -> "Mantenimento"
-                            delta > 0 -> "Surplus per ${fac(rate)} kg/sett"
-                            else -> "Deficit per ${fac(rate)} kg/sett"
-                        }, style = lab, modifier = Modifier.weight(1f))
-                        Text((if (delta > 0) "+ " else if (delta < 0) "− " else "") + kcalFmt(kotlin.math.abs(delta)), style = num)
-                    }
+                if (!auto) {
+                    JField(kcalTxt, { kcalTxt = it.filter { ch -> ch.isDigit() } }, "Calorie giornaliere", Modifier.testTag("goals-calories"), number = true, suffix = "kcal")
+                    if (k in 1.0..(Nutrition.minKcal(pr) - 1.0)) Text("Valore basso: confronta questo obiettivo con il professionista che ti segue.", style = T.Small.copy(color = C.Danger))
                 }
-                Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ProfStat("${Nutrition.age(pr)}", "anni", Modifier.weight(1f), big = true)
-                    ProfStat(pr.heightCm.r0(), "cm", Modifier.weight(1f), big = true)
-                    ProfStat(w.r1(), "kg", Modifier.weight(1f), big = true)
-                }
-                Text("Il calcolo è una stima, non una prescrizione.", style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 17.sp, color = C.AccentDeep), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp))
-            }
-
-            // Calcolo automatico / manuale
-            ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 16.dp, elevation = 8.dp) {
-                Column {
-                    SwitchRow("Calcolo automatico", "Calorie e macro dal profilo e dal peso (consigliato)", auto) {
-                        auto = it
-                        if (it) { c = recommended.carbsPct; p = recommended.proteinPct; f = recommended.fatPct }
-                        else kcalTxt = recommended.kcal.toString()
-                    }
-                    if (!auto) {
-                        JField(kcalTxt, { kcalTxt = it.filter { ch -> ch.isDigit() } }, "Calorie giornaliere", number = true, suffix = "kcal", modifier = Modifier.padding(top = 8.dp))
-                        val diff = k - recommended.kcal
-                        if (k > 0 && kotlin.math.abs(diff) >= 100) Text(
-                            "Per il tuo obiettivo il calcolo consiglia ${recommended.kcal} kcal: stai impostando ${if (diff > 0) "+" else ""}${diff.r0()} kcal.",
-                            style = T.Small.copy(color = if (k < Nutrition.minKcal(pr)) C.Danger else A.Muted), modifier = Modifier.padding(top = 8.dp))
-                        if (k in 1.0..(Nutrition.minKcal(pr) - 1.0)) Text(
-                            "Sotto ${Nutrition.minKcal(pr)} kcal al giorno è meglio farsi seguire da un medico.", style = T.Small.copy(color = C.Danger), modifier = Modifier.padding(top = 4.dp))
-                    }
+                TextButton(onClick = { details = !details }) { Text(if (details) "Chiudi dettaglio del calcolo" else "Come viene calcolato", color = C.AccentDeep) }
+                if (details) {
+                    Text("Basale: ${kcalFmt(bmr)} kcal (${if (pr.bodyFatPct != null && pr.bodyFatPct!! in 5.0..55.0) "Katch-McArdle" else "Mifflin-St Jeor"}).", style = T.Small)
+                    Text("Attività × ${fac(if (bmr > 0) tdee / bmr else 1.0)}: ${kcalFmt(tdee)} kcal di mantenimento. Variazione per l'obiettivo: ${if (delta >= 0) "+" else "−"}${kcalFmt(kotlin.math.abs(delta))} kcal.", style = T.Small)
+                    Text("${Nutrition.age(pr)} anni · ${pr.heightCm.r0()} cm · ${w.r1()} kg. Il risultato è una stima.", style = T.Small)
                 }
             }
-
-            // Attività
-            GHead("Quanto sei attivo?")
-            if (!s.profile.detailed) {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ACT_NAMES.forEachIndexed { i, name ->
-                        val sel = i == act
-                        AChoice(sel, Modifier.fillMaxWidth(), onClick = { act = i }) {
-                            Row(Modifier.padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Column(Modifier.weight(1f)) {
-                                    Text(name, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                                    Text(ACT_DESC[i], style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
-                                }
-                                Text("× ${fac(Nutrition.ACTIVITY_FACTORS[i])}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = if (sel) C.AccentDeep else C.Muted))
-                            }
+            SettingsHeading("Obiettivo e ritmo", "Scegli la direzione e la velocità di variazione del peso.", warm = true)
+            PACES.forEachIndexed { index, pc ->
+                SettingsChoice(pc.name, pc.rate, goal == pc.goal && (pc.goal == 0 || kotlin.math.abs(rate - pc.kg) < 0.01), Modifier.testTag("goal-pace-$index")) {
+                    goal = pc.goal; if (pc.goal != 0) rate = pc.kg
+                }
+            }
+            SettingsHeading("Movimento quotidiano", "Il livello di attività è incluso nella stima del fabbisogno.")
+            if (s.profile.detailed) SettingsCard {
+                Text("Calcolata dal tuo questionario", style = T.Label)
+                Text("Lavoro, passi e allenamenti · fattore ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = T.Small)
+                TextButton(onClick = { Nav.go(Screen.Questionnaire(null)) }) { Text("Modifica le risposte", color = C.AccentDeep) }
+            } else ACT_NAMES.forEachIndexed { index, label ->
+                SettingsChoice(label, ACT_DESC[index] + " · × ${fac(Nutrition.ACTIVITY_FACTORS[index])}", act == index) { act = index }
+            }
+            SettingsHeading("Macronutrienti", "Valori riferiti all'obiettivo generale di questa pagina.", warm = true)
+            SettingsCard {
+                listOf(Triple("Proteine", p to 4, C.Protein), Triple("Carboidrati", c to 4, C.Blue), Triple("Grassi", f to 9, C.Gold)).forEach { (label, share, color) ->
+                    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Bg).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(8.dp).clip(CircleShape).background(color))
+                        Text(label, style = T.Label, modifier = Modifier.padding(start = 10.dp).weight(1f))
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text("${(k * share.first / 100 / share.second).r0()} g", style = T.Title2.copy(color = color))
+                            Text("${share.first}%", style = T.Small)
                         }
                     }
                 }
-            } else {
-                AChoice(true, Modifier.fillMaxWidth(), onClick = { Nav.go(Screen.Questionnaire(null)) }) {
-                    Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f)) {
-                            Text("Calcolata dal tuo questionario", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                            Text("Lavoro, passi e allenamenti: tocca per modificarli", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
-                        }
-                        Text("× ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = C.AccentDeep))
-                        GapW(8.dp)
-                        AIcon(Ic.Right, C.Muted, 18.dp, 2.4f)
-                    }
+                SettingsCounter("Proteine per kg", "${"%.1f".format(java.util.Locale.ITALY, protKg)} g/kg", "Riferimento dal profilo: ${"%.1f".format(java.util.Locale.ITALY, Nutrition.proteinPerKg(pr))} g/kg",
+                    onMinus = { setProt(((protKg - 0.1) * 10).roundToInt() / 10.0) }, onPlus = { setProt(((protKg + 0.1) * 10).roundToInt() / 10.0) })
+                Text("Quota di grassi", style = T.Label)
+                val fats = listOf(25, 30, 35)
+                SettingsSegment(fats.map { "$it%" }, fats.indexOf(f)) { index -> f = fats[index]; c = (100 - p - f).coerceAtLeast(5); p = 100 - c - f }
+                Text("I carboidrati coprono le calorie rimanenti.", style = T.Small)
+            }
+            if (advice != null) SettingsCard(title = "Confronta le ripartizioni") {
+                Text(advice.reason, style = T.Small)
+                TextButton(onClick = { presets = !presets }) { Text(if (presets) "Chiudi ripartizioni" else "Scegli una ripartizione", color = C.AccentDeep) }
+                if (presets) Nutrition.PRESETS.forEachIndexed { index, preset ->
+                    SettingsChoice(preset.name, "${preset.carbs}% C · ${preset.protein}% P · ${preset.fat}% G\n${advice.notes[index]}",
+                        c == preset.carbs && p == preset.protein && f == preset.fat) { c = preset.carbs; p = preset.protein; f = preset.fat }
                 }
             }
-
-            // Ritmo
-            GHead("Obiettivo e ritmo")
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                PACES.chunked(2).forEach { rowPaces ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        rowPaces.forEach { pc ->
-                            val sel = goal == pc.goal && (pc.goal == 0 || kotlin.math.abs(rate - pc.kg) < 0.01)
-                            AChoice(sel, Modifier.weight(1f), minHeight = 76.dp, onClick = { goal = pc.goal; if (pc.goal != 0) rate = pc.kg }) {
-                                Column(Modifier.padding(12.dp)) {
-                                    Text(pc.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                                    Text(pc.rate, style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = if (sel) C.AccentDeep else C.Muted), modifier = Modifier.padding(top = 2.dp))
-                                }
-                            }
-                        }
-                    }
-                }
+            SettingsHeading("Idratazione e movimento", "Obiettivi quotidiani indipendenti dalla ripartizione dei macro.")
+            SettingsCard {
+                SettingsCounter("Obiettivo acqua", "${water.thousands()} ml", onMinus = { water = (water - 250).coerceIn(500, 6000) }, onPlus = { water = (water + 250).coerceIn(500, 6000) })
+                HorizontalDivider(color = C.Line)
+                SettingsCounter("Passi al giorno", steps.thousands(), onMinus = { steps = (steps - 500).coerceIn(1000, 50000) }, onPlus = { steps = (steps + 500).coerceIn(1000, 50000) })
+                HorizontalDivider(color = C.Line)
+                SettingsCounter("Bicchiere", "$glass ml", "Acqua registrata a ogni tocco", onMinus = { glass = (glass - 50).coerceIn(100, 1000) }, onPlus = { glass = (glass + 50).coerceIn(100, 1000) })
             }
-
-            // Macronutrienti
-            GHead("Macronutrienti")
-            val advice = if (k >= 800) Nutrition.macroAdvice(pr, w, k) else null
-            val protKg = if (w > 0) k * p / 100.0 / 4.0 / w else 0.0
-            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 20.dp, elevation = 8.dp) {
-                Column {
-                    Row(Modifier.fillMaxWidth().height(16.dp).clip(RoundedCornerShape(8.dp)), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                        Box(Modifier.weight(p.coerceAtLeast(1).toFloat()).height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFFF43F6E)))
-                        Box(Modifier.weight(c.coerceAtLeast(1).toFloat()).height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFF3B82F6)))
-                        Box(Modifier.weight(f.coerceAtLeast(1).toFloat()).height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFFF59E0B)))
-                    }
-                    Row(Modifier.padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        listOf(Triple("Proteine", p to 4, Color(0xFFF43F6E)), Triple("Carboidrati", c to 4, Color(0xFF3B82F6)), Triple("Grassi", f to 9, Color(0xFFD97706))).forEach { (n, pk, col) ->
-                            Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text("${(k * pk.first / 100 / pk.second).r0()} g", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, letterSpacing = (-0.2).sp, color = col), maxLines = 1)
-                                Text("$n · ${pk.first}%", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), maxLines = 1)
-                            }
-                        }
-                    }
-                    Box(Modifier.padding(vertical = 18.dp).fillMaxWidth().height(1.dp).background(C.Line))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f)) {
-                            Text("Proteine per kg", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                            Text("Consigliato ${"%.1f".format(java.util.Locale.ITALY, Nutrition.proteinPerKg(pr))} g/kg", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
-                        }
-                        fun setProt(kg: Double) {
-                            if (k < 800 || w <= 0) return
-                            val np = (kg * w * 4 / k * 100).roundToInt().coerceIn(10, 45)
-                            p = np; c = (100 - np - f).coerceAtLeast(5); f = 100 - np - c
-                        }
-                        AStepBtn(false, A.ProteinSoft, A.ProteinInk) { setProt(((protKg - 0.1) * 10).roundToInt() / 10.0) }
-                        Text("%.1f".format(java.util.Locale.ITALY, protKg), style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(68.dp))
-                        AStepBtn(true, A.ProteinSoft, A.ProteinInk) { setProt(((protKg + 0.1) * 10).roundToInt() / 10.0) }
-                    }
-                    Text("Quota di grassi", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(top = 18.dp, bottom = 8.dp))
-                    val fats = listOf(25, 30, 35)
-                    ASegment(fats.map { "$it%" }, fats.indexOf(f)) { i -> f = fats[i]; c = (100 - p - f).coerceAtLeast(5); p = 100 - c - f }
-                    Text("I carboidrati prendono le calorie che restano.", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
-                }
-            }
-            if (advice != null) {
-                val best = Nutrition.PRESETS[advice.best]
-                ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
-                    Column {
-                        Text("Ti conviene: ${best.name}", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.2).sp))
-                        Text(advice.reason, style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = C.Muted), modifier = Modifier.padding(top = 4.dp))
-                        Column(Modifier.padding(top = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Nutrition.PRESETS.forEachIndexed { i, pc ->
-                                val on = c == pc.carbs && p == pc.protein && f == pc.fat
-                                AChoice(on, Modifier.fillMaxWidth(), minHeight = 56.dp, radius = 20.dp, onClick = { c = pc.carbs; p = pc.protein; f = pc.fat }) {
-                                    Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
-                                        Row {
-                                            Text(pc.name + if (i == advice.best) " ★" else "", style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                                            Text("${pc.carbs}C ${pc.protein}P ${pc.fat}G · ${"%.1f".format(java.util.Locale.ITALY, advice.perKg[i])} g/kg", style = T.Small.copy(fontSize = 12.sp, color = if (i == advice.best) C.AccentDeep else A.Muted))
-                                        }
-                                        Text(advice.notes[i], style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Acqua
-            val waterShape = RoundedCornerShape(30.dp)
-            Row(
-                Modifier.padding(top = 12.dp).fillMaxWidth().aShadow(waterShape, 12.dp, Color(0x993B82F6)).clip(waterShape)
-                    .background(C.Surface).padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TonalIcon(Ic.Drop, Color(0xFF2563EB), Color.White, box = 52.dp, radius = 19.dp, size = 26.dp)
-                GapW(14.dp)
-                Column(Modifier.weight(1f)) {
-                    Text("Obiettivo acqua", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                    Text("${water.thousands()} ml", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, letterSpacing = (-0.2).sp), maxLines = 1)
-                }
-                AStepBtn(false, Color.White, Color(0xFF2563EB)) { water = (water - 250).coerceIn(500, 6000) }
-                GapW(8.dp)
-                AStepBtn(true, Color.White, Color(0xFF2563EB)) { water = (water + 250).coerceIn(500, 6000) }
-            }
-
-            // Altri obiettivi: passi e bicchiere
-            ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 16.dp, elevation = 8.dp) {
-                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f)) {
-                            Text("Passi al giorno", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                            Text("Obiettivo giornaliero", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
-                        }
-                        AStepBtn(false, A.GreenSoft, A.GreenInk) { steps = (steps - 500).coerceIn(1000, 50000) }
-                        Text(steps.thousands(), style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(76.dp), maxLines = 1)
-                        AStepBtn(true, A.GreenSoft, A.GreenInk) { steps = (steps + 500).coerceIn(1000, 50000) }
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f)) {
-                            Text("Bicchiere", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                            Text("Acqua per ogni tocco", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
-                        }
-                        AStepBtn(false, A.WaterSoft, A.WaterInk) { glass = (glass - 50).coerceIn(100, 1000) }
-                        Text("$glass ml", style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, letterSpacing = 0.sp), textAlign = TextAlign.Center, modifier = Modifier.width(76.dp), maxLines = 1)
-                        AStepBtn(true, A.WaterSoft, A.WaterInk) { glass = (glass + 50).coerceIn(100, 1000) }
-                    }
-                }
-            }
-            GapH(8.dp)
+            Spacer(Modifier.height(8.dp))
         }
         GSave("Salva obiettivi", enabled = c + p + f == 100 && k >= 800) {
-            Store.update {
-                it.copy(
-                    profile = it.profile.copy(activity = act, goal = goal, weeklyRate = rate),
-                    goals = it.goals.copy(auto = auto, kcal = k.toInt(), carbsPct = c, proteinPct = p, fatPct = f, waterMl = water, steps = steps),
-                    glassMl = glass
-                )
-            }
+            Store.update { it.copy(profile = it.profile.copy(activity = act, goal = goal, weeklyRate = rate),
+                goals = it.goals.copy(auto = auto, kcal = k.toInt(), carbsPct = c, proteinPct = p, fatPct = f, waterMl = water, steps = steps), glassMl = glass) }
             Nav.back()
         }
     }
@@ -644,30 +500,28 @@ fun RemindersScreen() {
 
     Column(Modifier.fillMaxSize()) {
         TopBar("Promemoria", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            JCard {
-                SwitchRow("Pasti", "Ti ricordo di registrare colazione, pranzo e cena", r.meals) { v -> set { it.copy(meals = v) } }
-                if (r.meals) {
-                    listOf(0 to r.breakfast, 1 to r.lunch, 2 to r.dinner).forEach { (i, t) ->
-                        Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text(MEAL_NAMES[i], style = T.Body, modifier = Modifier.weight(1f))
-                            GhostButton(fmtMin(t)) {
-                                pickTime(t) { m -> set { when (i) { 0 -> it.copy(breakfast = m); 1 -> it.copy(lunch = m); else -> it.copy(dinner = m) } } }
-                            }
-                        }
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp)) {
+            SettingsCard(title = "Pasti") {
+                SwitchRow("Promemoria pasti", "Colazione, pranzo e cena", r.meals) { v -> set { it.copy(meals = v) } }
+                if (r.meals) listOf(0 to r.breakfast, 1 to r.lunch, 2 to r.dinner).forEach { (i, time) ->
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(MEAL_NAMES[i], style = T.Label, modifier = Modifier.weight(1f))
+                        GhostButton(fmtMin(time)) { pickTime(time) { m -> set { when(i) { 0 -> it.copy(breakfast = m); 1 -> it.copy(lunch = m); else -> it.copy(dinner = m) } } } }
                     }
                 }
-                HorizontalDivider(color = C.Line)
-                SwitchRow("Acqua", "Ogni 2 ore dalle 9 alle 21", r.water) { v -> set { it.copy(water = v) } }
-                HorizontalDivider(color = C.Line)
-                SwitchRow("Pesata", "Ogni mattina", r.weighIn) { v -> set { it.copy(weighIn = v) } }
+            }
+            Spacer(Modifier.height(12.dp))
+            SettingsCard(title = "Acqua", warm = true) { SwitchRow("Promemoria acqua", "Ogni 2 ore dalle 9 alle 21", r.water) { v -> set { it.copy(water = v) } } }
+            Spacer(Modifier.height(12.dp))
+            SettingsCard(title = "Peso") {
+                SwitchRow("Promemoria pesata", "Una volta al giorno", r.weighIn) { v -> set { it.copy(weighIn = v) } }
                 if (r.weighIn) Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text("Orario", style = T.Body, modifier = Modifier.weight(1f))
+                    Text("Orario", style = T.Label, modifier = Modifier.weight(1f))
                     GhostButton(fmtMin(r.weighInTime)) { pickTime(r.weighInTime) { m -> set { it.copy(weighInTime = m) } } }
                 }
-                HorizontalDivider(color = C.Line)
-                SwitchRow("Fine digiuno", "Avviso quando raggiungi l'obiettivo", r.fasting) { v -> set { it.copy(fasting = v) } }
             }
+            Spacer(Modifier.height(12.dp))
+            SettingsCard(title = "Digiuno", warm = true) { SwitchRow("Fine digiuno", "Avviso quando raggiungi l’obiettivo", r.fasting) { v -> set { it.copy(fasting = v) } } }
             Spacer(Modifier.height(12.dp))
             if (Build.VERSION.SDK_INT >= 31 && !ctx.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()) {
                 JCard {
@@ -685,6 +539,7 @@ fun RemindersScreen() {
     }
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun AiSettingsScreen() {
     val ctx = LocalContext.current
@@ -696,21 +551,17 @@ fun AiSettingsScreen() {
 
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Intelligenza artificiale", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             ChatSetup()
-            JCard {
-                Text("Offline · sul telefono", style = T.Title2)
+            SettingsCard(title = "Foto AI sul telefono") {
                 Text(
                     if (offline) "Attiva. Classificatore alimentare open source di Google (circa 2.000 piatti), funziona senza internet. Riconosce il piatto, la porzione la scegli tu."
                     else "Il modello offline non è incluso in questa build.",
                     style = T.Muted
                 )
             }
-            JCard {
-                Text("Online · gratuita", style = T.Title2)
-                Text("Riconosce piatti, frigo, dispensa e scontrini e crea ricette con ciò che hai. Predefinito: Gemma 4 31B di Google, " +
-                        "modello open-weight con visione, gratuito su OpenRouter; se non risponde provo Nemotron VL e il router gratuito. " +
-                        "Limite indicativo del piano gratuito: circa 200 richieste al giorno. L'AI riconosce gli alimenti: calorie e nutrienti li calcola sempre l'app dal database.", style = T.Muted)
+            SettingsCard(title = "Foto AI online", warm = true) {
+                Text("Analizza foto di piatti, frigo, dispensa e scontrini tramite il servizio che configuri qui sotto. Disponibilità e limiti dipendono dal provider. Controlla sempre il risultato prima di salvarlo.", style = T.Small)
                 Spacer(Modifier.height(8.dp))
                 Text("1. Crea un account gratuito su openrouter.ai\n2. Vai su Keys → Create key\n3. Incolla la chiave qui sotto", style = T.Body)
                 Spacer(Modifier.height(8.dp))
@@ -718,16 +569,20 @@ fun AiSettingsScreen() {
                     runCatching { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://openrouter.ai/keys"))) }
                 }
             }
-            JField(key, { key = it.trim() }, "Chiave API")
-            JField(model, { model = it.trim() }, "Modello")
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Pill("Gemma 4", model == AiConfig.DEFAULT_MODEL) { model = AiConfig.DEFAULT_MODEL; url = AiConfig().baseUrl }
-                Pill("Nemotron VL", model.startsWith("nvidia/nemotron-3.5-super-vl")) { model = "nvidia/nemotron-3.5-super-vl:free"; url = AiConfig().baseUrl }
-                Pill("Automatico", model == "openrouter/free") { model = "openrouter/free"; url = AiConfig().baseUrl }
+            SettingsCard(title = "Credenziali e modello", warm = true) {
+                JField(key, { key = it.trim() }, "Chiave API")
+                JField(model, { model = it.trim() }, "Modello")
+                androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Pill("Gemma 4", model == AiConfig.DEFAULT_MODEL) { model = AiConfig.DEFAULT_MODEL; url = AiConfig().baseUrl }
+                    Pill("Nemotron VL", model.startsWith("nvidia/nemotron-3.5-super-vl")) { model = "nvidia/nemotron-3.5-super-vl:free"; url = AiConfig().baseUrl }
+                    Pill("Automatico", model == "openrouter/free") { model = "openrouter/free"; url = AiConfig().baseUrl }
+                }
             }
-            JField(url, { url = it.trim() }, "Indirizzo API (compatibile OpenAI)")
-            Text("Puoi usare qualsiasi servizio compatibile OpenAI con un modello che accetta immagini. La foto viene inviata solo quando la scatti o la scegli per la Foto AI online.", style = T.Small)
-            GhostButton("Ripristina predefiniti") { val d = AiConfig(); model = d.model; url = d.baseUrl }
+            SettingsCard(title = "Connessione al servizio") {
+                JField(url, { url = it.trim() }, "Indirizzo API (compatibile OpenAI)")
+                Text("Usa un servizio compatibile con OpenAI e un modello che accetta immagini. Le foto vengono inviate quando usi Foto AI online.", style = T.Small)
+                GhostButton("Ripristina predefiniti") { val d = AiConfig(); model = d.model; url = d.baseUrl }
+            }
         }
         PrimaryButton("Salva", Modifier.fillMaxWidth().navigationBarsPadding().padding(16.dp)) {
             Store.update { it.copy(ai = it.ai.copy(baseUrl = url.ifBlank { AiConfig().baseUrl }, model = model.ifBlank { AiConfig().model }, apiKey = key)) }
@@ -768,15 +623,21 @@ fun BackupScreen() {
 
     Column(Modifier.fillMaxSize()) {
         TopBar("Backup e dati", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             JCard {
                 Text("I tuoi dati restano sul telefono", style = T.Title2)
                 Text("Nessun account, nessun server. Esporta un backup ogni tanto e salvalo su Google Drive: puoi scegliere Drive direttamente nella finestra di salvataggio.", style = T.Muted)
             }
-            PrimaryButton("Esporta backup (.json)", Modifier.fillMaxWidth()) { export.launch("jarvis-food-backup-${LocalDate.now()}.json") }
-            GhostButton("Importa backup", Modifier.fillMaxWidth()) { importer.launch(arrayOf("application/json", "text/plain", "*/*")) }
-            GhostButton("Esporta diario in CSV (Excel)", Modifier.fillMaxWidth()) { csv.launch("jarvis-food-diario-${LocalDate.now()}.csv") }
-            Spacer(Modifier.height(16.dp))
+            SettingsCard(title = "Salva una copia", warm = true) {
+                Text("Il backup JSON contiene tutte le impostazioni e lo storico. Il CSV è pensato per il diario in Excel.", style = T.Small)
+                PrimaryButton("Esporta backup (.json)", Modifier.fillMaxWidth()) { export.launch("jarvis-food-backup-${LocalDate.now()}.json") }
+                GhostButton("Esporta diario in CSV (Excel)", Modifier.fillMaxWidth()) { csv.launch("jarvis-food-diario-${LocalDate.now()}.csv") }
+            }
+            SettingsCard(title = "Ripristina un backup") {
+                Text("Scegli un file JSON salvato in precedenza. Prima di sostituire i dati viene chiesta conferma.", style = T.Small)
+                GhostButton("Importa backup", Modifier.fillMaxWidth()) { importer.launch(arrayOf("application/json", "text/plain", "*/*")) }
+            }
+            SettingsHeading("Gestione dei dati", "Questa azione richiede una conferma separata.", warm = true)
             GhostButton("Cancella tutti i dati", Modifier.fillMaxWidth(), color = C.Danger) { confirmReset = true }
         }
     }
@@ -908,11 +769,10 @@ fun DayNutrientsScreen(date: LocalDate) {
 fun AboutScreen() {
     Column(Modifier.fillMaxSize()) {
         TopBar("Informazioni", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             Text("Jarvis Food ${BuildConfig.VERSION_NAME}", style = T.Title)
             Text("Diario alimentare personale. Dati salvati solo sul telefono.", style = T.Muted)
-            JCard {
-                Text("Fonti", style = T.Title2)
+            SettingsCard(title = "Fonti") {
                 Text("• Prodotti confezionati: Open Food Facts (openfoodfacts.org), database aperto con licenza ODbL.\n" +
                         "• Alimenti e ricette: USDA FoodData Central, SR Legacy (dominio pubblico); ogni ingrediente riporta il suo FDC ID.\n" +
                         "• Vitamine e minerali: valori di riferimento EFSA (Dietary Reference Values per adulti).\n" +
@@ -920,17 +780,15 @@ fun AboutScreen() {
                         "• AI online: modelli gratuiti tramite OpenRouter; testo degli scontrini letto sul telefono con ML Kit.\n" +
                         "• Calcolo fabbisogno: formula di Mifflin-St Jeor.\n" +
                         "• Attività: valori MET del Compendium of Physical Activities.\n" +
-                        "• AI offline: classificatore alimentare open source di Google (TensorFlow Lite).", style = T.Body)
+                        "• AI offline: classificatore alimentare open source di Google (TensorFlow Lite).\n• Misure corporee: WHO STEPS (vita e fianchi), PhenX Mid-Upper Arm Circumference (braccio). Le altre sedi sono riferimenti pratici dell’app per confronti nel tempo. Il manichino 3D è illustrativo.", style = T.Body)
             }
-            JCard {
-                Text("Foto delle ricette", style = T.Title2)
+            SettingsCard(title = "Foto delle ricette", warm = true) {
                 com.jarvis.food.data.Db.db.recipes.mapNotNull { r -> r.credit?.takeIf { it.author.isNotBlank() }?.let { r.name to it } }.forEach { (n, c) ->
                     Text("• $n: foto di ${c.author.take(40)} (${c.source})", style = T.Small)
                 }
                 Text("Foto da Pixabay (pixabay.com), Pixabay Content License: uso gratuito, attribuzione non obbligatoria ma riportata qui per correttezza. Le foto sono illustrative: il piatto preparato con i tuoi grammi può apparire diverso.", style = T.Small)
             }
-            JCard {
-                Text("Avvertenza", style = T.Title2)
+            SettingsCard(title = "Indicazioni d’uso") {
                 Text("Calorie, macro e stime AI sono indicative e non sostituiscono il parere di un medico o di un nutrizionista.", style = T.Body)
             }
         }
