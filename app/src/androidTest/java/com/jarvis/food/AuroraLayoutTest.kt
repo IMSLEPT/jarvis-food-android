@@ -193,7 +193,7 @@ class AuroraLayoutTest {
             compose.waitForIdle()
             compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
             readable(compose.onNodeWithText("Mantenere", useUnmergedTree = true))
-            readable(compose.onNodeWithText("kcal al giorno", useUnmergedTree = true))
+            readable(compose.onNodeWithText("Calorie al giorno", useUnmergedTree = true))
             shot("profile")
             ui { Nav.clear() }
             ui { Nav.tab = 1 }
