@@ -50,5 +50,9 @@
   "app/src/main/res/values/colors.xml": {
     "sha256": "9e0fd8642a931afc73bd305173dd27ae8550e29ac13d7500dadc29ef957fb140",
     "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/drawable/ic_notification.xml": {
+    "sha256": "0aa21b56069737ac1ebd4e335b60377a3e9358c4293e38c99bbf5f199f54e209",
+    "reason": "Icona di notifica: Alessandro richiede il 27 ottobre 2026 di sostituire la fogliolina con il piccolo Jarvis coerente con il robot chef approvato. Solo risorsa grafica, promemoria invariati."
   }
 }

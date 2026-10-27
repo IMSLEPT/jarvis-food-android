@@ -267,6 +267,16 @@ class AuroraLayoutTest {
             A.TonalInk to A.Tonal, A.FastInk to A.FastSoft,
             C.Navy to C.Bg, C.Muted to C.Surface
         )
+        val icon = androidx.core.content.ContextCompat.getDrawable(ins.targetContext, R.drawable.ic_notification)!!
+        val bitmap = Bitmap.createBitmap(24, 24, Bitmap.Config.ARGB_8888)
+        icon.setBounds(0, 0, 24, 24)
+        icon.draw(android.graphics.Canvas(bitmap))
+        val pixels = IntArray(24 * 24)
+        bitmap.getPixels(pixels, 0, 24, 0, 0, 24, 24)
+        assertTrue("Notification mask is empty or an opaque square", pixels.count { android.graphics.Color.alpha(it) > 0 } in 100..450)
+        assertEquals("Notification background must be transparent", 0, android.graphics.Color.alpha(bitmap.getPixel(0, 0)))
+        assertTrue("Notification mask must be monochrome white", pixels.filter { android.graphics.Color.alpha(it) > 0 }.all { (it and 0x00FFFFFF) == 0x00FFFFFF })
+        bitmap.recycle()
         for ((foreground, background) in pairs) {
             val ratio = ColorUtils.calculateContrast(foreground.toArgb(), background.toArgb())
             assertTrue("Insufficient text contrast: $ratio", ratio >= 4.5)
