@@ -304,7 +304,7 @@ fun ProfileEditScreen() {
                     Column {
                         Text("Rendi il calcolo più preciso", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold, color = A.Ink))
                         Text("Rispondi alle domande su lavoro, passi e allenamenti: il fabbisogno smette di essere una stima generica.",
-                            style = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 4.dp))
+                            style = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = C.Muted), modifier = Modifier.padding(top = 4.dp))
                     }
                 }
             }
@@ -391,13 +391,13 @@ fun GoalsScreen() {
                     .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape)
                     .padding(horizontal = 20.dp, vertical = 22.dp)
             ) {
-                Text("IL TUO OBIETTIVO GIORNALIERO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E), letterSpacing = 0.5.sp))
+                Text("IL TUO OBIETTIVO GIORNALIERO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = C.AccentDeep, letterSpacing = 0.5.sp))
                 Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.padding(top = 2.dp)) {
                     Text(kcalFmt(k), style = T.H1.copy(fontSize = 56.sp, lineHeight = 60.sp, letterSpacing = (-1.7).sp))
-                    Text("kcal", style = T.Body.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(start = 6.dp, bottom = 10.dp))
+                    Text("kcal", style = T.Body.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = C.AccentDeep), modifier = Modifier.padding(start = 6.dp, bottom = 10.dp))
                 }
                 Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = 16.dp, vertical = 14.dp)) {
-                    val lab = TextStyle(fontFamily = T.Body.fontFamily, fontSize = 13.5.sp, color = Color(0xFF4B4A6A))
+                    val lab = TextStyle(fontFamily = T.Body.fontFamily, fontSize = 13.5.sp, color = C.Muted)
                     val num = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.Bold, color = A.Ink)
                     Row {
                         Text(buildAnnotatedString {
@@ -424,7 +424,7 @@ fun GoalsScreen() {
                     ProfStat(pr.heightCm.r0(), "cm", Modifier.weight(1f), big = true)
                     ProfStat(w.r1(), "kg", Modifier.weight(1f), big = true)
                 }
-                Text("Il calcolo è una stima, non una prescrizione.", style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 17.sp, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp))
+                Text("Il calcolo è una stima, non una prescrizione.", style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 17.sp, color = C.AccentDeep), modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 10.dp))
             }
 
             // Calcolo automatico / manuale
@@ -515,7 +515,7 @@ fun GoalsScreen() {
                             }
                         }
                     }
-                    Box(Modifier.padding(vertical = 18.dp).fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                    Box(Modifier.padding(vertical = 18.dp).fillMaxWidth().height(1.dp).background(C.Line))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             Text("Proteine per kg", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
@@ -541,7 +541,7 @@ fun GoalsScreen() {
                 ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                     Column {
                         Text("Ti conviene: ${best.name}", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.2).sp))
-                        Text(advice.reason, style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 4.dp))
+                        Text(advice.reason, style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = C.Muted), modifier = Modifier.padding(top = 4.dp))
                         Column(Modifier.padding(top = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Nutrition.PRESETS.forEachIndexed { i, pc ->
                                 val on = c == pc.carbs && p == pc.protein && f == pc.fat

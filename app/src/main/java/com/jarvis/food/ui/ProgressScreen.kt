@@ -138,7 +138,7 @@ fun ProgressScreen() {
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
             .background(C.Surface).padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, Color(0xFFFF8A2B), 30.dp, fill = true) }
+                Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 30.dp, fill = true) }
                 GapW(14.dp)
                 Column {
                     Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp))
@@ -209,7 +209,7 @@ fun ProgressScreen() {
             val diff = (daily[pk].kcal - goalKcal).roundToInt()
             Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
                 Text(days[pk].format(dName).replace(".", "").replaceFirstChar { it.uppercase() } + " · " + kcalFmt(daily[pk].kcal) + " kcal · " + (if (diff >= 0) "+" else "−") + kotlin.math.abs(diff) + " dall'obiettivo",
-                    style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF8F2A14)))
+                    style = T.Chip.copy(fontSize = 13.sp, color = C.AccentDeep))
             }
             GapH(12.dp)
             BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) 10.dp else 3.dp,

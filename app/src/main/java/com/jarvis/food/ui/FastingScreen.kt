@@ -67,9 +67,9 @@ fun fmtDuration(ms: Long): String {
 }
 
 private val FAST_ICON = listOf(Ic.MealBreakfast, Ic.Steps, Ic.Bolt, Ic.Flame, Ic.Drop)
-private val FAST_TINT = listOf(Color(0xFFFFF1D2), Color(0xFFE3EEFF), Color(0xFFFFE4DC), Color(0xFFFFE4EC), Color(0xFFDDF6FB))
-private val FAST_INK = listOf(Color(0xFFA16207), Color(0xFF1D4ED8), Color(0xFFC93A1F), Color(0xFFC41F4C), Color(0xFF0E7490))
-private val Violet = Color(0xFF6D28D9)
+private val FAST_TINT = listOf(C.AccentSoft, C.NavySoft, C.AccentSoft, C.NavySoft, C.AccentSoft)
+private val FAST_INK = listOf(C.AccentDeep, C.Navy, C.AccentDeep, C.Navy, C.AccentDeep)
+private val Violet = C.Navy
 
 private fun hm(ms: Long): String { val t = (ms / 60_000).coerceAtLeast(0); return if (t >= 60) "${t / 60} h ${t % 60} min" else "$t min" }
 
@@ -121,7 +121,7 @@ fun FastingScreen() {
                     val sz = Size(size.width - st - 4.dp.toPx(), size.height - st - 4.dp.toPx())
                     drawArc(C.SurfaceHi, -90f, 360f, false, tl, sz, style = Stroke(st))
                     if (progress > 0f) drawArc(
-                        Brush.linearGradient(listOf(Color(0xFF6D45E0), Color(0xFF8B5CF6), Color(0xFF5AA9FF)), Offset(0f, size.height), Offset(size.width, 0f)),
+                        C.NavyBrush,
                         -90f, 360f * progress.coerceAtMost(1f), false, tl, sz, style = Stroke(st, cap = StrokeCap.Round)
                     )
                     // Tacche delle fasi
@@ -132,15 +132,15 @@ fun FastingScreen() {
                             val c = Offset(size.width / 2, size.height / 2)
                             val p = Offset(c.x + (r * Math.cos(a)).toFloat(), c.y + (r * Math.sin(a)).toFloat())
                             drawCircle(Color.White, 6.5.dp.toPx(), p)
-                            drawCircle(if (active && hours >= ph.fromH) Color(0xFF8B5CF6) else Color(0xFFC9BFF5), 4.5.dp.toPx(), p)
+                            drawCircle(if (active && hours >= ph.fromH) C.Accent else C.Line, 4.5.dp.toPx(), p)
                         }
                     }
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     val left = target - elapsed
-                    Text(if (!active) "Pronto a partire" else if (left > 0) "Mancano ${hm(left)}" else "Obiettivo raggiunto 🎉", style = T.Small.copy(fontSize = 13.sp, color = Color(0xFF4B4570), fontWeight = FontWeight.Medium))
+                    Text(if (!active) "Pronto a partire" else if (left > 0) "Mancano ${hm(left)}" else "Obiettivo raggiunto 🎉", style = T.Small.copy(fontSize = 13.sp, color = C.Muted, fontWeight = FontWeight.Medium))
                     Text(if (active) fmtDuration(elapsed) else "${f.targetHours}:00", style = T.H1.copy(fontSize = 54.sp, lineHeight = 56.sp))
-                    Text(if (active) "di digiuno su ${f.targetHours} h" else "ore di digiuno", style = T.Small.copy(fontSize = 13.sp, color = Color(0xFF4B4570), fontWeight = FontWeight.Medium))
+                    Text(if (active) "di digiuno su ${f.targetHours} h" else "ore di digiuno", style = T.Small.copy(fontSize = 13.sp, color = C.Muted, fontWeight = FontWeight.Medium))
                 }
             }
             if (active) {
@@ -174,7 +174,7 @@ fun FastingScreen() {
                 }
                 val st = java.time.Instant.ofEpochMilli(f.activeStart!!).atZone(ZoneId.systemDefault())
                 val dayWord = when (java.time.temporal.ChronoUnit.DAYS.between(st.toLocalDate(), java.time.LocalDate.now()).toInt()) { 0 -> "oggi"; 1 -> "ieri"; else -> st.format(DateTimeFormatter.ofPattern("d MMM", IT)) }
-                Text("Iniziato $dayWord alle ${fmtTime(f.activeStart!!)} · puoi ancora regolare l'inizio", style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFF4B4570)),
+                Text("Iniziato $dayWord alle ${fmtTime(f.activeStart!!)} · puoi ancora regolare l'inizio", style = T.Small.copy(fontSize = 12.5.sp, color = C.Muted),
                     textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 12.dp))
             } else {
                 Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(56.dp).clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable { Store.startFast(f.planId, f.targetHours); Reminders.rescheduleAll(ctx) },
@@ -198,7 +198,7 @@ fun FastingScreen() {
                 val cur = active && i == curIdx
                 val status = when { cur -> "In corso"; past -> "Superata"; active -> "Tra ${((ph.fromH - hours) * 10).roundToInt() / 10.0}".replace(".", ",") + " h"; else -> "" }
                 Row(verticalAlignment = Alignment.Top) {
-                    Box(Modifier.size(44.dp).let { if (cur) it.border(3.dp, Color(0xFF8F2A14), RoundedCornerShape(16.dp)) else it }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(44.dp).let { if (cur) it.border(3.dp, C.AccentDeep, RoundedCornerShape(16.dp)) else it }, contentAlignment = Alignment.Center) {
                         TonalIcon(FAST_ICON[i % 5], FAST_INK[i % 5], FAST_TINT[i % 5], 44.dp, 16.dp, 22.dp)
                     }
                     GapW(12.dp)
@@ -233,7 +233,7 @@ fun FastingScreen() {
                         val done = h.end - h.start >= h.targetHours * 3_600_000L
                         val frac = (((h.end - h.start) / 3_600_000.0) / maxH).toFloat().coerceIn(0.05f, 1f)
                         Box(Modifier.weight(1f).fillMaxHeight(frac).clip(RoundedCornerShape(12.dp))
-                            .background(if (done) Brush.verticalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF5AA9FF))) else Brush.verticalGradient(listOf(Color(0xFFD8D0F4), Color(0xFFD8D0F4)))))
+                            .background(if (done) C.NavyBrush else Brush.verticalGradient(listOf(C.NavySoft, C.NavySoft))))
                     }
                 }
                 Row(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {

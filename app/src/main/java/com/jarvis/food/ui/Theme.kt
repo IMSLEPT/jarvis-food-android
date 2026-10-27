@@ -36,7 +36,7 @@ object C {
     val ProfileBorder = Color(0xFFE2E2DF)
     val Text = Color(0xFF09194D)
     val Muted = Color(0xFF5E6678)
-    val Faint = Color(0xFFA6A4BC)
+    val Faint = Color(0xFF9197A5)
     val Accent = Color(0xFFEA7138)
     // The primary buttons use the exact same orange as the home Add circle.
     val ButtonOrange = Accent
@@ -48,7 +48,7 @@ object C {
     val NavySoft = Color(0xFFECF2FE)
     val NavyDeep = Color(0xFF14234B)
     val Ink = Navy
-    val OnOrange = Navy
+    val OnOrange = Color.White
     val ProfileSurface = Color(0xFFFEFEFE)
     val ProfileMuted = Color(0xFF777D91)
     val ProfileOrange = Color(0xFFDC6F2C)
@@ -62,11 +62,11 @@ object C {
     val Protein = Color(0xFFF43F6E)
     val Fat = Gold
     val Water = Color(0xFF5CD6EA)
-    val Fasting = Color(0xFF8B5CF6)
+    val Fasting = Navy
     val Danger = Color(0xFFE5484D)
     val DangerSoft = Color(0xFFFDE3E4)
 
-    /** Arancione del + Aggiungi; testo navy per mantenere leggibilità. */
+    /** Arancione del + Aggiungi; scritte bianche come richiesto. */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
     val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF223C70)))

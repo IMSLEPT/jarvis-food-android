@@ -152,15 +152,15 @@ private const val ENGINE_ICON = "M8 7V5h7l3 3h3v10h-4l-2 3H9l-3-3H3V9h3l2-2zM10 
 @Composable
 private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit) {
     val actions: @Composable () -> Unit = {
-        ChatHeaderAction(NEW_CHAT_ICON, "Nuova chat", A.Tonal, A.TonalInk, onNew)
+        HeaderIconButton(NEW_CHAT_ICON, "Nuova chat", ink = C.Accent, onClick = onNew)
         Spacer(Modifier.size(6.dp))
-        ChatHeaderAction(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", C.NavySoft, C.Navy, onSetup)
+        HeaderIconButton(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", selected = setup, onClick = onSetup)
     }
     if (!active) {
         TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) { actions() }
     } else Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
         if (Nav.stack.isNotEmpty()) {
-            ChatHeaderAction(Ic.Left, "Indietro", Color.White, C.Navy) { Nav.back() }
+            HeaderIconButton(Ic.Left, "Indietro") { Nav.back() }
             Spacer(Modifier.size(8.dp))
         }
         JarvisLogo(40.dp)
@@ -170,14 +170,6 @@ private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSet
             Text("Il tuo assistente alimentare", style = T.Small, maxLines = 2)
         }
         actions()
-    }
-}
-
-@Composable
-private fun ChatHeaderAction(icon: String, label: String, background: Color, ink: Color, onClick: () -> Unit) {
-    Box(Modifier.size(48.dp).clip(RoundedCornerShape(19.dp)).background(background)
-        .semantics { contentDescription = label }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
-        AIcon(icon, ink, 23.dp, 1.9f)
     }
 }
 

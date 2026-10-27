@@ -172,7 +172,7 @@ private fun ScanOverlay(modifier: Modifier) {
 
 @Composable
 private fun GramStep(plus: Boolean, onClick: () -> Unit) {
-    Box(Modifier.size(34.dp).clip(CircleShape).background(Color(0xFFEBEFF3)).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(34.dp).clip(CircleShape).background(C.Line).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", A.Ink, 16.dp, 2.6f)
     }
 }
@@ -259,7 +259,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 if (b != null) Image(b.asImageBitmap(), "Foto del pasto", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                 else Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
                     AIcon(Ic.Camera, C.AccentDeep, 54.dp, 1.8f)
-                    Text("Scatta o scegli una foto", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(top = 10.dp))
+                    Text("Scatta o scegli una foto", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = C.AccentDeep), modifier = Modifier.padding(top = 10.dp))
                 }
                 if (busy) ScanOverlay(Modifier.fillMaxSize()) else Brackets(Modifier.fillMaxSize())
                 if (items.isNotEmpty() && !busy) Row(
@@ -339,11 +339,11 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                 ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 24.dp, padding = 16.dp, elevation = 6.dp) {
                     Column {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            AIcon(Ic.Spark, Color(0xFF2F6BFF), 20.dp, 2f); GapW(10.dp)
+                            AIcon(Ic.Spark, C.Navy, 20.dp, 2f); GapW(10.dp)
                             Text(shown, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
                             Text("$elapsed s", style = T.Small.copy(color = A.Muted))
                         }
-                        LinearProgressIndicator(Modifier.padding(top = 12.dp).fillMaxWidth().height(5.dp).clip(RoundedCornerShape(3.dp)), color = Color(0xFF2F6BFF), trackColor = Color(0xFFE3EAFB))
+                        LinearProgressIndicator(Modifier.padding(top = 12.dp).fillMaxWidth().height(5.dp).clip(RoundedCornerShape(3.dp)), color = C.Navy, trackColor = C.NavySoft)
                         if (elapsed >= 15 && online) Text("L'AI gratuita sta impiegando più tempo. Puoi interrompere o scegliere Offline.", style = T.Small.copy(color = A.Muted), modifier = Modifier.padding(top = 10.dp))
                         Text("Interrompi analisi", style = T.Link, modifier = Modifier.testTag("photo-stop").clickable { controller.stop() }.padding(vertical = 10.dp))
                     }
@@ -381,7 +381,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                             Column {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Box(
-                                        Modifier.size(38.dp).clip(RoundedCornerShape(13.dp)).background(if (it2.selected) Color(0xFF10B981) else Color(0xFFEBEFF3)).clickable { it2.selected = !it2.selected },
+                                        Modifier.size(38.dp).clip(RoundedCornerShape(13.dp)).background(if (it2.selected) Color(0xFF10B981) else C.Line).clickable { it2.selected = !it2.selected },
                                         contentAlignment = Alignment.Center
                                     ) { if (it2.selected) AIcon(Ic.Check, Color.White, 20.dp, 3f) }
                                     GapW(14.dp)

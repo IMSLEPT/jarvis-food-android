@@ -48,13 +48,11 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null)
                 Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
         }
-        Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).border(1.dp, C.Line, CircleShape)
-            .semantics { contentDescription = "Famiglia" }.clickable { Nav.go(Screen.Family) }, contentAlignment = Alignment.Center) {
-            AIcon(Ic.Family, A.Ink, 22.dp)
-            if (s.family != null) Box(Modifier.align(Alignment.TopEnd).padding(5.dp).size(7.dp).clip(CircleShape).background(C.Green))
-        }
+        HeaderIconButton(Ic.Family, "Famiglia", badge = s.family != null) { Nav.go(Screen.Family) }
         GapW(8.dp)
-        Avatar(s.profile.name, s.profile.photo, 48.dp, Modifier.semantics { contentDescription = "Apri profilo" }.clickable { Nav.go(Screen.Profile) })
+        HeaderControl("Apri profilo", onClick = { Nav.go(Screen.Profile) }) {
+            Avatar(s.profile.name, s.profile.photo, 42.dp, shape = RoundedCornerShape(12.dp))
+        }
         }
     }
 }

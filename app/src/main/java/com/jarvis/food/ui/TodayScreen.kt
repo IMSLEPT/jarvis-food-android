@@ -313,8 +313,8 @@ private fun QuickTile(label: String, icon: String, modifier: Modifier, primary: 
     val ink = C.Navy
     Column(modifier.heightIn(min = 88.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(42.dp).clip(CircleShape).background(if (primary) C.Accent else Color.Transparent), contentAlignment = Alignment.Center) {
-            AIcon(icon, if (primary) Color.White else ink, 28.dp, 2f)
+        Box(Modifier.size(46.dp).clip(CircleShape).background(if (primary) C.Accent else Color.Transparent), contentAlignment = Alignment.Center) {
+            AIcon(icon, if (primary) Color.White else ink, if (primary) 28.dp else 42.dp, 2f, modifier = Modifier.testTag("quick-icon-$label"))
         }
         Spacer(Modifier.height(8.dp))
         Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)

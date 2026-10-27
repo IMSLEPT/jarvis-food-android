@@ -287,7 +287,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                 Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Surface).border(1.dp, if (eaten) C.Green else C.Line, RoundedCornerShape(24.dp)).clickable {
                     if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
                 }, contentAlignment = Alignment.Center) {
-                    Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else Color(0xFF8F2A14)), maxLines = 1)
+                    Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else C.AccentDeep), maxLines = 1)
                 }
             }
         }
@@ -354,7 +354,7 @@ fun DietSettingsScreen() {
     val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
     val cur = p.slots.indices.map { shares[it] ?: p.slots[it].share }
     val selSplit = splits.indexOfFirst { it.second.size == cur.size && it.second == cur }
-    val mealColors = listOf(Color(0xFFFFB820), Color(0xFFFF6B4A), Color(0xFF8B5CF6), Color(0xFF3B82F6))
+    val mealColors = listOf(C.Accent, C.Navy, C.AccentDeep, C.Navy)
     val sum = cur.sum().coerceAtLeast(1)
 
     Column(Modifier.fillMaxSize()) {
@@ -391,7 +391,7 @@ fun DietSettingsScreen() {
                             Text("${kcalFmt(kcal * share / sum)} kcal", style = T.H1.copy(fontSize = 16.sp, lineHeight = 20.sp, letterSpacing = 0.sp),
                                 modifier = Modifier.width(92.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End, maxLines = 1)
                         }
-                        if (i < p.slots.size - 1) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                        if (i < p.slots.size - 1) Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
                     }
                     if (sum != 100) Text("Totale $sum%: verrà riportato in proporzione a 100%.", style = T.Small.copy(fontSize = 12.5.sp, color = A.FatInk))
                 }
@@ -438,7 +438,7 @@ fun EnergyInfoScreen() {
                 Modifier.padding(top = 4.dp).fillMaxWidth().aShadow(hero, 14.dp, Color(0x99E88C60)).clip(hero)
                     .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
             ) {
-                Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = Color(0xFFB4381E)))
+                Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = C.AccentDeep))
                 Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.Bottom) {
                     Text(kcalFmt(e.targetKcal), style = T.H1.copy(fontSize = 46.sp, lineHeight = 50.sp, letterSpacing = (-1.4).sp))
                     Text(" kcal", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 8.dp))
@@ -453,7 +453,7 @@ fun EnergyInfoScreen() {
                         Row(verticalAlignment = Alignment.Top) {
                             Box(Modifier.padding(top = 7.dp).size(8.dp).clip(CircleShape).background(Color(0xFFF28B7A)))
                             GapW(12.dp)
-                            Text(it, style = T.Body.copy(fontSize = 14.5.sp, lineHeight = 21.sp, color = Color(0xFF3B3A5C)))
+                            Text(it, style = T.Body.copy(fontSize = 14.5.sp, lineHeight = 21.sp, color = C.Muted))
                         }
                     }
                 }

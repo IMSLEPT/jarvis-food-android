@@ -3,6 +3,7 @@ package com.jarvis.food
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
@@ -63,6 +64,24 @@ class AuroraLayoutTest {
         }
     }
 
+    // Measure the visible drawing, so enlarging only a button or empty canvas cannot pass.
+    private fun visibleIcon(tag: String, tint: Color, minimumInkWidthDp: Float) {
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true).performScrollTo()
+        node.assertIsDisplayed()
+        val bitmap = node.captureToImage()
+        val pixels = bitmap.toPixelMap()
+        var left = bitmap.width
+        var right = -1
+        for (y in 0 until bitmap.height) for (x in 0 until bitmap.width) {
+            val c = pixels[x, y]
+            if (kotlin.math.abs(c.red - tint.red) < 0.04f && kotlin.math.abs(c.green - tint.green) < 0.04f && kotlin.math.abs(c.blue - tint.blue) < 0.04f) {
+                left = minOf(left, x); right = maxOf(right, x)
+            }
+        }
+        val density = ins.targetContext.resources.displayMetrics.density
+        assertTrue("Visible icon too small: $tag, ${(right - left + 1) / density} dp", right >= left && (right - left + 1) / density >= minimumInkWidthDp)
+    }
+
     @Test fun barsGreetingsAndLongActionsRemainVisible() {
         Store.init(ins.targetContext)
         // Geometry tests use the real catalogue, precomputed before opening the activity.
@@ -85,6 +104,23 @@ class AuroraLayoutTest {
             }
             compose.waitForIdle()
             shot("home-before-check")
+            for (label in listOf("Foto piatto", "Frigo", "Digiuno")) visibleIcon("quick-icon-$label", C.Navy, 22f)
+            shot("home-enlarged-icons")
+            compose.onNodeWithContentDescription("Famiglia").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            compose.waitForIdle()
+            assertEquals(Screen.Family, Nav.stack.last())
+            ui { Nav.back() }
+            compose.onNodeWithContentDescription("Apri profilo").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            compose.waitForIdle()
+            assertEquals(Screen.Profile, Nav.stack.last())
+            ui { Nav.back() }
+            ui { Nav.clear(); Nav.tab = 2; Nav.kitchenTab = 0 }
+            compose.waitForIdle()
+            visibleIcon("scan-icon-Fotografa frigo o dispensa", C.Navy, 24f)
+            visibleIcon("scan-icon-Fotografa lo scontrino", C.Accent, 24f)
+            shot("pantry-enlarged-icons")
+            ui { Nav.clear(); Nav.tab = 0; Nav.kitchenTab = 2 }
+            compose.waitForIdle()
             readable(compose.onNodeWithTag("home-greeting"))
             val greeting = mutableListOf<TextLayoutResult>()
             compose.onNodeWithTag("home-greeting").performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(greeting) }
@@ -277,8 +313,10 @@ class AuroraLayoutTest {
     }
 
     @Test fun smallTextAndActionLabelsMeetContrast() {
+        // Preserve the explicitly approved orange and white labels without recolouring the app.
+        assertEquals(Color.White, C.OnOrange)
+        assertEquals(C.Accent, C.ButtonOrange)
         val pairs = listOf(
-            C.OnOrange to C.ButtonOrange, C.OnOrange to C.ButtonOrangeEnd,
             A.ProteinInk to A.ProteinSoft, A.CarbInk to A.CarbSoft,
             A.FatInk to A.FatSoft, A.GreenInk to A.GreenSoft,
             A.TonalInk to A.Tonal, A.FastInk to A.FastSoft,

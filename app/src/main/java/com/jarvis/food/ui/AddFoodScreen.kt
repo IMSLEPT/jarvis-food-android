@@ -266,7 +266,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                         Row(verticalAlignment = Alignment.Top) {
                             Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, C.Navy, 22.dp, 2.2f) }
                             GapW(12.dp)
-                            Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = Color(0xFF4B5B6E)))
+                            Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = C.Muted))
                         }
                         GapH(12.dp)
                         Row(Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).clickable { Nav.go(Screen.CustomFood(date, mealSel)) },

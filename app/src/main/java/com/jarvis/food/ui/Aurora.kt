@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -60,17 +62,17 @@ object A {
     val FatSoft = Color(0xFFFFF1D2); val FatInk = Color(0xFF925907)
     val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
     val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
-    val FastSoft = Color(0xFFEDE7FF); val FastInk = Color(0xFF6D28D9)
+    val FastSoft = C.NavySoft; val FastInk = C.Navy
     val Tonal = C.AccentSoft; val TonalInk = C.AccentDeep
     val Link = C.AccentDeep
-    val Peach = Color(0xFFFFF8F0)
-    val Dashed = Color(0xFFD9D4EC)
+    val Peach = C.AccentSoft
+    val Dashed = C.Line
 
     /** Sfumatura "alba" del marchio. */
     val Dawn = Brush.linearGradient(listOf(C.Accent, Color(0xFFFFAD60)))
     val Sun = listOf(C.Accent, Color(0xFFF68A46), Color(0xFFFFAD60))
-    val FastBar = Brush.horizontalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF6AA6FF)))
-    val FastBarV = Brush.verticalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF5AA9FF)))
+    val FastBar = C.NavyBrush
+    val FastBarV = C.NavyBrush
     val WaterFill = Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6)))
 }
 
@@ -133,6 +135,26 @@ fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Bo
             if (fill) drawPath(path, tint)
             else drawPath(path, tint, style = Stroke(stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
         }
+    }
+}
+
+/** Shared white/navy header controls, matching the Jarvis app identity. */
+@Composable
+fun HeaderControl(label: String, selected: Boolean = false, onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
+    Box(Modifier.size(48.dp).aShadow(shape, 6.dp).clip(shape)
+        .background(if (selected) C.Navy else C.Surface)
+        .border(1.dp, if (selected) C.Navy else C.Navy.copy(alpha = 0.12f), shape)
+        .semantics { contentDescription = label }.clickable(role = Role.Button, onClick = onClick),
+        contentAlignment = Alignment.Center, content = content)
+}
+
+@Composable
+fun HeaderIconButton(icon: String, label: String, ink: Color = C.Navy, selected: Boolean = false, badge: Boolean = false, onClick: () -> Unit) {
+    HeaderControl(label, selected, onClick) {
+        AIcon(icon, if (selected) Color.White else ink, 30.dp, 1.9f, modifier = Modifier.testTag("header-icon-$label"))
+        if (badge) Box(Modifier.align(Alignment.TopEnd).padding(5.dp).size(8.dp).clip(CircleShape)
+            .background(C.Accent).border(1.5.dp, C.Surface, CircleShape))
     }
 }
 
