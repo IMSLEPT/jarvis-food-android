@@ -53,6 +53,7 @@ fun MeasurementsScreen() {
             Text("Tocca il corpo o scegli una zona. La fascia arancione indica il riferimento per il metro.", style = T.Small)
             SettingsCard {
                 BodyModelView(type, s.profile.male, ::select)
+                Text("Trascina per ruotare · tocca una zona", style = T.Small)
                 Text("Modello illustrativo: individua i riferimenti sul tuo corpo. Non calcola le misure dalla tua immagine.", style = T.Small.copy(fontSize = 11.sp))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     BodyMeasurements.guides.forEach { item ->

@@ -99,6 +99,7 @@ class MealOptionsFlowTest {
         prepare(AppState(onboarded = true, profile = Profile(detailed = true), diary = listOf(entry), customFoods = listOf(product)))
         ActivityScenario.launch(MainActivity::class.java).use {
             ui { Nav.go(Screen.ReplaceFood(entry.id)) }
+            shot("replacement-overview")
             compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replace-photo"))
             compose.onNodeWithTag("replace-photo").performClick()
             compose.onNodeWithText("Fotografa il nuovo alimento").assertIsDisplayed()

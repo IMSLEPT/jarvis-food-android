@@ -6,6 +6,7 @@ import android.view.View
 import org.json.JSONArray
 import android.view.ViewGroup
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.SemanticsProperties
 import android.webkit.WebView
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -76,6 +77,29 @@ class ProfileFormsFlowTest {
             catch (failure: Throwable) { throw AssertionError("3D renderer: " + js(scenario, "JSON.stringify(window.bodyState)"), failure) }
             assertEquals("true", js(scenario, "window.bodyState.pixel[3]>0 && window.bodyState.glError===0"))
             assertEquals("true", js(scenario, "window.bodyState.triangles > 1000 && !window.bodyState.error"))
+            compose.waitUntil(10000) { compose.onNodeWithTag("body-model-3d").fetchSemanticsNode().config[SemanticsProperties.StateDescription] == "Modello 3D pronto" }
+            // Verify the presented native frame, not just an offscreen WebGL buffer.
+            compose.waitUntil(10000) {
+                val rect = compose.onNodeWithTag("body-model-3d").fetchSemanticsNode().boundsInRoot
+                val bitmap = ins.uiAutomation.takeScreenshot()
+                val left = rect.left.toInt().coerceAtLeast(0); val top = rect.top.toInt().coerceAtLeast(0)
+                val width = (rect.right.toInt().coerceAtMost(bitmap.width) - left).coerceAtLeast(0)
+                val height = (rect.bottom.toInt().coerceAtMost(bitmap.height) - top).coerceAtLeast(0)
+                var orange = 0; var body = 0
+                if (width > 0 && height > 0) {
+                    val pixels = IntArray(width * height); bitmap.getPixels(pixels, 0, width, left, top, width, height)
+                    for (y in 0 until height step 4) for (x in 0 until width step 4) {
+                        val color = pixels[y * width + x]; val r = android.graphics.Color.red(color); val g = android.graphics.Color.green(color); val b = android.graphics.Color.blue(color)
+                        if (r in 220..250 && g in 95..135 && b in 40..80) orange++
+                        if (r in 70..190 && g in 90..210 && b in 110..230 && b > g && g > r) body++
+                    }
+                }
+                bitmap.recycle()
+                orange >= 12 && body >= 500
+            }
+            var safeBottom = 0
+            scenario.onActivity { a -> safeBottom = a.window.decorView.height - (androidx.core.view.ViewCompat.getRootWindowInsets(a.window.decorView)?.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0) }
+            assertTrue("Measurement save overlaps system navigation", compose.onNode(hasText("Salva misura") and hasClickAction()).fetchSemanticsNode().boundsInRoot.bottom <= safeBottom + 1f)
             shot("body-3d-waist")
             // Native choice updates the actual renderer, then a rendered-surface pick returns through the JS bridge.
             compose.onNodeWithText("Braccio", substring = false).performScrollTo().performClick()

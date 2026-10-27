@@ -57,7 +57,20 @@ fun BodyModelView(selected: String, male: Boolean, onSelect: (String) -> Unit) {
                 settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW
                 isVerticalScrollBarEnabled = false
                 isHorizontalScrollBarEnabled = false
-                addJavascriptInterface(BodyGuideBridge({ selectNow(it) }, { ok -> status = if (ok) "Modello 3D pronto" else "Guida testuale disponibile" }), "AndroidBody")
+                val bodyWeb = this
+                addJavascriptInterface(BodyGuideBridge({ selectNow(it) }, { ok ->
+                    if (!ok) status = "Guida testuale disponibile"
+                    else bodyWeb.postVisualStateCallback(1L, object : WebView.VisualStateCallback() {
+                        override fun onComplete(requestId: Long) {
+                            // WebGL readiness precedes the first native composited frame.
+                            // Invalidate both layers so older WebView/Compose combinations
+                            // present the prepared frame without needing an initial touch.
+                            bodyWeb.postInvalidateOnAnimation()
+                            (bodyWeb.parent as? android.view.View)?.postInvalidateOnAnimation()
+                            status = "Modello 3D pronto"
+                        }
+                    })
+                }), "AndroidBody")
                 webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = true
                     override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse =
