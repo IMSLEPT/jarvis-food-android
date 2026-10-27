@@ -1,0 +1,133 @@
+package com.jarvis.food.ui
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.jarvis.food.data.*
+import java.time.LocalDate
+import kotlin.math.roundToInt
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun TrainingGoalsScreen() {
+    val s by Store.state.collectAsState()
+    val original = remember { s.trainingNutrition }
+    val base = remember { Store.energyFor(s.copy(trainingNutrition = TrainingNutrition()), LocalDate.now()) }
+    val fallback = DailyTargets(base.baseKcal.roundToInt(), base.protein, (base.carbs - base.extraKcal / 4).coerceAtLeast(0.0), base.fat)
+    fun values(t: DailyTargets) = listOf(t.kcal.toString(), amountText(t.protein), amountText(t.carbs), amountText(t.fat))
+    var enabled by remember { mutableStateOf(original.enabled) }
+    var days by remember { mutableStateOf(original.trainingDays) }
+    var onValues by remember { mutableStateOf(values(original.on ?: fallback)) }
+    var offValues by remember { mutableStateOf(values(original.off ?: fallback)) }
+    fun target(v: List<String>): DailyTargets? {
+        val nums = v.map { parseNum(it) ?: return null }
+        if (nums.any { !it.isFinite() } || nums[0] % 1.0 != 0.0) return null
+        return DailyTargets(nums[0].toInt(), nums[1], nums[2], nums[3]).takeIf { it.valid }
+    }
+    val on = target(onValues)
+    val off = target(offValues)
+    Column(Modifier.fillMaxSize().imePadding()) {
+        TopBar("Giorni ON e OFF", { Nav.back() })
+        Column(Modifier.weight(1f).testTag("training-goals-scroll").verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            JCard {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f).padding(end = 12.dp)) {
+                        Text("Obiettivi ON/OFF", style = T.Title2)
+                        Text("Calorie e macro diversi per allenamento e riposo.", style = T.Small)
+                    }
+                    Switch(enabled, { enabled = it }, modifier = Modifier.testTag("training-enabled"), colors = SwitchDefaults.colors(checkedThumbColor = C.Surface, checkedTrackColor = C.Navy))
+                }
+                Text("Quando sono attivi vengono usati i valori impostati qui. Le attività restano registrate senza aggiungere altre calorie.", style = T.Small, modifier = Modifier.padding(top = 12.dp))
+            }
+            Text("La tua settimana", style = T.H2)
+            Text("Seleziona i giorni di allenamento. Gli altri saranno di riposo.", style = T.Small)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom").forEachIndexed { i, day ->
+                    val selected = i + 1 in days
+                    val shape = RoundedCornerShape(16.dp)
+                    Box(Modifier.testTag("training-weekday-${i + 1}").heightIn(min = 48.dp).widthIn(min = 48.dp).clip(shape)
+                        .background(if (selected) C.Navy else C.Surface).border(1.dp, C.Line, shape)
+                        .clickable { days = if (selected) days - (i + 1) else days + (i + 1) }.padding(12.dp), contentAlignment = Alignment.Center) {
+                        Text(day, style = T.Label.copy(color = if (selected) C.Surface else C.Navy))
+                    }
+                }
+            }
+            TargetFields("ON · Allenamento", "on", onValues) { i, value -> onValues = onValues.toMutableList().also { it[i] = value } }
+            TargetFields("OFF · Riposo", "off", offValues) { i, value -> offValues = offValues.toMutableList().also { it[i] = value } }
+            Text("Puoi cambiare ON/OFF per una singola data da Oggi o Piano, senza modificare la settimana abituale.", style = T.Small)
+            if (enabled && (on == null || off == null)) Text("Inserisci calorie positive e quantità valide per tutti i macronutrienti, sia ON sia OFF.", style = T.Small.copy(color = C.Danger))
+            Spacer(Modifier.height(8.dp))
+        }
+        GSave("Salva giorni ON/OFF", enabled = !enabled || (on != null && off != null)) {
+            Store.setTrainingNutrition(original.copy(enabled = enabled, trainingDays = days, on = on ?: original.on, off = off ?: original.off))
+            Nav.back()
+        }
+    }
+}
+
+@Composable
+private fun TargetFields(title: String, key: String, values: List<String>, onEdit: (Int, String) -> Unit) {
+    JCard {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(8.dp).clip(RoundedCornerShape(4.dp)).background(if (key == "on") C.Accent else C.Navy))
+            Spacer(Modifier.width(8.dp)); Text(title, style = T.Title2)
+        }
+        Spacer(Modifier.height(16.dp))
+        val labels = listOf("Calorie (kcal)", "Proteine (g)", "Carboidrati (g)", "Grassi (g)")
+        for (row in 0..1) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                for (column in 0..1) {
+                    val i = row * 2 + column
+                    JField(values[i], { value -> onEdit(i, value.filter { it.isDigit() || it == ',' || it == '.' }.take(8)) }, labels[i], Modifier.weight(1f).testTag("target-$key-$i"), number = true)
+                }
+            }
+            Spacer(Modifier.height(12.dp))
+        }
+        val nums = values.map { parseNum(it) }
+        if (nums.drop(1).all { it != null && it.isFinite() }) {
+            val macroEnergy = nums[1]!! * 4 + nums[2]!! * 4 + nums[3]!! * 9
+            Text("Energia dai macro: ${macroEnergy.r0()} kcal", style = T.Small)
+            if (macroEnergy > 0 && macroEnergy <= 50000 && kotlin.math.abs(macroEnergy - (nums[0] ?: 0.0)) > 10) {
+                TextButton(onClick = { onEdit(0, macroEnergy.roundToInt().toString()) }) { Text("Usa queste calorie", color = C.AccentDeep) }
+            }
+        }
+    }
+}
+
+/** Date-specific control shared by diary and weekly plan. */
+@Composable
+fun DayTypeControl(s: AppState, date: LocalDate) {
+    if (!s.trainingNutrition.active) return
+    var dialog by remember(date) { mutableStateOf(false) }
+    val settings = s.trainingNutrition
+    val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
+    val shape = RoundedCornerShape(16.dp)
+    Row(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f).clickable { dialog = true }.padding(vertical = 8.dp)) {
+            Text(label, style = T.Label, modifier = Modifier.testTag("day-type-label"))
+            Text(if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia", style = T.Small)
+        }
+        TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Configura", color = C.AccentDeep) }
+    }
+    if (dialog) AlertDialog(onDismissRequest = { dialog = false }, title = { Text("${dayLabel(date)} · tipo di giornata", style = T.Title2) }, text = {
+        Column {
+            Text("La modifica vale soltanto per questa data.", style = T.Small)
+            listOf("ON · Allenamento" to true, "OFF · Riposo" to false, "Segui calendario settimanale" to null).forEach { (text, value) ->
+                TextButton(onClick = { Store.setDayType(date, value); dialog = false }, modifier = Modifier.fillMaxWidth()) { Text(text, color = C.Navy) }
+            }
+        }
+    }, confirmButton = { TextButton(onClick = { dialog = false }) { Text("Chiudi", color = C.Navy) } }, containerColor = C.Surface)
+}

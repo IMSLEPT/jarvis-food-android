@@ -82,19 +82,24 @@ object Planner {
      */
     fun generate(
         db: FoodDb, prefs: DietPrefs, start: LocalDate, days: Int, dayTarget: Macro,
-        existing: List<DayPlan> = emptyList(), seed: Long = start.toEpochDay()
+        existing: List<DayPlan> = emptyList(), seed: Long = start.toEpochDay(),
+        dayTargetForDate: ((LocalDate) -> Macro)? = null
     ): List<DayPlan> {
-        val targets = slotTargets(dayTarget, prefs)
+        var targets = slotTargets(dayTarget, prefs)
         val history = existing.filter { LocalDate.parse(it.date) < start }.sortedBy { it.date }.takeLast(7).toMutableList()
         val fitCache = HashMap<String, Double>()
-        fun fit(r: RecipeTemplate, slot: Int): Double = fitCache.getOrPut("${r.id}#$slot") {
+        fun fit(r: RecipeTemplate, slot: Int): Double = fitCache.getOrPut("${r.id}#$slot#${targets[slot]}") {
             Solver.fitScore(Solver.solve(r, db, targets[slot]))
         }
-        val pools = prefs.slots.mapIndexed { si, def -> shortlist(db, candidates(db, def.meal, prefs), targets[si], 140) }
+        var pools = prefs.slots.mapIndexed { si, def -> shortlist(db, candidates(db, def.meal, prefs), targets[si], 140) }
         val weekCount = HashMap<String, Int>()
         val out = mutableListOf<DayPlan>()
         for (d in 0 until days) {
             val date = start.plusDays(d.toLong())
+            if (dayTargetForDate != null) {
+                targets = slotTargets(dayTargetForDate(date), prefs)
+                pools = prefs.slots.mapIndexed { si, def -> shortlist(db, candidates(db, def.meal, prefs), targets[si], 140) }
+            }
             val dayGroups = mutableSetOf<String>()
             val slots = mutableListOf<PlanSlot>()
             for ((si, def) in prefs.slots.withIndex()) {

@@ -333,7 +333,7 @@ fun RecipesHome() {
     val disliked = s.dietPrefs.disliked.toSet()
     val nextKey = remember { WhatNow.keyForDiaryMeal(mealForHour(LocalTime.now().hour)) }
     // Tutto ciò che scorre le 2.500 ricette si calcola in background: la scheda si apre subito e le sezioni compaiono appena pronte.
-    val home by produceState<HomeData?>(null, s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile, today) {
+    val home by produceState<HomeData?>(null, s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.trainingNutrition, s.profile, today) {
         val st = s
         value = withContext(Dispatchers.Default) {
             val c = nowContext(st, nextKey, true)
@@ -591,7 +591,7 @@ fun WhatNowScreen() {
     var fridge by remember { mutableStateOf(false) }
     var usePlan by remember { mutableStateOf(true) }
     val key = keyOv ?: autoKey
-    val nc = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile, key, usePlan) { nowContext(s, key, usePlan) }
+    val nc = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.trainingNutrition, s.profile, key, usePlan) { nowContext(s, key, usePlan) }
     val pantry = remember(s.pantry) { pantryIds(s) }
     val sugg by produceState<List<NowSuggestion>?>(null, nc.target, key, maxMin, fridge, s.dietPrefs, pantry) {
         value = null

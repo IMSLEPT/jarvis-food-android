@@ -57,7 +57,7 @@ private fun levelColor(st: MicroStatus): Color = when (st.level) {
 @Composable
 fun MicroSummaryCard(s: AppState) {
     val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary.size, s.profile) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
+    val rep = remember(s.diary, s.profile, e.baseKcal) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
     val shape = androidx.compose.foundation.shape.RoundedCornerShape(30.dp)
     Row(
         Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x9910B981)).clip(shape)
@@ -121,7 +121,7 @@ fun MicronutrientsScreen() {
     var days by remember { mutableIntStateOf(7) }
     var tab by remember { mutableIntStateOf(0) }
     val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary.size, s.profile, days) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal, LocalDate.now(), days) }
+    val rep = remember(s.diary, s.profile, e.baseKcal, days) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal, LocalDate.now(), days) }
     val heroShape = RoundedCornerShape(34.dp)
     Column(Modifier.fillMaxSize()) {
         TopBar("Vitamine e minerali", onBack = { Nav.back() })

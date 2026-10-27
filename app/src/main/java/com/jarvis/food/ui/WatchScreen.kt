@@ -91,6 +91,13 @@ fun WatchScreen() {
     Column(Modifier.fillMaxSize()) {
         TopBar("Smartwatch e attività", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, bottom = 120.dp)) {
+            if (s.trainingNutrition.active) {
+                JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
+                    Text("Obiettivi ON/OFF attivi", style = T.Title2)
+                    Text("Passi e attività vengono registrati. Il budget rimane quello ON/OFF che hai impostato.", style = T.Small)
+                }
+                GapH(12.dp)
+            }
             // Connessione
             Column(
                 Modifier.padding(top = 6.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x803B82F6)).clip(shape34)

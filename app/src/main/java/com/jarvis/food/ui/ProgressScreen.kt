@@ -72,10 +72,18 @@ fun streak(s: AppState): Int {
 @Composable
 private fun BarsRow(
     values: List<Double>, max: Double, height: Dp, radius: Dp, gap: Dp,
-    fill: (Int, Boolean) -> Brush, labels: List<String>? = null, sel: Int = -1, onPick: ((Int) -> Unit)? = null, goal: Double? = null
+    fill: (Int, Boolean) -> Brush, labels: List<String>? = null, sel: Int = -1, onPick: ((Int) -> Unit)? = null, goal: Double? = null, goals: List<Double>? = null
 ) {
     Box(Modifier.fillMaxWidth().height(height)) {
-        if (goal != null && max > 0) {
+        if (goals != null && max > 0) {
+            Canvas(Modifier.fillMaxSize()) {
+                val step = size.width / goals.size.coerceAtLeast(1)
+                goals.forEachIndexed { i, target ->
+                    val y = size.height * (1f - (target / max).toFloat().coerceIn(0f, 1f))
+                    drawLine(C.Accent, Offset(i * step, y), Offset((i + 1) * step, y), 2.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f)))
+                }
+            }
+        } else if (goal != null && max > 0) {
             val frac = (goal / max).toFloat().coerceIn(0f, 1f)
             Canvas(Modifier.fillMaxSize()) {
                 val yy = size.height * (1f - frac)
@@ -114,7 +122,8 @@ fun ProgressScreen() {
     val avg = if (logged.isEmpty()) null else logged.reduce { a, b -> a + b }.scaled(1.0 / logged.size)
     val weight = Store.currentWeight(s)
     val bmi = Nutrition.bmi(weight, s.profile.heightCm)
-    val goalKcal = Store.energyFor(s, today).baseKcal
+    val dailyGoals = days.map { Store.energyFor(s, it).targetKcal }
+    val goalKcal = dailyGoals.filterIndexed { i, _ -> daily[i].kcal > 0 }.ifEmpty { dailyGoals }.average()
     val letter: (LocalDate) -> String = { it.dayOfWeek.getDisplayName(TextStyle.NARROW, IT).uppercase() }
     val loggedDays = s.diary.map { it.date }.toSet()
     val shape30 = RoundedCornerShape(30.dp)
@@ -197,16 +206,16 @@ fun ProgressScreen() {
         // Calorie
         ASection("Calorie", top = 28.dp)
         GapH(12.dp)
-        val maxK = maxOf(goalKcal * 1.27, (daily.maxOfOrNull { it.kcal } ?: 0.0) * 1.05)
+        val maxK = maxOf((dailyGoals.maxOrNull() ?: goalKcal) * 1.27, (daily.maxOfOrNull { it.kcal } ?: 0.0) * 1.05)
         val dName = DateTimeFormatter.ofPattern("EEE d", IT)
         Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x99E88C60)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(16.dp)) {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(avg?.kcal?.let { kcalFmt(it) } ?: "—", style = T.H1.copy(fontSize = 40.sp, lineHeight = 42.sp))
                 GapW(10.dp)
-                Text("kcal in media · obiettivo ${kcalFmt(goalKcal)}", style = T.Small.copy(fontSize = 13.sp, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
+                Text("kcal in media · obiettivo medio ${kcalFmt(goalKcal)}", style = T.Small.copy(fontSize = 13.sp, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
             }
             val pk = picked.coerceIn(0, days.size - 1)
-            val diff = (daily[pk].kcal - goalKcal).roundToInt()
+            val diff = (daily[pk].kcal - dailyGoals[pk]).roundToInt()
             Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
                 Text(days[pk].format(dName).replace(".", "").replaceFirstChar { it.uppercase() } + " · " + kcalFmt(daily[pk].kcal) + " kcal · " + (if (diff >= 0) "+" else "−") + kotlin.math.abs(diff) + " dall'obiettivo",
                     style = T.Chip.copy(fontSize = 13.sp, color = C.AccentDeep))
@@ -215,9 +224,9 @@ fun ProgressScreen() {
             BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) 10.dp else 3.dp,
                 fill = { i, sel ->
                     if (sel) Brush.verticalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C089)))
-                    else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > goalKcal * 1.1) Color(0xFFFFC2A3) else Color(0xFFFFDDC9))
+                    else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > dailyGoals[i] * 1.1) Color(0xFFFFC2A3) else Color(0xFFFFDDC9))
                 },
-                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal)
+                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null)
         }
 
         // Macro

@@ -119,6 +119,27 @@ object Store {
         s.copy(diary = s.diary.map { if (it.id == id) it.copy(grams = grams, meal = meal) else it })
     }
 
+    fun replaceEntry(id: String, food: Food, grams: Double) = update { s ->
+        s.copy(diary = DiaryEdits.replace(s.diary, id, food, grams))
+    }
+
+    fun setTrainingNutrition(settings: TrainingNutrition) {
+        require(!settings.enabled || (settings.on?.valid == true && settings.off?.valid == true))
+        update { it.copy(trainingNutrition = settings.copy(trainingDays = settings.trainingDays.filter { d -> d in 1..7 }.distinct().sorted())) }
+    }
+
+    fun updateDayTargets(date: LocalDate, change: (DailyTargets) -> DailyTargets) = update { s ->
+        val n = s.trainingNutrition
+        val target = n.target(date) ?: return@update s
+        val next = change(target)
+        require(next.valid)
+        s.copy(trainingNutrition = if (n.isTraining(date)) n.copy(on = next) else n.copy(off = next))
+    }
+
+    fun setDayType(date: LocalDate, training: Boolean?) = update {
+        it.copy(trainingNutrition = it.trainingNutrition.withOverride(date, training))
+    }
+
     fun removeEntry(id: String) = update { s ->
         s.copy(diary = s.diary.filterNot { it.id == id },
             plan = s.plan.map { dp -> dp.copy(slots = dp.slots.map { ps -> ps.copy(eatenEntryIds = ps.eatenEntryIds - id) }) })
@@ -185,11 +206,12 @@ object Store {
     fun energyFor(s: AppState, date: LocalDate): DayEnergy {
         val frac = if (date == LocalDate.now()) LocalTime.now().toSecondOfDay() / 86400.0 else 1.0
         val w = currentWeight(s)
-        return Energy.forDay(
+        val base = Energy.forDay(
             s.profile, s.goals, s.energy, w, s.health[date.toString()],
             s.activities.filter { it.date == date.toString() }, s.steps[date.toString()] ?: 0, frac,
             Energy.calibration(s.profile, w, s.energy, s.health, date)
         )
+        return s.trainingNutrition.apply(base, date)
     }
 
     /** Calorie bruciate con l'attività da mostrare nel diario (non sempre aggiunte al budget: vedi [DayEnergy]). */
@@ -219,7 +241,7 @@ object Store {
     fun plannedMeals(s: AppState, date: LocalDate): List<PlannedMeal> {
         val dp = dayPlan(s, date) ?: return emptyList()
         val e = energyFor(s, date)
-        val key = "${dp.hashCode()}|${s.dietPrefs.hashCode()}|${e.targetKcal.roundToInt()}|${e.protein.roundToInt()}|${e.carbs.roundToInt()}|${e.fat.roundToInt()}"
+        val key = "${dp.hashCode()}|${s.dietPrefs.hashCode()}|${e.macro}"
         synchronized(mealCache) {
             mealCache[key]?.let { return it }
             val r = Planner.solveDay(Db.db, dp, e.macro, s.dietPrefs)
@@ -233,7 +255,8 @@ object Store {
     fun generatePlan(start: LocalDate, days: Int = 7) = update { s ->
         val e = energyFor(s, start)
         val base = com.jarvis.food.engine.Macro(e.baseKcal, e.protein, e.carbs - e.extraKcal / 4, e.fat)
-        val newDays = Planner.generate(Db.db, s.dietPrefs, start, days, base, s.plan)
+        val newDays = Planner.generate(Db.db, s.dietPrefs, start, days, base, s.plan,
+            dayTargetForDate = if (s.trainingNutrition.active) ({ date: LocalDate -> energyFor(s, date).macro }) else null)
         val keepEaten = s.plan.filter { dp -> LocalDate.parse(dp.date) in start..start.plusDays(days - 1L) && dp.slots.any { it.eatenEntryIds.isNotEmpty() } }
         val merged = newDays.map { nd ->
             val old = keepEaten.firstOrNull { it.date == nd.date } ?: return@map nd

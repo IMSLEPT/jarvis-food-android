@@ -42,6 +42,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -108,6 +110,7 @@ fun TodayScreen() {
         // ---- Settimana
         Spacer(Modifier.height(8.dp))
         WeekStrip(s, date)
+        DayTypeControl(s, date)
 
         // ---- Hero calorie
         Spacer(Modifier.height(20.dp))
@@ -199,7 +202,7 @@ fun TodayScreen() {
 fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.diaryDate = it }) {
     val monday = date.with(DayOfWeek.MONDAY)
     val labels = listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom")
-    val fr = remember(s.diary.size, s.profile, s.goals, s.energy, date) {
+    val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, date) {
         (0..6).map { i ->
             val d = monday.plusDays(i.toLong())
             val k = Nutrition.sum(Store.entriesFor(s, d)).kcal
@@ -364,27 +367,28 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                     }.clickable { Nav.go(Screen.AddFood(date, meal)) },
                     contentAlignment = Alignment.Center
                 ) { Text("Nessun alimento ancora · tocca per aggiungere", style = T.Small.copy(fontSize = 13.sp)) }
-            } else entries.forEach { en ->
+            } else entries.forEachIndexed { index, en ->
                 val et = Nutrition.of(en.food, en.grams)
-                val tpl = en.planRef?.substringAfter('#', "")?.toIntOrNull()?.let { slot -> Store.plannedMeals(s, date).firstOrNull { it.slotIndex == slot }?.solved?.template }
+                val itemShape = RoundedCornerShape(16.dp)
+                if (index > 0) Spacer(Modifier.height(8.dp))
                 Row(
-                    Modifier.padding(bottom = 8.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface)
-                        .clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }.padding(8.dp),
+                    Modifier.fillMaxWidth().testTag("diary-entry-${en.id}").clip(itemShape).background(C.Bg.copy(alpha = 0.65f))
+                        .border(1.dp, C.Line, itemShape).clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }
+                        .padding(start = 12.dp, end = 4.dp, top = 12.dp, bottom = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (tpl != null) RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(48.dp), "🍽️", 16.dp)
-                    else { val (bg, ink) = tileColors(en.food.name); InitialTile(en.food.name, bg, ink, 48.dp, 16.dp) }
-                    Spacer(Modifier.width(12.dp))
-                    Column(Modifier.weight(1f)) {
-                        Text(en.food.name, style = T.Label.copy(fontSize = 14.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
-                        Text(
-                            if (en.food.source == "quick") "aggiunta rapida" else "P ${et.protein.r0()} · C ${et.carbs.r0()} · G ${et.fat.r0()}" +
-                                (if (en.planRef == null) " · ${en.grams.r1().replace(",0", "")} ${if (en.food.liquid) "ml" else "g"}" else ""),
-                            style = T.Small, maxLines = 1
-                        )
+                    Column(Modifier.weight(1f).padding(end = 8.dp)) {
+                        Text(en.food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 20.sp), maxLines = 3, overflow = TextOverflow.Ellipsis)
+                        Spacer(Modifier.height(4.dp))
+                        Text("${amountText(en.grams)} ${if (en.food.liquid) "ml" else "g"}" +
+                            " · P ${et.protein.r0()} g · C ${et.carbs.r0()} g · G ${et.fat.r0()} g", style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 16.sp))
                     }
-                    Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 16.sp), modifier = Modifier.padding(horizontal = 6.dp))
-                    Box(Modifier.size(34.dp).clip(CircleShape).clickable { Store.removeEntry(en.id) }, contentAlignment = Alignment.Center) {
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 16.sp))
+                        Text("kcal", style = T.Small.copy(fontSize = 10.sp))
+                    }
+                    Box(Modifier.size(48.dp).clip(CircleShape).semantics { contentDescription = "Elimina ${en.food.name}" }
+                        .clickable { Store.removeEntry(en.id) }, contentAlignment = Alignment.Center) {
                         AIcon("M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12", C.Faint, 18.dp, 2f)
                     }
                 }
@@ -493,7 +497,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
 @Composable
 private fun NutrientInsight(s: AppState) {
     val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary.size, s.profile) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
+    val rep = remember(s.diary, s.profile, e.baseKcal) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
     ASection("Da migliorare", action = "Analisi completa") { Nav.go(Screen.Micronutrients) }
     ACard(radius = 28.dp, elevation = 6.dp, glow = Color(0x591D1B3A), onClick = { Nav.go(Screen.Micronutrients) }) {
         Column(Modifier.fillMaxWidth()) {

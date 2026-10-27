@@ -63,7 +63,9 @@ import java.time.LocalDate
 /** Schermate secondarie aperte sopra le schede principali. */
 sealed class Screen {
     data class AddFood(val date: LocalDate, val meal: Int, val query: String = "", val offlineOnly: Boolean = false) : Screen()
-    data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null) : Screen()
+    data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null, val replacing: Boolean = false) : Screen()
+    data class ReplaceFood(val entryId: String) : Screen()
+    data object TrainingGoals : Screen()
     data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null) : Screen()
     data class PhotoAi(val date: LocalDate, val meal: Int) : Screen()
     /** Ricetta del database (o creata dall'AI) calcolata su un obiettivo. [slot] valorizzato se viene dal piano. */
@@ -134,7 +136,9 @@ private fun ScreenHost(s: Screen) {
     Box(Modifier.fillMaxSize().background(C.Bg)) {
         when (s) {
             is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly)
-            is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry)
+            is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry, s.replacing)
+            is Screen.ReplaceFood -> ReplaceFoodScreen(s.entryId)
+            Screen.TrainingGoals -> TrainingGoalsScreen()
             is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit)
             is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal)
             is Screen.RecipeView -> RecipeViewScreen(s)

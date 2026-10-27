@@ -220,7 +220,8 @@ fun ProfileScreen() {
             ProfRow(PIc.Ruler, C.NavySoft, C.Navy, "Misure corporee", "Vita, fianchi, petto e altre misure", divider = false, key = "measurements") { Nav.go(Screen.Measurements) }
 
             ProfileSectionTitle("Alimentazione")
-            ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Calorie e macronutrienti", "${s.goals.carbsPct}% carboidrati · ${s.goals.proteinPct}% proteine · ${s.goals.fatPct}% grassi", key = "goals") { Nav.go(Screen.Goals) }
+            ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Calorie e macronutrienti", if (s.trainingNutrition.active) "Obiettivi ON/OFF attivi" else "${s.goals.carbsPct}% carboidrati · ${s.goals.proteinPct}% proteine · ${s.goals.fatPct}% grassi", key = "goals") { Nav.go(Screen.Goals) }
+            ProfRow(Ic.Calendar, C.AccentSoft, C.AccentDeep, "Giorni ON e OFF", if (s.trainingNutrition.active) "Allenamento e riposo · attivi" else "Imposta calorie e macro per tipo di giornata", key = "training-goals") { Nav.go(Screen.TrainingGoals) }
             ProfRow(PIc.Leaf, C.NavySoft, C.Navy, "Preferenze della dieta", "Alimenti esclusi, pasti e tempi", divider = false, key = "diet") { Nav.go(Screen.DietSettings) }
 
             ProfileSectionTitle("Strumenti")
@@ -384,6 +385,11 @@ fun GoalsScreen() {
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Obiettivi", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, bottom = 8.dp)) {
+            JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
+                Text("Giorni ON e OFF", style = T.Title2)
+                Text(if (s.trainingNutrition.active) "Attivi: gestisci gli obiettivi per allenamento e riposo. I valori generali sotto si applicano quando ON/OFF è disattivato." else "Configura obiettivi diversi per allenamento e riposo.", style = T.Small)
+            }
+            GapH(12.dp)
             // Hero: come è calcolato
             val heroShape = RoundedCornerShape(34.dp)
             Column(
@@ -846,7 +852,8 @@ fun DayNutrientsScreen(date: LocalDate) {
     val s by Store.state.collectAsState()
     val entries = Store.entriesFor(s, date)
     val t = Nutrition.sum(entries)
-    val (gc, gp, gf) = Nutrition.goalGrams(s.goals)
+    val energy = Store.energyFor(s, date)
+    val (gc, gp, gf) = Triple(energy.carbs, energy.protein, energy.fat)
     Column(Modifier.fillMaxSize()) {
         TopBar("Nutrienti · ${dayLabel(date)}", onBack = { Nav.back() })
         Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
@@ -856,7 +863,7 @@ fun DayNutrientsScreen(date: LocalDate) {
                     Spacer(Modifier.width(16.dp))
                     Column {
                         Text("${t.kcal.r0()} kcal", style = T.Big)
-                        Text("su ${s.goals.kcal} kcal", style = T.Muted)
+                        Text("su ${energy.targetKcal.r0()} kcal", style = T.Muted)
                     }
                 }
             }
@@ -868,7 +875,7 @@ fun DayNutrientsScreen(date: LocalDate) {
                     Triple("Grassi", t.fat to gf, C.Fat),
                     Triple("Fibre (consigliate ≥ 25 g)", t.fiber to 25.0, C.Accent),
                     Triple("Zuccheri (limite consigliato 50 g)", t.sugar to 50.0, C.Fat),
-                    Triple("Grassi saturi (limite 10% kcal)", t.satFat to s.goals.kcal * 0.10 / 9, C.Protein),
+                    Triple("Grassi saturi (limite 10% kcal)", t.satFat to energy.targetKcal * 0.10 / 9, C.Protein),
                     Triple("Sale (limite OMS 5 g)", t.salt to 5.0, C.Water)
                 ).forEach { (label, pair, color) ->
                     Column(Modifier.padding(vertical = 6.dp)) {
@@ -877,7 +884,7 @@ fun DayNutrientsScreen(date: LocalDate) {
                             Text("${pair.first.r1()} / ${pair.second.r0()} g", style = T.Label.copy(color = color))
                         }
                         Spacer(Modifier.height(4.dp))
-                        ProgressLine((pair.first / pair.second).toFloat(), color)
+                        ProgressLine((pair.first / pair.second.coerceAtLeast(1.0)).toFloat(), color)
                     }
                 }
                 Text("Fibre, zuccheri, saturi e sale si sommano solo per gli alimenti che riportano questi valori.", style = T.Small, modifier = Modifier.padding(top = 6.dp))

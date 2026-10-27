@@ -109,6 +109,7 @@ fun PlanScreen() {
         }
         Spacer(Modifier.height(16.dp))
         WeekStrip(s, date) { Nav.planDate = it }
+        DayTypeControl(s, date)
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
@@ -463,7 +464,7 @@ fun EnergyInfoScreen() {
                     "attesa, e dopo almeno 5 giorni di dati affina il fabbisogno sui tuoi valori reali. " +
                     "Metabolismo basale: Mifflin-St Jeor, o Katch-McArdle se indichi la massa grassa. " +
                     "Proteine: ${"%.1f".format(java.util.Locale.ITALY, com.jarvis.food.data.Nutrition.proteinPerKg(s.profile))} g per kg. " +
-                    "Grassi: ${s.goals.fatPct}% delle calorie di base. Sono stime: se il peso non va nella direzione attesa per 2-3 settimane, " +
+                    "Grassi: ${e.fat.r0()} g nell’obiettivo del giorno. Sono stime: se il peso non va nella direzione attesa per 2-3 settimane, " +
                     "correggi l'obiettivo dal Profilo.", style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted),
                 modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 14.dp))
             GapH(14.dp)

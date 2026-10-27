@@ -195,6 +195,7 @@ object Actions {
     private fun run(a: ActionCall, confirmed: Boolean): ActionResult {
         val args = a.args
         val st = Store.current
+        val today = LocalDate.now()
         val pantryIds = st.pantry.mapNotNull { it.foodId }.toSet()
         return when (a.name) {
             "log_food" -> {
@@ -318,7 +319,7 @@ object Actions {
                 }
                 val rate = (args.num("kg_per_week") ?: st.profile.weeklyRate).coerceIn(0.25, 1.0)
                 recompute { it.copy(profile = it.profile.copy(goal = g, weeklyRate = if (g == 0) it.profile.weeklyRate else rate)) }
-                val g2 = Store.current.goals.kcal
+                val g2 = Store.energyFor(Store.current, today).targetKcal.toInt()
                 ActionResult(true, "Obiettivo: ${when (g) { -1 -> "dimagrire"; 1 -> "aumentare massa"; else -> "mantenere" }}" +
                         (if (g != 0) " (${"%.2f".format(Locale.ITALY, rate)} kg a settimana)" else "") + " · ora $g2 kcal")
             }
@@ -329,11 +330,15 @@ object Actions {
             }
             "set_calories" -> {
                 val kcal = args.num("kcal")?.toInt()?.takeIf { it in 1000..6000 } ?: return ActionResult(false, "Calorie non valide (1000-6000).", true)
+                if (st.trainingNutrition.active) {
+                    Store.updateDayTargets(today) { it.copy(kcal = kcal) }
+                    return ActionResult(true, "Calorie ${if (st.trainingNutrition.isTraining(today)) "ON" else "OFF"} impostate: $kcal kcal. Gli altri tipi di giornata restano invariati.")
+                }
                 Store.update { it.copy(goals = it.goals.copy(auto = false, kcal = kcal)) }
                 ActionResult(true, "Calorie impostate a mano: $kcal kcal al giorno (calcolo automatico spento)")
             }
             "use_auto_calc" -> {
-                Store.update { it.copy(goals = Nutrition.autoGoals(it.profile, Store.currentWeight(it), it.goals.copy(auto = true))) }
+                Store.update { it.copy(goals = Nutrition.autoGoals(it.profile, Store.currentWeight(it), it.goals.copy(auto = true)), trainingNutrition = it.trainingNutrition.copy(enabled = false)) }
                 ActionResult(true, "Calcolo automatico riattivato: ${Store.current.goals.kcal} kcal")
             }
             "set_water_goal" -> {
@@ -349,7 +354,7 @@ object Actions {
             "set_macros" -> {
                 val preset = args.str("preset")?.lowercase()?.replace(" ", "")?.replace("_", "")
                 val idx = when (preset) { "bilanciato" -> 0; "proteico", "piuproteine" -> 1; "lowcarb", "pochicarboidrati" -> 2; else -> null }
-                if (idx != null && st.goals.auto) {
+                if (idx != null && st.goals.auto && !st.trainingNutrition.active) {
                     recompute { it.copy(profile = it.profile.copy(dietStyle = idx)) }
                     val g = Store.current.goals
                     ActionResult(true, "Macro ${Nutrition.PRESETS[idx].name}: ${g.carbsPct}% C · ${g.proteinPct}% P · ${g.fatPct}% G")
@@ -360,6 +365,10 @@ object Actions {
                         Triple(t.first!!, t.second!!, t.third!!)
                     }
                     if (c + p + f !in 99..101 || minOf(c, p, f) < 5) return ActionResult(false, "Le percentuali devono sommare 100 (ognuna almeno 5).", true)
+                    if (st.trainingNutrition.active) {
+                        Store.updateDayTargets(today) { it.copy(carbs = it.kcal * c / 100.0 / 4, protein = it.kcal * p / 100.0 / 4, fat = it.kcal * f / 100.0 / 9) }
+                        return ActionResult(true, "Macro ${if (st.trainingNutrition.isTraining(today)) "ON" else "OFF"} impostati: $c% C · $p% P · $f% G.")
+                    }
                     Store.update { it.copy(goals = it.goals.copy(auto = false, carbsPct = c, proteinPct = p, fatPct = f)) }
                     ActionResult(true, "Macro impostati: $c% C · $p% P · $f% G (calcolo automatico spento)")
                 }
@@ -393,7 +402,7 @@ object Actions {
                 args.num("height_cm")?.takeIf { it in 120.0..230.0 }?.let { p = p.copy(heightCm = it); ch += "altezza: ${f0(it)} cm" }
                 if (ch.isEmpty()) return ActionResult(false, "Nessun campo del profilo riconosciuto.", true)
                 recompute { it.copy(profile = p) }
-                ActionResult(true, "Profilo aggiornato (${ch.joinToString(", ")}) · ora ${Store.current.goals.kcal} kcal")
+                ActionResult(true, "Profilo aggiornato (${ch.joinToString(", ")}) · ora ${Store.energyFor(Store.current, today).targetKcal.toInt()} kcal")
             }
             "start_fast" -> {
                 val id = args.str("plan") ?: "16:8"
@@ -722,7 +731,7 @@ Per agire nell'app scrivi una breve frase e poi un blocco <action>{"name":"...",
 
 DATI ($dow ${today}, ${LocalTime.now().hour}:${"%02d".format(LocalTime.now().minute)})
 Utente: ${p.name}, ${if (p.male) "uomo" else "donna"}, ${Nutrition.age(p)} anni, ${f0(p.heightCm)} cm, peso ${"%.1f".format(Locale.ITALY, w)} kg, obiettivo peso ${"%.1f".format(Locale.ITALY, p.targetWeight)} kg, scopo: $goalTxt${if (p.goal != 0) " ${"%.2f".format(Locale.ITALY, p.weeklyRate)} kg/sett" else ""}. Preferenza macro: $prefs. $quest.
-Obiettivo di oggi: ${f0(e.targetKcal)} kcal (base ${f0(e.baseKcal)}), macro P ${f0(e.protein)} g, C ${f0(e.carbs)} g, G ${f0(e.fat)} g; ripartizione ${s.goals.carbsPct}% C ${s.goals.proteinPct}% P ${s.goals.fatPct}% G; calcolo ${if (s.goals.auto) "automatico" else "manuale"}. Basale ${f0(e.bmr)} kcal.
+Obiettivo di oggi: ${f0(e.targetKcal)} kcal (base ${f0(e.baseKcal)}), macro P ${f0(e.protein)} g, C ${f0(e.carbs)} g, G ${f0(e.fat)} g; ripartizione ${f0(e.carbs * 400 / e.targetKcal.coerceAtLeast(1.0))}% C ${f0(e.protein * 400 / e.targetKcal.coerceAtLeast(1.0))}% P ${f0(e.fat * 900 / e.targetKcal.coerceAtLeast(1.0))}% G; calcolo ${if (s.trainingNutrition.active) (if (s.trainingNutrition.isTraining(today)) "ON allenamento" else "OFF riposo") else if (s.goals.auto) "automatico" else "manuale"}. Basale ${f0(e.bmr)} kcal.
 Oggi: mangiate ${f0(tot.kcal)} kcal (P ${f0(tot.protein)}, C ${f0(tot.carbs)}, G ${f0(tot.fat)}), acqua $water ml su ${s.goals.waterMl}, passi ${Store.stepsFor(s, today)}, attività ${Store.burnedFor(s, today)} kcal, digiuno: $fast.
 Diario di oggi: $diary.
 $extra
