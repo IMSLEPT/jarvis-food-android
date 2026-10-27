@@ -168,7 +168,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                         BasicTextField(query, { query = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 16.sp, color = A.Ink),
                             cursorBrush = SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
                     }
-                    if (!offlineOnly) Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))).clickable { scan() }, contentAlignment = Alignment.Center) {
+                    if (!offlineOnly) Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(C.AccentSoft, C.AccentSoft))).clickable { scan() }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Barcode, A.Ink, 22.dp, 2.2f)
                     }
                 }
@@ -264,7 +264,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                     val ps = RoundedCornerShape(28.dp)
                     Column(Modifier.fillMaxWidth().clip(ps).background(C.Surface).padding(14.dp)) {
                         Row(verticalAlignment = Alignment.Top) {
-                            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, A.CarbInk, 22.dp, 2.2f) }
+                            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, C.Navy, 22.dp, 2.2f) }
                             GapW(12.dp)
                             Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = Color(0xFF4B5B6E)))
                         }

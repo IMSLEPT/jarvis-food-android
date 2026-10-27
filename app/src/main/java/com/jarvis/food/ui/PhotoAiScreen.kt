@@ -258,7 +258,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
             ) {
                 if (b != null) Image(b.asImageBitmap(), "Foto del pasto", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                 else Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
-                    AIcon(Ic.Camera, Color(0xFFB4381E), 54.dp, 1.8f)
+                    AIcon(Ic.Camera, C.AccentDeep, 54.dp, 1.8f)
                     Text("Scatta o scegli una foto", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF8A4A2E)), modifier = Modifier.padding(top = 10.dp))
                 }
                 if (busy) ScanOverlay(Modifier.fillMaxSize()) else Brackets(Modifier.fillMaxSize())
@@ -277,7 +277,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                     Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(27.dp)).background(C.Navy).clickable { controller.stop(); camera.launch(photoUri) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AIcon(Ic.Camera, Color(0xFFFFB820), 22.dp, 2f); GapW(10.dp)
+                    AIcon(Ic.Camera, C.Accent, 22.dp, 2f); GapW(10.dp)
                     Text("Scatta", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color.White))
                 }
                 Row(
@@ -301,7 +301,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int) {
                         .clickable(role = Role.RadioButton) { runOnline() },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AIcon(Ic.Spark, if (online) Color(0xFFFFB820) else A.Ink, 20.dp, 2f); GapW(8.dp)
+                    AIcon(Ic.Spark, if (online) C.Accent else A.Ink, 20.dp, 2f); GapW(8.dp)
                     Text("AI online", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (online) Color.White else A.Ink), maxLines = 1)
                 }
                 Box(

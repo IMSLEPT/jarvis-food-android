@@ -201,7 +201,7 @@ fun MicronutrientsScreen() {
                                         Modifier.size(48.dp).clip(CircleShape).background(if (inList != null) Color(0xFF10B981) else A.Ink)
                                             .clickable { if (inList != null) Store.removeShopping(inList.id) else Store.addShoppingManual(t.food.name) },
                                         contentAlignment = Alignment.Center
-                                    ) { AIcon(if (inList != null) Ic.Check else "M12 5v14M5 12h14", if (inList != null) Color.White else Color(0xFFFFB820), 22.dp, 2.6f) }
+                                    ) { AIcon(if (inList != null) Ic.Check else "M12 5v14M5 12h14", if (inList != null) Color.White else C.Accent, 22.dp, 2.6f) }
                                 }
                             }
                         }

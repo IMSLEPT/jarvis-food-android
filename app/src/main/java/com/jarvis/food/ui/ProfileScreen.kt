@@ -93,13 +93,13 @@ private object PIc {
 @Composable
 private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: String?, divider: Boolean = true, onClick: () -> Unit) {
     Row(Modifier.fillMaxWidth().heightIn(min = 68.dp).clip(RoundedCornerShape(20.dp)).clickable(onClick = onClick), verticalAlignment = Alignment.CenterVertically) {
-        TonalIcon(icon, ink, bg, box = 46.dp, radius = 17.dp, size = 23.dp)
+        TonalIcon(icon, C.Navy, C.Surface, box = 46.dp, radius = 17.dp, size = 23.dp)
         GapW(14.dp)
         Column(Modifier.weight(1f)) {
             Text(title, style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
             if (sub != null) Text(sub, style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 17.sp, color = A.Muted), maxLines = 1)
         }
-        AIcon(Ic.Right, Color(0xFF8A87A3), 18.dp, 2.4f)
+        AIcon(Ic.Right, C.Muted, 18.dp, 2.4f)
     }
     if (divider) Box(Modifier.padding(start = 60.dp).fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
 }
@@ -241,7 +241,7 @@ fun ProfileEditScreen() {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp, shape = RoundedCornerShape(30.dp)) }
                         Column(Modifier.padding(start = 16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            AInk(if (p.photo == null) "Aggiungi foto" else "Cambia foto", height = 44.dp, bg = Color(0xFFFFE9E1), fg = Color(0xFFB4381E)) { picker.launch("image/*") }
+                            AInk(if (p.photo == null) "Aggiungi foto" else "Cambia foto", height = 44.dp, bg = C.AccentSoft, fg = C.AccentDeep) { picker.launch("image/*") }
                             if (p.photo != null) Text("Rimuovi", style = T.Label.copy(color = C.Danger),
                                 modifier = Modifier.clickable { ProfilePhoto.delete(p.photo); Store.update { it.copy(profile = it.profile.copy(photo = null)) } }.padding(horizontal = 6.dp, vertical = 8.dp))
                         }
@@ -357,7 +357,7 @@ fun GoalsScreen() {
                     Row {
                         Text(buildAnnotatedString {
                             append("Metabolismo basale ")
-                            withStyle(SpanStyle(color = Color(0xFF6B6885))) { append(if (pr.bodyFatPct != null) "(Katch-McArdle)" else "(Mifflin-St Jeor)") }
+                            withStyle(SpanStyle(color = C.Muted)) { append(if (pr.bodyFatPct != null) "(Katch-McArdle)" else "(Mifflin-St Jeor)") }
                         }, style = lab, modifier = Modifier.weight(1f))
                         Text(kcalFmt(bmr), style = num)
                     }
@@ -414,7 +414,7 @@ fun GoalsScreen() {
                                     Text(name, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
                                     Text(ACT_DESC[i], style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                                 }
-                                Text("× ${fac(Nutrition.ACTIVITY_FACTORS[i])}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = if (sel) Color(0xFFD9411E) else Color(0xFF6B6885)))
+                                Text("× ${fac(Nutrition.ACTIVITY_FACTORS[i])}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = if (sel) C.AccentDeep else C.Muted))
                             }
                         }
                     }
@@ -426,9 +426,9 @@ fun GoalsScreen() {
                             Text("Calcolata dal tuo questionario", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
                             Text("Lavoro, passi e allenamenti: tocca per modificarli", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                         }
-                        Text("× ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = Color(0xFFD9411E)))
+                        Text("× ${fac(if (bmr > 0) tdee / bmr else 1.0)}", style = T.H1.copy(fontSize = 15.sp, lineHeight = 20.sp, letterSpacing = 0.sp, color = C.AccentDeep))
                         GapW(8.dp)
-                        AIcon(Ic.Right, Color(0xFF8A87A3), 18.dp, 2.4f)
+                        AIcon(Ic.Right, C.Muted, 18.dp, 2.4f)
                     }
                 }
             }
@@ -443,7 +443,7 @@ fun GoalsScreen() {
                             AChoice(sel, Modifier.weight(1f), minHeight = 76.dp, onClick = { goal = pc.goal; if (pc.goal != 0) rate = pc.kg }) {
                                 Column(Modifier.padding(12.dp)) {
                                     Text(pc.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                                    Text(pc.rate, style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = if (sel) Color(0xFFD9411E) else Color(0xFF6B6885)), modifier = Modifier.padding(top = 2.dp))
+                                    Text(pc.rate, style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = if (sel) C.AccentDeep else C.Muted), modifier = Modifier.padding(top = 2.dp))
                                 }
                             }
                         }
@@ -504,7 +504,7 @@ fun GoalsScreen() {
                                     Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
                                         Row {
                                             Text(pc.name + if (i == advice.best) " ★" else "", style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                                            Text("${pc.carbs}C ${pc.protein}P ${pc.fat}G · ${"%.1f".format(java.util.Locale.ITALY, advice.perKg[i])} g/kg", style = T.Small.copy(fontSize = 12.sp, color = if (i == advice.best) Color(0xFFD9411E) else A.Muted))
+                                            Text("${pc.carbs}C ${pc.protein}P ${pc.fat}G · ${"%.1f".format(java.util.Locale.ITALY, advice.perKg[i])} g/kg", style = T.Small.copy(fontSize = 12.sp, color = if (i == advice.best) C.AccentDeep else A.Muted))
                                         }
                                         Text(advice.notes[i], style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
                                     }

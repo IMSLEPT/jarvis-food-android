@@ -131,7 +131,7 @@ fun WatchScreen() {
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (busy) CircularProgressIndicator(Modifier.size(20.dp), color = Color(0xFFFFB820), strokeWidth = 2.4.dp)
-                    else AIcon(WIc.Refresh, Color(0xFFFFB820), 20.dp, 2.4f)
+                    else AIcon(WIc.Refresh, C.Accent, 20.dp, 2.4f)
                     GapW(10.dp)
                     Text(
                         when { busy -> "Sincronizzo…"; status == 1 -> "Apri Play Store"; status != 0 -> "Non disponibile"; ok -> "Sincronizza ora"; else -> "Collega Health Connect" },
@@ -184,7 +184,7 @@ fun WatchScreen() {
                 Column {
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text("Calorie attive conteggiate", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                        Text("${s.energy.eatBackPct}%", style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = 0.sp, color = Color(0xFFD9411E)))
+                        Text("${s.energy.eatBackPct}%", style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = 0.sp, color = C.AccentDeep))
                     }
                     val pcts = listOf(0, 25, 50, 75, 100)
                     ASegment(pcts.map { "$it%" }, pcts.indexOf(s.energy.eatBackPct), modifier = Modifier.padding(top = 12.dp)) { i -> Store.setEnergy(Store.current.energy.copy(eatBackPct = pcts[i])) }
@@ -231,7 +231,7 @@ fun WatchScreen() {
             ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                 Column {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
-                        ChainStep("Amazfit", WIc.Watch, A.FastSoft, A.FastInk, Modifier.weight(1f))
+                        ChainStep("Amazfit", WIc.Watch, C.Surface, C.Navy, Modifier.weight(1f))
                         ChainArrow()
                         ChainStep("Zepp", WIc.Phone, A.CarbSoft, A.CarbInk, Modifier.weight(1f))
                         ChainArrow()

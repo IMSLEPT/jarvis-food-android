@@ -179,7 +179,7 @@ fun FastingScreen() {
             } else {
                 Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(56.dp).clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable { Store.startFast(f.planId, f.targetHours); Reminders.rescheduleAll(ctx) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    AIcon(Ic.Bolt, Color(0xFFFFB820), 20.dp, 2f); GapW(10.dp)
+                    AIcon(Ic.Bolt, C.Accent, 20.dp, 2f); GapW(10.dp)
                     Text("Inizia digiuno ora", style = T.BtnL.copy(color = Color.White))
                 }
                 Box(Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color(0xD9FFFFFF)).clickable {
@@ -220,7 +220,7 @@ fun FastingScreen() {
         // Storico
         Row(Modifier.padding(top = 28.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Text("Storico", style = T.H2, modifier = Modifier.weight(1f))
-            Text("Vedi tutti", style = T.Link.copy(color = Violet), modifier = Modifier.clickable { Nav.go(Screen.FastingHistory) }.padding(vertical = 8.dp))
+            Text("Vedi tutti", style = T.Link.copy(color = C.AccentDeep), modifier = Modifier.clickable { Nav.go(Screen.FastingHistory) }.padding(vertical = 8.dp))
         }
         val last7 = f.history.take(7).reversed()
         val hs = RoundedCornerShape(30.dp)

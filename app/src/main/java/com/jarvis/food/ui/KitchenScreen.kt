@@ -160,7 +160,7 @@ private fun CookTodayBlock(s: AppState) {
                 busy = false
             }
         }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            AIcon(Ic.Spark, Color(0xFFFFB820), 22.dp, 2f); GapW(10.dp)
+            AIcon(Ic.Spark, C.Accent, 22.dp, 2f); GapW(10.dp)
             Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White))
         }
     }

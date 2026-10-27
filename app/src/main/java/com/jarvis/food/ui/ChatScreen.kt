@@ -154,7 +154,7 @@ private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSet
     val actions: @Composable () -> Unit = {
         ChatHeaderAction(NEW_CHAT_ICON, "Nuova chat", A.Tonal, A.TonalInk, onNew)
         Spacer(Modifier.size(6.dp))
-        ChatHeaderAction(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", A.FastSoft, C.Navy, onSetup)
+        ChatHeaderAction(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", C.NavySoft, C.Navy, onSetup)
     }
     if (!active) {
         TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) { actions() }

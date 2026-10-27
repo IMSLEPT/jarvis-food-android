@@ -67,8 +67,8 @@ object A {
     val Dashed = Color(0xFFD9D4EC)
 
     /** Sfumatura "alba" del marchio. */
-    val Dawn = Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))
-    val Sun = listOf(Color(0xFFF25E00), Color(0xFFFF8A1C), Color(0xFFFFB02E))
+    val Dawn = Brush.linearGradient(listOf(C.Accent, Color(0xFFFFAD60)))
+    val Sun = listOf(C.Accent, Color(0xFFF68A46), Color(0xFFFFAD60))
     val FastBar = Brush.horizontalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF6AA6FF)))
     val FastBarV = Brush.verticalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF5AA9FF)))
     val WaterFill = Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6)))
@@ -258,8 +258,8 @@ fun InitialTile(name: String, bg: Color, ink: Color, size: Dp = 52.dp, radius: D
 }
 
 private val TileColors = listOf(
-    A.ProteinSoft to A.ProteinInk, A.GreenSoft to A.GreenInk, A.CarbSoft to A.CarbInk,
-    A.FatSoft to A.FatInk, A.Tonal to A.TonalInk, A.FastSoft to A.FastInk
+    C.Surface to C.Navy, C.Surface to C.Navy, C.Surface to C.Navy,
+    C.Surface to C.Navy, C.Surface to C.Navy, C.Surface to C.Navy
 )
 
 /** Colori tonali stabili per un nome (stessa lettera = stesso colore). */

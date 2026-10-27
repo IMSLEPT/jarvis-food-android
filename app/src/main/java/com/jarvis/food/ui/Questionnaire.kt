@@ -163,7 +163,7 @@ private fun HoldStep(plus: Boolean, onStep: () -> Unit) {
             })
         },
         contentAlignment = Alignment.Center
-    ) { AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", Color(0xFFB4381E), 20.dp, 2.8f) }
+    ) { AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", C.AccentDeep, 20.dp, 2.8f) }
 }
 
 /** Riga con valore grande e due pulsanti −/+ (Età, Altezza, Peso del design). */
@@ -192,7 +192,7 @@ private fun QCard(content: @Composable () -> Unit) {
 private fun BigChoice(selected: Boolean, icon: String, tint: Color, ink: Color, title: String, sub: String?, modifier: Modifier = Modifier, onClick: () -> Unit) {
     AChoice(selected, modifier.fillMaxWidth(), minHeight = if (sub == null) 76.dp else 84.dp, radius = if (sub == null) 26.dp else 28.dp, onClick = onClick) {
         Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(icon, ink, tint, box = if (sub == null) 40.dp else 52.dp, radius = if (sub == null) 15.dp else 19.dp, size = if (sub == null) 22.dp else 26.dp)
+            TonalIcon(icon, C.Navy, C.Surface, box = if (sub == null) 40.dp else 52.dp, radius = if (sub == null) 15.dp else 19.dp, size = if (sub == null) 22.dp else 26.dp)
             GapW(if (sub == null) 10.dp else 14.dp)
             Column(Modifier.weight(1f)) {
                 Text(title, style = T.Body.copy(fontSize = if (sub == null) 16.sp else 16.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
@@ -265,7 +265,7 @@ fun QContent(step: QStep, d: QDraft) {
                         Text("Data di nascita", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
                         Text(d.birth?.format(fmt) ?: "Scegli la data", style = T.H1.copy(fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = (-0.3).sp, color = if (d.birth == null) A.Muted else A.Ink))
                     }
-                    AInk("Cambia", height = 44.dp, bg = Color(0xFFFFE9E1), fg = Color(0xFFB4381E)) {
+                    AInk("Cambia", height = 44.dp, bg = C.AccentSoft, fg = C.AccentDeep) {
                         val b = d.birth ?: LocalDate.of(1995, 6, 15)
                         DatePickerDialog(ctx, { _, y, m, day -> d.birth = LocalDate.of(y, m + 1, day) }, b.year, b.monthValue - 1, b.dayOfMonth).apply {
                             datePicker.maxDate = System.currentTimeMillis()
