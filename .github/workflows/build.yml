@@ -59,6 +59,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Build release APK + unit test
+        id: compile
         run: |
           chmod +x ./gradlew
           set +e
@@ -122,6 +123,8 @@ jobs:
             adb shell pm disable-user --user 0 com.google.android.setupwizard || true
             adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            # Clear a launcher ANR left over from first boot, before testing the app.
+            adb shell am force-stop com.google.android.apps.nexuslauncher || true
             adb logcat -c
             adb shell settings put secure show_ime_with_hard_keyboard 1
             KEYBOARD=$(adb shell ime list -s | head -1 | tr -d '\r')
@@ -148,8 +151,13 @@ jobs:
             cat layout-gestures.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
-            adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1
+            # Switching navigation overlays can briefly reconnect the emulator's adb transport.
+            timeout 90 adb wait-for-device
+            adb shell true
+            adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1 || { if grep -Eq "device offline|device.*not found" photo-ai.log; then adb kill-server; adb start-server; timeout 90 adb wait-for-device; adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1; else cat photo-ai.log; exit 1; fi; }
             cat photo-ai.log
+            adb logcat -d -s AndroidRuntime:E > layout-crash.txt
+            if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
             grep -q "OK (2 tests)" layout-standard.log
             grep -q "OK (2 tests)" layout-large-text.log
             grep -q "OK (1 test)" layout-buttons.log
@@ -158,6 +166,7 @@ jobs:
             grep -q "OK (3 tests)" photo-ai.log
 
       - name: Emulator screenshots
+        if: ${{ !cancelled() && steps.compile.outcome == 'success' }}
         id: emu
         uses: reactivecircus/android-emulator-runner@v2
         with:

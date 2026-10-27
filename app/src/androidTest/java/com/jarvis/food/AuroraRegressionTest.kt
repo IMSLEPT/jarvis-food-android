@@ -54,8 +54,10 @@ class AuroraRegressionTest {
 
     @Test fun originalCategoriesOpenNativeResults() {
         prepare()
+        // Start directly in the catalogue: changing tab during the first measure can
+        // re-enter Android 10's layout through Espresso's idle synchronization.
+        ui { Nav.tab = 2; Nav.kitchenTab = 2 }
         ActivityScenario.launch(MainActivity::class.java).use {
-            ui { Nav.tab = 2; Nav.kitchenTab = 2 }
             compose.waitUntil(30_000) { compose.onAllNodesWithText("Mostra tutte").fetchSemanticsNodes().isNotEmpty() }
             compose.onNodeWithText("Mostra tutte").performScrollTo().performClick()
             compose.waitForIdle()
