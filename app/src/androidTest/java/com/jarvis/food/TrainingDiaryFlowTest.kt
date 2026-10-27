@@ -49,7 +49,7 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithTag("replacement-${fish.id}").performScrollTo().performClick()
             compose.waitForIdle()
             assertEquals(listOf(first, other), Store.current.diary)
-            ui { Nav.back() }
+            compose.onNodeWithText("Annulla").performClick()
             compose.waitForIdle()
             assertEquals(listOf(first, other), Store.current.diary)
             compose.onNodeWithTag("replacement-${fish.id}").performScrollTo().performClick()
@@ -62,6 +62,8 @@ class TrainingDiaryFlowTest {
             assertEquals(other, result.last())
             assertEquals(150.0, Nutrition.of(result.first().food, result.first().grams).kcal, 0.01)
             assertTrue(Nav.stack.isEmpty())
+            if (compose.onAllNodesWithTag("diary-entry-${first.id}").fetchSemanticsNodes().isEmpty()) compose.onNodeWithText("Pranzo").performScrollTo().performClick()
+            compose.onNodeWithTag("diary-entry-${first.id}").performScrollTo().assertTextContains(fish.name)
             shot("diary-after-replacement")
         }
     }
@@ -73,6 +75,8 @@ class TrainingDiaryFlowTest {
             ui { Nav.go(Screen.Profile) }
             compose.onNodeWithTag("profile-item-training-goals").performScrollTo().performClick()
             compose.onNodeWithTag("training-enabled").performClick()
+            val tomorrow = today.plusDays(1)
+            compose.onNodeWithTag("training-weekday-${tomorrow.dayOfWeek.value}").performScrollTo().assertIsNotSelected().performClick().assertIsSelected()
             val values = listOf("2600", "160", "330", "70", "2100", "150", "210", "60")
             for ((i, value) in values.withIndex()) {
                 compose.onNodeWithTag("target-${if (i < 4) "on" else "off"}-${i % 4}").performScrollTo().performTextReplacement(value)
@@ -81,6 +85,7 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithText("Salva giorni ON/OFF").performClick()
             compose.waitForIdle()
             assertTrue(Store.current.trainingNutrition.active)
+            assertTrue(Store.current.trainingNutrition.isTraining(tomorrow))
             assertEquals(2600.0, Store.energyFor(Store.current, today).targetKcal, 0.0)
             val backup = Store.exportJson()
             assertTrue(Store.importJson(backup).isSuccess)

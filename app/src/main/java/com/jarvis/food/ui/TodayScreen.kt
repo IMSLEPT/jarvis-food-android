@@ -381,7 +381,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                         Text(en.food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 20.sp), maxLines = 3, overflow = TextOverflow.Ellipsis)
                         Spacer(Modifier.height(4.dp))
                         Text("${amountText(en.grams)} ${if (en.food.liquid) "ml" else "g"}" +
-                            " · P ${et.protein.r0()} g · C ${et.carbs.r0()} g · G ${et.fat.r0()} g", style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 16.sp))
+                            " · P ${et.protein.r0()} g · C ${et.carbs.r0()} g · G ${et.fat.r0()} g", style = T.Small)
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 16.sp))

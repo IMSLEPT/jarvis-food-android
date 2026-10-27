@@ -13,6 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,12 +60,13 @@ fun TrainingGoalsScreen() {
             Text("Seleziona i giorni di allenamento. Gli altri saranno di riposo.", style = T.Small)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom").forEachIndexed { i, day ->
-                    val selected = i + 1 in days
+                    val isOn = i + 1 in days
                     val shape = RoundedCornerShape(16.dp)
                     Box(Modifier.testTag("training-weekday-${i + 1}").heightIn(min = 48.dp).widthIn(min = 48.dp).clip(shape)
-                        .background(if (selected) C.Navy else C.Surface).border(1.dp, C.Line, shape)
-                        .clickable { days = if (selected) days - (i + 1) else days + (i + 1) }.padding(12.dp), contentAlignment = Alignment.Center) {
-                        Text(day, style = T.Label.copy(color = if (selected) C.Surface else C.Navy))
+                        .background(if (isOn) C.Navy else C.Surface).border(1.dp, C.Line, shape)
+                        .semantics { selected = isOn; stateDescription = if (isOn) "Allenamento ON" else "Riposo OFF" }
+                        .clickable(role = Role.Button) { days = if (isOn) days - (i + 1) else days + (i + 1) }.padding(12.dp), contentAlignment = Alignment.Center) {
+                        Text(day, style = T.Label.copy(color = if (isOn) C.Surface else C.Navy))
                     }
                 }
             }
@@ -116,8 +121,8 @@ fun DayTypeControl(s: AppState, date: LocalDate) {
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
     val shape = RoundedCornerShape(16.dp)
     Row(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f).clickable { dialog = true }.padding(vertical = 8.dp)) {
-            Text(label, style = T.Label, modifier = Modifier.testTag("day-type-label"))
+        Column(Modifier.weight(1f).testTag("day-type-label").clickable { dialog = true }.padding(vertical = 8.dp)) {
+            Text(label, style = T.Label)
             Text(if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia", style = T.Small)
         }
         TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Configura", color = C.AccentDeep) }

@@ -166,10 +166,12 @@ jobs:
             grep -q "OK (3 tests)" photo-ai.log
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.TrainingDiaryFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-features-standard.log 2>&1
             cat layout-features-standard.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (2 tests)" layout-features-standard.log
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.TrainingDiaryFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-features-large-text.log 2>&1
             cat layout-features-large-text.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (2 tests)" layout-features-large-text.log
             adb shell settings put system font_scale 1.0
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
