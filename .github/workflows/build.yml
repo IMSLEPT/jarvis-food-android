@@ -359,3 +359,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/deliver-verified-118.py
+
+      - name: Save verified APK bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: JarvisFood-1.0.118-verified-APK
+          path: |
+            delivery/*.apk
+            delivery/verification.json
+          if-no-files-found: warn
+          retention-days: 14

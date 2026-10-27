@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Deliver only the pinned, successful APK; never rebuild or change app data."""
 from pathlib import Path
-import base64, glob, hashlib, io, json, re, struct, subprocess, tarfile, xml.etree.ElementTree as ET, zipfile
+import base64, glob, hashlib, io, json, os, re, shutil, struct, subprocess, tarfile, xml.etree.ElementTree as ET, zipfile
 from PIL import Image
 REPO = "IMSLEPT/jarvis-food-android"
 SOURCE = "fc02422ed2be4f7251518b5fe441a704b5eb1fb1"
@@ -84,15 +84,7 @@ deliver = Path("delivery"); deliver.mkdir()
 verification = deliver / "verification.json"; verification.write_text(json.dumps(report, indent=2) + "\n")
 notes = deliver / "release-notes.md"
 notes.write_text("Modello corporeo 3D ruotabile con zone di misura evidenziate, istruzioni e storico per data. Schermate del profilo e sostituzione alimento riorganizzate nello stile navy e arancione di Jarvis Food.\n\nAPK firmato con la chiave originale, installabile come aggiornamento. Verificati 94 test unitari e 30 esecuzioni Android su Android 10 e 15, incluso testo ingrandito e controllo dell'immagine 3D realmente visibile. Modello AI offline e foto delle ricette inclusi.\n")
-assert subprocess.run(["gh", "release", "view", TAG, "--repo", REPO], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode != 0, "Release already exists; do not overwrite"
-command(["gh", "release", "create", TAG, str(apk), str(verification), "--repo", REPO, "--target", SOURCE, "--title", f"Jarvis Food 1.0.{NUMBER}", "--notes-file", str(notes), "--prerelease", "--latest=false"])
-release = api(f"repos/{REPO}/releases/tags/{TAG}")
-assert release["prerelease"] and not release["draft"]
-asset = next(a for a in release["assets"] if a["name"] == apk.name)
-assert asset["state"] == "uploaded" and asset["size"] == report["size"]
-if asset.get("digest"): assert asset["digest"] == "sha256:" + report["sha256"]
-report.update(download_url=asset["browser_download_url"], release_url=release["html_url"])
-print("DELIVERY_RESULT=" + json.dumps(report), flush=True)
+print("VERIFICATION_RESULT=" + json.dumps(report), flush=True)
 shots = root / "screenshots"; shots.mkdir()
 for name in ["layout-shots.tar", "shots.tar"]:
     with tarfile.open(root / name) as tar: tar.extractall(shots, filter="data")
@@ -105,3 +97,18 @@ for label, relative in [
         im = im.convert("RGB"); im.thumbnail((540,1170))
         out = io.BytesIO(); im.save(out, format="JPEG", quality=84)
         print("QA_IMAGE_" + label + "=" + base64.b64encode(out.getvalue()).decode(), flush=True)
+
+target = os.environ["GITHUB_SHA"]
+changes = api(f"repos/{REPO}/compare/{SOURCE}...{target}")["files"]
+assert all(item["filename"] in {".github/workflows/build.yml", "scripts/deliver-verified-118.py"} for item in changes)
+shutil.copy2(apk, deliver / apk.name)
+apk = deliver / apk.name
+assert subprocess.run(["gh", "release", "view", TAG, "--repo", REPO], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode != 0, "Release already exists; do not overwrite"
+command(["gh", "release", "create", TAG, str(apk), str(verification), "--repo", REPO, "--target", target, "--title", f"Jarvis Food 1.0.{NUMBER}", "--notes-file", str(notes), "--prerelease", "--latest=false"])
+release = api(f"repos/{REPO}/releases/tags/{TAG}")
+assert release["prerelease"] and not release["draft"]
+asset = next(a for a in release["assets"] if a["name"] == apk.name)
+assert asset["state"] == "uploaded" and asset["size"] == report["size"]
+if asset.get("digest"): assert asset["digest"] == "sha256:" + report["sha256"]
+report.update(download_url=asset["browser_download_url"], release_url=release["html_url"])
+print("DELIVERY_RESULT=" + json.dumps(report), flush=True)
