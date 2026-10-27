@@ -24,28 +24,28 @@ import androidx.compose.ui.unit.sp
 import com.jarvis.food.R
 
 /**
- * Tema "Aurora" di Jarvis Food: sfondo ardesia chiaro, schede bianche, blu navy #17286B e arancione #F25E00.
+ * Palette C di Jarvis Food: fondo caldo chiaro, schede bianche, navy e arancio.
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF8F9F8)
+    val Bg = Color(0xFFF1F0ED)
     val Surface = Color(0xFFFFFFFF)
-    val SurfaceAlt = Color(0xFFF2F4F5)
-    val SurfaceHi = Color(0xFFE7EBEF)
-    val Line = Color(0xFFE9ECF1)
-    val Text = Color(0xFF15264F)
-    val Muted = Color(0xFF58647C)
+    val SurfaceAlt = Color(0xFFEBEAE7)
+    val SurfaceHi = Color(0xFFE2E2DF)
+    val Line = Color(0xFFE5E3DF)
+    val Text = Color(0xFF162853)
+    val Muted = Color(0xFF5E6678)
     val Faint = Color(0xFFA6A4BC)
-    val Accent = Color(0xFFF25E00)
+    val Accent = Color(0xFFEA7138)
     // Orange reserved for white button labels; the brighter brand accent stays on icons and charts.
-    val ButtonOrange = Color(0xFFC94D00)
-    val ButtonOrangeEnd = Color(0xFFBA4000)
-    val AccentSoft = Color(0xFFFFE9E1)
-    val AccentDeep = Color(0xFFC93A1F)
+    val ButtonOrange = Color(0xFFB74714)
+    val ButtonOrangeEnd = Color(0xFFA63E12)
+    val AccentSoft = Color(0xFFFFF0E5)
+    val AccentDeep = Color(0xFFB94C1C)
     val OnAccent = Color(0xFFFFFFFF)
-    val Navy = Color(0xFF172653)
-    val NavySoft = Color(0xFFE4E9F6)
-    val NavyDeep = Color(0xFF132044)
+    val Navy = Color(0xFF162853)
+    val NavySoft = Color(0xFFE5EAF4)
+    val NavyDeep = Color(0xFF14234B)
     val Ink = Navy
     val Green = Color(0xFF10B981)
     val GreenSoft = Color(0xFFD9F6EA)
@@ -64,8 +64,8 @@ object C {
     /** Arancione dei pulsanti principali (bianco sopra). */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF203565)))
-    val OrangeArc = listOf(Color(0xFFF25E00), Color(0xFFFF8A1C), Color(0xFFFFB02E))
+    val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF223C70)))
+    val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
     /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
     fun cardSurface(tone: Color): Color =
         if (tone.alpha > 0.5f && tone.luminance() > 0.60f) Surface else tone
@@ -124,14 +124,14 @@ fun JarvisTheme(content: @Composable () -> Unit) {
     }
 }
 
-/** Sfondo del design: ardesia chiaro in verticale con un alone bianco in alto. */
+/** Sfondo caldo chiaro con un alone avorio in alto. */
 @Composable
 fun AppBackground(content: @Composable BoxScope.() -> Unit) {
     Box(
         Modifier.fillMaxSize()
             .background(C.Bg)
             .drawBehind {
-                drawRect(Brush.radialGradient(listOf(Color.White, Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0xFFFFFDF8), Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
             },
         content = content
     )

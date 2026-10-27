@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.sp
 object A {
     val Ink = C.Text
     val Muted = C.Muted
-    val Hair = Color(0x0F1D1B3A)              // bordo schede: inchiostro al 6%
+    val Hair = Color(0x14162853)              // bordo schede: inchiostro all'8%
     val Shadow = Color(0xFF1D1B3A)
 
     val ProteinSoft = Color(0xFFFFE4EC); val ProteinInk = Color(0xFFC41F4C)
@@ -61,8 +61,8 @@ object A {
     val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
     val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
     val FastSoft = Color(0xFFEDE7FF); val FastInk = Color(0xFF6D28D9)
-    val Tonal = Color(0xFFFFE9E1); val TonalInk = Color(0xFFB4381E)
-    val Link = Color(0xFFC93A1F)
+    val Tonal = Color(0xFFFFF0E5); val TonalInk = Color(0xFFB94C1C)
+    val Link = Color(0xFFB94C1C)
     val Peach = Color(0xFFFFF8F0)
     val Dashed = Color(0xFFD9D4EC)
 

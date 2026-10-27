@@ -155,7 +155,7 @@ fun TodayScreen() {
 
         // ---- Cosa mangio adesso?
         Spacer(Modifier.height(12.dp))
-        ACard(color = A.Tonal, radius = 24.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
+        ACard(color = A.Tonal, brush = Brush.horizontalGradient(listOf(C.AccentSoft, C.AccentSoft)), radius = 24.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(40.dp).clip(CircleShape).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Spark, A.TonalInk, 22.dp, 2f) }
                 Spacer(Modifier.width(12.dp))
@@ -313,7 +313,7 @@ private fun QuickTile(label: String, icon: String, modifier: Modifier, primary: 
     val ink = if (primary) C.ButtonOrange else C.Navy
     Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(34.dp).clip(CircleShape).background(if (primary) C.ButtonOrange else Color.Transparent), contentAlignment = Alignment.Center) {
+        Box(Modifier.size(34.dp).clip(CircleShape).background(if (primary) C.Accent else Color.Transparent), contentAlignment = Alignment.Center) {
             AIcon(icon, if (primary) Color.White else ink, 23.dp, 2f)
         }
         Spacer(Modifier.height(6.dp))
@@ -559,7 +559,7 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
                         Text("passi", style = T.Small.copy(fontSize = 11.sp))
                     }
                 }
-                Spacer(Modifier.width(16.dp))
+                Spacer(Modifier.widh(16.dp))
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text(steps.thousands(), style = T.Num.copy(fontSize = 20.sp))

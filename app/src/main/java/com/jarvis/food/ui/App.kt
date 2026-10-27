@@ -202,11 +202,11 @@ private fun BottomBar() {
                 val selected = Nav.tab == tab
                 Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
                     .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 2.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.ButtonOrange else A.Muted, 22.dp)
+                    if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 22.dp)
                     Spacer(Modifier.height(4.dp))
                     Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.Normal, color = if (selected) C.ButtonOrange else A.Muted), textAlign = TextAlign.Center)
                     Spacer(Modifier.height(4.dp))
-                    Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.ButtonOrange else Color.Transparent))
+                    Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.Accent else Color.Transparent))
                 }
             }
         }
