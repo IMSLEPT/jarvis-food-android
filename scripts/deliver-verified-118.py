@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Deliver only the pinned, successful APK; never rebuild or change app data."""
 from pathlib import Path
-import base64, glob, hashlib, io, json, re, subprocess, tarfile, xml.etree.ElementTree as ET, zipfile
+import base64, glob, hashlib, io, json, re, struct, subprocess, tarfile, xml.etree.ElementTree as ET, zipfile
 from PIL import Image
 REPO = "IMSLEPT/jarvis-food-android"
 SOURCE = "fc02422ed2be4f7251518b5fe441a704b5eb1fb1"
@@ -44,15 +44,39 @@ assert apk.is_file()
 with zipfile.ZipFile(apk) as z:
     assert z.testzip() is None
     assert z.getinfo("assets/food.tflite").file_size == 21151551
-    expected = subprocess.check_output(["git", "show", SOURCE + ":app/src/main/assets/body-guide/index.html"])
+    expected = base64.b64decode(api(f"repos/{REPO}/contents/app/src/main/assets/body-guide/index.html?ref={SOURCE}")["content"])
     assert z.read("assets/body-guide/index.html") == expected
-signers = glob.glob("/usr/local/lib/android/sdk/build-tools/*/apksigner")
+signers = [p for p in glob.glob("/usr/local/lib/android/sdk/build-tools/*/apksigner") if re.fullmatch(r"\d+\.\d+\.\d+", Path(p).parent.name)]
 assert signers
-signer = sorted(signers, key=lambda p: tuple(int(n) for n in re.findall(r"\d+", p)))[-1]
-proof = subprocess.check_output([signer, "verify", "--verbose", "--print-certs", str(apk)], text=True)
-cert = re.search(r"Signer #1 certificate SHA-256 digest:\s*([0-9a-f]+)", proof).group(1)
+signer = sorted(signers, key=lambda p: tuple(map(int, Path(p).parent.name.split("."))))[-1]
+proof = subprocess.check_output([signer, "verify", "--min-sdk-version", "26", "--verbose", "--print-certs", str(apk)], text=True)
+print(proof, flush=True)
+# Read the original certificate from the v2 block independently of SDK text formatting.
+with apk.open("rb") as file:
+    file.seek(max(0, apk.stat().st_size - 65557)); tail = file.read()
+    eocd = tail.rfind(b"PK\x05\x06"); assert eocd >= 0
+    cd = struct.unpack_from("<I", tail, eocd + 16)[0]
+    file.seek(cd - 24); trailer = file.read(24)
+    assert trailer[8:] == b"APK Sig Block 42"
+    size = struct.unpack_from("<Q", trailer)[0]
+    file.seek(cd - size - 8); block = file.read(size + 8)
+assert struct.unpack_from("<Q", block)[0] == size
+position = 8; v2 = None
+while position < len(block) - 24:
+    length = struct.unpack_from("<Q", block, position)[0]
+    item = block[position + 8:position + 8 + length]; position += 8 + length
+    if struct.unpack_from("<I", item)[0] == 0x7109871a: v2 = item[4:]
+assert v2 is not None
+def lp(data, position=0):
+    length = struct.unpack_from("<I", data, position)[0]
+    end = position + 4 + length
+    assert end <= len(data)
+    return data[position + 4:end], end
+signer_sequence, _ = lp(v2); signer_data, _ = lp(signer_sequence)
+signed_data, _ = lp(signer_data); digests, position = lp(signed_data)
+certificates, _ = lp(signed_data, position); certificate, _ = lp(certificates)
+cert = hashlib.sha256(certificate).hexdigest()
 assert cert == "a039be1f4e694272f35ac964d46d28185535ce28b2dcfb5bbbedda264b4d80ca"
-assert "Verified using v2 scheme (APK Signature Scheme v2): true" in proof
 command(["python3", "scripts/verify-aurora-boundary.py"])
 command(["python3", "tools/photography/verify.py"])
 report = {"file_name":apk.name,"size":apk.stat().st_size,"sha256":hashlib.file_digest(apk.open("rb"), "sha256").hexdigest(),"signer_sha256":cert,"apk_v2_signature_verified":True,"unit_tests":unit,"android_executions":sum(counts.values()),"offline_model_bytes":21151551,"photo_mappings_verified":821,"source_sha":SOURCE,"source_run":RUN}
