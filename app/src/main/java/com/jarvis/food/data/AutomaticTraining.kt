@@ -42,9 +42,11 @@ object AutomaticTraining {
         val sportProfile = p.copy(detailed = true, workouts = sessions)
         val proteinKg = Nutrition.proteinPerKg(sportProfile)
         val protein = weight * proteinKg
+        fun calories(exercise: Double) = (max(Nutrition.minKcal(p).toDouble(), rest + exercise + delta) / 10).roundToInt() * 10
+        // Same protein target on both day types, including when the energy safety limit applies.
+        val pGrams = minOf(protein, calories(0.0) * 0.4 / 4)
         fun targets(exercise: Double): DailyTargets {
-            val kcal = (max(Nutrition.minKcal(p).toDouble(), rest + exercise + delta) / 10).roundToInt() * 10
-            val pGrams = minOf(protein, kcal * 0.4 / 4)
+            val kcal = calories(exercise)
             val desiredFat = if (p.dietStyle == 2) max(weight * 0.8, (kcal * 0.75 - pGrams * 4) / 9)
                 else max(weight * 0.8, kcal * 0.27 / 9)
             val fat = desiredFat.coerceAtMost((kcal - pGrams * 4) * 0.9 / 9)
@@ -54,6 +56,6 @@ object AutomaticTraining {
         val off = targets(0.0)
         val on = targets(session)
         return TrainingEstimate(on, off, bmr, factor, session, met, delta, sessions,
-            (on.kcal * sessions + off.kcal * (7 - sessions)) / 7.0, proteinKg, load)
+            (on.kcal * sessions + off.kcal * (7 - sessions)) / 7.0, pGrams / weight, load)
     }
 }
