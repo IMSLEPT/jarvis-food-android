@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -198,21 +199,28 @@ private fun Tabs() {
 @Composable
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
+    val expanded = LocalDensity.current.fontScale > 1.5f
     val shape = RoundedCornerShape(24.dp)
     Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)) {
-        Row(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(4.dp),
-            horizontalArrangement = Arrangement.spacedBy(0.dp), verticalAlignment = Alignment.CenterVertically) {
-            items.forEach { (tab, icon, label) ->
-                val selected = Nav.tab == tab
-                Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
-                    .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 0.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 24.dp)
-                    Spacer(Modifier.height(4.dp))
-                    Text(label, style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
-                    Spacer(Modifier.height(4.dp))
-                    Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.Accent else Color.Transparent))
+        Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(4.dp)) {
+            items.chunked(if (expanded) 3 else 5).forEach { group ->
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    group.forEach { (tab, icon, label) -> BottomTabItem(tab, icon, label) }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun RowScope.BottomTabItem(tab: Int, icon: String, label: String) {
+    val selected = Nav.tab == tab
+    Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
+        .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 24.dp)
+        Spacer(Modifier.height(4.dp))
+        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
+        Spacer(Modifier.height(4.dp))
+        Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.Accent else Color.Transparent))
     }
 }

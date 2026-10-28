@@ -125,6 +125,11 @@ fun TodayScreen() {
         // ---- Macro
         Spacer(Modifier.height(12.dp))
         ACard(Modifier.fillMaxWidth(), radius = 20.dp, padding = 4.dp, elevation = 4.dp) {
+            if (LocalDensity.current.fontScale > 1.5f) Column {
+                MacroRing("Proteine", totals.protein, e.protein, C.Protein, A.ProteinSoft, A.ProteinInk, Modifier.fillMaxWidth())
+                MacroRing("Carboidrati", totals.carbs, e.carbs, C.Blue, A.CarbSoft, A.CarbInk, Modifier.fillMaxWidth())
+                MacroRing("Grassi", totals.fat, e.fat, C.Gold, A.FatSoft, A.FatInk, Modifier.fillMaxWidth())
+            } else {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 MacroRing("Proteine", totals.protein, e.protein, C.Protein, A.ProteinSoft, A.ProteinInk, Modifier.weight(1f))
                 HomeDivider()
@@ -132,10 +137,21 @@ fun TodayScreen() {
                 HomeDivider()
                 MacroRing("Grassi", totals.fat, e.fat, C.Gold, A.FatSoft, A.FatInk, Modifier.weight(1f))
             }
+            }
         }
 
         Spacer(Modifier.height(20.dp))
         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
+            if (LocalDensity.current.fontScale > 1.5f) Column {
+                Row(Modifier.fillMaxWidth()) {
+                    QuickTile("Aggiungi", Ic.Plus, Modifier.weight(1f), primary = true) { Nav.go(Screen.AddFood(date, defaultMeal())) }
+                    QuickTile("Foto piatto", Ic.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
+                }
+                Row(Modifier.fillMaxWidth()) {
+                    QuickTile("Frigo", Ic.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
+                    QuickTile("Digiuno", Ic.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
+                }
+            } else {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 QuickTile("Aggiungi", Ic.Plus, Modifier.weight(1f), primary = true) { Nav.go(Screen.AddFood(date, defaultMeal())) }
                 HomeDivider()
@@ -144,7 +160,8 @@ fun TodayScreen() {
                 QuickTile("Frigo", Ic.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
                 HomeDivider()
                 QuickTile("Digiuno", Ic.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
-            }
+            }            }
+
         }
 
         // ---- Diario
@@ -207,6 +224,7 @@ fun TodayScreen() {
 
 @Composable
 fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.diaryDate = it }) {
+    val expanded = LocalDensity.current.fontScale > 1.5f
     val monday = date.with(DayOfWeek.MONDAY)
     val labels = listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom")
     val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, date) {
@@ -216,21 +234,23 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
             if (k <= 0) 0f else (k / Store.energyFor(s, d).targetKcal.coerceAtLeast(1.0)).toFloat().coerceIn(0f, 1f)
         }
     }
-    Row(
+    Column(
         Modifier.fillMaxWidth().pointerInput(date) {
             var dx = 0f
             detectHorizontalDragGestures(onDragStart = { dx = 0f }, onDragEnd = {
                 if (dx > 90f) onPick(date.minusWeeks(1)) else if (dx < -90f) onPick(date.plusWeeks(1))
             }) { _, d -> dx += d }
         },
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        for (i in 0..6) {
+        (0..6).toList().chunked(if (expanded) 4 else 7).forEach { group ->
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+        for (i in group) {
             val d = monday.plusDays(i.toLong())
             val sel = d == date
             val p by animateFloatAsState(fr[i], tween(1000), label = "week")
             Column(Modifier.weight(1f).clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(labels[i], style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
+                Text(labels[i], modifier = Modifier.testTag("week-label-$i"), style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
                 Box(
                     Modifier.size(44.dp).aShadow(CircleShape, if (sel) 8.dp else 3.dp, if (sel) Color(0x991D1B3A) else Color(0x401D1B3A)).clip(CircleShape)
                         .background(if (sel) C.Navy else Color.White),
@@ -247,6 +267,8 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
             }
         }
     }
+        }
+        }
 }
 
 @Composable

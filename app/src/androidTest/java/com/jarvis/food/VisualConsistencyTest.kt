@@ -54,6 +54,13 @@ class VisualConsistencyTest {
         }
     }
 
+    private fun singleLine(node: SemanticsNodeInteraction) {
+        readable(node)
+        val layouts = mutableListOf<TextLayoutResult>()
+        node.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
+        layouts.forEach { assertEquals("Label split inside a word: ${it.layoutInput.text}", 1, it.lineCount) }
+    }
+
     @Test fun emptyAndSingleWeightStatesDoNotInventHistory() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
@@ -81,6 +88,11 @@ class VisualConsistencyTest {
             val recipe = compose.onNodeWithTag("plan-recipe-${meal.diaryMeal}").performScrollTo()
             recipe.assertHasClickAction()
             readable(compose.onNodeWithText(meal.solved.template.name, useUnmergedTree = true))
+            if (ins.targetContext.resources.configuration.fontScale > 1.5f) {
+                val layouts = mutableListOf<TextLayoutResult>()
+                compose.onNodeWithTag("plan-recipe-title-${meal.diaryMeal}", useUnmergedTree = true).performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
+                assertTrue("Recipe title constrained to a narrow column", layouts.single().lineCount <= 6)
+            }
             shot("plan-recipe")
             val eaten = compose.onNodeWithTag("plan-eaten-${meal.diaryMeal}").performScrollTo()
             eaten.assertHeightIsAtLeast(48.dp).performClick()
@@ -99,10 +111,15 @@ class VisualConsistencyTest {
     @Test fun diaryMenuAndKitchenKeepSecondaryActionsReachable() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
+            for (tab in listOf(0, 1, 2, 3, 5)) singleLine(compose.onNodeWithTag("nav-label-$tab", useUnmergedTree = true))
+            for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
+            if (ins.targetContext.resources.configuration.fontScale > 1.5f) singleLine(compose.onNodeWithTag("home-name", useUnmergedTree = true))
             shot("home")
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
             readable(compose.onNodeWithText("Nessun alimento registrato", useUnmergedTree = true).performScrollTo())
-            readable(compose.onNodeWithText(fullDay(day), useUnmergedTree = true))
+            val dateLabel = compose.onNodeWithText(fullDay(day), useUnmergedTree = true)
+            if (ins.targetContext.resources.configuration.fontScale > 1.5f) dateLabel.performScrollTo()
+            readable(dateLabel)
             compose.onNodeWithContentDescription("Aggiungi a Colazione").assertHeightIsAtLeast(48.dp)
             compose.onNodeWithText("Altre azioni").performScrollTo().performClick()
             compose.onNodeWithText("Copia da ieri").assertIsDisplayed()
@@ -111,6 +128,7 @@ class VisualConsistencyTest {
             compose.onNodeWithText("Copia da ieri").performClick()
             ui { Nav.clear(); Nav.tab = 2; Nav.kitchenTab = 2 }
             compose.waitUntil(30_000) { compose.onAllNodesWithText("Ricetta del giorno").fetchSemanticsNodes().isNotEmpty() }
+            for (i in 0..2) singleLine(compose.onNodeWithTag("kitchen-tab-label-$i", useUnmergedTree = true))
             shot("kitchen-overview")
             compose.onNodeWithText("Ricetta del giorno").performScrollTo()
             shot("kitchen-daily")

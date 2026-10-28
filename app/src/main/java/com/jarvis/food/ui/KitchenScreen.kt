@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
@@ -83,14 +84,19 @@ fun KitchenScreen() {
     val s by Store.state.collectAsState()
     MainPage("Cucina", resetKey = Nav.kitchenTab) {
         val seg = RoundedCornerShape(28.dp)
-        Row(Modifier.padding(top = 4.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, l) ->
-                val sel = Nav.kitchenTab == i
-                val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i },
-                    horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), maxLines = 1)
-                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 12.sp, color = if (sel) Color.White else A.Muted))
+        val expanded = LocalDensity.current.fontScale > 1.5f
+        Column(Modifier.padding(top = 4.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").chunked(if (expanded) 2 else 3).forEach { group ->
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    group.forEach { (i, l) ->
+                        val sel = Nav.kitchenTab == i
+                        val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
+                        Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i }.padding(vertical = 6.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                            Text(l, modifier = Modifier.testTag("kitchen-tab-label-$i"), style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), textAlign = TextAlign.Center)
+                            if (n > 0) Text("$n", style = T.Small.copy(fontSize = 12.sp, color = if (sel) Color.White else A.Muted))
+                        }
+                    }
                 }
             }
         }
