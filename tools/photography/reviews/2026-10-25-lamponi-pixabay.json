@@ -1,0 +1,116 @@
+{
+  "baselineCommit": "51ec9553ca654d2e7f7dba37fecfd1c77f575dd5",
+  "at": "2026-10-25T16:21:39.610095+00:00",
+  "recipes": [
+    "lamponi_fresca"
+  ],
+  "reviewer": "Codex — esame visivo di originale e ritaglio del WebP",
+  "checks": [
+    "ingredients",
+    "stage",
+    "realism",
+    "style",
+    "squareCrop"
+  ],
+  "licenseVerification": {
+    "pageUrl": "https://pixabay.com/photos/bowl-raspberries-bay-fruit-table-2747181/",
+    "licenseUrl": "https://pixabay.com/service/license-summary/",
+    "verifiedAt": "2026-10-25"
+  },
+  "images": [
+    {
+      "id": "lamponi_fresca",
+      "originalSha256": "e07947e284d079231d21bec4b0cdf7c5c1404678c7f1d6d5ef393e7e4cee9a08",
+      "webpSha256": "d617574a54c5dc2256520649e1fe381cc6ce5d73fc271a7f22186176390268ab",
+      "prompt": "Fotografia reale di Saramukitza: soli lamponi freschi in piccola ciotola bianca scanalata su fondo bianco; uso come foto principale della ricetta di soli lamponi. Nessun alimento aggiunto, nessun ritocco del soggetto; autore e licenza verificati sulla pagina specifica Pixabay.",
+      "observations": "Originale Pixabay e ritaglio quadrato esaminati: soli lamponi riconoscibili in ciotola bianca scanalata su fondo chiaro, senza altri alimenti; porzione di ciotola al bordo del ritaglio, frutti principali leggibili. Foto reale coerente con ingrediente e consumo."
+    },
+    {
+      "id": "lamponi_fresca_s0",
+      "originalSha256": "6e5a1b19306be13b0b9653b6faeebda64b4a14c60f7015cfc81263ab2305da17",
+      "webpSha256": "81a66c2b6f7df06da74d4e3a79414aa960f54bf51be363e2d28b1ce03425dd2c",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light in a clean home kitchen with pale ivory and white surfaces, neutral ceramic accents, realistic delicate red fruit textures. Landscape 3:2, essential food and action compactly centered for a square crop. FIRST preparation step of a fresh raspberry snack: GENTLY RINSING ONLY FRESH RED RASPBERRIES. A small fine-mesh stainless strainer containing a modest handful of intact ripe red raspberries is held securely by its handle with one natural hand over a clean kitchen sink. A very thin gentle stream of cool clear tap water rinses the raspberries without crushing them. A few tiny realistic water drops and drainage through the mesh are visible. Clear hollow raspberry shape and fine drupelets, no blueberries or strawberries. Natural hand and utensil geometry, no visible face. Only raspberries and water: no soap, herbs, lemon, sugar, milk, yogurt, cream or other foods. Actual gentle washing action, not a static finished bowl. No text, label, watermark, collage or UI.",
+      "observations": "Originale generato e WebP nel ritaglio esaminati: colino sostenuto dal manico, mano plausibile e acqua che risciacqua i soli lamponi; frutti interi, nessun ingrediente estraneo. Azione e drenaggio leggibili."
+    },
+    {
+      "id": "lamponi_fresca_s1",
+      "originalSha256": "76423e577aaee9ef554da611cae1017e4cbe95f58e0421b21ff5aee2a60949d2",
+      "webpSha256": "af7bd20836e15e15d50b9c006bef3cfe32b09e8e713b59f62219d719c9e46618",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Soft natural window light, bright clean ivory-white tabletop, neutral white ceramics, appetizing realistic fruit texture. Landscape 3:2 with spoon, fruit and bowl compactly CENTERED inside a square-safe composition. FINAL consumption step for a simple plain fresh raspberry snack. A modest small white ceramic ramekin with subtle vertical ribs contains freshly washed intact ripe RED RASPBERRIES only, approximately a 90 gram snack portion. One natural hand holds a small stainless dessert spoon just above the ramekin, lifting two fresh raspberries, clearly beginning to enjoy the fresh fruit. Realistic spoon geometry, realistic hand, fine raspberry drupelets and hollow opening visible, no mouth or face. Only fresh red RASPBERRIES: no blueberries, strawberries, leaves, mint, yogurt, cream, milk, sugar, honey, ice, biscuits or other ingredients. Tiny residual water drops on a few berries, without syrup or sauce. Distinct actual spoonful lifting action instead of a static finished bowl or rinsing scene. Light warm neutral professional cookbook style, no text, labels, watermark, collage or UI.",
+      "observations": "Originale generato e WebP nel ritaglio esaminati: cucchiaio che solleva due lamponi sopra una piccola ciotola bianca, mano plausibile, nessun latticino o guarnizione. Consumo fresco distinto dal risciacquo e dalla foto statica principale."
+    }
+  ],
+  "compatibleAliases": [
+    {
+      "id": "porridge_lamponi_e_noci_cardamomo_s2",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "porridge_di_avena_con_lamponi_anacardi_e_cacao_s2",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "overnight_oats_con_lamponi_e_sesamo_s2",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "ciotola_di_yogurt_magro_con_lamponi_e_mandorle_s1",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "coppa_di_kefir_con_lamponi_e_semi_di_chia_s1",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "bowl_di_yogurt_bianco_con_lamponi_e_granola_s1",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "lamponi_e_noci_s0",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "lamponi_e_anacardi_s0",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "kefir_con_lamponi_s0",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "lamponi_con_ricotta_e_miele_s0",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "lamponi_con_cioccolato_fondente_s0",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    },
+    {
+      "id": "lamponi_in_coppa_con_crema_di_yogurt_e_cacao_s0",
+      "sharedFrom": "lamponi_fresca_s0",
+      "subject": "Sciacqua delicatamente {lamponi}."
+    }
+  ],
+  "statistics": {
+    "recipes": 2533,
+    "complete": 156,
+    "remaining": 2377,
+    "images": 425,
+    "mappings": 753,
+    "coveredSteps": 476,
+    "missingSlots": 12019,
+    "imagesToProduce": 8009,
+    "nextRecipe": "hamburger_pollo_panino"
+  }
+}

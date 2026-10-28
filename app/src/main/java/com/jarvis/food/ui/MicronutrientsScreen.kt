@@ -57,11 +57,11 @@ private fun levelColor(st: MicroStatus): Color = when (st.level) {
 @Composable
 fun MicroSummaryCard(s: AppState) {
     val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary.size, s.profile) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
+    val rep = remember(s.diary, s.profile, e.baseKcal) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
     val shape = androidx.compose.foundation.shape.RoundedCornerShape(30.dp)
     Row(
         Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x9910B981)).clip(shape)
-            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(Color(0xFFDDF6EC), Color(0xFFE8F0FF))))
+            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(C.Surface, C.Surface)))
             .clickable { Nav.go(Screen.Micronutrients) }.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -121,7 +121,7 @@ fun MicronutrientsScreen() {
     var days by remember { mutableIntStateOf(7) }
     var tab by remember { mutableIntStateOf(0) }
     val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary.size, s.profile, days) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal, LocalDate.now(), days) }
+    val rep = remember(s.diary, s.profile, e.baseKcal, days) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal, LocalDate.now(), days) }
     val heroShape = RoundedCornerShape(34.dp)
     Column(Modifier.fillMaxSize()) {
         TopBar("Vitamine e minerali", onBack = { Nav.back() })
@@ -139,7 +139,7 @@ fun MicronutrientsScreen() {
             // Hero
             Row(
                 Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x8C10B981)).clip(heroShape)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFFFFF), Color(0xFFEDF1F5)))).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp),
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(Modifier.size(112.dp), contentAlignment = Alignment.Center) {
@@ -201,7 +201,7 @@ fun MicronutrientsScreen() {
                                         Modifier.size(48.dp).clip(CircleShape).background(if (inList != null) Color(0xFF10B981) else A.Ink)
                                             .clickable { if (inList != null) Store.removeShopping(inList.id) else Store.addShoppingManual(t.food.name) },
                                         contentAlignment = Alignment.Center
-                                    ) { AIcon(if (inList != null) Ic.Check else "M12 5v14M5 12h14", if (inList != null) Color.White else Color(0xFFFFB820), 22.dp, 2.6f) }
+                                    ) { AIcon(if (inList != null) Ic.Check else "M12 5v14M5 12h14", if (inList != null) Color.White else C.Accent, 22.dp, 2.6f) }
                                 }
                             }
                         }
@@ -213,7 +213,7 @@ fun MicronutrientsScreen() {
             // Da limitare
             if (rep.high.isNotEmpty()) {
                 GHead("Da limitare")
-                MCard(brush = Brush.linearGradient(listOf(Color(0xFFFFF1EB), Color(0xFFFFFFFF))), glow = Color(0x80E88C60)) {
+                MCard(glow = C.Navy) {
                     rep.high.forEachIndexed { i, st ->
                         Column(Modifier.padding(top = 14.dp, bottom = 10.dp)) {
                             Row(verticalAlignment = Alignment.Bottom) {

@@ -62,10 +62,12 @@ import java.time.LocalDate
 
 /** Schermate secondarie aperte sopra le schede principali. */
 sealed class Screen {
-    data class AddFood(val date: LocalDate, val meal: Int, val query: String = "") : Screen()
-    data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null) : Screen()
-    data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null) : Screen()
-    data class PhotoAi(val date: LocalDate, val meal: Int) : Screen()
+    data class AddFood(val date: LocalDate, val meal: Int, val query: String = "", val offlineOnly: Boolean = false) : Screen()
+    data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null, val replacing: Boolean = false) : Screen()
+    data class ReplaceFood(val entryId: String, val query: String = "", val offlineOnly: Boolean = false) : Screen()
+    data object TrainingGoals : Screen()
+    data class CustomFood(val date: LocalDate?, val meal: Int, val barcode: String? = null, val edit: Food? = null, val replacementEntryId: String? = null) : Screen()
+    data class PhotoAi(val date: LocalDate, val meal: Int, val replacementEntryId: String? = null) : Screen()
     /** Ricetta del database (o creata dall'AI) calcolata su un obiettivo. [slot] valorizzato se viene dal piano. */
     data class RecipeView(val recipeId: String, val target: Macro, val date: LocalDate, val slot: Int? = null,
                           val diaryMeal: Int = 1, val adHoc: RecipeTemplate? = null,
@@ -133,10 +135,12 @@ fun App() {
 private fun ScreenHost(s: Screen) {
     Box(Modifier.fillMaxSize().background(C.Bg)) {
         when (s) {
-            is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query)
-            is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry)
-            is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit)
-            is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal)
+            is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly)
+            is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry, s.replacing)
+            is Screen.ReplaceFood -> ReplaceFoodScreen(s.entryId, s.query, s.offlineOnly)
+            Screen.TrainingGoals -> TrainingGoalsScreen()
+            is Screen.CustomFood -> CustomFoodScreen(s.date, s.meal, s.barcode, s.edit, s.replacementEntryId)
+            is Screen.PhotoAi -> PhotoAiScreen(s.date, s.meal, s.replacementEntryId)
             is Screen.RecipeView -> RecipeViewScreen(s)
             is Screen.RecipeList -> RecipeListScreen(s)
             Screen.WhatNow -> WhatNowScreen()
@@ -194,18 +198,19 @@ private fun Tabs() {
 @Composable
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
-    val colors = listOf(A.Tonal, A.CarbSoft, A.GreenSoft, A.FastSoft, A.FatSoft)
     val shape = RoundedCornerShape(30.dp)
     Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp)) {
         Row(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(6.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
-            items.forEachIndexed { index, (tab, icon, label) ->
+            items.forEach { (tab, icon, label) ->
                 val selected = Nav.tab == tab
-                Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp)).background(if (selected) colors[index] else Color.Transparent)
+                Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
                     .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 2.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.ButtonOrange else A.Muted, 22.dp)
+                    if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 22.dp)
                     Spacer(Modifier.height(4.dp))
                     Text(label, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
+                    Spacer(Modifier.height(4.dp))
+                    Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.Accent else Color.Transparent))
                 }
             }
         }

@@ -15,6 +15,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -23,29 +24,34 @@ import androidx.compose.ui.unit.sp
 import com.jarvis.food.R
 
 /**
- * Tema "Aurora" di Jarvis Food: sfondo ardesia chiaro, schede bianche, blu navy #17286B e arancione #F25E00.
+ * Palette C di Jarvis Food: fondo caldo chiaro, schede bianche, navy e arancio.
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF7F9FC)
+    val Bg = Color(0xFFF6F5F1)
     val Surface = Color(0xFFFFFFFF)
-    val SurfaceAlt = Color(0xFFEBEFF3)
-    val SurfaceHi = Color(0xFFE3E8EE)
-    val Line = Color(0xFFE9ECF1)
-    val Text = Color(0xFF1D1B3A)
-    val Muted = Color(0xFF5E5B7A)
-    val Faint = Color(0xFFA6A4BC)
-    val Accent = Color(0xFFF25E00)
-    // Orange reserved for white button labels; the brighter brand accent stays on icons and charts.
-    val ButtonOrange = Color(0xFFC94D00)
-    val ButtonOrangeEnd = Color(0xFFBA4000)
-    val AccentSoft = Color(0xFFFFE9E1)
-    val AccentDeep = Color(0xFFC93A1F)
+    val SurfaceAlt = Color(0xFFEBEAE7)
+    val SurfaceHi = Color(0xFFE2E2DF)
+    val Line = Color(0xFFE5E3DF)
+    val ProfileBorder = Color(0xFFE2E2DF)
+    val Text = Color(0xFF09194D)
+    val Muted = Color(0xFF5E6678)
+    val Faint = Color(0xFF9197A5)
+    val Accent = Color(0xFFEA7138)
+    // The primary buttons use the exact same orange as the home Add circle.
+    val ButtonOrange = Accent
+    val ButtonOrangeEnd = Accent
+    val AccentSoft = Color(0xFFFFF2EA)
+    val AccentDeep = Color(0xFFB94C1C)
     val OnAccent = Color(0xFFFFFFFF)
-    val Navy = Color(0xFF17286B)
-    val NavySoft = Color(0xFFE4E9F6)
-    val NavyDeep = Color(0xFF13225F)
+    val Navy = Color(0xFF09194D)
+    val NavySoft = Color(0xFFECF2FE)
+    val NavyDeep = Color(0xFF14234B)
     val Ink = Navy
+    val OnOrange = Color.White
+    val ProfileSurface = Color(0xFFFEFEFE)
+    val ProfileMuted = Color(0xFF777D91)
+    val ProfileOrange = Color(0xFFDC6F2C)
     val Green = Color(0xFF10B981)
     val GreenSoft = Color(0xFFD9F6EA)
     val Blue = Color(0xFF3B82F6)
@@ -56,15 +62,18 @@ object C {
     val Protein = Color(0xFFF43F6E)
     val Fat = Gold
     val Water = Color(0xFF5CD6EA)
-    val Fasting = Color(0xFF8B5CF6)
+    val Fasting = Navy
     val Danger = Color(0xFFE5484D)
     val DangerSoft = Color(0xFFFDE3E4)
 
-    /** Arancione dei pulsanti principali (bianco sopra). */
+    /** Arancione del + Aggiungi; scritte bianche come richiesto. */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382)))
-    val OrangeArc = listOf(Color(0xFFF25E00), Color(0xFFFF8A1C), Color(0xFFFFB02E))
+    val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF223C70)))
+    val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
+    /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
+    fun cardSurface(tone: Color): Color =
+        if (tone.alpha > 0.5f && tone.luminance() > 0.60f) Surface else tone
 }
 
 val Bricolage = FontFamily(
@@ -120,14 +129,14 @@ fun JarvisTheme(content: @Composable () -> Unit) {
     }
 }
 
-/** Sfondo del design: ardesia chiaro in verticale con un alone bianco in alto. */
+/** Sfondo caldo chiaro con un alone avorio in alto. */
 @Composable
 fun AppBackground(content: @Composable BoxScope.() -> Unit) {
     Box(
         Modifier.fillMaxSize()
-            .background(Brush.verticalGradient(listOf(C.Bg, Color(0xFFF0F4F9))))
+            .background(C.Bg)
             .drawBehind {
-                drawRect(Brush.radialGradient(listOf(Color.White, Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0xFFFFFDF8), Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
             },
         content = content
     )

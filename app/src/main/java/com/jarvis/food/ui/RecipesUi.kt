@@ -175,7 +175,7 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
                 Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 11.sp), maxLines = 1)
             }
         }
-        Column(Modifier.background(listOf(A.Peach, A.GreenSoft, A.FastSoft, A.CarbSoft)[Math.floorMod(tpl.id.hashCode(), 4)]).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
@@ -189,7 +189,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
-        Column(Modifier.background(listOf(A.Peach, A.GreenSoft, A.FastSoft, A.CarbSoft)[Math.floorMod(r.id.hashCode(), 4)]).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
@@ -240,10 +240,12 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 @Composable
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(24.dp)
-    val (bg, blob) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(bg)
+    val (bg, marker) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
+    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
         .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Box(Modifier.width(24.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).background(marker))
+        GapH(6.dp)
         Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)
         GapH(8.dp)
         Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
@@ -331,7 +333,7 @@ fun RecipesHome() {
     val disliked = s.dietPrefs.disliked.toSet()
     val nextKey = remember { WhatNow.keyForDiaryMeal(mealForHour(LocalTime.now().hour)) }
     // Tutto ciò che scorre le 2.500 ricette si calcola in background: la scheda si apre subito e le sezioni compaiono appena pronte.
-    val home by produceState<HomeData?>(null, s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile, today) {
+    val home by produceState<HomeData?>(null, s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.trainingNutrition, s.weights, s.profile, today) {
         val st = s
         value = withContext(Dispatchers.Default) {
             val c = nowContext(st, nextKey, true)
@@ -357,7 +359,7 @@ fun RecipesHome() {
     }
 
     GapH(12.dp)
-    ACard(Modifier.fillMaxWidth(), color = A.Tonal, radius = 20.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
+    ACard(Modifier.fillMaxWidth(), color = A.Tonal, brush = Brush.horizontalGradient(listOf(C.AccentSoft, C.AccentSoft)), radius = 20.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             TonalIcon(Ic.Spark, C.Navy, Color.White, box = 42.dp, radius = 14.dp)
             GapW(12.dp)
@@ -589,7 +591,7 @@ fun WhatNowScreen() {
     var fridge by remember { mutableStateOf(false) }
     var usePlan by remember { mutableStateOf(true) }
     val key = keyOv ?: autoKey
-    val nc = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.profile, key, usePlan) { nowContext(s, key, usePlan) }
+    val nc = remember(s.diary, s.plan, s.dietPrefs, s.energy, s.goals, s.trainingNutrition, s.weights, s.profile, key, usePlan) { nowContext(s, key, usePlan) }
     val pantry = remember(s.pantry) { pantryIds(s) }
     val sugg by produceState<List<NowSuggestion>?>(null, nc.target, key, maxMin, fridge, s.dietPrefs, pantry) {
         value = null

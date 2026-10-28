@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -50,9 +52,9 @@ import androidx.compose.ui.unit.sp
 
 /** Colori "inchiostro" delle etichette tonali e sfumature del design. */
 object A {
-    val Ink = Color(0xFF1D1B3A)
-    val Muted = Color(0xFF5E5B7A)
-    val Hair = Color(0x0F1D1B3A)              // bordo schede: inchiostro al 6%
+    val Ink = C.Text
+    val Muted = C.Muted
+    val Hair = Color(0x14162853)              // bordo schede: inchiostro all'8%
     val Shadow = Color(0xFF1D1B3A)
 
     val ProteinSoft = Color(0xFFFFE4EC); val ProteinInk = Color(0xFFC41F4C)
@@ -60,17 +62,17 @@ object A {
     val FatSoft = Color(0xFFFFF1D2); val FatInk = Color(0xFF925907)
     val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
     val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
-    val FastSoft = Color(0xFFEDE7FF); val FastInk = Color(0xFF6D28D9)
-    val Tonal = Color(0xFFFFE9E1); val TonalInk = Color(0xFFB4381E)
-    val Link = Color(0xFFC93A1F)
-    val Peach = Color(0xFFFFF8F0)
-    val Dashed = Color(0xFFD9D4EC)
+    val FastSoft = C.NavySoft; val FastInk = C.Navy
+    val Tonal = C.AccentSoft; val TonalInk = C.AccentDeep
+    val Link = C.AccentDeep
+    val Peach = C.AccentSoft
+    val Dashed = C.Line
 
     /** Sfumatura "alba" del marchio. */
-    val Dawn = Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))
-    val Sun = listOf(Color(0xFFF25E00), Color(0xFFFF8A1C), Color(0xFFFFB02E))
-    val FastBar = Brush.horizontalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF6AA6FF)))
-    val FastBarV = Brush.verticalGradient(listOf(Color(0xFF8B5CF6), Color(0xFF5AA9FF)))
+    val Dawn = Brush.linearGradient(listOf(C.Accent, Color(0xFFFFAD60)))
+    val Sun = listOf(C.Accent, Color(0xFFF68A46), Color(0xFFFFAD60))
+    val FastBar = C.NavyBrush
+    val FastBarV = C.NavyBrush
     val WaterFill = Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6)))
 }
 
@@ -136,17 +138,37 @@ fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Bo
     }
 }
 
+/** Shared white/navy header controls, matching the Jarvis app identity. */
+@Composable
+fun HeaderControl(label: String, selected: Boolean = false, onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
+    Box(Modifier.size(48.dp).aShadow(shape, 6.dp).clip(shape)
+        .background(if (selected) C.Navy else C.Surface)
+        .border(1.dp, if (selected) C.Navy else C.Navy.copy(alpha = 0.12f), shape)
+        .semantics { contentDescription = label }.clickable(role = Role.Button, onClick = onClick),
+        contentAlignment = Alignment.Center, content = content)
+}
+
+@Composable
+fun HeaderIconButton(icon: String, label: String, ink: Color = C.Navy, selected: Boolean = false, badge: Boolean = false, onClick: () -> Unit) {
+    HeaderControl(label, selected, onClick) {
+        AIcon(icon, if (selected) Color.White else ink, 30.dp, 1.9f, modifier = Modifier.testTag("header-icon-$label"))
+        if (badge) Box(Modifier.align(Alignment.TopEnd).padding(5.dp).size(8.dp).clip(CircleShape)
+            .background(C.Accent).border(1.5.dp, C.Surface, CircleShape))
+    }
+}
+
 /** Riquadro tonale con icona dentro (44 px, raggio 16 nel design). */
 @Composable
 fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 16.dp, size: Dp = 22.dp, stroke: Float = 2f, modifier: Modifier = Modifier) {
-    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(bg), contentAlignment = Alignment.Center) { AIcon(d, tint, size, stroke) }
+    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) { AIcon(d, tint, size, stroke) }
 }
 
 // ---------- Sfondo e schede ----------
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
 fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
-    this.shadow(elevation * 0.4f, shape, ambientColor = color.copy(alpha = 0.10f), spotColor = color.copy(alpha = 0.14f))
+    this.shadow(elevation * 0.2f, shape, ambientColor = C.Navy.copy(alpha = 0.05f), spotColor = C.Navy.copy(alpha = 0.07f))
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
@@ -157,7 +179,7 @@ fun ACard(
 ) {
     val shape = RoundedCornerShape(radius)
     var m = modifier.aShadow(shape, elevation, glow).clip(shape)
-    m = if (brush != null) m.background(brush) else m.background(color)
+    m = if (brush != null) m.background(brush) else m.background(C.cardSurface(color))
     if (bordered) m = m.border(1.dp, A.Hair, shape)
     if (onClick != null) m = m.clickable(onClick = onClick)
     Box(m.padding(padding)) { content() }
@@ -175,7 +197,7 @@ fun ASection(title: String, modifier: Modifier = Modifier, action: String? = nul
 /** Chip tonale con macro: "P 28 g" ecc. */
 @Composable
 fun MacroChip(text: String, bg: Color, ink: Color) {
-    Box(Modifier.clip(RoundedCornerShape(14.dp)).background(bg).padding(horizontal = 12.dp, vertical = 6.dp)) {
+    Box(Modifier.clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(14.dp)).padding(horizontal = 12.dp, vertical = 6.dp)) {
         Text(text, style = T.Chip.copy(color = ink), maxLines = 1)
     }
 }
@@ -199,14 +221,14 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, en
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(color = if (enabled) Color.White else C.Muted), textAlign = TextAlign.Center) }
+    ) { Text(text, style = T.BtnM.copy(color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center) }
 }
 
 /** Pulsante "inchiostro" navy (52 px) e variante tonale. */
 @Composable
 fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    Box(modifier.heightIn(min = height).clip(shape).background(bg).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
+    Box(modifier.heightIn(min = height).clip(shape).background(C.cardSurface(bg)).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
         Text(text, style = T.BtnM.copy(color = fg), textAlign = TextAlign.Center)
     }
 }
@@ -252,14 +274,14 @@ fun ABar(fraction: Float, fill: Brush, track: Color, height: Dp = 10.dp, modifie
 /** Tessera con iniziale colorata per alimenti senza foto. */
 @Composable
 fun InitialTile(name: String, bg: Color, ink: Color, size: Dp = 52.dp, radius: Dp = 19.dp) {
-    Box(Modifier.size(size).clip(RoundedCornerShape(radius)).background(bg), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(size).clip(RoundedCornerShape(radius)).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) {
         Text(name.trim().take(1).uppercase(), style = T.Num.copy(color = ink, fontSize = (size.value * 0.42f).sp, fontWeight = FontWeight.ExtraBold))
     }
 }
 
 private val TileColors = listOf(
-    A.ProteinSoft to A.ProteinInk, A.GreenSoft to A.GreenInk, A.CarbSoft to A.CarbInk,
-    A.FatSoft to A.FatInk, A.Tonal to A.TonalInk, A.FastSoft to A.FastInk
+    C.Surface to C.Navy, C.Surface to C.Navy, C.Surface to C.Navy,
+    C.Surface to C.Navy, C.Surface to C.Navy, C.Surface to C.Navy
 )
 
 /** Colori tonali stabili per un nome (stessa lettera = stesso colore). */

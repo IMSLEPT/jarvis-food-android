@@ -1,0 +1,74 @@
+{
+  "app/src/main/java/com/jarvis/food/ai/FoodAi.kt": {
+    "sha256": "ab1aa7b08fc6169c148d04c6e173a06806e1320d17b10f7c60707e8381fb5719",
+    "reason": "Richiesta esplicita di Alessandro del 24 ottobre 2026: correggere Foto AI, modalità offline che avvia online, lentezza e altri bug della sezione."
+  },
+  "app/src/main/res/drawable-nodpi/jarvis_logo.png": {
+    "sha256": "1ecc85772bbc52613f4a201050df96346528eac5a0f730874a377f67df90042e",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-hdpi/ic_launcher_bg.png": {
+    "sha256": "afa00f0b0519fab7827c344bd4c4a7f55026d6df735d619e2f763ff2717785f5",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-hdpi/ic_launcher_fg.png": {
+    "sha256": "497b99fc494327e1e6c9af5965d774dd2a9fe257b88838fe370aa7d59113c30e",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-mdpi/ic_launcher_bg.png": {
+    "sha256": "01d6148e141222efa49e496070830a6404998177c40130163bb7524098512a43",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-mdpi/ic_launcher_fg.png": {
+    "sha256": "787f69dc651c7e466c1e8b0d20268d0ac79b650e5f657988b4e3da3824a19db2",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-xhdpi/ic_launcher_bg.png": {
+    "sha256": "36984711fd0d929e517e2b42fbf1dc47a0702e1921f396ebbebb769a7eec32f1",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-xhdpi/ic_launcher_fg.png": {
+    "sha256": "1f7161d638daf0988f6ed45c56a6388b3b849c3dcbd85b368258508b544ea89e",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-xxhdpi/ic_launcher_bg.png": {
+    "sha256": "aa9655175ab492cf6718b0c0e4333425de562e62bc2e5e7a8f8068d9e1cdfc56",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-xxhdpi/ic_launcher_fg.png": {
+    "sha256": "c6018a96503cd392e7169c3bb05d270e0dce88cf4abf56045a135e151e7b5751",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-xxxhdpi/ic_launcher_bg.png": {
+    "sha256": "a4073a3ce6134d067395b346310d0e41381aaf6a62270a100dfcfcf26130c866",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/mipmap-xxxhdpi/ic_launcher_fg.png": {
+    "sha256": "e4fa8075f907ab959120db5b56eb283c2b7b953ee0b44c57586916b93786c511",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/values/colors.xml": {
+    "sha256": "9e0fd8642a931afc73bd305173dd27ae8550e29ac13d7500dadc29ef957fb140",
+    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+  },
+  "app/src/main/res/drawable/ic_notification.xml": {
+    "sha256": "0aa21b56069737ac1ebd4e335b60377a3e9358c4293e38c99bbf5f199f54e209",
+    "reason": "Icona di notifica: Alessandro richiede il 27 ottobre 2026 di sostituire la fogliolina con il piccolo Jarvis coerente con il robot chef approvato. Solo risorsa grafica, promemoria invariati."
+  },
+  "app/src/main/java/com/jarvis/food/chat/Actions.kt": {
+    "sha256": "359fedd103ac4c2b565920b1bacb3de6577bd85975ca2927acc1706ac38049bc",
+    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+  },
+  "app/src/main/java/com/jarvis/food/data/Models.kt": {
+    "sha256": "40386c08c543e8f1251bfb16fb7cd3e27d6d6f001f9072743f08c965231b7b7e",
+    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+  },
+  "app/src/main/java/com/jarvis/food/data/Store.kt": {
+    "sha256": "4bd589371215e7e8cc11ca4e9104c425da6d472be1f7e3b776175886ba1d1737",
+    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: pasti attivabili singolarmente condivisi tra diario e piano con conservazione degli alimenti registrati; modalità ON/OFF automatica e manuale con stima dal profilo e allenamento; sostituzione anche da barcode e foto AI, solo dopo conferma. Richiesta esplicita successiva: guida corporea 3D e storico misure per data e parte del corpo, con validazione e aggiornamento della sola registrazione scelta."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
+    "sha256": "7262bad72ea287648d93950e8a0ab438d154872d8a4b115afa0e0c4ab58352cb",
+    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "createdAt": "2026-10-25T19:11:38.906108+00:00",
+  "recipes": [
+    "parmigiana_light"
+  ],
+  "images": [
+    {
+      "id": "parmigiana_light",
+      "prompt": "Edit this food photograph to fix ONLY framing and arrangement for the square app crop, while preserving its realistic professional bright natural-light style, textures and the SAME recipe ingredients. Zoom the camera OUT substantially; show more empty ivory plate and light wood around the food. Place the two small slices of plain brown WHOLEMEAL bread BEHIND the compact square portion of eggplant parmigiana, near 12 o'clock on the SAME plate, rather than far to its right. Keep the ENTIRE parmigiana portion and BOTH bread slices COMPLETELY inside a centered square area occupying no more than the middle sixty percent of the image width. The food should appear smaller in the wider landscape composition. All four sides of the parmigiana portion and all edges of both bread slices must be visible with clear empty plate margins around the combined food. Moderate overhead three-quarter camera view. Keep the actual cooked eggplant layers with purple skin edges, smooth tomato passata, melted light mozzarella, lightly golden grated Parmesan topping and a few fresh basil leaves; no pasta, no garlic, no pepper, no extra herbs, no seeds in the bread, no additional ingredients, no cutlery, no bowls, no garnish on the background. Keep it a single appetizing photorealistic cookbook photograph, no text, watermark, collage or graphic borders. Preserve the warm bright home kitchen editorial look. This final serving photograph must show the parmigiana together with its wholemeal bread.\n",
+      "originalSha256": "ba610f229add6e2f778ffac8de43fa5f2e56e4768c2f20fa9e178772d25d24ae",
+      "webpSha256": "ed8742537efff31be21923018389f288dbe79078ffc52f6bbb76292df3a18b3a",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale corretto e quadrato: porzione a strati di melanzane con buccia viola, pomodoro, mozzarella fusa, superficie dorata al Parmigiano e basilico, accompagnata da due fette di pane integrale. Nessuna sfoglia di pasta o ingrediente estraneo. Nuova inquadratura più ampia della candidata scartata: tutto il cibo rimane nel quadrato, compreso il pane. Luce naturale calda e presentazione casalinga curata; valida anche per il servizio finale previsto dal passaggio 4.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "ba610f229add6e2f778ffac8de43fa5f2e56e4768c2f20fa9e178772d25d24ae",
+        "at": "2026-10-25T19:18:25.817356+00:00"
+      },
+      "referenceImageSha256": "cefb2961dd87f2638d8059de128cdd355e99d1822b4a5123d4dbe17e6caca01e"
+    },
+    {
+      "id": "parmigiana_light_s0",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. First preparation stage: roasting only sliced eggplant with a light brush of olive oil, BEFORE any tomato or cheese has been added. View into a clean open home oven: a metal baking tray rests securely on an oven rack and holds a single layer of oval lengthwise eggplant slices, with thin purple skin rims, pale golden flesh with natural tiny seeds and a few gently browned patches from dry oven roasting. Very lightly oiled, not deep fried, no heavy grill stripes, no breading. The oven rack and tray rim are visible enough to clearly identify the cooking method, while the central eggplant slices stay large and clear in a square crop. No cheese, tomato, basil, bread or other food at this stage. Soft window light reaches the open oven, bright photographic exposure rather than dark dramatic lighting.\n",
+      "originalSha256": "b0b06c0971a947cd537fc41a7efffead9f425d51636075a731c63191cbd24af4",
+      "webpSha256": "4f38d03d2a5116ddf208db9c89da2fa3d2e6eb7f0c32bac83189e635434174f0",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e ritaglio quadrato: fette ovali di melanzana con bordo viola e superficie delicatamente dorata, leggermente oliate, sulla teglia appoggiata alla griglia del forno aperto. Nella teglia non sono presenti pomodoro, formaggio, pane o altri ingredienti. Metodo al forno distinto dalla frittura e nessuna panatura. Il quadrato conserva fette, teglia e supporto del forno; esposizione luminosa e texture realistiche.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "b0b06c0971a947cd537fc41a7efffead9f425d51636075a731c63191cbd24af4",
+        "at": "2026-10-25T19:18:26.186058+00:00"
+      }
+    },
+    {
+      "id": "parmigiana_light_s1",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. Second preparation stage, assembling eggplant parmigiana BEFORE final baking: an ivory rectangular baking dish on a light wood counter contains partly assembled layers of already ROASTED eggplant slices with thin purple skin edges, smooth red tomato passata, small fresh uncooked white light-mozzarella rounds, and a few fresh green basil leaves. One natural human hand with anatomically plausible short clean fingertips is placing a fresh mozzarella slice onto the top layer. Leave an adjacent portion of roasted eggplant and smooth passata exposed so the layers and assembly action are unmistakable. Mozzarella is still white, fresh and unmelted; no golden baked crust yet. No grated Parmesan at this stage, no bread, no tomato chunks, no pasta, no other ingredients. The dish and the placing fingertips are centered with enough breathing room to remain clear in a central square crop. Professional bright natural light, realistic tidy kitchen.\n",
+      "originalSha256": "9da372f14aa66a87f93284d2d97f38eefc69ccac2584fe1fec83bd70afdf6155",
+      "webpSha256": "26f80c95bc3c045aadec6fb4706d521115aa16cf58a1d7ffdc882858a9555fcb",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: assemblaggio nella pirofila con melanzane già cotte, passata rossa, basilico e mozzarella ancora bianca non fusa. La mano posa una fetta di mozzarella, con dita e presa plausibili. Assenti pane e Parmigiano aggiunto prima del proprio passaggio. Ingredienti e gesto restano riconoscibili nel quadrato; non è una foto del piatto finito. Luce naturale e ceramica coerenti.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "9da372f14aa66a87f93284d2d97f38eefc69ccac2584fe1fec83bd70afdf6155",
+        "at": "2026-10-25T19:18:26.560062+00:00"
+      }
+    },
+    {
+      "id": "parmigiana_light_s2",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. Third preparation stage, oven baking AFTER finishing the assembled layers with finely grated Parmesan: an ivory rectangular baking dish sits securely on a metal rack inside an open clean home oven. The dish contains layered roasted eggplant with smooth red tomato passata, mozzarella and basil under a thin lightly golden melted Parmesan topping, gentle irregular browned cheese patches and a few purple eggplant skin edges visible along the sides. The oven-baked cheese crust looks delicate and realistic, not an excessively thick blanket of cheese. View from slightly above the oven opening; baking dish, food and supporting oven rack are centrally visible in the square-safe area. This is the actual cooking stage in its baking dish, NOT a portion on a serving plate. No wholemeal bread until the next serving step, no bowls of ingredients, no hands or utensils required. Bright balanced exposure from daylight, clean surfaces, no text on oven or knobs.\n",
+      "originalSha256": "00223ce09502d05da5e05568cfb616a34d22c0c8967625a178fcb07ca3709521",
+      "webpSha256": "c4fb4b14442eaa0e30e46ec0b7db1d2352e56ba73fd441c7e6da7bba6bbb61cb",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: cottura finale della parmigiana nella pirofila sostenuta dalla griglia del forno, con pomodoro, bordi delle melanzane, mozzarella fusa, Parmigiano leggermente dorato e basilico già aggiunto. Nessun pane prima del servizio e nessuna pietanza estranea. Il ritaglio mantiene contesto del forno, pirofila e gratinatura; distinta dalla principale impiattata. Resa realistica e leggibile, nessun collage o scritta.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "00223ce09502d05da5e05568cfb616a34d22c0c8967625a178fcb07ca3709521",
+        "at": "2026-10-25T19:18:26.937314+00:00"
+      }
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "parmigiana_light",
+      "originalSha256": "cefb2961dd87f2638d8059de128cdd355e99d1822b4a5123d4dbe17e6caca01e",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, landscape 3:2 composition, bright warm home kitchen with soft natural window light, light oak counter, ivory ceramics, natural appetizing textures and believable home cooking. Moderate close view, not extreme macro: keep every relevant food component and action within the CENTRAL SIXTY PERCENT of image width so all remain visible in a square center crop. No collage, text, logo, watermark, labels, UI or portraits. Only ingredients permitted for this recipe are eggplant, smooth tomato passata, light mozzarella, finely grated Parmigiano or Grana, extra virgin olive oil, fresh basil, and wholemeal bread only at serving. No pasta, breadcrumbs, flour, eggs, meat, garlic, onion, black pepper, extra herbs or invented garnish. Completed light baked eggplant parmigiana served as one achievable homemade portion on a simple ivory dinner plate: a compact layered square of roasted eggplant slices with thin purple skin edges, smooth red tomato passata and melted mozzarella between layers, gently golden grated Parmesan crust on top. A visible cut side shows soft eggplant layers, no pasta sheets. Beside the parmigiana on the SAME plate are two small slices of plain brown wholemeal bread, without seeds, bread not soaked in sauce. A few small fresh basil leaves from the recipe may be present on the parmigiana, no other garnish. All the parmigiana AND bread are together centrally, the entire portion fits comfortably inside the central square crop. A thin natural sheen of olive oil, no oil pools. Clean plating, no bowls of extra ingredients. Three-quarter overhead view, inviting professional natural-light food photography.\n",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Originale esaminato e ingredienti corretti, ma ritaglio quadrato troppo stretto: taglia il lato sinistro della parmigiana e buona parte del pane. Sostituita prima della integrazione con una versione a inquadratura più ampia."
+    }
+  ],
+  "convertedVisualReview": "Tutti e quattro i WebP convertiti, 1280×853, esaminati anche nel ritaglio quadrato: pane e porzione interi nella principale corretta; teglia e melanzane in forno; mozzarella bianca durante assemblaggio; pirofila e gratinatura nella cottura finale."
+}

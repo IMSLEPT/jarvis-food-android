@@ -1,0 +1,117 @@
+{
+  "createdAt": "2026-10-26T00:19:40.036862+00:00",
+  "recipes": [
+    "gamberi_curry_cocco"
+  ],
+  "images": [
+    {
+      "id": "gamberi_curry_cocco",
+      "prompt": "Edit this photorealistic food photograph precisely: remove EVERY long pale yellow/white strip that looks like onion or ginger matchsticks from between the shrimp and red bell peppers. There is NO onion in this recipe. Ginger is only 4 grams finely minced and dissolved in the sauce, with at most tiny submillimeter flecks, never strips or chunks. Keep only cooked peeled pink shrimp, RED bell pepper strips, golden coconut curry sauce and white basmati rice. Preserve the natural warm bright professional cookbook photography. Pull the camera back slightly so the entire food portion fits within the central 60% of the image width for a center-square crop. Do not add food props, herbs or garnish.\n",
+      "originalSha256": "a62758c40738e029fa1c9b4d981a740ae2e9d49ff92ade6d6e229fb64ac8c117",
+      "webpSha256": "6845520baf6a0d5afa5b3588af5ab8afe2648e0f81e60e5f6f1add474296266f",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e ritaglio: gamberi cotti sgusciati, listarelle rosse, salsa dorata e basmati. Eliminate le striscioline chiare simili a cipolla; nessuna guarnizione estranea. Porzione intera e riso leggibili nel quadrato, luce e consistenze realistiche.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "a62758c40738e029fa1c9b4d981a740ae2e9d49ff92ade6d6e229fb64ac8c117",
+        "at": "2026-10-26T00:24:10.916195+00:00"
+      },
+      "referenceImageSha256": "267f2ed48556b53bd9064a8a24df4ef258cdb152d9c3ce5acfd54b4919b12dc6"
+    },
+    {
+      "id": "gamberi_curry_cocco_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side window light, warm clean light oak kitchen, ivory ceramics where appropriate, realistic homemade food textures, restrained elegant styling. Close three-quarter overhead view. Keep the food and the action within the central square-safe 60 percent of the width; sufficient room around it for the app's center square crop. Single scene, no collage, no text, logos, watermark, labels or faces. No unrelated food in the background, no decorative food props or invented garnishes. Intermediate cooking action, basmati rice before preparing shrimp curry: freshly boiled white long-grain basmati rice draining in a fine stainless steel mesh strainer securely resting across the rim of a stainless steel pot on the worktop, a little steam. Crisp clean separate elongated white rice grains, moist but not mushy. Close view of the rice and the practical supported strainer and pot, no hands needed. ONLY rice and its cooking water with dissolved salt; no butter, oil, herbs, shrimp, peppers, curry or coconut milk. This is a preparation photo, no plated meal.\n",
+      "originalSha256": "a708caf99ba872f3be29d1f713dd2943f48550485f36193866a24f4954860727",
+      "webpSha256": "8eb874a5558210e73626844bc836316ac3f5bef028e480fe2e6f00d92b09cd1c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: chicchi bianchi lunghi e separati, scolino stabilmente appoggiato sulla pentola, lieve vapore. Nessun ingrediente futuro. Riso e sgocciolamento riconoscibili nel quadrato, luce naturale coerente.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "a708caf99ba872f3be29d1f713dd2943f48550485f36193866a24f4954860727",
+        "at": "2026-10-26T00:22:31.357848+00:00"
+      }
+    },
+    {
+      "id": "gamberi_curry_cocco_s1",
+      "prompt": "Edit this photorealistic intermediate cooking photograph precisely: reduce the pale minced ginger by about 85 percent. Only a scant teaspoon of very finely minced fresh ginger, four grams total, is scattered very sparingly among 100 grams red bell pepper strips. Remove the large ginger clumps and most of the pale ginger pieces, leaving tiny sparse flecks. Preserve the red pepper strips, dark nonstick pan, wooden spatula, bright natural window light and realistic kitchen scene. No oil pool, no curry, coconut milk, shrimp, rice, onions, garlic or garnish.\n",
+      "originalSha256": "f94598058218570a02ded4c0965e1479cea3e03be593b92f17941788fc28192e",
+      "webpSha256": "08ccc0618bc731dfbf3c5a823e090e730a30a7c0bada60f87290cff61a3db5ee",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e ritaglio: peperoni rossi a listarelle in antiaderente con pochi frammenti fini di zenzero, quantità visiva ridotta. Spatola plausibile, nessuna salsa o ingrediente futuro. Fase della rosolatura distinta e leggibile nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "f94598058218570a02ded4c0965e1479cea3e03be593b92f17941788fc28192e",
+        "at": "2026-10-26T00:24:11.020661+00:00"
+      },
+      "referenceImageSha256": "2b251c552294dd88a9d6820084b2792b2dd93534618425981848d8fd5c74b8e7"
+    },
+    {
+      "id": "gamberi_curry_cocco_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side window light, warm clean light oak kitchen, ivory ceramics where appropriate, realistic homemade food textures, restrained elegant styling. Close three-quarter overhead view. Keep the food and the action within the central square-safe 60 percent of the width; sufficient room around it for the app's center square crop. Single scene, no collage, no text, logos, watermark, labels or faces. No unrelated food in the background, no decorative food props or invented garnishes. Intermediate preparation for shrimp coconut curry, BEFORE adding any shrimp: a small dark nonstick skillet contains softened thin RED bell pepper strips and finely chopped ginger in a small amount of golden yellow coconut curry sauce, gently simmering after coconut milk and yellow curry powder have been added. An unadorned wooden spoon draws a short path through the lightly creamy sauce. For a single portion, about 100g pepper strips and 70g coconut milk, 4g ginger and 3g curry powder: visibly modest sauce quantity in a small pan, no deep soup. Only red peppers, ginger, coconut milk and curry powder visible. No shrimp yet, no rice, no onions, garlic, herbs, lime, chili or garnish. The simmering sauce stage must be unmistakable.\n",
+      "originalSha256": "02bfaefdc98bddc84320448830b8c93d7307fcbd7c4b25b5fde1386356aad54e",
+      "webpSha256": "977c927f707e26d11ba35d1e22f2e22f5264b58dc0d4d312f4a178d1f160b8b1",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: listarelle rosse con piccoli frammenti di zenzero in salsa gialla di cocco e curry che sobbolle, cucchiaio in padella. Assenti gamberi, riso e guarnizioni. Fase intermedia distinta, soggetto leggibile nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "02bfaefdc98bddc84320448830b8c93d7307fcbd7c4b25b5fde1386356aad54e",
+        "at": "2026-10-26T00:22:31.468675+00:00"
+      }
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "gamberi_curry_cocco",
+      "originalSha256": "267f2ed48556b53bd9064a8a24df4ef258cdb152d9c3ce5acfd54b4919b12dc6",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side window light, warm clean light oak kitchen, ivory ceramics where appropriate, realistic homemade food textures, restrained elegant styling. Close three-quarter overhead view. Keep the food and the action within the central square-safe 60 percent of the width; sufficient room around it for the app's center square crop. Single scene, no collage, no text, logos, watermark, labels or faces. No unrelated food in the background, no decorative food props or invented garnishes. Finished recipe: shrimp curry with coconut milk, red bell pepper strips and fresh ginger served ON a modest bed of cooked white long-grain basmati rice in a shallow ivory bowl. A realistic single portion with roughly 150g peeled deveined cooked shrimp (tails removed), 100g red bell pepper strips, 70g coconut milk, 4g ginger, 3g yellow curry powder and rice from 70g dry basmati. Pink opaque naturally curled shrimp, tender pepper strips, golden yellow coconut curry lightly coating the food, some separate white rice grains clearly visible around the curry. All components fully cooked, no raw shrimp. The ONLY food ingredients visible are shrimp, rice, red bell peppers, coconut milk, ginger and curry powder. No herbs, cilantro, lime, chili, sesame, peppercorns or other garnish. Entire food portion and bowl central and square-safe.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Originale e ritaglio mostrano striscioline chiare simili a cipolla non prevista; richiesti rimozione e zenzero finemente tritato."
+    },
+    {
+      "id": "gamberi_curry_cocco_s1",
+      "originalSha256": "2b251c552294dd88a9d6820084b2792b2dd93534618425981848d8fd5c74b8e7",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural side window light, warm clean light oak kitchen, ivory ceramics where appropriate, realistic homemade food textures, restrained elegant styling. Close three-quarter overhead view. Keep the food and the action within the central square-safe 60 percent of the width; sufficient room around it for the app's center square crop. Single scene, no collage, no text, logos, watermark, labels or faces. No unrelated food in the background, no decorative food props or invented garnishes. Intermediate preparation for shrimp coconut curry: thin RED bell pepper strips and a small quantity of finely chopped pale fresh ginger gently sautéing for four minutes in a clean dark nonstick skillet on the hob. The pepper strips are just softening, lightly glossy with their own moisture, no visible pool of oil. A plain wooden spatula resting naturally at one side with its head touching the peppers. Only red bell peppers and ginger in the pan. No onions, garlic, herbs, oil bottle, curry powder, rice, coconut milk or shrimp at this stage. Do not show a finished meal.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Zenzero visivamente troppo abbondante rispetto ai 4 g previsti; richiesta riduzione a pochi frammenti fini."
+    }
+  ],
+  "convertedVisualReview": "Esaminati individualmente originali e ritagli dei quattro candidati approvati, poi ricontrollati tutti i WebP 1280×853 nei ritagli quadrati dopo conversione: porzione finita, riso scolato, peperoni con poco zenzero e salsa al curry senza gamberi. Nessun difetto di conversione visibile.",
+  "preservation": {
+    "sourceCommit": "96b5e69fc28e5ca08b3bd8ade09e53bd88aa9972",
+    "previousWebpFiles": 460,
+    "previousRecords": 791,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 796
+  }
+}

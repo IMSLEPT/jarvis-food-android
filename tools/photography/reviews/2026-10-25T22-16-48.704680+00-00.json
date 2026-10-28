@@ -1,0 +1,97 @@
+{
+  "createdAt": "2026-10-25T22:16:48.704680+00:00",
+  "recipes": [
+    "polpette_pollo_polenta"
+  ],
+  "images": [
+    {
+      "id": "polpette_pollo_polenta",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic food textures, achievable homemade cooking and clean premium natural-light style. Landscape 3:2, moderate close framing, not extreme macro. Keep the important food and action comfortably inside the CENTRAL SIXTY PERCENT of image width with room around them, so a square center crop preserves the meaningful subject. No text, logos, watermark, collage, illustration, UI or faces. Recipe ingredients are pale minced CHICKEN, egg and finely grated Parmesan incorporated ONLY into the meatball mixture, smooth tomato passata, yellow cornmeal, water, a little extra virgin olive oil, salt and a little black pepper as explicitly stated in the preparation. No beef, pork, breadcrumbs, flour, milk, butter, cream, onion, garlic, basil, parsley, other herbs, vegetables, bread or invented garnish. No bowls of unrelated ingredients or decorative food props. Completed CHICKEN meatballs in smooth tomato sauce served ON soft yellow cornmeal polenta in a shallow ivory bowl, one realistic portion of five modest round meatballs total. Four whole meatballs and one split meatball showing its pale opaque COOKED minced-chicken interior, not red beef or raw pink meat. Golden cooked chicken surfaces are partly visible through a light coating of smooth rich red tomato passata. The meatballs rest directly on a generous central bed of creamy YELLOW POLENTA made from cornmeal and water, with gentle spooned swirls and a naturally slightly grainy corn texture, not pasta, rice, mashed potatoes or couscous. Some smooth tomato sauce spreads over the polenta, but no puddle around the plate. No cheese grated on top, no herb garnish, no vegetables or extra side dishes. All polenta and meatballs are tightly grouped in the central square-safe area with empty ivory rim around them. Three-quarter overhead view, bright natural window light, professional yet believable homemade plating.\n",
+      "originalSha256": "c7532321fe346e98c899751c102077f83523c94d1af6829b1ee96126dfeb9842",
+      "webpSha256": "1960ae4dcb843226453eead7e327393fb5499849acd6f84f98611a7731dd1d7a",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: polpette rosolate e coperte di sugo rosso su polenta gialla, con una polpetta tagliata che mostra macinato di pollo cotto chiaro e opaco. Assenti contorni, erbe e formaggio aggiunto sul piatto. Il ritaglio conserva entrambe le componenti e la consistenza del pollo; luce naturale e ciotola avorio coerenti. Idonea anche al passaggio finale Servi le polpette sulla polenta, previsto dalla regola di riuso.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "c7532321fe346e98c899751c102077f83523c94d1af6829b1ee96126dfeb9842",
+        "at": "2026-10-25T22:21:36.699919+00:00"
+      }
+    },
+    {
+      "id": "polpette_pollo_polenta_s0",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic food textures, achievable homemade cooking and clean premium natural-light style. Landscape 3:2, moderate close framing, not extreme macro. Keep the important food and action comfortably inside the CENTRAL SIXTY PERCENT of image width with room around them, so a square center crop preserves the meaningful subject. No text, logos, watermark, collage, illustration, UI or faces. Recipe ingredients are pale minced CHICKEN, egg and finely grated Parmesan incorporated ONLY into the meatball mixture, smooth tomato passata, yellow cornmeal, water, a little extra virgin olive oil, salt and a little black pepper as explicitly stated in the preparation. No beef, pork, breadcrumbs, flour, milk, butter, cream, onion, garlic, basil, parsley, other herbs, vegetables, bread or invented garnish. No bowls of unrelated ingredients or decorative food props. First preparation stage ONLY: forming uncooked CHICKEN meatballs. One pair of anatomically plausible clean adult hands gently rolls a small pale pink-white ball of raw minced chicken between lightly cupped palms above a shallow ivory mixing bowl. The bowl contains a small amount of the same raw chicken mince, already combined with beaten egg and finely grated Parmesan as binders, with just a few tiny black pepper flecks and no green herb flakes. Three already formed small RAW pale chicken meatballs sit on a simple ivory plate next to the bowl. Raw meat has a natural moist finely minced texture, not browned, not red beef, no breadcrumbs or flour coating. The rolling action, raw mixture and a few formed balls are centrally grouped for a meaningful square crop. No tomato sauce or cornmeal/polenta at this stage. Bright warm kitchen daylight, realistic food-preparation photography, no faces or other food in the background.\n",
+      "originalSha256": "f92e8201294fee8a40c8eab9c7297781dc1a3441ba684da74930042408a62f36",
+      "webpSha256": "8c6f227aa37b3e0d43188b65fba6e3a31cf681cdbcdda71928ce661dc76414f3",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e ritaglio: formazione di una polpetta cruda tra mani plausibili sopra la ciotola di macinato di pollo chiaro, umido, con uovo incorporato, Parmigiano e pepe previsti nella preparazione. Altre polpette crude sul piatto laterale; nessuna panatura o erba. Il quadrato mantiene il gesto, la polpetta e il composto, tagliando soltanto parte del piatto laterale. Fase chiaramente precedente alla cottura, fotografia luminosa e realistica.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "f92e8201294fee8a40c8eab9c7297781dc1a3441ba684da74930042408a62f36",
+        "at": "2026-10-25T22:21:37.033119+00:00"
+      }
+    },
+    {
+      "id": "polpette_pollo_polenta_s1",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic food textures, achievable homemade cooking and clean premium natural-light style. Landscape 3:2, moderate close framing, not extreme macro. Keep the important food and action comfortably inside the CENTRAL SIXTY PERCENT of image width with room around them, so a square center crop preserves the meaningful subject. No text, logos, watermark, collage, illustration, UI or faces. Recipe ingredients are pale minced CHICKEN, egg and finely grated Parmesan incorporated ONLY into the meatball mixture, smooth tomato passata, yellow cornmeal, water, a little extra virgin olive oil, salt and a little black pepper as explicitly stated in the preparation. No beef, pork, breadcrumbs, flour, milk, butter, cream, onion, garlic, basil, parsley, other herbs, vegetables, bread or invented garnish. No bowls of unrelated ingredients or decorative food props. Second preparation stage: five modest round chicken meatballs, previously gently browned in a little olive oil, simmer IN SMOOTH RED TOMATO PASSATA inside a dark nonstick skillet on a kitchen hob. The meatballs have pale opaque cooked chicken and gently golden surfaces partly visible through the tomato sauce. A correctly fitting transparent glass lid sits CLOSED AND SUPPORTED by the skillet rim to show covered simmering; leave the center of the glass reasonably clear so the meatballs and sauce are readable, with only a few natural condensation droplets near the outer rim and a little steam at the edge. No floating lid, no hand needed, stable realistic cookware. The central square crop should clearly show round meatballs, smooth sauce, pan rim and closed transparent lid. NO polenta, rice or pasta in the skillet, no herbs, garlic, onions, tomato chunks or grated cheese on the surface. Bright soft window light keeps the cooking scene luminous and professional.\n",
+      "originalSha256": "c81d7e9f3b9803abc773cd4e410c2695b013ae9f1c04717da2409b064c9ceaab",
+      "webpSha256": "062a03168532edfcc08d13b592c6b09434f29d7f1de36a34311b60862da47909",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: polpette già dorate che cuociono nella passata in padella sul fornello, coperchio di vetro chiuso e correttamente sostenuto dal bordo. Centro abbastanza trasparente per leggere le polpette; condensa plausibile ai lati. Nessuna polenta o altro alimento nella padella. Il quadrato conserva cottura coperta, sugo e forma delle polpette; distinta dalla principale impiattata.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "c81d7e9f3b9803abc773cd4e410c2695b013ae9f1c04717da2409b064c9ceaab",
+        "at": "2026-10-25T22:21:37.404665+00:00"
+      }
+    },
+    {
+      "id": "polpette_pollo_polenta_s2",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, softly sunlit bright warm home kitchen, light oak surfaces and neutral ivory ceramics, realistic food textures, achievable homemade cooking and clean premium natural-light style. Landscape 3:2, moderate close framing, not extreme macro. Keep the important food and action comfortably inside the CENTRAL SIXTY PERCENT of image width with room around them, so a square center crop preserves the meaningful subject. No text, logos, watermark, collage, illustration, UI or faces. Recipe ingredients are pale minced CHICKEN, egg and finely grated Parmesan incorporated ONLY into the meatball mixture, smooth tomato passata, yellow cornmeal, water, a little extra virgin olive oil, salt and a little black pepper as explicitly stated in the preparation. No beef, pork, breadcrumbs, flour, milk, butter, cream, onion, garlic, basil, parsley, other herbs, vegetables, bread or invented garnish. No bowls of unrelated ingredients or decorative food props. Third preparation stage ONLY: cooking yellow POLENTA from cornmeal and salted water, stirring in a small stainless-steel saucepan sitting securely on a kitchen hob. Show soft warm golden-yellow cornmeal polenta with a natural fine corn-grain texture, becoming thick and creamy by stirring, a wooden spoon drawing a gentle spiral/trail through it. One plausible partial human hand holds the spoon naturally. A little gentle steam, clean pot rim and burner support visible, no dramatic darkness. Polenta is smooth enough to spoon but not watery, no dry clumps or splashing, not mashed potatoes, rice, couscous or scrambled egg. NO chicken, tomato sauce, Parmesan, butter, milk, cream, herbs or vegetables IN THIS POT: the cheese belongs only to the separate meatballs. The saucepan contents and stirring action are centrally framed for the square-safe crop. Bright clean warm natural-light kitchen, no other ingredient props.\n",
+      "originalSha256": "499ba0477d6b328a47837fcd6aa2d6b07896034bfa452ceb02f52b74bec45781",
+      "webpSha256": "95c1ca36b4b2ddff4c5ece6b0b408eb8250be87c303d4e6037aeff325c80b28c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: polenta gialla di mais, consistenza morbida e finemente granulosa, mescolata con cucchiaio di legno nella pentola sostenuta dal fornello. Mano parziale e scia di mescolatura plausibili, vapore leggero. Assenti pollo, pomodoro, latte, burro e formaggio in questa pentola. Il quadrato conserva polenta, cucchiaio e contesto di cottura; luce e colori coerenti.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "499ba0477d6b328a47837fcd6aa2d6b07896034bfa452ceb02f52b74bec45781",
+        "at": "2026-10-25T22:21:37.751433+00:00"
+      }
+    }
+  ],
+  "convertedVisualReview": "Tutti e quattro i WebP 1280×853 esaminati anche nel quadrato dopo conversione: polpette cotte su polenta con interno chiaro visibile, formazione delle polpette crude, cottura coperta nel sugo e mescolatura della polenta. Ingredienti, azioni e strumenti leggibili; nessun piatto finito usato per una lavorazione intermedia.",
+  "preservation": {
+    "sourceCommit": "7d6d1d5e6ee09033fa301ec5ef8884f3abe04030",
+    "previousWebpFiles": 452,
+    "previousRecords": 781,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 786
+  }
+}

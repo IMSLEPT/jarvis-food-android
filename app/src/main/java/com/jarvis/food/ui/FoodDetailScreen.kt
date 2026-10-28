@@ -33,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -46,7 +47,7 @@ import com.jarvis.food.data.Store
 import java.time.LocalDate
 
 @Composable
-fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Double?, entry: DiaryEntry?) {
+fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Double?, entry: DiaryEntry?, replacing: Boolean = false) {
     val s by Store.state.collectAsState()
     val hasServing = food.servingGrams != null && food.servingName != null
     val unit = if (food.liquid) "ml" else "g"
@@ -62,7 +63,7 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
     val isFav = s.favorites.any { it.id == food.id }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar(if (entry != null) "Modifica" else "Dettaglio", onBack = { Nav.back() }) {
+        TopBar(if (replacing) "Sostituisci" else if (entry != null) "Modifica" else "Dettaglio", onBack = { Nav.back() }) {
             if (food.source == "custom") IconButton(onClick = { Nav.go(Screen.CustomFood(null, meal, edit = food)) }) {
                 Icon(Icons.Filled.Edit, "Modifica alimento", tint = C.Muted)
             }
@@ -97,6 +98,11 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
                 }
             }
 
+            if (entry != null && !replacing) {
+                Spacer(Modifier.height(16.dp))
+                GhostButton("Sostituisci alimento", Modifier.fillMaxWidth()) { Nav.go(Screen.ReplaceFood(entry.id)) }
+            }
+            if (replacing) Text("Sostituisce ${entry?.food?.name}. Controlla la quantità: resterà nello stesso pasto.", style = T.Small, modifier = Modifier.padding(top = 12.dp))
             SectionTitle("Quantità esatta")
             if (food.cooked != null) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -108,7 +114,7 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             Row(verticalAlignment = Alignment.CenterVertically) {
                 GhostButton("−") { amount = amountText((typed - (if (typed > 50) 10.0 else 1.0)).coerceAtLeast(0.0)) }
                 Spacer(Modifier.width(8.dp))
-                JField(amount, { amount = it.filter { c -> c.isDigit() || c == ',' || c == '.' }.take(8) }, "Quantità in $unit", Modifier.weight(1f), number = true, suffix = unit)
+                JField(amount, { amount = it.filter { c -> c.isDigit() || c == ',' || c == '.' }.take(8) }, "Quantità in $unit", Modifier.weight(1f).testTag("food-quantity"), number = true, suffix = unit)
                 Spacer(Modifier.width(8.dp))
                 GhostButton("+") { amount = amountText(typed + (if (typed >= 50) 10.0 else 1.0)) }
             }
@@ -126,7 +132,8 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             if (cookedMode && food.cooked != null) Text("Il diario salva ${amountText(grams)} $unit a crudo (cotto ÷ ${amountText(food.cooked)}, rapporto USDA: indicativo, dipende dal tempo di cottura).", style = T.Small, modifier = Modifier.padding(top = 4.dp))
 
             SectionTitle("Pasto")
-            MealChips(mealSel) { mealSel = it }
+            if (replacing) Text(MEAL_NAMES[entry!!.meal], style = T.Label)
+            else MealChips(mealSel) { mealSel = it }
 
             SectionTitle("Valori nutrizionali")
             JCard {
@@ -158,7 +165,13 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             Spacer(Modifier.height(16.dp))
         }
         Row(Modifier.navigationBarsPadding().padding(16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            if (entry != null) {
+            if (entry != null && replacing) {
+                GhostButton("Annulla", Modifier.weight(1f)) { Nav.back() }
+                PrimaryButton("Sostituisci", Modifier.weight(2f), enabled = grams.isFinite() && grams > 0) {
+                    Store.replaceEntry(entry.id, food, grams)
+                    Nav.backTo { it !is Screen.FoodDetail && it !is Screen.ReplaceFood && it !is Screen.PhotoAi && it !is Screen.CustomFood }
+                }
+            } else if (entry != null) {
                 GhostButton("Elimina", Modifier.weight(1f), color = C.Danger) { Store.removeEntry(entry.id); Nav.back() }
                 PrimaryButton("Salva", Modifier.weight(2f), enabled = grams > 0) {
                     Store.updateEntry(entry.id, grams, mealSel); Nav.back()

@@ -1,0 +1,108 @@
+{
+  "createdAt": "2026-10-25T15:43:06.570213+00:00",
+  "recipes": [
+    "fajitas_pollo_peperoni"
+  ],
+  "images": [
+    {
+      "id": "fajitas_pollo_peperoni",
+      "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, neutral ivory ceramics, realistic appetizing food textures. Landscape 3:2 with essential foods and action compactly centered to remain clear in a square crop. No text, labels, watermark, collage or invented ingredients. Finished FAJITAS DI POLLO E PEPERONI: two modest soft pale WHEAT FLOUR TORTILLAS gently folded around strips of cooked CHICKEN BREAST, sauteed RED and YELLOW BELL PEPPER strips and soft ONION strips, seasoned with a little PAPRIKA, ground CUMIN and extra virgin OLIVE OIL. A modest spoonful of chunky red MEXICAN SALSA on the filling of each tortilla. On one ivory plate, open fillings visible, soft wheat tortillas with a few natural light toasted spots, no crunchy taco shells. Accurate simple homemade plating. ONLY these recipe ingredients: wheat tortillas, chicken breast, bell peppers, onion, olive oil, paprika, cumin, Mexican salsa. No lettuce, cabbage, avocado, guacamole, sour cream, cheese, beans, corn, rice, lime, coriander, parsley, chili garnish or other additions.",
+      "originalSha256": "515c29a759b49636f3d576f63b85a813cc9730d699bb7679f977121c1288213f",
+      "webpSha256": "43fcd84417b9defd9e205b201b67d86cb1f6e8bc412f26c640d6ea973494c969",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva di originale e ritaglio",
+        "notes": "Originale e ritaglio quadrato esaminati: tortillas morbide di grano con pollo cotto a strisce, peperoni rossi e gialli, cipolla e salsa rossa; niente guarnizioni estranee. Luce naturale e ripieno ben leggibile.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "515c29a759b49636f3d576f63b85a813cc9730d699bb7679f977121c1288213f",
+        "at": "2026-10-25T15:47:58.342053+00:00"
+      }
+    },
+    {
+      "id": "fajitas_pollo_peperoni_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, neutral ivory ceramics, realistic appetizing food textures. Landscape 3:2 with essential foods and action compactly centered to remain clear in a square crop. No text, labels, watermark, collage or invented ingredients. FIRST preparation stage of chicken and bell pepper fajitas, cutting ingredients into strips BEFORE cooking. One natural hand uses a clean chef knife to slice a RED BELL PEPPER into long strips on a clean light wood board; nearby on that same vegetable board are yellow bell pepper strips and pale ONION strips. A small separate ivory plate immediately adjacent holds RAW PINK CHICKEN BREAST strips cut using separate utensils, clearly uncooked, kept away from vegetables. All three ingredients and cutting action close together within central square crop, no distracting large empty areas. Only raw chicken, raw red and yellow peppers and raw onion, no tortillas, oil, spices, sauce, garnish or cooked food. Realistic safe preparation, knife tip touching board, fingers naturally curled.",
+      "originalSha256": "94c9bf1b1fa0977004f69487a975d7512eb6646bf299da5e0533d42a3c007acc",
+      "webpSha256": "1fb2e8467c428b208c714624fd02cd4ead65adade5469e7d1721e30019ab3aa8",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva di originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: taglio del peperone rosso, strisce di peperone giallo e cipolla crude, pollo crudo sul piatto separato visibile anche nel ritaglio. Coltello e mani plausibili; nessun alimento già cotto.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "94c9bf1b1fa0977004f69487a975d7512eb6646bf299da5e0533d42a3c007acc",
+        "at": "2026-10-25T15:47:58.370292+00:00"
+      }
+    },
+    {
+      "id": "fajitas_pollo_peperoni_s1",
+      "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, neutral ivory ceramics, realistic appetizing food textures. Landscape 3:2 with essential foods and action compactly centered to remain clear in a square crop. No text, labels, watermark, collage or invented ingredients. SECOND preparation stage of chicken fajitas. Close realistic view of a clean dark frying PAN on stove: only CHICKEN BREAST STRIPS browning for six minutes in a little extra virgin OLIVE OIL, seasoned with PAPRIKA and finely GROUND CUMIN. Chicken golden opaque with gentle rust-orange spice coating, no burnt spices, one wooden spatula held by natural hand turning a strip. Delicate steam, modest quantity with gaps so browning is clear. No peppers or onions in pan yet, no tortillas, salsa, garnish, herbs, garlic, lemon or other ingredients. Actual browning action, not finished dish.",
+      "originalSha256": "02561c08abab69cbdbb161a160c3860bacbe6d4880857a33ccc5b94d5a976917",
+      "webpSha256": "d2a0d38cc32a866d5a41a0bbaf2fb97c83d7b9908cce25ddc503639dc49fc63c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva di originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: solo pollo a strisce rosolato in padella con paprika/cumino; spatola in azione. Peperoni, cipolla, tortilla e salsa correttamente assenti. Consistenza cotta e luce coerenti.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "02561c08abab69cbdbb161a160c3860bacbe6d4880857a33ccc5b94d5a976917",
+        "at": "2026-10-25T15:47:58.397157+00:00"
+      }
+    },
+    {
+      "id": "fajitas_pollo_peperoni_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, neutral ivory ceramics, realistic appetizing food textures. Landscape 3:2 with essential foods and action compactly centered to remain clear in a square crop. No text, labels, watermark, collage or invented ingredients. THIRD preparation stage of chicken fajitas. A clean dark frying PAN on stove contains golden cooked CHICKEN BREAST STRIPS and now RED AND YELLOW BELL PEPPER STRIPS and pale translucent ONION STRIPS, sauteed together eight minutes with olive oil, paprika and finely GROUND CUMIN. Natural hand uses a wooden spatula to gently turn and stir the mixture. Peppers softened but still clearly red and yellow, onion long curved strips with lightly browned edges; chicken cooked through golden. Accurate skillet cooking action, subtle steam, compact framing showing all ingredients centrally. No tortillas, Mexican salsa, beans, corn, garlic, coriander, parsley, avocado, lime, cheese, sour cream or other additions. This is cooking filling before assembling tortillas.",
+      "originalSha256": "76293213b0d891fad0d36984e0bd70b3b9c66943eb44cd924ceeee7ea8c27004",
+      "webpSha256": "3f454c34b06b8abc8c68e8d52cf1aff92bbc9b6c14c1cc3dfbb00c609215352c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva di originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: pollo dorato con peperoni rossi/gialli e cipolla ammorbidita, mescolati in padella; tutti riconoscibili. Nessuna salsa o tortilla anticipata.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "76293213b0d891fad0d36984e0bd70b3b9c66943eb44cd924ceeee7ea8c27004",
+        "at": "2026-10-25T15:47:58.415146+00:00"
+      }
+    },
+    {
+      "id": "fajitas_pollo_peperoni_s3",
+      "prompt": "One photorealistic professional editorial cookbook photograph, soft natural window light, bright warm home kitchen, light wood counter, neutral ivory ceramics, realistic appetizing food textures. Landscape 3:2 with essential foods and action compactly centered to remain clear in a square crop. No text, labels, watermark, collage or invented ingredients. Actual final ASSEMBLY ACTION for chicken and bell pepper fajitas. On an ivory plate is one warm soft WHEAT FLOUR TORTILLA lying partly open around a modest filling of cooked CHICKEN BREAST STRIPS, sauteed RED AND YELLOW BELL PEPPER STRIPS and translucent ONION strips, seasoned with paprika, ground cumin and olive oil. A natural hand holds a stainless spoon immediately above the tortilla and is visibly adding a small spoonful of chunky red MEXICAN SALSA onto the filling. Actual spooning motion, spoon and tortilla filling close together central for square crop. In the close background a second plain wheat tortilla is warming in a dry small pan, no extra food or bowls. No lettuce, cabbage, avocado, guacamole, cheese, sour cream, beans, corn, rice, lime, coriander, parsley or garnish. Soft pale flour tortilla with light toasted spots, not yellow corn or hard taco shell. Realistic modest homemade serving, not static finished-dish photo.",
+      "originalSha256": "a303588869fc00fa65c1577baaf9b407f8f41af98e9711f1c8af79c279411140",
+      "webpSha256": "9c197df890970028733724c45be4c35a660d1b8aa7f908e84b7767d100512f95",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva di originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: cucchiaio aggiunge salsa al ripieno di pollo, peperoni e cipolla su tortilla di grano; seconda tortilla scaldata in padella sullo sfondo. Azione di assemblaggio distinta dal piatto finito, senza ingredienti estranei.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "a303588869fc00fa65c1577baaf9b407f8f41af98e9711f1c8af79c279411140",
+        "at": "2026-10-25T15:47:58.434989+00:00"
+      }
+    }
+  ]
+}

@@ -72,10 +72,18 @@ fun streak(s: AppState): Int {
 @Composable
 private fun BarsRow(
     values: List<Double>, max: Double, height: Dp, radius: Dp, gap: Dp,
-    fill: (Int, Boolean) -> Brush, labels: List<String>? = null, sel: Int = -1, onPick: ((Int) -> Unit)? = null, goal: Double? = null
+    fill: (Int, Boolean) -> Brush, labels: List<String>? = null, sel: Int = -1, onPick: ((Int) -> Unit)? = null, goal: Double? = null, goals: List<Double>? = null
 ) {
     Box(Modifier.fillMaxWidth().height(height)) {
-        if (goal != null && max > 0) {
+        if (goals != null && max > 0) {
+            Canvas(Modifier.fillMaxSize()) {
+                val step = size.width / goals.size.coerceAtLeast(1)
+                goals.forEachIndexed { i, target ->
+                    val y = size.height * (1f - (target / max).toFloat().coerceIn(0f, 1f))
+                    drawLine(C.Accent, Offset(i * step, y), Offset((i + 1) * step, y), 2.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f)))
+                }
+            }
+        } else if (goal != null && max > 0) {
             val frac = (goal / max).toFloat().coerceIn(0f, 1f)
             Canvas(Modifier.fillMaxSize()) {
                 val yy = size.height * (1f - frac)
@@ -114,7 +122,8 @@ fun ProgressScreen() {
     val avg = if (logged.isEmpty()) null else logged.reduce { a, b -> a + b }.scaled(1.0 / logged.size)
     val weight = Store.currentWeight(s)
     val bmi = Nutrition.bmi(weight, s.profile.heightCm)
-    val goalKcal = Store.energyFor(s, today).baseKcal
+    val dailyGoals = days.map { Store.energyFor(s, it).targetKcal }
+    val goalKcal = dailyGoals.filterIndexed { i, _ -> daily[i].kcal > 0 }.ifEmpty { dailyGoals }.average()
     val letter: (LocalDate) -> String = { it.dayOfWeek.getDisplayName(TextStyle.NARROW, IT).uppercase() }
     val loggedDays = s.diary.map { it.date }.toSet()
     val shape30 = RoundedCornerShape(30.dp)
@@ -136,9 +145,9 @@ fun ProgressScreen() {
         // Serie
         val streakDays = streak(s)
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
-            .background(Brush.linearGradient(listOf(Color(0xFFFFE9C2), Color(0xFFFFF4E3), Color(0xFFFFE4D6)))).padding(16.dp)) {
+            .background(C.Surface).padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, Color(0xFFFF8A2B), 30.dp, fill = true) }
+                Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 30.dp, fill = true) }
                 GapW(14.dp)
                 Column {
                     Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp))
@@ -171,7 +180,7 @@ fun ProgressScreen() {
                 if (ws.size >= 2) {
                     val down = wd <= 0
                     val ink = if (down) Color(0xFF065F46) else A.FatInk
-                    Row(Modifier.padding(bottom = 6.dp).height(30.dp).clip(RoundedCornerShape(15.dp)).background(if (down) A.GreenSoft else A.FatSoft).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.padding(bottom = 6.dp).height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                         AIcon(if (down) "M12 5v14M6 13l6 6 6-6" else "M12 19V5M6 11l6-6 6 6", ink, 14.dp, 2.6f)
                         GapW(4.dp)
                         Text((if (wd > 0) "+" else if (wd < 0) "−" else "") + kotlin.math.abs(wd).r1() + " kg", style = T.Chip.copy(fontWeight = FontWeight.Bold, color = ink))
@@ -184,40 +193,40 @@ fun ProgressScreen() {
             val tw = s.profile.targetWeight
             val left = kotlin.math.abs(weight - tw)
             val prog = if (sw == tw) 1f else ((sw - weight) / (sw - tw)).toFloat().coerceIn(0f, 1f)
-            Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(A.CarbSoft).padding(horizontal = 14.dp, vertical = 12.dp)) {
+            Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text("Verso l'obiettivo ${tw.r1().removeSuffix(",0")} kg", style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
                     Text("${left.r1()} kg", style = T.Chip.copy(fontWeight = FontWeight.Bold, color = A.CarbInk))
                 }
                 GapH(8.dp)
-                ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), Color.White, 8.dp)
+                ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), C.SurfaceHi, 8.dp)
             }
         }
 
         // Calorie
         ASection("Calorie", top = 28.dp)
         GapH(12.dp)
-        val maxK = maxOf(goalKcal * 1.27, (daily.maxOfOrNull { it.kcal } ?: 0.0) * 1.05)
+        val maxK = maxOf((dailyGoals.maxOrNull() ?: goalKcal) * 1.27, (daily.maxOfOrNull { it.kcal } ?: 0.0) * 1.05)
         val dName = DateTimeFormatter.ofPattern("EEE d", IT)
         Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x99E88C60)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(16.dp)) {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(avg?.kcal?.let { kcalFmt(it) } ?: "—", style = T.H1.copy(fontSize = 40.sp, lineHeight = 42.sp))
                 GapW(10.dp)
-                Text("kcal in media · obiettivo ${kcalFmt(goalKcal)}", style = T.Small.copy(fontSize = 13.sp, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
+                Text("kcal in media · obiettivo medio ${kcalFmt(goalKcal)}", style = T.Small.copy(fontSize = 13.sp, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
             }
             val pk = picked.coerceIn(0, days.size - 1)
-            val diff = (daily[pk].kcal - goalKcal).roundToInt()
-            Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFFFFF1E8)).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
+            val diff = (daily[pk].kcal - dailyGoals[pk]).roundToInt()
+            Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
                 Text(days[pk].format(dName).replace(".", "").replaceFirstChar { it.uppercase() } + " · " + kcalFmt(daily[pk].kcal) + " kcal · " + (if (diff >= 0) "+" else "−") + kotlin.math.abs(diff) + " dall'obiettivo",
-                    style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF8F2A14)))
+                    style = T.Chip.copy(fontSize = 13.sp, color = C.AccentDeep))
             }
             GapH(12.dp)
             BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) 10.dp else 3.dp,
                 fill = { i, sel ->
                     if (sel) Brush.verticalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C089)))
-                    else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > goalKcal * 1.1) Color(0xFFFFC2A3) else Color(0xFFFFDDC9))
+                    else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > dailyGoals[i] * 1.1) Color(0xFFFFC2A3) else Color(0xFFFFDDC9))
                 },
-                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal)
+                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null)
         }
 
         // Macro
@@ -251,7 +260,7 @@ fun ProgressScreen() {
         ASection("Acqua", top = 28.dp)
         GapH(12.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(Brush.linearGradient(listOf(Color(0xFFD2F4FA), Color(0xFFE9F1FF)))).padding(16.dp)) {
+        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).padding(16.dp)) {
             BarsRow(water, maxOf(water.maxOrNull() ?: 0.0, s.goals.waterMl / 1000.0 * 1.1).coerceAtLeast(0.1), 110.dp, if (period == 7) 12.dp else 5.dp, if (period == 7) 8.dp else 3.dp,
                 fill = { i, _ -> if (i == days.size - 1) Brush.verticalGradient(listOf(Color(0xFF9FE6F1), Color(0xFF8DB8FA))) else Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6))) },
                 labels = if (period == 7) days.map(letter) else null, sel = days.size - 1)
@@ -313,7 +322,7 @@ fun ProgressScreen() {
 
 @Composable
 private fun MacroShare(pct: String, name: String, sub: String, bg: Color, ink: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(bg).padding(12.dp)) {
+    Column(modifier.clip(RoundedCornerShape(20.dp)).background(C.cardSurface(bg)).padding(12.dp)) {
         Text(pct, style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, color = ink))
         Text(name, style = T.Chip.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold))
         Text(sub, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted))
@@ -355,67 +364,32 @@ fun WeightScreen() {
     var kg by remember { mutableStateOf(Store.currentWeight(s).r1()) }
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Peso", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            JCard {
-                Text("Peso di oggi", style = T.Title2)
-                Spacer(Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    GhostButton("−0,1") { kg = ((parseNum(kg) ?: 0.0) - 0.1).r1() }
-                    Spacer(Modifier.width(8.dp))
-                    JField(kg, { kg = it }, "kg", Modifier.weight(1f), number = true, suffix = "kg")
-                    Spacer(Modifier.width(8.dp))
-                    GhostButton("+0,1") { kg = ((parseNum(kg) ?: 0.0) + 0.1).r1() }
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            SettingsCard(title = "La pesata di oggi") {
+                JField(kg, { kg = it }, "Peso", number = true, suffix = "kg")
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    GhostButton("−0,1 kg", Modifier.weight(1f)) { kg = ((parseNum(kg) ?: 0.0) - 0.1).r1() }
+                    GhostButton("+0,1 kg", Modifier.weight(1f)) { kg = ((parseNum(kg) ?: 0.0) + 0.1).r1() }
                 }
-                Spacer(Modifier.height(10.dp))
-                PrimaryButton("Salva", Modifier.fillMaxWidth(), enabled = (parseNum(kg) ?: 0.0) in 30.0..300.0) {
-                    Store.addWeight(LocalDate.now(), parseNum(kg)!!)
-                }
-                if (s.goals.auto) Text("L'obiettivo calorico si aggiorna in automatico con il nuovo peso.", style = T.Small, modifier = Modifier.padding(top = 6.dp))
+                PrimaryButton("Salva peso", Modifier.fillMaxWidth(), enabled = (parseNum(kg) ?: 0.0) in 30.0..300.0) { Store.addWeight(LocalDate.now(), parseNum(kg)!!) }
+                if (s.goals.auto || s.trainingNutrition.automatic) Text("Il nuovo peso viene usato dal calcolo automatico degli obiettivi.", style = T.Small)
             }
-            SectionTitle("Storico")
-            s.weights.reversed().forEach { w ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(LocalDate.parse(w.date).format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", IT)), style = T.Body, modifier = Modifier.weight(1f))
-                    Text("${w.kg.r1()} kg", style = T.Label)
-                    Spacer(Modifier.width(10.dp))
-                    if (s.weights.size > 1) GhostButton("✕", color = C.Faint) { Store.removeWeight(w.date) }
+            SettingsHeading("Il tuo storico", "Le pesate sono ordinate dalla più recente.", warm = true)
+            if (s.weights.size > 1) SettingsCard { LineChart(s.weights.map { it.kg }, s.weights.map { LocalDate.parse(it.date).format(DM) }, C.Navy) }
+            s.weights.reversed().forEach { item ->
+                SettingsCard {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(LocalDate.parse(item.date).format(DateTimeFormatter.ofPattern("d MMMM yyyy", IT)), style = T.Small)
+                            Text("${item.kg.r1()} kg", style = T.Title2)
+                        }
+                        if (s.weights.size > 1) GhostButton("✕", color = C.Faint) { Store.removeWeight(item.date) }
+                    }
                 }
-                HorizontalDivider(color = C.Line)
             }
+            Spacer(Modifier.height(10.dp))
         }
     }
 }
 
-@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
-@Composable
-fun MeasurementsScreen() {
-    val s by Store.state.collectAsState()
-    var type by remember { mutableStateOf(MEASURES.first().first) }
-    var value by remember { mutableStateOf("") }
-    val hist = s.measurements.filter { it.type == type }.sortedBy { it.date }
-    Column(Modifier.fillMaxSize().imePadding()) {
-        TopBar("Misure corporee", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                MEASURES.forEach { (k, l) -> Pill(l.substringBefore(" ("), type == k) { type = k; value = "" } }
-            }
-            Spacer(Modifier.height(12.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                JField(value, { value = it }, MEASURES.first { it.first == type }.second, Modifier.weight(1f), number = true)
-                Spacer(Modifier.width(8.dp))
-                PrimaryButton("Salva", enabled = parseNum(value) != null) {
-                    Store.addMeasurement(LocalDate.now(), type, parseNum(value)!!); value = ""
-                }
-            }
-            Spacer(Modifier.height(14.dp))
-            JCard { LineChart(hist.map { it.value }, hist.map { LocalDate.parse(it.date).format(DM) }, C.Carbs) }
-            Spacer(Modifier.height(10.dp))
-            hist.reversed().forEach { m ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
-                    Text(LocalDate.parse(m.date).format(DM), style = T.Body, modifier = Modifier.weight(1f))
-                    Text(m.value.r1(), style = T.Label)
-                }
-            }
-        }
-    }
-}
+// Interactive measurements are implemented in BodyMeasurementsScreen.kt.

@@ -1,0 +1,38 @@
+Jarvis Food — attribuzioni delle fotografie online
+Licenze e fonti verificate; nessuna fotografia reale etichettata AI.
+
+photography/pane_integrale_con_avocado_e_uova_s1.webp
+Fotografia
+Autore: hartono subagio
+Fonte: https://unsplash.com/photos/two-fried-eggs-sizzling-in-a-black-pan-erKGr4qNOH8
+File originale: https://images.unsplash.com/photo-1760192716247-382af2aa9b35?auto=format&fit=max&w=1600&q=90
+Licenza: Unsplash License — https://unsplash.com/license
+Modifiche: Ridimensionata a massimo 1280 px e convertita in WebP; soggetto fotografico invariato.
+Verificata: 2026-10-24
+
+photography/banana_con_cioccolato_fondente_s1.webp
+Melted chocolate
+Autore: Lenore Edman
+Fonte: https://commons.wikimedia.org/wiki/File:Melted_chocolate_(6547776815).jpg
+File originale: https://upload.wikimedia.org/wikipedia/commons/7/7e/Melted_chocolate_%286547776815%29.jpg
+Licenza: CC BY 2.0 — https://creativecommons.org/licenses/by/2.0/
+Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione in WebP (qualità 85); nessun ritocco al soggetto fotografico.
+Verificata: 2026-10-25
+
+photography/mirtilli_fresca.webp
+Blueberries on a Bowl
+Autore: Eva Bronzini
+Fonte: https://www.pexels.com/photo/blueberries-on-a-bowl-6864155/
+File originale: https://images.pexels.com/photos/6864155/pexels-photo-6864155.jpeg?auto=compress&w=1260&h=750&dpr=2
+Licenza: Pexels License — https://www.pexels.com/license/
+Modifiche: Ridimensionamento proporzionale a massimo 1280 px e conversione WebP qualità 85; nessun ritocco al soggetto.
+Verificata: 2026-10-25
+
+photography/lamponi_fresca.webp
+Fresh ripe raspberries in a white bowl on a clean white background.
+Autore: Saramukitza
+Fonte: https://pixabay.com/photos/bowl-raspberries-bay-fruit-table-2747181/
+File originale: https://cdn.pixabay.com/photo/2017/09/13/21/57/bowl-2747181_1280.jpg
+Licenza: Pixabay Content License — https://pixabay.com/service/license-summary/
+Modifiche: Conversione del file 1280×853 in WebP qualità 85, senza ritocchi al soggetto né ritaglio del file distribuito.
+Verificata: 2026-10-25

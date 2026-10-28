@@ -307,7 +307,8 @@ data class AppState(
     /** Conversazione con Jarvis (ultimi messaggi). */
     val chat: List<ChatMsg> = emptyList(),
     /** Collegamento alla famiglia (spesa condivisa); null se non collegato. */
-    val family: FamilyLink? = null
+    val family: FamilyLink? = null,
+    val trainingNutrition: TrainingNutrition = TrainingNutrition()
 )
 
 /** Collegamento di questo telefono alla famiglia: codice d'invito (contiene la chiave di cifratura), il proprio id e nome, giorni del piano da condividere. */

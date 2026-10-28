@@ -38,6 +38,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,6 +57,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -61,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import com.jarvis.food.data.AppState
 import com.jarvis.food.data.Db
 import com.jarvis.food.data.DietPrefs
+import com.jarvis.food.data.MealSchedule
 import com.jarvis.food.data.Store
 import com.jarvis.food.engine.Micros
 import com.jarvis.food.engine.PlannedMeal
@@ -109,10 +114,12 @@ fun PlanScreen() {
         }
         Spacer(Modifier.height(16.dp))
         WeekStrip(s, date) { Nav.planDate = it }
+        DayTypeControl(s, date)
+        TextButton(onClick = { Nav.go(Screen.DietSettings) }) { Text("Gestisci pasti della giornata", color = C.AccentDeep) }
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
-            ACard(radius = 34.dp, brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5))), glow = Color(0x99FF963C), padding = 20.dp) {
+            ACard(radius = 34.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 20.dp) {
                 Column {
                     Text("Crea la tua dieta personalizzata", style = T.Title)
                     Spacer(Modifier.height(6.dp))
@@ -130,7 +137,7 @@ fun PlanScreen() {
         ASection("I pasti del giorno", action = "Preferenze") { Nav.go(Screen.DietSettings) }
         Spacer(Modifier.height(14.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
+        Column(verticalArrangement = Arrangement.spacedBy(26.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
         Spacer(Modifier.height(18.dp))
         PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
             val start = maxOf(LocalDate.now(), monday)
@@ -165,7 +172,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
             AIcon(if (expanded) "M6 15l6-6 6 6" else Ic.Right, C.Navy, 20.dp)
         }
     }
-    if (expanded) ACard(radius = 24.dp, brush = Brush.linearGradient(listOf(Color.White, Color(0xFFEDF1F5))), glow = Color(0x99FF963C), padding = 0.dp) {
+    if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
         Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 20.dp, bottom = 12.dp)) {
             Text("Totale con le tue scelte", style = T.Muted.copy(fontWeight = FontWeight.Medium))
             Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {
@@ -205,7 +212,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
 
 @Composable
 private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(18.dp)).background(androidx.compose.ui.graphics.lerp(soft, Color.White, 0.4f)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
+    Column(modifier.clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
             Text(" g", style = T.Small.copy(fontSize = 11.5.sp), modifier = Modifier.padding(bottom = 3.dp))
@@ -269,7 +276,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
             Text("INGREDIENTI E GRAMMATURE", style = T.Eyebrow.copy(letterSpacing = 0.3.sp), modifier = Modifier.padding(top = 10.dp))
             FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 r.items.filter { it.ing.role != "x" }.forEach { it2 ->
-                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(Color(0xFFFFF6EC)).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(it2.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 13.sp), maxLines = 1)
                         Spacer(Modifier.width(8.dp))
                         Box(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 5.dp)) {
@@ -284,10 +291,10 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                     Spacer(Modifier.width(8.dp))
                     AIcon(Ic.Right, Color.White, 16.dp, 2.4f)
                 }
-                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(if (eaten) A.GreenSoft else A.Tonal).clickable {
+                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Surface).border(1.dp, if (eaten) C.Green else C.Line, RoundedCornerShape(24.dp)).clickable {
                     if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
                 }, contentAlignment = Alignment.Center) {
-                    Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else Color(0xFF8F2A14)), maxLines = 1)
+                    Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else C.AccentDeep), maxLines = 1)
                 }
             }
         }
@@ -342,25 +349,51 @@ private fun AltRow(s: AppState, a: SolvedRecipe, current: Boolean, onPick: () ->
 fun DietSettingsScreen() {
     val s by Store.state.collectAsState()
     var p by remember { mutableStateOf(s.dietPrefs) }
-    val shares = remember { mutableStateMapOf<Int, Int>().apply { p.slots.forEachIndexed { i, sl -> put(i, sl.share) } } }
     val tags = listOf("lattosio" to "Senza lattosio", "glutine" to "Senza glutine", "frutta_secca" to "Frutta a guscio", "uova" to "Uova", "pesce" to "Pesce",
         "crostacei" to "Crostacei", "carne" to "Carne", "maiale" to "Maiale", "soia" to "Soia")
-    // Preset nell'ordine dei pasti dell'app: colazione, pranzo, merenda, cena.
-    val splits = listOf(
-        "Classica · 25 / 35 / 10 / 30" to listOf(25, 35, 10, 30),
-        "Cena leggera · 25 / 40 / 10 / 25" to listOf(25, 40, 10, 25),
-        "Pranzo forte · 20 / 45 / 5 / 30" to listOf(20, 45, 5, 30)
-    )
-    val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
-    val cur = p.slots.indices.map { shares[it] ?: p.slots[it].share }
-    val selSplit = splits.indexOfFirst { it.second.size == cur.size && it.second == cur }
-    val mealColors = listOf(Color(0xFFFFB820), Color(0xFFFF6B4A), Color(0xFF8B5CF6), Color(0xFF3B82F6))
-    val sum = cur.sum().coerceAtLeast(1)
+    val kcal = Store.energyFor(s, LocalDate.now()).targetKcal
+    val sum = p.slots.sumOf { it.share }.coerceAtLeast(1)
+    val mealColors = listOf(C.Navy, C.Accent)
+    val advice = MealSchedule.advice(s.profile)
 
     Column(Modifier.fillMaxSize()) {
         TopBar("Preferenze della dieta", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
-            GHead("Preferenze della dieta", "Gli alimenti esclusi non compaiono nel piano né nei suggerimenti.")
+            SettingsHeading("I tuoi pasti", "La stessa scelta viene usata in Oggi e Piano. Gli alimenti già registrati restano nel diario.")
+            SettingsCard(title = "Momenti della giornata") {
+                MealSchedule.definitions.forEach { def ->
+                    val selected = p.slots.any { it.diaryMeal == def.diaryMeal }
+                    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(def.name, style = T.Label, modifier = Modifier.weight(1f))
+                        Switch(selected, { checked ->
+                            val ids = MealSchedule.selected(p)
+                            if (checked || ids.size > 1) p = MealSchedule.withMeals(p, if (checked) ids + def.diaryMeal else ids - def.diaryMeal)
+                        }, modifier = Modifier.testTag("meal-enabled-${def.diaryMeal}"),
+                            enabled = !selected || p.slots.size > 1,
+                            colors = SwitchDefaults.colors(checkedThumbColor = C.Surface, checkedTrackColor = C.Navy))
+                    }
+                }
+                Text("Mantieni almeno un pasto. Puoi attivare ogni momento separatamente.", style = T.Small)
+            }
+            Spacer(Modifier.height(12.dp))
+            SettingsCard(title = "Il suggerimento di Jarvis", warm = true) {
+                Text(advice.second, style = T.Small, modifier = Modifier.padding(top = 8.dp))
+                TextButton(onClick = { p = MealSchedule.withMeals(p, advice.first) }) { Text("Usa questa suddivisione", color = C.AccentDeep) }
+                Text("Proposta organizzativa: il numero di pasti non modifica il fabbisogno totale.", style = T.Small)
+            }
+            SettingsHeading("Ripartizione delle calorie", "Imposta le quote: Jarvis le riporta in proporzione al totale giornaliero.")
+            SettingsCard(title = "Quote dei pasti") {
+                p.slots.forEachIndexed { i, sl ->
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(sl.name, style = T.Label, modifier = Modifier.weight(1f))
+                        Text("${(100.0 * sl.share / sum).r0()}% · ${kcalFmt(kcal * sl.share / sum)} kcal", style = T.Small)
+                    }
+                    Slider(sl.share.toFloat(), { v -> p = p.copy(slots = p.slots.map { if (it.diaryMeal == sl.diaryMeal) it.copy(share = v.toInt().coerceAtLeast(1)) else it }) },
+                        valueRange = 1f..80f, colors = SliderDefaults.colors(thumbColor = mealColors[i % 2], activeTrackColor = mealColors[i % 2]))
+                }
+            }
+
+            SettingsHeading("Esclusioni alimentari", "Le preferenze si applicano al piano e ai suggerimenti.", warm = true)
             ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                 Column {
                     Text("Esclusioni", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.padding(bottom = 10.dp))
@@ -374,34 +407,11 @@ fun DietSettingsScreen() {
                 }
             }
 
-            GHead("Ripartizione dei pasti")
-            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
-                Column {
-                    ASegment(splits.map { it.first }, selSplit, vertical = true) { i -> splits[i].second.forEachIndexed { j, v -> if (j < p.slots.size) shares[j] = v } }
-                    Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(14.dp).clip(RoundedCornerShape(7.dp)), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                        cur.forEachIndexed { i, v -> Box(Modifier.weight(v.coerceAtLeast(1).toFloat()).height(14.dp).clip(RoundedCornerShape(7.dp)).background(mealColors[i % 4])) }
-                    }
-                    p.slots.forEachIndexed { i, sl ->
-                        val share = cur[i]
-                        Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.size(12.dp).clip(CircleShape).background(mealColors[i % 4]))
-                            GapW(10.dp)
-                            Text(sl.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.Medium, color = A.Ink), modifier = Modifier.weight(1f))
-                            Text("$share%", style = T.Small.copy(fontSize = 13.sp, color = A.Muted))
-                            Text("${kcalFmt(kcal * share / sum)} kcal", style = T.H1.copy(fontSize = 16.sp, lineHeight = 20.sp, letterSpacing = 0.sp),
-                                modifier = Modifier.width(92.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End, maxLines = 1)
-                        }
-                        if (i < p.slots.size - 1) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
-                    }
-                    if (sum != 100) Text("Totale $sum%: verrà riportato in proporzione a 100%.", style = T.Small.copy(fontSize = 12.5.sp, color = A.FatInk))
-                }
-            }
-
-            GHead("Tempo massimo di preparazione")
+            SettingsHeading("Tempo di preparazione")
             ASegment(listOf(15, 25, 40).map { "$it min" }, listOf(15, 25, 40).indexOf(p.maxMinutes)) { i -> p = p.copy(maxMinutes = listOf(15, 25, 40)[i]) }
 
             if (p.disliked.isNotEmpty()) {
-                GHead("Piatti nascosti")
+                SettingsHeading("Piatti nascosti")
                 ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         p.disliked.forEach { id ->
@@ -416,7 +426,7 @@ fun DietSettingsScreen() {
             GapH(16.dp)
         }
         GSave("Salva e ricalcola il piano") {
-            val np = p.copy(slots = p.slots.mapIndexed { i, sl -> sl.copy(share = shares[i] ?: sl.share) })
+            val np = p
             Store.setDietPrefs(np)
             Store.generatePlan(maxOf(LocalDate.now(), Nav.planDate.with(DayOfWeek.MONDAY)),
                 7 - (maxOf(LocalDate.now(), Nav.planDate.with(DayOfWeek.MONDAY)).toEpochDay() - Nav.planDate.with(DayOfWeek.MONDAY).toEpochDay()).toInt().coerceIn(0, 6))
@@ -436,9 +446,9 @@ fun EnergyInfoScreen() {
             val hero = RoundedCornerShape(34.dp)
             Column(
                 Modifier.padding(top = 4.dp).fillMaxWidth().aShadow(hero, 14.dp, Color(0x99E88C60)).clip(hero)
-                    .background(Brush.linearGradient(listOf(Color(0xFFFFE9DC), Color(0xFFFFF5E6)))).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
             ) {
-                Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = Color(0xFFB4381E)))
+                Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = C.AccentDeep))
                 Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.Bottom) {
                     Text(kcalFmt(e.targetKcal), style = T.H1.copy(fontSize = 46.sp, lineHeight = 50.sp, letterSpacing = (-1.4).sp))
                     Text(" kcal", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 8.dp))
@@ -453,7 +463,7 @@ fun EnergyInfoScreen() {
                         Row(verticalAlignment = Alignment.Top) {
                             Box(Modifier.padding(top = 7.dp).size(8.dp).clip(CircleShape).background(Color(0xFFF28B7A)))
                             GapW(12.dp)
-                            Text(it, style = T.Body.copy(fontSize = 14.5.sp, lineHeight = 21.sp, color = Color(0xFF3B3A5C)))
+                            Text(it, style = T.Body.copy(fontSize = 14.5.sp, lineHeight = 21.sp, color = C.Muted))
                         }
                     }
                 }
@@ -463,7 +473,7 @@ fun EnergyInfoScreen() {
                     "attesa, e dopo almeno 5 giorni di dati affina il fabbisogno sui tuoi valori reali. " +
                     "Metabolismo basale: Mifflin-St Jeor, o Katch-McArdle se indichi la massa grassa. " +
                     "Proteine: ${"%.1f".format(java.util.Locale.ITALY, com.jarvis.food.data.Nutrition.proteinPerKg(s.profile))} g per kg. " +
-                    "Grassi: ${s.goals.fatPct}% delle calorie di base. Sono stime: se il peso non va nella direzione attesa per 2-3 settimane, " +
+                    "Grassi: ${e.fat.r0()} g nell’obiettivo del giorno. Sono stime: se il peso non va nella direzione attesa per 2-3 settimane, " +
                     "correggi l'obiettivo dal Profilo.", style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted),
                 modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 14.dp))
             GapH(14.dp)

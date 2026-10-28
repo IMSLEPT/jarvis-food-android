@@ -1,0 +1,160 @@
+{
+  "createdAt": "2026-10-26T03:16:16.023594+00:00",
+  "recipes": [
+    "chili_con_carne"
+  ],
+  "images": [
+    {
+      "id": "chili_con_carne",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Finished chili con carne with red kidney beans, served with plain cooked WHITE RICE in one modest shallow ivory bowl. Single portion:130g lean ground beef crumbled,120g drained dark red kidney beans,150g smooth tomato passata,60g finely diced onion,5g olive oil,2g ground paprika,1g ground cumin, rice from60g dry white rice. Rich natural brick-red thick tomato sauce binds browned beef crumbles, whole kidney beans and translucent onion bits; not watery soup, no tomato chunks. Place a modest mound of plain white rice beside the chili with both fully visible, natural neat home plating. Only these ingredients. Absolutely no bell peppers, fresh chili peppers, cilantro, herbs, cheese, sour cream, avocado, corn, lime, tortilla or black pepper. Entire portion centrally framed to keep all components inside the square crop.\n",
+      "originalSha256": "282d6fd745b060f6b7ba07a9c2116c3650ff07f66514cac0723aadfbb20a3584",
+      "webpSha256": "3d8f9914e7997221a87343881be402e7422910876be185a0ea6492ecdf0b1bc1",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e ritaglio: manzo sgranato, fagioli rossi interi e cipolla nella salsa omogenea, riso bianco accanto. Niente guarnizioni estranee o verdure aggiunte. Ritaglio ravvicinato mantiene riconoscibili chili e riso, luce e texture coerenti.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "282d6fd745b060f6b7ba07a9c2116c3650ff07f66514cac0723aadfbb20a3584",
+        "at": "2026-10-26T03:20:21.856351+00:00"
+      }
+    },
+    {
+      "id": "chili_con_carne_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Intermediate cooking stage for chili: a small dark nonstick sauté pan on hob holds finely diced translucent yellow onion sautéed in a light sheen of olive oil, with lean ground beef browning and being broken into small separate crumbles by the broad edge of a plain wooden spatula. About130g meat and60g diced onion with5g oil, modest single portion. Meat mostly brown, moist natural texture, no big meatballs. Visible pan surface between crumbles, light steam. ONLY onion, beef and olive oil at this stage. No beans, tomato, paprika, cumin, peppers, herbs, rice or garnish. Close view that makes the crumbling action clear.\n",
+      "originalSha256": "f054fc19605fb8682cf369f981bacc536b45ab169acd7d688627911370c35c22",
+      "webpSha256": "cf15904d29809fcddb9fdcc9613a5285e3af4cb055bec34c8fe31ea5456904c3",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: macinato quasi tutto rosolato e separato con spatola tra cubetti di cipolla traslucida, olio contenuto e vapore. Nessuna passata, fagiolo, spezia o riso anticipato. Azione leggibile nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "f054fc19605fb8682cf369f981bacc536b45ab169acd7d688627911370c35c22",
+        "at": "2026-10-26T03:20:21.969256+00:00"
+      }
+    },
+    {
+      "id": "chili_con_carne_s1",
+      "prompt": "Edit this realistic cooking photograph precisely: reduce BOTH spice piles by 85 percent. There should only be a light sparse dusting of finely ground paprika (2 grams, less than a teaspoon) and cumin (1 gram, a small pinch), partly scattered over nearby meat and beans. Remove the large mounds and keep at most very small low patches. Preserve the smooth tomato passata pouring into the pan, kidney beans, browned beef, diced onion, natural kitchen and bright realistic professional style. No other ingredients or decorations.\n",
+      "originalSha256": "aa766d1abdb46bed9a7ed59b2d10a5566b836f0cf269bff2ef464d4ae5f24f06",
+      "webpSha256": "5f46acbca97f673decea61fc4db38c4147f1c2ab8c38c36831b59b7342232c7c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: passata liscia versata su manzo, cipolla e fagioli rossi, paprika e cumino ora in poca polvere distribuita. Assenti verdure estranee, riso o guarnizioni. Versamento e ingredienti leggibili nel ritaglio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "aa766d1abdb46bed9a7ed59b2d10a5566b836f0cf269bff2ef464d4ae5f24f06",
+        "at": "2026-10-26T03:22:27.807239+00:00"
+      },
+      "referenceImageSha256": "a045ac1294502a6a57cc3a8a75870d586fbffb0bd585a4eef1d9131df7e4457a"
+    },
+    {
+      "id": "chili_con_carne_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Intermediate slow cooking stage: the same type of small dark nonstick sauté pan on a domestic hob contains thick brick-red chili gently simmering at LOW heat after twenty minutes. Clearly visible browned lean beef crumbles, dark red kidney beans and tiny translucent onion pieces bound by reduced SMOOTH tomato passata seasoned with finely ground paprika and cumin; natural few small simmer bubbles and faint steam. A simple wooden spoon rests at one side of the pan with its tip in the chili. No pouring ingredients now. Only beef, kidney beans, tomato passata, onion, olive oil, ground paprika and ground cumin. No rice yet, no peppers, tomato chunks, fresh chilies, herbs, cheese, cream or garnish. This is a cooking photo in the pan, not a plated meal.\n",
+      "originalSha256": "fba5c7affa4a196401c2c25f3c52ad85c155bcc5547258769aac35c6a9dff38a",
+      "webpSha256": "3ab70d8f24678a0f9a682a7ab2ba62cc03bc911c04216ff7a55a3680008f2d38",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti originale e quadrato: chili amalgamato in padella con macinato, fagioli rossi e cipolla nella passata, piccole bolle e vapore. Niente riso o guarnizioni. Fase di cottura distinta dall’aggiunta iniziale e leggibile nel ritaglio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "fba5c7affa4a196401c2c25f3c52ad85c155bcc5547258769aac35c6a9dff38a",
+        "at": "2026-10-26T03:20:22.199987+00:00"
+      }
+    },
+    {
+      "id": "chili_con_carne_s3",
+      "prompt": "Edit this realistic serving-action photograph precisely: REMOVE every large bright-red tomato-like chunk in the chili. The recipe uses strained SMOOTH tomato passata, not chopped tomatoes. Replace those chunks with homogeneous thick brick-red tomato SAUCE, with only small browned beef crumbles, whole dark red kidney beans and translucent pale diced onion distinguishable inside. Preserve the spoon actively dropping plain white rice into the bowl, and natural bright professional cookbook photography. No fresh or chopped tomatoes, peppers, herbs, garnish or extra ingredients. Keep spoon tip and falling rice within the center-square crop.\n",
+      "originalSha256": "3caba4a36ee7d62f536e5ce4167d96b92add4e81d5804b7cac243f133fddbc6a",
+      "webpSha256": "c68446a80b0462353657d1696dcde743c87557581821d3f8e8a947becd95d36e",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Visti nuovo originale e quadrato: rimossi i pezzi rossi simili a pomodoro, restano salsa liscia, macinato, fagioli e cipolla. Cucchiaio deposita riso bianco con chicchi in caduta, azione distinta dalla principale. Nessun topping aggiunto; azione preservata nel quadrato.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "3caba4a36ee7d62f536e5ce4167d96b92add4e81d5804b7cac243f133fddbc6a",
+        "at": "2026-10-26T03:22:27.932703+00:00"
+      },
+      "referenceImageSha256": "ab37915c5cfa137c0e14ad81adabf67f8f023efb992a55097d0c427a28b90c7b"
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "chili_con_carne_s1",
+      "originalSha256": "a045ac1294502a6a57cc3a8a75870d586fbffb0bd585a4eef1d9131df7e4457a",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Intermediate addition stage for chili: small dark nonstick sauté pan contains browned ground beef crumbles and translucent finely diced onion, newly added whole dark RED KIDNEY BEANS and a small sprinkle of finely ground brick red paprika and tan ground cumin. A narrow stream of SMOOTH red tomato passata pours into the CENTER from a small unmarked ivory jug partly cropped at the upper edge; no hands. Sauce is just added and not yet reduced; clear distinction between the new passata, beans and browned beef/onion. All modest single portion:130gbeef120gkidneybeans150gpassata60gonion5goliveoil2gpaprika1gcumin. No chunks of tomato, no peppers, garlic, corn, herbs, rice, cheese or garnish. Realistic pour and supported pan on hob.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Cumuli di spezie troppo abbondanti rispetto a 2 g di paprika e 1 g di cumino; richiesta riduzione a poca polvere."
+    },
+    {
+      "id": "chili_con_carne_s3",
+      "originalSha256": "ab37915c5cfa137c0e14ad81adabf67f8f023efb992a55097d0c427a28b90c7b",
+      "prompt": "One photorealistic professional editorial cookbook photograph, landscape 3:2. Bright soft natural window light, warm clean light oak home kitchen, ivory ceramics, realistic homemade food textures, restrained elegant styling. Three-quarter overhead close view, keep the important food/action within central60% of image width with room around it for a center square app crop. Single scene, no collage, text, labels, watermark, logos or faces. No unrelated food props or invented garnishes. Final preparation action, cooking the white rice and serving it alongside chili: an ivory shallow serving bowl centrally placed contains freshly cooked chili of crumbled lean beef, red kidney beans, smooth tomato passata and diced onion seasoned with ground paprika and cumin on one side. A plain stainless steel serving spoon from the upper edge is actively depositing a spoonful of plain freshly boiled white rice into the EMPTY other side of the bowl; some rice already forms a small mound, a few grains visibly fall between spoon and mound, no hands needed. Clean realistic action, enough space for spoon tip, falling rice and all the bowl contents within square crop. Only the specified chili ingredients and WHITE rice; no herbs, black pepper, bell peppers, cheese, cream, corn, lime or garnish. Not merely a static finished-dish photograph.",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Grossi pezzi rossi simili a pomodoro non previsto, mentre serve passata liscia; richiesta eliminazione conservando macinato, fagioli e cipolla."
+    }
+  ],
+  "convertedVisualReview": "Visti individualmente originali e ritagli dei cinque candidati approvati, poi ricontrollati tutti i WebP 1280×853 nei ritagli quadrati: principale con riso, rosolatura, versamento passata, cottura lenta e riso servito con cucchiaio. Nessun difetto di conversione visibile.",
+  "preservation": {
+    "sourceCommit": "afa49172c8145458e4b6a635e7382650bdd951ba",
+    "previousWebpFiles": 472,
+    "previousRecords": 806,
+    "allPreviousAssetsAndRecordsUnchanged": true,
+    "onlineAndOfflineCreditsUnchanged": true,
+    "kotlinIndexMappingsVerified": 811,
+    "newWebpDimensions": {
+      "photography/chili_con_carne.webp": [
+        1280,
+        853
+      ],
+      "photography/chili_con_carne_s0.webp": [
+        1280,
+        853
+      ],
+      "photography/chili_con_carne_s1.webp": [
+        1280,
+        853
+      ],
+      "photography/chili_con_carne_s2.webp": [
+        1280,
+        853
+      ],
+      "photography/chili_con_carne_s3.webp": [
+        1280,
+        853
+      ]
+    }
+  },
+  "generationOutputs": 7
+}

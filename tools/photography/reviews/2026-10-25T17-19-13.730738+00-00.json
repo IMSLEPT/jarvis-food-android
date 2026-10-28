@@ -1,0 +1,117 @@
+{
+  "createdAt": "2026-10-25T17:19:13.730738+00:00",
+  "recipes": [
+    "pollo_friggitrice_patate"
+  ],
+  "images": [
+    {
+      "id": "pollo_friggitrice_patate",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. Finished simple dinner: AIR-FRIED SKINLESS CHICKEN THIGHS with PAPRIKA-ROSEMARY POTATO WEDGES and STEAMED BROCCOLI. On one ivory plate, two modest irregular boneless SKINLESS chicken THIGH pieces, browned naturally with a little olive oil, salt and black pepper. Chicken is exposed thigh MEAT with visible cooked grain and lightly crisp browned edges, absolutely NO chicken skin, no dimpled skin, no drumsticks, no breading and no chicken breast. Beside it a modest portion of six or seven golden potato wedges seasoned with paprika and small rosemary needles, and a small portion of bright green steamed broccoli florets. All three components visible together, balanced home-cooked serving. Exact ingredients: skinless chicken thigh meat, potatoes, broccoli, extra virgin olive oil, paprika and rosemary, plus salt and pepper for the chicken. Paprika and rosemary belong on POTATOES; chicken simply oil, salt, pepper. No lemon, parsley, thyme, garlic, butter, sauces, cream, salad, tomatoes or additional garnishes. Realistic roasted skinless thigh texture, crisp potato edges, moist broccoli, not deep-fried food.\n\nRevision: Remove the green leafy sprig visible on the tabletop in the extreme UPPER LEFT background, and replace only that little background area with the same clean light wood and neutral window light. Do not add any herbs, ingredients or other objects. Preserve the food exactly: two browned boneless skinless chicken THIGH pieces seasoned only with salt and black pepper, paprika-rosemary potato wedges, and green steamed broccoli. Preserve the same plate, arrangement, realistic textures, bright natural light, landscape framing and square-safe composition. No text or collage. This cleanup ensures no parsley or other unlisted garnish appears anywhere.",
+      "originalSha256": "6283686727c5256efaf244529451a94afb959dc9d6f69d838cc7c0cc51fc8c42",
+      "webpSha256": "5467d8d08f7432376960298b66985ae9b44d892488ccf947f8831bc43cc49d46",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva originale e ritaglio",
+        "notes": "Originale approvato e ritaglio esaminati: due porzioni di sovracoscia cotta senza pelle, patate a spicchi con paprika/rosmarino e broccoli verdi; tutti i componenti visibili. Rimossa una fogliolina estranea dallo sfondo prima di approvare; nessuna salsa o guarnizione aggiuntiva.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "6283686727c5256efaf244529451a94afb959dc9d6f69d838cc7c0cc51fc8c42",
+        "at": "2026-10-25T17:27:07.556843+00:00"
+      }
+    },
+    {
+      "id": "pollo_friggitrice_patate_s0",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. FIRST preparation stage of air-fryer chicken with potatoes: seasoning RAW POTATO WEDGES. A small clear glass mixing bowl on a light wood counter contains six or seven freshly cut raw potato wedges, their flesh pale cream and uncooked, thin natural potato skins allowed. One natural hand gently tosses and turns the wedges using a plain spoon, coating them very lightly with a little extra virgin OLIVE OIL, ground red PAPRIKA and tiny fresh ROSEMARY needles. Clear thin oil sheen, modest paprika dusting and recognizable rosemary needles; no pool of oil. Knife and half uncut potato on a small separate board immediately beside bowl if visible, compact arrangement. Main focus on raw wedges and actual seasoning action, square-crop safe. Only potatoes, olive oil, paprika and rosemary. No chicken yet, no broccoli, garlic, onion, lemon, parsley, butter, other spices or cooked final food. Accurate natural hands and utensils, bright realistic kitchen photo.",
+      "originalSha256": "99de7850b784b362d783f3ac494c702d0e2f51f7af859bbcd312e382d8ba16f1",
+      "webpSha256": "689761f0c4d23a92f3ae40726d74f8f01007c484145b9659eca33d2813ddd6bf",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: patate crude a spicchi in ciotola, poco olio, paprika e aghi di rosmarino; cucchiaio mescola il condimento. Carne e broccoli correttamente assenti, consistenza cruda leggibile.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "99de7850b784b362d783f3ac494c702d0e2f51f7af859bbcd312e382d8ba16f1",
+        "at": "2026-10-25T17:27:07.579705+00:00"
+      }
+    },
+    {
+      "id": "pollo_friggitrice_patate_s1",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. SECOND preparation stage of air-fryer chicken with potatoes: SEASONING RAW SKINLESS CHICKEN THIGHS. A small ivory dish on light wood counter contains two modest irregular pieces of RAW BONELESS SKINLESS chicken THIGH MEAT, pale pink with visible natural muscle grain and folded thigh form, not a whole drumstick, not chicken breast, no skin and no yellow dimpled surface. One natural hand holds a small silicone kitchen brush, spreading a very small amount of extra virgin OLIVE OIL on a thigh; a light scattering of SALT and finely cracked BLACK PEPPER already visible on the meat. Small plain glass oil dish immediately beside plate. Actual oil seasoning action before any cooking, raw flesh clearly uncooked, no browned edges. ONLY raw skinless chicken thighs, olive oil, salt and black pepper. No paprika or rosemary on the chicken (these season the potatoes separately), no potato, broccoli, herbs, garlic, lemon, butter, flour or breadcrumbs. Keep plate and brush action at center so square crop remains meaningful; realistic food and hand geometry.",
+      "originalSha256": "96ad3fc3a7d228a435883ec9966ae102d8f22a08e42ebbbd979fd2c8f554e057",
+      "webpSha256": "f007e84a5b1849fdf057fcec5a05f9ad290c7b36e82538570791c172fca040dd",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: due porzioni crude di sovracoscia senza pelle, pennello che distribuisce olio, sale e pepe visibili. Nessuna doratura anticipata, paprika o rosmarino sul pollo.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "96ad3fc3a7d228a435883ec9966ae102d8f22a08e42ebbbd979fd2c8f554e057",
+        "at": "2026-10-25T17:27:07.598541+00:00"
+      }
+    },
+    {
+      "id": "pollo_friggitrice_patate_s2",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. THIRD preparation stage: turning CHICKEN AND POTATOES HALFWAY through cooking in a real countertop AIR FRYER. A realistic black drawer-style air fryer stands on the kitchen counter. Its rectangular perforated dark nonstick cooking basket drawer is pulled out and rests securely on a heatproof trivet immediately in front of the matching air-fryer body. Inside are two modest irregular boneless SKINLESS CHICKEN THIGH pieces, their exposed meat already opaque with early light golden browning, and six or seven POTATO WEDGES lightly seasoned with PAPRIKA and ROSEMARY. The wedges have pale centers and beginning golden edges, not fully roasted yet. One natural hand uses plain stainless kitchen TONGS to gently turn one thigh piece in the basket, other thigh and potato wedges remain in one uncrowded layer beside it. Actual halfway turning action, delicate steam, correct basket/handle/appliance geometry, no digital text. Chicken seasoned only with olive oil, salt and black pepper; paprika and rosemary only on potatoes. NO chicken skin, no drumsticks, no breading, no deep frying, no broccoli at this stage, no lemon, garlic, parsley, sauce or extra food. Keep chicken, wedges and tongs centered for square crop. Not a finished serving plate and not a conventional oven tray.",
+      "originalSha256": "9ab2d27718c9665509ac601c04eb065e04c57325853db34a92dacdca699f44f0",
+      "webpSha256": "23b6cd2ac432f41b943504cb7c8399b42a590a3a63fd6e24c7a8337046b1c010",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: cestello perforato estratto dalla friggitrice appoggiato su sottopentola, pinze su pollo in cottura e patate dorate ai bordi; geometria plausibile e nessun broccolo anticipato. Rappresenta il giro durante la cottura.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "9ab2d27718c9665509ac601c04eb065e04c57325853db34a92dacdca699f44f0",
+        "at": "2026-10-25T17:27:07.616439+00:00"
+      }
+    },
+    {
+      "id": "pollo_friggitrice_patate_s3",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. FOURTH preparation step of air-fryer chicken with potatoes: STEAMING BROCCOLI, the recipe explicitly allows steaming as the alternative to adding it to the air fryer. Close view of a small stainless steel pot on a clean kitchen stove with a correctly supported perforated stainless steamer insert containing a modest portion of fresh bright GREEN BROCCOLI FLORETS. A natural hand lifts the matching glass lid just above the pot, revealing broccoli and delicate escaping steam. Florets are vivid green with natural small stems, moist and tender-crisp, not mushy and not roasted, clearly cooked by steam above water below the insert, not submerged. Only broccoli and water in this scene. No oil, salt crystals, pepper, herbs, garlic, lemon, butter, sauces, chicken, potato or other foods. Keep broccoli and perforated steaming insert in the center of a compact frame, actual steaming action visible also after square crop. Realistic supported cookware, natural hand anatomy, bright professional kitchen photograph, not a finished dinner plate.",
+      "originalSha256": "f22a247ee026e32a0303bdfa5d79c887e4340ae11f6509582883ab739f367d1e",
+      "webpSha256": "71603f11c0db67ec809b17536d08310686b2053ff2f6da6387976f5e3b949184",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex — revisione visiva originale e ritaglio",
+        "notes": "Originale e ritaglio esaminati: soli broccoli in cestello a vapore sostenuto dalla pentola, coperchio sollevato con condensa e vapore; non immersi in acqua e nessun condimento inventato. Alternativa al vapore prevista dal passaggio.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "f22a247ee026e32a0303bdfa5d79c887e4340ae11f6509582883ab739f367d1e",
+        "at": "2026-10-25T17:27:07.634731+00:00"
+      }
+    }
+  ],
+  "discardedCandidates": [
+    {
+      "id": "pollo_friggitrice_patate",
+      "originalSha256": "590d6800ed66d5eca1be4ce8e7d44e63e8fa02cc9ce183255413fa80720b0034",
+      "prompt": "One photorealistic professional editorial cookbook photograph. Bright soft natural window light, warm clean home kitchen, light wood counter, ivory ceramics, realistic appetizing food texture and modest achievable homemade portions. Essential food/action compactly centered and clear inside a square crop. No text, labels, watermark, collage, UI or invented ingredients. Landscape 3:2. Finished simple dinner: AIR-FRIED SKINLESS CHICKEN THIGHS with PAPRIKA-ROSEMARY POTATO WEDGES and STEAMED BROCCOLI. On one ivory plate, two modest irregular boneless SKINLESS chicken THIGH pieces, browned naturally with a little olive oil, salt and black pepper. Chicken is exposed thigh MEAT with visible cooked grain and lightly crisp browned edges, absolutely NO chicken skin, no dimpled skin, no drumsticks, no breading and no chicken breast. Beside it a modest portion of six or seven golden potato wedges seasoned with paprika and small rosemary needles, and a small portion of bright green steamed broccoli florets. All three components visible together, balanced home-cooked serving. Exact ingredients: skinless chicken thigh meat, potatoes, broccoli, extra virgin olive oil, paprika and rosemary, plus salt and pepper for the chicken. Paprika and rosemary belong on POTATOES; chicken simply oil, salt, pepper. No lemon, parsley, thyme, garlic, butter, sauces, cream, salad, tomatoes or additional garnishes. Realistic roasted skinless thigh texture, crisp potato edges, moist broccoli, not deep-fried food.",
+      "reason": "Foglioline verdi non previste dalla ricetta sullo sfondo in alto a sinistra; versione sostituita con revisione che le rimuove. Non integrata."
+    }
+  ],
+  "convertedReview": "Tutti i cinque WebP decodificati e controllati visivamente nel ritaglio quadrato dopo la conversione."
+}

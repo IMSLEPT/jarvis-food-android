@@ -56,6 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -86,10 +87,10 @@ fun KitchenScreen() {
             listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, l) ->
                 val sel = Nav.kitchenTab == i
                 val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) when(i) { 2 -> A.GreenSoft; 0 -> A.CarbSoft; else -> A.FatSoft } else Color.Transparent).clickable { Nav.kitchenTab = i },
+                Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i },
                     horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) when(i) { 2 -> A.GreenInk; 0 -> A.CarbInk; else -> A.FatInk } else A.Ink), maxLines = 1)
-                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 11.sp, color = A.Muted))
+                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), maxLines = 1)
+                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 11.sp, color = if (sel) Color.White else A.Muted))
                 }
             }
         }
@@ -137,7 +138,7 @@ private fun CookTodayBlock(s: AppState) {
     GapH(12.dp)
     val cs = RoundedCornerShape(30.dp)
     Column(Modifier.fillMaxWidth().aShadow(cs, 10.dp, Color(0x66E88C60)).clip(cs)
-        .background(Brush.linearGradient(listOf(Color(0xFFFFEBDD), Color(0xFFFFE4E8)))).padding(16.dp)) {
+        .background(C.Surface).padding(16.dp)) {
         Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
         Row(Modifier.padding(top = 12.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
@@ -160,7 +161,7 @@ private fun CookTodayBlock(s: AppState) {
                 busy = false
             }
         }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            AIcon(Ic.Spark, Color(0xFFFFB820), 22.dp, 2f); GapW(10.dp)
+            AIcon(Ic.Spark, C.Accent, 22.dp, 2f); GapW(10.dp)
             Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White))
         }
     }
@@ -182,7 +183,7 @@ private fun CookTodayBlock(s: AppState) {
                 }
             }
             if (sg.missing.isNotEmpty()) {
-                Text("Manca: " + sg.missing.joinToString { it.name.lowercase() }, style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFF8F2A14)), modifier = Modifier.padding(top = 10.dp), maxLines = 2)
+                Text("Manca: " + sg.missing.joinToString { it.name.lowercase() }, style = T.Small.copy(fontSize = 12.5.sp, color = C.AccentDeep), modifier = Modifier.padding(top = 10.dp), maxLines = 2)
                 Text("+ Aggiungi i mancanti alla spesa", style = T.Link.copy(fontSize = 13.sp), modifier = Modifier.padding(top = 8.dp).clickable {
                     sg.missing.forEach { f -> Store.update { st -> st.copy(shopping = st.shopping + com.jarvis.food.data.ShoppingItem(Store.newId(), f.id, f.name,
                         packs = 1, packGrams = f.pack ?: 100.0, shop = f.shop)) } }
@@ -196,9 +197,9 @@ private fun CookTodayBlock(s: AppState) {
 @Composable
 private fun PantryTab(s: AppState) {
     var name by remember { mutableStateOf("") }
-    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.linearGradient(listOf(Color(0xFFC9F4E2), Color(0xFFE3F8EF))), A.GreenInk, Color(0x6610B981)) { Nav.go(Screen.PantryScan("foto")) }
+    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.linearGradient(listOf(Color(0xFFC9F4E2), Color(0xFFE3F8EF))), C.Navy, C.Navy.copy(alpha = 0.15f)) { Nav.go(Screen.PantryScan("foto")) }
     GapH(12.dp)
-    ScanTile(Ic.Receipt, "Fotografa lo scontrino", "Leggo i prodotti acquistati e li metto in dispensa", Brush.linearGradient(listOf(Color(0xFFFFE3B0), Color(0xFFFFF2DA))), Color(0xFFB45309), Color(0x66F59E0B)) { Nav.go(Screen.PantryScan("scontrino")) }
+    ScanTile(Ic.Receipt, "Fotografa lo scontrino", "Leggo i prodotti acquistati e li metto in dispensa", Brush.linearGradient(listOf(Color(0xFFFFE3B0), Color(0xFFFFF2DA))), C.Accent, C.Accent.copy(alpha = 0.15f)) { Nav.go(Screen.PantryScan("scontrino")) }
 
     CookTodayBlock(s)
 
@@ -234,14 +235,14 @@ private fun PantryTab(s: AppState) {
             byShop[shop]!!.forEachIndexed { i, p ->
                 var edit by remember(p.id) { mutableStateOf(false) }
                 var g by remember(p.id) { mutableStateOf(p.grams?.toInt()?.toString() ?: "") }
-                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
                 Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clickable { edit = !edit }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text(p.name, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold))
                         Text((p.grams?.let { "${it.toInt()} ${if (Db.db.food(p.foodId ?: "")?.liquid == true) "ml" else "g"}" } ?: "quantità non indicata") +
                                 (if (p.foodId == null) " · non nel database" else ""), style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFF6F1EA)).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }
@@ -261,9 +262,9 @@ private fun PantryTab(s: AppState) {
 @Composable
 private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, glow: Color, onClick: () -> Unit) {
     val shape = RoundedCornerShape(28.dp)
-    Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, glow).clip(shape).background(bg).clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 18.dp),
+    Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, glow).clip(shape).background(C.Surface).border(1.dp, C.Line, shape).clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(60.dp).clip(RoundedCornerShape(22.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 30.dp, 2f) }
+        Box(Modifier.size(60.dp).clip(RoundedCornerShape(22.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 46.dp, 2f, modifier = Modifier.testTag("scan-icon-$title")) }
         GapW(16.dp)
         Column(Modifier.weight(1f)) {
             Text(title, style = T.Label.copy(fontSize = 17.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, color = A.Ink))
@@ -325,21 +326,21 @@ private fun ShoppingTab(s: AppState) {
             }
             groups[shop]!!.forEach { it ->
                 val f = it.foodId?.let { id -> Db.db.food(id) }
-                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
                 Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clickable { Store.toggleShopping(it.id) }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         Modifier.size(26.dp).clip(RoundedCornerShape(9.dp)).background(if (it.checked) A.Ink else Color.Transparent)
-                            .border(2.dp, if (it.checked) A.Ink else Color(0xFFC9C5D8), RoundedCornerShape(9.dp)),
+                            .border(2.dp, if (it.checked) A.Ink else C.Line, RoundedCornerShape(9.dp)),
                         contentAlignment = Alignment.Center
                     ) { if (it.checked) AIcon(Ic.Check, Color.White, 16.dp, 3.2f) }
                     GapW(14.dp)
                     Column(Modifier.weight(1f)) {
-                        Text(it.name, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = if (it.checked) Color(0xFFA6A4BC) else A.Ink,
+                        Text(it.name, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = if (it.checked) C.Faint else A.Ink,
                             textDecoration = if (it.checked) androidx.compose.ui.text.style.TextDecoration.LineThrough else null))
                         val d = Shopping.describe(it, f)
                         if (d.isNotBlank()) Text(d + if (it.note.isNotBlank() && !it.manual) " · ${it.note}" else "", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFF6F1EA)).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }

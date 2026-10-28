@@ -2,14 +2,21 @@ name: Build APK
 
 on:
   push:
-    branches: [main, feat/aurora-approved-redesign, feat/aurora-layout-polish]
+    branches: [main, feat/aurora-approved-redesign, feat/aurora-layout-polish, feat/recipe-editorial-photos]
   workflow_dispatch:
+    inputs:
+      publish_existing_run:
+        description: 'Pubblica solo l’APK verificato della build 40220576079 (lascia vuoto per compilare)'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: write
 
 jobs:
   build:
+    if: (github.event_name != 'workflow_dispatch' || inputs.publish_existing_run == '') && github.event.head_commit.message != 'Deliver verified APK 118'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     steps:
@@ -22,7 +29,9 @@ jobs:
 
       # Modello AI offline (classificatore alimentare Google AIY food V1, TFLite con etichette incorporate).
       - name: Verify original functions and assets
-        run: python3 scripts/verify-aurora-boundary.py
+        run: |
+          python3 scripts/verify-aurora-boundary.py
+          python3 tools/photography/verify.py
 
       - name: Download offline food model
         run: |
@@ -50,6 +59,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Build release APK + unit test
+        id: compile
         run: |
           chmod +x ./gradlew
           set +e
@@ -87,6 +97,8 @@ jobs:
       # Verifica visiva: avvia l'app su un emulatore Android 10 con dati dimostrativi e salva gli screenshot.
       - name: Enable KVM
         run: |
+          # The 3 GB compiler daemon is no longer needed; free memory before the emulator.
+          ./gradlew --stop
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
 
@@ -102,27 +114,93 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
+            # The Google SDK setup app can ANR over the test activity on a fresh image.
+            # These emulator-only settings keep first-run setup from stealing IME focus.
+            adb shell settings put global device_provisioned 1
+            adb shell settings put secure user_setup_complete 1
+            adb shell pm disable-user --user 0 com.google.android.googlesdksetup || true
+            adb shell am force-stop com.google.android.googlesdksetup || true
+            adb shell pm disable-user --user 0 com.google.android.setupwizard || true
             adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            # Clear a launcher ANR left over from first boot, before testing the app.
+            adb shell am force-stop com.google.android.apps.nexuslauncher || true
             adb logcat -c
             adb shell settings put secure show_ime_with_hard_keyboard 1
+            KEYBOARD=$(adb shell ime list -s | head -1 | tr -d '\r')
+            if [ -n "$KEYBOARD" ]; then adb shell ime enable "$KEYBOARD"; adb shell ime set "$KEYBOARD"; fi
+            adb shell settings put system font_scale 1.0
+            adb shell am instrument -w -e captureName standard -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-standard.log 2>&1
+            cat layout-profile-standard.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-profile-standard.log
+            adb shell settings put system font_scale 1.3
+            adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-large-text.log 2>&1
+            cat layout-profile-large-text.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-profile-large-text.log
+            adb shell settings put system font_scale 1.0
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-standard.log 2>&1
             cat layout-standard.log
+            adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.threebutton
+            adb shell am instrument -w -e captureName buttons -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-buttons.log 2>&1
+            cat layout-buttons.log
             adb shell wm size 1080x2340
             adb shell wm density 480
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-large-text.log 2>&1
             cat layout-large-text.log
+            adb shell am instrument -w -e captureName buttons-large-text -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-buttons-large-text.log 2>&1
+            cat layout-buttons-large-text.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb logcat -d -s AndroidRuntime:E > layout-crash.txt
             adb shell settings put system font_scale 1.0
             adb shell wm size reset
             adb shell wm density reset
+            adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.gestural
+            adb shell am instrument -w -e captureName gestures -e navigationMode 2 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-gestures.log 2>&1
+            cat layout-gestures.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
+            # Switching navigation overlays can briefly reconnect the emulator's adb transport.
+            timeout 90 adb wait-for-device
+            adb shell true
+            adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1 || { if grep -Eq "device offline|device.*not found" photo-ai.log; then adb kill-server; adb start-server; timeout 90 adb wait-for-device; adb shell am instrument -w -e class com.jarvis.food.PhotoAiFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > photo-ai.log 2>&1; else cat photo-ai.log; exit 1; fi; }
+            cat photo-ai.log
+            adb logcat -d -s AndroidRuntime:E > layout-crash.txt
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
             grep -q "OK (2 tests)" layout-standard.log
             grep -q "OK (2 tests)" layout-large-text.log
+            grep -q "OK (1 test)" layout-buttons.log
+            grep -q "OK (1 test)" layout-buttons-large-text.log
+            grep -q "OK (1 test)" layout-gestures.log
+            grep -q "OK (3 tests)" photo-ai.log
+            adb shell am instrument -w -e captureName standard -e class com.jarvis.food.TrainingDiaryFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-features-standard.log 2>&1
+            cat layout-features-standard.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-features-standard.log
+            adb shell settings put system font_scale 1.3
+            adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.TrainingDiaryFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-features-large-text.log 2>&1
+            cat layout-features-large-text.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-features-large-text.log
+            adb shell settings put system font_scale 1.0
+            adb shell am instrument -w -e captureName standard -e class com.jarvis.food.MealOptionsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-options-standard.log 2>&1
+            cat layout-options-standard.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (3 tests)" layout-options-standard.log
+            adb shell settings put system font_scale 1.3
+            adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.MealOptionsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-options-large-text.log 2>&1
+            cat layout-options-large-text.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (3 tests)" layout-options-large-text.log
+            adb shell settings put system font_scale 1.0
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            adb logcat -d -s AndroidRuntime:E > layout-crash.txt
+            if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
 
       - name: Emulator screenshots
+        if: ${{ !cancelled() && steps.compile.outcome == 'success' }}
         id: emu
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -142,7 +220,15 @@ jobs:
             grep -q "OK (3 tests)" regression.log
             adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
             grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
-            adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar || true
+            # ScreenshotTest clears files/shots; capture dedicated footer evidence afterwards.
+            adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.threebutton
+            adb shell am instrument -w -e captureName android10-buttons -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-android10-buttons.log 2>&1
+            cat layout-android10-buttons.log
+            grep -q "OK (1 test)" layout-android10-buttons.log
+            adb shell am instrument -w -e captureName android10 -e class com.jarvis.food.ProfileFormsFlowTest#bodyDiagramRendersSelectsZonesAndPreservesMeasurementHistory com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-android10.log 2>&1
+            cat layout-profile-android10.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar
+            grep -q "OK (1 test)" layout-profile-android10.log
             adb logcat -d -s AndroidRuntime:E > crash.txt || true
             if grep -q "FATAL EXCEPTION" crash.txt; then cat crash.txt; exit 1; fi
             grep -q "OK (1 test)" emu.log
@@ -156,6 +242,12 @@ jobs:
             --title "Jarvis Food v1.0.${{ github.run_number }}" \
             --notes "APK firmato, pronto da installare. Build #${{ github.run_number }} del commit ${GITHUB_SHA::7}."
 
+      - name: Publish verified 2D preview
+        if: github.ref == 'refs/heads/feat/recipe-editorial-photos'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/publish-verified-preview.py
+
       - name: Save APK and QA evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -163,6 +255,7 @@ jobs:
           name: Aurora-APK-and-QA-${{ github.run_number }}
           path: |
             dist/*.apk
+            dist/verification.json
             app/build/outputs/apk/debug/*.apk
             app/build/test-results/**/*.xml
             regression.log
@@ -172,6 +265,7 @@ jobs:
             layout-*.log
             layout-shots.tar
             layout-crash.txt
+            photo-ai.log
           retention-days: 14
 
       - name: Publish screenshots
@@ -187,3 +281,99 @@ jobs:
           N=$(find shots -name "*.png" | wc -l); echo "::notice title=Screenshot::$N screenshot"
           if [ "$N" -gt 0 ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then cd shots && zip -q -r ../screenshots.zip . && cd .. && gh release upload "v1.0.${{ github.run_number }}" screenshots.zip --clobber; fi
           exit 0
+
+  publish_verified_apk:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_existing_run != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate existing successful build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_RUN: ${{ inputs.publish_existing_run }}
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          assert os.environ['SOURCE_RUN'] == '40220576079'
+          run = json.loads(subprocess.check_output(['gh', 'api', 'repos/IMSLEPT/jarvis-food-android/actions/runs/40220576079']))
+          assert run['status'] == 'completed' and run['conclusion'] == 'success'
+          assert run['run_number'] == 93
+          assert run['head_sha'] == 'ca86f55a86dce687612af35940bdee84f149b3af'
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: Aurora-APK-and-QA-93
+          path: qa
+          repository: IMSLEPT/jarvis-food-android
+          run-id: 40220576079
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify exact APK and packaged photographs
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess, zipfile
+          import xml.etree.ElementTree as ET
+          apk = Path('qa/dist/JarvisFood-v1.0.93.apk')
+          digest = hashlib.sha256(apk.read_bytes()).hexdigest()
+          assert digest == json.loads(Path('docs/APK-1.0.93-verification.json').read_text())['sha256']
+          records = json.loads(subprocess.check_output(['git', 'show', 'ca86f55a86dce687612af35940bdee84f149b3af:tools/photography/approved.json']))
+          paths = {r['asset'] for r in records.values()}
+          assert len(records) == 763 and len(paths) == 435
+          with zipfile.ZipFile(apk) as z:
+              assert {n for n in z.namelist() if n.startswith('assets/photography/') and n.endswith('.webp')} == {'assets/' + p for p in paths}
+              for record in records.values():
+                  assert hashlib.sha256(z.read('assets/' + record['asset'])).hexdigest() == record['sha256']
+              assert len(z.read('assets/food.tflite')) > 1000000
+          totals = {k: 0 for k in ('tests', 'failures', 'errors', 'skipped')}
+          for path in Path('qa/app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'):
+              suite = ET.parse(path).getroot()
+              for k in totals: totals[k] += int(suite.get(k, 0))
+          assert totals == dict(tests=70, failures=0, errors=0, skipped=0), totals
+          for name, count in [('layout-standard.log', 2), ('layout-large-text.log', 2), ('photo-ai.log', 3), ('regression.log', 3), ('emu.log', 1), ('layout-buttons.log', 1), ('layout-buttons-large-text.log', 1), ('layout-gestures.log', 1), ('layout-android10-buttons.log', 1)]:
+              assert f'OK ({count} test' in Path('qa', name).read_text()
+          apk.with_suffix('.apk.sha256').write_text(digest + '  ' + apk.name + '\n')
+          print('APK originale verificato: 435 immagini, 763 abbinamenti, 70 test unitari e 15 test Android.')
+          PY
+      - name: Publish verified snapshot without recompiling
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload v1.0.93 qa/dist/JarvisFood-v1.0.93.apk qa/dist/JarvisFood-v1.0.93.apk.sha256
+
+  deliver_verified_118:
+    if: github.event_name == 'push' && github.event.head_commit.message == 'Deliver verified APK 118'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Prepare visual verification
+        run: python3 -m pip install --quiet Pillow==11.3.0
+      - name: Verify and deliver the successful signed APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/deliver-verified-118.py
+
+      - name: Save verified APK bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: JarvisFood-1.0.118-verified-APK
+          path: |
+            delivery/*.apk
+            delivery/verification.json
+          if-no-files-found: warn
+          retention-days: 14

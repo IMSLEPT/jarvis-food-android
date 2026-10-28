@@ -1,5 +1,7 @@
 package com.jarvis.food.ui
 
+import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +30,7 @@ import com.jarvis.food.data.Store
 import java.time.LocalDate
 
 @Composable
-fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?) {
+fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?, replacementEntryId: String? = null) {
     var name by remember { mutableStateOf(edit?.name ?: "") }
     var brand by remember { mutableStateOf(edit?.brand ?: "") }
     var kcal by remember { mutableStateOf(edit?.kcal?.r1() ?: "") }
@@ -51,27 +53,32 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?)
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             if (code != null) Text("Codice a barre: $code", style = T.Muted)
             Text("Copia i valori dall'etichetta, riferiti a 100 ${if (liquid) "ml" else "g"}.", style = T.Small)
+            SettingsCard(title = "Identità dell’alimento") {
             JField(name, { name = it }, "Nome *")
             JField(brand, { brand = it }, "Marca")
             SwitchRow("È una bevanda (ml)", checked = liquid, onChange = { liquid = it })
+            }
+            SettingsCard(title = "Valori per 100 g / ml", warm = true) {
             JField(kcal, { kcal = it }, "Energia *", number = true, suffix = "kcal")
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                JField(carbs, { carbs = it }, "Carboidrati", Modifier.weight(1f), number = true, suffix = "g")
-                JField(sugar, { sugar = it }, "di cui zuccheri", Modifier.weight(1f), number = true, suffix = "g")
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                JField(carbs, { carbs = it }, "Carboidrati", Modifier.fillMaxWidth(), number = true, suffix = "g")
+                JField(sugar, { sugar = it }, "di cui zuccheri", Modifier.fillMaxWidth(), number = true, suffix = "g")
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                JField(protein, { protein = it }, "Proteine", Modifier.weight(1f), number = true, suffix = "g")
-                JField(fiber, { fiber = it }, "Fibre", Modifier.weight(1f), number = true, suffix = "g")
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                JField(protein, { protein = it }, "Proteine", Modifier.fillMaxWidth(), number = true, suffix = "g")
+                JField(fiber, { fiber = it }, "Fibre", Modifier.fillMaxWidth(), number = true, suffix = "g")
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                JField(fat, { fat = it }, "Grassi", Modifier.weight(1f), number = true, suffix = "g")
-                JField(sat, { sat = it }, "di cui saturi", Modifier.weight(1f), number = true, suffix = "g")
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                JField(fat, { fat = it }, "Grassi", Modifier.fillMaxWidth(), number = true, suffix = "g")
+                JField(sat, { sat = it }, "di cui saturi", Modifier.fillMaxWidth(), number = true, suffix = "g")
             }
             JField(salt, { salt = it }, "Sale", number = true, suffix = "g")
-            Text("Porzione (facoltativa)", style = T.Title2)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                JField(servName, { servName = it }, "Nome (es. barretta)", Modifier.weight(1.4f))
-                JField(servG, { servG = it }, "Peso", Modifier.weight(1f), number = true, suffix = if (liquid) "ml" else "g")
+            }
+            SettingsCard(title = "Porzione (facoltativa)") {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                JField(servName, { servName = it }, "Nome (es. barretta)", Modifier.fillMaxWidth())
+                JField(servG, { servG = it }, "Peso", Modifier.fillMaxWidth(), number = true, suffix = if (liquid) "ml" else "g")
+            }
             }
             Spacer(Modifier.height(10.dp))
         }
@@ -79,7 +86,7 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?)
             if (edit != null) GhostButton("Elimina", Modifier.weight(1f), color = C.Danger) {
                 Store.deleteCustomFood(edit.id); Nav.back(); Nav.back()
             }
-            PrimaryButton(if (date != null) "Salva e aggiungi" else "Salva", Modifier.weight(2f), enabled = valid) {
+            PrimaryButton(if (replacementEntryId != null) "Salva e continua" else if (date != null) "Salva e aggiungi" else "Salva", Modifier.weight(2f), enabled = valid) {
                 val food = Food(
                     id = edit?.id ?: "custom:${Store.newId()}",
                     name = name.trim(), brand = brand.trim(),
@@ -93,7 +100,10 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?)
                 Store.saveCustomFood(food)
                 Nav.back()
                 if (edit != null) Nav.back()
-                if (date != null && edit == null) Nav.go(Screen.FoodDetail(food, date, meal))
+                if (replacementEntryId != null) {
+                    val entry = Store.current.diary.firstOrNull { it.id == replacementEntryId }
+                    if (entry != null) Nav.go(Screen.FoodDetail(food, LocalDate.parse(entry.date), entry.meal, entry.grams, entry, replacing = true))
+                } else if (date != null && edit == null) Nav.go(Screen.FoodDetail(food, date, meal))
             }
         }
     }
@@ -104,11 +114,12 @@ fun MyFoodsScreen() {
     val s by Store.state.collectAsState()
     Column(Modifier.fillMaxSize()) {
         TopBar("I miei alimenti", onBack = { Nav.back() })
-        LazyColumn(Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+        LazyColumn(Modifier.weight(1f), contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item { SettingsIntro("Il tuo ricettario personale", "Crea e aggiorna gli alimenti che usi più spesso. I valori restano disponibili anche nelle ricerche.") }
             item { PrimaryButton("+ Crea alimento", Modifier.fillMaxWidth()) { Nav.go(Screen.CustomFood(null, 0)) } }
             if (s.customFoods.isEmpty()) item { EmptyState("🧑‍🍳", "Nessun alimento", "Crea alimenti personalizzati o salva i prodotti non trovati dal barcode.") }
             items(s.customFoods, key = { it.id }) { f ->
-                JCard(Modifier.padding(top = 8.dp), onClick = { Nav.go(Screen.CustomFood(null, 0, edit = f)) }) {
+                SettingsCard(modifier = Modifier.clickable { Nav.go(Screen.CustomFood(null, 0, edit = f)) }) {
                     Text(f.name, style = T.Label)
                     Text("${f.kcal.r0()} kcal / 100 ${if (f.liquid) "ml" else "g"}" + if (f.brand.isNotBlank()) " · ${f.brand}" else "", style = T.Small)
                 }

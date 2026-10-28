@@ -1,0 +1,120 @@
+{
+  "createdAt": "2026-10-25T20:13:41.293726+00:00",
+  "recipes": [
+    "pollo_panna_broccoli"
+  ],
+  "images": [
+    {
+      "id": "pollo_panna_broccoli",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak surfaces and neutral ivory ceramics. Realistic food textures, achievable appetizing home cooking, coherent premium editorial photography. Landscape 3:2, moderate close-up rather than extreme macro; the relevant food and action must fit inside the CENTRAL SIXTY PERCENT of image width and remain clear in a square center crop, with breathing room. No text, labels, watermark, collage, illustration, UI or faces. The ONLY permitted food ingredients for this recipe are skinless chicken breast cut into bite-size pieces, broccoli, cooking cream, finely grated Parmesan or Grana, and a little garlic. NO black pepper, herbs, parsley, chives, olive oil, butter, mushrooms, rice, pasta, potatoes, bread, seeds or invented garnish. No bowls of extra ingredients or food props in the background; no herb plants. Finished creamy chicken with broccoli, one realistic single serving arranged in the center of a shallow ivory bowl. Bite-sized pieces of skinless chicken breast have opaque white cooked interiors at their edges and gently golden-brown outer surfaces, mixed with plenty of tender steamed green broccoli florets. The portion contains approximately as much broccoli as chicken, broccoli slightly more abundant. A modest amount of thick ivory cooking-cream and melted Parmesan sauce coats the chicken and the broccoli lightly; it does not drown the dish in a soup or large pool. Tiny pale garlic pieces may be visible in the sauce, but absolutely no black or green seasoning flecks and no decorative garnish. Broccoli has recognizable tiny green buds and branching stalks, not cauliflower. Show the entire food portion centrally with visible empty bowl rim around it. Three-quarter overhead angle, clean professional plating with no cutlery crossing the food.\n",
+      "originalSha256": "0197cefdfc55bef205ccd28b7ff07d3ea1b1b31ca9904b20f356455aea00a43e",
+      "webpSha256": "a57a91410e007ab5769c0abfd23535ad303e12baeca2df435d5aa3d2f83cd4a7",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: bocconcini di petto di pollo cotti e dorati con broccoli verdi riconoscibili, crema chiara e piccole parti chiare di aglio/formaggio. Nessun contorno o guarnizione estranea. Presentazione realistica in ciotola avorio, luce naturale luminosa. Il ritaglio conserva pollo, broccoli e consistenza della crema, con taglio soltanto di elementi periferici della porzione.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "0197cefdfc55bef205ccd28b7ff07d3ea1b1b31ca9904b20f356455aea00a43e",
+        "at": "2026-10-25T20:20:41.018363+00:00"
+      }
+    },
+    {
+      "id": "pollo_panna_broccoli_s0",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak surfaces and neutral ivory ceramics. Realistic food textures, achievable appetizing home cooking, coherent premium editorial photography. Landscape 3:2, moderate close-up rather than extreme macro; the relevant food and action must fit inside the CENTRAL SIXTY PERCENT of image width and remain clear in a square center crop, with breathing room. No text, labels, watermark, collage, illustration, UI or faces. The ONLY permitted food ingredients for this recipe are skinless chicken breast cut into bite-size pieces, broccoli, cooking cream, finely grated Parmesan or Grana, and a little garlic. NO black pepper, herbs, parsley, chives, olive oil, butter, mushrooms, rice, pasta, potatoes, bread, seeds or invented garnish. No bowls of extra ingredients or food props in the background; no herb plants. First preparation stage: STEAMING BROCCOLI ONLY. Fresh green broccoli florets rest in a stainless-steel perforated steamer insert correctly nested and supported inside a matching pot on a kitchen hob, with a little gentle realistic steam rising. An ordinary glass lid is propped safely on the side of the hob, not floating. The bright green florets and perforations are visible inside the centrally framed steamer. Broccoli is not submerged or boiling in water, not roasted or charred. No chicken, cream, Parmesan or garlic has been added to the steamer, no other food at this stage. The full meaningful arrangement of broccoli, supported steamer and pot remains identifiable in a square crop. Bright window light, realistic neat equipment.\n",
+      "originalSha256": "7fe1e422d08fae1bd9a8238aa6953040c3e9b0831c9471dad1008760a0a8407f",
+      "webpSha256": "56ae47c6c2113822ae83265c15d4c5a5dc31caceb38b5e83db57b0d258ba085e",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: soli broccoli verdi nel cestello metallico forato correttamente inserito e sostenuto dalla pentola sul fornello; leggero vapore, coperchio appoggiato lateralmente. Nessun ingrediente delle fasi successive nel cestello. Metodo al vapore e non bollitura o arrostitura, attrezzatura plausibile. Il quadrato mantiene broccoli, perforazioni e pentola; fotografia luminosa e coerente.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "7fe1e422d08fae1bd9a8238aa6953040c3e9b0831c9471dad1008760a0a8407f",
+        "at": "2026-10-25T20:20:41.390966+00:00"
+      }
+    },
+    {
+      "id": "pollo_panna_broccoli_s1",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak surfaces and neutral ivory ceramics. Realistic food textures, achievable appetizing home cooking, coherent premium editorial photography. Landscape 3:2, moderate close-up rather than extreme macro; the relevant food and action must fit inside the CENTRAL SIXTY PERCENT of image width and remain clear in a square center crop, with breathing room. No text, labels, watermark, collage, illustration, UI or faces. The ONLY permitted food ingredients for this recipe are skinless chicken breast cut into bite-size pieces, broccoli, cooking cream, finely grated Parmesan or Grana, and a little garlic. NO black pepper, herbs, parsley, chives, olive oil, butter, mushrooms, rice, pasta, potatoes, bread, seeds or invented garnish. No bowls of extra ingredients or food props in the background; no herb plants. Second preparation stage: browning bite-size pieces of skinless CHICKEN BREAST with a LITTLE GARLIC in a dark nonstick skillet on a kitchen hob. Chicken is already cut into natural irregular bite-size chunks, some sides softly golden and other exposed flesh opaque white; no pink raw centers visible. Several tiny pale garlic pieces are nestled between the chicken pieces, not whole large cloves. The pan is not oily, the chicken browns in its own juices; no added oil or butter. A plain wooden spatula rests securely on the pan rim, not floating. No broccoli in the pan yet, absolutely no cream or cheese sauce yet, no pepper flecks or herbs. Food is centrally arranged inside a skillet whose rim and surface identify pan-searing. Bright professional natural-light kitchen photography.\n",
+      "originalSha256": "2116e11ad082f24ce4fde42120679fde871d06ec597c959aa394566fd07983e1",
+      "webpSha256": "e00ddfce0afd30e47bafd5b1683f96510ef61c6ac1bdf85244349905bf02a797",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e quadrato: petto di pollo tagliato a bocconcini con carne opaca e dorature da rosolatura, piccoli pezzi di aglio nella padella antiaderente. Assenti broccoli, panna e formaggio prima delle rispettive fasi. Spatola appoggiata al bordo, padella sostenuta dal fornello; ingredienti e metodo restano leggibili nel ritaglio. Luce e texture realistiche.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "2116e11ad082f24ce4fde42120679fde871d06ec597c959aa394566fd07983e1",
+        "at": "2026-10-25T20:20:41.757268+00:00"
+      }
+    },
+    {
+      "id": "pollo_panna_broccoli_s2",
+      "prompt": "Edit this cooking photograph to keep the SAME bright realistic professional natural-light kitchen style, nonstick skillet on hob, cooked bite-sized chicken breast, wooden spoon and plausible partial hand, but correct the sauce. REMOVE EVERY dark or black seasoning dot and fleck from the sauce and chicken. No pepper of any kind, no herbs, no spices, no broccoli, no vegetables or other foods. Keep the NATURAL broad GOLDEN seared patches on the chicken surfaces; those golden patches are cooking browning, not granular seasoning. The only recipe ingredients visible must be skinless chicken-breast chunks, a small amount of cooking cream, finely grated Parmesan melting into it and a few tiny PALE IVORY garlic bits. Make the sauce a smooth plain pale ivory light creamy COATING around the chicken, using noticeably LESS sauce: it should lightly coat the chicken and the spoon, not fill the pan or drown the meat. Leave some clean dark nonstick pan surface visible between the creamy chicken pieces. The spoon should be stirring and show a small creamy trail. A few delicate white Parmesan shreds may be melting near the spoon, no large heap of cheese. Preserve photorealistic chicken fibers, realistic spoon and hand anatomy, soft bright daylight and warm light-oak kitchen. All important food and stirring action must remain clearly visible in a square center crop. Single professional cookbook cooking photograph, no collage, text, logos, watermark or invented garnish.\n",
+      "originalSha256": "73b1573bb3caa78dc8e936ebf7e3dcc21e03a76f9f1e22dd1eda82e52a952817",
+      "webpSha256": "ce7d8030de0aa55dc69a15fa730b0f8e8f5fe81b626c8bdc31a09b23f14f9867",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale corretto e quadrato: pollo dorato, pezzetti chiari di aglio e crema avorio con Parmigiano che fonde, mescolata dal cucchiaio di legno. La versione sostitutiva riduce la salsa e lascia visibile parte del fondo; eliminati i puntini scuri ambigui della prima candidata, restano le normali dorature della carne. Nessun broccolo in questa fase. Mano e utensile plausibili; quadrato conserva mescolatura, crema e pollo.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "73b1573bb3caa78dc8e936ebf7e3dcc21e03a76f9f1e22dd1eda82e52a952817",
+        "at": "2026-10-25T20:20:42.119486+00:00"
+      },
+      "referenceImageSha256": "986c9aaf27612c0219c28e649045548cf607e30492568cd4a853e95aae671ee1"
+    },
+    {
+      "id": "pollo_panna_broccoli_s3",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak surfaces and neutral ivory ceramics. Realistic food textures, achievable appetizing home cooking, coherent premium editorial photography. Landscape 3:2, moderate close-up rather than extreme macro; the relevant food and action must fit inside the CENTRAL SIXTY PERCENT of image width and remain clear in a square center crop, with breathing room. No text, labels, watermark, collage, illustration, UI or faces. The ONLY permitted food ingredients for this recipe are skinless chicken breast cut into bite-size pieces, broccoli, cooking cream, finely grated Parmesan or Grana, and a little garlic. NO black pepper, herbs, parsley, chives, olive oil, butter, mushrooms, rice, pasta, potatoes, bread, seeds or invented garnish. No bowls of extra ingredients or food props in the background; no herb plants. Fourth preparation stage: adding the previously steamed broccoli to the creamy chicken IN THE SKILLET for its final brief cooking. A dark nonstick skillet sits securely on a kitchen hob and already contains bite-size cooked golden chicken breast with a light thick ivory cream-and-Parmesan coating and tiny garlic pieces. A small plain ivory bowl is tilted just above the skillet, releasing the last two or three steamed green broccoli florets into it; most of the bright green broccoli is already in the pan among the chicken. One natural partial human hand holds the bowl safely, plausible fingertips. Show clearly identifiable broccoli florets with branching green stalks, and a little steam. No pepper, herbs, mushrooms or additional ingredients, no heavy soup-like pool. All food and the bowl rim/pouring action are central so the square crop shows the addition. This is the cooking and combining stage in the pan, NOT a finished serving on a plate.\n",
+      "originalSha256": "71dc0249f66fd649f96ea5a6a9cf34a58ce829bc561a426aaf2e59368b41c96a",
+      "webpSha256": "bab401cd2337e82b867e0a9aec5d40fecf95f29c955e6daf554d32bd5528507c",
+      "review": {
+        "decision": "approve",
+        "reviewer": "Codex, revisione visiva assistita",
+        "notes": "Esaminati originale e ritaglio: aggiunta dei broccoli già al vapore al pollo cremoso nella padella sul fornello. Ciotola inclinata sostenuta dalla mano e ultimi broccoli durante il versamento, con vapore leggero; presenti soltanto pollo, broccoli e salsa della ricetta. Non è una fotografia della pietanza già impiattata. Il quadrato conserva la ciotola, il gesto e gli ingredienti in padella; stile fotografico luminoso coerente.",
+        "checks": [
+          "ingredients",
+          "stage",
+          "realism",
+          "style",
+          "squareCrop"
+        ],
+        "sha256": "71dc0249f66fd649f96ea5a6a9cf34a58ce829bc561a426aaf2e59368b41c96a",
+        "at": "2026-10-25T20:20:42.488092+00:00"
+      }
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "id": "pollo_panna_broccoli_s2",
+      "originalSha256": "986c9aaf27612c0219c28e649045548cf607e30492568cd4a853e95aae671ee1",
+      "prompt": "One single photorealistic professional editorial cookbook photograph, bright soft natural window light in a warm clean home kitchen, light oak surfaces and neutral ivory ceramics. Realistic food textures, achievable appetizing home cooking, coherent premium editorial photography. Landscape 3:2, moderate close-up rather than extreme macro; the relevant food and action must fit inside the CENTRAL SIXTY PERCENT of image width and remain clear in a square center crop, with breathing room. No text, labels, watermark, collage, illustration, UI or faces. The ONLY permitted food ingredients for this recipe are skinless chicken breast cut into bite-size pieces, broccoli, cooking cream, finely grated Parmesan or Grana, and a little garlic. NO black pepper, herbs, parsley, chives, olive oil, butter, mushrooms, rice, pasta, potatoes, bread, seeds or invented garnish. No bowls of extra ingredients or food props in the background; no herb plants. Third preparation stage: making the cream sauce BEFORE adding the broccoli. A dark nonstick skillet on a hob contains gently golden bite-size cooked chicken-breast chunks and tiny pieces of garlic. Pale ivory cooking cream with a small quantity of finely grated Parmesan is being stirred around the chicken to make a smooth thick coating. A plain wooden spoon in a natural partial human hand is drawing through the sauce between the chunks, leaving a gentle temporary trail that shows creamy consistency. A few delicate Parmesan shreds near the spoon are melting into the cream, not a thick heap of cheese. NO BROCCOLI in this frame yet, no herbs, no black pepper, no vegetables or additional ingredients. Entire action and chicken/sauce are central and remain visible in a square crop. Kitchen hob and pan rim visible, dish not plated.\n",
+      "decision": "reject",
+      "reviewer": "Codex, revisione visiva assistita",
+      "notes": "Originale e quadrato esaminati: puntini scuri simili a pepe non previsto nella salsa e salsa troppo abbondante. Sostituita prima della integrazione con una versione dalla copertura più contenuta e senza i puntini scuri ambigui."
+    }
+  ],
+  "convertedVisualReview": "Cinque WebP 1280×853 decodificati ed esaminati nei ritagli quadrati: piatto cremoso, broccoli nel cestello sostenuto dalla pentola, rosolatura di pollo/aglio, mescolatura della crema corretta e aggiunta dei broccoli in padella. Stile coerente; nessun piatto finito usato come lavorazione intermedia."
+}

@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -64,7 +65,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
-fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
+fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offlineOnly: Boolean = false) {
     val s by Store.state.collectAsState()
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -88,9 +89,9 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     }
 
     // Ricerca online con attesa di 600 ms dopo l'ultima digitazione.
-    LaunchedEffect(query) {
-        online = emptyList(); error = null
-        if (query.trim().length < 3) return@LaunchedEffect
+    LaunchedEffect(query, offlineOnly) {
+        online = emptyList(); error = null; loading = false
+        if (offlineOnly || query.trim().length < 3) return@LaunchedEffect
         delay(600)
         loading = true
         runCatching { OpenFoodFacts.search(query) }
@@ -138,8 +139,10 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
     val mealName = MEAL_LABEL.getValue(mealSel)
     val freq = Store.frequentFoods(s, mealSel)
 
-    Box(Modifier.fillMaxSize().imePadding()) {
-        LazyColumn(Modifier.fillMaxSize(), contentPadding = androidx.compose.foundation.layout.PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 130.dp)) {
+    // Reserve the footer's measured height, including system insets and larger text.
+    // The last action must stay separated from the fixed confirmation bar.
+    Column(Modifier.fillMaxSize().imePadding()) {
+        LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = androidx.compose.foundation.layout.PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 20.dp)) {
             item {
                 Row(Modifier.statusBarsPadding().padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
                     BackCircle { Nav.back() }
@@ -150,6 +153,10 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                     }
                 }
                 MealChips(mealSel, Modifier.padding(top = 16.dp)) { mealSel = it }
+                if (offlineOnly) Column(Modifier.padding(top = 14.dp).testTag("food-search-offline")) {
+                    Text("Solo database sul telefono", style = T.Label.copy(color = A.GreenInk))
+                    Text("Cerca l'alimento in italiano e conferma il peso. Per un piatto composto aggiungi anche gli altri ingredienti e i condimenti.", style = T.Small)
+                }
                 // Ricerca
                 val sb = RoundedCornerShape(30.dp)
                 Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(60.dp).aShadow(sb, 10.dp, Color(0x801D1B3A)).clip(sb).background(Color.White).border(1.dp, Color(0x141D1B3A), sb)
@@ -161,7 +168,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                         BasicTextField(query, { query = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 16.sp, color = A.Ink),
                             cursorBrush = SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
                     }
-                    Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFFF7A07A), Color(0xFFF8C089)))).clickable { scan() }, contentAlignment = Alignment.Center) {
+                    if (!offlineOnly) Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.linearGradient(listOf(C.AccentSoft, C.AccentSoft))).clickable { scan() }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Barcode, A.Ink, 22.dp, 2.2f)
                     }
                 }
@@ -176,9 +183,9 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                             val on = f.id in added
                             val (tint, ink) = tileColors(f.name)
                             val cs = RoundedCornerShape(22.dp)
-                            Row(Modifier.height(44.dp).aShadow(cs, 5.dp, Color(0x801D1B3A)).clip(cs).background(if (on) Color(0xFFD9F6EA) else Color.White).clickable { toggle(f, g) }
+                            Row(Modifier.height(44.dp).aShadow(cs, 5.dp, Color(0x801D1B3A)).clip(cs).background(if (on) C.Surface else Color.White).clickable { toggle(f, g) }
                                 .padding(start = 8.dp, end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Box(Modifier.size(30.dp).clip(CircleShape).background(tint), contentAlignment = Alignment.Center) {
+                                Box(Modifier.size(30.dp).clip(CircleShape).background(C.cardSurface(tint)), contentAlignment = Alignment.Center) {
                                     Text(f.name.trim().take(1).uppercase(), style = T.H1.copy(fontSize = 14.sp, lineHeight = 16.sp, color = ink))
                                 }
                                 GapW(8.dp)
@@ -247,7 +254,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
             }
 
             // Prodotti confezionati
-            item {
+            if (!offlineOnly) item {
                 Row(Modifier.padding(top = 18.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text("Prodotti confezionati", style = T.H2.copy(fontSize = 20.sp), modifier = Modifier.weight(1f))
                     Text("Open Food Facts", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
@@ -255,11 +262,11 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                 }
                 if (query.trim().length < 3) {
                     val ps = RoundedCornerShape(28.dp)
-                    Column(Modifier.fillMaxWidth().clip(ps).background(Brush.linearGradient(listOf(Color(0xFFE8F0FF), Color(0xFFEDF3FF)))).padding(14.dp)) {
+                    Column(Modifier.fillMaxWidth().clip(ps).background(C.Surface).padding(14.dp)) {
                         Row(verticalAlignment = Alignment.Top) {
-                            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, A.CarbInk, 22.dp, 2.2f) }
+                            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, C.Navy, 22.dp, 2.2f) }
                             GapW(12.dp)
-                            Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = Color(0xFF4B5B6E)))
+                            Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = C.Muted))
                         }
                         GapH(12.dp)
                         Row(Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).clickable { Nav.go(Screen.CustomFood(date, mealSel)) },
@@ -273,7 +280,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
                     if (!loading && online.isEmpty() && error == null) Text("Nessun prodotto trovato online.", style = T.Small)
                 }
             }
-            if (query.trim().length >= 3) items(online, key = { "o" + it.id }) { f ->
+            if (!offlineOnly && query.trim().length >= 3) items(online, key = { "o" + it.id }) { f ->
                 FoodRow(f, null, date, mealSel, added = f.id in added) { grams -> toggle(f, grams) }
                 GapH(8.dp)
             }
@@ -281,7 +288,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
             // Aggiunta rapida
             item {
                 val qs = RoundedCornerShape(28.dp)
-                Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(qs).background(Brush.linearGradient(listOf(Color(0xFFFFE9C2), Color(0xFFFFF4E3)))).clickable { quickAdd = true }.padding(16.dp),
+                Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(qs).background(C.Surface).clickable { quickAdd = true }.padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text("Aggiunta rapida", style = T.H2.copy(fontSize = 18.sp))
@@ -297,7 +304,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
 
         // Barra "alimenti aggiunti"
         val bs = RoundedCornerShape(30.dp)
-        Row(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 14.dp).fillMaxWidth()
+        Row(Modifier.navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 14.dp).fillMaxWidth()
             .aShadow(bs, 14.dp, Color(0x8C17286B)).clip(bs).background(C.NavyBrush).padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
@@ -307,7 +314,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "") {
             val fs = RoundedCornerShape(26.dp)
             Row(Modifier.height(52.dp).aShadow(fs, 8.dp, Color(0x73F25E00)).clip(fs).background(C.OrangeBrush).clickable { Nav.back() }.padding(horizontal = 24.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Text("Fatto", style = T.BtnM.copy(color = Color.White)); GapW(6.dp); AIcon(Ic.Check, Color.White, 18.dp, 2.6f)
+                Text("Fatto", style = T.BtnM.copy(color = C.OnOrange)); GapW(6.dp); AIcon(Ic.Check, C.OnOrange, 18.dp, 2.6f)
             }
         }
     }
@@ -327,11 +334,11 @@ fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: Strin
     val shape = RoundedCornerShape(26.dp)
     val (tint, ink) = tileColors(food.name)
     Row(
-        Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (added) Color(0xFFE4F8EF) else Color.White)
+        Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (added) C.Surface else Color.White)
             .border(1.dp, A.Hair, shape).clickable { Nav.go(Screen.FoodDetail(food, date, meal, grams)) }.padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (emoji != null) Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(tint), contentAlignment = Alignment.Center) { Text(emoji, style = T.Title2) }
+        if (emoji != null) Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(C.cardSurface(tint)), contentAlignment = Alignment.Center) { Text(emoji, style = T.Title2) }
         else InitialTile(food.name, tint, ink, 52.dp, 19.dp)
         GapW(12.dp)
         Column(Modifier.weight(1f)) {

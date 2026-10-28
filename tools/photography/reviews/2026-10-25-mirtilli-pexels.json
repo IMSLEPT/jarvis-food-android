@@ -1,0 +1,37 @@
+{
+  "recipes": [
+    "mirtilli_fresca"
+  ],
+  "reviewer": "Codex — originale e WebP convertito nel ritaglio quadrato",
+  "checks": [
+    "ingredients",
+    "stage",
+    "realism",
+    "style",
+    "squareCrop"
+  ],
+  "observations": {
+    "mirtilli_fresca": "Foto Pexels verificata: soli mirtilli in ciotola bianca, fondo avorio; scatto reale nitido e composizione minimalista leggibile nel ritaglio, senza testo o ingredienti estranei.",
+    "mirtilli_fresca_s0": "Risciacquo reale rappresentato: colino sostenuto per il manico, mani plausibili, acqua che scorre sui soli mirtilli e defluisce; fase diversa dal piatto finito.",
+    "mirtilli_fresca_s1": "Consumo rappresentato dal cucchiaio che solleva tre mirtilli sopra la ciotola, senza aggiunte. Luce chiara e soggetto centrale."
+  },
+  "licenseVerification": {
+    "photoPage": "https://www.pexels.com/photo/blueberries-on-a-bowl-6864155/",
+    "licensePage": "https://www.pexels.com/license/",
+    "date": "2026-10-25"
+  },
+  "assets": {
+    "mirtilli_fresca": {
+      "asset": "photography/mirtilli_fresca.webp",
+      "sha256": "25498bd0460b5ca4d837ca0f6757416c3e3207888782d3f55459bf89e5492083"
+    },
+    "mirtilli_fresca_s0": {
+      "asset": "photography/mirtilli_fresca_s0.webp",
+      "sha256": "3cc0faf4408469ea7644202ba634f5fafec6ad007e99d4beb3eaabbc37d550e3"
+    },
+    "mirtilli_fresca_s1": {
+      "asset": "photography/mirtilli_fresca_s1.webp",
+      "sha256": "e9398cef80c2cc799534a7d3174726be3894fd53e791b7bdcacfa7813375487e"
+    }
+  }
+}
