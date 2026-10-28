@@ -33,7 +33,9 @@ class VisualConsistencyTest {
         compose.waitForIdle(); ins.waitForIdleSync(); android.os.SystemClock.sleep(400)
         val profile = InstrumentationRegistry.getArguments().getString("captureName") ?: "standard"
         val dir = File(ins.targetContext.filesDir, "shots/consistency-$profile").apply { mkdirs() }
-        File(dir, "$name.png").outputStream().use { ins.uiAutomation.takeScreenshot().compress(Bitmap.CompressFormat.PNG, 100, it) }
+        val bitmap = ins.uiAutomation.takeScreenshot()
+        try { File(dir, "$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) } }
+        finally { bitmap.recycle() }
     }
     private fun readable(node: SemanticsNodeInteraction) {
         val layouts = mutableListOf<TextLayoutResult>()

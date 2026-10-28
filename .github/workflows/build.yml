@@ -205,11 +205,15 @@ jobs:
             adb shell settings put system font_scale 1.0
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-standard.log 2>&1
             cat layout-consistency-standard.log
+            adb logcat -b crash -d > layout-consistency-crash.log
+            adb logcat -d -s ActivityManager:I lmkd:I lowmemorykiller:I > layout-consistency-system.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (3 tests)" layout-consistency-standard.log
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-large-text.log 2>&1
             cat layout-consistency-large-text.log
+            adb logcat -b crash -d > layout-consistency-crash.log
+            adb logcat -d -s ActivityManager:I lmkd:I lowmemorykiller:I > layout-consistency-system.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (3 tests)" layout-consistency-large-text.log
             adb shell wm size 960x2400
@@ -217,6 +221,8 @@ jobs:
             adb shell settings put system font_scale 2.0
             adb shell am instrument -w -e captureName small-200 -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-small-200.log 2>&1
             cat layout-consistency-small-200.log
+            adb logcat -b crash -d > layout-consistency-crash.log
+            adb logcat -d -s ActivityManager:I lmkd:I lowmemorykiller:I > layout-consistency-system.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             grep -q "OK (3 tests)" layout-consistency-small-200.log
             adb shell settings put system font_scale 1.0
