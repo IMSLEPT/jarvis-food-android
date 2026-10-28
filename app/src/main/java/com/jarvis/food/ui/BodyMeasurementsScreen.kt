@@ -50,10 +50,9 @@ fun MeasurementsScreen() {
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar("Misure corporee", { Nav.back() })
         Column(Modifier.weight(1f).testTag("measurements-scroll").verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Text("Tocca il corpo o scegli una zona. La fascia arancione indica il riferimento per il metro.", style = T.Small)
+            Text("Tocca il corpo o scegli una zona. La linea arancione indica dove posizionare il metro.", style = T.Small)
             SettingsCard {
-                BodyModelView(type, s.profile.male, ::select)
-                Text("Trascina per ruotare · tocca una zona", style = T.Small)
+                BodyDiagram(type, ::select)
                 Text("Modello illustrativo: individua i riferimenti sul tuo corpo. Non calcola le misure dalla tua immagine.", style = T.Small.copy(fontSize = 11.sp))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     BodyMeasurements.guides.forEach { item ->

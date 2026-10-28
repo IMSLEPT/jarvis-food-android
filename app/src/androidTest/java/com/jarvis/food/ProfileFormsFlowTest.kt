@@ -2,12 +2,8 @@ package com.jarvis.food
 
 import android.graphics.Bitmap
 import android.os.SystemClock
-import android.view.View
-import org.json.JSONArray
-import android.view.ViewGroup
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsProperties
-import android.webkit.WebView
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
@@ -21,9 +17,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import java.time.LocalDate
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicReference
 
 @RunWith(AndroidJUnit4::class)
 class ProfileFormsFlowTest {
@@ -41,20 +34,6 @@ class ProfileFormsFlowTest {
         val dir = File(ins.targetContext.filesDir, "shots/profile-$capture").apply { mkdirs() }
         File(dir, "$name.png").outputStream().use { ins.uiAutomation.takeScreenshot().compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
-    private fun web(v: View): WebView? {
-        if (v is WebView && v.tag == "body-model-webview") return v
-        if (v is ViewGroup) for (i in 0 until v.childCount) web(v.getChildAt(i))?.let { return it }
-        return null
-    }
-    private fun js(scenario: ActivityScenario<MainActivity>, code: String): String {
-        val result = AtomicReference<String>("missing"); val latch = CountDownLatch(1)
-        scenario.onActivity { a ->
-            val w = web(a.window.decorView)
-            if (w == null) latch.countDown() else w.evaluateJavascript(code) { value -> result.set(value); latch.countDown() }
-        }
-        assertTrue("WebView callback", latch.await(5, TimeUnit.SECONDS))
-        return result.get()
-    }
     private fun hideIme(scenario: ActivityScenario<MainActivity>) {
         scenario.onActivity { a ->
             val input = a.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
@@ -67,20 +46,16 @@ class ProfileFormsFlowTest {
         }
         compose.waitForIdle()
     }
-    @Test fun bodyModelRendersPicksZonesRotatesAndPreservesMeasurementHistory() {
+    @Test fun bodyDiagramRendersSelectsZonesAndPreservesMeasurementHistory() {
         val old = Measurement(today.minusDays(7).toString(), "vita", 84.0)
         val arm = Measurement(today.toString(), "braccio", 32.0)
         prepare(AppState(onboarded = true, profile = Profile(name = "Alessandro", detailed = true), measurements = listOf(old, arm)))
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             ui { Nav.go(Screen.Measurements) }
-            try { compose.waitUntil(20000) { js(scenario, "Boolean(window.bodyState && window.bodyState.ready)") == "true" } }
-            catch (failure: Throwable) { throw AssertionError("3D renderer: " + js(scenario, "JSON.stringify(window.bodyState)"), failure) }
-            assertEquals("true", js(scenario, "window.bodyState.pixel[3]>0 && window.bodyState.glError===0"))
-            assertEquals("true", js(scenario, "window.bodyState.triangles > 1000 && !window.bodyState.error"))
-            compose.waitUntil(10000) { compose.onNodeWithTag("body-model-3d").fetchSemanticsNode().config[SemanticsProperties.StateDescription] == "Modello 3D pronto" }
-            // Verify the presented native frame, not just an offscreen WebGL buffer.
+            compose.onNodeWithTag("body-model-2d").assertIsDisplayed()
+            // Verify the actual native artwork, including the active orange measuring line.
             compose.waitUntil(10000) {
-                val rect = compose.onNodeWithTag("body-model-3d").fetchSemanticsNode().boundsInRoot
+                val rect = compose.onNodeWithTag("body-model-2d").fetchSemanticsNode().boundsInRoot
                 val bitmap = ins.uiAutomation.takeScreenshot()
                 val left = rect.left.toInt().coerceAtLeast(0); val top = rect.top.toInt().coerceAtLeast(0)
                 val width = (rect.right.toInt().coerceAtMost(bitmap.width) - left).coerceAtLeast(0)
@@ -91,7 +66,7 @@ class ProfileFormsFlowTest {
                     for (y in 0 until height step 4) for (x in 0 until width step 4) {
                         val color = pixels[y * width + x]; val r = android.graphics.Color.red(color); val g = android.graphics.Color.green(color); val b = android.graphics.Color.blue(color)
                         if (r in 220..250 && g in 95..135 && b in 40..80) orange++
-                        if (r in 70..190 && g in 90..210 && b in 110..230 && b > g && g > r) body++
+                        if (r in 180..225 && g in 195..233 && b in 215..250 && b - r > 15) body++
                     }
                 }
                 bitmap.recycle()
@@ -100,25 +75,24 @@ class ProfileFormsFlowTest {
             var safeBottom = 0
             scenario.onActivity { a -> safeBottom = a.window.decorView.height - (androidx.core.view.ViewCompat.getRootWindowInsets(a.window.decorView)?.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0) }
             assertTrue("Measurement save overlaps system navigation", compose.onNode(hasText("Salva misura") and hasClickAction()).fetchSemanticsNode().boundsInRoot.bottom <= safeBottom + 1f)
-            shot("body-3d-waist")
-            // Native choice updates the actual renderer, then a rendered-surface pick returns through the JS bridge.
-            compose.onNodeWithText("Braccio", substring = false).performScrollTo().performClick()
-            compose.waitUntil(5000) { js(scenario, "window.bodyState.selected") == "\"braccio\"" }
-            compose.onNodeWithTag("body-model-3d").performScrollTo()
-            js(scenario, "window.rotateTo(0)")
-            val point = JSONArray(js(scenario, "[window.bodyPoint('collo')[0],window.bodyPoint('collo')[1],document.getElementById('model').clientWidth]"))
-            val bounds = compose.onNodeWithTag("body-model-3d").fetchSemanticsNode().boundsInRoot
-            val scale = bounds.width / point.getDouble(2)
-            compose.onNodeWithTag("body-model-3d").performTouchInput {
-                click(Offset((point.getDouble(0)*scale).toFloat(), (point.getDouble(1)*scale).toFloat()))
+            shot("body-2d-waist")
+            // Every labelled point is accessible and updates the same native selection.
+            for (key in listOf("petto", "braccio", "fianchi", "coscia", "collo", "vita")) {
+                compose.onNodeWithTag("body-point-$key").performScrollTo().performClick().assertIsSelected()
             }
-            try { compose.waitUntil(5000) { js(scenario, "window.bodyState.selected") == "\"collo\"" } }
-            catch (failure: Throwable) { throw AssertionError("3D touch: " + js(scenario, "JSON.stringify(window.bodyState)"), failure) }
-            compose.waitForIdle()
+            compose.onNodeWithTag("body-model-2d").performScrollTo()
+            // A direct tap on the silhouette also selects the anatomical site, not just its label.
+            compose.onNodeWithTag("body-model-2d").performTouchInput {
+                val dpScale = minOf(width / 360f, height / 520f)
+                val startX = (width - 360f * dpScale) / 2f
+                val startY = (height - 520f * dpScale) / 2f
+                click(Offset(startX + 180f * dpScale, startY + 89f * dpScale))
+            }
+            compose.onNodeWithTag("body-point-collo").assertIsSelected()
             compose.onNodeWithText("Dove misurare · Collo").performScrollTo().assertIsDisplayed()
-            assertEquals("true", js(scenario, "window.rotateTo(Math.PI);Math.abs(window.bodyState.angle-Math.PI)<0.01"))
-            compose.onNodeWithText("Vita", substring = false).performScrollTo().performClick()
-            js(scenario, "window.rotateTo(0)")
+            compose.onNodeWithTag("body-point-collo").performScrollTo()
+            shot("body-2d-neck")
+            compose.onNodeWithTag("body-point-vita").performScrollTo().performClick()
             compose.onNodeWithTag("measurement-value").performScrollTo().performTextReplacement("82,5")
             hideIme(scenario)
             compose.onNodeWithText("Salva misura").performClick()
@@ -136,7 +110,7 @@ class ProfileFormsFlowTest {
             assertEquals(3, Store.current.measurements.size)
             compose.onNodeWithText("Massa grassa", substring = false).performScrollTo().performClick()
             compose.onNodeWithTag("measurement-value").performScrollTo().assertTextContains("Massa grassa (%)")
-            assertEquals("\"grasso\"", js(scenario, "window.bodyState.selected"))
+            compose.onNodeWithTag("body-model-2d").assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Sagoma 2D · Massa grassa"))
         }
     }
     @Test fun organizedGoalsKeepEditingAndSaveEveryValue() {

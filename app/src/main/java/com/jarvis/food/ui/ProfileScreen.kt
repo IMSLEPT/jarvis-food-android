@@ -780,7 +780,7 @@ fun AboutScreen() {
                         "• AI online: modelli gratuiti tramite OpenRouter; testo degli scontrini letto sul telefono con ML Kit.\n" +
                         "• Calcolo fabbisogno: formula di Mifflin-St Jeor.\n" +
                         "• Attività: valori MET del Compendium of Physical Activities.\n" +
-                        "• AI offline: classificatore alimentare open source di Google (TensorFlow Lite).\n• Misure corporee: WHO STEPS (vita e fianchi), PhenX Mid-Upper Arm Circumference (braccio). Le altre sedi sono riferimenti pratici dell’app per confronti nel tempo. Il manichino 3D è illustrativo.", style = T.Body)
+                        "• AI offline: classificatore alimentare open source di Google (TensorFlow Lite).\n• Misure corporee: WHO STEPS (vita e fianchi), PhenX Mid-Upper Arm Circumference (braccio). Le altre sedi sono riferimenti pratici dell’app per confronti nel tempo. La sagoma 2D è illustrativa.", style = T.Body)
             }
             SettingsCard(title = "Foto delle ricette", warm = true) {
                 com.jarvis.food.data.Db.db.recipes.mapNotNull { r -> r.credit?.takeIf { it.author.isNotBlank() }?.let { r.name to it } }.forEach { (n, c) ->

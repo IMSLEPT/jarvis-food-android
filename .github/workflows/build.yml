@@ -225,7 +225,7 @@ jobs:
             adb shell am instrument -w -e captureName android10-buttons -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-android10-buttons.log 2>&1
             cat layout-android10-buttons.log
             grep -q "OK (1 test)" layout-android10-buttons.log
-            adb shell am instrument -w -e captureName android10 -e class com.jarvis.food.ProfileFormsFlowTest#bodyModelRendersPicksZonesRotatesAndPreservesMeasurementHistory com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-android10.log 2>&1
+            adb shell am instrument -w -e captureName android10 -e class com.jarvis.food.ProfileFormsFlowTest#bodyDiagramRendersSelectsZonesAndPreservesMeasurementHistory com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-android10.log 2>&1
             cat layout-profile-android10.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar
             grep -q "OK (1 test)" layout-profile-android10.log
@@ -242,6 +242,12 @@ jobs:
             --title "Jarvis Food v1.0.${{ github.run_number }}" \
             --notes "APK firmato, pronto da installare. Build #${{ github.run_number }} del commit ${GITHUB_SHA::7}."
 
+      - name: Publish verified 2D preview
+        if: github.ref == 'refs/heads/feat/recipe-editorial-photos'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/publish-verified-preview.py
+
       - name: Save APK and QA evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -249,6 +255,7 @@ jobs:
           name: Aurora-APK-and-QA-${{ github.run_number }}
           path: |
             dist/*.apk
+            dist/verification.json
             app/build/outputs/apk/debug/*.apk
             app/build/test-results/**/*.xml
             regression.log
