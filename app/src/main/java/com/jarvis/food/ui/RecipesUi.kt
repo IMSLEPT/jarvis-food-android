@@ -180,7 +180,7 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
             }
         }
         Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
-            Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 3, minLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
         }
@@ -194,7 +194,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
         Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
-            Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 3, minLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
         }

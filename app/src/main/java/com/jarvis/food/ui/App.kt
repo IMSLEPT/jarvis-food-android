@@ -199,13 +199,13 @@ private fun Tabs() {
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
     val shape = RoundedCornerShape(24.dp)
-    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp)) {
-        Row(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(6.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
+    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)) {
+        Row(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(0.dp), verticalAlignment = Alignment.CenterVertically) {
             items.forEach { (tab, icon, label) ->
                 val selected = Nav.tab == tab
                 Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
-                    .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 2.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                    .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(horizontal = 0.dp, vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                     if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 24.dp)
                     Spacer(Modifier.height(4.dp))
                     Text(label, style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
