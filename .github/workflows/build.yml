@@ -102,6 +102,14 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
 
+      - name: Reliable emulator transport and screenshot capture
+        run: |
+          python3 -m unittest discover -s scripts -p test_qa_adb.py
+          mkdir -p .ci-bin
+          cp scripts/qa-adb.py .ci-bin/adb
+          chmod +x .ci-bin/adb
+          echo "$PWD/.ci-bin" >> "$GITHUB_PATH"
+
       - name: Android 15 layout and enlarged text
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -217,6 +225,18 @@ jobs:
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb logcat -d -s AndroidRuntime:E > layout-crash.txt
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
+
+      - name: Save Android 15 diagnostics early
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android15-diagnostics-${{ github.run_number }}
+          path: |
+            layout-*.log
+            layout-shots.tar
+            layout-crash.txt
+            photo-ai.log
+          retention-days: 7
 
       - name: Emulator screenshots
         if: ${{ !cancelled() && steps.compile.outcome == 'success' }}
