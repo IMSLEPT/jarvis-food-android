@@ -342,11 +342,26 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
     val shape = RoundedCornerShape(24.dp)
     val chevron by animateFloatAsState(if (open) 180f else 0f, tween(250), label = "chev")
     Column(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x591D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).animateContentSize(tween(260))) {
+        if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth().clickable { open = !open }.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                MealArt(meal)
+                GapW(12.dp)
+                Text(MEAL_LABEL.getValue(meal), modifier = Modifier.weight(1f).testTag("diary-title-$meal"), style = T.Title2.copy(fontSize = 17.sp))
+            }
+            GapH(8.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(if (entries.isNotEmpty()) "${t.kcal.r0()} kcal · ${entries.size} alimenti"
+                    else if (planned != null) "Consigliato: ${planned.solved.total.kcal.r0()} kcal" else "Nessun alimento", style = T.Small, modifier = Modifier.weight(1f).padding(end = 8.dp))
+                Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon("M6 9l6 6 6-6", A.Muted, 20.dp, 2.4f) }
+                GapW(6.dp)
+                PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
+            }
+        } else {
         Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 14.dp, end = 12.dp, top = 12.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             MealArt(meal)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(MEAL_LABEL.getValue(meal), style = T.Title2.copy(fontSize = 17.sp))
+                Text(MEAL_LABEL.getValue(meal), modifier = Modifier.testTag("diary-title-$meal"), style = T.Title2.copy(fontSize = 17.sp))
                 Text(
                     if (entries.isNotEmpty()) "${t.kcal.r0()} kcal · P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()}"
                     else if (planned != null) "Consigliato: ${planned.solved.total.kcal.r0()} kcal" else "Nessun alimento",
@@ -359,6 +374,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon("M6 9l6 6 6-6", A.Muted, 20.dp, 2.4f) }
             Spacer(Modifier.width(6.dp))
             PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
+        }
         }
         if (open) Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
             if (entries.isEmpty()) {
