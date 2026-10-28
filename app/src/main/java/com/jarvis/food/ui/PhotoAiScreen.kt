@@ -172,7 +172,7 @@ private fun ScanOverlay(modifier: Modifier) {
 
 @Composable
 private fun GramStep(plus: Boolean, onClick: () -> Unit) {
-    Box(Modifier.size(34.dp).clip(CircleShape).background(C.Line).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(48.dp).clip(CircleShape).background(C.Line).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", A.Ink, 16.dp, 2.6f)
     }
 }

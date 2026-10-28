@@ -123,7 +123,8 @@ private fun CompactPlanAction(text: String, icon: String, color: Color, modifier
 @Composable
 fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, homeName: String? = null, content: @Composable ColumnScope.() -> Unit) {
     val scroll = androidx.compose.foundation.rememberScrollState()
-    val compact by androidx.compose.runtime.remember { derivedStateOf { scroll.value > 120 } }
+    val threshold = with(LocalDensity.current) { 64.dp.roundToPx() }
+    val compact by androidx.compose.runtime.remember(scroll, threshold) { derivedStateOf { scroll.value > threshold } }
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
         Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(title, eyebrow, homeName, compact) }

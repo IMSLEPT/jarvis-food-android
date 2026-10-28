@@ -105,13 +105,7 @@ fun JCard(
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
-    Row(modifier.fillMaxWidth().padding(top = 24.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(text, style = T.H2, modifier = Modifier.weight(1f).padding(end = 12.dp))
-        if (action != null && onAction != null) {
-            Box(Modifier.heightIn(min = 48.dp).clickable(role = Role.Button, onClick = onAction).padding(vertical = 12.dp), contentAlignment = Alignment.Center) { Text(action, style = T.Link, textAlign = TextAlign.End) }
-        }
-    }
-    Spacer(Modifier.height(2.dp))
+    ASection(text, modifier, action, top = 24.dp, onAction = onAction)
 }
 
 @Composable

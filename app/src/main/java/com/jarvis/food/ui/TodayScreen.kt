@@ -278,14 +278,6 @@ private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, 
 }
 
 @Composable
-private fun HeroStat(label: String, value: String, color: Color, modifier: Modifier) {
-    Column(modifier) {
-        Text(label, style = T.Small.copy(color = Color(0xFFDCE5FA), fontSize = 12.sp))
-        Text(value, style = T.Num.copy(color = color, fontSize = 18.sp), maxLines = 1)
-    }
-}
-
-@Composable
 private fun MacroRing(label: String, value: Double, goal: Double, color: Color, soft: Color, ink: Color, modifier: Modifier) {
     val fraction = if (goal > 0) (value / goal).toFloat().coerceIn(0f, 1f) else 0f
     val p by animateFloatAsState(fraction, tween(600), label = "macro")
@@ -435,18 +427,19 @@ private fun FastingMini(s: AppState) {
 // ---------------------------------------------------------------- Acqua
 
 @Composable
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 private fun WaterCard(date: LocalDate, s: AppState) {
     val ml = s.water[date.toString()] ?: 0
     val goal = s.goals.waterMl.coerceAtLeast(1)
     val fill by animateFloatAsState((ml.toFloat() / goal).coerceIn(0f, 1f), tween(900), label = "water")
-    val shape = RoundedCornerShape(30.dp)
+    val shape = RoundedCornerShape(24.dp)
     Row(
         Modifier.fillMaxWidth().aShadow(shape, 8.dp, Color(0xB306B6D4)).clip(shape)
             .background(C.Surface).padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val glass = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp, bottomStart = 30.dp, bottomEnd = 30.dp)
-        Box(Modifier.size(width = 78.dp, height = 112.dp).clip(glass).background(C.SurfaceAlt).border(2.dp, C.Line, glass)) {
+        Box(Modifier.size(width = if (LocalDensity.current.fontScale > 1.2f) 48.dp else 64.dp, height = 96.dp).clip(glass).background(C.SurfaceAlt).border(2.dp, C.Line, glass)) {
             Canvas(Modifier.fillMaxSize()) {
                 val h = size.height * fill
                 if (h > 0f) {
@@ -464,19 +457,17 @@ private fun WaterCard(date: LocalDate, s: AppState) {
         Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
             Text("Acqua", style = T.Label.copy(fontSize = 13.sp, color = A.WaterInk))
-            Row(verticalAlignment = Alignment.Bottom) {
-                Text((ml / 1000.0).r1(), style = T.Title.copy(fontSize = 34.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold))
-                Text("  su ${(goal / 1000.0).r1()} L", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
-            }
+            Text("${(ml / 1000.0).r1()} L", style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold))
+            Text("su ${(goal / 1000.0).r1()} L", style = T.Small)
             Text("bicchiere da ${s.glassMl} ml", style = T.Small.copy(color = Color(0xFF4B6A85)))
-            Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xE6FFFFFF)).clickable { Store.setWater(date, (ml - s.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
+            androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Box(Modifier.size(48.dp).clip(CircleShape).background(Color(0xE6FFFFFF)).clickable { Store.setWater(date, (ml - s.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
                     AIcon(Ic.Minus, A.Ink, 18.dp, 2.6f)
                 }
-                Row(Modifier.height(44.dp).clip(RoundedCornerShape(22.dp)).background(C.Navy).clickable { Store.setWater(date, ml + s.glassMl) }.padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { Store.setWater(date, ml + s.glassMl) }.padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Plus, Color.White, 16.dp, 2.8f)
                     Spacer(Modifier.width(8.dp))
-                    Text("Bicchiere", style = T.BtnS.copy(color = Color.White), maxLines = 1)
+                    Text("Bicchiere", style = T.BtnS.copy(color = Color.White))
                 }
             }
         }

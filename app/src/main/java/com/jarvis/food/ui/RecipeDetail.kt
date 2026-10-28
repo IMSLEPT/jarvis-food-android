@@ -387,13 +387,13 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         }
 
                         // Ingredienti
-                        Row(Modifier.fillMaxWidth().padding(top = 30.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text("Ingredienti", style = T.H2, modifier = Modifier.weight(1f))
-                            Box(Modifier.size(36.dp).clip(CircleShape).background(Color.White).border(1.dp, A.Hair, CircleShape).clickable(enabled = servings > 1) { servings-- }, contentAlignment = Alignment.Center) {
+                        Text("Ingredienti", style = T.H2, modifier = Modifier.padding(top = 24.dp, bottom = 12.dp))
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+                            Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).border(1.dp, A.Hair, CircleShape).clickable(enabled = servings > 1) { servings-- }, contentAlignment = Alignment.Center) {
                                 AIcon(Ic.Minus, if (servings > 1) A.Ink else A.Muted, 16.dp, 2.6f)
                             }
                             Text(if (servings == 1) "1 porzione" else "$servings porzioni", style = T.Label, modifier = Modifier.padding(horizontal = 10.dp))
-                            Box(Modifier.size(36.dp).clip(CircleShape).background(C.Navy).clickable(enabled = servings < 12) { servings++ }, contentAlignment = Alignment.Center) {
+                            Box(Modifier.size(48.dp).clip(CircleShape).background(C.Navy).clickable(enabled = servings < 12) { servings++ }, contentAlignment = Alignment.Center) {
                                 AIcon(Ic.Plus, Color.White, 16.dp, 2.6f)
                             }
                         }

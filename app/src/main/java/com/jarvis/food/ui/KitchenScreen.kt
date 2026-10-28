@@ -143,7 +143,7 @@ private fun CookTodayBlock(s: AppState) {
         Row(Modifier.padding(top = 12.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
                 val sel = meal == k
-                Box(Modifier.height(38.dp).clip(RoundedCornerShape(19.dp)).background(if (sel) C.Navy else Color.White).clickable { meal = k }.padding(horizontal = 16.dp), contentAlignment = Alignment.Center) {
+                Box(Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(19.dp)).background(if (sel) C.Navy else Color.White).clickable { meal = k }.padding(horizontal = 16.dp), contentAlignment = Alignment.Center) {
                     Text(l, style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
                 }
             }
@@ -242,7 +242,7 @@ private fun PantryTab(s: AppState) {
                         Text((p.grams?.let { "${it.toInt()} ${if (Db.db.food(p.foodId ?: "")?.liquid == true) "ml" else "g"}" } ?: "quantità non indicata") +
                                 (if (p.foodId == null) " · non nel database" else ""), style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(48.dp).clip(CircleShape).background(C.Surface).clickable { Store.removePantry(p.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }
@@ -340,7 +340,7 @@ private fun ShoppingTab(s: AppState) {
                         val d = Shopping.describe(it, f)
                         if (d.isNotBlank()) Text(d + if (it.note.isNotBlank() && !it.manual) " · ${it.note}" else "", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(44.dp).clip(CircleShape).background(C.Surface).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(48.dp).clip(CircleShape).background(C.Surface).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }

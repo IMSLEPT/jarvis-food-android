@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -198,7 +199,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 TotalCol("Carboidrati", tot.carbs, e.carbs, C.Blue, A.CarbSoft, Modifier.weight(1f))
                 TotalCol("Grassi", tot.fat, e.fat, C.Gold, A.FatSoft, Modifier.weight(1f))
             }
-            Row(Modifier.padding(top = 6.dp).height(44.dp).clickable { Nav.go(Screen.EnergyInfo) }, verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.padding(top = 6.dp).heightIn(min = 48.dp).clickable { Nav.go(Screen.EnergyInfo) }, verticalAlignment = Alignment.CenterVertically) {
                 Text("Come è calcolato", style = T.Link.copy(color = A.Link))
                 AIcon(Ic.Right, A.Link, 16.dp, 2.4f)
             }

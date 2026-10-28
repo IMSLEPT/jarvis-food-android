@@ -163,7 +163,7 @@ fun ProgressScreen() {
                 (6 downTo 0).map { today.minusDays(it.toLong()) }.forEach { d ->
                     val isToday = d == today
                     val did = d.toString() in loggedDays
-                    Box(Modifier.weight(1f).height(34.dp).clip(RoundedCornerShape(17.dp)).background(if (isToday) C.Navy else if (did) Color.White else Color(0x80FFFFFF)), contentAlignment = Alignment.Center) {
+                    Box(Modifier.weight(1f).heightIn(min = 40.dp).clip(RoundedCornerShape(17.dp)).background(if (isToday) C.Navy else if (did) Color.White else Color(0x80FFFFFF)), contentAlignment = Alignment.Center) {
                         Text(letter(d), style = T.Chip.copy(fontSize = 12.sp, color = if (isToday) Color.White else A.Ink))
                     }
                 }

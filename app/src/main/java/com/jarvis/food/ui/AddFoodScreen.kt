@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -183,7 +184,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                             val on = f.id in added
                             val (tint, ink) = tileColors(f.name)
                             val cs = RoundedCornerShape(22.dp)
-                            Row(Modifier.height(44.dp).aShadow(cs, 5.dp, Color(0x801D1B3A)).clip(cs).background(if (on) C.Surface else Color.White).clickable { toggle(f, g) }
+                            Row(Modifier.heightIn(min = 48.dp).aShadow(cs, 5.dp, Color(0x801D1B3A)).clip(cs).background(if (on) C.Surface else Color.White).clickable { toggle(f, g) }
                                 .padding(start = 8.dp, end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Box(Modifier.size(30.dp).clip(CircleShape).background(C.cardSurface(tint)), contentAlignment = Alignment.Center) {
                                     Text(f.name.trim().take(1).uppercase(), style = T.H1.copy(fontSize = 14.sp, lineHeight = 16.sp, color = ink))
@@ -199,7 +200,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                     Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(ts).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, ts).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         listOf("Recenti", "Preferiti", "I miei", "Ricette").forEachIndexed { i, l ->
                             val sel = tab == i
-                            Box(Modifier.weight(1f).height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { tab = i }, contentAlignment = Alignment.Center) {
+                            Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { tab = i }, contentAlignment = Alignment.Center) {
                                 Text(l, style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
                             }
                         }

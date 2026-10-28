@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 /** Pulsante tondo 44 px con "−" o "+" (stepper del design Obiettivi). */
 @Composable
 fun AStepBtn(plus: Boolean, bg: Color, ink: Color, onClick: () -> Unit) {
-    Box(Modifier.size(44.dp).clip(CircleShape).background(C.cardSurface(bg)).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(48.dp).clip(CircleShape).background(C.cardSurface(bg)).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(if (plus) "M12 6v12M6 12h12" else "M6 12h12", ink, 20.dp, 2.8f)
     }
 }
@@ -53,11 +53,11 @@ fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, mo
     @Composable
     fun item(i: Int, m: Modifier) {
         val sel = i == selected
-        Box(m.height(44.dp).clip(RoundedCornerShape(21.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { onPick(i) }, contentAlignment = Alignment.Center) {
-            Text(options[i], style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) Color.White else A.Ink), maxLines = 1, textAlign = TextAlign.Center)
+        Box(m.heightIn(min = 48.dp).clip(RoundedCornerShape(21.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { onPick(i) }, contentAlignment = Alignment.Center) {
+            Text(options[i], style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) Color.White else A.Ink), textAlign = TextAlign.Center)
         }
     }
-    if (vertical) Column(modifier.fillMaxWidth().clip(track).background(C.Surface).padding(5.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    if (vertical || androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) Column(modifier.fillMaxWidth().clip(track).background(C.Surface).padding(5.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         options.indices.forEach { item(it, Modifier.fillMaxWidth()) }
     } else Row(modifier.fillMaxWidth().clip(track).background(C.Surface).padding(5.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         options.indices.forEach { item(it, Modifier.weight(1f)) }
@@ -69,10 +69,10 @@ fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, mo
 fun AChip(label: String, on: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(22.dp)
     Box(
-        Modifier.heightIn(min = 44.dp).clip(shape).background(if (on) C.Navy else Color.White)
-            .border(2.dp, if (on) A.Ink else Color(0x1F1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = 16.dp),
+        Modifier.heightIn(min = 48.dp).clip(shape).background(if (on) C.Navy else Color.White)
+            .border(2.dp, if (on) A.Ink else Color(0x1F1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
-    ) { Text(label, style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (on) Color.White else A.Ink), maxLines = 1) }
+    ) { Text(label, style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (on) Color.White else A.Ink)) }
 }
 
 /** Titolo di sezione dell'Obiettivi (Bricolage 22, margini 28/12). */
