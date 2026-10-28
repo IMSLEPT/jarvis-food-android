@@ -93,7 +93,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     Column(Modifier.fillMaxWidth()) {
         meals.forEachIndexed { index, meal ->
             val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == meal.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
-            val icon = when (meal.diaryMeal) { 0 -> Ic.MealBreakfast; 2 -> Ic.MealLunch; 4 -> Ic.MealDinner; else -> Ic.MealSnack }
+            val icon = when (meal.diaryMeal) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealLunch; 2, 5 -> Ic.MealDinner; else -> Ic.MealSnack }
             val marker: @Composable () -> Unit = {
                 Box(Modifier.size(36.dp).clip(CircleShape).background(if (eaten) A.GreenInk else C.AccentDeep), contentAlignment = Alignment.Center) {
                     AIcon(if (eaten) Ic.Check else icon, Color.White, 21.dp, 1.8f)

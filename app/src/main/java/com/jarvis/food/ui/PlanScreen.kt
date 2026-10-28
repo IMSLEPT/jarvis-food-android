@@ -113,7 +113,7 @@ fun PlanScreen() {
                     DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
                         optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
                     })
-                    DropdownMenuItem(text = { Text("Preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
+                    DropdownMenuItem(text = { Text("Gestisci pasti e preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
                     DropdownMenuItem(text = { Text("Lista della spesa", style = T.Body) }, onClick = {
                         optionsOpen = false
                         if (!hasWeek) Store.generatePlan(monday)
@@ -147,8 +147,7 @@ fun PlanScreen() {
 
         Spacer(Modifier.height(12.dp))
         DayTotalsCard(s, date, meals)
-        ASection("I pasti del giorno", action = "Gestisci pasti") { Nav.go(Screen.DietSettings) }
-        Spacer(Modifier.height(14.dp))
+        Spacer(Modifier.height(20.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
         PlanJourney(s, date, meals)
         Spacer(Modifier.height(18.dp))
@@ -181,7 +180,6 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 Column(Modifier.weight(1f)) {
                     Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 20.sp, lineHeight = 26.sp))
                     Text("pianificate", style = T.Small)
-                    Text("Obiettivo ${kcalFmt(e.targetKcal)} kcal", style = T.Small.copy(fontSize = 12.sp))
                 }
             }
             Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
