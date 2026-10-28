@@ -43,7 +43,7 @@ object C {
     val ButtonOrangeEnd = Color(0xFF1D4ED8)
     val AccentSoft = Color(0xFFEBF2FF)
     val AccentDeep = Color(0xFF1D4ED8)
-    val AddOrange = Color(0xFFEC7435)
+    val AddOrange = Color(0xFFE66B2E)
     val HistoryOrange = Color(0xFFF59462)
     val OnAccent = Color(0xFFFFFFFF)
     val Navy = Color(0xFF09194D)

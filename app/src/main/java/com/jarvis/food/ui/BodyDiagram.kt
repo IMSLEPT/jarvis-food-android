@@ -87,18 +87,18 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
                     drawOval(Color(0xFFDDE5F4).copy(alpha = .5f), Offset(128f, 505f), Size(104f, 7f))
                     drawPath(outline, Brush.verticalGradient(listOf(Color(0xFFDCE5F4), Color(0xFFC3D1E8)), startY = 12f, endY = 506f))
                     drawPath(outline, C.Navy.copy(alpha = .24f), style = Stroke(1.3f))
-                    if (selectedKey == "grasso") drawPath(outline, C.Accent.copy(alpha = .16f))
+                    if (selectedKey == "grasso") drawPath(outline, C.AddOrange.copy(alpha = .16f))
                     // Subtle internal contours keep the illustration flat and legible.
                     drawLine(C.Navy.copy(alpha = .10f), Offset(180f, 113f), Offset(180f, 192f), 1.2f, StrokeCap.Round)
                     drawLine(C.Navy.copy(alpha = .10f), Offset(143f, 154f), Offset(173f, 160f), 1.2f, StrokeCap.Round)
                     drawLine(C.Navy.copy(alpha = .10f), Offset(187f, 160f), Offset(217f, 154f), 1.2f, StrokeCap.Round)
                     bodySites.forEach { site ->
                         val chosen = site.key == selectedKey
-                        val color = if (chosen) C.Accent else C.Navy.copy(alpha = .19f)
+                        val color = if (chosen) C.AddOrange else C.Navy.copy(alpha = .19f)
                         val left = Offset(site.point.x - site.halfWidth, site.point.y)
                         val right = Offset(site.point.x + site.halfWidth, site.point.y)
                         if (chosen) clipPath(outline) {
-                            drawRect(C.Accent.copy(alpha = .21f), Offset(left.x - 3f, site.point.y - 9f), Size(site.halfWidth * 2f + 6f, 18f))
+                            drawRect(C.AddOrange.copy(alpha = .21f), Offset(left.x - 3f, site.point.y - 9f), Size(site.halfWidth * 2f + 6f, 18f))
                         }
                         drawLine(color, left, right, if (chosen) 4f else 1.5f, StrokeCap.Round,
                             pathEffect = if (chosen) null else PathEffect.dashPathEffect(floatArrayOf(3f, 4f)))
@@ -106,7 +106,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
                         val end = Offset(if (site.label.x < 180f) 88f else 272f, site.label.y)
                         drawLine(color, edge, end, if (chosen) 1.8f else 1f, StrokeCap.Round)
                         drawCircle(Color.White, if (chosen) 6.5f else 4f, edge)
-                        drawCircle(if (chosen) C.Accent else Color(0xFF8F9EBB), if (chosen) 4f else 2.5f, edge)
+                        drawCircle(if (chosen) C.AddOrange else Color(0xFF8F9EBB), if (chosen) 4f else 2.5f, edge)
                     }
                 }
             }
@@ -125,7 +125,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
             }
         }
         Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(C.AccentSoft).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(8.dp).clip(RoundedCornerShape(4.dp)).background(C.Accent))
+            Box(Modifier.size(8.dp).clip(RoundedCornerShape(4.dp)).background(C.AddOrange))
             Text(if (active != null) "${guide.name} · il riferimento è evidenziato in arancione" else "Massa grassa · inserisci una valutazione in percentuale", style = T.Small.copy(color = C.Navy), modifier = Modifier.padding(start = 8.dp))
         }
     }
