@@ -27,6 +27,9 @@ class VisualConsistencyTest {
     private fun ui(block: () -> Unit) = ins.runOnMainSync(block)
     private fun prepare() {
         Store.init(ins.targetContext)
+        // Geometry fixtures use ready catalogue data; the separate regression suite
+        // covers asynchronous cold loading and the real category destinations.
+        check(com.jarvis.food.engine.RecipeCats.get(Db.db).isNotEmpty())
         ui { Store.update { AppState(onboarded = true, profile = Profile(name = "Alessandro", detailed = true)) }; Nav.clear(); Nav.tab = 0; Nav.diaryDate = day; Nav.planDate = day }
     }
     private fun shot(name: String) {
