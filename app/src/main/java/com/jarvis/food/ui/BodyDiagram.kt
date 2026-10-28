@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -51,6 +52,7 @@ private const val BODY_OUTLINE = "M166 75 C168 84 166 93 157 97 L130 104 C115 10
 
 @Composable
 fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
+    val pixelDensity = LocalDensity.current.density
     val outline = remember { PathParser().parsePathString(BODY_OUTLINE).toPath() }
     val guide = BodyMeasurements.guide(selectedKey)
     val active = bodySites.firstOrNull { it.key == selectedKey }
@@ -67,7 +69,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
             val startY = (380f - 520f * scale) / 2f
             Canvas(Modifier.fillMaxSize().pointerInput(onSelect) {
                 detectTapGestures { tap ->
-                    val p = Offset((tap.x / density - startX) / scale, (tap.y / density - startY) / scale)
+                    val p = Offset((tap.x / pixelDensity - startX) / scale, (tap.y / pixelDensity - startY) / scale)
                     // Only taps close to the drawn body/measurement sites choose a zone.
                     bodySites.minByOrNull { site ->
                         val dx = (p.x - site.point.x) / (site.halfWidth + 12f)
