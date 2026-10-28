@@ -2,6 +2,8 @@ package com.jarvis.food
 
 import android.graphics.Bitmap
 import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.text.TextLayoutResult
@@ -80,6 +82,7 @@ class VisualConsistencyTest {
             val goalLayouts = mutableListOf<TextLayoutResult>()
             remaining.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(goalLayouts) }
             assertTrue("Weight goal constrained to a narrow column", goalLayouts.single().lineCount <= 2)
+            compose.onNodeWithTag("weight-goal-progress", useUnmergedTree = true).assert(SemanticsMatcher.expectValue(SemanticsProperties.ProgressBarRangeInfo, ProgressBarRangeInfo(0f, 0f..1f)))
             shot("progress-one-weight")
         }
     }

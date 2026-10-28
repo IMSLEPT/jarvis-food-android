@@ -18,3 +18,11 @@ internal fun weightPlotPositions(samples: List<Pair<Long, Double>>): List<PlotPo
     val high = valid.maxOf { it.second } + 0.2
     return valid.map { (day, kg) -> PlotPoint(((day - start) / span).toFloat(), ((high - kg) / (high - low)).toFloat()) }
 }
+
+/** A maintenance target is reached only while the current weight matches it. */
+internal fun weightGoalFraction(start: Double, current: Double, target: Double): Float {
+    if (!start.isFinite() || !current.isFinite() || !target.isFinite()) return 0f
+    return if (start == target) {
+        if (kotlin.math.abs(current - target) < 0.05) 1f else 0f
+    } else ((start - current) / (start - target)).toFloat().coerceIn(0f, 1f)
+}

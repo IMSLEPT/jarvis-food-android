@@ -1,6 +1,7 @@
 package com.jarvis.food
 
 import com.jarvis.food.ui.chartFraction
+import com.jarvis.food.ui.weightGoalFraction
 import com.jarvis.food.ui.weightPlotPositions
 import org.junit.Assert.*
 import org.junit.Test
@@ -32,5 +33,12 @@ class ChartDataTest {
         assertTrue(points.all { it.x.isFinite() && it.y.isFinite() })
         assertEquals(points.first().y, points.last().y, 0f)
         assertTrue(weightPlotPositions(listOf(1L to Double.NaN)).isEmpty())
+    }
+    @Test fun maintenanceTargetsDoNotShowCompletionAfterWeightChanges() {
+        assertEquals(0f, weightGoalFraction(75.0, 71.0, 75.0), 0f)
+        assertEquals(1f, weightGoalFraction(75.0, 75.0, 75.0), 0f)
+        assertEquals(0.5f, weightGoalFraction(70.0, 75.0, 80.0), 0f)
+        assertEquals(0.5f, weightGoalFraction(80.0, 75.0, 70.0), 0f)
+        assertEquals(0f, weightGoalFraction(75.0, Double.NaN, 75.0), 0f)
     }
 }

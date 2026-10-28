@@ -37,6 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -200,14 +202,15 @@ fun ProgressScreen() {
             val sw = s.profile.startWeight
             val tw = s.profile.targetWeight
             val left = kotlin.math.abs(weight - tw)
-            val prog = if (sw == tw) 1f else ((sw - weight) / (sw - tw)).toFloat().coerceIn(0f, 1f)
+            val prog = weightGoalFraction(sw, weight, tw)
             Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
                 androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
                     Text(if (left < 0.05) "Obiettivo raggiunto" else "Obiettivo ${tw.r1().removeSuffix(",0")} kg", modifier = Modifier.testTag("weight-goal-title"), style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
                     Text("${left.r1()} kg da raggiungere", modifier = Modifier.testTag("weight-goal-remaining"), style = T.Chip.copy(fontWeight = FontWeight.Bold, color = A.CarbInk))
                 }
                 GapH(8.dp)
-                ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), C.SurfaceHi, 8.dp)
+                ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), C.SurfaceHi, 8.dp,
+                    Modifier.testTag("weight-goal-progress").semantics { progressBarRangeInfo = ProgressBarRangeInfo(prog, 0f..1f) })
             }
         }
 
