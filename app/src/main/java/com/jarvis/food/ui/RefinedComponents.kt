@@ -45,7 +45,7 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null,
                 Text(homeName, style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Text(title, style = T.Body.copy(color = C.Muted), maxLines = 2)
             } else {
-                Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
             }
         }
         HeaderAccountActions()

@@ -96,6 +96,8 @@ class VisualConsistencyTest {
         ActivityScenario.launch(MainActivity::class.java).use {
             shot("home")
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
+            readable(compose.onNodeWithText("Nessun alimento registrato").performScrollTo())
+            readable(compose.onNodeWithText(fullDay(day), useUnmergedTree = true))
             compose.onNodeWithContentDescription("Aggiungi a Colazione").assertHeightIsAtLeast(48.dp)
             compose.onNodeWithText("Altre azioni").performScrollTo().performClick()
             compose.onNodeWithText("Copia da ieri").assertIsDisplayed()

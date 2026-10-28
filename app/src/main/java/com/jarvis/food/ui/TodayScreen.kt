@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -341,9 +342,9 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             if (entries.isEmpty()) {
                 val dash = Color(0xFFD9D4EC)
                 Box(
-                    Modifier.fillMaxWidth().height(44.dp).drawBehind {
+                    Modifier.fillMaxWidth().heightIn(min = 48.dp).drawBehind {
                         drawRoundRect(dash, style = Stroke(1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(14f, 10f))), cornerRadius = androidx.compose.ui.geometry.CornerRadius(18.dp.toPx()))
-                    }.clickable { Nav.go(Screen.AddFood(date, meal)) },
+                    }.clickable { Nav.go(Screen.AddFood(date, meal)) }.padding(horizontal = 12.dp, vertical = 12.dp),
                     contentAlignment = Alignment.Center
                 ) { Text("Nessun alimento registrato", style = T.Small.copy(fontSize = 13.sp)) }
             } else entries.forEachIndexed { index, en ->
@@ -502,7 +503,7 @@ private fun NutrientInsight(s: AppState) {
                             Text(st.def.name, style = T.Label, modifier = Modifier.weight(1f))
                             Spacer(Modifier.width(12.dp))
                             ABar((st.pct / 100.0).toFloat(), A.Dawn, Color(0xFFFFE9E1), 8.dp, Modifier.weight(1f))
-                            Text("${st.pct.r0()}%", style = T.Label.copy(color = A.Link, fontSize = 13.sp), modifier = Modifier.width(44.dp), textAlign = TextAlign.End)
+                            Text("${st.pct.r0()}%", style = T.Label.copy(color = A.Link, fontSize = 13.sp), modifier = Modifier.widthIn(min = 44.dp), textAlign = TextAlign.End)
                         }
                     }
                 }
