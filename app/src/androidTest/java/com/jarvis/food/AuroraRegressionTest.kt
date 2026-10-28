@@ -87,13 +87,13 @@ class AuroraRegressionTest {
                 assertTrue("Photo too small or unreadable: $path", options.outWidth >= 640 && options.outHeight >= 640)
             }
             ui { Nav.tab = 1; Nav.planDate = today }
-            compose.onAllNodesWithText("Segna mangiato")[0].performScrollTo().performClick()
+            compose.onNodeWithTag("plan-eaten-${first.diaryMeal}").performScrollTo().performClick()
             compose.waitForIdle()
             assertTrue(Store.current.diary.size > originalDiary)
-            compose.onAllNodesWithText("Mangiato ✓")[0].performScrollTo().performClick()
+            compose.onNodeWithTag("plan-eaten-${first.diaryMeal}").performScrollTo().performClick()
             compose.waitForIdle()
             assertEquals(originalDiary, Store.current.diary.size)
-            compose.onAllNodesWithText("Alternative")[0].performScrollTo().performClick()
+            compose.onNodeWithTag("plan-alternatives-${first.diaryMeal}").performScrollTo().performClick()
             compose.waitForIdle()
             assertTrue(Nav.stack.last() is Screen.Alternatives)
             ui { Nav.back() }

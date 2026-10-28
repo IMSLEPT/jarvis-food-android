@@ -32,7 +32,9 @@ class ProfileFormsFlowTest {
         compose.waitForIdle(); ins.waitForIdleSync(); SystemClock.sleep(450)
         val capture = InstrumentationRegistry.getArguments().getString("captureName") ?: "standard"
         val dir = File(ins.targetContext.filesDir, "shots/profile-$capture").apply { mkdirs() }
-        File(dir, "$name.png").outputStream().use { ins.uiAutomation.takeScreenshot().compress(Bitmap.CompressFormat.PNG, 100, it) }
+        val bitmap = ins.uiAutomation.takeScreenshot()
+        try { File(dir, "$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) } }
+        finally { bitmap.recycle() }
     }
     private fun hideIme(scenario: ActivityScenario<MainActivity>) {
         scenario.onActivity { a ->
@@ -95,7 +97,8 @@ class ProfileFormsFlowTest {
             compose.onNodeWithTag("body-point-vita").performScrollTo().performClick()
             compose.onNodeWithTag("measurement-value").performScrollTo().performTextReplacement("82,5")
             hideIme(scenario)
-            compose.onNodeWithText("Salva misura").performClick()
+            shot("measurements-before-save")
+            compose.onNodeWithText("Salva misura").assertIsEnabled().assertIsDisplayed().performClick()
             compose.waitUntil(5000) { Store.current.measurements.size == 3 }
             assertTrue(Store.current.measurements.contains(old)); assertTrue(Store.current.measurements.contains(arm))
             compose.onNodeWithTag("measurement-history-$today").performScrollTo().assertIsDisplayed()
@@ -103,7 +106,8 @@ class ProfileFormsFlowTest {
             compose.onNodeWithContentDescription("Modifica misura del $today").performClick()
             compose.onNodeWithTag("measurement-value").performScrollTo().performTextReplacement("81,5")
             hideIme(scenario)
-            compose.onNodeWithText("Aggiorna misura").performClick()
+            shot("measurements-before-update")
+            compose.onNodeWithText("Aggiorna misura").assertIsEnabled().assertIsDisplayed().performClick()
             compose.waitUntil(5000) { Store.current.measurements.any { it.type == "vita" && it.date == today.toString() && it.value == 81.5 } }
             assertEquals(3, Store.current.measurements.size)
             val backup = Store.exportJson(); assertTrue(Store.importJson(backup).isSuccess)
