@@ -82,6 +82,16 @@ class AuroraLayoutTest {
         assertTrue("Visible icon too small: $tag, ${(right - left + 1) / density} dp", right >= left && (right - left + 1) / density >= minimumInkWidthDp)
     }
 
+    private fun chatHeaderHasAccountControlsAboveActions() {
+        val family = compose.onNodeWithContentDescription("Famiglia").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        val profile = compose.onNodeWithContentDescription("Apri profilo").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        val fresh = compose.onNodeWithContentDescription("Nuova chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        val engine = compose.onNodeWithContentDescription("Motore della chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        assertTrue("Chat actions overlap account controls", minOf(fresh.top, engine.top) >= maxOf(family.bottom, profile.bottom))
+        assertTrue("New chat is not below Family", kotlin.math.abs(fresh.center.x - family.center.x) <= 1f)
+        assertTrue("Engine is not below Profile", kotlin.math.abs(engine.center.x - profile.center.x) <= 1f)
+    }
+
     @Test fun barsGreetingsAndLongActionsRemainVisible() {
         Store.init(ins.targetContext)
         // Geometry tests use the real catalogue, precomputed before opening the activity.
@@ -144,11 +154,22 @@ class AuroraLayoutTest {
             }
             // A synthetic non-empty key enables the local input UI. No message is sent.
             ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
+            chatHeaderHasAccountControlsAboveActions()
+            shot("chat-empty-account-controls")
+            compose.onNodeWithContentDescription("Famiglia").performClick()
+            compose.waitForIdle()
+            assertEquals(Screen.Family, Nav.stack.last())
+            ui { Nav.back() }
+            compose.onNodeWithContentDescription("Apri profilo").performClick()
+            compose.waitForIdle()
+            assertEquals(Screen.Profile, Nav.stack.last())
+            ui { Nav.back() }
             val answer = "Per mantenere il tuo peso attuale, il piano di oggi è bilanciato con 275 g di carboidrati, 114 g di proteine e 64 g di grassi. Se preferisci un approccio diverso, posso cambiare le macro."
             ui { Store.update { it.copy(chat = listOf(
                 com.jarvis.food.data.ChatMsg("layout-question", "user", "Che macro mi conviene?", System.currentTimeMillis() - 1000),
                 com.jarvis.food.data.ChatMsg("layout-answer", "assistant", answer, System.currentTimeMillis(), suggestions = listOf("Sì, applica", "No"))
             )) } }
+            chatHeaderHasAccountControlsAboveActions()
             compose.onNodeWithContentDescription("Nuova chat").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f))
             compose.onNodeWithContentDescription("Motore della chat").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
             compose.onNodeWithText(answer, useUnmergedTree = true).performScrollTo()

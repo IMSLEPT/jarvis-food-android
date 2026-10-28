@@ -151,25 +151,40 @@ private const val ENGINE_ICON = "M8 7V5h7l3 3h3v10h-4l-2 3H9l-3-3H3V9h3l2-2zM10 
 
 @Composable
 private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit) {
-    val actions: @Composable () -> Unit = {
-        HeaderIconButton(NEW_CHAT_ICON, "Nuova chat", ink = C.Accent, onClick = onNew)
-        Spacer(Modifier.size(6.dp))
-        HeaderIconButton(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", selected = setup, onClick = onSetup)
+    Column(Modifier.fillMaxWidth().testTag("chat-header")) {
+        if (!active) {
+            TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) { HeaderAccountActions() }
+        } else Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (Nav.stack.isNotEmpty()) {
+                HeaderIconButton(Ic.Left, "Indietro") { Nav.back() }
+                Spacer(Modifier.size(8.dp))
+            }
+            JarvisLogo(40.dp)
+            Spacer(Modifier.size(10.dp))
+            Column(Modifier.weight(1f).padding(end = 8.dp)) {
+                Text("Jarvis", style = T.Title.copy(fontSize = 22.sp, color = C.Navy))
+                Text("Il tuo assistente alimentare", style = T.Small, maxLines = 2)
+            }
+            HeaderAccountActions()
+        }
+        Row(Modifier.fillMaxWidth().testTag("chat-secondary-actions").padding(start = 16.dp, end = 12.dp, bottom = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End), verticalAlignment = Alignment.CenterVertically) {
+            ChatHeaderAction(NEW_CHAT_ICON, "Nuova chat", ink = C.Accent, onClick = onNew)
+            ChatHeaderAction(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", selected = setup, onClick = onSetup)
+        }
     }
-    if (!active) {
-        TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) { actions() }
-    } else Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (Nav.stack.isNotEmpty()) {
-            HeaderIconButton(Ic.Left, "Indietro") { Nav.back() }
-            Spacer(Modifier.size(8.dp))
+}
+
+/** Smaller artwork and 40 dp surfaces, with a full 48 dp accessible touch target. */
+@Composable
+private fun ChatHeaderAction(icon: String, label: String, ink: Color = C.Navy, selected: Boolean = false, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(13.dp)
+    Box(Modifier.size(48.dp).semantics { contentDescription = label }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+        Box(Modifier.size(40.dp).aShadow(shape, 4.dp).clip(shape)
+            .background(if (selected) C.Navy else C.Surface)
+            .border(1.dp, if (selected) C.Navy else C.Navy.copy(alpha = .12f), shape), contentAlignment = Alignment.Center) {
+            AIcon(icon, if (selected) Color.White else ink, 22.dp, 1.9f, modifier = Modifier.testTag("header-icon-$label"))
         }
-        JarvisLogo(40.dp)
-        Spacer(Modifier.size(10.dp))
-        Column(Modifier.weight(1f).padding(end = 8.dp)) {
-            Text("Jarvis", style = T.Title.copy(fontSize = 22.sp, color = C.Navy))
-            Text("Il tuo assistente alimentare", style = T.Small, maxLines = 2)
-        }
-        actions()
     }
 }
 

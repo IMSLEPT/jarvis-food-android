@@ -35,15 +35,15 @@ with zipfile.ZipFile(apk) as bundle:
     assert 'assets/body-guide/index.html' not in bundle.namelist(), 'Obsolete 3D page must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, body_guide='Native Compose 2D vector with accessible selection and historical measurements',
+              original_signature_verified=True, chat_header='Shared family/profile controls above smaller new-chat and engine actions',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Sagoma corporea 2D ridisegnata nello stile Jarvis Food, con riferimenti arancioni, etichette selezionabili e tocco diretto sul corpo. Istruzioni e storico delle misure conservati. Nessuna modifica alla palette generale o ai calcoli nutrizionali.
+notes.write_text(f'''Chat Jarvis: aggiunte le icone Famiglia e Profilo nella prima riga, uguali alle altre schede. Nuova chat e Motore sono più piccoli e allineati sotto, con aree di tocco accessibili. Navigazione, conversazioni, impostazioni e stile attuale conservati.
 
 APK firmato con la chiave originale e installabile come aggiornamento. Verificati {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android, inclusi Android 10/15 e testo ingrandito. Modello AI offline e fotografie delle ricette inclusi.
 ''')
 subprocess.run(['gh','release','create',f'preview-v1.0.{number}',str(apk),str(verification),
-                '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Sagoma 2D','--prerelease','--notes-file',str(notes)], check=True)
+                '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Chat Jarvis','--prerelease','--notes-file',str(notes)], check=True)
 print('VERIFICATION_RESULT='+json.dumps(record))
 print(f'DOWNLOAD_URL=https://github.com/IMSLEPT/jarvis-food-android/releases/download/preview-v1.0.{number}/{apk.name}')

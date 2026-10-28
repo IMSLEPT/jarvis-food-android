@@ -31,7 +31,6 @@ import java.time.LocalDate
 /** App-owned header, shared by the five main destinations. */
 @Composable
 fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null) {
-    val s by Store.state.collectAsState()
     val separateGreeting = eyebrow != null && homeName == null && LocalDensity.current.fontScale > 1.2f
     Column(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp)) {
         if (separateGreeting) {
@@ -48,12 +47,20 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null)
                 Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
         }
-        HeaderIconButton(Ic.Family, "Famiglia", badge = s.family != null) { Nav.go(Screen.Family) }
-        GapW(8.dp)
-        HeaderControl("Apri profilo", onClick = { Nav.go(Screen.Profile) }) {
-            Avatar(s.profile.name, s.profile.photo, 42.dp, shape = RoundedCornerShape(12.dp))
+        HeaderAccountActions()
         }
-        }
+    }
+}
+
+
+/** The same family/profile controls in every main destination, including Jarvis chat. */
+@Composable
+fun RowScope.HeaderAccountActions() {
+    val s by Store.state.collectAsState()
+    HeaderIconButton(Ic.Family, "Famiglia", badge = s.family != null) { Nav.go(Screen.Family) }
+    GapW(8.dp)
+    HeaderControl("Apri profilo", onClick = { Nav.go(Screen.Profile) }) {
+        Avatar(s.profile.name, s.profile.photo, 42.dp, shape = RoundedCornerShape(12.dp))
     }
 }
 
