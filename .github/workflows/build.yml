@@ -110,6 +110,40 @@ jobs:
           chmod +x .ci-bin/adb
           echo "$PWD/.ci-bin" >> "$GITHUB_PATH"
 
+      - name: Emulator screenshots
+        if: ${{ !cancelled() && steps.compile.outcome == 'success' }}
+        id: emu
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel_5
+          ram-size: 3072M
+          emulator-boot-timeout: 900
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            adb install -r -g app/build/outputs/apk/debug/app-debug.apk
+            adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            adb shell am instrument -w -e class com.jarvis.food.AuroraRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
+            cat regression.log
+            grep -q "OK (3 tests)" regression.log
+            adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
+            grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
+            # ScreenshotTest clears files/shots; capture dedicated footer evidence afterwards.
+            adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.threebutton
+            adb shell am instrument -w -e captureName android10-buttons -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-android10-buttons.log 2>&1
+            cat layout-android10-buttons.log
+            grep -q "OK (1 test)" layout-android10-buttons.log
+            adb shell am instrument -w -e captureName android10 -e class com.jarvis.food.ProfileFormsFlowTest#bodyDiagramRendersSelectsZonesAndPreservesMeasurementHistory com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-android10.log 2>&1
+            cat layout-profile-android10.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar
+            grep -q "OK (1 test)" layout-profile-android10.log
+            adb logcat -d -s AndroidRuntime:E > crash.txt || true
+            if grep -q "FATAL EXCEPTION" crash.txt; then cat crash.txt; exit 1; fi
+            grep -q "OK (1 test)" emu.log
+
       - name: Android 15 layout and enlarged text
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -246,40 +280,6 @@ jobs:
             layout-crash.txt
             photo-ai.log
           retention-days: 7
-
-      - name: Emulator screenshots
-        if: ${{ !cancelled() && steps.compile.outcome == 'success' }}
-        id: emu
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: default
-          arch: x86_64
-          profile: pixel_5
-          ram-size: 3072M
-          emulator-boot-timeout: 900
-          disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          script: |
-            adb install -r -g app/build/outputs/apk/debug/app-debug.apk
-            adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-            adb shell am instrument -w -e class com.jarvis.food.AuroraRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
-            cat regression.log
-            grep -q "OK (3 tests)" regression.log
-            adb shell am instrument -w -e class com.jarvis.food.ScreenshotTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > emu.log 2>&1 || true
-            grep -E "FAIL|Exception|Error|at com.jarvis" emu.log | head -60 > emu_err.txt || true
-            # ScreenshotTest clears files/shots; capture dedicated footer evidence afterwards.
-            adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.threebutton
-            adb shell am instrument -w -e captureName android10-buttons -e navigationMode 0 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-android10-buttons.log 2>&1
-            cat layout-android10-buttons.log
-            grep -q "OK (1 test)" layout-android10-buttons.log
-            adb shell am instrument -w -e captureName android10 -e class com.jarvis.food.ProfileFormsFlowTest#bodyDiagramRendersSelectsZonesAndPreservesMeasurementHistory com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-android10.log 2>&1
-            cat layout-profile-android10.log
-            adb exec-out run-as com.jarvis.food tar cf - files/shots > shots.tar
-            grep -q "OK (1 test)" layout-profile-android10.log
-            adb logcat -d -s AndroidRuntime:E > crash.txt || true
-            if grep -q "FATAL EXCEPTION" crash.txt; then cat crash.txt; exit 1; fi
-            grep -q "OK (1 test)" emu.log
 
       - name: Publish GitHub Release
         if: github.ref == 'refs/heads/main'
