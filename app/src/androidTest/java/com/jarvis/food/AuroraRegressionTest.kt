@@ -58,6 +58,10 @@ class AuroraRegressionTest {
         // re-enter Android 10's layout through Espresso's idle synchronization.
         ui { Nav.tab = 2; Nav.kitchenTab = 2 }
         ActivityScenario.launch(MainActivity::class.java).use {
+            // Drain the first Android layout/draw before polling Compose semantics.
+            // The catalogue still loads asynchronously: no cache prewarming or retries.
+            compose.waitForIdle()
+            ins.waitForIdleSync()
             compose.waitUntil(30_000) { compose.onAllNodesWithText("Mostra tutte").fetchSemanticsNodes().isNotEmpty() }
             compose.onNodeWithText("Mostra tutte").performScrollTo().performClick()
             compose.waitForIdle()
