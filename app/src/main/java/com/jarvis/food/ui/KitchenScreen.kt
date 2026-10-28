@@ -90,7 +90,7 @@ fun KitchenScreen() {
                 Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i },
                     horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                     Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), maxLines = 1)
-                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 11.sp, color = if (sel) Color.White else A.Muted))
+                    if (n > 0) Text("$n", style = T.Small.copy(fontSize = 12.sp, color = if (sel) Color.White else A.Muted))
                 }
             }
         }

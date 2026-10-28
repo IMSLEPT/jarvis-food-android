@@ -92,11 +92,11 @@ fun PlanScreen() {
         var optionsOpen by remember { mutableStateOf(false) }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text("${monday.dayOfMonth} – ${monday.plusDays(6).dayOfMonth} ${monday.plusDays(6).month.getDisplayName(TextStyle.FULL, IT).uppercase()}", style = T.Eyebrow.copy(fontSize = 11.sp))
+                Text("${monday.format(java.time.format.DateTimeFormatter.ofPattern("d MMM", IT))} – ${monday.plusDays(6).format(java.time.format.DateTimeFormatter.ofPattern("d MMM", IT))}", style = T.Eyebrow.copy(fontSize = 12.sp))
                 Text("La tua settimana, già organizzata", style = T.Title2)
             }
             Box {
-                Box(Modifier.size(44.dp).clip(CircleShape).background(Color.White).clickable { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
+                Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).clickable { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
                 DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
                     DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
                         optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
@@ -115,7 +115,6 @@ fun PlanScreen() {
         Spacer(Modifier.height(16.dp))
         WeekStrip(s, date) { Nav.planDate = it }
         DayTypeControl(s, date)
-        TextButton(onClick = { Nav.go(Screen.DietSettings) }) { Text("Gestisci pasti della giornata", color = C.AccentDeep) }
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
@@ -132,12 +131,12 @@ fun PlanScreen() {
             return@MainPage
         }
 
-        Spacer(Modifier.height(18.dp))
+        Spacer(Modifier.height(12.dp))
         DayTotalsCard(s, date, meals)
-        ASection("I pasti del giorno", action = "Preferenze") { Nav.go(Screen.DietSettings) }
+        ASection("I pasti del giorno", action = "Gestisci pasti") { Nav.go(Screen.DietSettings) }
         Spacer(Modifier.height(14.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        Column(verticalArrangement = Arrangement.spacedBy(26.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
         Spacer(Modifier.height(18.dp))
         PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
             val start = maxOf(LocalDate.now(), monday)
@@ -159,15 +158,12 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     var expanded by remember { mutableStateOf(false) }
     ACard(Modifier.fillMaxWidth(), color = C.NavySoft, radius = 22.dp, padding = 16.dp, elevation = 0.dp, bordered = false, onClick = { expanded = !expanded }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(Ic.Flame, C.Navy, Color.White, box = 44.dp, radius = 15.dp)
-            GapW(14.dp)
             Column(Modifier.weight(1f)) {
                 Text("Totale del piano", style = T.Small)
-                Row(verticalAlignment = Alignment.Bottom) {
-                    Text(kcalFmt(tot.kcal), style = T.Big.copy(fontSize = 32.sp, lineHeight = 36.sp))
-                    Text(" kcal", style = T.Small, modifier = Modifier.padding(bottom = 5.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 22.sp, lineHeight = 28.sp))
+                    Text("su ${kcalFmt(e.targetKcal)} kcal", style = T.Small, modifier = Modifier.padding(top = 6.dp))
                 }
-                Text("Obiettivo ${kcalFmt(e.targetKcal)} kcal", style = T.Small)
             }
             AIcon(if (expanded) "M6 15l6-6 6 6" else Ic.Right, C.Navy, 20.dp)
         }
@@ -193,7 +189,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 meals.forEach { m ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(Modifier.size(9.dp).clip(CircleShape).background(MEAL_DOT[m.diaryMeal] ?: C.Accent))
-                        Text("  ${MEAL_LABEL[m.diaryMeal] ?: m.slotName}", style = T.Small.copy(fontSize = 11.5.sp), maxLines = 1)
+                        Text("  ${MEAL_LABEL[m.diaryMeal] ?: m.slotName}", style = T.Small.copy(fontSize = 12.sp), maxLines = 1)
                     }
                 }
             }
@@ -215,10 +211,10 @@ private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft:
     Column(modifier.clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
-            Text(" g", style = T.Small.copy(fontSize = 11.5.sp), modifier = Modifier.padding(bottom = 3.dp))
+            Text(" g", style = T.Small.copy(fontSize = 12.sp), modifier = Modifier.padding(bottom = 3.dp))
         }
-        Text(label, style = T.Small.copy(fontSize = 11.sp))
-        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 11.sp))
+        Text(label, style = T.Small.copy(fontSize = 12.sp))
+        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 12.sp))
         ABar((if (goal > 0) v / goal else 0.0).toFloat(), Brush.horizontalGradient(listOf(color, color)), soft, 6.dp, Modifier.padding(top = 8.dp))
     }
 }
@@ -253,7 +249,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                 Spacer(Modifier.width(12.dp))
                 Column(horizontalAlignment = Alignment.End) {
                     Text(r.total.kcal.r0(), style = T.Title.copy(fontSize = 28.sp, lineHeight = 30.sp))
-                    Text("kcal", style = T.Small.copy(fontSize = 11.5.sp))
+                    Text("kcal", style = T.Small.copy(fontSize = 12.sp))
                 }
             }
             Box(Modifier.padding(top = 12.dp)) { MacroChips(r.total.protein, r.total.carbs, r.total.fat) }

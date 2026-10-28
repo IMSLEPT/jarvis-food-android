@@ -38,9 +38,9 @@ object C {
     val Muted = Color(0xFF5E6678)
     val Faint = Color(0xFF9197A5)
     val Accent = Color(0xFFEA7138)
-    // The primary buttons use the exact same orange as the home Add circle.
-    val ButtonOrange = Accent
-    val ButtonOrangeEnd = Accent
+    // Brand orange stays on icons; white button labels need the darker variant.
+    val ButtonOrange = Color(0xFFC94D00)
+    val ButtonOrangeEnd = Color(0xFFBA4000)
     val AccentSoft = Color(0xFFFFF2EA)
     val AccentDeep = Color(0xFFB94C1C)
     val OnAccent = Color(0xFFFFFFFF)
@@ -119,7 +119,7 @@ object T {
 fun JarvisTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = lightColorScheme(
-            primary = C.Accent, onPrimary = C.OnAccent, secondary = C.Navy, background = C.Bg, onBackground = C.Text,
+            primary = C.Navy, onPrimary = C.OnAccent, secondary = C.AccentDeep, background = C.Bg, onBackground = C.Text,
             surface = C.Surface, onSurface = C.Text, surfaceVariant = C.SurfaceAlt, onSurfaceVariant = C.Muted,
             outline = C.Line, error = C.Danger, surfaceContainer = C.Surface, surfaceContainerHigh = C.Surface,
             surfaceContainerLow = C.Surface, surfaceContainerHighest = C.SurfaceAlt

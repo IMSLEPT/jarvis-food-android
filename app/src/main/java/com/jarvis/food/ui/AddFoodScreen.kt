@@ -350,7 +350,7 @@ fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: Strin
         GapW(8.dp)
         Column(horizontalAlignment = Alignment.End) {
             Text(t.kcal.r0(), style = T.Num.copy(fontSize = 17.sp, lineHeight = 20.sp))
-            Text("kcal", style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted))
+            Text("kcal", style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
         }
         GapW(10.dp)
         Box(Modifier.size(48.dp).clip(CircleShape).background(if (added) C.Green else C.Navy)

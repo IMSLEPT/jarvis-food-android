@@ -319,7 +319,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                         GapH(12.dp)
                                         Row(Modifier.fillMaxWidth()) {
                                             Text("", Modifier.weight(1.1f))
-                                            listOf("Originale", "Adattata", "Obiettivo", "Differenza").forEach { Text(it, style = T.Small.copy(fontSize = 11.sp), modifier = Modifier.weight(0.9f), maxLines = 1) }
+                                            listOf("Originale", "Adattata", "Obiettivo", "Differenza").forEach { Text(it, style = T.Small.copy(fontSize = 12.sp), modifier = Modifier.weight(0.9f), maxLines = 1) }
                                         }
                                         HorizontalDivider(color = C.Line)
                                         val a = r.total; val o = orig.total
@@ -370,7 +370,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                                     }
                                                 }
                                             }
-                                            Text("Valori calcolati dal database USDA sulle quantità mostrate: sono stime, perché dipendono dal prodotto reale e dalla cottura.", style = T.Small.copy(fontSize = 11.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
+                                            Text("Valori calcolati dal database USDA sulle quantità mostrate: sono stime, perché dipendono dal prodotto reale e dalla cottura.", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
                                         }
                                         GapH(6.dp)
                                         TextButton(onClick = { adapted = false; kind = 0; sideOn = false; manual = null; mK = ""; mP = ""; mC = ""; mG = "" }) {
@@ -381,7 +381,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                     val missingMicro = r.items.filter { it.ing.role != "x" && it.food.micro.size < 8 }.map { it.displayName() }.distinct()
                                     Text("Calcolati dai dati USDA: calorie, proteine, carboidrati, grassi e fibre. Stimati: costo e tempi" +
                                         (if (missingMicro.isNotEmpty()) ". Vitamine e minerali incompleti per: ${missingMicro.take(4).joinToString()}." else ". Nessun dato nutrizionale principale mancante."),
-                                        style = T.Small.copy(fontSize = 11.5.sp))
+                                        style = T.Small.copy(fontSize = 12.sp))
                                 }
                             }
                         }

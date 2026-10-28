@@ -105,10 +105,10 @@ fun JCard(
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
-    Row(modifier.fillMaxWidth().padding(top = 22.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier.fillMaxWidth().padding(top = 24.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(text, style = T.H2, modifier = Modifier.weight(1f).padding(end = 12.dp))
         if (action != null && onAction != null) {
-            Text(action, style = T.Link, modifier = Modifier.clickable(onClick = onAction).padding(vertical = 13.dp))
+            Box(Modifier.heightIn(min = 48.dp).clickable(role = Role.Button, onClick = onAction).padding(vertical = 12.dp), contentAlignment = Alignment.Center) { Text(action, style = T.Link, textAlign = TextAlign.End) }
         }
     }
     Spacer(Modifier.height(2.dp))
@@ -129,11 +129,11 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
 @Composable
 fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color? = null, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    val orange = color == null || color == C.Accent
+    val orange = color == C.Accent
     val fill: Modifier = when {
         !enabled -> Modifier.background(C.SurfaceHi, shape)
         orange -> Modifier.aShadow(shape, 8.dp, Color(0x66F25E00)).clip(shape).background(C.OrangeBrush, shape)
-        else -> Modifier.clip(shape).background(color!!, shape)
+        else -> Modifier.clip(shape).background(color ?: C.Navy, shape)
     }
     Box(
         modifier.heightIn(min = 52.dp).then(fill)
@@ -154,15 +154,15 @@ fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Te
 @Composable
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
-        Modifier.heightIn(min = 44.dp).clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
+        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
             .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), RoundedCornerShape(50))
             .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), maxLines = 1, softWrap = false) }
+    ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), textAlign = TextAlign.Center) }
 }
 
 @Composable
-fun RoundIconButton(icon: ImageVector, desc: String, bg: Color = C.Ink, tint: Color = C.OnAccent, size: Dp = 40.dp, onClick: () -> Unit) {
-    Box(Modifier.size(size).clip(CircleShape).background(bg).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+fun RoundIconButton(icon: ImageVector, desc: String, bg: Color = C.Ink, tint: Color = C.OnAccent, size: Dp = 48.dp, onClick: () -> Unit) {
+    Box(Modifier.size(maxOf(size, 48.dp)).clip(CircleShape).background(bg).clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         Icon(icon, desc, tint = tint, modifier = Modifier.size(size * 0.55f))
     }
 }

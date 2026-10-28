@@ -245,7 +245,7 @@ fun MicronutrientsScreen() {
                         GapW(14.dp)
                         Column(Modifier.width(64.dp), horizontalAlignment = Alignment.End) {
                             Text(if (d == null) "mai" else "$d", style = T.H1.copy(fontSize = 22.sp, lineHeight = 24.sp, letterSpacing = 0.sp, color = ink))
-                            Text(if (d == 1) "giorno" else "giorni", style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted))
+                            Text(if (d == 1) "giorno" else "giorni", style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
                         }
                     }
                     if (i < rep.groups.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))

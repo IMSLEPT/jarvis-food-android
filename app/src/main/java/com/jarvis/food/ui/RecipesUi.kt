@@ -148,17 +148,21 @@ private fun <T> TileStrip(items: List<T>, content: @Composable (T, Modifier) -> 
     }
 }
 
-private val TILE_W = 166.dp
+private val TILE_W = 184.dp
 
 /** Riga "kcal · minuti" con icone piccole: stessa altezza in tutte le schede. */
 @Composable
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 private fun TileMeta(kcal: String, minutes: Int) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
         AIcon(Ic.Flame, C.Accent, 13.dp, 2f); GapW(3.dp)
         Text(kcal, style = T.Small.copy(fontSize = 12.sp, color = A.Ink.copy(alpha = 0.75f), fontWeight = FontWeight.SemiBold), maxLines = 1)
-        GapW(10.dp)
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
         AIcon(Ic.Clock, A.Muted, 13.dp, 2f); GapW(3.dp)
         Text("$minutes min", style = T.Small.copy(fontSize = 12.sp, color = A.Ink.copy(alpha = 0.75f), fontWeight = FontWeight.SemiBold), maxLines = 1)
+        }
     }
 }
 
@@ -172,11 +176,11 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
                 AIcon(Ic.Heart, C.Protein, 15.dp, 2f, fill = true)
             }
             if (badge != null) Box(Modifier.align(Alignment.BottomStart).padding(8.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xEBFFFFFF)).padding(horizontal = 9.dp, vertical = 3.dp)) {
-                Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 11.sp), maxLines = 1)
+                Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 12.sp), maxLines = 1)
             }
         }
         Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
-            Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
         }
@@ -190,7 +194,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
         Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
-            Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 2, minLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
         }
@@ -250,7 +254,7 @@ private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, mod
         GapH(8.dp)
         Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-        Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 11.sp, fontWeight = FontWeight.Medium), maxLines = 1)
+        Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 12.sp, fontWeight = FontWeight.Medium), maxLines = 1)
     }
 }
 
@@ -296,7 +300,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
         Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(g.title, style = T.Label, modifier = Modifier.weight(1f))
-            Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 11.sp))
+            Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 12.sp))
         }
         val columns = if (LocalDensity.current.fontScale > 1.2f || g.id in setOf("obiettivo", "dieta", "metodo", "cucina")) 2 else 3
         val extra = if (g.id == "pasto") 1 else 0
@@ -351,10 +355,10 @@ fun RecipesHome() {
 
     // Ricerca
     val shape = RoundedCornerShape(26.dp)
-    Row(Modifier.fillMaxWidth().height(56.dp).aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)
-        .clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }.padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)
+        .clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(Ic.Search, A.Muted, 20.dp, 2.2f); GapW(10.dp)
-        Text("Cerca ricette o ingredienti", style = T.Body.copy(color = A.Muted), modifier = Modifier.weight(1f))
+        Text("Cerca ricette o ingredienti", style = T.Body.copy(color = A.Muted), modifier = Modifier.weight(1f).padding(end = 8.dp))
         Text("${db.recipes.size}", style = T.Chip.copy(color = A.Muted))
     }
 
@@ -370,7 +374,6 @@ fun RecipesHome() {
             AIcon(Ic.Right, C.Navy, 18.dp)
         }
     }
-    if (catGroups == null) CatPlaceholder() else catGroups?.let { CategoryBrowser(it) }
 
     // Ricetta del giorno
     val daily = remember(today, s.dietPrefs.exclude, disliked) { RecipeSearch.recipeOfTheDay(db, today, s.dietPrefs.exclude, disliked) }
@@ -378,13 +381,12 @@ fun RecipesHome() {
         val di = RecipeMeta.info(db, daily)
         ASection("Ricetta del giorno", top = 22.dp)
         GapH(10.dp)
-        val big = RoundedCornerShape(30.dp)
-        Box(Modifier.fillMaxWidth().aspectRatio(1.75f).aShadow(big, 10.dp, Color(0x661D1B3A)).clip(big).clickable { openRecipe(s, daily) }) {
-            RecipeImage(daily.id, daily.image, s.recipePhotos[daily.id], Modifier.fillMaxSize(), recEmoji(daily.meal), 0.dp)
-            Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 0.4f to Color.Transparent, 1f to Color(0xDB18142F))))
-            Column(Modifier.align(Alignment.BottomStart).padding(16.dp)) {
-                Text(daily.name, style = T.H2.copy(color = Color.White, fontSize = 21.sp, lineHeight = 25.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Text("${di.kcal.r0()} kcal · P ${di.protein.r0()} · ${daily.minutes} min", style = T.Small.copy(color = Color(0xFFE8E6F5)))
+        JCard(padding = PaddingValues(0.dp), onClick = { openRecipe(s, daily) }) {
+            RecipeImage(daily.id, daily.image, s.recipePhotos[daily.id], Modifier.fillMaxWidth().aspectRatio(1.8f), recEmoji(daily.meal), 0.dp)
+            Column(Modifier.padding(16.dp)) {
+                Text(daily.name, style = T.Title2.copy(fontSize = 20.sp, lineHeight = 26.sp))
+                GapH(8.dp)
+                TileMeta("${di.kcal.r0()} kcal", daily.minutes)
             }
         }
     }
@@ -396,6 +398,8 @@ fun RecipesHome() {
         Text("Per il prossimo pasto (${RecipeMeta.label(RecipeMeta.MEALS, nextKey).lowercase()}), vicine ai ${ctx?.target?.kcal?.r0() ?: ""} kcal che ti restano.", style = T.Small, modifier = Modifier.padding(bottom = 10.dp))
         TileStrip(recommended) { (t, i), m -> RecipeTile(t, i, s, m) { openRecipe(s, t) } }
     }
+
+    if (catGroups == null) CatPlaceholder() else catGroups?.let { CategoryBrowser(it) }
 
     // Più aperte da te (dati reali: nessuna finta classifica di popolarità)
     val most = remember(s.recipeViews) { s.recipeViews.entries.sortedByDescending { it.value }.mapNotNull { e -> db.recipe(e.key)?.let { it to e.value } }.take(8) }

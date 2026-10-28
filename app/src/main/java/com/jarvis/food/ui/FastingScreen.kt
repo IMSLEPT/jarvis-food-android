@@ -240,7 +240,7 @@ fun FastingScreen() {
                 Row(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     last7.forEach { h ->
                         Text(Instant.ofEpochMilli(h.start).atZone(ZoneId.systemDefault()).dayOfWeek.getDisplayName(java.time.format.TextStyle.NARROW, IT).uppercase(),
-                            style = T.Chip.copy(fontSize = 11.5.sp, color = A.Muted), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                            style = T.Chip.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
                     }
                 }
                 val ok = f.history.count { it.end - it.start >= it.targetHours * 3_600_000L }

@@ -469,7 +469,7 @@ fun PlanPreview(d: QDraft) {
                 slots.forEach { sl ->
                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
                         Text(kcalFmt(g.kcal * sl.share / 100.0), style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, fontWeight = FontWeight.Bold))
-                        Text(sl.name, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted), maxLines = 1)
+                        Text(sl.name, style = T.Small.copy(fontSize = 12.sp, color = A.Muted), maxLines = 1)
                     }
                 }
             }

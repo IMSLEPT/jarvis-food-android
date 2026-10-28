@@ -14,9 +14,10 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
     root = ET.parse(path).getroot()
     for key in counts:
         counts[key] += int(root.get(key, 0))
-assert counts['tests'] >= 94 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
+assert counts['tests'] >= 98 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
 logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
-        'layout-profile-android10.log':1, 'layout-standard.log':2, 'layout-large-text.log':2,
+        'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
+        'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
         'layout-android10-buttons.log':1, 'photo-ai.log':3, 'layout-features-standard.log':2,
         'layout-features-large-text.log':2, 'layout-options-standard.log':3,
@@ -35,15 +36,15 @@ with zipfile.ZipFile(apk) as bundle:
     assert 'assets/body-guide/index.html' not in bundle.namelist(), 'Obsolete 3D page must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, chat_header='Shared family/profile controls above smaller new-chat and engine actions',
+              original_signature_verified=True, visual_revision='Consistent controls, compact home and plan, adaptive recipes, honest chart states; 100/130/200 percent text',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Chat Jarvis: aggiunte le icone Famiglia e Profilo nella prima riga, uguali alle altre schede. Nuova chat e Motore sono più piccoli e allineati sotto, con aree di tocco accessibili. Navigazione, conversazioni, impostazioni e stile attuale conservati.
+notes.write_text(f'''Revisione grafica completa: Piano con foto più grandi e azioni distinte, Oggi compatto con diario prioritario, ricette fotografiche e testi adattivi, stati vuoti e grafici corretti. Pulsanti e aree di tocco uniformati. Conservate le funzionalità precedenti, le fotografie e i dati.
 
-APK firmato con la chiave originale e installabile come aggiornamento. Verificati {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android, inclusi Android 10/15 e testo ingrandito. Modello AI offline e fotografie delle ricette inclusi.
+APK firmato con la chiave originale e installabile come aggiornamento. Verificati {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android, inclusi Android 10/15, schermi piccoli e testo al 100%, 130% e 200%. Modello AI offline e fotografie delle ricette inclusi.
 ''')
 subprocess.run(['gh','release','create',f'preview-v1.0.{number}',str(apk),str(verification),
-                '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Chat Jarvis','--prerelease','--notes-file',str(notes)], check=True)
+                '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Revisione grafica','--prerelease','--notes-file',str(notes)], check=True)
 print('VERIFICATION_RESULT='+json.dumps(record))
 print(f'DOWNLOAD_URL=https://github.com/IMSLEPT/jarvis-food-android/releases/download/preview-v1.0.{number}/{apk.name}')

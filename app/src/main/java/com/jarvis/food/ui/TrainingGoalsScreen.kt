@@ -102,7 +102,7 @@ fun TrainingGoalsScreen() {
                                 .semantics { selected = isOn; stateDescription = if (isOn) "Allenamento ON" else "Riposo OFF" }
                                 .clickable(role = Role.Button) { days = if (isOn) days - (i + 1) else days + (i + 1) }.padding(vertical = 9.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(labels[i], style = T.Label.copy(color = if (isOn) C.Surface else C.Navy))
-                                Text(if (isOn) "ON" else "OFF", style = T.Small.copy(fontSize = 10.sp, color = if (isOn) C.Surface.copy(alpha = .8f) else C.Muted))
+                                Text(if (isOn) "ON" else "OFF", style = T.Small.copy(fontSize = 12.sp, color = if (isOn) C.Surface.copy(alpha = .8f) else C.Muted))
                             }
                         }
                     }
@@ -150,7 +150,7 @@ private fun AutoTargetSummary(title: String, target: DailyTargets) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("Proteine" to target.protein, "Carboidrati" to target.carbs, "Grassi" to target.fat).forEach { (label, grams) ->
                 Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).background(C.Bg).padding(10.dp)) {
-                    Text(label, style = T.Small.copy(fontSize = 11.sp))
+                    Text(label, style = T.Small.copy(fontSize = 12.sp))
                     Text("${grams.r1()} g", style = T.Label)
                 }
             }

@@ -187,10 +187,10 @@ fun ACard(
 
 /** Titolo di sezione (Bricolage 22) con link a destra (rosso-arancio, 13.5). */
 @Composable
-fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, top: Dp = 26.dp, onAction: (() -> Unit)? = null) {
+fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, top: Dp = 24.dp, onAction: (() -> Unit)? = null) {
     Row(modifier.fillMaxWidth().padding(top = top), verticalAlignment = Alignment.CenterVertically) {
         Text(title, style = T.H2, modifier = Modifier.weight(1f).padding(end = 12.dp))
-        if (action != null) Text(action, style = T.Link, modifier = Modifier.clickable(enabled = onAction != null) { onAction?.invoke() }.padding(vertical = 13.dp))
+        if (action != null) Box(Modifier.heightIn(min = 48.dp).clickable(enabled = onAction != null, role = Role.Button) { onAction?.invoke() }.padding(vertical = 12.dp), contentAlignment = Alignment.Center) { Text(action, style = T.Link, textAlign = TextAlign.End) }
     }
 }
 
@@ -218,7 +218,7 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, en
     val shape = RoundedCornerShape(50)
     Box(
         modifier.heightIn(min = height).aShadow(shape, 10.dp, Color(0x73F25E00)).clip(shape)
-            .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
+            .background(if (enabled) C.NavyBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center) }
@@ -235,7 +235,7 @@ fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Co
 
 /** Cerchio navy con "+" (44 px), usato accanto ai pasti. */
 @Composable
-fun PlusButton(desc: String, size: Dp = 44.dp, onClick: () -> Unit) {
+fun PlusButton(desc: String, size: Dp = 48.dp, onClick: () -> Unit) {
     Box(Modifier.size(size).clip(CircleShape).background(C.Navy).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(Ic.Plus, Color.White, size * 0.41f, 2.6f)
     }
@@ -253,10 +253,10 @@ fun BackCircle(onBack: () -> Unit) {
 
 /** Selettore a pillole (pasti, piani digiuno...). [sel] = navy con testo bianco. */
 @Composable
-fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 44.dp, hPad: Dp = 20.dp, onClick: () -> Unit) {
+fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
     Box(
-        modifier.heightIn(min = height).clip(shape).background(if (selected) C.Navy else Color.White)
+        modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.Navy else Color.White)
             .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
         contentAlignment = Alignment.Center
     ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center) }

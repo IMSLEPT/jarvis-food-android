@@ -128,7 +128,7 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(food.kcal.r0(), style = T.Title2.copy(fontSize = 19.sp))
-                        Text("kcal / 100 ${if (food.liquid) "ml" else "g"}", style = T.Small.copy(fontSize = 10.sp))
+                        Text("kcal / 100 ${if (food.liquid) "ml" else "g"}", style = T.Small.copy(fontSize = 12.sp))
                     }
                     Spacer(Modifier.width(12.dp))
                     Box(Modifier.size(32.dp).clip(RoundedCornerShape(11.dp)).background(C.NavySoft), contentAlignment = Alignment.Center) { AIcon(Ic.Swap, C.Navy, 19.dp) }

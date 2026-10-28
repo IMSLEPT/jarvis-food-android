@@ -58,8 +58,8 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
     val active = bodySites.firstOrNull { it.key == selectedKey }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("LA TUA MAPPA CORPOREA", style = T.Small.copy(fontSize = 10.sp, letterSpacing = 1.sp, fontWeight = FontWeight.Bold), modifier = Modifier.weight(1f))
-            Text("2D · FRONTE", style = T.Small.copy(fontSize = 10.sp, color = C.Navy))
+            Text("LA TUA MAPPA CORPOREA", style = T.Small.copy(fontSize = 12.sp, letterSpacing = 1.sp, fontWeight = FontWeight.Bold), modifier = Modifier.weight(1f))
+            Text("2D · FRONTE", style = T.Small.copy(fontSize = 12.sp, color = C.Navy))
         }
         BoxWithConstraints(Modifier.fillMaxWidth().height(380.dp).clip(RoundedCornerShape(18.dp))
             .background(Brush.verticalGradient(listOf(Color(0xFFF4F7FD), Color(0xFFFAFBFE))))
@@ -120,7 +120,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
                     .testTag("body-point-${site.key}")
                     .semantics { contentDescription = "Seleziona $title sulla sagoma"; selected = chosen }
                     .clickable(role = Role.RadioButton) { onSelect(site.key) }, contentAlignment = Alignment.Center) {
-                    Text(title, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = if (chosen) C.AccentDeep else C.Navy))
+                    Text(title, style = T.Label.copy(fontSize = 12.sp, lineHeight = 14.sp, color = if (chosen) C.AccentDeep else C.Navy))
                 }
             }
         }

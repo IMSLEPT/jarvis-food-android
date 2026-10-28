@@ -53,7 +53,7 @@ fun MeasurementsScreen() {
             Text("Tocca il corpo o scegli una zona. La linea arancione indica dove posizionare il metro.", style = T.Small)
             SettingsCard {
                 BodyDiagram(type, ::select)
-                Text("Modello illustrativo: individua i riferimenti sul tuo corpo. Non calcola le misure dalla tua immagine.", style = T.Small.copy(fontSize = 11.sp))
+                Text("Modello illustrativo: individua i riferimenti sul tuo corpo. Non calcola le misure dalla tua immagine.", style = T.Small.copy(fontSize = 12.sp))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     BodyMeasurements.guides.forEach { item ->
                         Box(Modifier.testTag("measure-zone-${item.key}")) { Pill(item.name, type == item.key) { select(item.key) } }

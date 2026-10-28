@@ -138,7 +138,7 @@ private fun ProfileSummaryStat(label: String, value: String, icon: String, modif
         Row(verticalAlignment = Alignment.CenterVertically) {
             AIcon(icon, tint, 14.dp)
             GapW(5.dp)
-            Text(label, style = T.Small.copy(fontSize = 10.sp, lineHeight = 14.sp, color = C.ProfileMuted))
+            Text(label, style = T.Small.copy(fontSize = 12.sp, lineHeight = 14.sp, color = C.ProfileMuted))
         }
         Text(value, style = T.Title2.copy(fontSize = 17.5.sp, lineHeight = 22.sp))
     }
@@ -148,7 +148,7 @@ private fun ProfileSummaryStat(label: String, value: String, icon: String, modif
 private fun ProfStat(value: String, label: String, modifier: Modifier, big: Boolean = false) {
     Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(value, style = T.H1.copy(fontSize = if (big) 19.sp else 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
-        Text(label, style = T.Small.copy(fontSize = 11.5.sp, color = A.Muted), textAlign = TextAlign.Center)
+        Text(label, style = T.Small.copy(fontSize = 12.sp, color = A.Muted), textAlign = TextAlign.Center)
     }
 }
 

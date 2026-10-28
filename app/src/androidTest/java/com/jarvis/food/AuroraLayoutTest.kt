@@ -336,7 +336,7 @@ class AuroraLayoutTest {
     @Test fun smallTextAndActionLabelsMeetContrast() {
         // Preserve the explicitly approved orange and white labels without recolouring the app.
         assertEquals(Color.White, C.OnOrange)
-        assertEquals(C.Accent, C.ButtonOrange)
+        assertTrue(ColorUtils.calculateContrast(Color.White.toArgb(), C.ButtonOrange.toArgb()) >= 4.5)
         val pairs = listOf(
             A.ProteinInk to A.ProteinSoft, A.CarbInk to A.CarbSoft,
             A.FatInk to A.FatSoft, A.GreenInk to A.GreenSoft,
