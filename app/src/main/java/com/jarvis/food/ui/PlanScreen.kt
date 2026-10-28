@@ -51,6 +51,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.draw.clip
 import com.jarvis.food.engine.formatAmount
 import androidx.compose.ui.unit.sp
@@ -327,6 +328,18 @@ fun AlternativesScreen(date: LocalDate, slot: Int) {
 @Composable
 private fun AltRow(s: AppState, a: SolvedRecipe, current: Boolean, onPick: () -> Unit) {
     JCard(padding = PaddingValues(12.dp), onClick = onPick) {
+        if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth()) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                RecipeImage(a.template.id, a.template.image, s.recipePhotos[a.template.id], Modifier.size(76.dp), mealEmoji(a.template.meal), 14.dp)
+                Spacer(Modifier.weight(1f))
+                if (current) Tag("attuale", C.Green)
+                else Tag("${if (a.kcalErrorPct >= 0) "+" else ""}${a.kcalErrorPct.r0()}%", if (kotlin.math.abs(a.kcalErrorPct) <= 5) C.Green else C.Gold)
+            }
+            GapH(12.dp)
+            Text(a.template.name, modifier = Modifier.testTag("alternative-title-${a.template.id}"), style = T.Title2)
+            Text("${a.total.kcal.r0()} kcal · P ${a.total.protein.r0()} · C ${a.total.carbs.r0()} · G ${a.total.fat.r0()}", style = T.Small)
+            Text(a.shortList(), style = T.Small)
+        } else {
         Row(verticalAlignment = Alignment.CenterVertically) {
             RecipeImage(a.template.id, a.template.image, s.recipePhotos[a.template.id], Modifier.size(76.dp), mealEmoji(a.template.meal), 14.dp)
             Spacer(Modifier.width(12.dp))
@@ -337,7 +350,7 @@ private fun AltRow(s: AppState, a: SolvedRecipe, current: Boolean, onPick: () ->
             }
             if (current) Tag("attuale", C.Green)
             else Tag("${if (a.kcalErrorPct >= 0) "+" else ""}${a.kcalErrorPct.r0()}%", if (kotlin.math.abs(a.kcalErrorPct) <= 5) C.Green else C.Gold)
-        }
+        }        }
     }
 }
 

@@ -110,6 +110,10 @@ class VisualConsistencyTest {
             assertTrue(Store.dayPlan(Store.current, day)!!.slots.first { it.slot == meal.slotIndex }.eatenEntryIds.isEmpty())
             compose.onNodeWithTag("plan-alternatives-${meal.diaryMeal}").performScrollTo().performClick()
             assertTrue(Nav.stack.last() is Screen.Alternatives)
+            if (ins.targetContext.resources.configuration.fontScale > 1.5f) {
+                val alternative = com.jarvis.food.engine.Planner.alternatives(Db.db, meal.solved.template.meal, meal.solved.target, Store.current.dietPrefs).first()
+                readable(compose.onNodeWithTag("alternative-title-${alternative.template.id}", useUnmergedTree = true).performScrollTo())
+            }
             shot("plan-alternatives")
         }
     }
@@ -121,6 +125,7 @@ class VisualConsistencyTest {
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
             if (ins.targetContext.resources.configuration.fontScale > 1.5f) singleLine(compose.onNodeWithTag("home-name", useUnmergedTree = true))
             shot("home")
+            singleLine(compose.onNodeWithTag("diary-title-0", useUnmergedTree = true).performScrollTo())
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
             readable(compose.onNodeWithText("Nessun alimento registrato", useUnmergedTree = true).performScrollTo())
             val dateLabel = compose.onNodeWithText(fullDay(day), useUnmergedTree = true)
