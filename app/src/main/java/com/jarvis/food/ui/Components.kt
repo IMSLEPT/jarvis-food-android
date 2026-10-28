@@ -90,13 +90,13 @@ fun parseNum(s: String): Double? = s.trim().replace(",", ".").toDoubleOrNull()
 @Composable
 fun JCard(
     modifier: Modifier = Modifier,
-    padding: PaddingValues = PaddingValues(14.dp),
+    padding: PaddingValues = PaddingValues(16.dp),
     color: Color = C.Surface,
     brush: Brush? = null,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedCornerShape(20.dp)
+    val shape = RoundedCornerShape(24.dp)
     val base = modifier.fillMaxWidth()
         .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
         .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)).border(1.dp, A.Hair, shape) }
@@ -105,7 +105,7 @@ fun JCard(
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
-    ASection(text, modifier, action, top = 16.dp, onAction = onAction)
+    ASection(text, modifier, action, top = 24.dp, onAction = onAction)
 }
 
 @Composable
@@ -179,7 +179,7 @@ fun NavRow(title: String, subtitle: String? = null, emoji: String? = null, onCli
     Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable(onClick = onClick).padding(vertical = 12.dp, horizontal = 4.dp),
         verticalAlignment = Alignment.CenterVertically) {
         if (emoji != null) {
-            Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(C.AccentSoft), contentAlignment = Alignment.Center) { AIcon(styleSymbol(emoji, title), C.AccentDeep, 22.dp) }
+            Box(Modifier.size(42.dp).clip(RoundedCornerShape(15.dp)).background(tileColors(title).first), contentAlignment = Alignment.Center) { Text(emoji) }
             Spacer(Modifier.width(12.dp))
         }
         Column(Modifier.weight(1f)) {
@@ -215,8 +215,8 @@ fun Tag(text: String, color: Color, bg: Color = color.copy(alpha = 0.13f)) {
 
 @Composable
 fun EmptyState(emoji: String, title: String, text: String) {
-    Column(Modifier.fillMaxWidth().padding(vertical = 24.dp, horizontal = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        AIcon(styleSymbol(emoji, title), C.AccentDeep, 32.dp, 1.8f)
+    Column(Modifier.fillMaxWidth().padding(vertical = 36.dp, horizontal = 24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(emoji, style = T.Big)
         Spacer(Modifier.height(8.dp))
         Text(title, style = T.Title2, textAlign = TextAlign.Center)
         Text(text, style = T.Muted, textAlign = TextAlign.Center)
@@ -299,7 +299,7 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
         Image(b.asImageBitmap(), contentDescription = null, contentScale = ContentScale.Crop, modifier = modifier.clip(shape))
     } else {
         Box(modifier.clip(shape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
-            AIcon(styleSymbol(emoji), C.AccentDeep, 32.dp, 1.8f)
+            Text(emoji, style = T.Big)
         }
     }
 }

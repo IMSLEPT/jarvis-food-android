@@ -38,7 +38,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalLayoutApi::class)
 fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null, compact: Boolean = false) {
     if (LocalDensity.current.fontScale > 1.5f) {
-        FlowRow(Modifier.fillMaxWidth().testTag("main-header").padding(top = 2.dp, bottom = 8.dp),
+        FlowRow(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(title, modifier = Modifier.testTag("main-header-title"), style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp))
             Row(verticalAlignment = Alignment.CenterVertically) { HeaderAccountActions() }
@@ -46,7 +46,7 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null,
         return
     }
     val separateGreeting = eyebrow != null && homeName == null && LocalDensity.current.fontScale > 1.2f
-    Column(Modifier.fillMaxWidth().testTag("main-header").padding(top = 2.dp, bottom = 8.dp)) {
+    Column(Modifier.fillMaxWidth().testTag("main-header").padding(top = 4.dp, bottom = 12.dp)) {
         if (separateGreeting) {
             HeaderGreeting(eyebrow!!)
             GapH(4.dp)
@@ -55,7 +55,7 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null,
         Column(Modifier.weight(1f).padding(end = 8.dp)) {
             if (eyebrow != null && !separateGreeting) HeaderGreeting(eyebrow)
             if (homeName != null && !compact) {
-                Text(homeName, style = T.Display.copy(fontSize = 28.sp, lineHeight = 32.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(homeName, style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Text(title, style = T.Body.copy(color = C.Muted), maxLines = 2)
             } else {
                 Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
@@ -81,7 +81,7 @@ fun RowScope.HeaderAccountActions() {
 @Composable
 private fun HeaderGreeting(text: String) {
     Text(text, modifier = Modifier.testTag("home-greeting"),
-        style = T.Body.copy(fontSize = 16.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium, color = C.Navy),
+        style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, color = C.Navy),
         maxLines = 2, overflow = TextOverflow.Ellipsis)
 }
 
@@ -93,7 +93,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     Column(Modifier.fillMaxWidth()) {
         meals.forEachIndexed { index, meal ->
             val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == meal.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
-            val icon = mealSymbol(meal.diaryMeal)
+            val icon = when (meal.diaryMeal) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealLunch; 2, 5 -> Ic.MealDinner; else -> Ic.MealSnack }
             val marker: @Composable () -> Unit = {
                 Box(Modifier.size(36.dp).clip(CircleShape).background(if (eaten) A.GreenInk else C.AccentDeep), contentAlignment = Alignment.Center) {
                     AIcon(if (eaten) Ic.Check else icon, Color.White, 21.dp, 1.8f)
@@ -103,7 +103,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
                 if (!expanded && index < meals.lastIndex) Canvas(Modifier.matchParentSize()) {
                     drawLine(C.Line, Offset(18.dp.toPx(), 36.dp.toPx()), Offset(18.dp.toPx(), size.height), strokeWidth = 1.5.dp.toPx())
                 }
-                Row(Modifier.fillMaxWidth().padding(bottom = if (index < meals.lastIndex) 12.dp else 0.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(Modifier.fillMaxWidth().padding(bottom = if (index < meals.lastIndex) 20.dp else 0.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     if (!expanded) marker()
                     Column(Modifier.weight(1f)) {
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -113,7 +113,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
                                 Text(if (eaten) "Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(20.dp)).background(if (eaten) A.GreenSoft else C.SurfaceAlt).padding(horizontal = 10.dp, vertical = 4.dp), style = T.Small.copy(fontSize = 12.sp, color = if (eaten) A.GreenInk else C.Muted))
                             }
                         }
-                        GapH(8.dp)
+                        GapH(10.dp)
                         CompactPlanCard(s, date, meal)
                     }
                 }
@@ -190,8 +190,8 @@ fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, home
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
         val expanded = LocalDensity.current.fontScale > 1.5f
-        Box(Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
-        Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll).padding(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 16.dp)) {
+        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
+        Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp)) {
             if (expanded && homeName != null) {
                 if (eyebrow != null) HeaderGreeting(eyebrow)
                 Text(homeName, modifier = Modifier.testTag("home-name"), style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp))

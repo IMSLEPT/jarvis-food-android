@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -90,8 +89,8 @@ private fun gb(b: Long) = String.format(Locale.ITALY, "%.1f GB", b / 1_000_000_0
 
 @Composable
 fun JarvisLogo(size: Dp, modifier: Modifier = Modifier) {
-    Box(modifier.size(size).clip(RoundedCornerShape(size * 0.25f)).background(C.AccentSoft), contentAlignment = Alignment.Center) {
-        AIcon(Ic.Chef, C.AccentDeep, size * 0.68f, 1.8f)
+    Box(modifier.size(size).clip(RoundedCornerShape(size * 0.25f)).background(C.Navy), contentAlignment = Alignment.Center) {
+        Image(painterResource(R.drawable.jarvis_logo), "Jarvis", Modifier.fillMaxSize().padding(size * 0.08f), contentScale = ContentScale.Fit)
     }
 }
 
@@ -274,11 +273,7 @@ private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> U
                     row.forEach { (emoji, title, example) ->
                         Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
                             .clickable { onPick(example) }.padding(12.dp)) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                AIcon(styleSymbol(emoji, title), C.AccentDeep, 20.dp)
-                                Spacer(Modifier.width(8.dp))
-                                Text(title, style = T.Label)
-                            }
+                            Text("$emoji  $title", style = T.Label)
                             Spacer(Modifier.height(4.dp))
                             Text("“$example”", style = T.Small)
                         }

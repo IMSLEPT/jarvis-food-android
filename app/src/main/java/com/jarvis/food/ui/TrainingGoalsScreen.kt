@@ -190,18 +190,12 @@ fun DayTypeControl(s: AppState, date: LocalDate) {
     val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
     val shape = RoundedCornerShape(16.dp)
-    Row(Modifier.padding(top = 8.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 10.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (androidx.compose.ui.platform.LocalDensity.current.fontScale <= 1.2f) {
-            Box(Modifier.size(34.dp).clip(RoundedCornerShape(10.dp)).background(C.AccentSoft), contentAlignment = Alignment.Center) {
-                AIcon(if (settings.isTraining(date)) styleSymbol("💪") else Ic.Bed, C.AccentDeep, 21.dp, 1.8f)
-            }
-            GapW(10.dp)
-        }
+    Row(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f).testTag("day-type-label").clickable { dialog = true }.padding(vertical = 8.dp)) {
             Text(label, style = T.Label)
             Text(if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia", style = T.Small)
         }
-        TextButton(onClick = { Nav.go(Screen.TrainingGoals) }, modifier = Modifier.clip(RoundedCornerShape(20.dp)).background(C.AccentSoft)) { Text("Configura", color = C.AccentDeep) }
+        TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Configura", color = C.AccentDeep) }
     }
     if (dialog) AlertDialog(onDismissRequest = { dialog = false }, title = { Text("${dayLabel(date)} · tipo di giornata", style = T.Title2) }, text = {
         Column {
