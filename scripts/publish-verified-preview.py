@@ -36,11 +36,11 @@ with zipfile.ZipFile(apk) as bundle:
     assert 'assets/body-guide/index.html' not in bundle.namelist(), 'Obsolete 3D page must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Approved meal journey, real meal completion, discreet water decrement, smartwatch system insets; 100/130/200 percent text',
+              original_signature_verified=True, visual_revision='Compact blue design, unified outline icons, preserved historical calorie rings, approved meal journey, water decrement and smartwatch insets; 100/130/200 percent text',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Piano a percorso verticale come nel prototipo scelto: foto a destra, stato dei pasti e riepilogo del completamento. Calendario disponibile toccando la data. Tasto meno dell'acqua grigio e più discreto, con area di tocco da 48 dp. Corretto il margine inferiore di Smartwatch e attività con navigazione Android a gesti e a tre tasti. Conservate le funzionalità precedenti, le fotografie e i dati.
+notes.write_text(f'''Stile blu compatto come nel riferimento scelto: sfondo azzurro chiaro, schede bianche, icone a tratto uniformate anche nelle categorie, barra inferiore con selezione azzurra. Conservati gli anelli arancio delle calorie registrate nei giorni precedenti. Piano a percorso con foto a destra, tasto meno dell'acqua grigio e discreto, margine inferiore Smartwatch corretto. Conservate le funzionalità precedenti, le fotografie e i dati.
 
 APK firmato con la chiave originale e installabile come aggiornamento. Verificati {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android, inclusi Android 10/15, schermi piccoli e testo al 100%, 130% e 200%. Modello AI offline e fotografie delle ricette inclusi.
 ''')

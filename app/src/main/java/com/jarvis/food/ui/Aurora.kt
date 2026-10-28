@@ -69,8 +69,8 @@ object A {
     val Dashed = C.Line
 
     /** Sfumatura "alba" del marchio. */
-    val Dawn = Brush.linearGradient(listOf(C.Accent, Color(0xFFFFAD60)))
-    val Sun = listOf(C.Accent, Color(0xFFF68A46), Color(0xFFFFAD60))
+    val Dawn = Brush.linearGradient(listOf(C.Accent, Color(0xFF72A5FF)))
+    val Sun = listOf(C.Accent, Color(0xFF4F86F7), Color(0xFF87B6FF))
     val FastBar = C.NavyBrush
     val FastBarV = C.NavyBrush
     val WaterFill = Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6)))
@@ -96,8 +96,8 @@ object Ic {
     val Right = "M9 6l6 6-6 6"
     val Left = "M15 6l-6 6 6 6"
     val Camera = "M4 8.5h3l1.8-2.5h6.4L17 8.5h3V19H4z" + circ(12.0, 13.5, 3.6)
-    val Fridge = rr(6.0, 3.0, 12.0, 18.0, 2.5) + "M6 10h12M9 6v1.5M9 13v3"
-    val Timer = circ(12.0, 13.0, 7.5) + "M12 9v4l2.5 1.5M9.5 3h5"
+    val Fridge = rr(4.0, 2.0, 16.0, 20.0, 3.0) + "M4 10h16M8 6v1.5M8 13v4"
+    val Timer = circ(12.0, 13.0, 8.5) + "M12 9v4l2.5 1.5M9.5 3h5"
     val Flame = "M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-10z"
     val Bolt = "M13 3L5 14h6l-1 7 8-11h-6z"
     val Drop = "M12 3s6 6.2 6 10.5a6 6 0 0 1-12 0C6 9.2 12 3 12 3z"
@@ -118,6 +118,8 @@ object Ic {
     val MealLunch = "M4 10h16a8 8 0 0 1-16 0zM8 6l2-2M13 6l2-2"
     val MealSnack = "M12 7c-3-3-8 0-6 5s6 8 6 8 4-3 6-8-3-8-6-5zM12 7c0-2 1-3 2-4"
     val MealDinner = "M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z"
+    val Chef = "M7 14a4 4 0 0 1-2-7.5 4 4 0 0 1 7-2 4 4 0 0 1 7 2A4 4 0 0 1 17 14M7 13v7h10v-7M7 17h10M10 9v3M14 9v3"
+    val Bed = "M3 19V7M3 15h18v4M7 10h3v5M3 10h3v5M10 10h7a4 4 0 0 1 4 4v1"
 }
 
 private val pathCache = HashMap<String, androidx.compose.ui.graphics.Path>()
@@ -154,14 +156,14 @@ fun HeaderIconButton(icon: String, label: String, ink: Color = C.Navy, selected:
     HeaderControl(label, selected, onClick) {
         AIcon(icon, if (selected) Color.White else ink, 30.dp, 1.9f, modifier = Modifier.testTag("header-icon-$label"))
         if (badge) Box(Modifier.align(Alignment.TopEnd).padding(5.dp).size(8.dp).clip(CircleShape)
-            .background(C.Accent).border(1.5.dp, C.Surface, CircleShape))
+            .background(C.AddOrange).border(1.5.dp, C.Surface, CircleShape))
     }
 }
 
 /** Riquadro tonale con icona dentro (44 px, raggio 16 nel design). */
 @Composable
 fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 16.dp, size: Dp = 22.dp, stroke: Float = 2f, modifier: Modifier = Modifier) {
-    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(C.cardSurface(bg)), contentAlignment = Alignment.Center) { AIcon(d, tint, size, stroke) }
+    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(bg), contentAlignment = Alignment.Center) { AIcon(d, tint, size, stroke) }
 }
 
 // ---------- Sfondo e schede ----------
@@ -173,8 +175,8 @@ fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
 fun ACard(
-    modifier: Modifier = Modifier, radius: Dp = 24.dp, color: Color = Color.White, brush: Brush? = null,
-    padding: Dp = 16.dp, elevation: Dp = 10.dp, glow: Color = Color(0x4D1D1B3A), bordered: Boolean = true,
+    modifier: Modifier = Modifier, radius: Dp = 20.dp, color: Color = Color.White, brush: Brush? = null,
+    padding: Dp = 14.dp, elevation: Dp = 6.dp, glow: Color = Color(0x4D1D1B3A), bordered: Boolean = true,
     onClick: (() -> Unit)? = null, content: @Composable () -> Unit
 ) {
     val shape = RoundedCornerShape(radius)
@@ -187,7 +189,7 @@ fun ACard(
 
 /** Titolo di sezione (Bricolage 22) con link a destra (rosso-arancio, 13.5). */
 @Composable
-fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, top: Dp = 24.dp, onAction: (() -> Unit)? = null) {
+fun ASection(title: String, modifier: Modifier = Modifier, action: String? = null, top: Dp = 16.dp, onAction: (() -> Unit)? = null) {
     val expanded = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f
     val link: @Composable () -> Unit = {
         if (action != null) Box(Modifier.heightIn(min = 48.dp).clickable(enabled = onAction != null, role = Role.Button) { onAction?.invoke() }.padding(vertical = 12.dp), contentAlignment = Alignment.Center) { Text(action, style = T.Link, textAlign = TextAlign.End) }
@@ -243,7 +245,7 @@ fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Co
 /** Cerchio navy con "+" (44 px), usato accanto ai pasti. */
 @Composable
 fun PlusButton(desc: String, size: Dp = 48.dp, onClick: () -> Unit) {
-    Box(Modifier.size(size).clip(CircleShape).background(C.Navy).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(size).clip(CircleShape).background(C.Accent).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(Ic.Plus, Color.White, size * 0.41f, 2.6f)
     }
 }
@@ -260,13 +262,18 @@ fun BackCircle(onBack: () -> Unit) {
 
 /** Selettore a pillole (pasti, piani digiuno...). [sel] = navy con testo bianco. */
 @Composable
-fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, onClick: () -> Unit) {
+fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, icon: String? = null, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
     Box(
         modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.Navy else Color.White)
             .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
         contentAlignment = Alignment.Center
-    ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center) }
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (icon != null) { AIcon(icon, if (selected) Color.White else C.AccentDeep, 18.dp, 1.8f); Spacer(Modifier.width(6.dp)) }
+            Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center)
+        }
+    }
 }
 
 /** Barra di avanzamento sottile del design. */
@@ -287,8 +294,8 @@ fun InitialTile(name: String, bg: Color, ink: Color, size: Dp = 52.dp, radius: D
 }
 
 private val TileColors = listOf(
-    C.Surface to C.Navy, C.Surface to C.Navy, C.Surface to C.Navy,
-    C.Surface to C.Navy, C.Surface to C.Navy, C.Surface to C.Navy
+    C.AccentSoft to C.Navy, C.AccentSoft to C.Navy, C.AccentSoft to C.Navy,
+    C.AccentSoft to C.Navy, C.AccentSoft to C.Navy, C.AccentSoft to C.Navy
 )
 
 /** Colori tonali stabili per un nome (stessa lettera = stesso colore). */

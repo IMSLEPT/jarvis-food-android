@@ -50,17 +50,10 @@ fun mealForHour(h: Int): Int = when (h) {
 
 /** Riquadro con una piccola illustrazione colorata del pasto (disegnata, senza emoji). */
 @Composable
-fun MealArt(meal: Int, box: Dp = 48.dp, radius: Dp = 16.dp, modifier: Modifier = Modifier) {
-    val (c1, c2) = when (meal) {
-        0 -> Color(0xFFFFEBBE) to Color(0xFFFFD27A)
-        4 -> Color(0xFFFFE6CC) to Color(0xFFFFC48A)
-        1 -> Color(0xFFD9F6E8) to Color(0xFFA7E8C8)
-        3 -> Color(0xFFFFE0E6) to Color(0xFFFFB9C7)
-        2 -> Color(0xFFE1EBFF) to Color(0xFFB7CEFF)
-        else -> Color(0xFF454A8F) to Color(0xFF282B63)
-    }
-    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(Brush.linearGradient(listOf(c1, c2))), contentAlignment = Alignment.Center) {
-        Canvas(Modifier.size(box * 0.8f)) { drawMeal(meal, size.minDimension / 48f) }
+fun MealArt(meal: Int, box: Dp = 44.dp, radius: Dp = 14.dp, modifier: Modifier = Modifier) {
+    val bg = if (meal == 0 || meal == 4) C.GoldSoft else C.AccentSoft
+    Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(bg), contentAlignment = Alignment.Center) {
+        AIcon(mealSymbol(meal), C.Navy, box * 0.58f, 1.8f)
     }
 }
 

@@ -45,6 +45,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -114,16 +117,16 @@ fun TodayScreen() {
     val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
     MainPage(fullDay(date), "$hello,", homeName = s.profile.name) {
         // ---- Settimana
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(4.dp))
         WeekStrip(s, date)
         DayTypeControl(s, date)
 
         // ---- Hero calorie
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(10.dp))
         HeroCard(totals.kcal, e.targetKcal, burned, e.extraKcal) { Nav.go(Screen.DayNutrients(date)) }
 
         // ---- Macro
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(10.dp))
         ACard(Modifier.fillMaxWidth(), radius = 20.dp, padding = 4.dp, elevation = 4.dp) {
             if (LocalDensity.current.fontScale > 1.5f) Column {
                 MacroRing("Proteine", totals.protein, e.protein, C.Protein, A.ProteinSoft, A.ProteinInk, Modifier.fillMaxWidth())
@@ -140,7 +143,7 @@ fun TodayScreen() {
             }
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(12.dp))
         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
             if (LocalDensity.current.fontScale > 1.5f) Column {
                 Row(Modifier.fillMaxWidth()) {
@@ -167,8 +170,8 @@ fun TodayScreen() {
         // ---- Diario
         Spacer(Modifier.height(0.dp))
         ASection("Diario", action = "Gestisci pasti") { Nav.go(Screen.DietSettings) }
-        Spacer(Modifier.height(12.dp))
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) { for (meal in MealSchedule.visible(s, date.toString())) MealCard(meal, date, s) }
+        Spacer(Modifier.height(8.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) { for (meal in MealSchedule.visible(s, date.toString())) MealCard(meal, date, s) }
 
         if (!s.profile.detailed) {
             Spacer(Modifier.height(12.dp))
@@ -249,18 +252,20 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
             val d = monday.plusDays(i.toLong())
             val sel = d == date
             val p by animateFloatAsState(fr[i], tween(1000), label = "week")
-            Column(Modifier.weight(1f).clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            val consumed = Nutrition.sum(Store.entriesFor(s, d)).kcal
+            Column(Modifier.weight(1f).testTag("week-day-$i").semantics { selected = sel; contentDescription = "${fullDay(d)}, ${kcalFmt(consumed)} kcal registrate" }
+                .clickable(role = androidx.compose.ui.semantics.Role.Button) { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(labels[i], modifier = Modifier.testTag("week-label-$i"), style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
                 Box(
                     Modifier.size(44.dp).aShadow(CircleShape, if (sel) 8.dp else 3.dp, if (sel) Color(0x991D1B3A) else Color(0x401D1B3A)).clip(CircleShape)
-                        .background(if (sel) C.Navy else Color.White),
+                        .background(if (sel) C.Accent else Color.White),
                     contentAlignment = Alignment.Center
                 ) {
-                    Canvas(Modifier.size(44.dp)) {
+                    Canvas(Modifier.size(44.dp).testTag("week-progress-$i").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fr[i], 0f..1f) }) {
                         val st = 3.dp.toPx(); val inset = st / 2 + 3.dp.toPx()
                         val sz = Size(size.width - inset * 2, size.height - inset * 2)
                         if (!sel) drawArc(C.Line, 0f, 360f, false, Offset(inset, inset), sz, style = Stroke(1.dp.toPx()))
-                        if (p > 0f) drawArc(if (sel) Color(0xFFF8C089) else Color(0xFFF59E6C), -90f, 360f * p, false, Offset(inset, inset), sz, style = Stroke(st, cap = StrokeCap.Round))
+                        if (p > 0f) drawArc(if (sel) Color(0xFFFFC7A8) else C.HistoryOrange, -90f, 360f * p, false, Offset(inset, inset), sz, style = Stroke(st, cap = StrokeCap.Round))
                     }
                     Text("${d.dayOfMonth}", style = T.Num.copy(fontSize = 15.sp, color = if (sel) Color.White else A.Ink))
                 }
@@ -277,20 +282,20 @@ private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, 
     val over = eaten > target
     val fraction = if (target > 0) (eaten / target).toFloat().coerceIn(0f, 1f) else 0f
     val p by animateFloatAsState(fraction, tween(800), label = "hero")
-    ACard(Modifier.fillMaxWidth(), radius = 24.dp, brush = C.NavyBrush, padding = 16.dp, bordered = false, onClick = onClick) {
+    ACard(Modifier.fillMaxWidth(), radius = 20.dp, brush = C.NavyBrush, padding = 14.dp, bordered = false, onClick = onClick) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Le tue calorie", style = T.Label.copy(color = Color(0xFFDCE5FA)), modifier = Modifier.weight(1f))
                 AIcon(Ic.Right, Color.White, 20.dp)
             }
-            GapH(8.dp)
+            GapH(6.dp)
             androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(kcalFmt(kotlin.math.abs(target - eaten)), style = T.Big.copy(fontSize = 36.sp, lineHeight = 42.sp, color = if (over) Color(0xFFFFB4A9) else Color.White))
                 Text(if (over) "kcal oltre l’obiettivo" else "kcal disponibili", style = T.Small.copy(color = Color(0xFFDCE5FA)), modifier = Modifier.padding(top = 18.dp))
             }
-            GapH(12.dp)
-            ABar(p, Brush.horizontalGradient(listOf(C.Accent, Color(0xFFFFAD60))), Color(0x33FFFFFF), 6.dp)
-            GapH(12.dp)
+            GapH(10.dp)
+            ABar(p, Brush.horizontalGradient(listOf(Color(0xFF79AAFF), Color(0xFFB2D1FF))), Color(0x33FFFFFF), 6.dp)
+            GapH(10.dp)
             androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text("Mangiate ${kcalFmt(eaten)}", style = T.Small.copy(color = Color.White))
                 Text("Obiettivo ${kcalFmt(target)}", style = T.Small.copy(color = Color.White))
@@ -304,23 +309,27 @@ private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, 
 private fun MacroRing(label: String, value: Double, goal: Double, color: Color, soft: Color, ink: Color, modifier: Modifier) {
     val fraction = if (goal > 0) (value / goal).toFloat().coerceIn(0f, 1f) else 0f
     val p by animateFloatAsState(fraction, tween(600), label = "macro")
-    Column(modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(10.dp)) {
-        Text(label, style = T.Small.copy(color = ink, fontSize = 12.sp))
-        Text("${value.r0()} g", style = T.Num.copy(fontSize = 21.sp), modifier = Modifier.padding(top = 4.dp))
+    Column(modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(8.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(6.dp).clip(CircleShape).background(color))
+            GapW(6.dp)
+            Text(label, style = T.Small.copy(color = C.Muted, fontSize = 12.sp), modifier = Modifier.weight(1f))
+        }
+        Text("${value.r0()} g", style = T.Num.copy(fontSize = 21.sp), modifier = Modifier.padding(top = 2.dp))
         Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 12.sp))
-        ABar(p, Brush.horizontalGradient(listOf(color, color)), soft, 5.dp, Modifier.padding(top = 8.dp))
+        ABar(p, Brush.horizontalGradient(listOf(color, color)), soft, 5.dp, Modifier.padding(top = 6.dp))
     }
 }
 
 @Composable
 private fun QuickTile(label: String, icon: String, modifier: Modifier, primary: Boolean = false, onClick: () -> Unit) {
     val ink = C.Navy
-    Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
+    Column(modifier.heightIn(min = 72.dp).clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(46.dp).clip(CircleShape).background(if (primary) C.Accent else Color.Transparent), contentAlignment = Alignment.Center) {
-            AIcon(icon, if (primary) Color.White else ink, if (primary) 28.dp else 40.dp, 2f, modifier = Modifier.testTag("quick-icon-$label"))
+        Box(Modifier.size(40.dp).clip(CircleShape).background(if (primary) C.AddOrange else Color.Transparent), contentAlignment = Alignment.Center) {
+            AIcon(icon, if (primary) Color.White else ink, if (primary) 26.dp else 32.dp, 1.8f, modifier = Modifier.testTag("quick-icon-$label"))
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(6.dp))
         Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)
     }
 }
@@ -357,7 +366,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                 PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
             }
         } else {
-        Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 14.dp, end = 12.dp, top = 12.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 12.dp, end = 10.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
             MealArt(meal)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {

@@ -123,7 +123,7 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
 @Composable
 private fun ProfileSectionTitle(title: String) {
     Text(title, style = T.H2.copy(fontSize = 20.5.sp, lineHeight = 26.sp, letterSpacing = (-0.3).sp, color = C.Navy),
-        modifier = Modifier.padding(top = 22.dp, bottom = 7.dp))
+        modifier = Modifier.padding(top = 16.dp, bottom = 6.dp))
 }
 
 @Composable

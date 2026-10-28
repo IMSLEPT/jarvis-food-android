@@ -24,25 +24,27 @@ import androidx.compose.ui.unit.sp
 import com.jarvis.food.R
 
 /**
- * Palette C di Jarvis Food: fondo caldo chiaro, schede bianche, navy e arancio.
+ * Palette condivisa: fondo azzurro chiarissimo, schede bianche, navy e blu.
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF6F5F1)
+    val Bg = Color(0xFFF5F8FC)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
     val SurfaceHi = Color(0xFFE2E2DF)
-    val Line = Color(0xFFE5E3DF)
-    val ProfileBorder = Color(0xFFE2E2DF)
+    val Line = Color(0xFFE3E9F1)
+    val ProfileBorder = Line
     val Text = Color(0xFF09194D)
     val Muted = Color(0xFF5E6678)
     val Faint = Color(0xFF9197A5)
-    val Accent = Color(0xFFEA7138)
-    // Brand orange stays on icons; white button labels need the darker variant.
-    val ButtonOrange = Color(0xFFC94D00)
-    val ButtonOrangeEnd = Color(0xFFBA4000)
-    val AccentSoft = Color(0xFFFFF2EA)
-    val AccentDeep = Color(0xFFB94C1C)
+    val Accent = Color(0xFF2563EB)
+    // Legacy names remain source-compatible; shared actions use the new blue palette.
+    val ButtonOrange = Color(0xFF2563EB)
+    val ButtonOrangeEnd = Color(0xFF1D4ED8)
+    val AccentSoft = Color(0xFFEBF2FF)
+    val AccentDeep = Color(0xFF1D4ED8)
+    val AddOrange = Color(0xFFEC7435)
+    val HistoryOrange = Color(0xFFF59462)
     val OnAccent = Color(0xFFFFFFFF)
     val Navy = Color(0xFF09194D)
     val NavySoft = Color(0xFFECF2FE)
@@ -51,7 +53,7 @@ object C {
     val OnOrange = Color.White
     val ProfileSurface = Color(0xFFFEFEFE)
     val ProfileMuted = Color(0xFF777D91)
-    val ProfileOrange = Color(0xFFDC6F2C)
+    val ProfileOrange = AccentDeep
     val Green = Color(0xFF10B981)
     val GreenSoft = Color(0xFFD9F6EA)
     val Blue = Color(0xFF3B82F6)
@@ -136,7 +138,7 @@ fun AppBackground(content: @Composable BoxScope.() -> Unit) {
         Modifier.fillMaxSize()
             .background(C.Bg)
             .drawBehind {
-                drawRect(Brush.radialGradient(listOf(Color(0xFFFFFDF8), Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color.White, Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
             },
         content = content
     )

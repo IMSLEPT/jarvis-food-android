@@ -92,7 +92,7 @@ private fun BarsRow(
             val frac = (goal / max).toFloat().coerceIn(0f, 1f)
             Canvas(Modifier.fillMaxSize()) {
                 val yy = size.height * (1f - frac)
-                drawLine(Color(0xFFFF8A5C), Offset(0f, yy), Offset(size.width, yy), 2.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f)))
+                drawLine(C.AccentDeep, Offset(0f, yy), Offset(size.width, yy), 2.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f)))
             }
         }
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(gap), verticalAlignment = Alignment.Bottom) {
@@ -134,7 +134,7 @@ fun ProgressScreen() {
     val expanded = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f
     val letter: (LocalDate) -> String = { it.dayOfWeek.getDisplayName(TextStyle.SHORT, IT).replace(".", "").let { text -> if (expanded) text.take(2) else text }.replaceFirstChar { c -> c.uppercase() } }
     val loggedDays = s.diary.map { it.date }.toSet()
-    val shape30 = RoundedCornerShape(24.dp)
+    val shape30 = RoundedCornerShape(20.dp)
 
     MainPage("Progressi") {
         Text("I tuoi numeri, giorno dopo giorno", style = T.Body.copy(fontSize = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
@@ -155,7 +155,7 @@ fun ProgressScreen() {
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
             .background(C.Surface).padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 30.dp, fill = true) }
+                Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(C.AccentSoft), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.AccentDeep, 24.dp, 1.8f) }
                 GapW(14.dp)
                 Column {
                     Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp))
@@ -235,8 +235,8 @@ fun ProgressScreen() {
             GapH(12.dp)
             BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) 10.dp else 3.dp,
                 fill = { i, sel ->
-                    if (sel) Brush.verticalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C089)))
-                    else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > dailyGoals[i] * 1.1) Color(0xFFFFC2A3) else Color(0xFFF2A277))
+                    if (sel) Brush.verticalGradient(listOf(C.Accent, Color(0xFF75A8FF)))
+                    else SolidColor(if (i == days.size - 1) C.Accent else if (daily[i].kcal > dailyGoals[i] * 1.1) C.Danger else C.BlueSoft)
                 },
                 labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null)
         }

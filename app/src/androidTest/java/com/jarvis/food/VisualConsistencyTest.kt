@@ -133,6 +133,24 @@ class VisualConsistencyTest {
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
             if (ins.targetContext.resources.configuration.fontScale > 1.5f) singleLine(compose.onNodeWithTag("home-name", useUnmergedTree = true))
             shot("home")
+            // Past-day rings must retain actual intake after changing the visual theme.
+            val past = day.minusDays(1)
+            val anchor = if (past.dayOfWeek == DayOfWeek.MONDAY) past.plusDays(1) else past.with(DayOfWeek.MONDAY)
+            ui {
+                Store.addEntry(past, 0, Food("history-fixture", "Pasto registrato", kcal = 200.0, protein = 0.0, carbs = 50.0, fat = 0.0), 500.0)
+                Nav.diaryDate = anchor
+            }
+            compose.waitForIdle()
+            val index = past.dayOfWeek.value - 1
+            val fraction = (1000.0 / Store.energyFor(Store.current, past).targetKcal).toFloat().coerceIn(0f, 1f)
+            compose.onNodeWithTag("week-progress-$index", useUnmergedTree = true).assert(SemanticsMatcher.expectValue(SemanticsProperties.ProgressBarRangeInfo, ProgressBarRangeInfo(fraction, 0f..1f)))
+            compose.onNodeWithTag("week-day-$index").assertContentDescriptionEquals("${fullDay(past)}, 1.000 kcal registrate")
+            shot("home-history-rings")
+            compose.onNodeWithTag("week-day-$index").performClick()
+            compose.waitForIdle()
+            assertEquals(past, Nav.diaryDate)
+            ui { Store.update { it.copy(diary = emptyList()) }; Nav.diaryDate = day }
+            compose.waitForIdle()
             singleLine(compose.onNodeWithTag("diary-title-0", useUnmergedTree = true).performScrollTo())
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
             readable(compose.onNodeWithText("Nessun alimento registrato", useUnmergedTree = true).performScrollTo())

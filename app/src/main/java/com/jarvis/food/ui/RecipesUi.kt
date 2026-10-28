@@ -240,19 +240,18 @@ private val CAT_BASE = listOf(
 private val CAT_COLORS = CAT_BASE
 private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "dieta" to 5, "metodo" to 2, "cucina" to 6, "tempo" to 4)
 
-/** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
+/** Compact outline icons match navigation and the diary; recipe counts remain live. */
 @Composable
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
-    val (bg, marker) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
-        .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
+    val shape = RoundedCornerShape(18.dp)
+    Column(modifier.testTag("recipe-category").heightIn(min = 108.dp).aShadow(shape, 3.dp, Color(0x331D1B3A)).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.width(24.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).background(marker))
+        Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(C.AccentSoft), contentAlignment = Alignment.Center) {
+            AIcon(styleSymbol(emoji, label), C.AccentDeep, 25.dp, 1.8f)
+        }
         GapH(6.dp)
-        Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)
-        GapH(8.dp)
-        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
+        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.SemiBold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
         Text("$count ricette", modifier = Modifier.testTag("category-count-$label"), style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 12.sp, fontWeight = FontWeight.Medium), maxLines = 1)
     }
@@ -290,19 +289,20 @@ private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id)
 private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>) {
     var selected by rememberSaveable { mutableStateOf("pasto") }
     var showAll by rememberSaveable { mutableStateOf(false) }
-    val labels = mapOf("pasto" to "🍽️ Pasto", "tempo" to "⏱️ Tempo", "kcal" to "🔥 Calorie", "obiettivo" to "🎯 Obiettivo", "dieta" to "🌿 Dieta", "metodo" to "🍳 Metodo", "cucina" to "🌍 Cucina")
+    val labels = mapOf("pasto" to "Pasto", "tempo" to "Tempo", "kcal" to "Calorie", "obiettivo" to "Obiettivo", "dieta" to "Dieta", "metodo" to "Metodo", "cucina" to "Cucina")
+    val symbols = mapOf("pasto" to Ic.Bowl, "tempo" to Ic.Clock, "kcal" to Ic.Flame, "obiettivo" to styleSymbol("🎯"), "dieta" to styleSymbol("🌿"), "metodo" to styleSymbol("🍳"), "cucina" to styleSymbol("🌍"))
     ASection("Esplora le ricette", action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
-    GapH(12.dp)
+    GapH(8.dp)
     if (!showAll) Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        groups.forEach { g -> APill(labels[g.id] ?: g.title, selected == g.id, height = 42.dp, hPad = 14.dp) { selected = g.id } }
+        groups.forEach { g -> APill(labels[g.id] ?: g.title, selected == g.id, hPad = 12.dp, icon = symbols[g.id]) { selected = g.id } }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
-        if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp)) {
+        if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 8.dp)) {
             Text(g.title, style = T.Label)
             GapH(4.dp)
             Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 12.sp))
-        } else Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+        } else Row(Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(g.title, style = T.Label, modifier = Modifier.weight(1f))
             GapW(8.dp)
             Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 12.sp))
@@ -315,7 +315,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
         val extra = if (g.id == "pasto") 1 else 0
         val count = g.cats.size + extra
         (0 until count step columns).forEach { start ->
-            Row(Modifier.fillMaxWidth().padding(bottom = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(Modifier.fillMaxWidth().padding(bottom = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 repeat(columns) { offset ->
                     val index = start + offset
                     val cat = g.cats.getOrNull(index)
@@ -388,7 +388,7 @@ fun RecipesHome() {
     val daily = remember(today, s.dietPrefs.exclude, disliked) { RecipeSearch.recipeOfTheDay(db, today, s.dietPrefs.exclude, disliked) }
     if (daily != null) {
         val di = RecipeMeta.info(db, daily)
-        ASection("Ricetta del giorno", top = 22.dp)
+        ASection("Ricetta del giorno", top = 16.dp)
         GapH(10.dp)
         JCard(padding = PaddingValues(0.dp), onClick = { openRecipe(s, daily) }) {
             RecipeImage(daily.id, daily.image, s.recipePhotos[daily.id], Modifier.fillMaxWidth().aspectRatio(1.8f), recEmoji(daily.meal), 0.dp)
