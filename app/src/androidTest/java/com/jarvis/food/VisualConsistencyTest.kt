@@ -53,15 +53,15 @@ class VisualConsistencyTest {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("nav-3").performClick()
-            compose.onNodeWithTag("weight-empty").performScrollTo().assertIsDisplayed()
-            readable(compose.onNodeWithTag("weight-empty"))
+            compose.onNodeWithTag("weight-empty", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
+            readable(compose.onNodeWithTag("weight-empty", useUnmergedTree = true))
             shot("progress-no-weight")
-            compose.onNodeWithTag("calorie-sample-size").performScrollTo().assertTextContains("0 giorni registrati", substring = true)
-            compose.onNodeWithTag("calorie-day-detail").performScrollTo().assertTextContains("Nessun pasto registrato", substring = true)
+            compose.onNodeWithTag("calorie-sample-size", useUnmergedTree = true).performScrollTo().assertTextContains("0 giorni registrati", substring = true)
+            compose.onNodeWithTag("calorie-day-detail", useUnmergedTree = true).performScrollTo().assertTextContains("Nessun pasto registrato", substring = true)
             shot("progress-no-calories")
             ui { Store.addWeight(day, 71.0) }
-            compose.onNodeWithTag("weight-chart").performScrollTo().assertContentDescriptionEquals("Una misurazione del peso")
-            compose.onNodeWithTag("weight-history-caption").performScrollTo().assertTextContains("Una misurazione", substring = true)
+            compose.onNodeWithTag("weight-chart", useUnmergedTree = true).performScrollTo().assertContentDescriptionEquals("Una misurazione del peso")
+            compose.onNodeWithTag("weight-history-caption", useUnmergedTree = true).performScrollTo().assertTextContains("Una misurazione", substring = true)
             shot("progress-one-weight")
         }
     }
@@ -96,7 +96,7 @@ class VisualConsistencyTest {
         ActivityScenario.launch(MainActivity::class.java).use {
             shot("home")
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
-            readable(compose.onNodeWithText("Nessun alimento registrato").performScrollTo())
+            readable(compose.onNodeWithText("Nessun alimento registrato", useUnmergedTree = true).performScrollTo())
             readable(compose.onNodeWithText(fullDay(day), useUnmergedTree = true))
             compose.onNodeWithContentDescription("Aggiungi a Colazione").assertHeightIsAtLeast(48.dp)
             compose.onNodeWithText("Altre azioni").performScrollTo().performClick()
@@ -109,7 +109,12 @@ class VisualConsistencyTest {
             shot("kitchen-overview")
             compose.onNodeWithText("Ricetta del giorno").performScrollTo()
             shot("kitchen-daily")
-            compose.onNodeWithText("Mostra tutte").performScrollTo().performClick()
+            compose.waitUntil(30_000) {
+                compose.onAllNodesWithText("Mostra tutte").fetchSemanticsNodes().isNotEmpty() ||
+                    compose.onAllNodesWithText("Vista compatta").fetchSemanticsNodes().isNotEmpty()
+            }
+            if (compose.onAllNodesWithText("Mostra tutte").fetchSemanticsNodes().isNotEmpty())
+                compose.onNodeWithText("Mostra tutte").performScrollTo().performClick()
             compose.onNodeWithText("Vegana", useUnmergedTree = true).performScrollTo()
             readable(compose.onNodeWithText("Vegana", useUnmergedTree = true))
             shot("kitchen-categories")
