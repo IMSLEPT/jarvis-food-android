@@ -254,7 +254,7 @@ private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, mod
         GapH(8.dp)
         Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-        Text("$count ricette", style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 12.sp, fontWeight = FontWeight.Medium), maxLines = 1)
+        Text("$count ricette", modifier = Modifier.testTag("category-count-$label"), style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 12.sp, fontWeight = FontWeight.Medium), maxLines = 1)
     }
 }
 
@@ -298,11 +298,20 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
         groups.forEach { g -> APill(labels[g.id] ?: g.title, selected == g.id, height = 42.dp, hPad = 14.dp) { selected = g.id } }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
-        Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+        if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp)) {
+            Text(g.title, style = T.Label)
+            GapH(4.dp)
+            Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 12.sp))
+        } else Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(g.title, style = T.Label, modifier = Modifier.weight(1f))
+            GapW(8.dp)
             Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 12.sp))
         }
-        val columns = if (LocalDensity.current.fontScale > 1.2f || g.id in setOf("obiettivo", "dieta", "metodo", "cucina")) 2 else 3
+        val columns = when {
+            LocalDensity.current.fontScale > 1.5f -> 1
+            LocalDensity.current.fontScale > 1.2f || g.id in setOf("obiettivo", "dieta", "metodo", "cucina") -> 2
+            else -> 3
+        }
         val extra = if (g.id == "pasto") 1 else 0
         val count = g.cats.size + extra
         (0 until count step columns).forEach { start ->

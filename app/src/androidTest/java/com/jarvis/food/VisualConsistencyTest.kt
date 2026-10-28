@@ -74,6 +74,12 @@ class VisualConsistencyTest {
             ui { Store.addWeight(day, 71.0) }
             compose.onNodeWithTag("weight-chart", useUnmergedTree = true).performScrollTo().assertContentDescriptionEquals("Una misurazione del peso")
             compose.onNodeWithTag("weight-history-caption", useUnmergedTree = true).performScrollTo().assertTextContains("Una misurazione", substring = true)
+            readable(compose.onNodeWithTag("weight-goal-title", useUnmergedTree = true).performScrollTo())
+            val remaining = compose.onNodeWithTag("weight-goal-remaining", useUnmergedTree = true).performScrollTo()
+            readable(remaining)
+            val goalLayouts = mutableListOf<TextLayoutResult>()
+            remaining.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(goalLayouts) }
+            assertTrue("Weight goal constrained to a narrow column", goalLayouts.single().lineCount <= 2)
             shot("progress-one-weight")
         }
     }
@@ -140,6 +146,10 @@ class VisualConsistencyTest {
                 compose.onNodeWithText("Mostra tutte").performScrollTo().performClick()
             compose.onNodeWithText("Vegana", useUnmergedTree = true).performScrollTo()
             readable(compose.onNodeWithText("Vegana", useUnmergedTree = true))
+            singleLine(compose.onNodeWithText("Vegetariana", useUnmergedTree = true).performScrollTo())
+            readable(compose.onNodeWithTag("category-count-Vegetariana", useUnmergedTree = true))
+            singleLine(compose.onNodeWithText("Dimagrimento", useUnmergedTree = true).performScrollTo())
+            compose.onNodeWithText("Vegana", useUnmergedTree = true).performScrollTo()
             shot("kitchen-categories")
         }
     }

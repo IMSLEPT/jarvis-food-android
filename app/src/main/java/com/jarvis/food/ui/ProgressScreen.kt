@@ -129,7 +129,8 @@ fun ProgressScreen() {
     val bmi = Nutrition.bmi(weight, s.profile.heightCm)
     val dailyGoals = days.map { Store.energyFor(s, it).targetKcal }
     val goalKcal = dailyGoals.filterIndexed { i, _ -> hasLog[i] }.ifEmpty { dailyGoals }.average()
-    val letter: (LocalDate) -> String = { it.dayOfWeek.getDisplayName(TextStyle.SHORT, IT).replace(".", "").replaceFirstChar { c -> c.uppercase() } }
+    val expanded = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f
+    val letter: (LocalDate) -> String = { it.dayOfWeek.getDisplayName(TextStyle.SHORT, IT).replace(".", "").let { text -> if (expanded) text.take(2) else text }.replaceFirstChar { c -> c.uppercase() } }
     val loggedDays = s.diary.map { it.date }.toSet()
     val shape30 = RoundedCornerShape(24.dp)
 
@@ -177,15 +178,16 @@ fun ProgressScreen() {
         val wd = if (ws.size >= 2) ws.last().kg - ws.first().kg else 0.0
         Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C3B82F6)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30)
             .clickable { Nav.go(Screen.Weight) }.padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 14.dp)) {
-            Row(verticalAlignment = Alignment.Bottom) {
-                Text(weight.r1(), style = T.H1.copy(fontSize = 46.sp, lineHeight = 48.sp))
-                GapW(10.dp)
-                Text("kg", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
-                Spacer(Modifier.weight(1f))
+            androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(verticalAlignment = Alignment.Bottom) {
+                    Text(weight.r1(), style = T.H1.copy(fontSize = 46.sp, lineHeight = 48.sp))
+                    GapW(10.dp)
+                    Text("kg", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 5.dp))
+                }
                 if (ws.size >= 2) {
                     val down = wd <= 0
                     val ink = if (down) Color(0xFF065F46) else A.FatInk
-                    Row(Modifier.padding(bottom = 6.dp).height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.padding(bottom = 6.dp).heightIn(min = 30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                         AIcon(if (down) "M12 5v14M6 13l6 6 6-6" else "M12 19V5M6 11l6-6 6 6", ink, 14.dp, 2.6f)
                         GapW(4.dp)
                         Text((if (wd > 0) "+" else if (wd < 0) "−" else "") + kotlin.math.abs(wd).r1() + " kg", style = T.Chip.copy(fontWeight = FontWeight.Bold, color = ink))
@@ -200,9 +202,9 @@ fun ProgressScreen() {
             val left = kotlin.math.abs(weight - tw)
             val prog = if (sw == tw) 1f else ((sw - weight) / (sw - tw)).toFloat().coerceIn(0f, 1f)
             Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(if (left < 0.05) "Obiettivo raggiunto" else "Obiettivo ${tw.r1().removeSuffix(",0")} kg", style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
-                    Text("${left.r1()} kg da raggiungere", style = T.Chip.copy(fontWeight = FontWeight.Bold, color = A.CarbInk))
+                androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
+                    Text(if (left < 0.05) "Obiettivo raggiunto" else "Obiettivo ${tw.r1().removeSuffix(",0")} kg", modifier = Modifier.testTag("weight-goal-title"), style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
+                    Text("${left.r1()} kg da raggiungere", modifier = Modifier.testTag("weight-goal-remaining"), style = T.Chip.copy(fontWeight = FontWeight.Bold, color = A.CarbInk))
                 }
                 GapH(8.dp)
                 ABar(prog, Brush.horizontalGradient(listOf(Color(0xFF3B82F6), Color(0xFF5AA9FF))), C.SurfaceHi, 8.dp)
