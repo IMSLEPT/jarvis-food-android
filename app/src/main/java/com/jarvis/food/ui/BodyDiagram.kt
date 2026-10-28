@@ -82,8 +82,8 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
                     }
                 }
             }) {
-                val pixelScale = scale * density
-                withTransform({ translate(startX * density, startY * density); scale(pixelScale, pixelScale, Offset.Zero) }) {
+                val pixelScale = scale * pixelDensity
+                withTransform({ translate(startX * pixelDensity, startY * pixelDensity); scale(pixelScale, pixelScale, Offset.Zero) }) {
                     drawOval(Color(0xFFDDE5F4).copy(alpha = .5f), Offset(128f, 505f), Size(104f, 7f))
                     drawPath(outline, Brush.verticalGradient(listOf(Color(0xFFDCE5F4), Color(0xFFC3D1E8)), startY = 12f, endY = 506f))
                     drawPath(outline, C.Navy.copy(alpha = .24f), style = Stroke(1.3f))
