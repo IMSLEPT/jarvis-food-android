@@ -500,10 +500,16 @@ private fun WaterCard(date: LocalDate, s: AppState) {
             Text("su ${(goal / 1000.0).r1()} L", style = T.Small)
             Text("bicchiere da ${s.glassMl} ml", style = T.Small.copy(color = Color(0xFF4B6A85)))
             androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.size(48.dp).clip(CircleShape).background(Color(0xE6FFFFFF)).clickable { Store.setWater(date, (ml - s.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
-                    AIcon(Ic.Minus, A.Ink, 18.dp, 2.6f)
+                Box(Modifier.size(48.dp).testTag("water-minus").clip(CircleShape)
+                    .semantics { contentDescription = "Rimuovi un bicchiere" }
+                    .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, (ml - s.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(40.dp).clip(CircleShape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
+                        AIcon(Ic.Minus, C.Muted.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.2f)
+                    }
                 }
-                Row(Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { Store.setWater(date, ml + s.glassMl) }.padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(16.dp)).background(C.Navy)
+                    .semantics { contentDescription = "Aggiungi un bicchiere" }
+                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, ml + s.glassMl) }.padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Plus, Color.White, 16.dp, 2.8f)
                     Spacer(Modifier.width(8.dp))
                     Text("Bicchiere", style = T.BtnS.copy(color = Color.White))

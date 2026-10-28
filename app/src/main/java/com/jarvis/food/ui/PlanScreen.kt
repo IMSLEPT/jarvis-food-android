@@ -2,6 +2,7 @@ package com.jarvis.food.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -52,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.draw.clip
 import com.jarvis.food.engine.formatAmount
 import androidx.compose.ui.unit.sp
@@ -59,6 +61,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
@@ -92,13 +100,15 @@ fun PlanScreen() {
 
     MainPage("Piano") {
         var optionsOpen by remember { mutableStateOf(false) }
+        var calendarExpanded by remember { mutableStateOf(false) }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text("${monday.format(java.time.format.DateTimeFormatter.ofPattern("d MMM", IT))} – ${monday.plusDays(6).format(java.time.format.DateTimeFormatter.ofPattern("d MMM", IT))}", style = T.Eyebrow.copy(fontSize = 12.sp))
-                Text("La tua settimana, già organizzata", style = T.Title2)
+            Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("plan-calendar-toggle").clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button, onClickLabel = if (calendarExpanded) "Nascondi calendario" else "Scegli giorno") { calendarExpanded = !calendarExpanded }, verticalAlignment = Alignment.CenterVertically) {
+                Text(fullDay(date), style = T.Title2, modifier = Modifier.weight(1f))
+                AIcon(if (calendarExpanded) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Muted, 18.dp)
             }
+            Spacer(Modifier.width(8.dp))
             Box {
-                Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).clickable { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
+                Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).semantics { contentDescription = "Opzioni del piano" }.clickable(role = Role.Button) { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
                 DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
                     DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
                         optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
@@ -114,9 +124,11 @@ fun PlanScreen() {
                 }
             }
         }
-        Spacer(Modifier.height(16.dp))
-        WeekStrip(s, date) { Nav.planDate = it }
-        DayTypeControl(s, date)
+        if (calendarExpanded) {
+            Spacer(Modifier.height(12.dp))
+            WeekStrip(s, date) { Nav.planDate = it }
+            DayTypeControl(s, date)
+        }
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
@@ -138,7 +150,7 @@ fun PlanScreen() {
         ASection("I pasti del giorno", action = "Gestisci pasti") { Nav.go(Screen.DietSettings) }
         Spacer(Modifier.height(14.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) { meals.forEach { m -> CompactPlanCard(s, date, m) } }
+        PlanJourney(s, date, meals)
         Spacer(Modifier.height(18.dp))
         PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
             val start = maxOf(LocalDate.now(), monday)
@@ -157,17 +169,36 @@ fun PlanScreen() {
 private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     val e = Store.energyFor(s, date)
     val tot = meals.fold(com.jarvis.food.engine.Macro.ZERO) { a, m -> a + m.solved.total }
+    val slots = Store.dayPlan(s, date)?.slots.orEmpty()
+    val completed = meals.count { meal -> slots.any { it.slot == meal.slotIndex && it.eatenEntryIds.isNotEmpty() } }
     var expanded by remember { mutableStateOf(false) }
-    ACard(Modifier.fillMaxWidth(), color = C.NavySoft, radius = 22.dp, padding = 16.dp, elevation = 0.dp, bordered = false, onClick = { expanded = !expanded }) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text("Totale del piano", style = T.Small)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 22.sp, lineHeight = 28.sp))
-                    Text("su ${kcalFmt(e.targetKcal)} kcal", style = T.Small, modifier = Modifier.padding(top = 6.dp))
+    val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
+    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 16.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
+        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.MealLunch, C.AccentDeep, 26.dp, 1.8f)
+                GapW(12.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 20.sp, lineHeight = 26.sp))
+                    Text("pianificate", style = T.Small)
+                    Text("Obiettivo ${kcalFmt(e.targetKcal)} kcal", style = T.Small.copy(fontSize = 12.sp))
                 }
             }
-            AIcon(if (expanded) "M6 15l6-6 6 6" else Ic.Right, C.Navy, 20.dp)
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+                val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
+                Canvas(Modifier.size(32.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
+                    val stroke = 4.dp.toPx()
+                    val inset = stroke / 2
+                    val arcSize = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
+                    drawArc(C.SurfaceAlt, -90f, 360f, false, Offset(inset, inset), arcSize, style = Stroke(stroke))
+                    if (fraction > 0f) drawArc(if (completed == meals.size) A.GreenInk else C.AccentDeep, -90f, 360f * fraction, false, Offset(inset, inset), arcSize, style = Stroke(stroke, cap = StrokeCap.Round))
+                }
+                GapW(10.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 16.sp))
+                    Text("completati", style = T.Small)
+                }
+            }
         }
     }
     if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {

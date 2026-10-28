@@ -95,6 +95,23 @@ class BottomActionInsetsTest {
                     ins.uiAutomation.takeScreenshot().compress(Bitmap.CompressFormat.PNG, 100, it)
                 }
             }
+            // The last smartwatch card must end above both three-button and gesture bars.
+            ui { Nav.clear(); Nav.go(Screen.Watch) }
+            compose.waitForIdle()
+            compose.onNodeWithTag("watch-open-zepp").performScrollTo().assertIsDisplayed().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
+            compose.onNode(hasScrollAction()).performTouchInput { swipeUp() }
+            compose.waitForIdle()
+            val card = compose.onNodeWithTag("watch-device-card").fetchSemanticsNode().boundsInRoot
+            val safeBottom = windowHeight - navigationBottom
+            val marginPx = 20f * ins.targetContext.resources.displayMetrics.density
+            assertTrue("Smartwatch card overlaps the navigation area: $card, safeBottom=$safeBottom",
+                card.bottom <= safeBottom - marginPx + 1f)
+            compose.onNodeWithTag("watch-open-zepp").assertIsDisplayed()
+            val bitmap = ins.uiAutomation.takeScreenshot()
+            try {
+                val dir = File(ins.targetContext.filesDir, "shots/layout-$capture").apply { mkdirs() }
+                File(dir, "footer-smartwatch.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+            } finally { bitmap.recycle() }
         }
     }
 }

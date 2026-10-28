@@ -28,6 +28,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.platform.testTag
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -88,7 +90,7 @@ fun WatchScreen() {
     val ok = status == 0 && granted.any { it in HealthSync.PERMISSIONS }
     val shape34 = RoundedCornerShape(34.dp)
 
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().navigationBarsPadding()) {
         TopBar("Smartwatch e attività", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp)) {
             if (s.trainingNutrition.active) {
@@ -235,7 +237,7 @@ fun WatchScreen() {
 
             // Come arrivano i dati
             SettingsHeading("Collegamento del dispositivo", "Amazfit → Zepp → Health Connect → Jarvis Food")
-            ACard(Modifier.fillMaxWidth(), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
+            ACard(Modifier.fillMaxWidth().testTag("watch-device-card"), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                 Column {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
                         ChainStep("Amazfit", WIc.Watch, C.Surface, C.Navy, Modifier.weight(1f))
@@ -250,7 +252,7 @@ fun WatchScreen() {
                         style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 14.dp))
                     Text("Una volta sola, nell'app Zepp: Profilo → Collegamento account di terze parti (3rd Party Account Linking) → Health Connect → consenti tutte le categorie.",
                         style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 8.dp))
-                    AInk("Apri Zepp", Modifier.padding(top = 14.dp).fillMaxWidth(), height = 50.dp, bg = C.NavySoft, fg = C.Navy) {
+                    AInk("Apri Zepp", Modifier.padding(top = 14.dp).fillMaxWidth().testTag("watch-open-zepp"), height = 50.dp, bg = C.NavySoft, fg = C.Navy) {
                         val i = ctx.packageManager.getLaunchIntentForPackage("com.huami.watch.hmwatchmanager")
                         runCatching { ctx.startActivity(i ?: Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.huami.watch.hmwatchmanager"))) }
                     }
