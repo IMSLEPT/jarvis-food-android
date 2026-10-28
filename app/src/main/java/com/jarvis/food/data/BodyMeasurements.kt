@@ -28,7 +28,7 @@ object BodyMeasurements {
         BodyMeasureGuide("grasso", "Massa grassa", "Inserisci la percentuale ottenuta con lo stesso metodo di valutazione.", listOf(
             "Usa il dato della bilancia impedenziometrica o della valutazione del professionista.",
             "Ripeti il controllo in condizioni simili; metodi diversi possono dare risultati diversi.",
-            "Il modello 3D non stima la massa grassa e qui non serve il metro."), "%")
+            "La sagoma non stima la massa grassa e qui non serve il metro."), "%")
     )
     fun guide(key: String) = guides.first { it.key == key }
     fun valid(key: String, value: Double): Boolean = value.isFinite() && when(key) {
