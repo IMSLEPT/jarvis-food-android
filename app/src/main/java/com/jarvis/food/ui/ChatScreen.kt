@@ -124,7 +124,7 @@ fun ChatScreen() {
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        ChatHeader(active, showSetup, { Jarvis.clear() }, { showSetup = !showSetup })
+        ChatHeader(active, showSetup, input, { input = it }, { Jarvis.clear() }, { showSetup = !showSetup }, { send(input) })
         if (showSetup || !ready) {
             // Keep the motor settings scrollable without squeezing the composer.
             Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
@@ -150,28 +150,14 @@ private const val NEW_CHAT_ICON = "M13 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2
 private const val ENGINE_ICON = "M8 7V5h7l3 3h3v10h-4l-2 3H9l-3-3H3V9h3l2-2zM10 2h5M12.5 2v3M1 10v6M1 13h2M23 10v6M21 13h2"
 
 @Composable
-private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit) {
-    Column(Modifier.fillMaxWidth().testTag("chat-header")) {
-        if (!active) {
-            TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) { HeaderAccountActions() }
-        } else Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (Nav.stack.isNotEmpty()) {
-                HeaderIconButton(Ic.Left, "Indietro") { Nav.back() }
-                Spacer(Modifier.size(8.dp))
-            }
-            JarvisLogo(40.dp)
-            Spacer(Modifier.size(10.dp))
-            Column(Modifier.weight(1f).padding(end = 8.dp)) {
-                Text("Jarvis", style = T.Title.copy(fontSize = 22.sp, color = C.Navy))
-                Text("Il tuo assistente alimentare", style = T.Small, maxLines = 2)
-            }
-            HeaderAccountActions()
-        }
-        Row(Modifier.fillMaxWidth().testTag("chat-secondary-actions").padding(start = 16.dp, end = 12.dp, bottom = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End), verticalAlignment = Alignment.CenterVertically) {
-            ChatHeaderAction(NEW_CHAT_ICON, "Nuova chat", ink = C.Accent, onClick = onNew)
-            ChatHeaderAction(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", selected = setup, onClick = onSetup)
-        }
+private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
+    Column(Modifier.fillMaxWidth().statusBarsPadding().testTag("chat-header")) {
+        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Famiglia", "Profilo"), if (setup) 1 else 0,
+            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.Family); 3 -> Nav.go(Screen.Profile) } },
+            query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",
+            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, Ic.Family, Ic.User),
+            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Famiglia", "Apri profilo"),
+            accounts = false, onSubmit = onSend)
     }
 }
 
@@ -261,9 +247,9 @@ private val CAPABILITIES = listOf(
 @Composable
 private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        JarvisLogo(76.dp)
-        Spacer(Modifier.height(8.dp))
-        Text("Ciao, sono Jarvis", style = T.Title)
+        JarvisLogo(80.dp)
+        Spacer(Modifier.height(12.dp))
+        Text("Ciao, sono Jarvis", style = T.Title.copy(fontSize = 27.sp, lineHeight = 32.sp))
         Text("Uso l'app al posto tuo: registro i pasti, cerco ricette, preparo piano e spesa. Ti dico sempre cosa ho fatto davvero e prima di eliminare qualcosa ti chiedo conferma.",
             style = T.Muted, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
         if (ready) {

@@ -67,6 +67,7 @@ class VisualConsistencyTest {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("nav-3").performClick()
+            compose.onNodeWithTag("banner-tab-Progressi-1").performClick()
             compose.onNodeWithTag("weight-empty", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
             readable(compose.onNodeWithTag("weight-empty", useUnmergedTree = true))
             shot("progress-no-weight")
@@ -98,7 +99,14 @@ class VisualConsistencyTest {
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
             compose.onNodeWithTag("plan-calendar-toggle").performClick()
             shot("plan-overview")
-            // Selecting a different slot changes only the focused card, never the diary.
+            val planned = Store.plannedMeals(Store.current, day)
+            for (slot in planned) {
+                compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
+                val photo = compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
+                assertTrue("Meal photograph must stay large", photo.height >= photo.width * .90f)
+                compose.onNodeWithTag("plan-eaten-${slot.diaryMeal}").performScrollTo().assertExists()
+            }
+            // Selecting a slot scrolls to its card and never changes the diary.
             val second = Store.plannedMeals(Store.current, day)[1]
             val diaryBefore = Store.current.diary
             compose.onNodeWithTag("plan-slot-strip").performScrollTo()

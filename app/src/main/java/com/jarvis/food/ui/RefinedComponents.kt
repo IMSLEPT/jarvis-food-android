@@ -1,5 +1,7 @@
 package com.jarvis.food.ui
 
+import kotlinx.coroutines.launch
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
@@ -89,47 +91,36 @@ private fun HeaderGreeting(text: String) {
         maxLines = 2, overflow = TextOverflow.Ellipsis)
 }
 
-/** One focused meal and a preview of the other slots, driven by the saved day plan. */
+/** Every saved meal is rendered in chronological order with the same large photograph. */
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     if (meals.isEmpty()) return
     var selectedSlot by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { androidx.compose.runtime.mutableStateOf(meals.first().slotIndex) }
-    val focused = meals.firstOrNull { it.slotIndex == selectedSlot } ?: meals.first()
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
+    val requesters = androidx.compose.runtime.remember(date, meals.map { it.slotIndex }) {
+        meals.associate { it.slotIndex to androidx.compose.foundation.relocation.BringIntoViewRequester() }
+    }
     Text("I pasti di oggi", style = T.Title.copy(fontSize = 23.sp))
     GapH(14.dp)
     Row(Modifier.fillMaxWidth().testTag("plan-slot-strip").horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         meals.forEach { meal ->
-            val selected = meal.slotIndex == focused.slotIndex
+            val selected = meal.slotIndex == selectedSlot
             val shape = RoundedCornerShape(24.dp)
             Row(Modifier.heightIn(min = 44.dp).testTag("plan-slot-${meal.diaryMeal}").clip(shape)
                 .background(if (selected) C.Navy else Color.White).border(1.dp, if (selected) C.Navy else C.Line, shape)
-                .selectable(selected, role = Role.Tab, onClick = { selectedSlot = meal.slotIndex }).padding(horizontal = 18.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                .selectable(selected, role = Role.Tab, onClick = {
+                    selectedSlot = meal.slotIndex
+                    scope.launch { requesters[meal.slotIndex]?.bringIntoView() }
+                }).padding(horizontal = 18.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(mealIcon(meal.diaryMeal), if (selected) Color.White else C.Navy, 20.dp); GapW(8.dp)
                 Text(meal.slotName, style = T.Label.copy(color = if (selected) Color.White else C.Navy))
             }
         }
     }
-    GapH(16.dp)
-    CompactPlanCard(s, date, focused)
-    meals.filter { it.slotIndex != focused.slotIndex }.forEach { meal ->
-        GapH(12.dp)
-        val r = meal.solved
-        val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == meal.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
-        JCard(padding = PaddingValues(16.dp), onClick = { selectedSlot = meal.slotIndex }) {
-            Text("${if (meal.slotIndex > focused.slotIndex) "A seguire" else "Nel piano"} · ${meal.slotName}", style = T.Small)
-            GapH(10.dp)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.size(76.dp), recEmoji(r.template.meal), 16.dp)
-                GapW(14.dp)
-                Column(Modifier.weight(1f)) {
-                    Text(r.template.name, style = T.Title2)
-                    Text("${kcalFmt(r.total.kcal)} kcal", style = T.Label.copy(fontSize = 16.sp))
-                    Text("${r.template.minutes} min · ${com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }}", style = T.Small)
-                    Text(if (eaten) "Mangiato" else "Da mangiare", style = T.Small.copy(color = if (eaten) A.GreenInk else C.Muted))
-                }
-                AIcon(Ic.Right, C.Navy, 18.dp)
-            }
-        }
+    meals.forEach { meal ->
+        GapH(16.dp)
+        CompactPlanCard(s, date, meal, Modifier.bringIntoViewRequester(requesters.getValue(meal.slotIndex)))
     }
 }
 
@@ -138,12 +129,12 @@ private fun mealIcon(id: Int) = when (id) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealL
 /** Native recipe, alternatives and diary actions in the image-first meal card. */
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
-fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
+fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifier: Modifier = Modifier) {
     val r = m.solved
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     JCard(Modifier.testTag("plan-card-${m.diaryMeal}"), padding = PaddingValues(0.dp)) {
-        FlowRow(Modifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 18.dp, end = 18.dp, top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        FlowRow(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 18.dp, end = 18.dp, top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 TonalIcon(mealIcon(m.diaryMeal), Color.White, C.AccentDeep, box = 38.dp, radius = 19.dp)
                 GapW(10.dp); Text(m.slotName, style = T.Label.copy(color = C.Navy))
@@ -156,7 +147,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
         }) {
             Text(r.template.name, modifier = Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 10.dp).testTag("plan-recipe-title-${m.diaryMeal}"),
                 style = T.Title2.copy(fontSize = 22.sp, lineHeight = 27.sp))
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.25f), recEmoji(r.template.meal), 0.dp)
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.05f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp)
         }
         FlowRow(Modifier.fillMaxWidth().padding(18.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -198,14 +189,14 @@ private fun CompactPlanAction(text: String, icon: String, color: Color, modifier
 
 /** The header and bottom navigation stay in place while app-owned content scrolls. */
 @Composable
-fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, homeName: String? = null, content: @Composable ColumnScope.() -> Unit) {
+fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, homeName: String? = null, header: (@Composable () -> Unit)? = null, content: @Composable ColumnScope.() -> Unit) {
     val scroll = androidx.compose.foundation.rememberScrollState()
     val threshold = with(LocalDensity.current) { 64.dp.roundToPx() }
     val compact by androidx.compose.runtime.remember(scroll, threshold) { derivedStateOf { scroll.value > threshold } }
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
         val expanded = LocalDensity.current.fontScale > 1.5f
-        Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
+        if (header != null) header() else Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
         Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp)) {
             if (expanded && homeName != null) {
                 if (eyebrow != null) HeaderGreeting(eyebrow)

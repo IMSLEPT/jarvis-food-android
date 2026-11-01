@@ -6,7 +6,7 @@ import kotlin.math.abs
 
 /** Offline reviewed knowledge; thresholds are population guidance, never diagnostic cut-offs. */
 object NutritionEvidence {
-    const val VERSION = "2026.11.01-v1"
+    const val VERSION = "2026.11.01-v2"
     const val REVIEWED = "01/11/2026"
     data class Source(val id: String, val title: String, val year: Int, val url: String)
     val sources = listOf(
@@ -160,5 +160,27 @@ object NutritionScience {
         return NutritionReview(days, byDay.size, usable.keys.sorted(), usable.keys.count { it !in s.nutritionCompleteDays }, nutrients, notices, habits,
             repeat, breakfasts.size, recent.map { it.food.id }.distinct().size, recent.map { it.food.group }.filter { it.isNotBlank() }.distinct().size, applicable)
     }
+    /** Product display policy: repetition and missing fields never become warnings. */
+    fun actionable(review: NutritionReview): List<NutritionNotice> {
+        if (!review.applicable || review.usableDays.size < 3) return emptyList()
+        val result = review.notices.filter { it.attention || it.id == "fiber" }.toMutableList()
+        // 70% of the selected window is a diary-coverage rule, never a clinical cutoff.
+        if (review.usableDays.size >= kotlin.math.ceil(review.window * 0.70).toInt()) {
+            for (key in listOf("vitC", "vitB12", "vitD")) {
+                val nutrient = review.nutrient(key)
+                val mean = nutrient.average ?: continue
+                val reference = nutrient.reference ?: continue
+                if (!nutrient.complete || mean >= reference) continue
+                result += NutritionNotice("intake-$key", "${nutrient.name}: varia le fonti",
+                    "Media registrata ${fmt(mean)} ${nutrient.unit}/die su ${review.usableDays.size} giorni.",
+                    "Riferimento EFSA per adulti: ${fmt(reference)} ${nutrient.unit}/die. È un riferimento di popolazione, non una dose personale o un limite di sicurezza.",
+                    if (key == "vitD") "Un apporto alimentare basso non dimostra una carenza: per la vitamina D conta anche la sintesi cutanea. Nessuna indicazione automatica a integratori."
+                    else "Un apporto registrato sotto il riferimento suggerisce di variare le fonti; non dimostra una carenza e non permette di prevedere malattie.",
+                    "Prova una delle porzioni alimentari indicate, adattandola al tuo piano.", key)
+            }
+        }
+        return result.distinctBy { it.id }
+    }
+
     fun fmt(value: Double?): String = value?.let { String.format(java.util.Locale.ITALY, "%.1f", it) } ?: "non disponibile"
 }

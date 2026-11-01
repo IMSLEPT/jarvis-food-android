@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -136,8 +138,13 @@ fun ProgressScreen() {
     val loggedDays = s.diary.map { it.date }.toSet()
     val shape30 = RoundedCornerShape(24.dp)
 
-    MainPage("Progressi") {
-        Text("I tuoi numeri, giorno dopo giorno", style = T.Body.copy(fontSize = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
+    var section by remember { mutableIntStateOf(0) }
+    var query by remember { mutableStateOf("") }
+    fun matches(vararg terms: String) = query.isBlank() || terms.any { it.contains(query.trim(), ignoreCase = true) }
+    MainPage("Progressi", resetKey = section, header = {
+        NavyBanner("Progressi", listOf("Dati", "Andamento", "Obiettivi", "Statistiche"), section, { section = it },
+            query, { query = it }, "Cerca dati, misure o obiettivi")
+    }) {
 
         // Intervallo
         val seg = RoundedCornerShape(26.dp)
@@ -150,6 +157,7 @@ fun ProgressScreen() {
             }
         }
 
+        if (section == 0 && query.isBlank()) {
         // Serie
         val streakDays = streak(s)
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
@@ -173,6 +181,18 @@ fun ProgressScreen() {
             }
         }
 
+        }
+        if (section == 0 && matches("peso", "calorie", "kcal", "dati")) {
+            GapH(12.dp)
+            FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (expanded) 1 else 2,
+                horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                ProgressMetric("Peso", "${weight.r1()} kg", "IMC ${bmi.r1()} · ${Nutrition.bmiLabel(bmi)}", "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2", C.Blue,
+                    (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.Weight) }
+                ProgressMetric("Calorie", "${avg?.kcal?.let { kcalFmt(it) } ?: "—"} kcal", "Media · Obiettivo ${kcalFmt(goalKcal)}", Ic.Flame, C.Accent,
+                    (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { section = 1 }
+            }
+        }
+        if (section in 1..2 && matches("peso", "obiettivo", "kg", "andamento")) {
         // Peso
         ASection("Peso", action = "Registra", top = 28.dp) { Nav.go(Screen.Weight) }
         val from = today.minusDays((period - 1).toLong())
@@ -214,6 +234,8 @@ fun ProgressScreen() {
             }
         }
 
+        }
+        if (section == 1 && matches("calorie", "kcal", "andamento")) {
         // Calorie
         ASection("Calorie", top = 28.dp)
         GapH(12.dp)
@@ -241,6 +263,8 @@ fun ProgressScreen() {
                 labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null)
         }
 
+        }
+        if (section == 0 && matches("macro", "proteine", "carboidrati", "grassi", "fibre", "zuccheri", "sale")) {
         // Macro
         ASection("Macronutrienti (media)", top = 24.dp)
         GapH(12.dp)
@@ -268,6 +292,8 @@ fun ProgressScreen() {
             }
         }
 
+        }
+        if (section == 0 && matches("acqua", "idratazione")) {
         // Acqua
         ASection("Acqua", top = 28.dp)
         GapH(12.dp)
@@ -279,16 +305,21 @@ fun ProgressScreen() {
             Text("Media ${water.average().r1()} L al giorno · ultimi $period giorni", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF0E5A72)), modifier = Modifier.padding(top = 12.dp))
         }
 
+        }
+        if (section == 0 && matches("passi", "attività", "movimento")) {
         // Passi e attività
         ASection("Passi e attività", top = 28.dp)
         GapH(12.dp)
         val burned = days.map { Store.burnedFor(s, it).toDouble() }
         Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(16.dp)) {
-            BarsRow(burned, (burned.maxOrNull() ?: 1.0).coerceAtLeast(1.0) * 1.02, 110.dp, if (period == 7) 12.dp else 5.dp, if (period == 7) 8.dp else 3.dp,
-                fill = { i, _ -> SolidColor(if (i == days.size - 1) Color(0xFF6FDDB8) else Color(0xFF10B981)) })
+            val steps = days.map { Store.stepsFor(s, it).toDouble() }
+            BarsRow(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), 110.dp, if (period == 7) 12.dp else 5.dp, if (period == 7) 8.dp else 3.dp,
+                fill = { i, _ -> SolidColor(if (i == days.size - 1) Color(0xFF6FDDB8) else Color(0xFF10B981)) }, labels = if (period == 7) days.map(letter) else null)
             Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF065F46)), modifier = Modifier.padding(top = 12.dp))
         }
 
+        }
+        if (section == 3 && matches("misure", "corpo", "vita", "grasso", "statistiche")) {
         // Misure corporee
         ASection("Misure corporee", action = "Apri", top = 28.dp) { Nav.go(Screen.Measurements) }
         val latest = MEASURES.mapNotNull { (k, label) ->
@@ -325,10 +356,39 @@ fun ProgressScreen() {
             }
         }
 
-        // Vitamine e minerali
-        ASection("Vitamine e minerali", top = 28.dp)
-        GapH(12.dp)
-        MicroSummaryCard(s)
+        }
+        if (section == 3 && matches("vitamine", "nutrienti", "consigli", "statistiche")) {
+            GapH(12.dp)
+            NutritionAdvisor(s)
+            TextButton(onClick = { Nav.go(Screen.Micronutrients) }) { Text("Apri analisi nutrizionale", color = C.Navy) }
+        }
+        if (section == 2) {
+            GapH(16.dp)
+            JCard {
+                Text("I tuoi obiettivi", style = T.Title2)
+                Text("${kcalFmt(Store.energyFor(s, today).targetKcal)} kcal · ${s.goals.waterMl} ml di acqua", style = T.Body)
+                TextButton(onClick = { Nav.go(Screen.Goals) }) { Text("Modifica obiettivi", color = C.Navy) }
+                TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Giorni ON / OFF", color = C.AccentDeep) }
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun ProgressMetric(title: String, value: String, detail: String, icon: String, tint: Color, modifier: Modifier, onClick: () -> Unit) {
+    JCard(modifier, padding = androidx.compose.foundation.layout.PaddingValues(12.dp), onClick = onClick) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            TonalIcon(icon, tint, tint.copy(alpha = .12f), box = 32.dp, radius = 10.dp)
+            GapW(8.dp)
+            Column(Modifier.weight(1f)) {
+                Text(title, style = T.Label)
+                Text(value, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp))
+            }
+            AIcon(Ic.Right, C.Accent, 14.dp)
+        }
+        GapH(5.dp)
+        Text(detail, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
     }
 }
 

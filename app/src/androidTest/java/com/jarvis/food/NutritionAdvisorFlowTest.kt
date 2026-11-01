@@ -52,11 +52,12 @@ class NutritionAdvisorFlowTest {
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.waitUntil(15000) { compose.onAllNodesWithTag("nutrition-coverage").fetchSemanticsNodes().isNotEmpty() }
             compose.onNodeWithTag("nutrition-coverage",useUnmergedTree=true).assertTextContains("0/7 giorni",substring=true)
-            compose.onNodeWithTag("notice-repetition").performScrollTo().performClick()
-            compose.onNodeWithText("Ripetere un alimento non è di per sé dannoso: contano quantità, composizione e varietà complessiva.").assertExists()
+            compose.onAllNodesWithTag("notice-repetition").assertCountEquals(0)
+            compose.onAllNodesWithText("Vitamina D").assertCountEquals(0)
+            compose.onAllNodesWithText("Fonti alimentari da esplorare").assertCountEquals(0)
+            compose.onNodeWithText("Nessun suggerimento da mostrare").assertExists()
             assertEquals(diary,Store.current.diary)
-            shot("repetition-detail")
-            compose.onNodeWithText("Chiudi").performClick()
+            shot("no-unnecessary-advice")
             compose.onNodeWithText("30 giorni").performScrollTo().performClick()
             compose.waitUntil(10000) { compose.onAllNodesWithTag("nutrition-coverage",useUnmergedTree=true).fetchSemanticsNodes().any { it.config.getOrElse(androidx.compose.ui.semantics.SemanticsProperties.Text) { emptyList() }.any { t -> t.text.contains("0/30 giorni") } } }
             shot("thirty-days")
@@ -65,15 +66,17 @@ class NutritionAdvisorFlowTest {
     @Test fun planReplacementRequiresConfirmationAndPreservesDiary() {
         Store.init(ins.targetContext)
         val date=LocalDate.now()
-        val f=Food("breakfast", "Yogurt greco",kcal=200.0,protein=15.0,carbs=20.0,fat=6.0)
+        val f=Food("breakfast", "Yogurt greco",kcal=200.0,protein=15.0,carbs=20.0,fat=6.0,freeSugar=40.0,fiber=30.0,satFat=0.0,salt=0.0)
         val diary=(1..6).map { DiaryEntry("breakfast-$it",date.minusDays(it.toLong()).toString(),0,f,100.0,0) }
         ui {
-            Store.update { AppState(onboarded=true,diary=diary) }
+            Store.update { AppState(onboarded=true,diary=diary,nutritionCompleteDays=diary.map { it.date }) }
             Store.generatePlan(date.with(java.time.DayOfWeek.MONDAY),14)
             Nav.clear(); Nav.go(Screen.Micronutrients)
         }
         val before=Store.dayPlan(Store.current,date)!!.slots.first { it.slot==0 }.recipeId
         ActivityScenario.launch(MainActivity::class.java).use {
+            compose.waitUntil(15000) { compose.onAllNodesWithTag("notice-free-sugar").fetchSemanticsNodes().isNotEmpty() }
+            compose.onNodeWithTag("notice-free-sugar").performScrollTo().performClick()
             compose.waitUntil(15000) { compose.onAllNodesWithText("Confronta e sostituisci").fetchSemanticsNodes().isNotEmpty() }
             compose.onAllNodesWithText("Confronta e sostituisci")[0].performScrollTo().performClick()
             compose.onNodeWithText("Annulla").performClick()

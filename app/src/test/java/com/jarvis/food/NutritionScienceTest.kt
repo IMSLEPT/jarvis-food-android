@@ -115,4 +115,26 @@ class NutritionScienceTest {
         assertEquals(200.0,NutritionScience.per100(old,"kcal")!!,0.0)
     }
 
+    @Test fun repeatedBreakfastAndUnknownDataAreSilentInHome() {
+        val r=NutritionScience.analyze(state(food(fiber=null,sat=null,salt=null),days=6),today)
+        assertTrue(r.repeatedBreakfastDays>=3)
+        assertTrue(NutritionScience.actionable(r).none { it.id in setOf("repetition","missing-sugars") })
+        val incomplete=NutritionScience.analyze(state(food(),days=6).copy(nutritionCompleteDays=emptyList()),today)
+        assertTrue(NutritionScience.actionable(incomplete).isEmpty())
+    }
+    @Test fun vitaminSuggestionsRequireEnoughCompleteDaysAndLowKnownIntake() {
+        val short=NutritionScience.analyze(state(food(fiber=30.0),days=4),today)
+        assertTrue(NutritionScience.actionable(short).none { it.id.startsWith("intake-") })
+        val ready=NutritionScience.analyze(state(food(fiber=30.0),days=6),today)
+        assertTrue(NutritionScience.actionable(ready).any { it.id=="intake-vitC" })
+        val missing=state(food(fiber=30.0),days=6).let { s -> s.copy(diary=s.diary.map { it.copy(food=it.food.copy(unknownNutrients=listOf("vitC","vitD","vitB12"))) }) }
+        assertTrue(NutritionScience.actionable(NutritionScience.analyze(missing,today)).none { it.id.startsWith("intake-") })
+    }
+    @Test fun adequateIntakeAndSpecialProfilesNeverPromptVitaminAdvice() {
+        val adequate=food(fiber=30.0).copy(micro=mapOf("vitC" to 120.0,"vitD" to 20.0,"vitB12" to 5.0))
+        assertTrue(NutritionScience.actionable(NutritionScience.analyze(state(adequate,6),today)).none { it.id.startsWith("intake-") })
+        val special=state(food(),6).copy(profile=Profile(special=1))
+        assertTrue(NutritionScience.actionable(NutritionScience.analyze(special,today)).isEmpty())
+    }
+
 }

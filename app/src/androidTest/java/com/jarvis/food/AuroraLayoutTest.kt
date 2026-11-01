@@ -87,9 +87,14 @@ class AuroraLayoutTest {
         val profile = compose.onNodeWithContentDescription("Apri profilo").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
         val fresh = compose.onNodeWithContentDescription("Nuova chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
         val engine = compose.onNodeWithContentDescription("Motore della chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
-        assertTrue("Chat actions overlap account controls", minOf(fresh.top, engine.top) >= maxOf(family.bottom, profile.bottom))
-        assertTrue("New chat is not below Family", kotlin.math.abs(fresh.center.x - family.center.x) <= 1f)
-        assertTrue("Engine is not below Profile", kotlin.math.abs(engine.center.x - profile.center.x) <= 1f)
+        val bounds = listOf(fresh, engine, family, profile)
+        for (i in bounds.indices) for (j in i+1 until bounds.size) {
+            val a = bounds[i]; val b = bounds[j]
+            assertTrue("Labelled header actions overlap", a.right <= b.left + 1f || b.right <= a.left + 1f || a.bottom <= b.top + 1f || b.bottom <= a.top + 1f)
+        }
+        compose.onNodeWithText("Modello", useUnmergedTree = true).assertIsDisplayed()
+        compose.onNodeWithText("Profilo", useUnmergedTree = true).assertIsDisplayed()
+
     }
 
     @Test fun barsGreetingsAndLongActionsRemainVisible() {

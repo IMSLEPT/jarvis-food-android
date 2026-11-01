@@ -39,83 +39,117 @@ private fun rememberReview(s: AppState, days: Int): NutritionReview? {
 @Composable
 fun NutritionAdvisor(s: AppState, full: Boolean = false, days: Int = 7) {
     val review = rememberReview(s, days)
-    if (!full) ASection("Equilibrio dei nutrienti", action = "Analisi completa") { Nav.go(Screen.Micronutrients) }
     if (review == null) {
-        JCard { Text("Analizzo il diario sul telefono…", style = T.Small) }
+        if (full) Text("Analizzo il diario…", style = T.Small)
         return
     }
-    var notice by remember { mutableStateOf<NutritionNotice?>(null) }
-    JCard(Modifier.testTag("nutrition-advisor"), padding = PaddingValues(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(Ic.Chart, C.Navy, C.NavySoft, box = 42.dp)
-            GapW(12.dp)
-            Column(Modifier.weight(1f)) {
-                Text("Analisi degli ultimi ${review.window} giorni", style = T.Title2)
-                Text("${review.usableDays.size}/${review.window} giorni sufficientemente registrati · ${review.recordedDays} con dati", modifier = Modifier.testTag("nutrition-coverage"), style = T.Small)
-            }
-        }
-        GapH(12.dp)
-        if (!review.applicable) Text("I confronti per adulti sani non vengono applicati a minori, gravidanza/allattamento o condizioni cliniche segnalate nel profilo. Puoi consultare i dati registrati con un professionista.", style = T.Small)
-        if (review.usableDays.size < 3) Text("Servono almeno 3 giorni sufficientemente registrati per evidenziare tendenze. Questo è un criterio operativo dell’app, non una soglia clinica.", style = T.Small)
-        Text("Completezza indicativa: giornate passate con almeno 3 pasti e il 70% dell’obiettivo energetico, oppure conferma manuale. Anche così possono mancare alimenti e condimenti.", style = T.Small)
+    val suggestions = NutritionScience.actionable(review)
+    // The Home has no empty panel, loading block, vitamins list or generic food suggestions.
+    if (!full && suggestions.isEmpty()) return
+    var selected by remember { mutableStateOf<NutritionNotice?>(null) }
+    var showData by remember { mutableStateOf(false) }
+    if (!full) ASection("Un consiglio per te", action = "Dettagli") { Nav.go(Screen.Micronutrients) }
+    if (full) {
+        Text("${review.usableDays.size}/${review.window} giorni utilizzabili", Modifier.testTag("nutrition-coverage"), style = T.Small)
         GapH(10.dp)
-        listOf("vitD", "vitC", "vitB12").forEach { key ->
-            val metric = review.nutrient(key)
-            Row(Modifier.fillMaxWidth().padding(vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
-                FoodIllustration(when(key) { "vitD" -> "trota"; "vitC" -> "arancia"; else -> "uova" }, size = 42.dp)
+        if (suggestions.isEmpty()) JCard {
+            Text("Nessun suggerimento da mostrare", style = T.Title2)
+            Text(if (review.usableDays.size < 3) "Registra più giornate complete per valutare le abitudini."
+                else "Nessun consiglio specifico dai dati disponibili: non è una valutazione clinica.", style = T.Small)
+        }
+    }
+    suggestions.take(if (full) 4 else 2).forEach { notice ->
+        val alternatives = noticeAlternatives(s, notice)
+        val current = notice.entryId?.let { id -> s.diary.firstOrNull { it.id == id } }
+        GapH(10.dp)
+        JCard(Modifier.testTag("nutrition-advisor-${notice.id}"), padding = PaddingValues(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (current != null) FoodIllustration(current.food.name, current.food.group, 44.dp)
+                else TonalIcon(if (notice.attention) Ic.Spark else Ic.Bowl, C.AccentDeep, C.AccentSoft, box = 40.dp)
                 GapW(10.dp)
                 Column(Modifier.weight(1f)) {
-                    Text(metric.name, style = T.Label)
-                    Text(if (metric.average == null) "Dato non disponibile" else "${NutritionScience.fmt(metric.average)} ${metric.unit}/die · ${metric.knownEntries}/${metric.totalEntries} voci note", style = T.Small)
-                    val percent = metric.percent
-                    if (percent != null && review.applicable) {
-                        GapH(4.dp)
-                        ABar((percent / 100).toFloat().coerceIn(0f, 1f), androidx.compose.ui.graphics.SolidColor(if (percent >= 100) A.GreenInk else C.Accent), C.AccentSoft, 6.dp)
-                    }
+                    Text(notice.title, style = T.Label)
+                    Text(notice.explanation, style = T.Small)
                 }
-                GapW(8.dp)
-                Text(metric.percent?.let { "${it.r0()}%" } ?: "—", style = T.Label.copy(color = C.Navy))
             }
-        }
-        Text("Percentuali sui riferimenti EFSA solo con dati completi. Apporto alimentare stimato: non misura lo stato vitaminico e non diagnostica carenze. Per la D conta anche la sintesi cutanea.", style = T.Small)
-        FoodSources(review, s)
-    }
-    GapH(12.dp)
-    if (review.notices.isNotEmpty()) {
-        JCard(padding = PaddingValues(16.dp)) {
-            Text(if (review.notices.any { it.attention }) "Attenzione alle tue abitudini" else "Le tue abitudini alimentari", style = T.Title2)
-            review.notices.take(if (full) 12 else 2).forEach { item ->
+            GapH(8.dp)
+            Text(shortAdvice(notice, review), style = T.Small.copy(color = C.Navy))
+            if (alternatives.isNotEmpty()) {
                 GapH(10.dp)
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    val food = item.entryId?.let { id -> s.diary.firstOrNull { it.id == id }?.food }
-                    if (food != null) { FoodIllustration(food.name, food.group, 48.dp); GapW(10.dp) }
-                    Column(Modifier.weight(1f)) {
-                        Text(item.title, style = T.Label.copy(color = if (item.attention) C.AccentDeep else C.Navy))
-                        Text(item.explanation, style = T.Small)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    alternatives.take(2).forEach { (food, grams) ->
+                        Row(Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).background(C.Bg)
+                            .clickable { Nav.go(Screen.FoodDetail(food.toFood(), LocalDate.now(), defaultMeal(), grams)) }.padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
+                            FoodIllustration(food.name, food.group, 40.dp); GapW(6.dp)
+                            Column(Modifier.weight(1f)) {
+                                Text(food.name, style = T.Small.copy(color = C.Navy))
+                                Text("${grams.r0()} ${if (food.liquid) "ml" else "g"}", style = T.Label)
+                            }
+                        }
                     }
                 }
-                TextButton(onClick = { notice = item }, modifier = Modifier.testTag("notice-${item.id}")) { Text("Scopri perché", color = C.Navy) }
-                if (full) Text(item.action, style = T.Small)
-                if (item.entryId != null) TextButton(onClick = { Nav.go(Screen.ReplaceFood(item.entryId)) }) { Text("Sostituisci alimento", color = C.AccentDeep) }
             }
-            if (!full && review.notices.size > 2) TextButton(onClick = { Nav.go(Screen.Micronutrients) }) { Text("Tutti i consigli (${review.notices.size})", color = C.Navy) }
-            BreakfastAlternatives(s)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                TextButton(onClick = { selected = notice }, modifier = Modifier.testTag("notice-${notice.id}")) { Text("Scopri perché", color = C.Navy) }
+                if (notice.entryId != null) TextButton(onClick = { Nav.go(Screen.ReplaceFood(notice.entryId)) }) { Text("Sostituisci", color = C.AccentDeep) }
+            }
         }
     }
-    if (full) FullReviewDetails(review, s)
-    CompleteDayControl(s)
-    Text("Base scientifica ${NutritionEvidence.VERSION} · verificata il ${NutritionEvidence.REVIEWED}. Funziona offline; nessun aggiornamento automatico delle fonti.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
-    val selected = notice
-    if (selected != null) AlertDialog(onDismissRequest = { notice = null }, title = { Text(selected.title, style = T.Title2) }, text = {
-        Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(selected.explanation, style = T.Body)
-            Text(selected.reference, style = T.Body)
-            Text(selected.meaning, style = T.Body)
-            Text(selected.action, style = T.Body)
-            EvidenceLink(selected.sourceId)
-            Text("Riferimenti per adulti sani; non sono diagnosi o prescrizioni individuali.", style = T.Small)
+    if (full) {
+        GapH(10.dp)
+        TextButton(onClick = { showData = !showData }, modifier = Modifier.testTag("nutrition-data-toggle")) {
+            Text(if (showData) "Nascondi dati e fonti" else "Dati e fonti", color = C.Navy)
         }
-    }, confirmButton = { TextButton(onClick = { notice = null }) { Text("Chiudi") } }, containerColor = C.Surface)
+        if (showData) {
+            Text("Completezza stimata da almeno 3 pasti e 70% dell’energia attesa nei giorni passati, oppure confermata da te. I dati mancanti non diventano zero. I consigli sulle vitamine richiedono almeno il 70% dei giorni della finestra con dati completi: criteri dell’app, non soglie cliniche.", style = T.Small)
+            FullReviewDetails(review, s)
+            Text("Base ${NutritionEvidence.VERSION} · verifica ${NutritionEvidence.REVIEWED} · fonti consultabili online, analisi disponibile offline.", style = T.Small)
+        }
+        CompleteDayControl(s)
+    }
+    selected?.let { notice ->
+        val alternatives = noticeAlternatives(s, notice)
+        val current = notice.entryId?.let { id -> s.diary.firstOrNull { it.id == id } }
+        AlertDialog(onDismissRequest = { selected = null }, title = { Text(notice.title, style = T.Title2) }, text = {
+            Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(notice.explanation, style = T.Body)
+                current?.let { Text("${it.food.name}: ${it.grams.r0()} g nella registrazione selezionata.", style = T.Small) }
+                Text(notice.meaning, style = T.Body)
+                Text(notice.reference, style = T.Small)
+                Text(notice.action, style = T.Small)
+                alternatives.forEach { (food, grams) ->
+                    Text("${food.name} · ${grams.r0()} ${if (food.liquid) "ml" else "g"}: ${(food.kcal * grams / 100).r0()} kcal · P ${(food.protein * grams / 100).r0()} · C ${(food.carbs * grams / 100).r0()} · G ${(food.fat * grams / 100).r0()} g", style = T.Small)
+                    Text("Porzione indicativa, da adattare al pasto; non è un massimo di sicurezza.", style = T.Small)
+                }
+                if (notice.id == "free-sugar") BreakfastAlternatives(s)
+                EvidenceLink(notice.sourceId)
+                EvidenceLink("portions")
+            }
+        }, confirmButton = { TextButton(onClick = { selected = null }) { Text("Chiudi") } }, containerColor = C.Surface)
+    }
+}
+
+private fun shortAdvice(n: NutritionNotice, r: NutritionReview): String = when (n.id) {
+    "free-sugar" -> "L’eccesso abituale favorisce carie e aumento di peso. Obiettivo: meno di ${NutritionScience.fmt((r.nutrient("kcal").average ?: 0.0) * .10 / 4)} g/die di zuccheri liberi. Prova yogurt bianco o avena."
+    "sodium" -> "Troppo sale contribuisce all’aumento della pressione. Obiettivo: meno di 5 g di sale totali al giorno. Prova alimenti meno salati."
+    "saturated" -> "Sostituisci parte dei saturi con grassi insaturi. Obiettivo: non oltre ${NutritionScience.fmt((r.nutrient("kcal").average ?: 0.0) * .10 / 9)} g/die di saturi."
+    "fiber" -> "Obiettivo: almeno 25 g/die di fibre. Prova legumi e avena, aumentando gradualmente."
+    else -> "Prova una fonte diversa nel piano. È un suggerimento alimentare, non una diagnosi di carenza."
+}
+
+private fun noticeAlternatives(s: AppState, n: NutritionNotice): List<Pair<DbFood, Double>> {
+    val ids = when (n.id) {
+        "free-sugar" -> listOf("greco0" to 125.0, "avena" to 30.0)
+        "saturated" -> listOf("olio" to 10.0, "ceci" to 150.0)
+        "sodium" -> listOf("pollo" to 100.0, "greco0" to 125.0)
+        "fiber" -> listOf("ceci" to 150.0, "avena" to 30.0)
+        "intake-vitC" -> listOf("arancia" to 150.0)
+        "intake-vitB12" -> listOf("uova" to 50.0, "salmone" to 150.0)
+        "intake-vitD" -> listOf("trota" to 150.0, "salmone" to 150.0)
+        else -> emptyList()
+    }
+    return ids.mapNotNull { (id, g) -> Db.db.food(id)?.takeIf { f -> f.tags.none { it in s.dietPrefs.exclude } }?.let { it to g } }
 }
 
 @Composable
