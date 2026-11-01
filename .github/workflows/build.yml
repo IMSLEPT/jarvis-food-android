@@ -175,12 +175,10 @@ jobs:
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-standard.log 2>&1
             cat layout-profile-standard.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-profile-standard.log
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.ProfileFormsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-profile-large-text.log 2>&1
             cat layout-profile-large-text.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-profile-large-text.log
             adb shell settings put system font_scale 1.0
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.AuroraLayoutTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-standard.log 2>&1
             cat layout-standard.log
@@ -201,7 +199,6 @@ jobs:
             adb shell wm density reset
             adb shell am instrument -w -e class com.jarvis.food.NutritionAdvisorFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-nutrition.log 2>&1
             cat layout-nutrition.log
-            grep -q "OK (3 tests)" layout-nutrition.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.gestural
             adb shell am instrument -w -e captureName gestures -e navigationMode 2 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-gestures.log 2>&1
@@ -215,31 +212,21 @@ jobs:
             cat photo-ai.log
             adb logcat -d -s AndroidRuntime:E > layout-crash.txt
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
-            grep -q "OK (2 tests)" layout-standard.log
-            grep -q "OK (2 tests)" layout-large-text.log
-            grep -q "OK (1 test)" layout-buttons.log
-            grep -q "OK (1 test)" layout-buttons-large-text.log
-            grep -q "OK (1 test)" layout-gestures.log
-            grep -q "OK (3 tests)" photo-ai.log
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.TrainingDiaryFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-features-standard.log 2>&1
             cat layout-features-standard.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-features-standard.log
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.TrainingDiaryFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-features-large-text.log 2>&1
             cat layout-features-large-text.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-features-large-text.log
             adb shell settings put system font_scale 1.0
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.MealOptionsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-options-standard.log 2>&1
             cat layout-options-standard.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (3 tests)" layout-options-standard.log
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.MealOptionsFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-options-large-text.log 2>&1
             cat layout-options-large-text.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (3 tests)" layout-options-large-text.log
             adb shell settings put system font_scale 1.0
             adb shell am instrument -w -e captureName standard -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-standard.log 2>&1
             cat layout-consistency-standard.log
@@ -247,7 +234,6 @@ jobs:
             adb logcat -b crash -d > layout-consistency-crash.log
             adb logcat -d -s ActivityManager:I lmkd:I lowmemorykiller:I > layout-consistency-system.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (3 tests)" layout-consistency-standard.log
             adb shell settings put system font_scale 1.3
             adb shell am instrument -w -e captureName large-text -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-large-text.log 2>&1
             cat layout-consistency-large-text.log
@@ -255,7 +241,6 @@ jobs:
             adb logcat -b crash -d > layout-consistency-crash.log
             adb logcat -d -s ActivityManager:I lmkd:I lowmemorykiller:I > layout-consistency-system.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (3 tests)" layout-consistency-large-text.log
             adb shell wm size 960x2400
             adb shell wm density 480
             adb shell settings put system font_scale 2.0
@@ -265,13 +250,29 @@ jobs:
             adb logcat -b crash -d > layout-consistency-crash.log
             adb logcat -d -s ActivityManager:I lmkd:I lowmemorykiller:I > layout-consistency-system.log
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (3 tests)" layout-consistency-small-200.log
             adb shell settings put system font_scale 1.0
             adb shell wm size reset
             adb shell wm density reset
             adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb logcat -d -s AndroidRuntime:E > layout-crash.txt
             if grep -q "FATAL EXCEPTION" layout-crash.txt; then cat layout-crash.txt; exit 1; fi
+            # Collect every suite before enforcing all existing pass gates. No failed suite can publish.
+            grep -q "OK (2 tests)" layout-profile-standard.log
+            grep -q "OK (2 tests)" layout-profile-large-text.log
+            grep -q "OK (3 tests)" layout-nutrition.log
+            grep -q "OK (2 tests)" layout-standard.log
+            grep -q "OK (2 tests)" layout-large-text.log
+            grep -q "OK (1 test)" layout-buttons.log
+            grep -q "OK (1 test)" layout-buttons-large-text.log
+            grep -q "OK (1 test)" layout-gestures.log
+            grep -q "OK (3 tests)" photo-ai.log
+            grep -q "OK (2 tests)" layout-features-standard.log
+            grep -q "OK (2 tests)" layout-features-large-text.log
+            grep -q "OK (3 tests)" layout-options-standard.log
+            grep -q "OK (3 tests)" layout-options-large-text.log
+            grep -q "OK (3 tests)" layout-consistency-standard.log
+            grep -q "OK (3 tests)" layout-consistency-large-text.log
+            grep -q "OK (3 tests)" layout-consistency-small-200.log
 
       - name: Save Android 15 diagnostics early
         if: failure()

@@ -240,9 +240,9 @@ class AuroraLayoutTest {
             assertTrue("Active conversation input overlaps keyboard", activeInput.bottom <= windowHeight - imeBottom + 1f)
             compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
             shot("chat-conversation-keyboard")
-            // Drain the shell command to EOF: closing its descriptor immediately can
-            // cancel delivery of Back before the IME receives the key event.
-            android.os.ParcelFileDescriptor.AutoCloseInputStream(ins.uiAutomation.executeShellCommand("input keyevent 4")).use { it.readBytes() }
+            // Use the same synchronous system-key driver as the native calendar check.
+            ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
+            ins.waitForIdleSync()
             try { compose.waitUntil(20_000) {
                 scenario.onActivity { activity ->
                     imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
@@ -252,7 +252,7 @@ class AuroraLayoutTest {
             } } catch (failure: Throwable) {
                 println("IME close diagnostic: bottom=$imeBottom, bottomBars=${compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().size}, tab=${Nav.tab}")
                 shot("chat-ime-close-failure")
-                throw failure
+                throw AssertionError("Keyboard close state: ime=$imeBottom, bars=${compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().size}, tab=${Nav.tab}", failure)
             }
             assertEquals("Back must close the keyboard without leaving Jarvis", 5, Nav.tab)
             ui { Store.update { it.copy(chat = emptyList(), ai = it.ai.copy(apiKey = "")) } }
