@@ -98,6 +98,13 @@ class VisualConsistencyTest {
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
             compose.onNodeWithTag("plan-calendar-toggle").performClick()
             shot("plan-overview")
+            // Selecting a different slot changes only the focused card, never the diary.
+            val second = Store.plannedMeals(Store.current, day)[1]
+            val diaryBefore = Store.current.diary
+            compose.onNodeWithTag("plan-slot-${second.diaryMeal}").performScrollTo().performClick().assertIsSelected()
+            compose.onNodeWithTag("plan-recipe-title-${second.diaryMeal}", useUnmergedTree = true).performScrollTo().assertTextEquals(second.solved.template.name)
+            assertEquals(diaryBefore, Store.current.diary)
+            compose.onNodeWithTag("plan-slot-${meal.diaryMeal}").performScrollTo().performClick().assertIsSelected()
             val recipe = compose.onNodeWithTag("plan-recipe-${meal.diaryMeal}").performScrollTo()
             recipe.assertHasClickAction()
             readable(compose.onNodeWithText(meal.solved.template.name, useUnmergedTree = true))
@@ -158,6 +165,10 @@ class VisualConsistencyTest {
             compose.waitUntil(30_000) { compose.onAllNodesWithText("Ricetta del giorno").fetchSemanticsNodes().isNotEmpty() }
             for (i in 0..2) singleLine(compose.onNodeWithTag("kitchen-tab-label-$i", useUnmergedTree = true))
             shot("kitchen-overview")
+            compose.onNodeWithTag("kitchen-search").performClick()
+            compose.waitForIdle()
+            assertTrue(Nav.stack.last() is Screen.RecipeList)
+            ui { Nav.back() }
             compose.onNodeWithText("Ricetta del giorno").performScrollTo()
             shot("kitchen-daily")
             compose.waitUntil(30_000) {

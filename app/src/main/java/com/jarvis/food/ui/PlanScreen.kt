@@ -124,10 +124,14 @@ fun PlanScreen() {
                 }
             }
         }
+        Spacer(Modifier.height(8.dp))
+        WeekStrip(s, date) { Nav.planDate = it }
         if (calendarExpanded) {
-            Spacer(Modifier.height(12.dp))
-            WeekStrip(s, date) { Nav.planDate = it }
-            DayTypeControl(s, date)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                TextButton(onClick = { Nav.planDate = date.minusWeeks(1) }) { Text("Precedente", color = C.Navy) }
+                TextButton(onClick = { Nav.planDate = LocalDate.now() }) { Text("Oggi", color = C.Navy) }
+                TextButton(onClick = { Nav.planDate = date.plusWeeks(1) }) { Text("Successiva", color = C.Navy) }
+            }
         }
 
         if (!hasWeek) {
@@ -173,18 +177,18 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     var expanded by remember { mutableStateOf(false) }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 16.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
-        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 3, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(Ic.MealLunch, C.AccentDeep, 26.dp, 1.8f)
-                GapW(12.dp)
+                AIcon(Ic.MealLunch, C.AccentDeep, 22.dp, 1.8f)
+                GapW(8.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 20.sp, lineHeight = 26.sp))
+                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
                     Text("pianificate", style = T.Small)
                 }
             }
             Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
                 val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
-                Canvas(Modifier.size(32.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
+                Canvas(Modifier.size(24.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
                     val stroke = 4.dp.toPx()
                     val inset = stroke / 2
                     val arcSize = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
@@ -193,8 +197,15 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 }
                 GapW(10.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 16.sp))
+                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 14.sp))
                     Text("completati", style = T.Small)
+                }
+            }
+            Box(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.05f)) {
+                if (s.trainingNutrition.active) DayTypeControl(s, date, compact = true)
+                else Column(Modifier.clickable { Nav.go(Screen.TrainingGoals) }) {
+                    Text("ON / OFF", style = T.Label.copy(color = C.AccentDeep))
+                    Text("Configura giorni", style = T.Small)
                 }
             }
         }

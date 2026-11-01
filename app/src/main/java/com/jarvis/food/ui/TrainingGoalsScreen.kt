@@ -184,18 +184,25 @@ private fun TargetFields(title: String, key: String, values: List<String>, onEdi
 
 /** Date-specific control shared by diary and weekly plan. */
 @Composable
-fun DayTypeControl(s: AppState, date: LocalDate) {
+fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
     if (!s.trainingNutrition.active) return
     var dialog by remember(date) { mutableStateOf(false) }
     val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
     val shape = RoundedCornerShape(16.dp)
+    if (compact) {
+        Column(Modifier.testTag("day-type-label").clickable { dialog = true }) {
+            Text(label, style = T.Label.copy(color = C.AccentDeep, fontSize = 13.sp))
+            Text(if (date.toString() in settings.overrides) "Solo oggi · cambia" else "Da calendario · cambia", style = T.Small.copy(fontSize = 11.sp))
+        }
+    } else {
     Row(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f).testTag("day-type-label").clickable { dialog = true }.padding(vertical = 8.dp)) {
             Text(label, style = T.Label)
             Text(if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia", style = T.Small)
         }
         TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Configura", color = C.AccentDeep) }
+    }
     }
     if (dialog) AlertDialog(onDismissRequest = { dialog = false }, title = { Text("${dayLabel(date)} · tipo di giornata", style = T.Title2) }, text = {
         Column {

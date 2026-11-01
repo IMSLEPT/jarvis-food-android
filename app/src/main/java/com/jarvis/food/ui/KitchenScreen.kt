@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -79,32 +81,48 @@ import java.io.File
 import java.time.DayOfWeek
 import java.time.LocalDate
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun KitchenScreen() {
     val s by Store.state.collectAsState()
-    MainPage("Cucina", resetKey = Nav.kitchenTab) {
-        val seg = RoundedCornerShape(28.dp)
-        val expanded = LocalDensity.current.fontScale > 1.5f
-        Column(Modifier.padding(top = 4.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").chunked(if (expanded) 2 else 3).forEach { group ->
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    group.forEach { (i, l) ->
-                        val sel = Nav.kitchenTab == i
-                        val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                        Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i }.padding(vertical = 6.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            Text(l, modifier = Modifier.testTag("kitchen-tab-label-$i"), style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), textAlign = TextAlign.Center)
-                            if (n > 0) Text("$n", style = T.Small.copy(fontSize = 12.sp, color = if (sel) Color.White else A.Muted))
-                        }
+    val scroll = rememberScrollState()
+    LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
+    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+        Column(Modifier.padding(horizontal = 6.dp, vertical = 4.dp).fillMaxWidth()
+            .clip(RoundedCornerShape(28.dp)).background(Color(0xFF101F52)).padding(horizontal = 16.dp, vertical = 14.dp)) {
+            val expanded = LocalDensity.current.fontScale > 1.5f
+            if (expanded) {
+                Text("Cucina", style = T.Title.copy(fontSize = 30.sp, lineHeight = 36.sp, color = Color.White))
+                Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), horizontalArrangement = Arrangement.End) { HeaderAccountActions() }
+            } else Row(Modifier.fillMaxWidth().padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text("Cucina", style = T.Title.copy(fontSize = 30.sp, lineHeight = 36.sp, color = Color.White), modifier = Modifier.weight(1f))
+                HeaderAccountActions()
+            }
+            androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (expanded) 2 else 3, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, label) ->
+                    val selected = Nav.kitchenTab == i
+                    Column(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(12.dp))
+                        .selectable(selected, role = Role.Tab, onClick = { Nav.kitchenTab = i }).padding(top = 10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(label, modifier = Modifier.testTag("kitchen-tab-label-$i"), style = T.Body.copy(color = Color.White,
+                            fontSize = 14.sp, fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal), textAlign = TextAlign.Center)
+                        GapH(9.dp)
+                        Box(Modifier.width(70.dp).height(3.dp).clip(CircleShape).background(if (selected) C.Accent else Color.Transparent))
                     }
                 }
             }
+            if (Nav.kitchenTab == 2) {
+                GapH(8.dp)
+                RecipeSearchBar()
+            }
         }
-        GapH(14.dp)
-        when (Nav.kitchenTab) {
-            0 -> PantryTab(s)
-            1 -> ShoppingTab(s)
-            else -> RecipesHome()
+        Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll)
+            .padding(start = 18.dp, end = 18.dp, top = 4.dp, bottom = 24.dp)) {
+            when (Nav.kitchenTab) {
+                0 -> PantryTab(s)
+                1 -> ShoppingTab(s)
+                else -> RecipesHome()
+            }
         }
     }
 }

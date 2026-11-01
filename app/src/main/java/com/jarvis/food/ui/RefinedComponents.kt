@@ -3,6 +3,10 @@ package com.jarvis.food.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.runtime.setValue
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -58,7 +62,7 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null,
                 Text(homeName, style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Text(title, style = T.Body.copy(color = C.Muted), maxLines = 2)
             } else {
-                Text(title, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
+                Text(title, style = T.Title.copy(fontSize = if (title == "Piano") 30.sp else 23.sp, lineHeight = if (title == "Piano") 36.sp else 28.sp), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 2, overflow = TextOverflow.Ellipsis)
             }
         }
         HeaderAccountActions()
@@ -85,87 +89,98 @@ private fun HeaderGreeting(text: String) {
         maxLines = 2, overflow = TextOverflow.Ellipsis)
 }
 
-/** The approved meal journey. The timeline never steals reading width at large font sizes. */
+/** One focused meal and a preview of the other slots, driven by the saved day plan. */
 @Composable
-@OptIn(ExperimentalLayoutApi::class)
 fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
-    val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-    Column(Modifier.fillMaxWidth()) {
-        meals.forEachIndexed { index, meal ->
-            val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == meal.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
-            val icon = when (meal.diaryMeal) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealLunch; 2, 5 -> Ic.MealDinner; else -> Ic.MealSnack }
-            val marker: @Composable () -> Unit = {
-                Box(Modifier.size(36.dp).clip(CircleShape).background(if (eaten) A.GreenInk else C.AccentDeep), contentAlignment = Alignment.Center) {
-                    AIcon(if (eaten) Ic.Check else icon, Color.White, 21.dp, 1.8f)
-                }
+    if (meals.isEmpty()) return
+    var selectedSlot by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { androidx.compose.runtime.mutableStateOf(meals.first().slotIndex) }
+    val focused = meals.firstOrNull { it.slotIndex == selectedSlot } ?: meals.first()
+    Text("I pasti di oggi", style = T.Title.copy(fontSize = 23.sp))
+    GapH(14.dp)
+    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        meals.forEach { meal ->
+            val selected = meal.slotIndex == focused.slotIndex
+            val shape = RoundedCornerShape(24.dp)
+            Row(Modifier.heightIn(min = 44.dp).testTag("plan-slot-${meal.diaryMeal}").clip(shape)
+                .background(if (selected) C.Navy else Color.White).border(1.dp, if (selected) C.Navy else C.Line, shape)
+                .selectable(selected, role = Role.Tab, onClick = { selectedSlot = meal.slotIndex }).padding(horizontal = 18.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(mealIcon(meal.diaryMeal), if (selected) Color.White else C.Navy, 20.dp); GapW(8.dp)
+                Text(meal.slotName, style = T.Label.copy(color = if (selected) Color.White else C.Navy))
             }
-            Box(Modifier.fillMaxWidth()) {
-                if (!expanded && index < meals.lastIndex) Canvas(Modifier.matchParentSize()) {
-                    drawLine(C.Line, Offset(18.dp.toPx(), 36.dp.toPx()), Offset(18.dp.toPx(), size.height), strokeWidth = 1.5.dp.toPx())
+        }
+    }
+    GapH(16.dp)
+    CompactPlanCard(s, date, focused)
+    meals.filter { it.slotIndex != focused.slotIndex }.forEach { meal ->
+        GapH(12.dp)
+        val r = meal.solved
+        val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == meal.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
+        JCard(padding = PaddingValues(16.dp), onClick = { selectedSlot = meal.slotIndex }) {
+            Text("${if (meal.slotIndex > focused.slotIndex) "A seguire" else "Nel piano"} · ${meal.slotName}", style = T.Small)
+            GapH(10.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.size(76.dp), recEmoji(r.template.meal), 16.dp)
+                GapW(14.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(r.template.name, style = T.Title2)
+                    Text("${kcalFmt(r.total.kcal)} kcal", style = T.Label.copy(fontSize = 16.sp))
+                    Text("${r.template.minutes} min · ${com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }}", style = T.Small)
+                    Text(if (eaten) "Mangiato" else "Da mangiare", style = T.Small.copy(color = if (eaten) A.GreenInk else C.Muted))
                 }
-                Row(Modifier.fillMaxWidth().padding(bottom = if (index < meals.lastIndex) 20.dp else 0.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    if (!expanded) marker()
-                    Column(Modifier.weight(1f)) {
-                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            if (expanded) marker()
-                            FlowRow(Modifier.weight(1f).testTag("plan-meal-header-${meal.diaryMeal}"), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text(MEAL_LABEL[meal.diaryMeal] ?: meal.slotName, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 24.sp))
-                                Text(if (eaten) "Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(20.dp)).background(if (eaten) A.GreenSoft else C.SurfaceAlt).padding(horizontal = 10.dp, vertical = 4.dp), style = T.Small.copy(fontSize = 12.sp, color = if (eaten) A.GreenInk else C.Muted))
-                            }
-                        }
-                        GapH(10.dp)
-                        CompactPlanCard(s, date, meal)
-                    }
-                }
+                AIcon(Ic.Right, C.Navy, 18.dp)
             }
         }
     }
 }
 
-/** Preserve the existing recipe, alternatives and diary actions inside the journey card. */
+private fun mealIcon(id: Int) = when (id) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealLunch; 2, 5 -> Ic.MealDinner; else -> Ic.MealSnack }
+
+/** Native recipe, alternatives and diary actions in the image-first meal card. */
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
 fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val r = m.solved
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
+    val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     JCard(Modifier.testTag("plan-card-${m.diaryMeal}"), padding = PaddingValues(0.dp)) {
-        val recipeModifier = Modifier.fillMaxWidth().testTag("plan-recipe-${m.diaryMeal}").clickable(role = Role.Button, onClickLabel = "Apri ricetta") { Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal)) }.padding(14.dp)
-        if (LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360) {
-            Column(recipeModifier) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.size(76.dp), recEmoji(r.template.meal), 18.dp)
-                    GapW(12.dp)
-                    Text("${r.template.minutes} MIN · ${com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }}", style = T.Eyebrow.copy(fontSize = 12.sp, letterSpacing = 0.sp), modifier = Modifier.weight(1f))
-                    AIcon(Ic.Right, C.Navy, 18.dp)
+        FlowRow(Modifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 18.dp, end = 18.dp, top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TonalIcon(mealIcon(m.diaryMeal), Color.White, C.AccentDeep, box = 38.dp, radius = 19.dp)
+                GapW(10.dp); Text(m.slotName, style = T.Label.copy(color = C.Navy))
+            }
+            Text(if (eaten) "Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(20.dp))
+                .background(if (eaten) A.GreenSoft else C.SurfaceAlt).padding(horizontal = 10.dp, vertical = 5.dp), style = T.Small.copy(color = if (eaten) A.GreenInk else C.Muted))
+        }
+        Column(Modifier.fillMaxWidth().testTag("plan-recipe-${m.diaryMeal}").clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
+            Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
+        }) {
+            Text(r.template.name, modifier = Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 10.dp).testTag("plan-recipe-title-${m.diaryMeal}"),
+                style = T.Title2.copy(fontSize = 22.sp, lineHeight = 27.sp))
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.25f), recEmoji(r.template.meal), 0.dp)
+        }
+        FlowRow(Modifier.fillMaxWidth().padding(18.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.Clock, C.Navy, 24.dp); GapW(10.dp)
+                Column {
+                    Text("${r.template.minutes} min", style = T.Title2)
+                    Text(com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }, style = T.Small)
                 }
-                GapH(12.dp)
-                Text(r.template.name, modifier = Modifier.testTag("plan-recipe-title-${m.diaryMeal}"), style = T.Title2.copy(fontSize = 18.sp, lineHeight = 24.sp))
-                GapH(4.dp)
-                Text("${kcalFmt(r.total.kcal)} kcal", style = T.Label.copy(fontSize = 17.sp, color = C.Navy))
             }
-        } else {
-        Row(recipeModifier, verticalAlignment = Alignment.Top) {
-            Column(Modifier.weight(1f)) {
-                Text(r.template.name, modifier = Modifier.testTag("plan-recipe-title-${m.diaryMeal}"), style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp))
-                GapH(8.dp)
-                Text("${kcalFmt(r.total.kcal)} kcal", style = T.Label.copy(fontSize = 17.sp, color = C.Navy))
-                GapH(2.dp)
-                Text("${r.template.minutes} min · ${com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }}", style = T.Small.copy(fontSize = 12.sp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.Bowl, C.AccentDeep, 24.dp); GapW(10.dp)
+                Text("${kcalFmt(r.total.kcal)} kcal", style = T.Title2.copy(fontSize = 21.sp))
             }
-            GapW(12.dp)
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.size(92.dp), recEmoji(r.template.meal), 16.dp)
         }
+        FlowRow(Modifier.padding(horizontal = 18.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.Bg).padding(horizontal = 14.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("P ${r.total.protein.r0()} g", style = T.Label.copy(fontSize = 15.sp, color = A.ProteinInk))
+            Text("C ${r.total.carbs.r0()} g", style = T.Label.copy(fontSize = 15.sp, color = A.CarbInk))
+            Text("G ${r.total.fat.r0()} g", style = T.Label.copy(fontSize = 15.sp, color = A.FatInk))
         }
-        FlowRow(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp), horizontalArrangement = Arrangement.spacedBy(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("P ${r.total.protein.r0()} g", style = T.Label.copy(fontSize = 13.sp, color = A.ProteinInk))
-            Text("C ${r.total.carbs.r0()} g", style = T.Label.copy(fontSize = 13.sp, color = A.CarbInk))
-            Text("G ${r.total.fat.r0()} g", style = T.Label.copy(fontSize = 13.sp, color = A.FatInk))
-        }
-        Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
-        val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-        FlowRow(Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
+        FlowRow(Modifier.fillMaxWidth().padding(14.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             CompactPlanAction("Alternative", Ic.Swap, C.Navy, (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}")) { Nav.go(Screen.Alternatives(date, m.slotIndex)) }
-            CompactPlanAction(if (eaten) "Mangiato" else "Segna mangiato", Ic.Check, if (eaten) A.GreenInk else Color.White, (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.4f)).testTag("plan-eaten-${m.diaryMeal}"), primary = true, completed = eaten) {
+            CompactPlanAction(if (eaten) "Mangiato" else "Segna mangiato", Ic.Check, if (eaten) A.GreenInk else Color.White,
+                (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.4f)).testTag("plan-eaten-${m.diaryMeal}"), primary = true, completed = eaten) {
                 if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
             }
         }
