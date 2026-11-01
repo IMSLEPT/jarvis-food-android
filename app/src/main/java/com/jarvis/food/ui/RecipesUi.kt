@@ -155,7 +155,6 @@ private val TILE_W = 184.dp
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 private fun TileMeta(kcal: String, minutes: Int) {
     androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AIcon(Ic.Flame, C.Accent, 13.dp); GapW(3.dp)
             Text(kcal, style = T.Small, maxLines = 1)
