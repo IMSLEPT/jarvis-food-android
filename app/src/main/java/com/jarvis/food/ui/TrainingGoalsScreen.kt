@@ -183,7 +183,7 @@ private fun TargetFields(title: String, key: String, values: List<String>, onEdi
     }
 }
 
-/** Date-specific control shared by diary and weekly plan. */
+/** Date-specific status: one compact bar in Oggi, a third summary cell in Piano. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
@@ -191,25 +191,70 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
     var dialog by remember(date) { mutableStateOf(false) }
     val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
-    val stacked = LocalDensity.current.fontScale > 1.2f
     val caption = if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia"
-    if (compact) {
-        SquareAction(label, Modifier.fillMaxWidth(), tag = "day-type-label", subtitle = caption, minHeight = 56.dp) { dialog = true }
-    } else {
-        FlowRow(Modifier.padding(top = 12.dp).fillMaxWidth(), maxItemsInEachRow = if (stacked) 1 else 2, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            SquareAction(label, Modifier.weight(1f), tag = "day-type-label", subtitle = caption) { dialog = true }
-            SquareAction("Configura", if (stacked) Modifier.fillMaxWidth() else Modifier, tag = "day-type-configure", minHeight = 56.dp) { Nav.go(Screen.TrainingGoals) }
+    val status: @Composable () -> Unit = {
+        Column(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("day-type-label")
+            .clip(RoundedCornerShape(6.dp)).clickable(role = Role.Button) { dialog = true }
+            .padding(vertical = 2.dp), verticalArrangement = Arrangement.Center) {
+            Text(label, style = T.Label.copy(fontSize = if (compact) 12.sp else 14.sp,
+                lineHeight = if (compact) 18.sp else 20.sp, color = if (compact) C.AccentDeep else C.Navy))
+            Text(caption, style = T.Small.copy(fontSize = if (compact) 11.sp else 12.sp,
+                lineHeight = if (compact) 15.sp else 17.sp))
         }
     }
-    if (dialog) AlertDialog(onDismissRequest = { dialog = false }, title = { Text("${dayLabel(date)} · tipo di giornata", style = T.Title2) }, text = {
-        Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("La modifica vale soltanto per questa data.", style = T.Small)
-            val override = settings.overrides[date.toString()]
-            listOf("ON · Allenamento" to true, "OFF · Riposo" to false, "Segui calendario settimanale" to null).forEach { (text, value) ->
-                SquareAction(text, Modifier.fillMaxWidth(), tag = "day-type-choice-${value ?: "calendar"}", isSelected = override == value) {
-                    Store.setDayType(date, value); dialog = false
+    if (compact) status() else {
+        val stacked = LocalDensity.current.fontScale > 1.2f
+        FlowRow(Modifier.fillMaxWidth().testTag("today-day-type-bar").clip(RoundedCornerShape(14.dp))
+            .background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(14.dp)).padding(horizontal = 10.dp, vertical = 3.dp),
+            maxItemsInEachRow = if (stacked) 1 else 2, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Box(if (stacked) Modifier.fillMaxWidth() else Modifier.weight(1f)) { status() }
+            TextButton(onClick = { Nav.go(Screen.TrainingGoals) }, modifier = Modifier.heightIn(min = 48.dp).testTag("day-type-configure")) {
+                Text("Configura", style = T.Label.copy(fontSize = 14.sp, lineHeight = 20.sp, color = C.AccentDeep))
+            }
+        }
+    }
+    if (dialog) DayTypeDialog(date, settings.overrides[date.toString()], onSelect = {
+        Store.setDayType(date, it); dialog = false
+    }, onClose = { dialog = false })
+}
+
+/** Match the reference: compact outlined controls, with full 48 dp touch targets. */
+@Composable
+private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolean?) -> Unit, onClose: () -> Unit) {
+    androidx.compose.ui.window.Dialog(onDismissRequest = onClose) {
+        Surface(shape = RoundedCornerShape(28.dp), color = C.Surface) {
+            Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .8f).dp)
+                .verticalScroll(rememberScrollState()).padding(18.dp).testTag("day-type-dialog")) {
+                Text("${dayLabel(date)} · tipo di giornata", style = T.Title2.copy(fontSize = 18.sp, lineHeight = 24.sp))
+                Spacer(Modifier.height(12.dp))
+                Text("La modifica vale soltanto per questa data.", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
+                Spacer(Modifier.height(8.dp))
+                listOf("ON · Allenamento" to true, "OFF · Riposo" to false, "Segui calendario settimanale" to null).forEach { (text, value) ->
+                    DayTypeDialogAction(text, Modifier.fillMaxWidth(), "day-type-choice-${value ?: "calendar"}", override == value) { onSelect(value) }
+                }
+                Spacer(Modifier.height(6.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    DayTypeDialogAction("Chiudi", Modifier.width(76.dp), "day-type-close", small = true, onClick = onClose)
                 }
             }
         }
-    }, confirmButton = { SquareAction("Chiudi", tag = "day-type-close", minHeight = 48.dp) { dialog = false } }, containerColor = C.Surface)
+    }
+}
+
+@Composable
+private fun DayTypeDialogAction(label: String, modifier: Modifier, tag: String, isSelected: Boolean = false,
+    small: Boolean = false, onClick: () -> Unit) {
+    val orange = androidx.compose.ui.graphics.Color(0xFFD46622)
+    val shape = RoundedCornerShape(5.dp)
+    Box(modifier.heightIn(min = 48.dp).testTag(tag).semantics { selected = isSelected }
+        .clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+        Row(Modifier.fillMaxWidth().heightIn(min = if (small) 34.dp else 40.dp).clip(shape)
+            .background(if (isSelected) androidx.compose.ui.graphics.Color(0xFFFFE5D2) else C.Surface)
+            .border(1.dp, if (isSelected) orange else C.Navy, shape).padding(horizontal = 10.dp, vertical = 7.dp),
+            verticalAlignment = Alignment.CenterVertically) {
+            Text(label, Modifier.weight(1f), style = T.Label.copy(fontSize = 14.sp, lineHeight = 20.sp),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+            if (isSelected) { Spacer(Modifier.width(6.dp)); AIcon(Ic.Check, orange, 18.dp) }
+        }
+    }
 }

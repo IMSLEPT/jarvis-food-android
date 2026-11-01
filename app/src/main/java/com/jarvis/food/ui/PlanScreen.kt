@@ -91,21 +91,59 @@ private fun mealEmoji(meal: String) = when (meal) { "colazione" -> "☕"; "pranz
 @Composable
 fun PlanScreen() {
     val s by Store.state.collectAsState()
-    val ctx = LocalContext.current
     val date = Nav.planDate
     val monday = date.with(DayOfWeek.MONDAY)
     val hasWeek = (0..6).any { Store.dayPlan(s, monday.plusDays(it.toLong())) != null }
     val meals = Store.plannedMeals(s, date)
     val energy = Store.energyFor(s, date)
 
-    var optionsOpen by remember { mutableStateOf(false) }
     MainPage("Piano", header = {
         CalendarPageHeader(s, "Piano", date, onPick = { Nav.planDate = it }, dateTag = "plan-calendar-toggle")
     }) {
-        DayTypeControl(s, date)
-        if (s.trainingNutrition.active) GapH(12.dp)
+        DayTotalsCard(s, date, meals)
+
+        if (!hasWeek) {
+            Spacer(Modifier.height(18.dp))
+            ACard(radius = 34.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 20.dp) {
+                Column {
+                    Text("Crea la tua dieta personalizzata", style = T.Title)
+                    Spacer(Modifier.height(6.dp))
+                    Text("Jarvis sceglie piatti vari per ogni pasto e calcola le grammature di ogni ingrediente per rispettare " +
+                            "le tue ${energy.baseKcal.r0()} kcal e i macronutrienti. Puoi cambiare qualsiasi piatto con un'alternativa.", style = T.Read)
+                    Spacer(Modifier.height(16.dp))
+                    APrimary("Crea il piano della settimana", Modifier.fillMaxWidth()) { Store.generatePlan(monday) }
+                    PlanManagementMenu(s, date)
+                }
+            }
+            return@MainPage
+        }
+
+        Spacer(Modifier.height(20.dp))
+        if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
+        PlanJourney(s, date, meals)
+        Spacer(Modifier.height(18.dp))
+        PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
+            val start = maxOf(LocalDate.now(), monday)
+            val days = (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7)
+            Store.buildShopping(start, days)
+            Nav.tab = 2; Nav.kitchenTab = 1
+        }
+        PlanManagementMenu(s, date)
+        Spacer(Modifier.height(10.dp))
+        Text("Valori calcolati dal database USDA FoodData Central su pesi a crudo. Le foto sono illustrative.", style = T.Small)
+        Spacer(Modifier.height(8.dp))
+    }
+}
+
+/** Secondary plan tools stay available below the meals, outside the restored summary. */
+@Composable
+private fun PlanManagementMenu(s: AppState, date: LocalDate) {
+    val ctx = LocalContext.current
+    val monday = date.with(DayOfWeek.MONDAY)
+    val hasWeek = (0..6).any { Store.dayPlan(s, monday.plusDays(it.toLong())) != null }
+    var optionsOpen by remember(date) { mutableStateOf(false) }
         Box(Modifier.fillMaxWidth()) {
-            SquareAction("Opzioni del piano", Modifier.fillMaxWidth(), tag = "plan-options") { optionsOpen = true }
+            TextButton(onClick = { optionsOpen = true }, modifier = Modifier.fillMaxWidth().testTag("plan-options")) { Text("Gestisci piano", style = T.Link) }
             DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
                 DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
                     optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
@@ -122,37 +160,6 @@ fun PlanScreen() {
             }
         }
 
-        if (!hasWeek) {
-            Spacer(Modifier.height(18.dp))
-            ACard(radius = 34.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 20.dp) {
-                Column {
-                    Text("Crea la tua dieta personalizzata", style = T.Title)
-                    Spacer(Modifier.height(6.dp))
-                    Text("Jarvis sceglie piatti vari per ogni pasto e calcola le grammature di ogni ingrediente per rispettare " +
-                            "le tue ${energy.baseKcal.r0()} kcal e i macronutrienti. Puoi cambiare qualsiasi piatto con un'alternativa.", style = T.Read)
-                    Spacer(Modifier.height(16.dp))
-                    APrimary("Crea il piano della settimana", Modifier.fillMaxWidth()) { Store.generatePlan(monday) }
-                }
-            }
-            return@MainPage
-        }
-
-        Spacer(Modifier.height(12.dp))
-        DayTotalsCard(s, date, meals)
-        Spacer(Modifier.height(20.dp))
-        if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
-        PlanJourney(s, date, meals)
-        Spacer(Modifier.height(18.dp))
-        PrimaryButton("Crea lista della spesa", Modifier.fillMaxWidth()) {
-            val start = maxOf(LocalDate.now(), monday)
-            val days = (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7)
-            Store.buildShopping(start, days)
-            Nav.tab = 2; Nav.kitchenTab = 1
-        }
-        Spacer(Modifier.height(10.dp))
-        Text("Valori calcolati dal database USDA FoodData Central su pesi a crudo. Le foto sono illustrative.", style = T.Small)
-        Spacer(Modifier.height(8.dp))
-    }
 }
 
 @Composable
@@ -164,32 +171,34 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     val completed = meals.count { meal -> slots.any { it.slot == meal.slotIndex && it.eatenEntryIds.isNotEmpty() } }
     var expanded by remember { mutableStateOf(false) }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 16.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
-        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.3f), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(Ic.MealLunch, C.AccentDeep, 22.dp, 1.8f)
-                GapW(8.dp)
+    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 12.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
+        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else if (s.trainingNutrition.active) 3 else 2, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
+                GapW(6.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 14.sp, lineHeight = 20.sp))
-                    Text("pianificate", style = T.Small)
+                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                    Text("pianificate", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.3f), verticalAlignment = Alignment.CenterVertically) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
                 val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
-                Canvas(Modifier.size(24.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
+                Canvas(Modifier.size(20.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
                     val stroke = 4.dp.toPx()
                     val inset = stroke / 2
                     val arcSize = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
                     drawArc(C.SurfaceAlt, -90f, 360f, false, Offset(inset, inset), arcSize, style = Stroke(stroke))
                     if (fraction > 0f) drawArc(if (completed == meals.size) A.GreenInk else C.AccentDeep, -90f, 360f * fraction, false, Offset(inset, inset), arcSize, style = Stroke(stroke, cap = StrokeCap.Round))
                 }
-                GapW(10.dp)
+                GapW(6.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 14.sp))
-                    Text("completati", style = T.Small)
+                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                    Text("completati", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-
+            if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell")) {
+                DayTypeControl(s, date, compact = true)
+            }
         }
     }
     if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
