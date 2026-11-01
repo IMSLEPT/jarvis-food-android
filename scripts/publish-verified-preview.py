@@ -14,14 +14,14 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
     root = ET.parse(path).getroot()
     for key in counts:
         counts[key] += int(root.get(key, 0))
-assert counts['tests'] >= 99 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
+assert counts['tests'] >= 114 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
 logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
         'layout-android10-buttons.log':1, 'photo-ai.log':3, 'layout-features-standard.log':2,
         'layout-features-large-text.log':2, 'layout-options-standard.log':3,
-        'layout-options-large-text.log':3, 'regression.log':3, 'emu.log':1}
+        'layout-options-large-text.log':3, 'layout-nutrition.log':3, 'regression.log':3, 'emu.log':1}
 for name, count in logs.items():
     content = Path(name).read_text()
     assert f'OK ({count} test' in content and 'FAILURES!!!' not in content, name
@@ -36,11 +36,11 @@ with zipfile.ZipFile(apk) as bundle:
     assert 'assets/body-guide/index.html' not in bundle.namelist(), 'Obsolete 3D page must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Cucina with navy header, recipe categories and real usage rows; Piano with visible week, focused meal photograph and selectable meal slots; adaptive 100/130/200 percent text',
+              original_signature_verified=True, visual_revision='Cucina with navy header, recipe categories and real usage rows; Piano with visible week, focused meal photograph and selectable meal slots; adaptive 100/130/200 percent text; offline evidence-based nutrition advisor and illustrated food suggestions',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Nuova grafica Cucina e Piano ripresa dai riferimenti approvati: testata blu con ricerca, categorie subito visibili, ricette più aperte in righe con statistiche reali, calendario settimanale sempre visibile, pasto selezionato con foto grande, macro e azioni Alternative/Segna mangiato. Tutti i pasti restano accessibili con selettore e anteprime. Basata sulla versione 1.0.147, con stessa icona, fotografie, dati e funzionalità.
+notes.write_text(f'''Nuova grafica Cucina e Piano ripresa dai riferimenti approvati: testata blu con ricerca, categorie subito visibili, ricette più aperte in righe con statistiche reali, calendario settimanale sempre visibile, pasto selezionato con foto grande, macro e azioni Alternative/Segna mangiato. Tutti i pasti restano accessibili con selettore e anteprime. Aggiunto il consulente nella Home Equilibrio dei nutrienti: analisi 7/14/30 giorni, fonti OMS/EFSA/CREA/SINU/ISS versionate, zuccheri totali/aggiunti/liberi distinti, copertura dei dati e conferma prima delle sostituzioni. Illustrazioni alimentari offline con cache e fallback. Basata sulla versione 1.0.147, con stessa icona, fotografie, dati e funzionalità.
 
 
 APK firmato con la chiave originale e installabile come aggiornamento. Verificati {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android, inclusi Android 10/15, schermi piccoli e testo al 100%, 130% e 200%. Modello AI offline e fotografie delle ricette inclusi.

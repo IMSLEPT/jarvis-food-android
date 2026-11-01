@@ -72,6 +72,7 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             }
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+            FoodIllustration(food.name, food.group, 86.dp)
             Text(food.name, style = T.Display)
             val sub = listOfNotNull(
                 food.brand.takeIf { it.isNotBlank() },
@@ -140,6 +141,9 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
                 NutRow("Energia", "${t.kcal.r0()} kcal", bold = true)
                 NutRow("Carboidrati", "${t.carbs.r1()} g", bold = true)
                 food.sugar?.let { NutRow("   di cui zuccheri", "${t.sugar.r1()} g") }
+                food.addedSugar?.let { NutRow("Zuccheri aggiunti", "${(it * grams / 100).r1()} g") }
+                food.freeSugar?.let { NutRow("Zuccheri liberi", "${(it * grams / 100).r1()} g") }
+                food.sugarDataNote?.let { Text(it, style = T.Small) }
                 food.fiber?.let { NutRow("Fibre", "${t.fiber.r1()} g") }
                 NutRow("Proteine", "${t.protein.r1()} g", bold = true)
                 NutRow("Grassi", "${t.fat.r1()} g", bold = true)

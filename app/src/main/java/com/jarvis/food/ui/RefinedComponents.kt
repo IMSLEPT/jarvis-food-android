@@ -97,7 +97,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     val focused = meals.firstOrNull { it.slotIndex == selectedSlot } ?: meals.first()
     Text("I pasti di oggi", style = T.Title.copy(fontSize = 23.sp))
     GapH(14.dp)
-    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+    Row(Modifier.fillMaxWidth().testTag("plan-slot-strip").horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         meals.forEach { meal ->
             val selected = meal.slotIndex == focused.slotIndex
             val shape = RoundedCornerShape(24.dp)

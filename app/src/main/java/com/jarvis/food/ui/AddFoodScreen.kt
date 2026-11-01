@@ -339,8 +339,7 @@ fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: Strin
             .border(1.dp, A.Hair, shape).clickable { Nav.go(Screen.FoodDetail(food, date, meal, grams)) }.padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (emoji != null) Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(C.cardSurface(tint)), contentAlignment = Alignment.Center) { Text(emoji, style = T.Title2) }
-        else InitialTile(food.name, tint, ink, 52.dp, 19.dp)
+        FoodIllustration(food.name, food.group, 52.dp)
         GapW(12.dp)
         Column(Modifier.weight(1f)) {
             Text(food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 19.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)

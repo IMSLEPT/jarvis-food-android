@@ -45,14 +45,14 @@ object Micros {
         MicroDef("selenium", "Selenio", "µg", 70.0, 70.0, "AI", "tiroide, antiossidante"),
         MicroDef("phosphorus", "Fosforo", "mg", 550.0, 550.0, "AI", "ossa ed energia"),
         MicroDef("sodium", "Sodio", "mg", 2000.0, 2000.0, "LIM", "da limitare: 2 g di sodio = 5 g di sale"),
-        MicroDef("sugar", "Zuccheri", "g", 0.0, 0.0, "LIM", "zuccheri totali: limite calcolato sul 10% delle calorie")
+        MicroDef("sugar", "Zuccheri totali", "g", 0.0, 0.0, "INFO", "dato descrittivo; non equivale a zuccheri liberi o aggiunti")
     )
     val byKey = defs.associateBy { it.key }
 
     fun reference(d: MicroDef, p: Profile, kcal: Double): Double {
         val age = com.jarvis.food.data.Nutrition.age(p)
         return when {
-            d.key == "sugar" -> kcal * 0.10 / 4.0
+            d.key == "sugar" -> 0.0
             d.perMJ -> (if (p.male) d.men else d.women) * kcal * 0.004184
             d.key == "calcium" && age < 25 -> 1000.0
             else -> if (p.male) d.men else d.women
@@ -128,7 +128,7 @@ object MicroAnalysis {
             }
             val avg = if (n > 0) sum / n else 0.0
             val ref = Micros.reference(d, p, kcalTarget)
-            val level = if (d.kind == "LIM") { if (avg > ref) "alto" else "ok" } else when {
+            val level = if (d.kind == "INFO") "dato" else if (d.kind == "LIM") { if (avg > ref) "alto" else "ok" } else when {
                 avg >= ref -> "ok"
                 avg >= ref * 0.7 -> "vicino"
                 else -> "basso"
@@ -168,7 +168,7 @@ object MicroAnalysis {
                 Triple(f, grams, amount) to density
             }
             .sortedByDescending { it.second }
-            .map { (t, _) -> FoodTip(t.first, roundTo5(t.second), t.third, t.third / status.ref * 100) }
+            .map { (t, _) -> FoodTip(t.first, roundTo5(t.second), (t.first.micro[key] ?: 0.0) * roundTo5(t.second) / 100, (t.first.micro[key] ?: 0.0) * roundTo5(t.second) / status.ref) }
             .distinctBy { it.food.group }
             .take(limit).toList()
     }

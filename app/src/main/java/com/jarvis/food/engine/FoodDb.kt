@@ -34,7 +34,8 @@ data class DbFood(
         fiber = micro["fiber"], sugar = micro["sugar"], satFat = micro["satFat"],
         salt = micro["sodium"]?.let { it * 2.5 / 1000.0 },
         servingName = pieceName, servingGrams = pieceGrams, source = "db", liquid = liquid,
-        category = group, micro = micro, fdc = fdc, group = group, tags = tags, cooked = cooked
+        category = group, micro = micro, fdc = fdc, group = group, tags = tags, cooked = cooked,
+        addedSugar = SimpleFoodSugar.added(this), freeSugar = SimpleFoodSugar.free(this), sugarDataNote = SimpleFoodSugar.note(this), nutrientDataVersion = 1
     )
 }
 

@@ -60,8 +60,8 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Models.kt": {
-    "sha256": "40386c08c543e8f1251bfb16fb7cd3e27d6d6f001f9072743f08c965231b7b7e",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+    "sha256": "4ff456bb809181f0ec05fcbbbae60737928518899e2c1f4ff4de30f5e0ed59bc",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
     "sha256": "4bd589371215e7e8cc11ca4e9104c425da6d472be1f7e3b776175886ba1d1737",
@@ -70,5 +70,25 @@
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
     "sha256": "7262bad72ea287648d93950e8a0ab438d154872d8a4b115afa0e0c4ab58352cb",
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Micros.kt": {
+    "sha256": "0e4ac4bead60bef3308e6b65fb456edcf5d0a734ffc9ab5bd5fdcd941b09732c",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Solver.kt": {
+    "sha256": "90f611e0f0d4a494f96f37fd4d1e02a7eceb3bef088bd9dd38219975378a475e",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/net/OpenFoodFacts.kt": {
+    "sha256": "94207f9191c81cb6fd39d05558b8369673fd92593741fa8815fd15de3eff80a3",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/data/Nutrition.kt": {
+    "sha256": "c27b2b37bc846b29909e634620fdc14d742818bcb5b7fafc10f89ab4de4960ad",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/engine/FoodDb.kt": {
+    "sha256": "f120d76fffd986251ec79bda2a5e14124cbfc9719b30446bd82f79e0632685a1",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
   }
 }

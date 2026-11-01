@@ -178,15 +178,15 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 16.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
         FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 3, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.3f), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.MealLunch, C.AccentDeep, 22.dp, 1.8f)
                 GapW(8.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
+                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 14.sp, lineHeight = 20.sp))
                     Text("pianificate", style = T.Small)
                 }
             }
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.3f), verticalAlignment = Alignment.CenterVertically) {
                 val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
                 Canvas(Modifier.size(24.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
                     val stroke = 4.dp.toPx()

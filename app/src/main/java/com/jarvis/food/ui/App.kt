@@ -167,7 +167,7 @@ private fun ScreenHost(s: Screen) {
             Screen.Family -> com.jarvis.food.family.FamilyScreen()
             Screen.DietSettings -> DietSettingsScreen()
             Screen.Watch -> WatchScreen()
-            Screen.Micronutrients -> MicronutrientsScreen()
+            Screen.Micronutrients -> ScientificNutritionScreen()
             Screen.EnergyInfo -> EnergyInfoScreen()
             is Screen.Questionnaire -> QuestionnaireScreen(s.only)
             Screen.Chat -> ChatScreen()

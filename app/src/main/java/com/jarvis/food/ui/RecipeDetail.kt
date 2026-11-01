@@ -402,7 +402,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             Column(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
                                 rs.items.forEachIndexed { i, it ->
                                     Row(Modifier.fillMaxWidth().heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
-                                        Box(Modifier.size(12.dp).clip(CircleShape).background(ROLE_DOT[it.ing.role] ?: C.Green))
+                                        FoodIllustration(it.food.name, it.food.group, 40.dp)
                                         GapW(12.dp)
                                         Column(Modifier.weight(1f)) {
                                             Text(it.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold))

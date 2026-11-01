@@ -524,44 +524,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
 /** Consigli sui micronutrienti ben visibili nella schermata principale. */
 @Composable
 private fun NutrientInsight(s: AppState) {
-    val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary, s.profile, e.baseKcal) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
-    ASection("Equilibrio dei nutrienti", action = "Analisi completa") { Nav.go(Screen.Micronutrients) }
-    ACard(radius = 28.dp, elevation = 6.dp, glow = Color(0x591D1B3A), onClick = { Nav.go(Screen.Micronutrients) }) {
-        Column(Modifier.fillMaxWidth()) {
-            if (rep.loggedDays == 0) {
-                Text("Registra i pasti di almeno un giorno completo", style = T.Title2)
-                Text("Le stime si basano soltanto sugli alimenti che registri.", style = T.Muted)
-                return@Column
-            }
-            val low = rep.low.take(3)
-            if (low.isEmpty()) {
-                Text("Ottimo equilibrio negli ultimi ${rep.loggedDays} giorni", style = T.Title2)
-                Text("Nessun apporto medio sotto il 70% del riferimento.", style = T.Muted)
-            } else {
-                Text("Stima su ${rep.loggedDays} ${if (rep.loggedDays == 1) "giorno registrato" else "giorni registrati"}. Le registrazioni incomplete possono abbassare i valori.", style = T.Muted)
-                Spacer(Modifier.height(14.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    low.forEach { st ->
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(st.def.name, style = T.Label, modifier = Modifier.weight(1f))
-                            Spacer(Modifier.width(12.dp))
-                            ABar((st.pct / 100.0).toFloat(), A.Dawn, Color(0xFFFFE9E1), 8.dp, Modifier.weight(1f))
-                            Text("${st.pct.r0()}%", style = T.Label.copy(color = A.Link, fontSize = 13.sp), modifier = Modifier.widthIn(min = 44.dp), textAlign = TextAlign.End)
-                        }
-                    }
-                }
-                val tip = MicroAnalysis.tips(Db.db, low.first(), s.dietPrefs.exclude, 1).firstOrNull()
-                if (tip != null) Box(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
-                    Text("Prova ${tip.grams.r0()} g di ${tip.food.name.lowercase()}: copre il ${tip.pctOfRef.r0()}% di ${low.first().def.name.lowercase()} che ti manca.",
-                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF064E3B)))
-                }
-            }
-            val gap = rep.groups.filter { (it.daysSince ?: 99) >= 7 }.take(2)
-            if (gap.isNotEmpty()) Text(gap.joinToString("  ·  ") { "${it.label}: ${it.daysSince?.let { d -> "$d giorni fa" } ?: "mai registrato"}" },
-                style = T.Small.copy(color = A.Link), modifier = Modifier.padding(top = 10.dp))
-        }
-    }
+    NutritionAdvisor(s)
 }
 
 // ---------------------------------------------------------------- Attività

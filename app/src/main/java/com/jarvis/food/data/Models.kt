@@ -31,7 +31,13 @@ data class Food(
     val group: String = "",
     val tags: List<String> = emptyList(),
     /** Grammi di alimento cotto per grammo di crudo (stima da dati USDA); null se non applicabile. */
-    val cooked: Double? = null
+    val cooked: Double? = null,
+    /** Grammi/100 g o ml: solo valori dichiarati, mai derivati dagli zuccheri totali. */
+    val addedSugar: Double? = null,
+    val freeSugar: Double? = null,
+    val unknownNutrients: List<String> = emptyList(),
+    val nutrientDataVersion: Int = 0,
+    val sugarDataNote: String? = null
 )
 
 @Serializable
@@ -308,7 +314,9 @@ data class AppState(
     val chat: List<ChatMsg> = emptyList(),
     /** Collegamento alla famiglia (spesa condivisa); null se non collegato. */
     val family: FamilyLink? = null,
-    val trainingNutrition: TrainingNutrition = TrainingNutrition()
+    val trainingNutrition: TrainingNutrition = TrainingNutrition(),
+    /** Date confermate complete dall’utente; assenza non equivale a giorno senza pasti. */
+    val nutritionCompleteDays: List<String> = emptyList()
 )
 
 /** Collegamento di questo telefono alla famiglia: codice d'invito (contiene la chiave di cifratura), il proprio id e nome, giorni del piano da condividere. */

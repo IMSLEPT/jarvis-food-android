@@ -101,9 +101,11 @@ class VisualConsistencyTest {
             // Selecting a different slot changes only the focused card, never the diary.
             val second = Store.plannedMeals(Store.current, day)[1]
             val diaryBefore = Store.current.diary
+            compose.onNodeWithTag("plan-slot-strip").performScrollTo()
             compose.onNodeWithTag("plan-slot-${second.diaryMeal}").performScrollTo().performClick().assertIsSelected()
             compose.onNodeWithTag("plan-recipe-title-${second.diaryMeal}", useUnmergedTree = true).performScrollTo().assertTextEquals(second.solved.template.name)
             assertEquals(diaryBefore, Store.current.diary)
+            compose.onNodeWithTag("plan-slot-strip").performScrollTo()
             compose.onNodeWithTag("plan-slot-${meal.diaryMeal}").performScrollTo().performClick().assertIsSelected()
             val recipe = compose.onNodeWithTag("plan-recipe-${meal.diaryMeal}").performScrollTo()
             recipe.assertHasClickAction()

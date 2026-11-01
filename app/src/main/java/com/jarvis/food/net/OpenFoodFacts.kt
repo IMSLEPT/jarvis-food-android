@@ -171,7 +171,9 @@ object OpenFoodFacts {
             barcode = code,
             source = "off",
             liquid = isLiquid(p) || water,
-            category = if (water) "Acqua" else "Prodotto"
+            category = if (water) "Acqua" else "Prodotto",
+            addedSugar = p.per100(n, "added-sugars", perServing, serving),
+            unknownNutrients = listOfNotNull(if (protein == null) "protein" else null, if (carbs == null) "carbs" else null, if (fat == null) "fat" else null)
         )
     }
 }

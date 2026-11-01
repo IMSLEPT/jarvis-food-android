@@ -199,6 +199,10 @@ jobs:
             adb shell settings put system font_scale 1.0
             adb shell wm size reset
             adb shell wm density reset
+            adb shell am instrument -w -e class com.jarvis.food.NutritionAdvisorFlowTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-nutrition.log 2>&1
+            cat layout-nutrition.log
+            grep -q "OK (3 tests)" layout-nutrition.log
+            adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.gestural
             adb shell am instrument -w -e captureName gestures -e navigationMode 2 -e class com.jarvis.food.BottomActionInsetsTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-gestures.log 2>&1
             cat layout-gestures.log

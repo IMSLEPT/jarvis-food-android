@@ -216,7 +216,11 @@ object Nutrition {
         return Food(
             id = "recipe:${r.id}", name = r.name, kcal = t.kcal * k, protein = t.protein * k,
             carbs = t.carbs * k, fat = t.fat * k, fiber = t.fiber * k, sugar = t.sugar * k, salt = t.salt * k,
-            servingName = "porzione", servingGrams = g / r.servings, source = "recipe", category = "Ricetta"
+            servingName = "porzione", servingGrams = g / r.servings, source = "recipe", category = "Ricetta", nutrientDataVersion = 1,
+            unknownNutrients = listOf("fiber", "sugar", "salt", "satFat").filter { key -> r.ingredients.any { com.jarvis.food.engine.NutritionScience.per100(it.food, key) == null } },
+            addedSugar = if (r.ingredients.all { it.food.addedSugar != null }) r.ingredients.sumOf { it.food.addedSugar!! * it.grams / 100 } * k else null,
+            freeSugar = if (r.ingredients.all { it.food.freeSugar != null }) r.ingredients.sumOf { it.food.freeSugar!! * it.grams / 100 } * k else null,
+            sugarDataNote = "Calcolo dalla composizione della ricetta; ingredienti con dati sconosciuti impediscono il totale."
         )
     }
 }
