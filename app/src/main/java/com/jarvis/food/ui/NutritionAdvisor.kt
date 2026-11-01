@@ -48,6 +48,7 @@ fun NutritionAdvisor(s: AppState, full: Boolean = false, days: Int = 7) {
     if (!full && suggestions.isEmpty()) return
     var selected by remember { mutableStateOf<NutritionNotice?>(null) }
     var showData by remember { mutableStateOf(false) }
+    var showAll by remember(days) { mutableStateOf(false) }
     if (!full) ASection("Un consiglio per te", action = "Dettagli") { Nav.go(Screen.Micronutrients) }
     if (full) {
         Text("${review.usableDays.size}/${review.window} giorni utilizzabili", Modifier.testTag("nutrition-coverage"), style = T.Small)
@@ -58,7 +59,7 @@ fun NutritionAdvisor(s: AppState, full: Boolean = false, days: Int = 7) {
                 else "Nessun consiglio specifico dai dati disponibili: non è una valutazione clinica.", style = T.Small)
         }
     }
-    suggestions.take(if (full) 4 else 2).forEach { notice ->
+    suggestions.take(if (full && showAll) suggestions.size else if (full) 2 else 1).forEach { notice ->
         val alternatives = noticeAlternatives(s, notice)
         val current = notice.entryId?.let { id -> s.diary.firstOrNull { it.id == id } }
         GapH(10.dp)
@@ -97,6 +98,9 @@ fun NutritionAdvisor(s: AppState, full: Boolean = false, days: Int = 7) {
         }
     }
     if (full) {
+        if (suggestions.size > 2) TextButton(onClick = { showAll = !showAll }) {
+            Text(if (showAll) "Mostra solo l’essenziale" else "Altri consigli (${suggestions.size - 2})", color = C.Navy)
+        }
         GapH(10.dp)
         TextButton(onClick = { showData = !showData }, modifier = Modifier.testTag("nutrition-data-toggle")) {
             Text(if (showData) "Nascondi dati e fonti" else "Dati e fonti", color = C.Navy)

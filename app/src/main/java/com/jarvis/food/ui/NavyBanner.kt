@@ -33,7 +33,7 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
     query: String, onQuery: (String) -> Unit, hint: String, icons: List<String> = emptyList(),
     descriptions: List<String> = labels, accounts: Boolean = true, onSubmit: () -> Unit = {}, onBack: (() -> Unit)? = null) {
     val large = LocalDensity.current.fontScale > 1.5f
-    Column(Modifier.fillMaxWidth().testTag("navy-banner").clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
+    Column(Modifier.fillMaxWidth().testTag("navy-banner").background(C.Bg).clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
         .background(C.NavyBrush).padding(horizontal = 16.dp, vertical = 14.dp)) {
         Row(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) {
