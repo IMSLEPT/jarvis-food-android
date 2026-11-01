@@ -19,7 +19,7 @@ private val historyDate = DateTimeFormatter.ofPattern("d MMMM yyyy", IT)
 fun WeightHistoryScreen() {
     val state by Store.state.collectAsState()
     val samples = remember(state.weights) { HistoryData.weights(state) }
-    Column(Modifier.fillMaxSize().testTag("weight-history-screen")) {
+    Column(Modifier.fillMaxSize().navigationBarsPadding().testTag("weight-history-screen")) {
         TopBar("Storico peso", onBack = { Nav.back() })
         LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item { Text("Le tue pesate, dalla più recente.", style = T.Muted) }
@@ -41,7 +41,7 @@ fun CalorieHistoryScreen() {
     val stacked = LocalDensity.current.fontScale > 1.2f
     val recorded = remember(state.diary) { HistoryData.calories(state) }
     val days = remember(recorded, period, Nav.today) { HistoryData.inPeriod(recorded, Nav.today, period) }
-    Column(Modifier.fillMaxSize().testTag("calorie-history-screen")) {
+    Column(Modifier.fillMaxSize().navigationBarsPadding().testTag("calorie-history-screen")) {
         TopBar("Storico calorie", onBack = { Nav.back() })
         LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item { FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (stacked) 1 else 3, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
