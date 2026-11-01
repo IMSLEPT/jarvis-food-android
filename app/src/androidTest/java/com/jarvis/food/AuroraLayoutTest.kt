@@ -199,7 +199,9 @@ class AuroraLayoutTest {
                 ViewCompat.getWindowInsetsController(activity.window.decorView)?.show(WindowInsetsCompat.Type.ime())
                 val inputMethod = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
                 @Suppress("DEPRECATION")
-                inputMethod.showSoftInput(activity.currentFocus ?: activity.window.decorView, android.view.inputmethod.InputMethodManager.SHOW_FORCED)
+                // Match normal user input; SHOW_FORCED can keep the IME globally visible.
+                // https://developer.android.com/develop/ui/views/touch-and-input/keyboard-input/visibility
+                inputMethod.showSoftInput(activity.currentFocus ?: activity.window.decorView, 0)
             }
             var imeBottom = 0
             try { compose.waitUntil(20_000) {
