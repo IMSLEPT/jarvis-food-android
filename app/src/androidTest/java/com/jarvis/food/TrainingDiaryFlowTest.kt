@@ -119,6 +119,12 @@ class TrainingDiaryFlowTest {
             assertEquals(150.0, Store.energyFor(Store.current, today).protein, 0.0)
             assertTrue(Store.current.trainingNutrition.isTraining(today.plusWeeks(1)))
             shot("day-off-override")
+            ui { Nav.tab = 1; Store.generatePlan(today.with(java.time.DayOfWeek.MONDAY), 7) }
+            compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
+            compose.onNodeWithTag("day-type-choice-false").performScrollTo().assertIsSelected()
+            shot("plan-day-type-outlined-actions")
+            compose.onNodeWithTag("day-type-close").performClick()
+            ui { Nav.tab = 0 }
             ui { Nav.go(Screen.DayNutrients(today)) }
             compose.onNodeWithText("su 2100 kcal").assertIsDisplayed()
             ui { Nav.back() }

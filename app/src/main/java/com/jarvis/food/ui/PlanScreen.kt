@@ -102,6 +102,8 @@ fun PlanScreen() {
     MainPage("Piano", header = {
         CalendarPageHeader(s, "Piano", date, onPick = { Nav.planDate = it }, dateTag = "plan-calendar-toggle")
     }) {
+        DayTypeControl(s, date)
+        if (s.trainingNutrition.active) GapH(12.dp)
         Box(Modifier.fillMaxWidth()) {
             SquareAction("Opzioni del piano", Modifier.fillMaxWidth(), tag = "plan-options") { optionsOpen = true }
             DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
@@ -109,6 +111,7 @@ fun PlanScreen() {
                     optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
                 })
                 DropdownMenuItem(text = { Text("Gestisci pasti e preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
+                DropdownMenuItem(text = { Text("Configura giorni ON/OFF", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.TrainingGoals) })
                 DropdownMenuItem(text = { Text("Lista della spesa", style = T.Body) }, onClick = {
                     optionsOpen = false
                     if (!hasWeek) Store.generatePlan(monday)
@@ -162,7 +165,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     var expanded by remember { mutableStateOf(false) }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 16.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
-        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 3, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.3f), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.MealLunch, C.AccentDeep, 22.dp, 1.8f)
                 GapW(8.dp)
@@ -186,13 +189,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("completati", style = T.Small)
                 }
             }
-            Box(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.05f)) {
-                if (s.trainingNutrition.active) DayTypeControl(s, date, compact = true)
-                else Column(Modifier.clickable { Nav.go(Screen.TrainingGoals) }) {
-                    Text("ON / OFF", style = T.Label.copy(color = C.AccentDeep))
-                    Text("Configura giorni", style = T.Small)
-                }
-            }
+
         }
     }
     if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
