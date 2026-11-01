@@ -7,7 +7,12 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.runtime.key
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,6 +75,7 @@ import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
 import com.jarvis.food.engine.MicroAnalysis
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
@@ -221,10 +227,36 @@ fun TodayScreen() {
 
 // ============================================================================================
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.diaryDate = it }) {
+    key(Nav.today) {
+        val today = Nav.today
+        val origin = 10000
+        val pager = rememberPagerState(initialPage = (origin + CalendarWindow.pageFor(today, date)).coerceIn(0, 20000), pageCount = { 20001 })
+        val selectedDate by rememberUpdatedState(date)
+        val pick by rememberUpdatedState(onPick)
+        LaunchedEffect(date, today) {
+            val desired = (origin + CalendarWindow.pageFor(today, date)).coerceIn(0, 20000)
+            if (pager.currentPage != desired) pager.scrollToPage(desired)
+        }
+        LaunchedEffect(pager, today) {
+            snapshotFlow { pager.settledPage }.collect { page ->
+                val offset = page - origin
+                if (CalendarWindow.pageFor(today, selectedDate) != offset) {
+                    pick(CalendarWindow.days(today, offset)[CalendarWindow.position(today, selectedDate)])
+                }
+            }
+        }
+        HorizontalPager(pager, Modifier.fillMaxSize().testTag("week-strip"), verticalAlignment = Alignment.CenterVertically) { page ->
+            WeekPage(s, date, CalendarWindow.days(today, page - origin), page == pager.currentPage, pick)
+        }
+    }
+}
+
+@Composable
+private fun WeekPage(s: AppState, date: LocalDate, days: List<LocalDate>, active: Boolean, onPick: (LocalDate) -> Unit) {
     val expanded = LocalDensity.current.fontScale > 1.5f
-    val days = CalendarWindow.days(Nav.today)
     val labels = listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom")
     val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, days) {
         (0..6).map { i ->
@@ -233,13 +265,7 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
             if (k <= 0) 0f else (k / Store.energyFor(s, d).targetKcal.coerceAtLeast(1.0)).toFloat().coerceIn(0f, 1f)
         }
     }
-    Column(
-        Modifier.fillMaxWidth().testTag("week-strip").pointerInput(date) {
-            var dx = 0f
-            detectHorizontalDragGestures(onDragStart = { dx = 0f }, onDragEnd = {
-                if (dx > 90f) onPick(date.minusWeeks(1)) else if (dx < -90f) onPick(date.plusWeeks(1))
-            }) { _, d -> dx += d }
-        },
+    Column(Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         (0..6).toList().chunked(if (expanded) 4 else 7).forEach { group ->
@@ -248,8 +274,8 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
             val d = days[i]
             val sel = d == date
             val p by animateFloatAsState(fr[i], tween(1000), label = "week")
-            Column(Modifier.weight(1f).testTag("week-day-$i").semantics { contentDescription = d.toString() }.clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(labels[d.dayOfWeek.value - 1], modifier = Modifier.testTag("week-label-$i"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
+            Column(Modifier.weight(1f).then(if (active) Modifier.testTag("week-day-$i") else Modifier).semantics { contentDescription = d.toString() }.clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(labels[d.dayOfWeek.value - 1], modifier = if (active) Modifier.testTag("week-label-$i") else Modifier, style = T.Small.copy(fontSize = 12.sp, lineHeight = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
                 Box(
                     Modifier.size(44.dp).aShadow(CircleShape, if (sel) 8.dp else 3.dp, if (sel) Color(0x991D1B3A) else Color(0x401D1B3A)).clip(CircleShape)
                         .background(if (sel) C.Navy else Color.White),

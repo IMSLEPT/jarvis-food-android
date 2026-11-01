@@ -8,6 +8,12 @@ approved=json.loads(approved_path.read_text()) if approved_path.exists() else {}
 assert set(approved) <= set(functional), 'Authorized changes must refer to original baseline files'
 changed=[]
 for filename,expected in functional.items():
+    if not (root/filename).exists():
+        fix=approved.get(filename,{})
+        assert fix.get('deleted') is True and fix.get('reason'), f'Unapproved removal: {filename}'
+        changed.append(filename)
+        continue
+    assert approved.get(filename,{}).get('deleted') is not True, f'Removed feature unexpectedly restored: {filename}'
     actual=hashlib.sha256((root/filename).read_bytes()).hexdigest()
     if actual != expected:
         fix=approved.get(filename,{})

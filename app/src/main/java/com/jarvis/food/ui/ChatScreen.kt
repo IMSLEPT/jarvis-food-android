@@ -152,11 +152,11 @@ private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4
 @Composable
 private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
     Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
-        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Famiglia", "Profilo"), if (setup) 1 else 0,
-            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.Family); 3 -> Nav.go(Screen.Profile) } },
+        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Profilo"), if (setup) 1 else 0,
+            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.Profile) } },
             query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",
-            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, Ic.Family, Ic.User),
-            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Famiglia", "Apri profilo"),
+            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, Ic.User),
+            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Apri profilo"),
             accounts = false, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null)
     }
 }

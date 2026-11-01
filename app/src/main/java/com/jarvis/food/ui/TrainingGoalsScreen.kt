@@ -189,27 +189,24 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
     var dialog by remember(date) { mutableStateOf(false) }
     val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
-    val shape = RoundedCornerShape(16.dp)
+    val caption = if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia"
     if (compact) {
-        Column(Modifier.testTag("day-type-label").clickable { dialog = true }) {
-            Text(label, style = T.Label.copy(color = C.AccentDeep, fontSize = 13.sp))
-            Text(if (date.toString() in settings.overrides) "Solo oggi · cambia" else "Da calendario · cambia", style = T.Small.copy(fontSize = 11.sp))
-        }
+        SquareAction(label, Modifier.fillMaxWidth(), tag = "day-type-label", subtitle = caption, minHeight = 56.dp) { dialog = true }
     } else {
-    Row(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f).testTag("day-type-label").clickable { dialog = true }.padding(vertical = 8.dp)) {
-            Text(label, style = T.Label)
-            Text(if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia", style = T.Small)
+        Row(Modifier.padding(top = 12.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            SquareAction(label, Modifier.weight(1f), tag = "day-type-label", subtitle = caption) { dialog = true }
+            SquareAction("Configura", tag = "day-type-configure", minHeight = 56.dp) { Nav.go(Screen.TrainingGoals) }
         }
-        TextButton(onClick = { Nav.go(Screen.TrainingGoals) }) { Text("Configura", color = C.AccentDeep) }
-    }
     }
     if (dialog) AlertDialog(onDismissRequest = { dialog = false }, title = { Text("${dayLabel(date)} · tipo di giornata", style = T.Title2) }, text = {
-        Column {
+        Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text("La modifica vale soltanto per questa data.", style = T.Small)
+            val override = settings.overrides[date.toString()]
             listOf("ON · Allenamento" to true, "OFF · Riposo" to false, "Segui calendario settimanale" to null).forEach { (text, value) ->
-                TextButton(onClick = { Store.setDayType(date, value); dialog = false }, modifier = Modifier.fillMaxWidth()) { Text(text, color = C.Navy) }
+                SquareAction(text, Modifier.fillMaxWidth(), tag = "day-type-choice-${value ?: "calendar"}", isSelected = override == value) {
+                    Store.setDayType(date, value); dialog = false
+                }
             }
         }
-    }, confirmButton = { TextButton(onClick = { dialog = false }) { Text("Chiudi", color = C.Navy) } }, containerColor = C.Surface)
+    }, confirmButton = { SquareAction("Chiudi", tag = "day-type-close", minHeight = 48.dp) { dialog = false } }, containerColor = C.Surface)
 }

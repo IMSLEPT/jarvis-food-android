@@ -99,33 +99,23 @@ fun PlanScreen() {
     val energy = Store.energyFor(s, date)
 
     var optionsOpen by remember { mutableStateOf(false) }
-    var calendarExpanded by remember { mutableStateOf(false) }
     MainPage("Piano", header = {
-        CalendarPageHeader(s, "Piano", date, onPick = { Nav.planDate = it },
-            onDateClick = { calendarExpanded = !calendarExpanded }, dateTag = "plan-calendar-toggle", trailing = {
-            Box {
-                Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).semantics { contentDescription = "Opzioni del piano" }.clickable(role = Role.Button) { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
-                DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
-                    DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
-                        optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
-                    })
-                    DropdownMenuItem(text = { Text("Gestisci pasti e preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
-                    DropdownMenuItem(text = { Text("Lista della spesa", style = T.Body) }, onClick = {
-                        optionsOpen = false
-                        if (!hasWeek) Store.generatePlan(monday)
-                        val start = maxOf(LocalDate.now(), monday)
-                        Store.buildShopping(start, (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7))
-                        Nav.tab = 2; Nav.kitchenTab = 1
-                    })
-                }
-            }
-        })
+        CalendarPageHeader(s, "Piano", date, onPick = { Nav.planDate = it }, dateTag = "plan-calendar-toggle")
     }) {
-        if (calendarExpanded) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                TextButton(onClick = { Nav.planDate = date.minusWeeks(1) }) { Text("Precedente", color = C.Navy) }
-                TextButton(onClick = { showDatePicker(ctx, date) { Nav.planDate = it } }) { Text("Scegli data", color = C.Navy) }
-                TextButton(onClick = { Nav.planDate = date.plusWeeks(1) }) { Text("Successiva", color = C.Navy) }
+        Box(Modifier.fillMaxWidth()) {
+            SquareAction("Opzioni del piano", Modifier.fillMaxWidth(), tag = "plan-options") { optionsOpen = true }
+            DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
+                DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
+                    optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
+                })
+                DropdownMenuItem(text = { Text("Gestisci pasti e preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
+                DropdownMenuItem(text = { Text("Lista della spesa", style = T.Body) }, onClick = {
+                    optionsOpen = false
+                    if (!hasWeek) Store.generatePlan(monday)
+                    val start = maxOf(LocalDate.now(), monday)
+                    Store.buildShopping(start, (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7))
+                    Nav.tab = 2; Nav.kitchenTab = 1
+                })
             }
         }
 

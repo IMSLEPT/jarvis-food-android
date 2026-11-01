@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.jarvis.food.family.FamilyStore
 import com.jarvis.food.data.Store
 import com.jarvis.food.health.HealthSync
 import kotlinx.coroutines.launch
@@ -34,9 +33,6 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         Store.init(applicationContext)
-        FamilyStore.init(applicationContext)
-        // Sincronizzazione della famiglia solo con l'app in primo piano.
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { FamilyStore.loop() } }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (isActive) {

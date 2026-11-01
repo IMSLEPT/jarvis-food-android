@@ -42,10 +42,11 @@ class AuroraRegressionTest {
             compose.onNodeWithContentDescription("Apri profilo").performClick()
             compose.onNodeWithText("Profilo e obiettivo").assertExists()
             ui { Nav.back() }
-            compose.onNodeWithContentDescription("Famiglia", useUnmergedTree = true).performClick()
+            compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
+            compose.onNodeWithContentDescription("Calendario").performClick()
+            androidx.test.espresso.Espresso.pressBack()
             compose.waitForIdle()
-            assertTrue(Nav.stack.last() is Screen.Family)
-            ui { Nav.clear() }
+            assertTrue(Nav.stack.isEmpty())
             compose.onNodeWithText("Jarvis", useUnmergedTree = true).performClick()
             compose.waitForIdle()
             assertEquals(5, Nav.tab)

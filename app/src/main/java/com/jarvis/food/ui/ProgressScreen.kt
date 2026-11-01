@@ -188,19 +188,19 @@ fun ProgressScreen() {
             FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (metricStack) 1 else 2,
                 horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 ProgressMetric("Peso", "${weight.r1()} kg", "IMC ${bmi.r1()} · ${Nutrition.bmiLabel(bmi)}", "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2", C.Blue,
-                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.Weight) }
+                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.WeightHistory) }
                 ProgressMetric("Calorie", "${avg?.kcal?.let { kcalFmt(it) } ?: "—"} kcal", "Media · Obiettivo ${kcalFmt(goalKcal)}", Ic.Flame, C.Accent,
-                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { section = 1 }
+                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { Nav.go(Screen.CalorieHistory) }
             }
         }
         if ((section in 1..2 || query.isNotBlank()) && matches("peso", "obiettivo", "kg", "andamento")) {
         // Peso
-        ASection("Peso", action = "Registra", top = 28.dp) { Nav.go(Screen.Weight) }
+        ASection("Peso", action = "Storico", top = 28.dp) { Nav.go(Screen.WeightHistory) }
         val from = today.minusDays((period - 1).toLong())
         val ws = s.weights.filter { !LocalDate.parse(it.date).isBefore(from) }.sortedBy { it.date }
         val wd = if (ws.size >= 2) ws.last().kg - ws.first().kg else 0.0
         Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C3B82F6)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30)
-            .clickable { Nav.go(Screen.Weight) }.padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 14.dp)) {
+            .clickable { Nav.go(Screen.WeightHistory) }.padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 14.dp)) {
             androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(weight.r1(), style = T.H1.copy(fontSize = 46.sp, lineHeight = 48.sp))

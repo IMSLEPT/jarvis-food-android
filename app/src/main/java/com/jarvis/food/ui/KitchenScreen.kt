@@ -312,11 +312,6 @@ private fun ShoppingTab(s: AppState) {
     }
     GapH(12.dp)
     if (s.shopping.isEmpty()) EmptyState("🛒", "Lista vuota", "Crea il piano nella scheda Piano, poi genera la lista per i prossimi giorni.")
-    JCard(color = A.CarbSoft, onClick = { Nav.go(Screen.Family) }) {
-        Text("Spesa famiglia", style = T.Title2)
-        Text("Una lista condivisa, una dieta per ciascuno", style = T.Small)
-    }
-    GapH(12.dp)
     val groups = s.shopping.groupBy { it.shop }
     Shopping.SHOP_ORDER.filter { groups.containsKey(it) }.forEach { shop ->
         val cardShape = RoundedCornerShape(28.dp)

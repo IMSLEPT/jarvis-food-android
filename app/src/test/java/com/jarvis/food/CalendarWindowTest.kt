@@ -31,4 +31,27 @@ class CalendarWindowTest {
         assertEquals(today, CalendarWindow.followToday(previous, previous, today))
         assertEquals(previous.minusWeeks(1), CalendarWindow.followToday(previous.minusWeeks(1), previous, today))
     }
+    @Test fun swipePagesActuallyMoveVisibleDatesAcrossLeapDayAndNewYear() {
+        for (today in listOf(LocalDate.of(2028,2,29), LocalDate.of(2026,12,31))) {
+            for (page in listOf(-52,-2,-1,0,1,2,52)) {
+                val days = CalendarWindow.days(today, page)
+                assertEquals(today.plusWeeks(page.toLong()), days[2])
+                assertEquals(7, days.distinct().size)
+                for ((index,date) in days.withIndex()) {
+                    assertEquals(page, CalendarWindow.pageFor(today,date))
+                    assertEquals(index, CalendarWindow.position(today,date))
+                }
+            }
+        }
+    }
+    @Test fun datePickerAndTodayResetFindTheCorrectPageEvenBeforeTheInitialWindow() {
+        val today = LocalDate.of(2026,11,1)
+        for (delta in listOf(-365,-15,-10,-3,-2,-1,0,1,4,5,6,14,365)) {
+            val selected = today.plusDays(delta.toLong())
+            assertEquals(selected, CalendarWindow.days(today,CalendarWindow.pageFor(today,selected))[CalendarWindow.position(today,selected)])
+        }
+        assertEquals(0,CalendarWindow.pageFor(today,today))
+        assertEquals(2,CalendarWindow.position(today,today))
+    }
+
 }

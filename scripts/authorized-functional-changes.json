@@ -60,8 +60,8 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Models.kt": {
-    "sha256": "4ff456bb809181f0ec05fcbbbae60737928518899e2c1f4ff4de30f5e0ed59bc",
-    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+    "sha256": "4e954b257f26ca0bd0fd4e2e6afdf7f620f660d4908d7bcae5eb3d9c51f846a4",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati. Rimozione Famiglia richiesta esplicitamente: eliminati campo e collegamento condiviso; i backup precedenti restano leggibili tramite ignoreUnknownKeys."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
     "sha256": "4bd589371215e7e8cc11ca4e9104c425da6d472be1f7e3b776175886ba1d1737",
@@ -90,5 +90,25 @@
   "app/src/main/java/com/jarvis/food/engine/FoodDb.kt": {
     "sha256": "f120d76fffd986251ec79bda2a5e14124cbfc9719b30446bd82f79e0632685a1",
     "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyCrypto.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilySync.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyBackend.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyModels.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyStore.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
   }
 }

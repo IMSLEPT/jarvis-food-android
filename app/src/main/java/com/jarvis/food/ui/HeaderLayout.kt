@@ -46,8 +46,7 @@ fun showDatePicker(context: android.content.Context, date: LocalDate, onPick: (L
 
 @Composable
 fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: String? = null,
-    onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date",
-    trailing: (@Composable () -> Unit)? = null) {
+    onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date") {
     val large = LocalDensity.current.fontScale > 1.5f
     val context = LocalContext.current
     ScreenHeaderFrame(false) {
@@ -56,7 +55,7 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
                 if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"), style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp))
                 Text(if (greeting != null && !large) s.profile.name else title, style = T.Title.copy(fontSize = if (large) 23.sp else 30.sp, lineHeight = if (large) 28.sp else 34.sp), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
             }
-            HeaderAccountActions()
+            HeaderAccountActions { showDatePicker(context, date, onPick) }
         }
         Row(Modifier.fillMaxWidth().height(HeaderLayout.dateHeight()), verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.weight(1f).fillMaxHeight().testTag(dateTag).clip(RoundedCornerShape(12.dp))
@@ -64,8 +63,10 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
                 Text(fullDay(date), style = T.Title2.copy(fontSize = if (large) 13.sp else 18.sp, lineHeight = if (large) 16.sp else 22.sp))
             }
             GapW(8.dp)
-            if (trailing != null) trailing() else Box(Modifier.size(48.dp).clip(RoundedCornerShape(16.dp)).background(Color.White)
-                .semantics { contentDescription = "Scegli data" }.clickable(role = Role.Button) { showDatePicker(context, date, onPick) }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
+            Box(Modifier.testTag("calendar-today")) {
+                HeaderIconButton("M21 12a9 9 0 1 1-3-6.7M21 3v6h-6M12 7v5l3 2", "Torna a oggi") { onPick(Nav.today) }
+            }
+
         }
         Box(Modifier.fillMaxWidth().height(HeaderLayout.weekHeight()), contentAlignment = Alignment.Center) { WeekStrip(s, date, onPick) }
     }

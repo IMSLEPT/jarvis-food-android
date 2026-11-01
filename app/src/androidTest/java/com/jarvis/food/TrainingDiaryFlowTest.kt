@@ -111,7 +111,9 @@ class TrainingDiaryFlowTest {
             assertEquals(160.0, Store.energyFor(Store.current, today).protein, 0.0)
             ui { Nav.clear() }
             compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
-            compose.onNodeWithText("OFF · Riposo").performClick()
+            for (choice in listOf("true", "false", "calendar")) compose.onNodeWithTag("day-type-choice-$choice").performScrollTo().assertHasClickAction().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(56f))
+            shot("day-type-outlined-actions")
+            compose.onNodeWithTag("day-type-choice-false").performScrollTo().performClick()
             compose.waitForIdle()
             assertEquals(2100.0, Store.energyFor(Store.current, today).targetKcal, 0.0)
             assertEquals(150.0, Store.energyFor(Store.current, today).protein, 0.0)

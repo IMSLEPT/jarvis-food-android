@@ -83,11 +83,11 @@ class AuroraLayoutTest {
     }
 
     private fun chatHeaderHasAccountControlsAboveActions() {
-        val family = compose.onNodeWithContentDescription("Famiglia").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
         val profile = compose.onNodeWithContentDescription("Apri profilo").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
         val fresh = compose.onNodeWithContentDescription("Nuova chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
         val engine = compose.onNodeWithContentDescription("Motore della chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
-        val bounds = listOf(fresh, engine, family, profile)
+        val bounds = listOf(fresh, engine, profile)
         for (i in bounds.indices) for (j in i+1 until bounds.size) {
             val a = bounds[i]; val b = bounds[j]
             assertTrue("Labelled header actions overlap", a.right <= b.left + 1f || b.right <= a.left + 1f || a.bottom <= b.top + 1f || b.bottom <= a.top + 1f)
@@ -121,10 +121,10 @@ class AuroraLayoutTest {
             shot("home-before-check")
             for (label in listOf("Foto piatto", "Frigo", "Digiuno")) visibleIcon("quick-icon-$label", C.Navy, 22f)
             shot("home-enlarged-icons")
-            compose.onNodeWithContentDescription("Famiglia").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            compose.onNodeWithContentDescription("Calendario").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            androidx.test.espresso.Espresso.pressBack()
             compose.waitForIdle()
-            assertEquals(Screen.Family, Nav.stack.last())
-            ui { Nav.back() }
+            assertTrue(Nav.stack.isEmpty())
             compose.onNodeWithContentDescription("Apri profilo").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
             compose.waitForIdle()
             assertEquals(Screen.Profile, Nav.stack.last())
@@ -161,10 +161,7 @@ class AuroraLayoutTest {
             ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
             chatHeaderHasAccountControlsAboveActions()
             shot("chat-empty-account-controls")
-            compose.onNodeWithContentDescription("Famiglia").performClick()
-            compose.waitForIdle()
-            assertEquals(Screen.Family, Nav.stack.last())
-            ui { Nav.back() }
+            compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
             compose.onNodeWithContentDescription("Apri profilo").performClick()
             compose.waitForIdle()
             assertEquals(Screen.Profile, Nav.stack.last())

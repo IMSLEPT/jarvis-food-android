@@ -73,12 +73,14 @@ fun MainHeader(title: String, eyebrow: String? = null, homeName: String? = null,
 }
 
 
-/** The same family/profile controls in every main destination, including Jarvis chat. */
+/** Matching profile control everywhere; calendar is supplied by Today and Plan. */
 @Composable
-fun RowScope.HeaderAccountActions() {
+fun RowScope.HeaderAccountActions(onCalendar: (() -> Unit)? = null) {
     val s by Store.state.collectAsState()
-    HeaderIconButton(Ic.Family, "Famiglia", badge = s.family != null) { Nav.go(Screen.Family) }
-    GapW(8.dp)
+    if (onCalendar != null) {
+        HeaderIconButton(Ic.Calendar, "Calendario", onClick = onCalendar)
+        GapW(8.dp)
+    }
     HeaderControl("Apri profilo", onClick = { Nav.go(Screen.Profile) }) {
         Avatar(s.profile.name, s.profile.photo, 42.dp, shape = RoundedCornerShape(12.dp))
     }
@@ -153,7 +155,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
         }, horizontalAlignment = Alignment.CenterHorizontally) {
             GapH(10.dp)
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth(.86f).aspectRatio(1.5f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp, contentScale = androidx.compose.ui.layout.ContentScale.Fit)
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.75f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)
         }
         FlowRow(Modifier.fillMaxWidth().padding(18.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             Row(verticalAlignment = Alignment.CenterVertically) {

@@ -70,6 +70,22 @@ class VisualConsistencyTest {
             ui { Store.update { it.copy(diary=listOf(DiaryEntry("layout-calories",day.toString(),1,Db.db.food("pasta")!!.toFood(),750.0,0L))) } }
             singleLine(compose.onNodeWithTag("progress-calorie-value", useUnmergedTree = true).performScrollTo())
             shot("progress-compact-overview")
+            val beforeHistory = Store.current
+            compose.onNodeWithTag("progress-weight-summary").performScrollTo().performClick()
+            compose.onNodeWithTag("weight-history-screen").assertIsDisplayed()
+            compose.onAllNodes(hasSetTextAction()).assertCountEquals(0)
+            compose.onAllNodesWithText("Salva peso").assertCountEquals(0)
+            shot("weight-history-read-only")
+            ui { Nav.back() }
+            compose.onNodeWithTag("progress-calorie-summary").performScrollTo().performClick()
+            compose.onNodeWithTag("calorie-history-screen").assertIsDisplayed()
+            compose.onAllNodes(hasSetTextAction()).assertCountEquals(0)
+            compose.onNodeWithTag("calorie-history-${day}").performScrollTo().assertExists()
+            shot("calorie-history-read-only")
+            assertEquals(beforeHistory.diary, Store.current.diary)
+            assertEquals(beforeHistory.weights, Store.current.weights)
+            ui { Nav.back() }
+            compose.onNodeWithTag("banner-tab-Progressi-0").assertIsSelected()
             ui { Store.update { it.copy(diary=emptyList()) } }
             compose.onNodeWithTag("banner-tab-Progressi-1").performClick()
             compose.onNodeWithTag("weight-empty", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
@@ -99,17 +115,15 @@ class VisualConsistencyTest {
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("nav-1").performClick()
             compose.onNodeWithTag("plan-completed-count", useUnmergedTree = true).assertTextEquals("0 di ${Store.plannedMeals(Store.current, day).size} pasti")
-            compose.onNodeWithTag("plan-calendar-toggle").performClick()
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
-            compose.onNodeWithTag("plan-calendar-toggle").performClick()
             shot("plan-overview")
             val planned = Store.plannedMeals(Store.current, day)
             for (slot in planned) {
                 compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
                 val photo = compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
-                assertEquals("All meal photographs use reference proportions", photo.width / 1.5f, photo.height, 2f)
+                assertEquals("All meal photographs use reference proportions", photo.width / 1.75f, photo.height, 2f)
                 val card = compose.onNodeWithTag("plan-card-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
-                assertEquals("Photo is smaller and centred within the meal card", card.width * .86f, photo.width, 2f)
+                assertEquals("Photo reaches both card edges", card.width, photo.width, 2f)
                 assertEquals(card.center.x, photo.center.x, 2f)
                 compose.onNodeWithTag("plan-eaten-${slot.diaryMeal}").performScrollTo().assertExists()
             }
@@ -156,6 +170,22 @@ class VisualConsistencyTest {
             for (tab in listOf(0, 1, 2, 3, 5)) singleLine(compose.onNodeWithTag("nav-label-$tab", useUnmergedTree = true))
             val homeFrame = compose.onNodeWithTag("top-header-frame").fetchSemanticsNode().boundsInRoot
             val homeCalendar = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
+            val diaryBeforeSwipes = Store.current.diary
+            compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
+            compose.waitUntil(5_000) { Nav.diaryDate == day.plusDays(7) }
+            compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.plusDays(7).toString())
+            compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
+            compose.waitUntil(5_000) { Nav.diaryDate == day }
+            compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
+            compose.waitUntil(5_000) { Nav.diaryDate == day.minusDays(7) }
+            compose.onNodeWithTag("calendar-today").performClick()
+            compose.waitUntil(5_000) { Nav.diaryDate == day }
+            assertEquals(diaryBeforeSwipes, Store.current.diary)
+            val calendarButton = compose.onNodeWithContentDescription("Calendario").fetchSemanticsNode().boundsInRoot
+            val profileButton = compose.onNodeWithContentDescription("Apri profilo").fetchSemanticsNode().boundsInRoot
+            assertEquals(calendarButton.top, profileButton.top, 1f)
+            assertEquals(calendarButton.height, profileButton.height, 1f)
+            assertTrue(calendarButton.right <= profileButton.left)
             compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.toString())
             compose.onNodeWithTag("week-day-0").performClick()
             compose.waitForIdle()
@@ -172,6 +202,12 @@ class VisualConsistencyTest {
                     val calendar = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
                     assertEquals(homeCalendar.top, calendar.top, 1f)
                     assertEquals(homeCalendar.bottom, calendar.bottom, 1f)
+                    compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
+                    compose.waitUntil(5_000) { Nav.planDate == day.plusDays(7) }
+                    compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.plusDays(7).toString())
+                    compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
+                    compose.waitUntil(5_000) { Nav.planDate == day }
+                    compose.onNodeWithContentDescription("Calendario").assertIsDisplayed()
                     compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.toString())
                 }
                 if (tab in listOf(2,3,5)) {
@@ -183,6 +219,7 @@ class VisualConsistencyTest {
                         assertNotEquals("Rounded upper corner leaves a white margin", pixel.getPixel(x,y), pixel.getPixel((frame.left+1).toInt(), (frame.top+1).toInt()))
                     } finally { pixel.recycle() }
                 }
+                compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
                 shot("header-$tab")
             }
             ui { Nav.clear(); Nav.tab = 0 }
