@@ -134,10 +134,17 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     JCard(Modifier.testTag("plan-card-${m.diaryMeal}"), padding = PaddingValues(0.dp)) {
-        FlowRow(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 18.dp, end = 18.dp, top = 16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                TonalIcon(mealIcon(m.diaryMeal), Color.White, C.AccentDeep, box = 38.dp, radius = 19.dp)
-                GapW(10.dp); Text(m.slotName, style = T.Label.copy(color = C.Navy))
+        FlowRow(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 18.dp, end = 18.dp, top = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
+            Row((if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).clickable {
+                Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
+            }, verticalAlignment = Alignment.Top) {
+                TonalIcon(mealIcon(m.diaryMeal), Color.White, C.AccentDeep, box = 34.dp, radius = 17.dp)
+                GapW(10.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(m.slotName, style = T.Small.copy(fontSize = 11.sp))
+                    Text(r.template.name, modifier = Modifier.testTag("plan-recipe-title-${m.diaryMeal}"),
+                        style = T.Title2.copy(fontSize = 22.sp, lineHeight = 27.sp))
+                }
             }
             Text(if (eaten) "Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(20.dp))
                 .background(if (eaten) A.GreenSoft else C.SurfaceAlt).padding(horizontal = 10.dp, vertical = 5.dp), style = T.Small.copy(color = if (eaten) A.GreenInk else C.Muted))
@@ -145,8 +152,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
         Column(Modifier.fillMaxWidth().testTag("plan-recipe-${m.diaryMeal}").clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
             Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
         }) {
-            Text(r.template.name, modifier = Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 10.dp).testTag("plan-recipe-title-${m.diaryMeal}"),
-                style = T.Title2.copy(fontSize = 22.sp, lineHeight = 27.sp))
+            GapH(10.dp)
             RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.05f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp)
         }
         FlowRow(Modifier.fillMaxWidth().padding(18.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {

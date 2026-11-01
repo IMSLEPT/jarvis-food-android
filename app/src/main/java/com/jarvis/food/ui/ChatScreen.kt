@@ -146,8 +146,8 @@ fun ChatScreen() {
 }
 
 // Same Aurora icon grid as the rest of the app: compose a chat, and a car engine.
-private const val NEW_CHAT_ICON = "M13 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 3l5 5M10 14l1-4 8-8 4 4-8 8-5 1z"
-private const val ENGINE_ICON = "M8 7V5h7l3 3h3v10h-4l-2 3H9l-3-3H3V9h3l2-2zM10 2h5M12.5 2v3M1 10v6M1 13h2M23 10v6M21 13h2"
+private const val NEW_CHAT_ICON = "M21 11a9 9 0 0 1-9 9H4l1.5-4A9 9 0 1 1 21 11zM12 7v8M8 11h8"
+private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"
 
 @Composable
 private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
