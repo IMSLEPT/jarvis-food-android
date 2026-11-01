@@ -139,6 +139,15 @@ fun App() {
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
     BackHandler(enabled = Nav.stack.isEmpty() && Nav.tab != 0) { Nav.tab = 0 }
+    val keyboard = androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
+    val focus = androidx.compose.ui.platform.LocalFocusManager.current
+    val keyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    // Back closes the editor first, including after returning from a native date picker.
+    // Keep the current screen and typed text instead of navigating underneath the IME.
+    BackHandler(enabled = keyboardVisible) {
+        keyboard?.hide()
+        focus.clearFocus(force = true)
+    }
     AppBackground {
         val top = Nav.stack.lastOrNull()
         AnimatedContent(targetState = top, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "nav") { screen ->

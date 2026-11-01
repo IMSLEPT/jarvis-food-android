@@ -252,6 +252,7 @@ class AuroraLayoutTest {
                 shot("chat-ime-close-failure")
                 throw failure
             }
+            assertEquals("Back must close the keyboard without leaving Jarvis", 5, Nav.tab)
             ui { Store.update { it.copy(chat = emptyList(), ai = it.ai.copy(apiKey = "")) } }
             ui { Nav.tab = 0 }
             compose.onNodeWithContentDescription("Apri profilo").performClick()
