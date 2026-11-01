@@ -234,7 +234,7 @@ private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolea
                 }
                 Spacer(Modifier.height(6.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    DayTypeDialogAction("Chiudi", Modifier.width(76.dp), "day-type-close", small = true, onClick = onClose)
+                    DayTypeDialogAction("Chiudi", Modifier.width((76 * LocalDensity.current.fontScale.coerceAtLeast(1f)).dp), "day-type-close", small = true, onClick = onClose)
                 }
             }
         }
@@ -247,7 +247,7 @@ private fun DayTypeDialogAction(label: String, modifier: Modifier, tag: String, 
     val orange = androidx.compose.ui.graphics.Color(0xFFD46622)
     val shape = RoundedCornerShape(5.dp)
     Box(modifier.heightIn(min = 48.dp).testTag(tag).semantics { selected = isSelected }
-        .clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+        .clickable(role = Role.Button, onClick = onClick).padding(vertical = 4.dp), contentAlignment = Alignment.Center) {
         Row(Modifier.fillMaxWidth().heightIn(min = if (small) 34.dp else 40.dp).clip(shape)
             .background(if (isSelected) androidx.compose.ui.graphics.Color(0xFFFFE5D2) else C.Surface)
             .border(1.dp, if (isSelected) orange else C.Navy, shape).padding(horizontal = 10.dp, vertical = 7.dp),
