@@ -219,14 +219,14 @@ private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolea
 @Composable
 private fun ChatSendControl(canSend: Boolean, busy: Boolean, size: Dp, onSend: () -> Unit, onStop: () -> Unit) {
     Box(Modifier.size(size).clip(CircleShape)
-        .background(if (busy) Brush.linearGradient(listOf(C.Navy, C.Navy)) else if (canSend) C.OrangeBrush else Brush.linearGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
+        .background(if (busy) Brush.linearGradient(listOf(C.Navy, C.Navy)) else Brush.linearGradient(listOf(C.Navy, C.Navy)))
         .semantics { contentDescription = if (busy) "Interrompi risposta" else "Invia messaggio" }
         .clickable(enabled = canSend || busy, role = Role.Button) { if (busy) onStop() else onSend() }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(22.dp)) {
             val w = this.size.width; val h = this.size.height
             if (busy) drawRoundRect(Color.White, Offset(w * 0.25f, h * 0.25f), androidx.compose.ui.geometry.Size(w * 0.5f, h * 0.5f), androidx.compose.ui.geometry.CornerRadius(4f, 4f))
             else {
-                val stroke = 2.4.dp.toPx(); val ink = if (canSend) C.OnOrange else C.Faint
+                val stroke = 2.4.dp.toPx(); val ink = if (canSend) Color.White else Color.White.copy(alpha = .65f)
                 drawLine(ink, Offset(w / 2, h * 0.88f), Offset(w / 2, h * 0.14f), stroke, StrokeCap.Round)
                 drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.18f, h * 0.45f), stroke, StrokeCap.Round)
                 drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.82f, h * 0.45f), stroke, StrokeCap.Round)
@@ -247,21 +247,21 @@ private val CAPABILITIES = listOf(
 @Composable
 private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        JarvisLogo(80.dp)
+        JarvisLogo(72.dp)
         Spacer(Modifier.height(12.dp))
-        Text("Ciao, sono Jarvis", style = T.Title.copy(fontSize = 27.sp, lineHeight = 32.sp))
+        Text("Ciao, sono Jarvis", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
         Text("Uso l'app al posto tuo: registro i pasti, cerco ricette, preparo piano e spesa. Ti dico sempre cosa ho fatto davvero e prima di eliminare qualcosa ti chiedo conferma.",
-            style = T.Muted, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
+            style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp))
         if (ready) {
             Spacer(Modifier.height(8.dp))
             CAPABILITIES.chunked(2).forEachIndexed { rowIndex, row ->
                 Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (emoji, title, example) ->
                         Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
-                            .clickable { onPick(example) }.padding(12.dp)) {
-                            Text("$emoji  $title", style = T.Label)
+                            .clickable { onPick(example) }.padding(10.dp)) {
+                            Text("$emoji  $title", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
                             Spacer(Modifier.height(4.dp))
-                            Text("“$example”", style = T.Small)
+                            Text("“$example”", style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
                         }
                     }
                 }

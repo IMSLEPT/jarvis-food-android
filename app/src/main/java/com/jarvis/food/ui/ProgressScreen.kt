@@ -148,11 +148,11 @@ fun ProgressScreen() {
 
         // Intervallo
         val seg = RoundedCornerShape(26.dp)
-        Row(Modifier.padding(top = 16.dp).fillMaxWidth().clip(seg).background(Color(0xD9FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.padding(top = 10.dp).fillMaxWidth().clip(seg).background(Color(0xD9FFFFFF)).border(1.dp, A.Hair, seg).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(7 to "7 giorni", 30 to "30 giorni").forEach { (d, l) ->
                 val sel = period == d
-                Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { period = d }, contentAlignment = Alignment.Center) {
-                    Text(l, style = T.BtnS.copy(color = if (sel) Color.White else A.Ink))
+                Box(Modifier.weight(1f).heightIn(min = 36.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { period = d }, contentAlignment = Alignment.Center) {
+                    Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink))
                 }
             }
         }
@@ -160,21 +160,21 @@ fun ProgressScreen() {
         if (section == 0 && query.isBlank()) {
         // Serie
         val streakDays = streak(s)
-        Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
-            .background(C.Surface).padding(16.dp)) {
+        Column(Modifier.padding(top = 10.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
+            .background(C.Surface).padding(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(56.dp).clip(RoundedCornerShape(20.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 30.dp, fill = true) }
-                GapW(14.dp)
+                Box(Modifier.size(32.dp).clip(RoundedCornerShape(12.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 26.dp, fill = true) }
+                GapW(10.dp)
                 Column {
-                    Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 26.sp, lineHeight = 30.sp))
-                    Text(if (streakDays > 0) "hai registrato i pasti ogni giorno" else "registra un pasto per iniziare la serie", style = T.Small.copy(fontSize = 13.sp, color = A.Muted))
+                    Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp))
+                    Text(if (streakDays > 0) "hai registrato i pasti ogni giorno" else "registra un pasto per iniziare la serie", style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp, color = A.Muted))
                 }
             }
-            Row(Modifier.padding(top = 14.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(Modifier.padding(top = 6.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 (6 downTo 0).map { today.minusDays(it.toLong()) }.forEach { d ->
                     val isToday = d == today
                     val did = d.toString() in loggedDays
-                    Box(Modifier.weight(1f).heightIn(min = 40.dp).clip(RoundedCornerShape(17.dp)).background(if (isToday) C.Navy else if (did) Color.White else Color(0x80FFFFFF)), contentAlignment = Alignment.Center) {
+                    Box(Modifier.weight(1f).heightIn(min = 24.dp).clip(RoundedCornerShape(12.dp)).background(if (isToday) C.Navy else if (did) Color.White else Color(0x80FFFFFF)), contentAlignment = Alignment.Center) {
                         Text(letter(d), style = T.Chip.copy(fontSize = 12.sp, color = if (isToday) Color.White else A.Ink))
                     }
                 }
@@ -183,13 +183,14 @@ fun ProgressScreen() {
 
         }
         if (section == 0 && matches("peso", "calorie", "kcal", "dati")) {
-            GapH(12.dp)
-            FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (expanded) 1 else 2,
+            val metricStack = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f
+            GapH(10.dp)
+            FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (metricStack) 1 else 2,
                 horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 ProgressMetric("Peso", "${weight.r1()} kg", "IMC ${bmi.r1()} · ${Nutrition.bmiLabel(bmi)}", "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2", C.Blue,
-                    (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.Weight) }
+                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.Weight) }
                 ProgressMetric("Calorie", "${avg?.kcal?.let { kcalFmt(it) } ?: "—"} kcal", "Media · Obiettivo ${kcalFmt(goalKcal)}", Ic.Flame, C.Accent,
-                    (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { section = 1 }
+                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { section = 1 }
             }
         }
         if ((section in 1..2 || query.isNotBlank()) && matches("peso", "obiettivo", "kg", "andamento")) {
@@ -266,9 +267,9 @@ fun ProgressScreen() {
         }
         if ((section == 0 || query.isNotBlank()) && matches("macro", "proteine", "carboidrati", "grassi", "fibre", "zuccheri", "sale")) {
         // Macro
-        ASection("Macronutrienti (media)", top = 24.dp)
-        GapH(12.dp)
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x661D1B3A)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(16.dp)) {
+        OverviewHeading("Macronutrienti (media)")
+        GapH(8.dp)
+        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x661D1B3A)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(10.dp)) {
             if (avg == null) Text("Registra qualche pasto per vedere le medie.", style = T.Muted)
             else {
                 val kp = avg.protein * 4
@@ -278,44 +279,41 @@ fun ProgressScreen() {
                 val pp = (kp / tot * 100).roundToInt()
                 val pc = (kc / tot * 100).roundToInt()
                 val pf = 100 - pp - pc
-                Row(Modifier.fillMaxWidth().height(22.dp).clip(RoundedCornerShape(11.dp))) {
+                Row(Modifier.fillMaxWidth().height(12.dp).clip(RoundedCornerShape(6.dp))) {
                     Box(Modifier.weight(pp.coerceAtLeast(1).toFloat()).fillMaxHeight().background(C.Protein))
                     Box(Modifier.weight(pc.coerceAtLeast(1).toFloat()).fillMaxHeight().background(C.Carbs))
                     Box(Modifier.weight(pf.coerceAtLeast(1).toFloat()).fillMaxHeight().background(C.Fat))
                 }
-                androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     MacroShare("$pp%", "Proteine", "${avg.protein.r0()} g al giorno", A.ProteinSoft, A.ProteinInk, Modifier.fillMaxWidth(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 1f else 0.3f))
                     MacroShare("$pc%", "Carboidrati", "${avg.carbs.r0()} g al giorno", A.CarbSoft, A.CarbInk, Modifier.fillMaxWidth(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 1f else 0.3f))
                     MacroShare("$pf%", "Grassi", "${avg.fat.r0()} g al giorno", A.FatSoft, A.FatInk, Modifier.fillMaxWidth(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 1f else 0.3f))
                 }
-                Text("Fibre ${avg.fiber.r1()} g · Zuccheri ${avg.sugar.r1()} g · Sale ${avg.salt.r1()} g", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 12.dp))
+                Text("Fibre ${avg.fiber.r1()} g · Zuccheri ${avg.sugar.r1()} g · Sale ${avg.salt.r1()} g", style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 6.dp))
             }
         }
 
         }
         if ((section == 0 || query.isNotBlank()) && matches("acqua", "idratazione")) {
         // Acqua
-        ASection("Acqua", top = 28.dp)
-        GapH(12.dp)
+        OverviewHeading("Acqua")
+        GapH(8.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).padding(16.dp)) {
-            BarsRow(water, maxOf(water.maxOrNull() ?: 0.0, s.goals.waterMl / 1000.0 * 1.1).coerceAtLeast(0.1), 110.dp, if (period == 7) 12.dp else 5.dp, if (period == 7) 8.dp else 3.dp,
-                fill = { i, _ -> if (i == days.size - 1) Brush.verticalGradient(listOf(Color(0xFF9FE6F1), Color(0xFF8DB8FA))) else Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6))) },
-                labels = if (period == 7) days.map(letter) else null, sel = days.size - 1)
-            Text("Media ${water.average().r1()} L al giorno · ultimi $period giorni", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF0E5A72)), modifier = Modifier.padding(top = 12.dp))
+        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).padding(10.dp)) {
+            OverviewChart(water, maxOf(water.maxOrNull() ?: 0.0, 1.5), period, days.map(letter), waterChart = true)
+            Text("Media ${water.average().r1()} L al giorno · ultimi $period giorni", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF0E5A72)), modifier = Modifier.padding(top = 6.dp))
         }
 
         }
         if ((section == 0 || query.isNotBlank()) && matches("passi", "attività", "movimento")) {
         // Passi e attività
-        ASection("Passi e attività", top = 28.dp)
-        GapH(12.dp)
+        OverviewHeading("Passi e attività")
+        GapH(8.dp)
         val burned = days.map { Store.burnedFor(s, it).toDouble() }
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(16.dp)) {
+        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(10.dp)) {
             val steps = days.map { Store.stepsFor(s, it).toDouble() }
-            BarsRow(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), 110.dp, if (period == 7) 12.dp else 5.dp, if (period == 7) 8.dp else 3.dp,
-                fill = { i, _ -> SolidColor(if (i == days.size - 1) Color(0xFF6FDDB8) else Color(0xFF10B981)) }, labels = if (period == 7) days.map(letter) else null)
-            Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF065F46)), modifier = Modifier.padding(top = 12.dp))
+            OverviewChart(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), period, days.map(letter), waterChart = false)
+            Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF065F46)), modifier = Modifier.padding(top = 6.dp))
         }
 
         }
@@ -376,28 +374,61 @@ fun ProgressScreen() {
 }
 
 @Composable
+private fun OverviewHeading(title: String) {
+    Text(title, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 22.sp), modifier = Modifier.padding(top = 14.dp))
+}
+
+@Composable
+private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, labels: List<String>, waterChart: Boolean) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        Column(Modifier.width(35.dp).height(60.dp), verticalArrangement = Arrangement.SpaceBetween) {
+            listOf(1.0, .5, 0.0).forEach { ratio ->
+                Text(if (waterChart) "${(maximum * ratio).r1()} L" else kcalFmt(maximum * ratio), style = T.Small.copy(fontSize = 9.sp, lineHeight = 10.sp))
+            }
+        }
+        Column(Modifier.weight(1f)) {
+            Box {
+                Canvas(Modifier.fillMaxWidth().height(60.dp)) {
+                    for (ratio in listOf(0f, .5f, 1f)) drawLine(C.Line, Offset(0f, size.height * ratio), Offset(size.width, size.height * ratio), 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f)))
+                }
+                Column { BarsRow(values, maximum.coerceAtLeast(.1), 60.dp, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
+                    fill = { i, _ -> if (waterChart) Brush.verticalGradient(listOf(if (i == values.lastIndex) Color(0xFF9FE6F1) else Color(0xFF29D0E7), Color(0xFF1688F9)))
+                        else SolidColor(if (i == values.lastIndex) Color(0xFF6FDDB8) else Color(0xFF10B981)) },
+                    labels = if (period == 7) labels else null) }
+            }
+        }
+    }
+}
+
+@Composable
 private fun ProgressMetric(title: String, value: String, detail: String, icon: String, tint: Color, modifier: Modifier, onClick: () -> Unit) {
-    JCard(modifier, padding = androidx.compose.foundation.layout.PaddingValues(12.dp), onClick = onClick) {
+    val number = value.substringBeforeLast(" ")
+    val unit = value.substringAfterLast(" ")
+    JCard(modifier, padding = androidx.compose.foundation.layout.PaddingValues(10.dp), onClick = onClick) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(icon, tint, tint.copy(alpha = .12f), box = 32.dp, radius = 10.dp)
+            TonalIcon(icon, tint, tint.copy(alpha = .12f), box = 28.dp, radius = 9.dp)
             GapW(8.dp)
             Column(Modifier.weight(1f)) {
-                Text(title, style = T.Label)
-                Text(value, style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp))
+                Text(title, style = T.Label.copy(fontSize = 12.sp, lineHeight = 16.sp))
+                Row(verticalAlignment = Alignment.Bottom) {
+                    Text(number, style = T.Title.copy(fontSize = if (number.length > 6) 18.sp else 22.sp, lineHeight = 26.sp),
+                        modifier = Modifier.weight(1f, fill = false).testTag(if (title == "Calorie") "progress-calorie-value" else "progress-weight-value"), maxLines = 1)
+                    Text(" $unit", style = T.Small.copy(fontSize = 11.sp, lineHeight = 17.sp), maxLines = 1)
+                }
             }
-            AIcon(Ic.Right, C.Accent, 14.dp)
+            AIcon(Ic.Right, C.Accent, 12.dp)
         }
-        GapH(5.dp)
-        Text(detail, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+        GapH(3.dp)
+        Text(detail, style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp))
     }
 }
 
 @Composable
 private fun MacroShare(pct: String, name: String, sub: String, bg: Color, ink: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(C.cardSurface(bg)).padding(12.dp)) {
-        Text(pct, style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, color = ink))
-        Text(name, style = T.Chip.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold))
-        Text(sub, style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
+    Column(modifier.padding(horizontal = 2.dp, vertical = 4.dp)) {
+        Text(pct, style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, color = ink))
+        Text(name, style = T.Chip.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.SemiBold))
+        Text(sub, style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp, color = A.Muted))
     }
 }
 

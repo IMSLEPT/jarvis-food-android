@@ -34,8 +34,8 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
     descriptions: List<String> = labels, accounts: Boolean = true, onSubmit: () -> Unit = {}, onBack: (() -> Unit)? = null) {
     val large = LocalDensity.current.fontScale > 1.5f
     Column(Modifier.fillMaxWidth().testTag("navy-banner").background(C.Bg).clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
-        .background(C.NavyBrush).padding(horizontal = 16.dp, vertical = 14.dp)) {
-        Row(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+        .background(C.NavyBrush).padding(horizontal = 16.dp, vertical = 10.dp)) {
+        Row(Modifier.fillMaxWidth().padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) {
                 Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(onClick = onBack), contentAlignment = Alignment.Center) { AIcon(Ic.Left, Color.White, 24.dp) }
             }
@@ -45,7 +45,7 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
         FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 2 else labels.size,
             horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             labels.forEachIndexed { i, label ->
-                Column(Modifier.weight(1f).heightIn(min = if (icons.isEmpty()) 48.dp else 66.dp)
+                Column(Modifier.weight(1f).heightIn(min = if (icons.isEmpty()) 44.dp else 66.dp)
                     .semantics { contentDescription = descriptions[i] }.testTag("banner-tab-$title-$i")
                     .selectable(selected == i, role = Role.Tab, onClick = { onSelect(i) }).padding(top = 6.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     icons.getOrNull(i)?.let { AIcon(it, Color.White, 24.dp); GapH(5.dp) }
@@ -56,9 +56,9 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
                 }
             }
         }
-        GapH(8.dp)
-        BasicTextField(query, onQuery, Modifier.fillMaxWidth().testTag("banner-search-$title").heightIn(min = 44.dp)
-            .clip(RoundedCornerShape(25.dp)).background(Color.White).padding(horizontal = 12.dp, vertical = 10.dp),
+        GapH(6.dp)
+        BasicTextField(query, onQuery, Modifier.fillMaxWidth().testTag("banner-search-$title").heightIn(min = 40.dp)
+            .clip(RoundedCornerShape(25.dp)).background(Color.White).padding(horizontal = 12.dp, vertical = 8.dp),
             textStyle = T.Body.copy(fontSize = 14.sp, color = C.Navy), cursorBrush = SolidColor(C.Navy), singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
             decorationBox = { inner -> Row(verticalAlignment = Alignment.CenterVertically) {

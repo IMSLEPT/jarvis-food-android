@@ -67,6 +67,10 @@ class VisualConsistencyTest {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("nav-3").performClick()
+            ui { Store.update { it.copy(diary=listOf(DiaryEntry("layout-calories",day.toString(),1,Db.db.food("pasta")!!.toFood(),750.0,0L))) } }
+            singleLine(compose.onNodeWithTag("progress-calorie-value", useUnmergedTree = true).performScrollTo())
+            shot("progress-compact-overview")
+            ui { Store.update { it.copy(diary=emptyList()) } }
             compose.onNodeWithTag("banner-tab-Progressi-1").performClick()
             compose.onNodeWithTag("weight-empty", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
             readable(compose.onNodeWithTag("weight-empty", useUnmergedTree = true))
