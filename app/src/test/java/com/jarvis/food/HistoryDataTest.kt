@@ -7,7 +7,7 @@ import org.junit.Test
 import java.time.LocalDate
 
 class HistoryDataTest {
-    private val food = Food("history-food","Alimento test",200.0,10.0,30.0,4.0)
+    private val food = Food("history-food","Alimento test",kcal=200.0,protein=10.0,carbs=30.0,fat=4.0)
     private fun entry(id: String,date: String,grams: Double) = DiaryEntry(id,date,1,food,grams,0L)
     @Test fun dailyTotalsUseRecordedGramsAndDoNotInventMissingDays() {
         val state=AppState(diary=listOf(entry("a","2026-10-30",150.0),entry("b","2026-10-30",50.0),entry("c","2026-11-01",75.0)))
