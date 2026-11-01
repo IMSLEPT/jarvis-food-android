@@ -171,6 +171,12 @@ class AuroraLayoutTest {
             // A synthetic non-empty key enables the local input UI. No message is sent.
             ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
             chatHeaderHasAccountControlsAboveActions()
+            compose.onNodeWithText("Pasti, ricette, piano e spesa. Chiedimi qui.").assertIsDisplayed()
+            compose.onAllNodesWithText("Per te adesso").assertCountEquals(0)
+            compose.onNodeWithTag("chat-intro-bottom").performScrollTo()
+            val capabilitiesBottom = compose.onNodeWithTag("chat-capabilities-last-row").fetchSemanticsNode().boundsInRoot.bottom
+            val composerTop = compose.onNodeWithTag("chat-composer").fetchSemanticsNode().boundsInRoot.top
+            assertTrue("Keep space between Obiettivi/Digiuno and composer", composerTop - capabilitiesBottom >= 24f * ins.targetContext.resources.displayMetrics.density - 1f)
             shot("chat-empty-account-controls")
             compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
             compose.onNodeWithContentDescription("Apri profilo").performClick()
