@@ -44,7 +44,7 @@ class AuroraRegressionTest {
             ui { Nav.back() }
             compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
             compose.onNodeWithContentDescription("Calendario").performClick()
-            androidx.test.espresso.Espresso.pressBack()
+            ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
             compose.waitForIdle()
             assertTrue(Nav.stack.isEmpty())
             compose.onNodeWithText("Jarvis", useUnmergedTree = true).performClick()

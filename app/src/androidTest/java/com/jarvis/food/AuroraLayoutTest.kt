@@ -122,7 +122,7 @@ class AuroraLayoutTest {
             for (label in listOf("Foto piatto", "Frigo", "Digiuno")) visibleIcon("quick-icon-$label", C.Navy, 22f)
             shot("home-enlarged-icons")
             compose.onNodeWithContentDescription("Calendario").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
-            androidx.test.espresso.Espresso.pressBack()
+            ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
             compose.waitForIdle()
             assertTrue(Nav.stack.isEmpty())
             compose.onNodeWithContentDescription("Apri profilo").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
