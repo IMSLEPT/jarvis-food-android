@@ -132,7 +132,7 @@ fun ChatScreen() {
             LazyColumn(Modifier.weight(1f).fillMaxWidth().testTag("chat-messages"), state = listState,
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = if (active) 12.dp else 8.dp),
                 verticalArrangement = Arrangement.spacedBy(if (active) 18.dp else 10.dp)) {
-                if (!active) item { ChatIntro(ready, com.jarvis.food.chat.Actions.smartSuggestions(s).take(5), ::pick) }
+                if (!active) item { ChatIntro(ready, ::pick) }
                 itemsIndexed(s.chat, key = { _, message -> message.id }) { index, message ->
                     val day = chatDay(message.time)
                     if (index == 0 || chatDay(s.chat[index - 1].time) != day) ChatDaySeparator(day)
@@ -195,7 +195,7 @@ private fun ChatDaySeparator(day: LocalDate) {
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = ready && input.isNotBlank() && !busy
     val shape = RoundedCornerShape(if (active) 28.dp else 26.dp)
-    Row(Modifier.fillMaxWidth().then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
+    Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
             value = input, onValueChange = onInput,
@@ -245,17 +245,17 @@ private val CAPABILITIES = listOf(
 )
 
 @Composable
-private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> Unit) {
+private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         JarvisLogo(72.dp)
         Spacer(Modifier.height(12.dp))
         Text("Ciao, sono Jarvis", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
-        Text("Uso l'app al posto tuo: registro i pasti, cerco ricette, preparo piano e spesa. Ti dico sempre cosa ho fatto davvero e prima di eliminare qualcosa ti chiedo conferma.",
+        Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
             style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp))
         if (ready) {
             Spacer(Modifier.height(8.dp))
             CAPABILITIES.chunked(2).forEachIndexed { rowIndex, row ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.fillMaxWidth().then(if (rowIndex == 2) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (emoji, title, example) ->
                         Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
                             .clickable { onPick(example) }.padding(10.dp)) {
@@ -266,13 +266,7 @@ private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> U
                     }
                 }
             }
-            if (smart.isNotEmpty()) {
-                Spacer(Modifier.height(10.dp))
-                Text("Per te adesso", style = T.Label, modifier = Modifier.fillMaxWidth())
-                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    smart.forEach { q -> Pill(q, false) { onPick(q) } }
-                }
-            }
+            Spacer(Modifier.fillMaxWidth().height(24.dp).testTag("chat-intro-bottom"))
         }
     }
 }
