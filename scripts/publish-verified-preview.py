@@ -42,11 +42,11 @@ with zipfile.ZipFile(apk) as bundle:
             assert b'textdb.dev/api/data/' not in dex, 'Removed sync endpoint must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Full-width compact meal photos; functional swipeable day pages; calendar beside profile; complete family-feature removal; read-only weight and calorie history; outlined day-type actions',
+              original_signature_verified=True, visual_revision='Restored three-column plan summary and compact today status bar; reference-sized day-type dialog; all previous fixes retained',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Correzioni richieste da Alessandro: pulsanti rettangolari nel riquadro Tipo di giornata, foto dei pasti fino ai bordi della scheda mantenendo l’altezza compatta, swipe reale dei giorni su Oggi e Piano e pulsante Calendario spostato accanto al Profilo. Funzione Famiglia rimossa da schermate, spesa, ricette e sincronizzazione. Peso e Calorie in Progressi aprono storici in sola lettura; registrazione del peso conservata nel Profilo. Backup precedenti compatibili; nessun dato personale azzerato.
+notes.write_text(f'''Ripristinate le barre richieste da Alessandro: nel Piano un solo riepilogo con calorie pianificate, pasti completati e modalità ON/OFF; in Oggi una barra compatta con stato, provenienza dal calendario e Configura. Premendo lo stato si apre il selettore con pulsanti rettangolari compatti, bordo blu, selezione arancione e Chiudi, come nell’immagine approvata. Il cambio modalità conserva le eccezioni per singola data e il ritorno al calendario settimanale. Strumenti del piano disponibili in Gestisci piano sotto i pasti. Mantenute le correzioni precedenti, inclusa la chat semplificata, le foto a tutta larghezza, lo swipe dei giorni e gli storici in sola lettura.
 
 APK firmato con la chiave originale. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati, Android 10/15 e testo 100/130/200%. Le prove non equivalgono a un test manuale sul dispositivo dell’utente.
 ''')
