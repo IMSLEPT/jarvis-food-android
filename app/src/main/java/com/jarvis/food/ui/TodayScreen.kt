@@ -112,10 +112,9 @@ fun TodayScreen() {
     val burned = Store.burnedFor(s, date)
 
     val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
-    MainPage(fullDay(date), "$hello,", homeName = s.profile.name) {
-        // ---- Settimana
-        Spacer(Modifier.height(8.dp))
-        WeekStrip(s, date)
+    MainPage(fullDay(date), "$hello,", homeName = s.profile.name, header = {
+        CalendarPageHeader(s, "Oggi", date, "$hello,", onPick = { Nav.diaryDate = it })
+    }) {
         DayTypeControl(s, date)
 
         // ---- Hero calorie
@@ -225,17 +224,17 @@ fun TodayScreen() {
 @Composable
 fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.diaryDate = it }) {
     val expanded = LocalDensity.current.fontScale > 1.5f
-    val monday = date.with(DayOfWeek.MONDAY)
+    val days = CalendarWindow.days(Nav.today)
     val labels = listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom")
-    val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, date) {
+    val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, days) {
         (0..6).map { i ->
-            val d = monday.plusDays(i.toLong())
+            val d = days[i]
             val k = Nutrition.sum(Store.entriesFor(s, d)).kcal
             if (k <= 0) 0f else (k / Store.energyFor(s, d).targetKcal.coerceAtLeast(1.0)).toFloat().coerceIn(0f, 1f)
         }
     }
     Column(
-        Modifier.fillMaxWidth().pointerInput(date) {
+        Modifier.fillMaxWidth().testTag("week-strip").pointerInput(date) {
             var dx = 0f
             detectHorizontalDragGestures(onDragStart = { dx = 0f }, onDragEnd = {
                 if (dx > 90f) onPick(date.minusWeeks(1)) else if (dx < -90f) onPick(date.plusWeeks(1))
@@ -246,11 +245,11 @@ fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.
         (0..6).toList().chunked(if (expanded) 4 else 7).forEach { group ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
         for (i in group) {
-            val d = monday.plusDays(i.toLong())
+            val d = days[i]
             val sel = d == date
             val p by animateFloatAsState(fr[i], tween(1000), label = "week")
-            Column(Modifier.weight(1f).clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(labels[i], modifier = Modifier.testTag("week-label-$i"), style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
+            Column(Modifier.weight(1f).testTag("week-day-$i").semantics { contentDescription = d.toString() }.clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(labels[d.dayOfWeek.value - 1], modifier = Modifier.testTag("week-label-$i"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
                 Box(
                     Modifier.size(44.dp).aShadow(CircleShape, if (sel) 8.dp else 3.dp, if (sel) Color(0x991D1B3A) else Color(0x401D1B3A)).clip(CircleShape)
                         .background(if (sel) C.Navy else Color.White),

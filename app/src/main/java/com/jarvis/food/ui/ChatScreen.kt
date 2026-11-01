@@ -151,7 +151,7 @@ private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4
 
 @Composable
 private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
-    Column(Modifier.fillMaxWidth().background(C.Navy).statusBarsPadding().testTag("chat-header")) {
+    Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
         NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Famiglia", "Profilo"), if (setup) 1 else 0,
             onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.Family); 3 -> Nav.go(Screen.Profile) } },
             query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",

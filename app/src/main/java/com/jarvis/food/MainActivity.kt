@@ -15,11 +15,14 @@ import com.jarvis.food.family.FamilyStore
 import com.jarvis.food.data.Store
 import com.jarvis.food.health.HealthSync
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import com.jarvis.food.notify.Reminders
 import com.jarvis.food.ui.App
 import com.jarvis.food.ui.JarvisTheme
 import com.jarvis.food.ui.Nav
-import java.time.LocalDate
+import java.time.ZonedDateTime
+import java.time.Duration
 
 class MainActivity : ComponentActivity() {
     private val notifPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
@@ -34,6 +37,16 @@ class MainActivity : ComponentActivity() {
         FamilyStore.init(applicationContext)
         // Sincronizzazione della famiglia solo con l'app in primo piano.
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { FamilyStore.loop() } }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (isActive) {
+                    Nav.refreshToday()
+                    val now = ZonedDateTime.now()
+                    val midnight = now.toLocalDate().plusDays(1).atStartOfDay(now.zone)
+                    delay(Duration.between(now, midnight).toMillis().coerceIn(1_000L, 60_000L))
+                }
+            }
+        }
         Reminders.createChannel(this)
         Reminders.rescheduleAll(this)
         if (Store.current.energy.watchConnected) HealthSync.schedule(this)
@@ -45,8 +58,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Se l'app resta aperta oltre mezzanotte, il diario torna su "oggi".
-        if (Nav.stack.isEmpty() && Nav.diaryDate == LocalDate.now().minusDays(1)) Nav.diaryDate = LocalDate.now()
+        // Advance only selections that were following today; preserve intentional history.
+        Nav.refreshToday()
         // Smartwatch: aggiorna i dati di Health Connect a ogni apertura (al massimo ogni 5 minuti).
         val e = Store.current.energy
         if (e.watchConnected && System.currentTimeMillis() - e.lastSync > 5 * 60_000) {

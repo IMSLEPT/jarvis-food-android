@@ -98,15 +98,11 @@ fun PlanScreen() {
     val meals = Store.plannedMeals(s, date)
     val energy = Store.energyFor(s, date)
 
-    MainPage("Piano") {
-        var optionsOpen by remember { mutableStateOf(false) }
-        var calendarExpanded by remember { mutableStateOf(false) }
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("plan-calendar-toggle").clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button, onClickLabel = if (calendarExpanded) "Nascondi calendario" else "Scegli giorno") { calendarExpanded = !calendarExpanded }, verticalAlignment = Alignment.CenterVertically) {
-                Text(fullDay(date), style = T.Title2, modifier = Modifier.weight(1f))
-                AIcon(if (calendarExpanded) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Muted, 18.dp)
-            }
-            Spacer(Modifier.width(8.dp))
+    var optionsOpen by remember { mutableStateOf(false) }
+    var calendarExpanded by remember { mutableStateOf(false) }
+    MainPage("Piano", header = {
+        CalendarPageHeader(s, "Piano", date, onPick = { Nav.planDate = it },
+            onDateClick = { calendarExpanded = !calendarExpanded }, dateTag = "plan-calendar-toggle", trailing = {
             Box {
                 Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).semantics { contentDescription = "Opzioni del piano" }.clickable(role = Role.Button) { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
                 DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
@@ -123,13 +119,12 @@ fun PlanScreen() {
                     })
                 }
             }
-        }
-        Spacer(Modifier.height(8.dp))
-        WeekStrip(s, date) { Nav.planDate = it }
+        })
+    }) {
         if (calendarExpanded) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 TextButton(onClick = { Nav.planDate = date.minusWeeks(1) }) { Text("Precedente", color = C.Navy) }
-                TextButton(onClick = { Nav.planDate = LocalDate.now() }) { Text("Oggi", color = C.Navy) }
+                TextButton(onClick = { showDatePicker(ctx, date) { Nav.planDate = it } }) { Text("Scegli data", color = C.Navy) }
                 TextButton(onClick = { Nav.planDate = date.plusWeeks(1) }) { Text("Successiva", color = C.Navy) }
             }
         }

@@ -151,9 +151,9 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
         }
         Column(Modifier.fillMaxWidth().testTag("plan-recipe-${m.diaryMeal}").clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
             Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
-        }) {
+        }, horizontalAlignment = Alignment.CenterHorizontally) {
             GapH(10.dp)
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.05f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp)
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth(.86f).aspectRatio(1.5f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp, contentScale = androidx.compose.ui.layout.ContentScale.Fit)
         }
         FlowRow(Modifier.fillMaxWidth().padding(18.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -200,14 +200,14 @@ fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, home
     val threshold = with(LocalDensity.current) { 64.dp.roundToPx() }
     val compact by androidx.compose.runtime.remember(scroll, threshold) { derivedStateOf { scroll.value > threshold } }
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().background(if (header != null) C.Navy else C.Bg).statusBarsPadding()) {
+    Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding()) {
         val expanded = LocalDensity.current.fontScale > 1.5f
         if (header != null) header() else Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
         Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp)) {
             if (expanded && homeName != null) {
                 if (eyebrow != null) HeaderGreeting(eyebrow)
                 Text(homeName, modifier = Modifier.testTag("home-name"), style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp))
-                Text(title, style = T.Body.copy(color = C.Muted))
+                if (header == null) Text(title, style = T.Body.copy(color = C.Muted))
                 GapH(12.dp)
             }
             content()

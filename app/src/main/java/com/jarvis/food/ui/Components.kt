@@ -276,7 +276,7 @@ private fun decodeScaled(path: String, maxSide: Int = 1280): Bitmap? {
 
 /** Foto della ricetta dagli asset (o foto scattata dall'utente). Mentre carica mostra un segnaposto elegante. */
 @Composable
-fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: Modifier, emoji: String = "🍽️", corner: Dp = 18.dp) {
+fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: Modifier, emoji: String = "🍽️", corner: Dp = 18.dp, contentScale: ContentScale = ContentScale.Crop) {
     val ctx = LocalContext.current
     val resolvedAsset = EditorialPhotos.asset(recipeId, asset)
     val key = userPhoto ?: resolvedAsset ?: ""
@@ -296,7 +296,7 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
     val shape = RoundedCornerShape(corner)
     val b = bmp
     if (b != null) {
-        Image(b.asImageBitmap(), contentDescription = null, contentScale = ContentScale.Crop, modifier = modifier.clip(shape))
+        Image(b.asImageBitmap(), contentDescription = null, contentScale = contentScale, modifier = modifier.clip(shape))
     } else {
         Box(modifier.clip(shape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
             Text(emoji, style = T.Big)

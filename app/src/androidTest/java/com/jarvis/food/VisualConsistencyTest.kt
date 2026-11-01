@@ -107,7 +107,10 @@ class VisualConsistencyTest {
             for (slot in planned) {
                 compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
                 val photo = compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
-                assertTrue("Meal photograph must stay large", photo.height >= photo.width * .90f)
+                assertEquals("All meal photographs use reference proportions", photo.width / 1.5f, photo.height, 2f)
+                val card = compose.onNodeWithTag("plan-card-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
+                assertEquals("Photo is smaller and centred within the meal card", card.width * .86f, photo.width, 2f)
+                assertEquals(card.center.x, photo.center.x, 2f)
                 compose.onNodeWithTag("plan-eaten-${slot.diaryMeal}").performScrollTo().assertExists()
             }
             // Selecting a slot scrolls to its card and never changes the diary.
@@ -151,6 +154,38 @@ class VisualConsistencyTest {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
             for (tab in listOf(0, 1, 2, 3, 5)) singleLine(compose.onNodeWithTag("nav-label-$tab", useUnmergedTree = true))
+            val homeFrame = compose.onNodeWithTag("top-header-frame").fetchSemanticsNode().boundsInRoot
+            val homeCalendar = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
+            compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.toString())
+            compose.onNodeWithTag("week-day-0").performClick()
+            compose.waitForIdle()
+            assertEquals(day.minusDays(2), Nav.diaryDate)
+            compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.toString()).performClick()
+            for (tab in listOf(1, 2, 3, 5)) {
+                compose.onNodeWithTag("nav-$tab").performClick()
+                val frame = compose.onNodeWithTag("top-header-frame").fetchSemanticsNode().boundsInRoot
+                assertEquals("Header top must match across all five tabs", homeFrame.top, frame.top, 1f)
+                assertEquals("Header bottom must match across all five tabs", homeFrame.bottom, frame.bottom, 1f)
+                assertEquals(homeFrame.left, frame.left, 1f)
+                assertEquals(homeFrame.right, frame.right, 1f)
+                if (tab == 1) {
+                    val calendar = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
+                    assertEquals(homeCalendar.top, calendar.top, 1f)
+                    assertEquals(homeCalendar.bottom, calendar.bottom, 1f)
+                    compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.toString())
+                }
+                if (tab in listOf(2,3,5)) {
+                    val pixel = ins.uiAutomation.takeScreenshot()
+                    try {
+                        val x = (frame.center.x).toInt()
+                        val y = (frame.top + 2f).toInt()
+                        assertEquals("Flat reference navy", android.graphics.Color.rgb(15,31,82), pixel.getPixel(x,y))
+                        assertNotEquals("Rounded upper corner leaves a white margin", pixel.getPixel(x,y), pixel.getPixel((frame.left+1).toInt(), (frame.top+1).toInt()))
+                    } finally { pixel.recycle() }
+                }
+                shot("header-$tab")
+            }
+            ui { Nav.clear(); Nav.tab = 0 }
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
             if (ins.targetContext.resources.configuration.fontScale > 1.5f) singleLine(compose.onNodeWithTag("home-name", useUnmergedTree = true))
             shot("home")
@@ -179,6 +214,15 @@ class VisualConsistencyTest {
             compose.waitUntil(30_000) { compose.onAllNodesWithText("Ricetta del giorno").fetchSemanticsNodes().isNotEmpty() }
             for (i in 0..2) singleLine(compose.onNodeWithTag("kitchen-tab-label-$i", useUnmergedTree = true))
             shot("kitchen-overview")
+            compose.onNodeWithTag("kitchen-my-recipes").assertIsDisplayed().performClick()
+            compose.waitForIdle()
+            assertTrue((Nav.stack.last() as Screen.RecipeList).mine)
+            ui { Nav.back() }
+            compose.onNodeWithTag("kitchen-favourites").performClick()
+            compose.onNodeWithTag("favourites-my-recipes").performScrollTo().performClick()
+            compose.waitForIdle()
+            assertTrue((Nav.stack.last() as Screen.RecipeList).mine)
+            ui { Nav.clear() }
             compose.onNodeWithTag("kitchen-search").performClick()
             compose.waitForIdle()
             assertTrue(Nav.stack.last() is Screen.RecipeList)

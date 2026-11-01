@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
@@ -358,14 +359,38 @@ private fun CatPlaceholder() {
 /** Dati della home calcolati fuori dal thread principale. */
 internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTemplate, RecipeInfo>>, val discover: List<RecipeTemplate>)
 
+@Composable
+private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
+    val large = LocalDensity.current.fontScale > 1.5f
+    @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
+        ACard(modifier.heightIn(min = if (large) 104.dp else 96.dp).testTag(tag), radius = 20.dp, padding = 12.dp, onClick = open) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AIcon(icon, C.Navy, 22.dp); GapW(8.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(label, style = T.Label.copy(fontSize = 14.sp))
+                    Text("$count ricette", style = T.Small.copy(fontSize = 12.sp))
+                }
+                AIcon(Ic.Right, C.AccentDeep, 16.dp)
+            }
+        }
+    }
+    if (large) Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Shortcut("Preferite", favourites, Ic.Heart, Modifier.fillMaxWidth(), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, Ic.Receipt, Modifier.fillMaxWidth(), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+    } else Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Shortcut("Preferite", favourites, Ic.Heart, Modifier.weight(1f), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, Ic.Receipt, Modifier.weight(1f), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+    }
+}
+
 /** Scheda "Ricette": home con sezioni orizzontali, ricetta del giorno, categorie reali e "Cosa mangio adesso?". */
 @Composable
 fun RecipeSearchBar() {
-    Row(Modifier.fillMaxWidth().heightIn(min = 44.dp).clip(RoundedCornerShape(24.dp)).background(Color.White)
+    Row(Modifier.fillMaxWidth().fillMaxHeight().clip(RoundedCornerShape(24.dp)).background(Color.White)
         .testTag("kitchen-search").clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }
         .padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(Ic.Search, C.Muted, 20.dp); GapW(10.dp)
-        Text("Cerca ricette o ingredienti", style = T.Body.copy(color = C.Muted), modifier = Modifier.weight(1f).padding(end = 8.dp))
+        Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 14.sp, color = C.Muted), maxLines = if (LocalDensity.current.fontScale > 1.5f) 2 else 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(end = 8.dp))
         Text("${Db.db.recipes.size}", style = T.Small)
     }
 }
@@ -394,6 +419,8 @@ fun RecipesHome() {
     val catGroups by produceState(RecipeCats.peek(db), db) { if (value == null) value = withContext(Dispatchers.Default) { RecipeCats.get(db) } }
     val ctx = home?.ctx
 
+    GapH(12.dp)
+    RecipeLibraryShortcuts(s.recipeFavs.size, s.recipes.size)
     GapH(12.dp)
     ACard(Modifier.fillMaxWidth(), color = A.Tonal, brush = Brush.horizontalGradient(listOf(C.AccentSoft, C.AccentSoft)), radius = 20.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -566,6 +593,16 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
             }
         }
         LazyColumn(Modifier.weight(1f).padding(horizontal = 16.dp), contentPadding = PaddingValues(bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (!sc.mine && sc.filter.onlyFavs) item {
+                ACard(Modifier.fillMaxWidth().testTag("favourites-my-recipes"), radius = 20.dp, padding = 14.dp,
+                    onClick = { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(Ic.Receipt, C.Navy, 22.dp); GapW(10.dp)
+                        Text("Le mie ricette", style = T.Label, modifier = Modifier.weight(1f))
+                        AIcon(Ic.Right, C.AccentDeep, 18.dp)
+                    }
+                }
+            }
             if (!sc.mine && sc.filter.activeCount > 0 && f.activeCount > 0) item {
                 JCard(color = C.NavySoft, padding = PaddingValues(14.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

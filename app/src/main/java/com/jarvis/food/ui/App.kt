@@ -109,9 +109,17 @@ sealed class Screen {
 object Nav {
     val stack = mutableStateListOf<Screen>()
     var tab by mutableIntStateOf(0)
+    var today by mutableStateOf(LocalDate.now())
+        private set
     var diaryDate by mutableStateOf(LocalDate.now())
     var planDate by mutableStateOf(LocalDate.now())
     var kitchenTab by mutableIntStateOf(2)
+    fun refreshToday(now: LocalDate = LocalDate.now()) {
+        if (now == today) return
+        diaryDate = CalendarWindow.followToday(diaryDate, today, now)
+        planDate = CalendarWindow.followToday(planDate, today, now)
+        today = now
+    }
     fun go(s: Screen) { stack.add(s) }
     fun back() { if (stack.isNotEmpty()) stack.removeAt(stack.lastIndex) }
     fun backTo(predicate: (Screen) -> Boolean) { while (stack.isNotEmpty() && !predicate(stack.last())) stack.removeAt(stack.lastIndex) }
@@ -122,11 +130,10 @@ object Nav {
 fun App() {
     val state by Store.state.collectAsState()
     val view = androidx.compose.ui.platform.LocalView.current
-    val darkHeader = state.onboarded && ((Nav.stack.isEmpty() && Nav.tab in listOf(2, 3, 5)) || Nav.stack.lastOrNull() == Screen.Chat)
     androidx.compose.runtime.SideEffect {
         val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
             .filterIsInstance<android.app.Activity>().firstOrNull()
-        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !darkHeader }
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = true }
     }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }

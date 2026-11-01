@@ -36,11 +36,11 @@ with zipfile.ZipFile(apk) as bundle:
     assert 'assets/body-guide/index.html' not in bundle.namelist(), 'Obsolete 3D page must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Progressi and Jarvis navy banners with labelled actions and search; compact overview metrics; full-size chronological meal cards; conditional concise nutrition advice, with details and evidence on demand',
+              original_signature_verified=True, visual_revision='Shared flat #0F1F52 rounded inset banners; equal geometry across five tabs; today fixed at third calendar position with lifecycle rollover; top recipe-library shortcuts; smaller centred photographs for every planned meal',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Progressi e Jarvis ripresi dai riferimenti del 1 novembre: banner blu navy, navigazione testuale e ricerca, peso e calorie compatti. Piano con tutti i pasti in sequenza, ciascuno con fotografia grande, macro, Alternative e Segna mangiato. Consigli nutrizionali compatti e condizionali nella Home: nessun riquadro vuoto, nessun avviso per la sola ripetizione, vitamine soltanto con copertura sufficiente e valori noti. Dati, metodo e fonti apribili su richiesta. Stessa firma, dati, icona e funzionalità esistenti.
+notes.write_text(f'''Banner Cucina, Progressi e Jarvis nel blu pieno #0F1F52 del riferimento, con quattro angoli arrotondati e spazio chiaro superiore. Intestazioni uniformi nelle cinque schede, calendari Oggi e Piano allineati, data odierna sempre nella terza posizione e aggiornamento automatico al cambio del giorno. Preferite e Le mie ricette accessibili in alto, anche dalla raccolta Preferite. Foto dei pasti nel Piano più piccole, centrate e senza ritagli, con identiche proporzioni per ogni momento della giornata. Stessa firma e funzionalità esistenti.
 
 APK firmato con la chiave originale. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati, Android 10/15 e testo 100/130/200%. Le prove non equivalgono a un test manuale sul dispositivo dell’utente.
 ''')

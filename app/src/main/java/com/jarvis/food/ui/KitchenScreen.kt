@@ -87,37 +87,15 @@ fun KitchenScreen() {
     val s by Store.state.collectAsState()
     val scroll = rememberScrollState()
     LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().background(C.Navy).statusBarsPadding()) {
-        Column(Modifier.padding(horizontal = 6.dp, vertical = 4.dp).fillMaxWidth()
-            .clip(RoundedCornerShape(28.dp)).background(Color(0xFF101F52)).padding(horizontal = 16.dp, vertical = 14.dp)) {
-            val expanded = LocalDensity.current.fontScale > 1.5f
-            if (expanded) {
-                Text("Cucina", style = T.Title.copy(fontSize = 30.sp, lineHeight = 36.sp, color = Color.White))
-                Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), horizontalArrangement = Arrangement.End) { HeaderAccountActions() }
-            } else Row(Modifier.fillMaxWidth().padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text("Cucina", style = T.Title.copy(fontSize = 30.sp, lineHeight = 36.sp, color = Color.White), modifier = Modifier.weight(1f))
-                HeaderAccountActions()
-            }
-            androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (expanded) 2 else 3, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").forEach { (i, label) ->
-                    val selected = Nav.kitchenTab == i
-                    Column(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(12.dp))
-                        .selectable(selected, role = Role.Tab, onClick = { Nav.kitchenTab = i }).padding(top = 10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(label, modifier = Modifier.testTag("kitchen-tab-label-$i"), style = T.Body.copy(color = Color.White,
-                            fontSize = 14.sp, fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal), textAlign = TextAlign.Center)
-                        GapH(9.dp)
-                        Box(Modifier.width(70.dp).height(3.dp).clip(CircleShape).background(if (selected) C.Accent else Color.Transparent))
-                    }
-                }
-            }
-            if (Nav.kitchenTab == 2) {
-                GapH(8.dp)
-                RecipeSearchBar()
-            }
-        }
+    Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding()) {
+        val order = listOf(2, 0, 1)
+        NavyBanner("Cucina", listOf("Ricette", "Dispensa", "Spesa"), order.indexOf(Nav.kitchenTab),
+            onSelect = { Nav.kitchenTab = order[it] }, query = "", onQuery = {}, hint = "",
+            labelTags = order.map { "kitchen-tab-label-$it" }, searchContent = {
+                if (Nav.kitchenTab == 2) RecipeSearchBar()
+            })
         Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)
-            .padding(start = 18.dp, end = 18.dp, top = 4.dp, bottom = 24.dp)) {
+            .padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 24.dp)) {
             when (Nav.kitchenTab) {
                 0 -> PantryTab(s)
                 1 -> ShoppingTab(s)
