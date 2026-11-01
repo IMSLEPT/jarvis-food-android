@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.stateDescription
@@ -183,19 +184,21 @@ private fun TargetFields(title: String, key: String, values: List<String>, onEdi
 }
 
 /** Date-specific control shared by diary and weekly plan. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
     if (!s.trainingNutrition.active) return
     var dialog by remember(date) { mutableStateOf(false) }
     val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
+    val stacked = LocalDensity.current.fontScale > 1.2f
     val caption = if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia"
     if (compact) {
         SquareAction(label, Modifier.fillMaxWidth(), tag = "day-type-label", subtitle = caption, minHeight = 56.dp) { dialog = true }
     } else {
-        Row(Modifier.padding(top = 12.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+        FlowRow(Modifier.padding(top = 12.dp).fillMaxWidth(), maxItemsInEachRow = if (stacked) 1 else 2, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             SquareAction(label, Modifier.weight(1f), tag = "day-type-label", subtitle = caption) { dialog = true }
-            SquareAction("Configura", tag = "day-type-configure", minHeight = 56.dp) { Nav.go(Screen.TrainingGoals) }
+            SquareAction("Configura", if (stacked) Modifier.fillMaxWidth() else Modifier, tag = "day-type-configure", minHeight = 56.dp) { Nav.go(Screen.TrainingGoals) }
         }
     }
     if (dialog) AlertDialog(onDismissRequest = { dialog = false }, title = { Text("${dayLabel(date)} · tipo di giornata", style = T.Title2) }, text = {

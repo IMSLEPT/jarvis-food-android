@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.jarvis.food.data.Store
 import java.time.LocalDate
@@ -32,16 +33,18 @@ fun WeightHistoryScreen() {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CalorieHistoryScreen() {
     val state by Store.state.collectAsState()
     var period by remember { mutableStateOf<Int?>(30) }
+    val stacked = LocalDensity.current.fontScale > 1.2f
     val recorded = remember(state.diary) { HistoryData.calories(state) }
     val days = remember(recorded, period, Nav.today) { HistoryData.inPeriod(recorded, Nav.today, period) }
     Column(Modifier.fillMaxSize().testTag("calorie-history-screen")) {
         TopBar("Storico calorie", onBack = { Nav.back() })
         LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            item { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            item { FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (stacked) 1 else 3, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(7 to "7 giorni", 30 to "30 giorni", null to "Tutto").forEach { (value, text) ->
                     SquareAction(text, Modifier.weight(1f), tag = "calorie-history-period-${value ?: "all"}", isSelected = value == period) { period = value }
                 }
