@@ -31,11 +31,14 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (Int) -> Unit,
     query: String, onQuery: (String) -> Unit, hint: String, icons: List<String> = emptyList(),
-    descriptions: List<String> = labels, accounts: Boolean = true, onSubmit: () -> Unit = {}) {
+    descriptions: List<String> = labels, accounts: Boolean = true, onSubmit: () -> Unit = {}, onBack: (() -> Unit)? = null) {
     val large = LocalDensity.current.fontScale > 1.5f
     Column(Modifier.fillMaxWidth().testTag("navy-banner").clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
         .background(C.NavyBrush).padding(horizontal = 16.dp, vertical = 14.dp)) {
         Row(Modifier.fillMaxWidth().padding(bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (onBack != null) {
+                Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(onClick = onBack), contentAlignment = Alignment.Center) { AIcon(Ic.Left, Color.White, 24.dp) }
+            }
             Text(title, style = T.Title.copy(fontSize = 30.sp, lineHeight = 36.sp, color = Color.White), modifier = Modifier.weight(1f))
             if (accounts) HeaderAccountActions()
         }

@@ -200,10 +200,10 @@ fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, home
     val threshold = with(LocalDensity.current) { 64.dp.roundToPx() }
     val compact by androidx.compose.runtime.remember(scroll, threshold) { derivedStateOf { scroll.value > threshold } }
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+    Column(Modifier.fillMaxSize().background(if (header != null) C.Navy else C.Bg).statusBarsPadding()) {
         val expanded = LocalDensity.current.fontScale > 1.5f
         if (header != null) header() else Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
-        Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp)) {
+        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp)) {
             if (expanded && homeName != null) {
                 if (eyebrow != null) HeaderGreeting(eyebrow)
                 Text(homeName, modifier = Modifier.testTag("home-name"), style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp))

@@ -87,7 +87,7 @@ fun KitchenScreen() {
     val s by Store.state.collectAsState()
     val scroll = rememberScrollState()
     LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+    Column(Modifier.fillMaxSize().background(C.Navy).statusBarsPadding()) {
         Column(Modifier.padding(horizontal = 6.dp, vertical = 4.dp).fillMaxWidth()
             .clip(RoundedCornerShape(28.dp)).background(Color(0xFF101F52)).padding(horizontal = 16.dp, vertical = 14.dp)) {
             val expanded = LocalDensity.current.fontScale > 1.5f
@@ -116,7 +116,7 @@ fun KitchenScreen() {
                 RecipeSearchBar()
             }
         }
-        Column(Modifier.weight(1f).fillMaxWidth().testTag("main-scroll").verticalScroll(scroll)
+        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)
             .padding(start = 18.dp, end = 18.dp, top = 4.dp, bottom = 24.dp)) {
             when (Nav.kitchenTab) {
                 0 -> PantryTab(s)

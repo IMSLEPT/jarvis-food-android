@@ -192,7 +192,7 @@ fun ProgressScreen() {
                     (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { section = 1 }
             }
         }
-        if (section in 1..2 && matches("peso", "obiettivo", "kg", "andamento")) {
+        if ((section in 1..2 || query.isNotBlank()) && matches("peso", "obiettivo", "kg", "andamento")) {
         // Peso
         ASection("Peso", action = "Registra", top = 28.dp) { Nav.go(Screen.Weight) }
         val from = today.minusDays((period - 1).toLong())
@@ -235,7 +235,7 @@ fun ProgressScreen() {
         }
 
         }
-        if (section == 1 && matches("calorie", "kcal", "andamento")) {
+        if ((section == 1 || query.isNotBlank()) && matches("calorie", "kcal", "andamento")) {
         // Calorie
         ASection("Calorie", top = 28.dp)
         GapH(12.dp)
@@ -264,7 +264,7 @@ fun ProgressScreen() {
         }
 
         }
-        if (section == 0 && matches("macro", "proteine", "carboidrati", "grassi", "fibre", "zuccheri", "sale")) {
+        if ((section == 0 || query.isNotBlank()) && matches("macro", "proteine", "carboidrati", "grassi", "fibre", "zuccheri", "sale")) {
         // Macro
         ASection("Macronutrienti (media)", top = 24.dp)
         GapH(12.dp)
@@ -293,7 +293,7 @@ fun ProgressScreen() {
         }
 
         }
-        if (section == 0 && matches("acqua", "idratazione")) {
+        if ((section == 0 || query.isNotBlank()) && matches("acqua", "idratazione")) {
         // Acqua
         ASection("Acqua", top = 28.dp)
         GapH(12.dp)
@@ -306,7 +306,7 @@ fun ProgressScreen() {
         }
 
         }
-        if (section == 0 && matches("passi", "attività", "movimento")) {
+        if ((section == 0 || query.isNotBlank()) && matches("passi", "attività", "movimento")) {
         // Passi e attività
         ASection("Passi e attività", top = 28.dp)
         GapH(12.dp)
@@ -319,7 +319,7 @@ fun ProgressScreen() {
         }
 
         }
-        if (section == 3 && matches("misure", "corpo", "vita", "grasso", "statistiche")) {
+        if ((section == 3 || query.isNotBlank()) && matches("misure", "corpo", "vita", "grasso", "statistiche")) {
         // Misure corporee
         ASection("Misure corporee", action = "Apri", top = 28.dp) { Nav.go(Screen.Measurements) }
         val latest = MEASURES.mapNotNull { (k, label) ->
@@ -357,7 +357,7 @@ fun ProgressScreen() {
         }
 
         }
-        if (section == 3 && matches("vitamine", "nutrienti", "consigli", "statistiche")) {
+        if ((section == 3 || query.isNotBlank()) && matches("vitamine", "nutrienti", "consigli", "statistiche")) {
             GapH(12.dp)
             NutritionAdvisor(s)
             TextButton(onClick = { Nav.go(Screen.Micronutrients) }) { Text("Apri analisi nutrizionale", color = C.Navy) }

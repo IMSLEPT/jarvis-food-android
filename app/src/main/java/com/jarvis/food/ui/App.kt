@@ -121,6 +121,13 @@ object Nav {
 @Composable
 fun App() {
     val state by Store.state.collectAsState()
+    val view = androidx.compose.ui.platform.LocalView.current
+    val darkHeader = state.onboarded && ((Nav.stack.isEmpty() && Nav.tab in listOf(2, 3, 5)) || Nav.stack.lastOrNull() == Screen.Chat)
+    androidx.compose.runtime.SideEffect {
+        val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
+            .filterIsInstance<android.app.Activity>().firstOrNull()
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !darkHeader }
+    }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
     BackHandler(enabled = Nav.stack.isEmpty() && Nav.tab != 0) { Nav.tab = 0 }
