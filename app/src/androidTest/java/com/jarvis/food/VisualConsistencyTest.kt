@@ -193,7 +193,7 @@ class VisualConsistencyTest {
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
             readable(compose.onNodeWithText("Nessun alimento registrato", useUnmergedTree = true).performScrollTo())
             val dateLabel = compose.onNodeWithText(fullDay(day), useUnmergedTree = true)
-            if (ins.targetContext.resources.configuration.fontScale > 1.5f) dateLabel.performScrollTo()
+            dateLabel.assertIsDisplayed() // The aligned date header is now pinned outside the scrolling body.
             readable(dateLabel)
             compose.onNodeWithContentDescription("Aggiungi a Colazione").assertHeightIsAtLeast(48.dp)
             compose.onNodeWithText("Altre azioni").performScrollTo().performClick()
