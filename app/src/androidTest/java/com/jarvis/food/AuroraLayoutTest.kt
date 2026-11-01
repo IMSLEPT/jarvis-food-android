@@ -238,13 +238,19 @@ class AuroraLayoutTest {
             assertTrue("Active conversation input overlaps keyboard", activeInput.bottom <= windowHeight - imeBottom + 1f)
             compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
             shot("chat-conversation-keyboard")
-            ins.uiAutomation.executeShellCommand("input keyevent 4").close()
-            compose.waitUntil(20_000) {
+            // Drain the shell command to EOF: closing its descriptor immediately can
+            // cancel delivery of Back before the IME receives the key event.
+            android.os.ParcelFileDescriptor.AutoCloseInputStream(ins.uiAutomation.executeShellCommand("input keyevent 4")).use { it.readBytes() }
+            try { compose.waitUntil(20_000) {
                 scenario.onActivity { activity ->
                     imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
                         ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
                 }
                 imeBottom == 0 && compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isNotEmpty()
+            } } catch (failure: Throwable) {
+                println("IME close diagnostic: bottom=$imeBottom, bottomBars=${compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().size}, tab=${Nav.tab}")
+                shot("chat-ime-close-failure")
+                throw failure
             }
             ui { Store.update { it.copy(chat = emptyList(), ai = it.ai.copy(apiKey = "")) } }
             ui { Nav.tab = 0 }
