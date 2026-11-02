@@ -66,7 +66,13 @@ class VideoCorrectionsFlowTest {
             compose.onNodeWithTag("food-quantity").performScrollTo().assertTextContains("35,2", substring = true)
             compose.onNodeWithTag("piece-quantity").performScrollTo().performTextReplacement("7")
             compose.onNodeWithTag("food-quantity").performScrollTo().assertTextContains("61,6", substring = true)
+            // The IME resizes this bottom action row. Settle that transition before a
+            // physical tap, then observe the saved state rather than racing input dispatch.
+            androidx.test.espresso.Espresso.closeSoftKeyboard()
+            compose.waitForIdle(); ins.waitForIdleSync()
+            shot("piece-quantity-before-save")
             compose.onNodeWithText("Salva").performClick()
+            compose.waitUntil(5000) { kotlin.math.abs((Store.current.diary.firstOrNull { it.id == id }?.grams ?: 0.0) - 61.6) < .001 }
             assertEquals(61.6, Store.current.diary.first { it.id == id }.grams, .001)
             assertFalse(Store.current.diary.first { it.id == id }.food.liquid)
             compose.onNodeWithTag("home-vitamins").performScrollTo().assertIsDisplayed()
