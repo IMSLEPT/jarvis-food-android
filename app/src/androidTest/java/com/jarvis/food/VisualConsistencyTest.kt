@@ -273,6 +273,8 @@ class VisualConsistencyTest {
             compose.waitForIdle()
             assertTrue(Nav.stack.last() is Screen.RecipeList)
             ui { Nav.back() }
+            compose.waitUntil(30_000) { compose.onAllNodesWithText("Ricetta del giorno").fetchSemanticsNodes().isNotEmpty() }
+            compose.waitForIdle()
             compose.onNodeWithText("Ricetta del giorno").performScrollTo()
             shot("kitchen-daily")
             compose.waitUntil(30_000) {
