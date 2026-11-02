@@ -46,6 +46,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
@@ -110,7 +111,7 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = 
 
 @Composable
 fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.() -> Unit = {}) {
-    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().zIndex(2f).background(C.Bg).statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         if (onBack != null) { BackCircle(onBack); Spacer(Modifier.width(12.dp)) }
         Text(title, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp), modifier = Modifier.weight(1f), maxLines = 3, overflow = TextOverflow.Ellipsis)
         actions()

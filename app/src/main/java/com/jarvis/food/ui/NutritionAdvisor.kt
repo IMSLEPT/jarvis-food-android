@@ -58,6 +58,8 @@ fun VitaminOverview(s: AppState) {
         GapH(10.dp)
         Text("I dati mancanti non indicano una carenza. Apri per vedere quantità, copertura e andamento.", style = T.Small)
     }
+    GapH(10.dp)
+    EverydayFoodGuide()
 }
 
 @Composable

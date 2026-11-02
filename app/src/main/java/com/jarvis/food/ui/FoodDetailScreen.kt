@@ -131,6 +131,8 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
                 }
             }
 
+            FoodGuidanceCard(food, grams, s, date, entry)
+
             if (entry != null && !replacing) {
                 Spacer(Modifier.height(16.dp))
                 GhostButton("Sostituisci alimento", Modifier.fillMaxWidth()) { Nav.go(Screen.ReplaceFood(entry.id)) }

@@ -81,6 +81,7 @@ import com.jarvis.food.engine.Micros
 import com.jarvis.food.engine.PlannedMeal
 import com.jarvis.food.engine.Planner
 import com.jarvis.food.engine.SolvedRecipe
+import com.jarvis.food.engine.FoodDb
 import com.jarvis.food.engine.Solver
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -365,21 +366,48 @@ private fun openRecipe(date: LocalDate, m: PlannedMeal) =
 fun AlternativesScreen(date: LocalDate, slot: Int) {
     val s by Store.state.collectAsState()
     val m = Store.plannedMeals(s, date).firstOrNull { it.slotIndex == slot }
-    Column(Modifier.fillMaxSize()) {
+    var query by remember { mutableStateOf("") }
+    val prefs = Store.prefsFor(s, date)
+    val alts by androidx.compose.runtime.produceState<List<SolvedRecipe>?>(null, m?.solved?.target, prefs, query) {
+        value = null
+        val meal = m
+        if (meal != null) value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+            if (query.isBlank()) Planner.alternatives(Db.db, meal.solved.template.meal, meal.solved.target, prefs)
+            else {
+                val terms = FoodDb.normalize(query).split(' ').filter { it.isNotEmpty() }
+                Db.db.recipes.filter { r -> terms.all { it in FoodDb.normalize(r.name + " " + r.ings.joinToString { ing -> Db.db.food(ing.food)?.name ?: "" }) } && Planner.allowed(Db.db, r, prefs) }
+                    .take(60).map { Solver.solve(it, Db.db, meal.solved.target) }.sortedBy { Solver.fitScore(it) }
+            }
+        }
+    }
+    Column(Modifier.fillMaxSize().navigationBarsPadding()) {
         TopBar("Trova alternativa", onBack = { Nav.back() })
         if (m == null) { EmptyState("🤔", "Pasto non trovato", ""); return@Column }
-        val alts = remember(m.solved.target, Store.prefsFor(s, date)) { Planner.alternatives(Db.db, m.solved.template.meal, m.solved.target, Store.prefsFor(s, date)) }
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             Text("${m.slotName}: obiettivo ${m.solved.target.kcal.r0()} kcal · P ${m.solved.target.protein.r0()} g · C ${m.solved.target.carbs.r0()} g · G ${m.solved.target.fat.r0()} g", style = T.Muted)
-            Text("Ogni piatto è ricalcolato per avvicinarsi il più possibile a questi valori. In alto i più precisi.", style = T.Small)
-            Spacer(Modifier.height(10.dp))
-            alts.forEach { a ->
-                AltRow(s, a, a.template.id == m.solved.template.id) {
-                    Store.setSlotRecipe(date, slot, a.template.id); Nav.back()
+            JField(query, { query = it }, "Cerca tra tutte le ricette", Modifier.testTag("alternative-search"))
+            Text("La ricerca include tutti i tipi di pasto, rispettando alimentazione, esclusioni e tempo massimo scelti. Mostro fino a 60 risultati per ricerca.", style = T.Small)
+            GapH(10.dp)
+            PrimaryButton("Componi con i tuoi alimenti", Modifier.fillMaxWidth().testTag("alternative-manual")) { Nav.go(Screen.ManualMeal(date, slot)) }
+            if (s.recipes.isNotEmpty()) {
+                SectionTitle("Le tue ricette")
+                s.recipes.filter { r -> query.isBlank() || FoodDb.normalize(r.name).contains(FoodDb.normalize(query)) }.take(20).forEach { r ->
+                    GhostButton(r.name, Modifier.fillMaxWidth()) {
+                        val servings = r.servings.coerceAtLeast(1)
+                        ManualMealDrafts.recipes["$date#$slot"] = r.copy(id="manual:$date#$slot", servings=1, ingredients=r.ingredients.map { it.copy(grams=it.grams/servings) })
+                        Nav.go(Screen.ManualMeal(date, slot))
+                    }
                 }
+            }
+            SectionTitle(if(query.isBlank()) "Alternative suggerite" else "Risultati nel catalogo")
+            val list = alts
+            if (list == null) Text("Calcolo le alternative…", style=T.Small)
+            else if(list.isEmpty()) Text("Nessuna ricetta compatibile: prova un altro nome o componi il pasto.",style=T.Small)
+            else list.forEach { a ->
+                AltRow(s, a, a.template.id == m.solved.template.id) { Store.setSlotRecipe(date, slot, a.template.id); Nav.back() }
                 Spacer(Modifier.height(10.dp))
             }
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(24.dp))
         }
     }
 }

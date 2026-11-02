@@ -313,8 +313,18 @@ object Store {
         if (!Planner.allowed(Db.db, recipe, prefsFor(s, date))) return@update s
         s.copy(plan = s.plan.map { dp ->
             if (dp.date != date.toString()) dp
-            else dp.copy(slots = dp.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId) else it })
+            else dp.copy(slots = dp.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, manualRecipe = null) else it })
         })
+    }
+
+    /** Saves a personal meal in the plan without writing to the diary. */
+    fun setManualMeal(date: LocalDate, slot: Int, recipe: Recipe) = update { s ->
+        if (recipe.ingredients.isEmpty() || recipe.ingredients.any { !it.grams.isFinite() || it.grams <= 0 }) return@update s
+        val old = dayPlan(s, date)?.slots?.firstOrNull { it.slot == slot } ?: return@update s
+        if (old.eatenEntryIds.isNotEmpty()) return@update s
+        s.copy(plan = s.plan.map { dp -> if (dp.date != date.toString()) dp else dp.copy(slots = dp.slots.map {
+            if (it.slot == slot) it.copy(recipeId = recipe.id, manualRecipe = recipe) else it
+        }) })
     }
 
     /** Registra nel diario il pasto pianificato, come piatto unico con le grammature calcolate. */

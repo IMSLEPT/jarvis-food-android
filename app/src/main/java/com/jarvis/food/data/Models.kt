@@ -193,7 +193,8 @@ data class Reminders(
 data class PlanSlot(
     val slot: Int,                // indice in DietPrefs.slots
     val recipeId: String,
-    val eatenEntryIds: List<String> = emptyList()
+    val eatenEntryIds: List<String> = emptyList(),
+    val manualRecipe: Recipe? = null
 )
 
 @Serializable

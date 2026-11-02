@@ -60,16 +60,16 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Models.kt": {
-    "sha256": "8ec41abf80fbf7ea1881e57b59f6f4a8bca9d1794cfce21a9d6e87eb2ef0e277",
-    "reason": "Richiesta nei due video del 2 novembre 2026: correzioni analisi foto e cronologia persistente delle conversazioni."
+    "sha256": "b8f2b40391b847e8bec59cf03d540bf20ffeaa18fae9e948c798289ddbc33b46",
+    "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "16371b56bef37ed94c9ecf9d6f6797d874b2f85f050d74f0749a6561e6f2cc6d",
-    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
+    "sha256": "c8dd5a94c84336a3260cd2c9def7f17ffd68c5c725b8d47feb492f3b729e5e22",
+    "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
-    "sha256": "8f0866bc4b1c2eb17570aaca494b7b37d20213a0c20b0d57ef777ec17a65fc11",
-    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+    "sha256": "2c097a3314c1dff48c21c42f3e749b02205a0519e240f98c2793d643614c5440",
+    "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   },
   "app/src/main/java/com/jarvis/food/engine/Micros.kt": {
     "sha256": "0e4ac4bead60bef3308e6b65fb456edcf5d0a734ffc9ab5bd5fdcd941b09732c",
@@ -118,5 +118,9 @@
   "app/src/main/java/com/jarvis/food/chat/Jarvis.kt": {
     "sha256": "3d240d64360b73832448308879b25e851d0a98291bc08af7ebf7a9b89ded02d8",
     "reason": "Richiesta nei due video del 2 novembre 2026: correzioni analisi foto e cronologia persistente delle conversazioni."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Kitchen.kt": {
+    "sha256": "a3d875066cf3ae87c1fa892d17bd0c5ed982aecb4c62001090ac20c2322aaf58",
+    "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   }
 }

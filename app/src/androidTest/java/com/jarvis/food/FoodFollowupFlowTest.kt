@@ -1,0 +1,89 @@
+package com.jarvis.food
+
+import android.graphics.Bitmap
+import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.test.core.app.ActivityScenario
+import androidx.test.platform.app.InstrumentationRegistry
+import com.jarvis.food.data.*
+import com.jarvis.food.engine.*
+import com.jarvis.food.ui.*
+import org.junit.Assert.*
+import org.junit.Rule
+import org.junit.Test
+import java.io.File
+import java.time.LocalDate
+
+class FoodFollowupFlowTest {
+    @get:Rule val compose=createEmptyComposeRule()
+    private val ins=InstrumentationRegistry.getInstrumentation()
+    private fun ui(block:()->Unit)=ins.runOnMainSync(block)
+    private fun shot(name:String) {
+        compose.waitForIdle()
+        val profile=InstrumentationRegistry.getArguments().getString("captureName")?:"standard"
+        val file=File(ins.targetContext.filesDir,"shots/food-followup-$profile/$name.png");file.parentFile!!.mkdirs()
+        val b=ins.uiAutomation.takeScreenshot()
+        try { file.outputStream().use { b.compress(Bitmap.CompressFormat.PNG,100,it) } } finally { b.recycle() }
+    }
+    private fun prepare() { Store.init(ins.targetContext);ui { Store.update { AppState(onboarded=true) };Nav.clear();Nav.tab=0 } }
+    @Test fun foodAdviceExplainsPureAlmondsWithoutWritingDiary() {
+        prepare()
+        val food=Food("almond","100% crema di mandorle tostate",kcal=625.0,protein=21.0,carbs=6.0,fat=56.0,sugar=3.0,satFat=4.0,salt=.01)
+        ui { Nav.go(Screen.FoodDetail(food,LocalDate.now(),0,15.0)) }
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithTag("food-guidance-details").performScrollTo().performClick()
+            compose.onNodeWithText("100% frutta a guscio · conta la porzione").assertExists()
+            assertTrue(Store.current.diary.isEmpty())
+            shot("food-advice")
+        }
+    }
+    @Test fun homeShowsPracticalGuideWithoutHistory() {
+        prepare()
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithTag("everyday-food-guide").performScrollTo()
+            compose.onNodeWithText("Mostra la guida").performScrollTo().performClick()
+            compose.onNodeWithText("Leggi le linee guida CREA").performScrollTo().assertIsDisplayed()
+            assertTrue(Store.current.diary.isEmpty())
+            shot("immediate-guide")
+        }
+    }
+    @Test fun manualPlanPreservesEditedGramsAndDoesNotMarkEaten() {
+        prepare();val date=LocalDate.now()
+        val food=Food("custom:test","Alimento personale",kcal=250.0,protein=15.0,carbs=25.0,fat=10.0,source="custom")
+        ui {
+            Store.generatePlan(date,1)
+            Store.setManualMeal(date,0,Recipe("manual:test","Il mio pasto",1,listOf(Ingredient(food,100.0))))
+            Nav.go(Screen.ManualMeal(date,0))
+        }
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithText("Quantità").performScrollTo().performClick()
+            compose.onNodeWithTag("manual-quantity").performTextReplacement("123,5")
+            compose.onNodeWithText("Conferma quantità").performClick()
+            compose.onNodeWithTag("manual-save").performClick()
+            compose.waitForIdle()
+            assertTrue(Store.current.diary.isEmpty())
+            assertEquals(123.5,Store.dayPlan(Store.current,date)!!.slots.first { it.slot==0 }.manualRecipe!!.ingredients.single().grams,0.0)
+            ui { Nav.go(Screen.RecipeView("manual:test",Macro(500.0,30.0,60.0,15.0),date,0)) }
+            compose.onNodeWithTag("manual-eat").assertExists()
+            shot("manual-meal")
+            ui { Nav.back();Nav.go(Screen.Alternatives(date,0)) }
+            compose.onNodeWithTag("alternative-search").assertExists()
+            compose.onNodeWithTag("alternative-manual").assertExists()
+            shot("alternatives-search")
+        }
+    }
+    @Test fun nowSuggestionsStayAboveSystemNavigation() {
+        prepare();ui { Nav.go(Screen.WhatNow) }
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            compose.waitUntil(20000) { compose.onAllNodesWithText("Aggiungi al diario").fetchSemanticsNodes().isNotEmpty() }
+            compose.onAllNodesWithText("Aggiungi al diario").onLast().performScrollTo()
+            val bounds=compose.onNodeWithTag("what-now-content").fetchSemanticsNode().boundsInRoot
+            scenario.onActivity { activity ->
+                val view=activity.window.decorView
+                val insets=androidx.core.view.ViewCompat.getRootWindowInsets(view)!!.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars())
+                assertTrue("Scrolling content overlaps Android navigation",bounds.bottom<=view.height-insets.bottom+2)
+            }
+            shot("safe-now-scroll")
+        }
+    }
+}

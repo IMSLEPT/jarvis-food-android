@@ -1,5 +1,7 @@
 package com.jarvis.food.ui
 
+import androidx.compose.ui.draw.clipToBounds
+
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -672,9 +674,9 @@ fun WhatNowScreen() {
     }
     val diaryMeal = WhatNow.diaryMealForKey(key)
 
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().navigationBarsPadding()) {
         TopBar("Cosa mangio adesso?", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+        Column(Modifier.weight(1f).testTag("what-now-content").clipToBounds().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             ACard(brush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382))), bordered = false, glow = Color(0x8013225F), radius = 28.dp) {
                 Column(Modifier.fillMaxWidth()) {
                     Text("Ti restano oggi", style = T.Small.copy(color = Color(0xFFB9C6F5)))

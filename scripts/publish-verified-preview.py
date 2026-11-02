@@ -16,7 +16,7 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
         counts[key] += int(root.get(key, 0))
 # 120 previous tests - 14 removed family tests + 7 new calendar/history/upgrade tests.
 assert counts['tests'] >= 124 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
-logs = {'layout-november-standard.log':3, 'layout-november-large-text.log':3, 'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
+logs = {'layout-food-followup-standard.log':4, 'layout-food-followup-large-text.log':4, 'layout-november-standard.log':3, 'layout-november-large-text.log':3, 'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
@@ -52,20 +52,19 @@ with zipfile.ZipFile(apk) as bundle:
             assert b'textdb.dev/api/data/' not in dex, 'Removed sync endpoint must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='2 November follow-up videos: safe footers, rectangular diet controls, persistent graph palettes, profile avatar and chat history, robust photo responses and offline abstention; based on 1.0.182',
+              original_signature_verified=True, visual_revision='Videos 1000196317 and 1000196318: food guidance, immediate general advice, recipe search and manual planned meals with quantity assistance; based on 1.0.185',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Correzioni dei due video di feedback del 2 novembre 2026, basate sull’APK 1.0.182.
+notes.write_text(f'''Modifiche richieste nei video 1000196317 e 1000196318 del 2 novembre 2026, basate sulla versione 1.0.185.
 
-- Margini inferiori nelle schermate Nutrienti e Foto AI sopra i comandi Android.
-- Riepilogo Piano con controlli rettangolari; scelta alimentazione con pulsanti ordinati, periodo 1/7/14/30 giorni e conferma sempre raggiungibile.
-- Grafici acqua azzurri, attività verdi e macro nei colori originali, anche selezionando un giorno.
-- Foto profilo nella testata Jarvis alla stessa posizione delle altre schede. Cronologia per conservare e riprendere le chat, compatibile con i dati già salvati.
-- Foto AI: richiesta compatta senza catalogo completo, attesa complessiva limitata a 22 secondi, gestione risposte null, formati diversi e dati incompleti. Il servizio esterno richiede una chiave valida e disponibilità dei modelli.
-- Offline: nomi comuni in italiano, nessuna percentuale presentata come probabilità; le ipotesi deboli o ambigue non vengono mostrate. Ricerca manuale disponibile dopo la foto. Il classificatore non misura le porzioni.
+- Cosa mangio adesso: area di scorrimento contenuta, testata opaca e spazio riservato ai comandi Android.
+- Ogni alimento: indicatori testuali e colorati per zuccheri, saturi e sale, quantità e frequenza registrata, alternative e confronto online delle etichette di prodotti/marche. Dati mancanti espliciti; nessuna classificazione della lavorazione o frequenza inventata dalla marca.
+- Vitamine e minerali: guida pratica consultabile subito, anche senza storico; distinta dall'analisi dei dati registrati.
+- Alternative: ricerca per nome/ingredienti nel catalogo, ricette personali e compositore con alimenti del catalogo, personalizzati o di marca.
+- Compositore: confronto calorie e macro di pasto/giornata, proposta limitata delle quantità da approvare, salvataggio persistente nel piano. Il diario cambia solo premendo Segna mangiato.
 
-APK con firma originale verificata. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati (Android 10/15; testo 100/130/200%). Le prove non verificano il servizio AI con la chiave personale né equivalgono a un test sul telefono dell’utente.
+Firma originale verificata. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati. Le prove non verificano sul telefono personale i servizi online e l'AI con la chiave dell'utente.
 ''')
 subprocess.run(['gh','release','create',f'preview-v1.0.{number}',str(apk),str(verification),
                 '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Revisione grafica','--prerelease','--notes-file',str(notes)], check=True)

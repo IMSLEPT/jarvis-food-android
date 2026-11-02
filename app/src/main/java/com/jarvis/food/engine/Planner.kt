@@ -52,7 +52,7 @@ object Planner {
         val out = mutableListOf<PlannedMeal>()
         val ordered = plan.slots.filter { it.slot in prefs.slots.indices }.sortedBy { it.slot }
         for ((idx, ps) in ordered.withIndex()) {
-            val rec = db.recipe(ps.recipeId) ?: continue
+            val rec = ps.manualRecipe?.let { ManualMeals.asSolved(it, targets[ps.slot], prefs.slots[ps.slot].meal).template } ?: db.recipe(ps.recipeId) ?: continue
             val remainingShare = ordered.drop(idx).sumOf { shares[it.slot] }.coerceAtLeast(1.0)
             val base = targets[ps.slot]
             val adj = base + residual * (shares[ps.slot] / remainingShare)
@@ -60,7 +60,7 @@ object Planner {
                 max(adj.kcal, base.kcal * 0.6), max(adj.protein, base.protein * 0.5),
                 max(adj.carbs, base.carbs * 0.4), max(adj.fat, base.fat * 0.4)
             )
-            val solved = Solver.solve(rec, db, t)
+            val solved = ps.manualRecipe?.let { ManualMeals.asSolved(it, t, prefs.slots[ps.slot].meal) } ?: Solver.solve(rec, db, t)
             residual = residual + (t - solved.total)
             val def = prefs.slots[ps.slot]
             out += PlannedMeal(ps.slot, def.name, def.diaryMeal, solved)
