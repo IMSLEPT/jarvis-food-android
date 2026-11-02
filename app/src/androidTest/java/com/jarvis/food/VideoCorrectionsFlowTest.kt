@@ -23,7 +23,7 @@ class VideoCorrectionsFlowTest {
         ui { Store.update { AppState(onboarded = true, profile = Profile(detailed = true)) }; Nav.clear(); Nav.tab = 0; Nav.diaryDate = day; Nav.planDate = day }
     }
     private fun shot(name: String) {
-        compose.waitForIdle()
+        compose.waitForIdle(); ins.waitForIdleSync(); android.os.SystemClock.sleep(400)
         val profile = InstrumentationRegistry.getArguments().getString("captureName") ?: "standard"
         val file = File(ins.targetContext.filesDir, "shots/video-$profile/$name.png").apply { parentFile!!.mkdirs() }
         val bitmap = ins.uiAutomation.takeScreenshot()

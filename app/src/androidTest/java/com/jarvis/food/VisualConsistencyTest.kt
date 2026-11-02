@@ -175,14 +175,18 @@ class VisualConsistencyTest {
             val diaryBeforeSwipes = Store.current.diary
             compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day.plusDays(7) }
+            compose.waitForIdle()
             compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.plusDays(7).toString())
             compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day }
+            compose.waitForIdle()
             compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day.minusDays(7) }
+            compose.waitForIdle()
             compose.onNodeWithTag("calendar-today").assertDoesNotExist()
             compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day }
+            compose.waitForIdle()
             assertEquals(diaryBeforeSwipes, Store.current.diary)
             val calendarButton = compose.onNodeWithContentDescription("Calendario").fetchSemanticsNode().boundsInRoot
             val profileButton = compose.onNodeWithContentDescription("Apri profilo").fetchSemanticsNode().boundsInRoot
@@ -207,9 +211,11 @@ class VisualConsistencyTest {
                     assertEquals(homeCalendar.bottom, calendar.bottom, 1f)
                     compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
                     compose.waitUntil(5_000) { Nav.planDate == day.plusDays(7) }
+            compose.waitForIdle()
                     compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.plusDays(7).toString())
                     compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
                     compose.waitUntil(5_000) { Nav.planDate == day }
+            compose.waitForIdle()
                     compose.onNodeWithContentDescription("Calendario").assertIsDisplayed()
                     compose.onNodeWithTag("week-day-2").assertContentDescriptionEquals(day.toString())
                 }

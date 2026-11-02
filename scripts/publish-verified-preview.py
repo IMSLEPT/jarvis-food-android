@@ -27,8 +27,10 @@ logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
 for name, count in logs.items():
     content = Path(name).read_text()
     assert f'OK ({count} test' in content and 'FAILURES!!!' not in content, name
-for name in ('crash.txt', 'layout-crash.txt'):
-    assert 'FATAL EXCEPTION' not in Path(name).read_text(), name
+for name in ('crash.txt', 'layout-crash.txt', 'layout-video-crash.log'):
+    content = Path(name).read_text()
+    assert 'FATAL EXCEPTION' not in content, name
+    assert not any('Fatal signal' in line and '(com.jarvis.food)' in line for line in content.splitlines()), name
 sdk = Path(os.environ.get('ANDROID_HOME') or os.environ['ANDROID_SDK_ROOT'])
 signer = sorted(sdk.glob('build-tools/*/apksigner'))[-1]
 certificate = run(str(signer), 'verify', '--min-sdk-version', '26', '--print-certs', str(apk))
