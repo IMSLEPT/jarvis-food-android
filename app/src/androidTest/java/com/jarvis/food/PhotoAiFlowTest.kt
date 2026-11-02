@@ -55,7 +55,7 @@ class PhotoAiFlowTest {
         val bitmap = context.assets.open("photography/pasta_salmone_zucchine.webp").use { BitmapFactory.decodeStream(it) }
         try {
             val started = System.nanoTime()
-            val labels = FoodAi.analyzeOffline(context, bitmap)
+            val labels = FoodAi.classifyOffline(context, bitmap)
             println("Offline photo analysis: ${(System.nanoTime() - started) / 1_000_000} ms; labels=${labels.map { it.label }}")
             assertTrue("Classifier returned no food labels", labels.isNotEmpty())
             assertTrue(labels.all { it.label.isNotBlank() && it.score.isFinite() && it.score in 0f..1f })

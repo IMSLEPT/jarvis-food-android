@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.sp
 /** Equal native touch targets and restrained rectangular geometry. */
 @Composable
 fun SquareAction(label: String, modifier: Modifier = Modifier, tag: String = "", isSelected: Boolean = false,
-    subtitle: String? = null, minHeight: Dp = 56.dp, onClick: () -> Unit) {
+    subtitle: String? = null, minHeight: Dp = 56.dp, enabled: Boolean = true, onClick: () -> Unit) {
     val shape = RoundedCornerShape(8.dp)
     Row(modifier.heightIn(min = minHeight).testTag(tag).clip(shape)
         .background(if (isSelected) C.AccentSoft else Color.White)
         .border(1.dp, if (isSelected) C.AccentDeep else C.Navy.copy(alpha = .24f), shape)
-        .semantics { selected = isSelected }.clickable(role = Role.Button, onClick = onClick)
+        .semantics { selected = isSelected }.clickable(enabled = enabled, role = Role.Button, onClick = onClick)
         .padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center) {
         Column(if (subtitle != null || isSelected) Modifier.weight(1f) else Modifier, horizontalAlignment = Alignment.CenterHorizontally) {

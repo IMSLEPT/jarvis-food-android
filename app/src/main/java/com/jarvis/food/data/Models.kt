@@ -315,10 +315,18 @@ data class AppState(
     val recipeViews: Map<String, Int> = emptyMap(),
     /** Conversazione con Jarvis (ultimi messaggi). */
     val chat: List<ChatMsg> = emptyList(),
+    val chatHistory: List<ChatConversation> = emptyList(),
+    val activeChatId: String = "",
     val trainingNutrition: TrainingNutrition = TrainingNutrition(),
     /** Date confermate complete dall’utente; assenza non equivale a giorno senza pasti. */
     val nutritionCompleteDays: List<String> = emptyList()
 )
+
+@Serializable
+data class ChatConversation(val id: String, val messages: List<ChatMsg> = emptyList()) {
+    val title: String get() = messages.firstOrNull { it.role == "user" }?.text?.take(90) ?: "Conversazione con Jarvis"
+    val updatedAt: Long get() = messages.maxOfOrNull { it.time } ?: 0L
+}
 
 /** Messaggio della chat con Jarvis. [role] è "user" o "assistant". */
 @Serializable

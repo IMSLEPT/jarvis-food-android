@@ -188,7 +188,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
         androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
         Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 12.dp)) {
         FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
+            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
                 GapW(6.dp)
                 Column(Modifier.weight(1f)) {
@@ -196,7 +196,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("pianificate", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
+            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
                 Canvas(Modifier.size(20.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
                     val stroke = 4.dp.toPx()
@@ -211,11 +211,11 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("completati", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell")) {
+            if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell").clip(RoundedCornerShape(8.dp)).background(C.Surface).border(1.dp, C.Navy.copy(alpha = .24f), RoundedCornerShape(8.dp)).padding(horizontal = 10.dp, vertical = 8.dp)) {
                 DayTypeControl(s, date, compact = true)
             }
             Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-diet-style")
-                .clip(RoundedCornerShape(14.dp)).clickable { chooseStyle = true }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                .clip(RoundedCornerShape(8.dp)).background(C.Surface).border(1.dp, C.Navy.copy(alpha = .24f), RoundedCornerShape(8.dp)).clickable(role = Role.Button) { chooseStyle = true }.padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp); GapW(8.dp)
                 Column(Modifier.weight(1f)) {
                     Text("Alimentazione", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))

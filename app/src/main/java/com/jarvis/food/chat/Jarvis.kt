@@ -10,6 +10,8 @@ import com.jarvis.food.data.ChatMsg
 import com.jarvis.food.data.PendingCall
 import com.jarvis.food.data.Store
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -23,6 +25,7 @@ import kotlinx.coroutines.withContext
 object Jarvis {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var job: Job? = null
+    @Volatile private var requestVersion = 0L
 
     var busy by mutableStateOf(false)
         private set
@@ -71,13 +74,20 @@ object Jarvis {
         if (cfg.chatEngine == 0) ModelManager.isReady(ctx, LocalModel.of(cfg.localModel)) else cfg.apiKey.isNotBlank()
 
     fun clear() {
-        job?.cancel(); busy = false; partial = ""; status = ""
+        stop()
         undoFor = null; undoState = null
-        Store.update { it.copy(chat = emptyList()) }
+        Store.update { ChatHistory.newChat(it, Store.newId()) }
         Store.saveNow()
     }
 
-    fun stop() { job?.cancel(); busy = false; partial = ""; status = "" }
+    fun openConversation(id: String) {
+        stop()
+        undoFor = null; undoState = null
+        Store.update { ChatHistory.open(it, id) }
+        Store.saveNow()
+    }
+
+    fun stop() { requestVersion++; job?.cancel(); busy = false; partial = ""; status = "" }
 
     private fun addMsg(role: String, text: String, actions: List<String> = emptyList(), quick: List<String> = emptyList(), pending: List<PendingCall> = emptyList()): ChatMsg {
         val m = ChatMsg(Store.newId(), role, text, System.currentTimeMillis(), actions, quick, pending)
@@ -109,6 +119,7 @@ object Jarvis {
         val app = ctx.applicationContext
         addMsg("user", t)
         busy = true; partial = ""; status = "Jarvis sta pensando…"
+        val requestId = ++requestVersion
         job = scope.launch {
             val chips = mutableListOf<String>()
             val pend = mutableListOf<PendingCall>()
@@ -125,11 +136,13 @@ object Jarvis {
                     partial = ""
                     val raw = if (cfg.chatEngine == 0) {
                         status = if (LocalLlm.loaded) "Jarvis sta scrivendo…" else "Carico il modello (la prima volta ci vuole un po')…"
-                        LocalLlm.reply(app, cfg, system, hist) { acc -> status = "Jarvis sta scrivendo…"; partial = Actions.visible(acc) }
+                        LocalLlm.reply(app, cfg, system, hist) { acc -> if (requestId == requestVersion) { status = "Jarvis sta scrivendo…"; partial = Actions.visible(acc) } }
                     } else {
                         status = "Jarvis sta scrivendo…"
                         CloudLlm.reply(cfg, system, hist)
                     }
+                    currentCoroutineContext().ensureActive()
+                    if (requestId != requestVersion) return@launch
                     val parsed = Actions.parse(raw)
                     if (snapshot == null && parsed.actions.isNotEmpty()) snapshot = Store.current
                     val calls = parsed.actions.take(8)
@@ -160,16 +173,19 @@ object Jarvis {
                 else if (!anyOk && warns.isNotEmpty()) finalText = "Non sono riuscito a completare l'azione: " + warns.joinToString(" ") { it.removePrefix("⚠").trim() }
                 else if (anyOk && warns.isNotEmpty()) finalText += "\n\nAttenzione: una parte non è andata a buon fine (vedi ⚠)."
                 if (finalText.isBlank()) finalText = if (chips.any { it.startsWith("✓") }) "Fatto." else "Non ho capito bene: puoi riformulare?"
+                currentCoroutineContext().ensureActive()
+                if (requestId != requestVersion) return@launch
                 val msg = addMsg("assistant", finalText, chips, quick, pendUnique)
                 if (snapshot != null && chips.any { it.startsWith("✓") }) { undoFor = msg.id; undoState = snapshot }
                 Store.saveNow()
             } catch (e: kotlinx.coroutines.CancellationException) {
                 throw e
             } catch (e: Throwable) {
+                if (requestId != requestVersion) return@launch
                 addMsg("assistant", "Non riesco a rispondere: ${e.message ?: e.javaClass.simpleName}", chips)
                 Store.saveNow()
             } finally {
-                busy = false; partial = ""; status = ""
+                if (requestId == requestVersion) { busy = false; partial = ""; status = "" }
             }
         }
     }

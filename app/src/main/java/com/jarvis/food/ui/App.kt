@@ -105,6 +105,7 @@ sealed class Screen {
     /** Modifica delle risposte del questionario: [only] = una sola sezione, null = tutto. */
     data class Questionnaire(val only: QStep? = null) : Screen()
     data object Chat : Screen()
+    data object ChatHistory : Screen()
 }
 
 /** Navigazione semplice a pila, senza librerie esterne. */
@@ -198,6 +199,7 @@ private fun ScreenHost(s: Screen) {
             Screen.EnergyInfo -> EnergyInfoScreen()
             is Screen.Questionnaire -> QuestionnaireScreen(s.only)
             Screen.Chat -> ChatScreen()
+            Screen.ChatHistory -> ChatHistoryScreen()
         }
     }
 }

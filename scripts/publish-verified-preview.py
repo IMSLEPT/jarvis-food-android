@@ -16,7 +16,7 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
         counts[key] += int(root.get(key, 0))
 # 120 previous tests - 14 removed family tests + 7 new calendar/history/upgrade tests.
 assert counts['tests'] >= 124 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
-logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
+logs = {'layout-november-standard.log':3, 'layout-november-large-text.log':3, 'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
@@ -56,11 +56,16 @@ record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Aggiornamento richiesto nei due video del 2 novembre e nell’anteprima approvata. Eliminato il pulsante orologio da Oggi/Piano; scorciatoie Codice a barre nei pasti; riquadro vitamine sempre visibile con andamento e copertura dati, consigli condizionati dallo storico; timer del digiuno con secondi, recupero sessione e insets corretti; dettagli interattivi per macro, acqua e attività; correzione solidi/liquidi anche nei dati esistenti, porzioni per pezzo con fonte o peso personalizzato. Per le Fette Biscottate Integrali Mulino Bianco: 8,8 g/fetta dalla scheda ufficiale (02/11/2026), senza trasferire il peso ad altre marche o varianti.
+notes.write_text(f'''Correzioni dei due video di feedback del 2 novembre 2026, basate sull’APK 1.0.182.
 
-Piano: riquadro compatto “Riepilogo del piano” con tendina animata, chiusa inizialmente; al tocco compaiono i quattro controlli del mockup approvato, incluso Alimentazione. Un secondo tocco richiude il pannello senza cambiare dati o impostazioni. Sedici stili, selezione del periodo 1/7/14/30 giorni, conferma e rigenerazione verificata; vincoli sugli ingredienti ed esclusioni senza fallback incoerenti. Target personali invariati, giornate ON/OFF mantenute. Se lo stile è incompatibile o il calcolo non rientra nelle tolleranze dichiarate (kcal ±10%, macro ±15%), nessuna modifica applicata. Diari, giornate esterne al periodo e pasti già registrati conservati.
+- Margini inferiori nelle schermate Nutrienti e Foto AI sopra i comandi Android.
+- Riepilogo Piano con controlli rettangolari; scelta alimentazione con pulsanti ordinati, periodo 1/7/14/30 giorni e conferma sempre raggiungibile.
+- Grafici acqua azzurri, attività verdi e macro nei colori originali, anche selezionando un giorno.
+- Foto profilo nella testata Jarvis alla stessa posizione delle altre schede. Cronologia per conservare e riprendere le chat, compatibile con i dati già salvati.
+- Foto AI: richiesta compatta senza catalogo completo, attesa complessiva limitata a 22 secondi, gestione risposte null, formati diversi e dati incompleti. Il servizio esterno richiede una chiave valida e disponibilità dei modelli.
+- Offline: nomi comuni in italiano, nessuna percentuale presentata come probabilità; le ipotesi deboli o ambigue non vengono mostrate. Ricerca manuale disponibile dopo la foto. Il classificatore non misura le porzioni.
 
-APK firmato con la chiave originale. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati, Android 10/15 e testo 100/130/200%. Le prove non equivalgono a un test manuale sul dispositivo dell’utente.
+APK con firma originale verificata. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati (Android 10/15; testo 100/130/200%). Le prove non verificano il servizio AI con la chiave personale né equivalgono a un test sul telefono dell’utente.
 ''')
 subprocess.run(['gh','release','create',f'preview-v1.0.{number}',str(apk),str(verification),
                 '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Revisione grafica','--prerelease','--notes-file',str(notes)], check=True)
