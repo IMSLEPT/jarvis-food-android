@@ -22,6 +22,13 @@ class FoodFollowupTest {
         assertTrue(a.frequency.contains("Non c'è un limite generale"))
         assertTrue(a.explanation.contains("tostatura"))
     }
+    @Test fun processingAdviceRequiresKnownCategoryRatherThanProductNameAlone() {
+        val dessert=food("Salame di cioccolato").copy(source="recipe",nutrientDataVersion=1)
+        assertFalse(FoodGuidance.advice(dessert,30.0,emptyList(),date).caution)
+        val meat=food("Prosciutto").copy(group="salumi")
+        assertTrue(FoodGuidance.advice(meat,30.0,emptyList(),date).caution)
+        assertEquals("Carne lavorata · da limitare",FoodGuidance.advice(meat,30.0,emptyList(),date).title)
+    }
     @Test fun labelBoundariesAndDrinkThresholdsAreExplicit() {
         val a=food().copy(sugar=22.5,satFat=5.01,salt=1.5)
         assertEquals(listOf(FoodGuidance.Level.MEDIUM,FoodGuidance.Level.HIGH,FoodGuidance.Level.MEDIUM),FoodGuidance.signals(a).map { it.level })

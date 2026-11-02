@@ -31,9 +31,10 @@ object FoodGuidance {
         val high = signals.filter { it.level == Level.HIGH }
         val nuts = listOf("mandorl", "arachid", "nocciol", "pistacch", "anacard", "noci").any { n.contains(it) }
         val pureNuts = nuts && f.name.contains("100%")
-        val processed = listOf("salame", "salsiccia", "wurstel", "prosciutto", "speck", "bresaola", "pancetta", "affettat").any { n.contains(it) }
+        val processed = f.group == "salumi" || (f.source == "db" && f.group.startsWith("carne") &&
+            listOf("salame", "salsiccia", "wurstel", "prosciutto", "speck", "bresaola", "pancetta", "affettat").any { n.contains(it) })
         val occurrences = diary.filter { it.food.id == f.id && runCatching { LocalDate.parse(it.date) in date.minusDays(6)..date }.getOrDefault(false) }.map { it.date }.distinct().size
-        val title = when { high.isNotEmpty() -> "Da dosare: ${high.joinToString { it.label.lowercase() }}"; pureNuts -> "100% frutta a guscio · conta la porzione"; signals.any { it.level == Level.UNKNOWN } -> "Valutazione parziale"; else -> "Nessun valore elevato nei parametri valutati" }
+        val title = when { high.isNotEmpty() -> "Da dosare: ${high.joinToString { it.label.lowercase() }}"; processed -> "Carne lavorata · da limitare"; pureNuts -> "100% frutta a guscio · conta la porzione"; signals.any { it.level == Level.UNKNOWN } -> "Valutazione parziale"; else -> "Nessun valore elevato nei parametri valutati" }
         val explanation = when {
             pureNuts -> "Se gli ingredienti confermano solo frutta a guscio, tostatura e macinazione non bastano per definirla poco salutare. È concentrata in energia: conta la quantità."
             processed -> "Limita le carni lavorate e alterna con legumi, pesce, uova o carne fresca secondo le tue preferenze."
