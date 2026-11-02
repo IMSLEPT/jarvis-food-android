@@ -41,10 +41,11 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
             Text("● ${signal.label}: ${signal.per100?.let { "${it.r1()} g/100 ${if (food.liquid) "ml" else "g"}" } ?: "dato mancante"} · $label", style = T.Small.copy(color = color))
         }
         GapH(8.dp)
-        Text(advice.explanation, style = T.Small)
         if(food.liquid && advice.signals.any { it.per100 != null && it.level == FoodGuidance.Level.UNKNOWN }) Text("I liquidi che non sono bevande (es. olio e salse) non ricevono il colore delle bevande: servirebbe una base di peso comparabile.",style=T.Small)
         TextButton(onClick = { details = !details }, modifier = Modifier.testTag("food-guidance-details")) { Text(if (details) "Chiudi consigli" else "Quantità, frequenza e alternative", color = C.Navy) }
         if (details) {
+            Text(advice.explanation, style = T.Small)
+            GapH(6.dp)
             Text(advice.portion, style = T.Small)
             GapH(6.dp); Text(advice.frequency, style = T.Small)
             GapH(8.dp); Text("Alternative da valutare", style = T.Label)

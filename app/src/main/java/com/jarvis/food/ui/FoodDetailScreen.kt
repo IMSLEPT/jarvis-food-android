@@ -1,6 +1,8 @@
 package com.jarvis.food.ui
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +49,7 @@ import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
 import java.time.LocalDate
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGrams: Double?, entry: DiaryEntry?, replacing: Boolean = false) {
     val s by Store.state.collectAsState()
@@ -145,7 +148,7 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
                     Text("1 ${food.servingName} = ${amountText(sg)} g", Modifier.testTag("piece-weight"), style = T.Label)
                     food.portionSource?.let { source -> Text(source, style = T.Small) }
                     if (food.source == "db" && food.portionSource == null) Text("Peso indicativo del catalogo: puoi correggerlo.", style = T.Small)
-                    Row(Modifier.padding(top = 8.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FlowRow(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         listOf(1, 2, 3, 4, 5, 6).forEach { count ->
                             Box(Modifier.testTag("piece-count-$count")) {
                                 Pill(com.jarvis.food.engine.FoodAmounts.pieces(food, count), kotlin.math.abs(grams - sg * count) < .01) { amount = amountText(sg * count * factor) }
