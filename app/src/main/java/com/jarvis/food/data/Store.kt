@@ -308,9 +308,10 @@ object Store {
         return if (applied) null else "I dati sono cambiati durante il calcolo. Conferma di nuovo per usare i target aggiornati."
     }
 
-    fun setSlotRecipe(date: LocalDate, slot: Int, recipeId: String) = update { s ->
+    fun setSlotRecipe(date: LocalDate, slot: Int, recipeId: String, manualChoice: Boolean = false) = update { s ->
         val recipe = Db.db.recipe(recipeId) ?: return@update s
-        if (!Planner.allowed(Db.db, recipe, prefsFor(s, date))) return@update s
+        val selectionPrefs = prefsFor(s, date).let { if (manualChoice) it.copy(maxMinutes = Int.MAX_VALUE) else it }
+        if (!Planner.allowed(Db.db, recipe, selectionPrefs)) return@update s
         s.copy(plan = s.plan.map { dp ->
             if (dp.date != date.toString()) dp
             else dp.copy(slots = dp.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, manualRecipe = null) else it })

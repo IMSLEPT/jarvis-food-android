@@ -74,6 +74,16 @@ object Planner {
             .map { Solver.solve(it, db, target) }
             .sortedBy { Solver.fitScore(it) }
 
+    /** Explicit searches include every preparation time; automatic plans keep their time limit. */
+    fun searchAlternatives(db: FoodDb, query: String, target: Macro, prefs: DietPrefs): List<SolvedRecipe> {
+        val terms = FoodDb.normalize(query).split(' ').filter { it.isNotEmpty() }
+        if (terms.isEmpty()) return emptyList()
+        val searchPrefs = prefs.copy(maxMinutes = Int.MAX_VALUE)
+        return (db.recipes + DietStyles.strictRecipes).distinctBy { it.id }.filter { r ->
+            terms.all { it in FoodDb.normalize(r.name + " " + r.ings.joinToString { ing -> db.food(ing.food)?.name ?: "" }) } && allowed(db,r,searchPrefs)
+        }.take(60).map { Solver.solve(it,db,target) }.sortedBy { Solver.fitScore(it) }
+    }
+
     /**
      * Genera il piano per [days] giorni a partire da [start]. Scelte deterministiche (stesso input = stesso piano)
      * con regole di varietà: nessuna ricetta ripetuta nello stesso pasto entro 3 giorni, rotazione delle fonti

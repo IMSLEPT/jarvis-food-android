@@ -8,7 +8,7 @@ Base: APK 1.0.185 / 82e2a768. I due video sono una registrazione continua di cir
 | Consiglio per ogni alimento con colore, dosi e frequenza | Scheda etichetta con zuccheri/saturi/sale noti, indicatore più testo, porzioni di riferimento, giorni registrati, alternative e fonti |
 | Alternative anche di marca | Confronto Open Food Facts su richiesta con valori per la stessa unità; nessuna marca viene dichiarata migliore senza confronto, né viene dedotta la lavorazione dal nome |
 | Consigli subito sotto vitamine e minerali | Guida espandibile indipendente dallo storico, separata dalla valutazione dei dati registrati |
-| Cercare una ricetta fuori dalle alternative automatiche | Ricerca per nome e ingredienti in tutti i tipi di pasto; restano i vincoli di dieta, esclusioni e tempo |
+| Cercare una ricetta fuori dalle alternative automatiche | Ricerca per nome e ingredienti in tutti i tipi di pasto; restano i vincoli di dieta ed esclusioni; la ricerca esplicita include anche tempi lunghi |
 | Inserire alimenti propri nel pasto pianificato | Compositore con catalogo, preferiti, alimenti personalizzati e prodotti online; ricette personali importabili per porzione |
 | Aiuto a raggiungere calorie e macro | Confronto pasto/giornata e proposta delle quantità limitata tra 50% e 200%, da accettare prima di salvare |
 
@@ -18,4 +18,4 @@ I colori descrivono specifici nutrienti dell'etichetta secondo i criteri NHS, no
 
 Fonti consultate il 02/11/2026: NHS Food labels; CREA Linee guida per una sana alimentazione, revisione 2018; riferimenti già presenti in NutritionEvidence. Collegamenti disponibili nell'app.
 
-Verifiche aggiunte: nove casi JVM per soglie, dati mancanti, crema di mandorle, storico, persistenza e quantità; quattro flussi Android eseguiti a testo normale e 130% per consigli alimento, guida senza storico, modifica/salvataggio manuale e margine dei suggerimenti rispetto ai comandi Android. Restano tutti i controlli della versione precedente. La pubblicazione resta vincolata al successo dell'intera pipeline.
+Verifiche aggiunte: dieci casi JVM per soglie, dati mancanti, crema di mandorle, storico, persistenza e quantità; quattro flussi Android eseguiti a testo normale e 130% per consigli alimento, guida senza storico, modifica/salvataggio manuale e margine dei suggerimenti rispetto ai comandi Android. Restano tutti i controlli della versione precedente. La pubblicazione resta vincolata al successo dell'intera pipeline.

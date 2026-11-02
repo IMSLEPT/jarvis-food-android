@@ -57,6 +57,16 @@ class FoodFollowupTest {
         assertEquals(308.75,meals.single().solved.total.kcal,.001)
         assertNull(NutritionScience.per100(meals.single().solved.toFood(), "vitD"))
     }
+    @Test fun explicitRecipeSearchIncludesLongRecipesButKeepsDietExclusions() {
+        val rice=DbFood("test_rice","Riso","Pane, pasta e cereali","cereali",listOf("glutine"),0,"",kcal=350.0,protein=8.0,carbs=75.0,fat=1.0)
+        val recipe=RecipeTemplate("test_long","Riso speciale lungo","pranzo",120,listOf(TemplateIngredient(rice.id,100.0,"c")),listOf("Cuoci"))
+        val db=FoodDb(listOf(rice),listOf(recipe))
+        val prefs=DietPrefs(maxMinutes=10)
+        val target=Macro(500.0,20.0,70.0,15.0)
+        assertTrue(Planner.alternatives(db,"pranzo",target,prefs).isEmpty())
+        assertEquals(recipe.id,Planner.searchAlternatives(db,"speciale lungo",target,prefs).single().template.id)
+        assertTrue(Planner.searchAlternatives(db,"speciale lungo",target,prefs.copy(exclude=listOf("glutine"))).isEmpty())
+    }
     @Test fun missingMacrosPreventQuantityOptimization() {
         val items=listOf(Ingredient(food().copy(unknownNutrients=listOf("protein")),100.0))
         assertFalse(ManualMeals.complete(items))
