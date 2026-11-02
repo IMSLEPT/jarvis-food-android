@@ -7,6 +7,7 @@ import java.time.LocalDate
 /** Label screening, not an overall health score or a NOVA inference. */
 object FoodGuidance {
     const val LABEL_SOURCE = "https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/how-to-read-food-labels/"
+    const val DRINK_SOURCE = "https://www.gov.scot/publications/supporting-healthy-choices-framework-voluntary-action/pages/13/"
     const val VARIETY_SOURCE = "https://www.crea.gov.it/web/alimenti-e-nutrizione/-/linee-guida-per-una-sana-alimentazione-2018"
     enum class Level { LOW, MEDIUM, HIGH, UNKNOWN }
     data class Signal(val key: String, val label: String, val per100: Double?, val level: Level)
@@ -14,7 +15,7 @@ object FoodGuidance {
     fun signals(f: Food): List<Signal> = listOf(
         Triple("sugar", "Zuccheri", if (f.liquid) 2.5 to 11.25 else 5.0 to 22.5),
         Triple("satFat", "Saturi", if (f.liquid) 0.75 to 2.5 else 1.5 to 5.0),
-        Triple("salt", "Sale", 0.3 to 1.5)
+        Triple("salt", "Sale", if (f.liquid) 0.3 to 0.75 else 0.3 to 1.5)
     ).map { (key, label, limits) ->
         val v = NutritionScience.per100(f, key)
         Signal(key, label, v, when { v == null -> Level.UNKNOWN; v > limits.second -> Level.HIGH; v <= limits.first -> Level.LOW; else -> Level.MEDIUM })
@@ -24,7 +25,7 @@ object FoodGuidance {
         val signals = signals(f)
         val high = signals.filter { it.level == Level.HIGH }
         val nuts = listOf("mandorl", "arachid", "nocciol", "pistacch", "anacard", "noci").any { n.contains(it) }
-        val pureNuts = nuts && n.contains("100%")
+        val pureNuts = nuts && f.name.contains("100%")
         val processed = listOf("salame", "salsiccia", "wurstel", "prosciutto", "speck", "bresaola", "pancetta", "affettat").any { n.contains(it) }
         val occurrences = diary.filter { it.food.id == f.id && runCatching { LocalDate.parse(it.date) in date.minusDays(6)..date }.getOrDefault(false) }.map { it.date }.distinct().size
         val title = when { high.isNotEmpty() -> "Da dosare: ${high.joinToString { it.label.lowercase() }}"; pureNuts -> "100% frutta a guscio · conta la porzione"; signals.any { it.level == Level.UNKNOWN } -> "Valutazione parziale"; else -> "Nessun valore elevato nei parametri valutati" }

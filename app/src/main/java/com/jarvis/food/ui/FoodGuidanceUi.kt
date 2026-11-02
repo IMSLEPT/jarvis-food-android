@@ -64,6 +64,7 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
             Text("Confronta ingredienti ed etichette prima di preferire una marca. Non deduco NOVA o qualità dai nomi commerciali.", style = T.Small)
             TextButton(onClick = { compare = true }) { Text("Confronta prodotti e marche", color = C.Navy) }
             TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.LABEL_SOURCE) } }) { Text("Criteri dei colori · NHS", color = C.Navy) }
+            if (food.liquid) TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.DRINK_SOURCE) } }) { Text("Soglie per le bevande · Governo scozzese", color = C.Navy) }
             TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) } }) { Text("Porzioni e varietà · CREA", color = C.Navy) }
         }
     }

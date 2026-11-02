@@ -26,6 +26,7 @@ class FoodFollowupTest {
         val a=food().copy(sugar=22.5,satFat=5.01,salt=1.5)
         assertEquals(listOf(FoodGuidance.Level.MEDIUM,FoodGuidance.Level.HIGH,FoodGuidance.Level.MEDIUM),FoodGuidance.signals(a).map { it.level })
         assertEquals(FoodGuidance.Level.HIGH,FoodGuidance.signals(a.copy(liquid=true,sugar=11.3))[0].level)
+        assertEquals(FoodGuidance.Level.HIGH,FoodGuidance.signals(a.copy(liquid=true,salt=.76))[2].level)
         assertEquals(FoodGuidance.Level.UNKNOWN,FoodGuidance.signals(a.copy(unknownNutrients=listOf("sugar")))[0].level)
     }
     @Test fun habitCountIgnoresFutureAndOldEntriesAndCountsDays() {
