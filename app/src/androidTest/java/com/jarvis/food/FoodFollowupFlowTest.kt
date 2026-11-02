@@ -57,6 +57,7 @@ class FoodFollowupFlowTest {
         }
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithText("Quantità").performScrollTo().performClick()
+            compose.onNodeWithTag("manual-food-guidance").assertExists()
             compose.onNodeWithTag("manual-quantity").performTextReplacement("123,5")
             compose.onNodeWithText("Conferma quantità").performClick()
             compose.onNodeWithTag("manual-save").performClick()

@@ -115,9 +115,24 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
         }
     },confirmButton={TextButton(onClick={picking=false}){Text("Chiudi")}},containerColor=C.Surface)
     selected?.let { food -> AlertDialog(onDismissRequest={selected=null}, title={Text(food.name,style=T.Title2)},text={
-        Column {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
             JField(amount,{amount=it.filter { c -> c.isDigit()||c=='.'||c==',' }.take(8)},"Quantità",Modifier.testTag("manual-quantity"),number=true,suffix=if(food.liquid)"ml" else "g")
             Text("Valori per 100 ${if(food.liquid)"ml" else "g"}: ${food.kcal.r0()} kcal · P ${food.protein.r1()} · C ${food.carbs.r1()} · G ${food.fat.r1()}",style=T.Small)
+            val guidance=FoodGuidance.advice(food,parseNum(amount)?:0.0,s.diary,date)
+            var expanded by remember(food.id) { mutableStateOf(false) }
+            GapH(10.dp)
+            Text(guidance.title,Modifier.testTag("manual-food-guidance"),style=T.Label.copy(color=if(guidance.caution) C.AccentDeep else C.Navy))
+            Text(guidance.signals.joinToString(" · ") { "${it.label}: ${it.per100?.r1()?:"?"} g" },style=T.Small)
+            TextButton(onClick={expanded=!expanded}) { Text(if(expanded) "Riduci consigli" else "Consigli su questo alimento",color=C.Navy) }
+            if(expanded) {
+                Text(guidance.explanation,style=T.Small)
+                GapH(6.dp);Text(guidance.portion,style=T.Small)
+                GapH(6.dp);Text(guidance.frequency,style=T.Small)
+                Text("Per valutare alternative puoi cercare: ${guidance.alternativeQuery}. Confronta ingredienti ed etichette, senza preferire una marca in automatico.",style=T.Small)
+                val uri=androidx.compose.ui.platform.LocalUriHandler.current
+                TextButton(onClick={runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) }}) { Text("Fonti e linee guida CREA",color=C.Navy) }
+                TextButton(onClick={runCatching { uri.openUri(FoodGuidance.LABEL_SOURCE) }}) { Text("Criteri etichetta · NHS",color=C.Navy) }
+            }
         }
     },confirmButton={TextButton(enabled=!eaten && (parseNum(amount)?.let { it.isFinite()&&it>0 }==true),onClick={
         val item=Ingredient(food,parseNum(amount)!!)
