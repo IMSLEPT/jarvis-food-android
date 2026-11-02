@@ -239,10 +239,6 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 val n = Store.addRecipeToShopping(rs, tpl.name, pantry)
                                 Toast.makeText(ctx, if (n > 0) "Aggiunti $n ingredienti alla spesa" else "Hai già tutto in dispensa", Toast.LENGTH_SHORT).show()
                             }
-                            if (s.family != null) ActionChip(Ic.Family, "Spesa famiglia") {
-                                com.jarvis.food.family.FamilyStore.addRecipe(tpl.name, rs.items.map { it.food.id to it.grams })
-                                Toast.makeText(ctx, "Ingredienti aggiunti alla spesa della famiglia", Toast.LENGTH_SHORT).show()
-                            }
                             ActionChip(Ic.Fridge, "Ho tutto?") { dlgFridge = true }
                             ActionChip(Ic.Swap, "Duplica") {
                                 Store.saveRecipe(toUserRecipe(rs, servings)); Toast.makeText(ctx, "Copia salvata in Le mie ricette", Toast.LENGTH_SHORT).show()
@@ -402,7 +398,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             Column(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
                                 rs.items.forEachIndexed { i, it ->
                                     Row(Modifier.fillMaxWidth().heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
-                                        Box(Modifier.size(12.dp).clip(CircleShape).background(ROLE_DOT[it.ing.role] ?: C.Green))
+                                        FoodIllustration(it.food.name, it.food.group, 40.dp)
                                         GapW(12.dp)
                                         Column(Modifier.weight(1f)) {
                                             Text(it.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Label.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold))

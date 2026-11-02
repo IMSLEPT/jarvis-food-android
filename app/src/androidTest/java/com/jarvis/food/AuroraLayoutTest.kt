@@ -83,13 +83,18 @@ class AuroraLayoutTest {
     }
 
     private fun chatHeaderHasAccountControlsAboveActions() {
-        val family = compose.onNodeWithContentDescription("Famiglia").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
         val profile = compose.onNodeWithContentDescription("Apri profilo").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
         val fresh = compose.onNodeWithContentDescription("Nuova chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
         val engine = compose.onNodeWithContentDescription("Motore della chat").assertIsDisplayed().fetchSemanticsNode().boundsInRoot
-        assertTrue("Chat actions overlap account controls", minOf(fresh.top, engine.top) >= maxOf(family.bottom, profile.bottom))
-        assertTrue("New chat is not below Family", kotlin.math.abs(fresh.center.x - family.center.x) <= 1f)
-        assertTrue("Engine is not below Profile", kotlin.math.abs(engine.center.x - profile.center.x) <= 1f)
+        val bounds = listOf(fresh, engine, profile)
+        for (i in bounds.indices) for (j in i+1 until bounds.size) {
+            val a = bounds[i]; val b = bounds[j]
+            assertTrue("Labelled header actions overlap", a.right <= b.left + 1f || b.right <= a.left + 1f || a.bottom <= b.top + 1f || b.bottom <= a.top + 1f)
+        }
+        compose.onNodeWithText("Modello", useUnmergedTree = true).assertIsDisplayed()
+        compose.onNodeWithText("Profilo", useUnmergedTree = true).assertIsDisplayed()
+
     }
 
     @Test fun barsGreetingsAndLongActionsRemainVisible() {
@@ -116,10 +121,21 @@ class AuroraLayoutTest {
             shot("home-before-check")
             for (label in listOf("Foto piatto", "Frigo", "Digiuno")) visibleIcon("quick-icon-$label", C.Navy, 22f)
             shot("home-enlarged-icons")
-            compose.onNodeWithContentDescription("Famiglia").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            compose.onNodeWithContentDescription("Calendario").assertWidthIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
+            // DatePickerDialog is a native window, outside Compose's idle tracking.
+            // Wait for it to take focus before Back, then verify it really dismissed.
+            var activityHasFocus = true
+            compose.waitUntil(20_000) {
+                scenario.onActivity { activityHasFocus = it.hasWindowFocus() }
+                !activityHasFocus
+            }
+            ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
+            compose.waitUntil(20_000) {
+                scenario.onActivity { activityHasFocus = it.hasWindowFocus() }
+                activityHasFocus
+            }
             compose.waitForIdle()
-            assertEquals(Screen.Family, Nav.stack.last())
-            ui { Nav.back() }
+            assertTrue(Nav.stack.isEmpty())
             compose.onNodeWithContentDescription("Apri profilo").assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f)).performClick()
             compose.waitForIdle()
             assertEquals(Screen.Profile, Nav.stack.last())
@@ -155,11 +171,14 @@ class AuroraLayoutTest {
             // A synthetic non-empty key enables the local input UI. No message is sent.
             ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) } }
             chatHeaderHasAccountControlsAboveActions()
+            compose.onNodeWithText("Pasti, ricette, piano e spesa. Chiedimi qui.").assertIsDisplayed()
+            compose.onAllNodesWithText("Per te adesso").assertCountEquals(0)
+            compose.onNodeWithTag("chat-intro-bottom").performScrollTo()
+            val capabilitiesBottom = compose.onNodeWithTag("chat-capabilities-last-row").fetchSemanticsNode().boundsInRoot.bottom
+            val composerTop = compose.onNodeWithTag("chat-composer").fetchSemanticsNode().boundsInRoot.top
+            assertTrue("Keep space between Obiettivi/Digiuno and composer", composerTop - capabilitiesBottom >= 24f * ins.targetContext.resources.displayMetrics.density - 1f)
             shot("chat-empty-account-controls")
-            compose.onNodeWithContentDescription("Famiglia").performClick()
-            compose.waitForIdle()
-            assertEquals(Screen.Family, Nav.stack.last())
-            ui { Nav.back() }
+            compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
             compose.onNodeWithContentDescription("Apri profilo").performClick()
             compose.waitForIdle()
             assertEquals(Screen.Profile, Nav.stack.last())
@@ -197,7 +216,9 @@ class AuroraLayoutTest {
                 ViewCompat.getWindowInsetsController(activity.window.decorView)?.show(WindowInsetsCompat.Type.ime())
                 val inputMethod = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
                 @Suppress("DEPRECATION")
-                inputMethod.showSoftInput(activity.currentFocus ?: activity.window.decorView, android.view.inputmethod.InputMethodManager.SHOW_FORCED)
+                // Match normal user input; SHOW_FORCED can keep the IME globally visible.
+                // https://developer.android.com/develop/ui/views/touch-and-input/keyboard-input/visibility
+                inputMethod.showSoftInput(activity.currentFocus ?: activity.window.decorView, 0)
             }
             var imeBottom = 0
             try { compose.waitUntil(20_000) {
@@ -236,14 +257,21 @@ class AuroraLayoutTest {
             assertTrue("Active conversation input overlaps keyboard", activeInput.bottom <= windowHeight - imeBottom + 1f)
             compose.onNodeWithTag("bottom-bar").assertDoesNotExist()
             shot("chat-conversation-keyboard")
-            ins.uiAutomation.executeShellCommand("input keyevent 4").close()
-            compose.waitUntil(20_000) {
+            // Use the same synchronous system-key driver as the native calendar check.
+            ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
+            ins.waitForIdleSync()
+            try { compose.waitUntil(20_000) {
                 scenario.onActivity { activity ->
                     imeBottom = ViewCompat.getRootWindowInsets(activity.window.decorView)
                         ?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
                 }
                 imeBottom == 0 && compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().isNotEmpty()
+            } } catch (failure: Throwable) {
+                println("IME close diagnostic: bottom=$imeBottom, bottomBars=${compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().size}, tab=${Nav.tab}")
+                shot("chat-ime-close-failure")
+                throw AssertionError("Keyboard close state: ime=$imeBottom, bars=${compose.onAllNodesWithTag("bottom-bar").fetchSemanticsNodes().size}, tab=${Nav.tab}", failure)
             }
+            assertEquals("Back must close the keyboard without leaving Jarvis", 5, Nav.tab)
             ui { Store.update { it.copy(chat = emptyList(), ai = it.ai.copy(apiKey = "")) } }
             ui { Nav.tab = 0 }
             compose.onNodeWithContentDescription("Apri profilo").performClick()

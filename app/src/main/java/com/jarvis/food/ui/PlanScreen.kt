@@ -91,44 +91,16 @@ private fun mealEmoji(meal: String) = when (meal) { "colazione" -> "☕"; "pranz
 @Composable
 fun PlanScreen() {
     val s by Store.state.collectAsState()
-    val ctx = LocalContext.current
     val date = Nav.planDate
     val monday = date.with(DayOfWeek.MONDAY)
     val hasWeek = (0..6).any { Store.dayPlan(s, monday.plusDays(it.toLong())) != null }
     val meals = Store.plannedMeals(s, date)
     val energy = Store.energyFor(s, date)
 
-    MainPage("Piano") {
-        var optionsOpen by remember { mutableStateOf(false) }
-        var calendarExpanded by remember { mutableStateOf(false) }
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("plan-calendar-toggle").clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button, onClickLabel = if (calendarExpanded) "Nascondi calendario" else "Scegli giorno") { calendarExpanded = !calendarExpanded }, verticalAlignment = Alignment.CenterVertically) {
-                Text(fullDay(date), style = T.Title2, modifier = Modifier.weight(1f))
-                AIcon(if (calendarExpanded) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Muted, 18.dp)
-            }
-            Spacer(Modifier.width(8.dp))
-            Box {
-                Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).semantics { contentDescription = "Opzioni del piano" }.clickable(role = Role.Button) { optionsOpen = true }, contentAlignment = Alignment.Center) { AIcon(Ic.Calendar, C.Navy, 21.dp) }
-                DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
-                    DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
-                        optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
-                    })
-                    DropdownMenuItem(text = { Text("Gestisci pasti e preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
-                    DropdownMenuItem(text = { Text("Lista della spesa", style = T.Body) }, onClick = {
-                        optionsOpen = false
-                        if (!hasWeek) Store.generatePlan(monday)
-                        val start = maxOf(LocalDate.now(), monday)
-                        Store.buildShopping(start, (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7))
-                        Nav.tab = 2; Nav.kitchenTab = 1
-                    })
-                }
-            }
-        }
-        if (calendarExpanded) {
-            Spacer(Modifier.height(12.dp))
-            WeekStrip(s, date) { Nav.planDate = it }
-            DayTypeControl(s, date)
-        }
+    MainPage("Piano", header = {
+        CalendarPageHeader(s, "Piano", date, onPick = { Nav.planDate = it }, dateTag = "plan-calendar-toggle")
+    }) {
+        DayTotalsCard(s, date, meals)
 
         if (!hasWeek) {
             Spacer(Modifier.height(18.dp))
@@ -140,13 +112,12 @@ fun PlanScreen() {
                             "le tue ${energy.baseKcal.r0()} kcal e i macronutrienti. Puoi cambiare qualsiasi piatto con un'alternativa.", style = T.Read)
                     Spacer(Modifier.height(16.dp))
                     APrimary("Crea il piano della settimana", Modifier.fillMaxWidth()) { Store.generatePlan(monday) }
+                    PlanManagementMenu(s, date)
                 }
             }
             return@MainPage
         }
 
-        Spacer(Modifier.height(12.dp))
-        DayTotalsCard(s, date, meals)
         Spacer(Modifier.height(20.dp))
         if (meals.isEmpty()) EmptyState("📅", "Nessun piatto per questo giorno", "Premi \"Rigenera settimana\" per completare il piano.")
         PlanJourney(s, date, meals)
@@ -157,10 +128,38 @@ fun PlanScreen() {
             Store.buildShopping(start, days)
             Nav.tab = 2; Nav.kitchenTab = 1
         }
+        PlanManagementMenu(s, date)
         Spacer(Modifier.height(10.dp))
         Text("Valori calcolati dal database USDA FoodData Central su pesi a crudo. Le foto sono illustrative.", style = T.Small)
         Spacer(Modifier.height(8.dp))
     }
+}
+
+/** Secondary plan tools stay available below the meals, outside the restored summary. */
+@Composable
+private fun PlanManagementMenu(s: AppState, date: LocalDate) {
+    val ctx = LocalContext.current
+    val monday = date.with(DayOfWeek.MONDAY)
+    val hasWeek = (0..6).any { Store.dayPlan(s, monday.plusDays(it.toLong())) != null }
+    var optionsOpen by remember(date) { mutableStateOf(false) }
+        Box(Modifier.fillMaxWidth()) {
+            TextButton(onClick = { optionsOpen = true }, modifier = Modifier.fillMaxWidth().testTag("plan-options")) { Text("Gestisci piano", style = T.Link) }
+            DropdownMenu(expanded = optionsOpen, onDismissRequest = { optionsOpen = false }) {
+                DropdownMenuItem(text = { Text(if (hasWeek) "Rigenera settimana" else "Crea piano", style = T.Body) }, onClick = {
+                    optionsOpen = false; Store.generatePlan(monday); Toast.makeText(ctx, "Piano della settimana creato", Toast.LENGTH_SHORT).show()
+                })
+                DropdownMenuItem(text = { Text("Gestisci pasti e preferenze", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.DietSettings) })
+                DropdownMenuItem(text = { Text("Configura giorni ON/OFF", style = T.Body) }, onClick = { optionsOpen = false; Nav.go(Screen.TrainingGoals) })
+                DropdownMenuItem(text = { Text("Lista della spesa", style = T.Body) }, onClick = {
+                    optionsOpen = false
+                    if (!hasWeek) Store.generatePlan(monday)
+                    val start = maxOf(LocalDate.now(), monday)
+                    Store.buildShopping(start, (7 - (start.toEpochDay() - monday.toEpochDay()).toInt()).coerceIn(1, 7))
+                    Nav.tab = 2; Nav.kitchenTab = 1
+                })
+            }
+        }
+
 }
 
 @Composable
@@ -171,35 +170,66 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     val slots = Store.dayPlan(s, date)?.slots.orEmpty()
     val completed = meals.count { meal -> slots.any { it.slot == meal.slotIndex && it.eatenEntryIds.isNotEmpty() } }
     var expanded by remember { mutableStateOf(false) }
+    var panelOpen by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { mutableStateOf(false) }
+    var chooseStyle by remember { mutableStateOf(false) }
+    if (chooseStyle) DietStyleDialog(s, date) { chooseStyle = false }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 16.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
-        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(Ic.MealLunch, C.AccentDeep, 26.dp, 1.8f)
-                GapW(12.dp)
+    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 12.dp, elevation = 3.dp) {
+        Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth().heightIn(min = 52.dp).testTag("plan-summary-toggle")
+            .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
+            .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f).padding(end = 12.dp)) {
+                Text("Riepilogo del piano", style = T.Title2)
+                Text("${kcalFmt(tot.kcal)} kcal · $completed di ${meals.size} pasti", style = T.Small)
+            }
+            AIcon(if (panelOpen) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Navy, 22.dp)
+        }
+        androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
+        Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 12.dp)) {
+        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
+                GapW(6.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 20.sp, lineHeight = 26.sp))
-                    Text("pianificate", style = T.Small)
+                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                    Text("pianificate", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
                 val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
-                Canvas(Modifier.size(32.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
+                Canvas(Modifier.size(20.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
                     val stroke = 4.dp.toPx()
                     val inset = stroke / 2
                     val arcSize = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
                     drawArc(C.SurfaceAlt, -90f, 360f, false, Offset(inset, inset), arcSize, style = Stroke(stroke))
                     if (fraction > 0f) drawArc(if (completed == meals.size) A.GreenInk else C.AccentDeep, -90f, 360f * fraction, false, Offset(inset, inset), arcSize, style = Stroke(stroke, cap = StrokeCap.Round))
                 }
-                GapW(10.dp)
+                GapW(6.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 16.sp))
-                    Text("completati", style = T.Small)
+                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                    Text("completati", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
+            if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell")) {
+                DayTypeControl(s, date, compact = true)
+            }
+            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-diet-style")
+                .clip(RoundedCornerShape(14.dp)).clickable { chooseStyle = true }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp); GapW(8.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("Alimentazione", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                    Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+                }
+                AIcon(Ic.Right, C.Navy, 14.dp)
+            }
+        }
+        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth()) { expanded = !expanded }
+        }
+        }
         }
     }
-    if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
+    if (panelOpen && expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
         Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 20.dp, bottom = 12.dp)) {
             Text("Totale con le tue scelte", style = T.Muted.copy(fontWeight = FontWeight.Medium))
             Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {
@@ -257,7 +287,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val r = m.solved
     val slot = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }
     val eaten = slot?.eatenEntryIds?.isNotEmpty() == true
-    val alts = remember(r.template.id, r.target, s.dietPrefs) { Planner.alternatives(db, r.template.meal, r.target, s.dietPrefs, emptySet()) }
+    val alts = remember(r.template.id, r.target, Store.prefsFor(s, date)) { Planner.alternatives(db, r.template.meal, r.target, Store.prefsFor(s, date), emptySet()) }
     val idx = alts.indexOfFirst { it.template.id == r.template.id }
     val dot = MEAL_DOT[m.diaryMeal] ?: C.Accent
     val shape = RoundedCornerShape(34.dp)
@@ -338,7 +368,7 @@ fun AlternativesScreen(date: LocalDate, slot: Int) {
     Column(Modifier.fillMaxSize()) {
         TopBar("Trova alternativa", onBack = { Nav.back() })
         if (m == null) { EmptyState("🤔", "Pasto non trovato", ""); return@Column }
-        val alts = remember(m.solved.target, s.dietPrefs) { Planner.alternatives(Db.db, m.solved.template.meal, m.solved.target, s.dietPrefs) }
+        val alts = remember(m.solved.target, Store.prefsFor(s, date)) { Planner.alternatives(Db.db, m.solved.template.meal, m.solved.target, Store.prefsFor(s, date)) }
         Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             Text("${m.slotName}: obiettivo ${m.solved.target.kcal.r0()} kcal · P ${m.solved.target.protein.r0()} g · C ${m.solved.target.carbs.r0()} g · G ${m.solved.target.fat.r0()} g", style = T.Muted)
             Text("Ogni piatto è ricalcolato per avvicinarsi il più possibile a questi valori. In alto i più precisi.", style = T.Small)

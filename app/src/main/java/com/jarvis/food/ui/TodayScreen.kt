@@ -7,7 +7,12 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.runtime.key
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,6 +75,7 @@ import com.jarvis.food.data.Nutrition
 import com.jarvis.food.data.Store
 import com.jarvis.food.engine.MicroAnalysis
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
@@ -112,10 +118,9 @@ fun TodayScreen() {
     val burned = Store.burnedFor(s, date)
 
     val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
-    MainPage(fullDay(date), "$hello,", homeName = s.profile.name) {
-        // ---- Settimana
-        Spacer(Modifier.height(8.dp))
-        WeekStrip(s, date)
+    MainPage(fullDay(date), "$hello,", homeName = s.profile.name, header = {
+        CalendarPageHeader(s, "Oggi", date, "$hello,", onPick = { Nav.diaryDate = it })
+    }) {
         DayTypeControl(s, date)
 
         // ---- Hero calorie
@@ -222,35 +227,55 @@ fun TodayScreen() {
 
 // ============================================================================================
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WeekStrip(s: AppState, date: LocalDate, onPick: (LocalDate) -> Unit = { Nav.diaryDate = it }) {
+    key(Nav.today) {
+        val today = Nav.today
+        val origin = 10000
+        val pager = rememberPagerState(initialPage = (origin + CalendarWindow.pageFor(today, date)).coerceIn(0, 20000), pageCount = { 20001 })
+        val selectedDate by rememberUpdatedState(date)
+        val pick by rememberUpdatedState(onPick)
+        LaunchedEffect(date, today) {
+            val desired = (origin + CalendarWindow.pageFor(today, date)).coerceIn(0, 20000)
+            if (pager.currentPage != desired) pager.scrollToPage(desired)
+        }
+        LaunchedEffect(pager, today) {
+            snapshotFlow { pager.settledPage }.collect { page ->
+                val offset = page - origin
+                if (CalendarWindow.pageFor(today, selectedDate) != offset) {
+                    pick(CalendarWindow.days(today, offset)[CalendarWindow.position(today, selectedDate)])
+                }
+            }
+        }
+        HorizontalPager(pager, Modifier.fillMaxSize().testTag("week-strip"), verticalAlignment = Alignment.CenterVertically) { page ->
+            WeekPage(s, date, CalendarWindow.days(today, page - origin), page == pager.currentPage, pick)
+        }
+    }
+}
+
+@Composable
+private fun WeekPage(s: AppState, date: LocalDate, days: List<LocalDate>, active: Boolean, onPick: (LocalDate) -> Unit) {
     val expanded = LocalDensity.current.fontScale > 1.5f
-    val monday = date.with(DayOfWeek.MONDAY)
     val labels = listOf("Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom")
-    val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, date) {
+    val fr = remember(s.diary, s.profile, s.goals, s.energy, s.trainingNutrition, s.health, s.activities, s.steps, s.weights, days) {
         (0..6).map { i ->
-            val d = monday.plusDays(i.toLong())
+            val d = days[i]
             val k = Nutrition.sum(Store.entriesFor(s, d)).kcal
             if (k <= 0) 0f else (k / Store.energyFor(s, d).targetKcal.coerceAtLeast(1.0)).toFloat().coerceIn(0f, 1f)
         }
     }
-    Column(
-        Modifier.fillMaxWidth().pointerInput(date) {
-            var dx = 0f
-            detectHorizontalDragGestures(onDragStart = { dx = 0f }, onDragEnd = {
-                if (dx > 90f) onPick(date.minusWeeks(1)) else if (dx < -90f) onPick(date.plusWeeks(1))
-            }) { _, d -> dx += d }
-        },
+    Column(Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         (0..6).toList().chunked(if (expanded) 4 else 7).forEach { group ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
         for (i in group) {
-            val d = monday.plusDays(i.toLong())
+            val d = days[i]
             val sel = d == date
             val p by animateFloatAsState(fr[i], tween(1000), label = "week")
-            Column(Modifier.weight(1f).clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(labels[i], modifier = Modifier.testTag("week-label-$i"), style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
+            Column(Modifier.weight(1f).then(if (active) Modifier.testTag("week-day-$i") else Modifier).semantics { contentDescription = d.toString() }.clickable { onPick(d) }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(labels[d.dayOfWeek.value - 1], modifier = if (active) Modifier.testTag("week-label-$i") else Modifier, style = T.Small.copy(fontSize = 12.sp, lineHeight = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) A.Ink else A.Muted))
                 Box(
                     Modifier.size(44.dp).aShadow(CircleShape, if (sel) 8.dp else 3.dp, if (sel) Color(0x991D1B3A) else Color(0x401D1B3A)).clip(CircleShape)
                         .background(if (sel) C.Navy else Color.White),
@@ -414,6 +439,9 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             var moreOpen by remember { mutableStateOf(false) }
             androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 12.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 MealAction("Foto AI") { Nav.go(Screen.PhotoAi(date, meal)) }
+                Box(Modifier.testTag("meal-barcode-$meal")) {
+                    MealAction("Codice a barre") { Nav.go(Screen.AddFood(date, meal, scanOnOpen = true)) }
+                }
                 Box {
                     MealAction("Altre azioni") { moreOpen = true }
                     DropdownMenu(expanded = moreOpen, onDismissRequest = { moreOpen = false }) {
@@ -524,44 +552,8 @@ private fun WaterCard(date: LocalDate, s: AppState) {
 /** Consigli sui micronutrienti ben visibili nella schermata principale. */
 @Composable
 private fun NutrientInsight(s: AppState) {
-    val e = Store.energyFor(s, LocalDate.now())
-    val rep = remember(s.diary, s.profile, e.baseKcal) { MicroAnalysis.analyze(s.diary, s.profile, e.baseKcal) }
-    ASection("Equilibrio dei nutrienti", action = "Analisi completa") { Nav.go(Screen.Micronutrients) }
-    ACard(radius = 28.dp, elevation = 6.dp, glow = Color(0x591D1B3A), onClick = { Nav.go(Screen.Micronutrients) }) {
-        Column(Modifier.fillMaxWidth()) {
-            if (rep.loggedDays == 0) {
-                Text("Registra i pasti di almeno un giorno completo", style = T.Title2)
-                Text("Le stime si basano soltanto sugli alimenti che registri.", style = T.Muted)
-                return@Column
-            }
-            val low = rep.low.take(3)
-            if (low.isEmpty()) {
-                Text("Ottimo equilibrio negli ultimi ${rep.loggedDays} giorni", style = T.Title2)
-                Text("Nessun apporto medio sotto il 70% del riferimento.", style = T.Muted)
-            } else {
-                Text("Stima su ${rep.loggedDays} ${if (rep.loggedDays == 1) "giorno registrato" else "giorni registrati"}. Le registrazioni incomplete possono abbassare i valori.", style = T.Muted)
-                Spacer(Modifier.height(14.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    low.forEach { st ->
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(st.def.name, style = T.Label, modifier = Modifier.weight(1f))
-                            Spacer(Modifier.width(12.dp))
-                            ABar((st.pct / 100.0).toFloat(), A.Dawn, Color(0xFFFFE9E1), 8.dp, Modifier.weight(1f))
-                            Text("${st.pct.r0()}%", style = T.Label.copy(color = A.Link, fontSize = 13.sp), modifier = Modifier.widthIn(min = 44.dp), textAlign = TextAlign.End)
-                        }
-                    }
-                }
-                val tip = MicroAnalysis.tips(Db.db, low.first(), s.dietPrefs.exclude, 1).firstOrNull()
-                if (tip != null) Box(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
-                    Text("Prova ${tip.grams.r0()} g di ${tip.food.name.lowercase()}: copre il ${tip.pctOfRef.r0()}% di ${low.first().def.name.lowercase()} che ti manca.",
-                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF064E3B)))
-                }
-            }
-            val gap = rep.groups.filter { (it.daysSince ?: 99) >= 7 }.take(2)
-            if (gap.isNotEmpty()) Text(gap.joinToString("  ·  ") { "${it.label}: ${it.daysSince?.let { d -> "$d giorni fa" } ?: "mai registrato"}" },
-                style = T.Small.copy(color = A.Link), modifier = Modifier.padding(top = 10.dp))
-        }
-    }
+    VitaminOverview(s)
+    NutritionAdvisor(s)
 }
 
 // ---------------------------------------------------------------- Attività

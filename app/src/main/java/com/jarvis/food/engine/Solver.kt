@@ -81,7 +81,11 @@ fun SolvedRecipe.toFood(): com.jarvis.food.data.Food {
         fiber = micro["fiber"], sugar = micro["sugar"], satFat = micro["satFat"], salt = micro["sodium"]?.let { it * 2.5 / 1000 },
         servingName = "porzione calcolata", servingGrams = g, source = "recipe", category = "Ricetta",
         micro = micro, group = main,
-        tags = items.flatMap { it.food.tags }.distinct() + groups.map { "grp:$it" }
+        tags = items.flatMap { it.food.tags }.distinct() + groups.map { "grp:$it" },
+        unknownNutrients = keys.filter { key -> items.any { key !in it.food.micro } }, nutrientDataVersion = 1,
+        addedSugar = if (items.all { SimpleFoodSugar.added(it.food) != null }) items.sumOf { SimpleFoodSugar.added(it.food)!! * it.grams / 100 } * k else null,
+        freeSugar = if (items.all { SimpleFoodSugar.free(it.food) != null }) items.sumOf { SimpleFoodSugar.free(it.food)!! * it.grams / 100 } * k else null,
+        sugarDataNote = "Stima da ingredienti e classificazione OMS; quantità non note restano sconosciute."
     )
 }
 

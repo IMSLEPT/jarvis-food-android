@@ -32,6 +32,26 @@ class TrainingDiaryFlowTest {
         ui { Store.update { state }; Nav.clear(); Nav.tab = 0; Nav.diaryDate = today; Nav.planDate = today }
     }
 
+    private fun hideKeyboard(scenario: ActivityScenario<MainActivity>) {
+        // Finish the native IME resize before scrolling/tapping a lazy-list result.
+        scenario.onActivity { activity ->
+            androidx.core.view.ViewCompat.getWindowInsetsController(activity.window.decorView)
+                ?.hide(androidx.core.view.WindowInsetsCompat.Type.ime())
+            val input = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            input.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
+            activity.currentFocus?.clearFocus()
+        }
+        compose.waitUntil(timeoutMillis = 5000) {
+            var visible = false
+            scenario.onActivity { activity ->
+                visible = androidx.core.view.ViewCompat.getRootWindowInsets(activity.window.decorView)
+                    ?.isVisible(androidx.core.view.WindowInsetsCompat.Type.ime()) == true
+            }
+            !visible
+        }
+        compose.waitForIdle()
+    }
+
     @Test fun replacementPreviewCanBeCancelledThenSavedWithoutDuplicates() {
         val pasta = Food("test-pasta", "Pasta di semola", kcal = 371.0, protein = 13.0, carbs = 71.0, fat = 1.5)
         val fish = Food("test-fish", "Merluzzo test", kcal = 100.0, protein = 20.0, carbs = 0.0, fat = 2.0)
@@ -46,6 +66,7 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithTag("diary-entry-${first.id}").performClick()
             compose.onNodeWithText("Sostituisci alimento").performScrollTo().performClick()
             compose.onNodeWithTag("replace-food-search").performTextInput("Merluzzo test")
+            hideKeyboard(scenario)
             compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replacement-${fish.id}"))
             compose.onNodeWithTag("replacement-${fish.id}").performClick()
             compose.waitForIdle()
@@ -56,22 +77,7 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replacement-${fish.id}"))
             compose.onNodeWithTag("replacement-${fish.id}").performClick()
             compose.onNodeWithTag("food-quantity").performScrollTo().performTextReplacement("150")
-            // IME animation is driven by Android, independently of Compose's test clock.
-            // Close it before injecting the footer tap so its moving bounds cannot consume the click.
-            scenario.onActivity { activity ->
-                val input = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
-                input.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
-                activity.currentFocus?.clearFocus()
-            }
-            compose.waitUntil(timeoutMillis = 5000) {
-                var visible = false
-                scenario.onActivity { activity ->
-                    visible = androidx.core.view.ViewCompat.getRootWindowInsets(activity.window.decorView)
-                        ?.isVisible(androidx.core.view.WindowInsetsCompat.Type.ime()) == true
-                }
-                !visible
-            }
-            compose.waitForIdle()
+            hideKeyboard(scenario)
             compose.onNode(hasText("Sostituisci") and hasClickAction()).assertIsDisplayed().assertIsEnabled().performClick()
             compose.waitUntil(timeoutMillis = 5000) { Store.current.diary.firstOrNull { item -> item.id == first.id }?.food?.id == fish.id }
             compose.waitForIdle()
@@ -110,13 +116,42 @@ class TrainingDiaryFlowTest {
             assertTrue(Store.importJson(backup).isSuccess)
             assertEquals(160.0, Store.energyFor(Store.current, today).protein, 0.0)
             ui { Nav.clear() }
+            compose.onNodeWithTag("day-type-label").assert(hasAnyAncestor(hasTestTag("today-day-type-bar")))
+            compose.onNodeWithTag("day-type-configure").assert(hasAnyAncestor(hasTestTag("today-day-type-bar"))).performClick()
+            assertEquals(Screen.TrainingGoals, Nav.stack.last())
+            ui { Nav.back() }
+            shot("today-restored-day-bar")
             compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
-            compose.onNodeWithText("OFF · Riposo").performClick()
+            for (choice in listOf("true", "false", "calendar")) compose.onNodeWithTag("day-type-choice-$choice").performScrollTo().assertHasClickAction().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
+            shot("day-type-outlined-actions")
+            compose.onNodeWithTag("day-type-choice-false").performScrollTo().performClick()
             compose.waitForIdle()
             assertEquals(2100.0, Store.energyFor(Store.current, today).targetKcal, 0.0)
             assertEquals(150.0, Store.energyFor(Store.current, today).protein, 0.0)
             assertTrue(Store.current.trainingNutrition.isTraining(today.plusWeeks(1)))
             shot("day-off-override")
+            ui { Nav.tab = 1; Store.generatePlan(today.with(java.time.DayOfWeek.MONDAY), 7) }
+            compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
+            compose.onNodeWithTag("day-type-label").assert(hasAnyAncestor(hasTestTag("plan-summary")))
+            compose.onAllNodesWithTag("day-type-configure").assertCountEquals(0)
+            compose.onAllNodesWithText("Opzioni del piano").assertCountEquals(0)
+            compose.onNodeWithTag("plan-completed-count", useUnmergedTree = true).assertTextEquals("0 di ${Store.plannedMeals(Store.current, today).size} pasti")
+            shot("plan-restored-summary")
+            compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
+            compose.onNodeWithTag("day-type-choice-false").performScrollTo().assertIsSelected()
+            shot("plan-day-type-outlined-actions")
+            compose.onNodeWithTag("day-type-close").performClick()
+            compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
+            compose.onNodeWithTag("day-type-choice-true").performScrollTo().performClick()
+            assertEquals(2600.0, Store.energyFor(Store.current, today).targetKcal, 0.0)
+            compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
+            compose.onNodeWithTag("day-type-choice-false").performScrollTo().performClick()
+            assertEquals(2100.0, Store.energyFor(Store.current, today).targetKcal, 0.0)
+            compose.onNodeWithTag("plan-options").performScrollTo().performClick()
+            compose.onNodeWithText("Gestisci pasti e preferenze").assertIsDisplayed()
+            compose.onNodeWithText("Configura giorni ON/OFF").performClick()
+            assertEquals(Screen.TrainingGoals, Nav.stack.last())
+            ui { Nav.back(); Nav.tab = 0 }
             ui { Nav.go(Screen.DayNutrients(today)) }
             compose.onNodeWithText("su 2100 kcal").assertIsDisplayed()
             ui { Nav.back() }

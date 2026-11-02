@@ -120,6 +120,8 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
             items(foods, key = { it.id }) { food ->
                 val shape = RoundedCornerShape(20.dp)
                 Row(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).testTag("replacement-${food.id}").clickable { preview(food) }.padding(15.dp), verticalAlignment = Alignment.CenterVertically) {
+                    FoodIllustration(food.name, food.group, 52.dp)
+                    Spacer(Modifier.width(10.dp))
                     Column(Modifier.weight(1f).padding(end = 10.dp)) {
                         Text(food.name, style = T.Label.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold))
                         if (food.brand.isNotBlank()) Text(food.brand, style = T.Small)

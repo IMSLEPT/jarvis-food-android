@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -79,32 +81,26 @@ import java.io.File
 import java.time.DayOfWeek
 import java.time.LocalDate
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun KitchenScreen() {
     val s by Store.state.collectAsState()
-    MainPage("Cucina", resetKey = Nav.kitchenTab) {
-        val seg = RoundedCornerShape(28.dp)
-        val expanded = LocalDensity.current.fontScale > 1.5f
-        Column(Modifier.padding(top = 4.dp).fillMaxWidth().clip(seg).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, seg).padding(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            listOf(2 to "Ricette", 0 to "Dispensa", 1 to "Spesa").chunked(if (expanded) 2 else 3).forEach { group ->
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    group.forEach { (i, l) ->
-                        val sel = Nav.kitchenTab == i
-                        val n = when (i) { 0 -> s.pantry.size; 1 -> s.shopping.count { !it.checked }; else -> 0 }
-                        Column(Modifier.weight(1f).heightIn(min = 52.dp).clip(RoundedCornerShape(24.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { Nav.kitchenTab = i }.padding(vertical = 6.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            Text(l, modifier = Modifier.testTag("kitchen-tab-label-$i"), style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink), textAlign = TextAlign.Center)
-                            if (n > 0) Text("$n", style = T.Small.copy(fontSize = 12.sp, color = if (sel) Color.White else A.Muted))
-                        }
-                    }
-                }
+    val scroll = rememberScrollState()
+    LaunchedEffect(Nav.kitchenTab) { scroll.scrollTo(0) }
+    Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding()) {
+        val order = listOf(2, 0, 1)
+        NavyBanner("Cucina", listOf("Ricette", "Dispensa", "Spesa"), order.indexOf(Nav.kitchenTab),
+            onSelect = { Nav.kitchenTab = order[it] }, query = "", onQuery = {}, hint = "",
+            labelTags = order.map { "kitchen-tab-label-$it" }, searchContent = {
+                if (Nav.kitchenTab == 2) RecipeSearchBar()
+            })
+        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)
+            .padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 24.dp)) {
+            when (Nav.kitchenTab) {
+                0 -> PantryTab(s)
+                1 -> ShoppingTab(s)
+                else -> RecipesHome()
             }
-        }
-        GapH(14.dp)
-        when (Nav.kitchenTab) {
-            0 -> PantryTab(s)
-            1 -> ShoppingTab(s)
-            else -> RecipesHome()
         }
     }
 }
@@ -316,11 +312,6 @@ private fun ShoppingTab(s: AppState) {
     }
     GapH(12.dp)
     if (s.shopping.isEmpty()) EmptyState("🛒", "Lista vuota", "Crea il piano nella scheda Piano, poi genera la lista per i prossimi giorni.")
-    JCard(color = A.CarbSoft, onClick = { Nav.go(Screen.Family) }) {
-        Text("Spesa famiglia", style = T.Title2)
-        Text("Una lista condivisa, una dieta per ciascuno", style = T.Small)
-    }
-    GapH(12.dp)
     val groups = s.shopping.groupBy { it.shop }
     Shopping.SHOP_ORDER.filter { groups.containsKey(it) }.forEach { shop ->
         val cardShape = RoundedCornerShape(28.dp)

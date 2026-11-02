@@ -66,7 +66,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
-fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offlineOnly: Boolean = false) {
+fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offlineOnly: Boolean = false, scanOnOpen: Boolean = false) {
     val s by Store.state.collectAsState()
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -110,7 +110,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
             .addOnSuccessListener { code ->
                 val value = code.rawValue ?: return@addOnSuccessListener
                 // Prima cerco tra gli alimenti creati da me, poi su Open Food Facts.
-                val mine = (s.customFoods + s.favorites).firstOrNull { it.barcode == value }
+                val mine = (s.customFoods + s.favorites + s.diary.asReversed().map { it.food }).firstOrNull { it.barcode == value }
                 if (mine != null) { Nav.go(Screen.FoodDetail(mine, date, mealSel)); return@addOnSuccessListener }
                 scanning = true
                 scope.launch {
@@ -128,6 +128,11 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
             .addOnFailureListener {
                 Toast.makeText(ctx, "Scanner non disponibile: ${it.message}", Toast.LENGTH_LONG).show()
             }
+    }
+
+    var initialScanLaunched by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(scanOnOpen) {
+        if (scanOnOpen && !initialScanLaunched && !offlineOnly) { initialScanLaunched = true; scan() }
     }
 
     /** Aggiunge (o toglie, se già aggiunto) l'alimento senza lasciare la schermata. */
@@ -339,8 +344,7 @@ fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: Strin
             .border(1.dp, A.Hair, shape).clickable { Nav.go(Screen.FoodDetail(food, date, meal, grams)) }.padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (emoji != null) Box(Modifier.size(52.dp).clip(RoundedCornerShape(19.dp)).background(C.cardSurface(tint)), contentAlignment = Alignment.Center) { Text(emoji, style = T.Title2) }
-        else InitialTile(food.name, tint, ink, 52.dp, 19.dp)
+        FoodIllustration(food.name, food.group, 52.dp)
         GapW(12.dp)
         Column(Modifier.weight(1f)) {
             Text(food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 19.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)

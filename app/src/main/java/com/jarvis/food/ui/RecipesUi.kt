@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
@@ -156,12 +157,12 @@ private val TILE_W = 184.dp
 private fun TileMeta(kcal: String, minutes: Int) {
     androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-        AIcon(Ic.Flame, C.Accent, 13.dp, 2f); GapW(3.dp)
-        Text(kcal, style = T.Small.copy(fontSize = 12.sp, color = A.Ink.copy(alpha = 0.75f), fontWeight = FontWeight.SemiBold), maxLines = 1)
+            AIcon(Ic.Flame, C.Accent, 13.dp); GapW(3.dp)
+            Text(kcal, style = T.Small, maxLines = 1)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-        AIcon(Ic.Clock, A.Muted, 13.dp, 2f); GapW(3.dp)
-        Text("$minutes min", style = T.Small.copy(fontSize = 12.sp, color = A.Ink.copy(alpha = 0.75f), fontWeight = FontWeight.SemiBold), maxLines = 1)
+            AIcon(Ic.Clock, C.Muted, 13.dp); GapW(3.dp)
+            Text("$minutes min", style = T.Small, maxLines = 1)
         }
     }
 }
@@ -179,7 +180,7 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
                 Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 12.sp), maxLines = 1)
             }
         }
-        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(Color.White).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
@@ -193,7 +194,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
-        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(Color.White).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
@@ -224,6 +225,25 @@ private fun RecipeRow(hit: RecipeHit, s: AppState, onClick: () -> Unit) {
     }
 }
 
+@Composable
+private fun FrequentRecipeRow(t: RecipeTemplate, count: Int, s: AppState, onClick: () -> Unit) {
+    val info = RecipeMeta.info(Db.db, t)
+    val large = LocalDensity.current.fontScale > 1.2f
+    val shape = RoundedCornerShape(20.dp)
+    Row(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, C.Line, shape).clickable(onClick = onClick), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.width(if (large) 92.dp else 142.dp).height(96.dp)) {
+            RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.fillMaxSize(), recEmoji(t.meal), 0.dp)
+            Text("$count aperture", modifier = Modifier.align(Alignment.BottomStart).padding(6.dp).clip(RoundedCornerShape(10.dp))
+                .background(Color.White).padding(horizontal = 7.dp, vertical = 3.dp), style = T.Small.copy(color = C.Navy, fontSize = 11.sp))
+        }
+        Column(Modifier.weight(1f).padding(10.dp)) {
+            Text(t.name, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp))
+            GapH(6.dp); TileMeta("${info.kcal.r0()} kcal", t.minutes)
+        }
+        AIcon(Ic.Right, C.Navy, 18.dp, modifier = Modifier.padding(end = 8.dp))
+    }
+}
+
 // ---------------------------------------------------------------- Home Ricette
 
 private fun openRecipe(s: AppState, t: RecipeTemplate) {
@@ -245,14 +265,14 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(24.dp)
     val (bg, marker) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.testTag("recipe-category").heightIn(min = 132.dp).aShadow(shape, 5.dp, Color(0x331D1B3A)).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
+    Column(modifier.testTag("recipe-category").heightIn(min = 112.dp).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
         .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Box(Modifier.width(24.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).background(marker))
         GapH(6.dp)
         Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)
         GapH(8.dp)
-        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 2, overflow = TextOverflow.Ellipsis,
+        Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
         Text("$count ricette", modifier = Modifier.testTag("category-count-$label"), style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 12.sp, fontWeight = FontWeight.Medium), maxLines = 1)
     }
@@ -298,6 +318,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
         groups.forEach { g -> APill(labels[g.id] ?: g.title, selected == g.id, height = 42.dp, hPad = 14.dp) { selected = g.id } }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
+        if (showAll) {
         if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp)) {
             Text(g.title, style = T.Label)
             GapH(4.dp)
@@ -307,6 +328,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
             GapW(8.dp)
             Text("${g.cats.size} categorie", style = T.Small.copy(fontSize = 12.sp))
         }
+        } else GapH(12.dp)
         val columns = when {
             LocalDensity.current.fontScale > 1.5f -> 1
             LocalDensity.current.fontScale > 1.2f || g.id in setOf("obiettivo", "dieta", "metodo", "cucina") -> 2
@@ -337,7 +359,42 @@ private fun CatPlaceholder() {
 /** Dati della home calcolati fuori dal thread principale. */
 internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTemplate, RecipeInfo>>, val discover: List<RecipeTemplate>)
 
+@Composable
+private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
+    val large = LocalDensity.current.fontScale > 1.5f
+    @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
+        ACard(modifier.heightIn(min = if (large) 104.dp else 96.dp).testTag(tag), radius = 20.dp, padding = 12.dp, onClick = open) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AIcon(icon, C.Navy, 22.dp); GapW(8.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(label, style = T.Label.copy(fontSize = 14.sp))
+                    Text("$count ricette", style = T.Small.copy(fontSize = 12.sp))
+                }
+                AIcon(Ic.Right, C.AccentDeep, 16.dp)
+            }
+        }
+    }
+    if (large) Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Shortcut("Preferite", favourites, Ic.Heart, Modifier.fillMaxWidth(), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, Ic.Receipt, Modifier.fillMaxWidth(), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+    } else Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Shortcut("Preferite", favourites, Ic.Heart, Modifier.weight(1f), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, Ic.Receipt, Modifier.weight(1f), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+    }
+}
+
 /** Scheda "Ricette": home con sezioni orizzontali, ricetta del giorno, categorie reali e "Cosa mangio adesso?". */
+@Composable
+fun RecipeSearchBar() {
+    Row(Modifier.fillMaxWidth().fillMaxHeight().clip(RoundedCornerShape(24.dp)).background(Color.White)
+        .testTag("kitchen-search").clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }
+        .padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        AIcon(Ic.Search, C.Muted, 20.dp); GapW(10.dp)
+        Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 14.sp, color = C.Muted), maxLines = if (LocalDensity.current.fontScale > 1.5f) 2 else 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(end = 8.dp))
+        Text("${Db.db.recipes.size}", style = T.Small)
+    }
+}
+
 @Composable
 fun RecipesHome() {
     val s by Store.state.collectAsState()
@@ -362,15 +419,8 @@ fun RecipesHome() {
     val catGroups by produceState(RecipeCats.peek(db), db) { if (value == null) value = withContext(Dispatchers.Default) { RecipeCats.get(db) } }
     val ctx = home?.ctx
 
-    // Ricerca
-    val shape = RoundedCornerShape(26.dp)
-    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)
-        .clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-        AIcon(Ic.Search, A.Muted, 20.dp, 2.2f); GapW(10.dp)
-        Text("Cerca ricette o ingredienti", style = T.Body.copy(color = A.Muted), modifier = Modifier.weight(1f).padding(end = 8.dp))
-        Text("${db.recipes.size}", style = T.Chip.copy(color = A.Muted))
-    }
-
+    GapH(12.dp)
+    RecipeLibraryShortcuts(s.recipeFavs.size, s.recipes.size)
     GapH(12.dp)
     ACard(Modifier.fillMaxWidth(), color = A.Tonal, brush = Brush.horizontalGradient(listOf(C.AccentSoft, C.AccentSoft)), radius = 20.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -382,6 +432,32 @@ fun RecipesHome() {
             }
             AIcon(Ic.Right, C.Navy, 18.dp)
         }
+    }
+
+    if (catGroups == null) CatPlaceholder() else catGroups?.let { CategoryBrowser(it) }
+
+    // Più aperte da te (dati reali: nessuna finta classifica di popolarità)
+    val most = remember(s.recipeViews) { s.recipeViews.entries.sortedByDescending { it.value }.mapNotNull { e -> db.recipe(e.key)?.let { it to e.value } }.take(8) }
+    if (most.isNotEmpty()) {
+        ASection("Le più aperte da te", top = 22.dp)
+        GapH(10.dp)
+        most.take(2).forEach { (t, n) -> FrequentRecipeRow(t, n, s) { openRecipe(s, t) }; GapH(8.dp) }
+    }
+
+    // Da provare oggi: scelta che ruota ogni giorno tra le ricette con foto
+    val discover = home?.discover.orEmpty()
+    if (discover.isNotEmpty()) {
+        ASection("Da provare oggi", top = 22.dp)
+        GapH(10.dp)
+        TileStrip(discover.take(2)) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
+    }
+
+    // Recenti
+    val recent = remember(s.recipeRecent) { s.recipeRecent.mapNotNull { db.recipe(it) }.take(10) }
+    if (recent.isNotEmpty()) {
+        ASection("Viste di recente", top = 22.dp)
+        GapH(10.dp)
+        TileStrip(recent) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
     }
 
     // Ricetta del giorno
@@ -406,32 +482,6 @@ fun RecipesHome() {
         ASection("Consigliate per te", top = 22.dp, action = "Vedi tutte") { Nav.go(Screen.WhatNow) }
         Text("Per il prossimo pasto (${RecipeMeta.label(RecipeMeta.MEALS, nextKey).lowercase()}), vicine ai ${ctx?.target?.kcal?.r0() ?: ""} kcal che ti restano.", style = T.Small, modifier = Modifier.padding(bottom = 10.dp))
         TileStrip(recommended) { (t, i), m -> RecipeTile(t, i, s, m) { openRecipe(s, t) } }
-    }
-
-    if (catGroups == null) CatPlaceholder() else catGroups?.let { CategoryBrowser(it) }
-
-    // Più aperte da te (dati reali: nessuna finta classifica di popolarità)
-    val most = remember(s.recipeViews) { s.recipeViews.entries.sortedByDescending { it.value }.mapNotNull { e -> db.recipe(e.key)?.let { it to e.value } }.take(8) }
-    if (most.size >= 2) {
-        ASection("Le più aperte da te", top = 22.dp)
-        GapH(10.dp)
-        TileStrip(most) { (t, n), m -> RecipeTile(t, RecipeMeta.info(db, t), s, m, badge = "$n aperture") { openRecipe(s, t) } }
-    }
-
-    // Da provare oggi: scelta che ruota ogni giorno tra le ricette con foto
-    val discover = home?.discover.orEmpty()
-    if (discover.isNotEmpty()) {
-        ASection("Da provare oggi", top = 22.dp)
-        GapH(10.dp)
-        TileStrip(discover) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
-    }
-
-    // Recenti
-    val recent = remember(s.recipeRecent) { s.recipeRecent.mapNotNull { db.recipe(it) }.take(10) }
-    if (recent.isNotEmpty()) {
-        ASection("Viste di recente", top = 22.dp)
-        GapH(10.dp)
-        TileStrip(recent) { t, m -> RecipeTile(t, RecipeMeta.info(db, t), s, m) { openRecipe(s, t) } }
     }
 
     // Preferite
@@ -543,6 +593,16 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
             }
         }
         LazyColumn(Modifier.weight(1f).padding(horizontal = 16.dp), contentPadding = PaddingValues(bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (!sc.mine && sc.filter.onlyFavs) item {
+                ACard(Modifier.fillMaxWidth().testTag("favourites-my-recipes"), radius = 20.dp, padding = 14.dp,
+                    onClick = { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(Ic.Receipt, C.Navy, 22.dp); GapW(10.dp)
+                        Text("Le mie ricette", style = T.Label, modifier = Modifier.weight(1f))
+                        AIcon(Ic.Right, C.AccentDeep, 18.dp)
+                    }
+                }
+            }
             if (!sc.mine && sc.filter.activeCount > 0 && f.activeCount > 0) item {
                 JCard(color = C.NavySoft, padding = PaddingValues(14.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

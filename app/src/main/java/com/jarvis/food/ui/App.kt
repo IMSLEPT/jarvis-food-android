@@ -63,7 +63,8 @@ import java.time.LocalDate
 
 /** Schermate secondarie aperte sopra le schede principali. */
 sealed class Screen {
-    data class AddFood(val date: LocalDate, val meal: Int, val query: String = "", val offlineOnly: Boolean = false) : Screen()
+    data class AddFood(val date: LocalDate, val meal: Int, val query: String = "", val offlineOnly: Boolean = false, val scanOnOpen: Boolean = false) : Screen()
+    data class Trend(val kind: String, val days: Int = 7) : Screen()
     data class FoodDetail(val food: Food, val date: LocalDate, val meal: Int, val grams: Double? = null, val entry: DiaryEntry? = null, val replacing: Boolean = false) : Screen()
     data class ReplaceFood(val entryId: String, val query: String = "", val offlineOnly: Boolean = false) : Screen()
     data object TrainingGoals : Screen()
@@ -90,12 +91,13 @@ sealed class Screen {
     data object AiSettings : Screen()
     data object Backup : Screen()
     data object Weight : Screen()
+    data object WeightHistory : Screen()
+    data object CalorieHistory : Screen()
     data object Measurements : Screen()
     data object Fasting : Screen()
     data object FastingHistory : Screen()
     data object MyFoods : Screen()
     data object About : Screen()
-    data object Family : Screen()
     data object DietSettings : Screen()
     data object Watch : Screen()
     data object Micronutrients : Screen()
@@ -109,9 +111,17 @@ sealed class Screen {
 object Nav {
     val stack = mutableStateListOf<Screen>()
     var tab by mutableIntStateOf(0)
+    var today by mutableStateOf(LocalDate.now())
+        private set
     var diaryDate by mutableStateOf(LocalDate.now())
     var planDate by mutableStateOf(LocalDate.now())
     var kitchenTab by mutableIntStateOf(2)
+    fun refreshToday(now: LocalDate = LocalDate.now()) {
+        if (now == today) return
+        diaryDate = CalendarWindow.followToday(diaryDate, today, now)
+        planDate = CalendarWindow.followToday(planDate, today, now)
+        today = now
+    }
     fun go(s: Screen) { stack.add(s) }
     fun back() { if (stack.isNotEmpty()) stack.removeAt(stack.lastIndex) }
     fun backTo(predicate: (Screen) -> Boolean) { while (stack.isNotEmpty() && !predicate(stack.last())) stack.removeAt(stack.lastIndex) }
@@ -121,9 +131,24 @@ object Nav {
 @Composable
 fun App() {
     val state by Store.state.collectAsState()
+    val view = androidx.compose.ui.platform.LocalView.current
+    androidx.compose.runtime.SideEffect {
+        val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
+            .filterIsInstance<android.app.Activity>().firstOrNull()
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = true }
+    }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
     BackHandler(enabled = Nav.stack.isEmpty() && Nav.tab != 0) { Nav.tab = 0 }
+    val keyboard = androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
+    val focus = androidx.compose.ui.platform.LocalFocusManager.current
+    val keyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    // Back closes the editor first, including after returning from a native date picker.
+    // Keep the current screen and typed text instead of navigating underneath the IME.
+    BackHandler(enabled = keyboardVisible) {
+        keyboard?.hide()
+        focus.clearFocus(force = true)
+    }
     AppBackground {
         val top = Nav.stack.lastOrNull()
         AnimatedContent(targetState = top, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "nav") { screen ->
@@ -136,7 +161,8 @@ fun App() {
 private fun ScreenHost(s: Screen) {
     Box(Modifier.fillMaxSize().background(C.Bg)) {
         when (s) {
-            is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly)
+            is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly, s.scanOnOpen)
+            is Screen.Trend -> TrendDetailScreen(s.kind, s.days)
             is Screen.FoodDetail -> FoodDetailScreen(s.food, s.date, s.meal, s.grams, s.entry, s.replacing)
             is Screen.ReplaceFood -> ReplaceFoodScreen(s.entryId, s.query, s.offlineOnly)
             Screen.TrainingGoals -> TrainingGoalsScreen()
@@ -159,15 +185,16 @@ private fun ScreenHost(s: Screen) {
             Screen.AiSettings -> AiSettingsScreen()
             Screen.Backup -> BackupScreen()
             Screen.Weight -> WeightScreen()
+            Screen.WeightHistory -> WeightHistoryScreen()
+            Screen.CalorieHistory -> CalorieHistoryScreen()
             Screen.Measurements -> MeasurementsScreen()
             Screen.Fasting -> FastingScreen()
             Screen.FastingHistory -> FastingHistoryScreen()
             Screen.MyFoods -> MyFoodsScreen()
             Screen.About -> AboutScreen()
-            Screen.Family -> com.jarvis.food.family.FamilyScreen()
             Screen.DietSettings -> DietSettingsScreen()
             Screen.Watch -> WatchScreen()
-            Screen.Micronutrients -> MicronutrientsScreen()
+            Screen.Micronutrients -> ScientificNutritionScreen()
             Screen.EnergyInfo -> EnergyInfoScreen()
             is Screen.Questionnaire -> QuestionnaireScreen(s.only)
             Screen.Chat -> ChatScreen()

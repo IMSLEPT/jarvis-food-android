@@ -43,6 +43,7 @@ object RecipeCats {
     /** Risultato già calcolato (null se non ancora pronto). */
     fun peek(db: FoodDb): List<RecipeCatGroup>? = cache?.takeIf { it.first == db.recipes.size }?.second
 
+    @Synchronized
     fun get(db: FoodDb): List<RecipeCatGroup> {
         peek(db)?.let { return it }
         val built = build(db)

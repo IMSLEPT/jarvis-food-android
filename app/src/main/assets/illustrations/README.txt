@@ -1,0 +1,1 @@
+Food atlas v1: 36 illustrazioni generate con OpenAI ImageGen il 1 novembre 2026 per Jarvis Food. Un solo asset 6x6; nomi e indici in engine/FoodArtCatalog.kt. Decodifica delle singole celle sul telefono e cache limitata a 6 MiB. Riferimento stilistico fornito dall’utente. Nessuna fotografia dei pasti sostituita.

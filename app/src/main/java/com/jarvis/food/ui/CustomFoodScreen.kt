@@ -36,6 +36,8 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?,
     var kcal by remember { mutableStateOf(edit?.kcal?.r1() ?: "") }
     var carbs by remember { mutableStateOf(edit?.carbs?.r1() ?: "") }
     var sugar by remember { mutableStateOf(edit?.sugar?.r1() ?: "") }
+    var addedSugar by remember { mutableStateOf(edit?.addedSugar?.r1() ?: "") }
+    var freeSugar by remember { mutableStateOf(edit?.freeSugar?.r1() ?: "") }
     var fiber by remember { mutableStateOf(edit?.fiber?.r1() ?: "") }
     var protein by remember { mutableStateOf(edit?.protein?.r1() ?: "") }
     var fat by remember { mutableStateOf(edit?.fat?.r1() ?: "") }
@@ -46,7 +48,11 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?,
     var liquid by remember { mutableStateOf(edit?.liquid ?: false) }
     val code = edit?.barcode ?: barcode
 
-    val valid = name.isNotBlank() && parseNum(kcal) != null
+    val sugarValues = listOf(addedSugar, freeSugar)
+    val validSugars = sugarValues.all { it.isBlank() || (parseNum(it)?.let { n -> n.isFinite() && n in 0.0..100.0 } == true) } &&
+        listOfNotNull(parseNum(addedSugar), parseNum(freeSugar)).all { it <= (parseNum(sugar) ?: 100.0) } &&
+        (parseNum(addedSugar) == null || parseNum(freeSugar) == null || parseNum(addedSugar)!! <= parseNum(freeSugar)!!)
+    val valid = name.isNotBlank() && parseNum(kcal)?.let { it.isFinite() && it >= 0 } == true && validSugars
 
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar(if (edit != null) "Modifica alimento" else "Nuovo alimento", onBack = { Nav.back() })
@@ -74,6 +80,12 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?,
             }
             JField(salt, { salt = it }, "Sale", number = true, suffix = "g")
             }
+            SettingsCard(title = "Dati per il consulente nutrizionale") {
+                Text("Inserisci solo dati del produttore o calcolati dalla ricetta. Vuoto significa sconosciuto; 0 significa zero verificato. Gli zuccheri liberi comprendono gli aggiunti e quelli di miele, sciroppi e succhi.", style = T.Small)
+                JField(addedSugar, { addedSugar = it }, "Zuccheri aggiunti / 100 g o ml", number = true, suffix = "g")
+                JField(freeSugar, { freeSugar = it }, "Zuccheri liberi / 100 g o ml", number = true, suffix = "g")
+                if (!validSugars) Text("Controlla i valori: non negativi, aggiunti ≤ liberi ≤ totali quando dichiarati.", style = T.Small.copy(color = C.Danger))
+            }
             SettingsCard(title = "Porzione (facoltativa)") {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 JField(servName, { servName = it }, "Nome (es. barretta)", Modifier.fillMaxWidth())
@@ -92,7 +104,7 @@ fun CustomFoodScreen(date: LocalDate?, meal: Int, barcode: String?, edit: Food?,
                     name = name.trim(), brand = brand.trim(),
                     kcal = parseNum(kcal) ?: 0.0, carbs = parseNum(carbs) ?: 0.0, protein = parseNum(protein) ?: 0.0,
                     fat = parseNum(fat) ?: 0.0, sugar = parseNum(sugar), fiber = parseNum(fiber), satFat = parseNum(sat),
-                    salt = parseNum(salt),
+                    salt = parseNum(salt), addedSugar = parseNum(addedSugar), freeSugar = parseNum(freeSugar),
                     servingName = servName.trim().ifBlank { null }?.takeIf { parseNum(servG) != null },
                     servingGrams = parseNum(servG)?.takeIf { servName.isNotBlank() },
                     barcode = code, source = "custom", liquid = liquid, category = "I miei"

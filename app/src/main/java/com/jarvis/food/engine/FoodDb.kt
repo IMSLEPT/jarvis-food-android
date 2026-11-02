@@ -34,7 +34,8 @@ data class DbFood(
         fiber = micro["fiber"], sugar = micro["sugar"], satFat = micro["satFat"],
         salt = micro["sodium"]?.let { it * 2.5 / 1000.0 },
         servingName = pieceName, servingGrams = pieceGrams, source = "db", liquid = liquid,
-        category = group, micro = micro, fdc = fdc, group = group, tags = tags, cooked = cooked
+        category = group, micro = micro, fdc = fdc, group = group, tags = tags, cooked = cooked,
+        addedSugar = SimpleFoodSugar.added(this), freeSugar = SimpleFoodSugar.free(this), sugarDataNote = SimpleFoodSugar.note(this), nutrientDataVersion = 1
     )
 }
 
@@ -86,7 +87,7 @@ class FoodDb(foods: List<DbFood>, recipes: List<RecipeTemplate>) {
     private val recipeById = recipes.associateBy { it.id }
 
     fun food(id: String): DbFood? = byId[id.removePrefix("db:")]
-    fun recipe(id: String): RecipeTemplate? = recipeById[id]
+    fun recipe(id: String): RecipeTemplate? = recipeById[id] ?: DietStyles.strictRecipes.firstOrNull { it.id == id }
 
     /** Tag di una ricetta (lattosio, glutine, pesce...) derivati dagli ingredienti. */
     fun recipeTags(r: RecipeTemplate): Set<String> = r.ings.flatMap { food(it.food)?.tags ?: emptyList() }.toSet()
@@ -135,14 +136,22 @@ class FoodDb(foods: List<DbFood>, recipes: List<RecipeTemplate>) {
 
     companion object {
         private val json = Json { ignoreUnknownKeys = true }
+        // Android compila i pattern tramite ICU: riusarli evita migliaia di allocazioni native
+        // durante i conteggi delle categorie e le ricerche nel catalogo.
+        private val accents = Regex("\\p{M}+")
+        private val punctuation = Regex("[^a-z0-9 ]")
+        private val whitespace = Regex("\\s+")
 
         fun parse(foodsJson: String, recipesJson: String): FoodDb =
             FoodDb(json.decodeFromString(FoodsFile.serializer(), foodsJson).foods,
                 json.decodeFromString(RecipesFile.serializer(), recipesJson).recipes)
 
-        fun normalize(s: String): String = java.text.Normalizer.normalize(s.lowercase(), java.text.Normalizer.Form.NFD)
-            .replace(Regex("\\p{M}+"), "")
-            .replace(Regex("[^a-z0-9 ]"), " ")
-            .replace(Regex("\\s+"), " ").trim()
+        fun normalize(s: String): String {
+            if (s.isEmpty()) return ""
+            return java.text.Normalizer.normalize(s.lowercase(), java.text.Normalizer.Form.NFD)
+                .replace(accents, "")
+                .replace(punctuation, " ")
+                .replace(whitespace, " ").trim()
+        }
     }
 }

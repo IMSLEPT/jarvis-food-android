@@ -124,7 +124,7 @@ fun ChatScreen() {
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        ChatHeader(active, showSetup, { Jarvis.clear() }, { showSetup = !showSetup })
+        ChatHeader(active, showSetup, input, { input = it }, { Jarvis.clear() }, { showSetup = !showSetup }, { send(input) })
         if (showSetup || !ready) {
             // Keep the motor settings scrollable without squeezing the composer.
             Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
@@ -132,7 +132,7 @@ fun ChatScreen() {
             LazyColumn(Modifier.weight(1f).fillMaxWidth().testTag("chat-messages"), state = listState,
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = if (active) 12.dp else 8.dp),
                 verticalArrangement = Arrangement.spacedBy(if (active) 18.dp else 10.dp)) {
-                if (!active) item { ChatIntro(ready, com.jarvis.food.chat.Actions.smartSuggestions(s).take(5), ::pick) }
+                if (!active) item { ChatIntro(ready, ::pick) }
                 itemsIndexed(s.chat, key = { _, message -> message.id }) { index, message ->
                     val day = chatDay(message.time)
                     if (index == 0 || chatDay(s.chat[index - 1].time) != day) ChatDaySeparator(day)
@@ -146,32 +146,18 @@ fun ChatScreen() {
 }
 
 // Same Aurora icon grid as the rest of the app: compose a chat, and a car engine.
-private const val NEW_CHAT_ICON = "M13 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 3l5 5M10 14l1-4 8-8 4 4-8 8-5 1z"
-private const val ENGINE_ICON = "M8 7V5h7l3 3h3v10h-4l-2 3H9l-3-3H3V9h3l2-2zM10 2h5M12.5 2v3M1 10v6M1 13h2M23 10v6M21 13h2"
+private const val NEW_CHAT_ICON = "M21 11a9 9 0 0 1-9 9H4l1.5-4A9 9 0 1 1 21 11zM12 7v8M8 11h8"
+private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"
 
 @Composable
-private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit) {
-    Column(Modifier.fillMaxWidth().testTag("chat-header")) {
-        if (!active) {
-            TopBar("Jarvis", onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null) { HeaderAccountActions() }
-        } else Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (Nav.stack.isNotEmpty()) {
-                HeaderIconButton(Ic.Left, "Indietro") { Nav.back() }
-                Spacer(Modifier.size(8.dp))
-            }
-            JarvisLogo(40.dp)
-            Spacer(Modifier.size(10.dp))
-            Column(Modifier.weight(1f).padding(end = 8.dp)) {
-                Text("Jarvis", style = T.Title.copy(fontSize = 22.sp, color = C.Navy))
-                Text("Il tuo assistente alimentare", style = T.Small, maxLines = 2)
-            }
-            HeaderAccountActions()
-        }
-        Row(Modifier.fillMaxWidth().testTag("chat-secondary-actions").padding(start = 16.dp, end = 12.dp, bottom = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End), verticalAlignment = Alignment.CenterVertically) {
-            ChatHeaderAction(NEW_CHAT_ICON, "Nuova chat", ink = C.Accent, onClick = onNew)
-            ChatHeaderAction(ENGINE_ICON, if (setup) "Chiudi impostazioni motore" else "Motore della chat", selected = setup, onClick = onSetup)
-        }
+private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
+    Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
+        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Profilo"), if (setup) 1 else 0,
+            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.Profile) } },
+            query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",
+            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, Ic.User),
+            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Apri profilo"),
+            accounts = false, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null)
     }
 }
 
@@ -209,7 +195,7 @@ private fun ChatDaySeparator(day: LocalDate) {
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = ready && input.isNotBlank() && !busy
     val shape = RoundedCornerShape(if (active) 28.dp else 26.dp)
-    Row(Modifier.fillMaxWidth().then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
+    Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
             value = input, onValueChange = onInput,
@@ -233,14 +219,14 @@ private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolea
 @Composable
 private fun ChatSendControl(canSend: Boolean, busy: Boolean, size: Dp, onSend: () -> Unit, onStop: () -> Unit) {
     Box(Modifier.size(size).clip(CircleShape)
-        .background(if (busy) Brush.linearGradient(listOf(C.Navy, C.Navy)) else if (canSend) C.OrangeBrush else Brush.linearGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
+        .background(if (busy) Brush.linearGradient(listOf(C.Navy, C.Navy)) else Brush.linearGradient(listOf(C.Navy, C.Navy)))
         .semantics { contentDescription = if (busy) "Interrompi risposta" else "Invia messaggio" }
         .clickable(enabled = canSend || busy, role = Role.Button) { if (busy) onStop() else onSend() }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(22.dp)) {
             val w = this.size.width; val h = this.size.height
             if (busy) drawRoundRect(Color.White, Offset(w * 0.25f, h * 0.25f), androidx.compose.ui.geometry.Size(w * 0.5f, h * 0.5f), androidx.compose.ui.geometry.CornerRadius(4f, 4f))
             else {
-                val stroke = 2.4.dp.toPx(); val ink = if (canSend) C.OnOrange else C.Faint
+                val stroke = 2.4.dp.toPx(); val ink = if (canSend) Color.White else Color.White.copy(alpha = .65f)
                 drawLine(ink, Offset(w / 2, h * 0.88f), Offset(w / 2, h * 0.14f), stroke, StrokeCap.Round)
                 drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.18f, h * 0.45f), stroke, StrokeCap.Round)
                 drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.82f, h * 0.45f), stroke, StrokeCap.Round)
@@ -259,34 +245,28 @@ private val CAPABILITIES = listOf(
 )
 
 @Composable
-private fun ChatIntro(ready: Boolean, smart: List<String>, onPick: (String) -> Unit) {
+private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        JarvisLogo(76.dp)
-        Spacer(Modifier.height(8.dp))
-        Text("Ciao, sono Jarvis", style = T.Title)
-        Text("Uso l'app al posto tuo: registro i pasti, cerco ricette, preparo piano e spesa. Ti dico sempre cosa ho fatto davvero e prima di eliminare qualcosa ti chiedo conferma.",
-            style = T.Muted, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
+        JarvisLogo(72.dp)
+        Spacer(Modifier.height(12.dp))
+        Text("Ciao, sono Jarvis", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
+        Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
+            style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp))
         if (ready) {
             Spacer(Modifier.height(8.dp))
             CAPABILITIES.chunked(2).forEachIndexed { rowIndex, row ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.fillMaxWidth().then(if (rowIndex == 2) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (emoji, title, example) ->
                         Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
-                            .clickable { onPick(example) }.padding(12.dp)) {
-                            Text("$emoji  $title", style = T.Label)
+                            .clickable { onPick(example) }.padding(10.dp)) {
+                            Text("$emoji  $title", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
                             Spacer(Modifier.height(4.dp))
-                            Text("“$example”", style = T.Small)
+                            Text("“$example”", style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
                         }
                     }
                 }
             }
-            if (smart.isNotEmpty()) {
-                Spacer(Modifier.height(10.dp))
-                Text("Per te adesso", style = T.Label, modifier = Modifier.fillMaxWidth())
-                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    smart.forEach { q -> Pill(q, false) { onPick(q) } }
-                }
-            }
+            Spacer(Modifier.fillMaxWidth().height(24.dp).testTag("chat-intro-bottom"))
         }
     }
 }

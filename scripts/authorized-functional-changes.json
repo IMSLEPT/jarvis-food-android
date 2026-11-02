@@ -60,15 +60,59 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Models.kt": {
-    "sha256": "40386c08c543e8f1251bfb16fb7cd3e27d6d6f001f9072743f08c965231b7b7e",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+    "sha256": "6ccf6d66cba7fe8d74d0f83f987fdc3b05ecfbaaddd637f62b6c3dad88bf342a",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "4bd589371215e7e8cc11ca4e9104c425da6d472be1f7e3b776175886ba1d1737",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: pasti attivabili singolarmente condivisi tra diario e piano con conservazione degli alimenti registrati; modalità ON/OFF automatica e manuale con stima dal profilo e allenamento; sostituzione anche da barcode e foto AI, solo dopo conferma. Richiesta esplicita successiva: guida corporea 3D e storico misure per data e parte del corpo, con validazione e aggiornamento della sola registrazione scelta."
+    "sha256": "16371b56bef37ed94c9ecf9d6f6797d874b2f85f050d74f0749a6561e6f2cc6d",
+    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
-    "sha256": "7262bad72ea287648d93950e8a0ab438d154872d8a4b115afa0e0c4ab58352cb",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+    "sha256": "8f0866bc4b1c2eb17570aaca494b7b37d20213a0c20b0d57ef777ec17a65fc11",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Micros.kt": {
+    "sha256": "0e4ac4bead60bef3308e6b65fb456edcf5d0a734ffc9ab5bd5fdcd941b09732c",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Solver.kt": {
+    "sha256": "90f611e0f0d4a494f96f37fd4d1e02a7eceb3bef088bd9dd38219975378a475e",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/net/OpenFoodFacts.kt": {
+    "sha256": "ced385a3bb6eb8fa4755dd7e85de49c5906ce8f4b301abe200116c84a3f683fc",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+  },
+  "app/src/main/java/com/jarvis/food/data/Nutrition.kt": {
+    "sha256": "c27b2b37bc846b29909e634620fdc14d742818bcb5b7fafc10f89ab4de4960ad",
+    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+  },
+  "app/src/main/java/com/jarvis/food/engine/FoodDb.kt": {
+    "sha256": "c295e27aad2f60298477b6029a879655007173e6323b6f1d62a0605e7add89be",
+    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyCrypto.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilySync.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyBackend.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyModels.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/family/FamilyStore.kt": {
+    "deleted": true,
+    "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/engine/RecipeCats.kt": {
+    "sha256": "e55d73ac71de4a2ec2f72ff5de4bf6e8f1de933556d97167d27139cec17fa157",
+    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
   }
 }
