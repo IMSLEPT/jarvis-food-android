@@ -1,6 +1,7 @@
 package com.jarvis.food.ui
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.border
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -63,6 +64,8 @@ fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
         else -> NutritionEvidence.reference(key, s.profile)
     }
     val maximum = maxOf(samples.mapNotNull { it.value }.maxOrNull() ?: 0.0, reference ?: 0.0, 1.0)
+    val chartInk = TrendPalette.ink(kind, metric)
+    val chartBrush = TrendPalette.bars(kind, metric)
     val known = samples.filter { it.value != null }
     Column(Modifier.fillMaxSize().navigationBarsPadding().testTag("trend-$kind")) {
         TopBar(title, onBack = { Nav.back() })
@@ -79,18 +82,18 @@ fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
                 Text(if (options.isEmpty()) title else options[metric], style = T.Title2)
                 Text("Tocca una colonna per vedere la giornata", style = T.Small)
                 GapH(18.dp)
-                Box(Modifier.fillMaxWidth().height(180.dp)) {
+                Box(Modifier.fillMaxWidth().height(180.dp).testTag("trend-chart")) {
                     Canvas(Modifier.fillMaxSize()) {
-                        reference?.let { target -> val y = size.height * (1 - chartFraction(target, maximum)); drawLine(C.Accent, Offset(0f, y), Offset(size.width, y), 2.dp.toPx()) }
+                        reference?.let { target -> val y = size.height * (1 - chartFraction(target, maximum)); drawLine(chartInk.copy(alpha = .45f), Offset(0f, y), Offset(size.width, y), 2.dp.toPx()) }
                     }
                     Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(if (days == 7) 8.dp else 3.dp), verticalAlignment = Alignment.Bottom) {
                         samples.forEachIndexed { i, sample ->
                             Box(Modifier.weight(1f).fillMaxHeight().testTag("trend-day-$i")
                                 .semantics { contentDescription = "${sample.date}: ${sample.value?.r1() ?: "non registrato"} $unit" }
-                                .clickable { picked = i }, contentAlignment = Alignment.BottomCenter) {
+                                .clickable { picked = i }.then(if (i == picked) Modifier.border(2.dp, chartInk, RoundedCornerShape(8.dp)) else Modifier), contentAlignment = Alignment.BottomCenter) {
                                 if (sample.value != null && sample.value > 0) Box(Modifier.fillMaxWidth().fillMaxHeight(chartFraction(sample.value, maximum)).clip(RoundedCornerShape(6.dp))
-                                    .background(if (i == picked) C.Accent else if (sample.complete) C.Navy else C.Muted))
-                                else Box(Modifier.fillMaxWidth().height(2.dp).background(if (i == picked) C.Accent else C.Line))
+                                    .background(chartBrush))
+                                else Box(Modifier.fillMaxWidth().height(2.dp).background(C.Line))
                             }
                         }
                     }

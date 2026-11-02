@@ -27,7 +27,7 @@ object Shopping {
         }
         val out = mutableListOf<ShoppingItem>()
         for ((id, g) in need) {
-            val f = db.food(id) ?: continue
+            val f = db.food(id) ?: meals.asSequence().flatMap { it.items.asSequence() }.firstOrNull { it.food.id == id }?.food ?: continue
             if (id in haveUnknown) continue
             val missing = g - (have[id] ?: 0.0)
             if (missing <= 0.5) continue

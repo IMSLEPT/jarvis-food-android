@@ -1,6 +1,7 @@
 package com.jarvis.food.net
 
 import com.jarvis.food.data.Food
+import com.jarvis.food.data.ProductFacts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -13,7 +14,9 @@ object OpenFoodFacts {
     private const val UA = "JarvisFood/1.0 (Android; uso personale)"
     private const val FIELDS =
         "code,product_name,product_name_it,product_name_en,generic_name_it,generic_name,brands,nutriments," +
-            "nutrition_data_per,serving_quantity,serving_size,quantity,categories_tags"
+            "nutrition_data_per,serving_quantity,serving_size,quantity,categories_tags," +
+            "nutriscore_grade,nutrition_grades,nutriscore_version,ingredients_text_it,ingredients_text," +
+            "additives_n,additives_tags,labels_tags,nova_group,allergens_tags,traces_tags"
 
     private fun get(url: String): String {
         val c = URL(url).openConnection() as HttpURLConnection
@@ -112,7 +115,7 @@ object OpenFoodFacts {
         return null
     }
 
-    private fun parse(p: JSONObject, fallbackCode: String?): Food? {
+    internal fun parse(p: JSONObject, fallbackCode: String?): Food? {
         val n = p.optJSONObject("nutriments") ?: JSONObject()
         val brandsRaw = p.opt("brands")
         val brand = when (brandsRaw) {
@@ -150,6 +153,7 @@ object OpenFoodFacts {
 
         val sodium = p.per100(n, "sodium", perServing, serving)
         val salt = p.per100(n, "salt", perServing, serving) ?: sodium?.let { it * 2.5 }
+        val facts = parseFacts(p)
         return com.jarvis.food.engine.FoodAmounts.normalize(Food(
             id = "off:$code",
             name = name,
@@ -169,7 +173,23 @@ object OpenFoodFacts {
             liquid = isLiquid(p, name) || water,
             category = if (water) "Acqua" else "Prodotto",
             addedSugar = p.per100(n, "added-sugars", perServing, serving),
-            unknownNutrients = listOfNotNull(if (protein == null) "protein" else null, if (carbs == null) "carbs" else null, if (fat == null) "fat" else null)
+            unknownNutrients = listOfNotNull(if (protein == null) "protein" else null, if (carbs == null) "carbs" else null, if (fat == null) "fat" else null),
+            productFacts = facts
         ))
+    }
+
+    internal fun parseFacts(p: JSONObject): ProductFacts {
+        fun array(key: String): List<String> = p.optJSONArray(key)?.let { a -> (0 until a.length()).mapNotNull { a.optString(it).takeIf { v -> v.isNotBlank() } }.distinct() } ?: emptyList()
+        val ingredients = listOf("ingredients_text_it", "ingredients_text").map { p.optString(it, "").trim() }.firstOrNull { it.isNotBlank() && it != "null" }
+        val additives = array("additives_tags")
+        val count = p.num("additives_n")?.takeIf { it.isFinite() && it in 0.0..1000.0 && it % 1 == 0.0 }?.toInt()
+            ?.takeIf { it > 0 || ingredients != null }
+            ?: additives.size.takeIf { it > 0 }
+        val grade = listOf("nutriscore_grade", "nutrition_grades").map { p.optString(it, "").lowercase() }.firstOrNull { it in listOf("a","b","c","d","e") }
+        return ProductFacts(nutriScore = grade, nutriScoreVersion = p.optString("nutriscore_version", "").takeIf { it.matches(Regex("20[0-9]{2}")) },
+            ingredients = ingredients, additivesCount = count, additives = additives,
+            organic = true.takeIf { array("labels_tags").any { it in setOf("en:organic", "en:eu-organic", "en:ab-agriculture-biologique", "it:biologico") } },
+            nova = p.num("nova_group")?.takeIf { it in 1.0..4.0 && it % 1 == 0.0 }?.toInt(),
+            allergens = array("allergens_tags"), traces = array("traces_tags"))
     }
 }

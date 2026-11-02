@@ -93,7 +93,8 @@ class AuroraLayoutTest {
             assertTrue("Labelled header actions overlap", a.right <= b.left + 1f || b.right <= a.left + 1f || a.bottom <= b.top + 1f || b.bottom <= a.top + 1f)
         }
         compose.onNodeWithText("Modello", useUnmergedTree = true).assertIsDisplayed()
-        compose.onNodeWithText("Profilo", useUnmergedTree = true).assertIsDisplayed()
+        compose.onNodeWithText("Cronologia", useUnmergedTree = true).assertIsDisplayed()
+        assertTrue("Profile belongs to the title row above chat actions", profile.bottom <= fresh.top + 1f)
 
     }
 

@@ -39,7 +39,22 @@ data class Food(
     val nutrientDataVersion: Int = 0,
     val sugarDataNote: String? = null,
     val portionSource: String? = null,
-    val portionUrl: String? = null
+    val portionUrl: String? = null,
+    /** Product metadata, separate from the nutrition values entered or logged by the user. */
+    val productFacts: ProductFacts? = null
+)
+
+@Serializable
+data class ProductFacts(
+    val nutriScore: String? = null,
+    val nutriScoreVersion: String? = null,
+    val ingredients: String? = null,
+    val additivesCount: Int? = null,
+    val additives: List<String> = emptyList(),
+    val organic: Boolean? = null,
+    val nova: Int? = null,
+    val allergens: List<String> = emptyList(),
+    val traces: List<String> = emptyList()
 )
 
 @Serializable
@@ -193,7 +208,8 @@ data class Reminders(
 data class PlanSlot(
     val slot: Int,                // indice in DietPrefs.slots
     val recipeId: String,
-    val eatenEntryIds: List<String> = emptyList()
+    val eatenEntryIds: List<String> = emptyList(),
+    val manualRecipe: Recipe? = null
 )
 
 @Serializable
@@ -315,10 +331,18 @@ data class AppState(
     val recipeViews: Map<String, Int> = emptyMap(),
     /** Conversazione con Jarvis (ultimi messaggi). */
     val chat: List<ChatMsg> = emptyList(),
+    val chatHistory: List<ChatConversation> = emptyList(),
+    val activeChatId: String = "",
     val trainingNutrition: TrainingNutrition = TrainingNutrition(),
     /** Date confermate complete dall’utente; assenza non equivale a giorno senza pasti. */
     val nutritionCompleteDays: List<String> = emptyList()
 )
+
+@Serializable
+data class ChatConversation(val id: String, val messages: List<ChatMsg> = emptyList()) {
+    val title: String get() = messages.firstOrNull { it.role == "user" }?.text?.take(90) ?: "Conversazione con Jarvis"
+    val updatedAt: Long get() = messages.maxOfOrNull { it.time } ?: 0L
+}
 
 /** Messaggio della chat con Jarvis. [role] è "user" o "assistant". */
 @Serializable

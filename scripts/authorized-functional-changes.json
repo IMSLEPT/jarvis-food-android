@@ -1,7 +1,7 @@
 {
   "app/src/main/java/com/jarvis/food/ai/FoodAi.kt": {
-    "sha256": "ab1aa7b08fc6169c148d04c6e173a06806e1320d17b10f7c60707e8381fb5719",
-    "reason": "Richiesta esplicita di Alessandro del 24 ottobre 2026: correggere Foto AI, modalità offline che avvia online, lentezza e altri bug della sezione."
+    "sha256": "5758fe0e575e05b71c9dcfd87fa85b4c59d94a7528b8ece996c2a6cdfec5f99b",
+    "reason": "Richiesta nei due video del 2 novembre 2026: correzioni analisi foto e cronologia persistente delle conversazioni."
   },
   "app/src/main/res/drawable-nodpi/jarvis_logo.png": {
     "sha256": "1ecc85772bbc52613f4a201050df96346528eac5a0f730874a377f67df90042e",
@@ -60,28 +60,28 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Models.kt": {
-    "sha256": "6ccf6d66cba7fe8d74d0f83f987fdc3b05ecfbaaddd637f62b6c3dad88bf342a",
-    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+    "sha256": "14319c9a0a4f4af8b6f0ef9f4f3204ba41488d217a11072951f4329a2dbbb135",
+    "reason": "Richieste esplicite nei video 1000196321, 1000196336 e 1000196340: correggere gli stili alimentari e il bilanciamento giornaliero; consigli quotidiani compatti; profilo nutrizionale con metadati reali, vantaggi, limiti e alternative."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "16371b56bef37ed94c9ecf9d6f6797d874b2f85f050d74f0749a6561e6f2cc6d",
-    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
+    "sha256": "63c0afd501eba5cfeda0e3b8fad1495bcddf141a465a28e20a43e6a14880ac49",
+    "reason": "Richiesta nel video 1000196321: correggere la scelta alimentazione, distinguere il limite dei tempi dalle esclusioni e salvare il tempo solo dopo conferma."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
-    "sha256": "8f0866bc4b1c2eb17570aaca494b7b37d20213a0c20b0d57ef777ec17a65fc11",
-    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+    "sha256": "1858705089a0228299a002b367c6a1e6c036e84707a041a15f4b8f573a7d6175",
+    "reason": "Richieste esplicite nei video 1000196321, 1000196336 e 1000196340: correggere gli stili alimentari e il bilanciamento giornaliero; consigli quotidiani compatti; profilo nutrizionale con metadati reali, vantaggi, limiti e alternative."
   },
   "app/src/main/java/com/jarvis/food/engine/Micros.kt": {
     "sha256": "0e4ac4bead60bef3308e6b65fb456edcf5d0a734ffc9ab5bd5fdcd941b09732c",
     "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
   },
   "app/src/main/java/com/jarvis/food/engine/Solver.kt": {
-    "sha256": "90f611e0f0d4a494f96f37fd4d1e02a7eceb3bef088bd9dd38219975378a475e",
-    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+    "sha256": "6f4c704d6217b78186cc568f3fd90bffcc85d699a89fbe91051adeaf51187e82",
+    "reason": "Richieste esplicite nei video 1000196321, 1000196336 e 1000196340: correggere gli stili alimentari e il bilanciamento giornaliero; consigli quotidiani compatti; profilo nutrizionale con metadati reali, vantaggi, limiti e alternative."
   },
   "app/src/main/java/com/jarvis/food/net/OpenFoodFacts.kt": {
-    "sha256": "ced385a3bb6eb8fa4755dd7e85de49c5906ce8f4b301abe200116c84a3f683fc",
-    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+    "sha256": "4e10bb64283e09308ce3a69ce25b7310012c5220e46b1e96afae920f1340a6ab",
+    "reason": "Richieste esplicite nei video 1000196321, 1000196336 e 1000196340: correggere gli stili alimentari e il bilanciamento giornaliero; consigli quotidiani compatti; profilo nutrizionale con metadati reali, vantaggi, limiti e alternative."
   },
   "app/src/main/java/com/jarvis/food/data/Nutrition.kt": {
     "sha256": "c27b2b37bc846b29909e634620fdc14d742818bcb5b7fafc10f89ab4de4960ad",
@@ -114,5 +114,13 @@
   "app/src/main/java/com/jarvis/food/engine/RecipeCats.kt": {
     "sha256": "e55d73ac71de4a2ec2f72ff5de4bf6e8f1de933556d97167d27139cec17fa157",
     "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
+  },
+  "app/src/main/java/com/jarvis/food/chat/Jarvis.kt": {
+    "sha256": "3d240d64360b73832448308879b25e851d0a98291bc08af7ebf7a9b89ded02d8",
+    "reason": "Richiesta nei due video del 2 novembre 2026: correzioni analisi foto e cronologia persistente delle conversazioni."
+  },
+  "app/src/main/java/com/jarvis/food/engine/Kitchen.kt": {
+    "sha256": "a3d875066cf3ae87c1fa892d17bd0c5ed982aecb4c62001090ac20c2322aaf58",
+    "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   }
 }

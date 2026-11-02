@@ -105,6 +105,70 @@ object Solver {
     private const val W_FAT = 1.2
     private const val LAMBDA = 0.15
 
+    /** Refine only days outside the existing tolerance; preserve fixed/manual/eaten meals. */
+    fun balanceDay(meals: List<PlannedMeal>, target: Macro, adjustableSlots: Set<Int>): List<PlannedMeal> {
+        if(meals.isEmpty() || adjustableSlots.isEmpty()) return meals
+        val initialTotal=meals.fold(Macro.ZERO) { a,m -> a+m.solved.total }
+        fun within(a: Macro) = abs(a.kcal-target.kcal)<=target.kcal*.10 &&
+            abs(a.protein-target.protein)<=max(target.protein,5.0)*.15 &&
+            abs(a.carbs-target.carbs)<=max(target.carbs,5.0)*.15 && abs(a.fat-target.fat)<=max(target.fat,3.0)*.15
+        if(within(initialTotal)) return meals
+        data class Cell(val meal:Int,val item:Int,val ingredient:SolvedIngredient,val low:Double,val high:Double,val step:Double)
+        val cells=meals.flatMapIndexed { mi,m -> m.solved.items.mapIndexedNotNull { ii,item ->
+            if(m.slotIndex !in adjustableSlots || item.ing.role=="x") return@mapIndexedNotNull null
+            val d=item.ing.g;val f=item.food
+            var low=when(item.ing.role) { "v" -> d*.7; "f" -> 0.0; else -> d*.4 }
+            var high=min(d*when(item.ing.role) { "v" -> 1.6; "f" -> 2.5; else -> 2.2 },maxServing(f))
+            if(f.id=="uova") low=max(low,f.pieceGrams?:50.0)
+            high=max(high,low)
+            val increment=step(f,item.ing.role)
+            val snappedLow=Math.ceil(low/increment)*increment
+            Cell(mi,ii,item,snappedLow,max(Math.floor(high/increment)*increment,snappedLow),increment)
+        } }
+        if(cells.isEmpty()) return meals
+        val grams=DoubleArray(cells.size) { cells[it].ingredient.grams }
+        val original=grams.copyOf()
+        val scales=doubleArrayOf(max(target.kcal,1.0),max(target.protein,5.0),max(target.carbs,5.0),max(target.fat,3.0))
+        val wanted=doubleArrayOf(target.kcal,target.protein,target.carbs,target.fat)
+        fun total(values:DoubleArray): Macro {
+            var t=initialTotal
+            cells.forEachIndexed { i,cell -> t=t+Macro.of(cell.ingredient.food,values[i]-original[i]) }
+            return t
+        }
+        fun cost(values:DoubleArray):Double {
+            val a=total(values);val actual=doubleArrayOf(a.kcal,a.protein,a.carbs,a.fat)
+            val weights=doubleArrayOf(3.0,2.0,1.0,1.2)
+            return actual.indices.sumOf { weights[it]*sq((actual[it]-wanted[it])/scales[it]) } +
+                values.indices.sumOf { .0005*sq((values[it]-original[it])/max(original[it],5.0)) }
+        }
+        var best=cost(grams)
+        for(mul in listOf(4,2,1)) {
+            var improved=true;var pass=0
+            while(improved && pass++<80) {
+                improved=false
+                for(i in cells.indices) {
+                    val cell=cells[i];val old=grams[i]
+                    val delta=cell.step*(if(cell.ingredient.food.id=="uova") 1 else mul)
+                    var chosen=old
+                    for(direction in listOf(-1,1)) {
+                        grams[i]=(old+delta*direction).coerceIn(cell.low,cell.high)
+                        val next=cost(grams)
+                        if(next<best-1e-12) { best=next;chosen=grams[i] }
+                    }
+                    grams[i]=chosen
+                    if(chosen!=old) improved=true
+                }
+            }
+        }
+        val result=meals.mapIndexed { mi,m -> m.copy(solved=m.solved.copy(items=m.solved.items.mapIndexed { ii,item ->
+            val index=cells.indexOfFirst { it.meal==mi && it.item==ii }
+            if(index<0) item else item.copy(grams=grams[index])
+        })) }
+        // A stricter target is never obtained by accepting a worse day.
+        return if(fitScore(SolvedRecipe(meals.first().solved.template,result.flatMap { it.solved.items },target)) <
+            fitScore(SolvedRecipe(meals.first().solved.template,meals.flatMap { it.solved.items },target))) result else meals
+    }
+
     fun maxServing(f: DbFood): Double = when {
         f.id == "uova" -> 200.0
         f.id == "albume" -> 250.0

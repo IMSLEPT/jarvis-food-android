@@ -717,7 +717,7 @@ fun DayNutrientsScreen(date: LocalDate) {
     val (gc, gp, gf) = Triple(energy.carbs, energy.protein, energy.fat)
     Column(Modifier.fillMaxSize()) {
         TopBar("Nutrienti · ${dayLabel(date)}", onBack = { Nav.back() })
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+        Column(Modifier.weight(1f).navigationBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             JCard {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     MacroDonut(t.carbs, t.protein, t.fat, 110.dp)
@@ -751,7 +751,7 @@ fun DayNutrientsScreen(date: LocalDate) {
                 Text("Fibre, zuccheri, saturi e sale si sommano solo per gli alimenti che riportano questi valori.", style = T.Small, modifier = Modifier.padding(top = 6.dp))
             }
             SectionTitle("Per pasto")
-            JCard {
+            JCard(Modifier.testTag("day-nutrients-meals")) {
                 MEAL_NAMES.forEachIndexed { i, n ->
                     val mt = Nutrition.sum(entries.filter { it.meal == i })
                     Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
@@ -760,7 +760,7 @@ fun DayNutrientsScreen(date: LocalDate) {
                     }
                 }
             }
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(36.dp))
         }
     }
 }

@@ -78,6 +78,7 @@ sealed class Screen {
     data class RecipeList(val filter: com.jarvis.food.engine.RecipeFilter = com.jarvis.food.engine.RecipeFilter(), val title: String = "Ricette", val mine: Boolean = false) : Screen()
     data object WhatNow : Screen()
     data class Alternatives(val date: LocalDate, val slot: Int) : Screen()
+    data class ManualMeal(val date: LocalDate, val slot: Int) : Screen()
     data class UserRecipeDetail(val recipe: Recipe) : Screen()
     data class RecipeEditor(val recipe: Recipe?) : Screen()
     data class Activity(val date: LocalDate) : Screen()
@@ -105,6 +106,7 @@ sealed class Screen {
     /** Modifica delle risposte del questionario: [only] = una sola sezione, null = tutto. */
     data class Questionnaire(val only: QStep? = null) : Screen()
     data object Chat : Screen()
+    data object ChatHistory : Screen()
 }
 
 /** Navigazione semplice a pila, senza librerie esterne. */
@@ -172,6 +174,7 @@ private fun ScreenHost(s: Screen) {
             is Screen.RecipeList -> RecipeListScreen(s)
             Screen.WhatNow -> WhatNowScreen()
             is Screen.Alternatives -> AlternativesScreen(s.date, s.slot)
+            is Screen.ManualMeal -> ManualMealScreen(s.date, s.slot)
             is Screen.UserRecipeDetail -> UserRecipeDetailScreen(s.recipe)
             is Screen.RecipeEditor -> RecipeEditorScreen(s.recipe)
             is Screen.Activity -> ActivityScreen(s.date)
@@ -198,6 +201,7 @@ private fun ScreenHost(s: Screen) {
             Screen.EnergyInfo -> EnergyInfoScreen()
             is Screen.Questionnaire -> QuestionnaireScreen(s.only)
             Screen.Chat -> ChatScreen()
+            Screen.ChatHistory -> ChatHistoryScreen()
         }
     }
 }

@@ -107,7 +107,7 @@ fun ChatScreen() {
     val busy = Jarvis.busy
     val partial = Jarvis.partial
 
-    LaunchedEffect(s.chat.size, partial.length, busy) {
+    LaunchedEffect(s.activeChatId, s.chat.size, partial.length, busy) {
         val extra = if (busy) 1 else 0
         val n = s.chat.size + extra
         if (n > 0) listState.scrollToItem(n - 1)
@@ -124,8 +124,8 @@ fun ChatScreen() {
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
     Column(Modifier.fillMaxSize().imePadding()) {
-        ChatHeader(active, showSetup, input, { input = it }, { Jarvis.clear() }, { showSetup = !showSetup }, { send(input) })
-        if (showSetup || !ready) {
+        ChatHeader(active, showSetup, input, { input = it }, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup }, { send(input) })
+        if (showSetup || (!ready && !active)) {
             // Keep the motor settings scrollable without squeezing the composer.
             Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
         } else {
@@ -152,12 +152,12 @@ private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4
 @Composable
 private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
     Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
-        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Profilo"), if (setup) 1 else 0,
-            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.Profile) } },
+        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
+            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
             query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",
-            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, Ic.User),
-            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Apri profilo"),
-            accounts = false, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null)
+            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, "M3 12a9 9 0 1 0 2.6-6.4M3 4v5h5M12 7v5l3 2"),
+            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
+            accounts = true, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null)
     }
 }
 

@@ -16,7 +16,7 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
         counts[key] += int(root.get(key, 0))
 # 120 previous tests - 14 removed family tests + 7 new calendar/history/upgrade tests.
 assert counts['tests'] >= 124 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
-logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
+logs = {'layout-diet-followup-standard.log':3, 'layout-diet-followup-large-text.log':3, 'layout-food-review-standard.log':2, 'layout-food-review-large-text.log':2, 'layout-food-followup-standard.log':4, 'layout-food-followup-large-text.log':4, 'layout-november-standard.log':3, 'layout-november-large-text.log':3, 'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
@@ -52,15 +52,20 @@ with zipfile.ZipFile(apk) as bundle:
             assert b'textdb.dev/api/data/' not in dex, 'Removed sync endpoint must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Video-requested fixes: barcode meal shortcuts, visible vitamins tracker with conditional advice, live seconds fasting timer, read-only trend details, corrected solid/liquid units and product-specific piece weights; based on 1.0.171',
+              original_signature_verified=True, visual_revision='Videos 1000196321, 1000196336, 1000196340: equal plan controls, distinct healthy style, actionable diet time limits, joint day balancing, compact daily tips and product nutrition profiles; based on 1.0.201',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Aggiornamento richiesto nei due video del 2 novembre e nell’anteprima approvata. Eliminato il pulsante orologio da Oggi/Piano; scorciatoie Codice a barre nei pasti; riquadro vitamine sempre visibile con andamento e copertura dati, consigli condizionati dallo storico; timer del digiuno con secondi, recupero sessione e insets corretti; dettagli interattivi per macro, acqua e attività; correzione solidi/liquidi anche nei dati esistenti, porzioni per pezzo con fonte o peso personalizzato. Per le Fette Biscottate Integrali Mulino Bianco: 8,8 g/fetta dalla scheda ufficiale (02/11/2026), senza trasferire il peso ad altre marche o varianti.
+notes.write_text(f'''Modifiche richieste nei video 1000196321, 1000196336 e 1000196340 del 2 novembre 2026, basate sulla versione 1.0.201.
 
-Piano: riquadro compatto “Riepilogo del piano” con tendina animata, chiusa inizialmente; al tocco compaiono i quattro controlli del mockup approvato, incluso Alimentazione. Un secondo tocco richiude il pannello senza cambiare dati o impostazioni. Sedici stili, selezione del periodo 1/7/14/30 giorni, conferma e rigenerazione verificata; vincoli sugli ingredienti ed esclusioni senza fallback incoerenti. Target personali invariati, giornate ON/OFF mantenute. Se lo stile è incompatibile o il calcolo non rientra nelle tolleranze dichiarate (kcal ±10%, macro ±15%), nessuna modifica applicata. Diari, giornate esterne al periodo e pasti già registrati conservati.
+- Piano: pulsanti ON/OFF e Alimentazione della stessa grandezza, con spazio prima dei dettagli nutrizionali.
+- Alimentazione: nuova voce Salutare distinta da Bilanciata e varia; controlli su tutti gli stili. I limiti dei tempi si distinguono dalle esclusioni, con correzione esplicita prima di confermare. Target e diario conservati.
+- Calcolo: bilanciamento congiunto delle quantità soltanto per le giornate fuori tolleranza, rispettando porzioni massime e pasti fissi o già registrati.
+- Home: tre consigli brevi con illustrazioni e colori, personalizzati quando il diario lo consente oppure generali; rotazione giornaliera e fonti apribili toccando il consiglio. Rimossa la lunga guida espandibile.
+- Alimenti: profilo con pallino colorato, punti positivi e aspetti da considerare. Nutri-Score A–E quando fornito da Open Food Facts; altrimenti sintesi trasparente dei nutrienti noti. Ingredienti, additivi e bio solo dai dati disponibili; nessun voto /100 o indice glicemico inventato. Alternative apribili con un pulsante.
+- Conservate tutte le modifiche della versione 1.0.201, inclusi ricerca ricette e pasti personali.
 
-APK firmato con la chiave originale. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati, Android 10/15 e testo 100/130/200%. Le prove non equivalgono a un test manuale sul dispositivo dell’utente.
+Firma originale verificata. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati. Le prove non verificano sul telefono personale i servizi online e l'AI con la chiave dell'utente.
 ''')
 subprocess.run(['gh','release','create',f'preview-v1.0.{number}',str(apk),str(verification),
                 '--target',sha,'--title',f'Jarvis Food 1.0.{number} · Revisione grafica','--prerelease','--notes-file',str(notes)], check=True)

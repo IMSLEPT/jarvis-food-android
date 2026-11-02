@@ -289,11 +289,12 @@ object Store {
         s.copy(plan = (kept + merged).sortedBy { it.date })
     }
 
-    suspend fun regenerateStyle(start: LocalDate, days: Int, styleId: String): String? {
+    suspend fun regenerateStyle(start: LocalDate, days: Int, styleId: String, maxMinutes: Int = current.dietPrefs.maxMinutes): String? {
         if (days !in listOf(1, 7, 14, 30)) return "Periodo non valido."
+        if (maxMinutes < 5) return "Scegli almeno 5 minuti per pasto."
         val snapshot = current
         val result = kotlinx.coroutines.withContext(Dispatchers.Default) {
-            com.jarvis.food.engine.DietStyles.build(Db.db, snapshot.dietPrefs, start, days, snapshot.plan, styleId,
+            com.jarvis.food.engine.DietStyles.build(Db.db, snapshot.dietPrefs.copy(maxMinutes = maxMinutes), start, days, snapshot.plan, styleId,
                 targets = { energyFor(snapshot, it).macro }, maintenance = { energyFor(snapshot, it).expectedTdee })
         }
         result.problem?.let { return it }
@@ -302,19 +303,30 @@ object Store {
             applied = fresh.plan == snapshot.plan && fresh.dietPrefs == snapshot.dietPrefs && fresh.profile == snapshot.profile &&
                 fresh.goals == snapshot.goals && fresh.energy == snapshot.energy && fresh.trainingNutrition == snapshot.trainingNutrition &&
                 fresh.diary == snapshot.diary && fresh.weights == snapshot.weights && fresh.health == snapshot.health && fresh.activities == snapshot.activities && fresh.steps == snapshot.steps
-            if (!applied) fresh else fresh.copy(dietPrefs = fresh.dietPrefs.copy(styleId = styleId),
+            if (!applied) fresh else fresh.copy(dietPrefs = fresh.dietPrefs.copy(styleId = styleId, maxMinutes = maxMinutes),
                 plan = (fresh.plan.filter { it.date !in result.days.map { d -> d.date }.toSet() } + result.days).sortedBy { it.date })
         }
         return if (applied) null else "I dati sono cambiati durante il calcolo. Conferma di nuovo per usare i target aggiornati."
     }
 
-    fun setSlotRecipe(date: LocalDate, slot: Int, recipeId: String) = update { s ->
+    fun setSlotRecipe(date: LocalDate, slot: Int, recipeId: String, manualChoice: Boolean = false) = update { s ->
         val recipe = Db.db.recipe(recipeId) ?: return@update s
-        if (!Planner.allowed(Db.db, recipe, prefsFor(s, date))) return@update s
+        val selectionPrefs = prefsFor(s, date).let { if (manualChoice) it.copy(maxMinutes = Int.MAX_VALUE) else it }
+        if (!Planner.allowed(Db.db, recipe, selectionPrefs)) return@update s
         s.copy(plan = s.plan.map { dp ->
             if (dp.date != date.toString()) dp
-            else dp.copy(slots = dp.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId) else it })
+            else dp.copy(slots = dp.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, manualRecipe = null) else it })
         })
+    }
+
+    /** Saves a personal meal in the plan without writing to the diary. */
+    fun setManualMeal(date: LocalDate, slot: Int, recipe: Recipe) = update { s ->
+        if (recipe.ingredients.isEmpty() || recipe.ingredients.any { !it.grams.isFinite() || it.grams <= 0 }) return@update s
+        val old = dayPlan(s, date)?.slots?.firstOrNull { it.slot == slot } ?: return@update s
+        if (old.eatenEntryIds.isNotEmpty()) return@update s
+        s.copy(plan = s.plan.map { dp -> if (dp.date != date.toString()) dp else dp.copy(slots = dp.slots.map {
+            if (it.slot == slot) it.copy(recipeId = recipe.id, manualRecipe = recipe) else it
+        }) })
     }
 
     /** Registra nel diario il pasto pianificato, come piatto unico con le grammature calcolate. */
@@ -406,7 +418,7 @@ object Store {
         val d = date.toString()
         val existing = s.plan.firstOrNull { it.date == d }
         val updated = if (existing == null) DayPlan(d, listOf(PlanSlot(slot, recipeId)))
-        else if (existing.slots.any { it.slot == slot }) existing.copy(slots = existing.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, eatenEntryIds = emptyList()) else it })
+        else if (existing.slots.any { it.slot == slot }) existing.copy(slots = existing.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, eatenEntryIds = emptyList(), manualRecipe = null) else it })
         else existing.copy(slots = (existing.slots + PlanSlot(slot, recipeId)).sortedBy { it.slot })
         s.copy(plan = (s.plan.filterNot { it.date == d } + updated).sortedBy { it.date })
     }

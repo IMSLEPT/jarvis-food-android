@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -81,6 +83,7 @@ import com.jarvis.food.engine.Micros
 import com.jarvis.food.engine.PlannedMeal
 import com.jarvis.food.engine.Planner
 import com.jarvis.food.engine.SolvedRecipe
+import com.jarvis.food.engine.FoodDb
 import com.jarvis.food.engine.Solver
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -188,7 +191,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
         androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
         Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 12.dp)) {
         FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
+            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
                 GapW(6.dp)
                 Column(Modifier.weight(1f)) {
@@ -196,7 +199,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("pianificate", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
+            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
                 Canvas(Modifier.size(20.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
                     val stroke = 4.dp.toPx()
@@ -211,20 +214,10 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("completati", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell")) {
-                DayTypeControl(s, date, compact = true)
-            }
-            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-diet-style")
-                .clip(RoundedCornerShape(14.dp)).clickable { chooseStyle = true }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp); GapW(8.dp)
-                Column(Modifier.weight(1f)) {
-                    Text("Alimentazione", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
-                    Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
-                }
-                AIcon(Ic.Right, C.Navy, 14.dp)
-            }
+            PlanStyleControls(s, date, large) { chooseStyle = true }
         }
-        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth()) { expanded = !expanded }
+        GapH(12.dp)
+        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth().testTag("plan-nutrition-details")) { expanded = !expanded }
         }
         }
         }
@@ -264,6 +257,41 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 AIcon(Ic.Right, A.Link, 16.dp, 2.4f)
             }
         }
+    }
+}
+
+@Composable
+private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, onChooseStyle: () -> Unit) {
+    val border = C.Navy.copy(alpha = .24f)
+    val dayControl: @Composable (Modifier) -> Unit = { modifier ->
+        Box(modifier.testTag("plan-day-type-cell").clip(RoundedCornerShape(8.dp)).background(C.Surface)
+            .border(1.dp, border, RoundedCornerShape(8.dp)).padding(horizontal = 10.dp, vertical = 8.dp)) {
+            DayTypeControl(s, date, compact = true)
+        }
+    }
+    val styleControl: @Composable (Modifier) -> Unit = { modifier ->
+        Row(modifier.testTag("plan-diet-style").clip(RoundedCornerShape(8.dp)).background(C.Surface)
+            .border(1.dp, border, RoundedCornerShape(8.dp)).clickable(role = Role.Button, onClick = onChooseStyle)
+            .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp)
+            GapW(8.dp)
+            Column(Modifier.weight(1f)) {
+                Text("Alimentazione", style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp))
+                Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+            }
+            GapW(4.dp)
+            AIcon(Ic.Right, C.Navy, 14.dp)
+        }
+    }
+    if (stacked) {
+        val controlHeight = with(LocalDensity.current) { 48.sp.toDp() + 16.dp }.coerceAtLeast(64.dp)
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (s.trainingNutrition.active) dayControl(Modifier.fillMaxWidth().height(controlHeight))
+            styleControl(Modifier.fillMaxWidth().height(controlHeight))
+        }
+    } else Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        if (s.trainingNutrition.active) dayControl(Modifier.weight(1f).fillMaxHeight().heightIn(min = 64.dp))
+        styleControl(Modifier.weight(1f).fillMaxHeight().heightIn(min = 64.dp))
     }
 }
 
@@ -365,21 +393,46 @@ private fun openRecipe(date: LocalDate, m: PlannedMeal) =
 fun AlternativesScreen(date: LocalDate, slot: Int) {
     val s by Store.state.collectAsState()
     val m = Store.plannedMeals(s, date).firstOrNull { it.slotIndex == slot }
-    Column(Modifier.fillMaxSize()) {
+    var query by remember { mutableStateOf("") }
+    val prefs = Store.prefsFor(s, date)
+    val alts by androidx.compose.runtime.produceState<List<SolvedRecipe>?>(null, m?.solved?.target, prefs, query) {
+        value = null
+        val meal = m
+        if (meal != null) value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+            if (query.isBlank()) Planner.alternatives(Db.db, meal.solved.template.meal, meal.solved.target, prefs)
+            else {
+                Planner.searchAlternatives(Db.db, query, meal.solved.target, prefs)
+            }
+        }
+    }
+    Column(Modifier.fillMaxSize().navigationBarsPadding()) {
         TopBar("Trova alternativa", onBack = { Nav.back() })
         if (m == null) { EmptyState("🤔", "Pasto non trovato", ""); return@Column }
-        val alts = remember(m.solved.target, Store.prefsFor(s, date)) { Planner.alternatives(Db.db, m.solved.template.meal, m.solved.target, Store.prefsFor(s, date)) }
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             Text("${m.slotName}: obiettivo ${m.solved.target.kcal.r0()} kcal · P ${m.solved.target.protein.r0()} g · C ${m.solved.target.carbs.r0()} g · G ${m.solved.target.fat.r0()} g", style = T.Muted)
-            Text("Ogni piatto è ricalcolato per avvicinarsi il più possibile a questi valori. In alto i più precisi.", style = T.Small)
-            Spacer(Modifier.height(10.dp))
-            alts.forEach { a ->
-                AltRow(s, a, a.template.id == m.solved.template.id) {
-                    Store.setSlotRecipe(date, slot, a.template.id); Nav.back()
+            JField(query, { query = it }, "Cerca tra tutte le ricette", Modifier.testTag("alternative-search"))
+            Text("La ricerca include tutti i tipi di pasto e tempi di preparazione, rispettando alimentazione ed esclusioni. Mostro fino a 60 risultati per ricerca.", style = T.Small)
+            GapH(10.dp)
+            PrimaryButton("Componi con i tuoi alimenti", Modifier.fillMaxWidth().testTag("alternative-manual")) { Nav.go(Screen.ManualMeal(date, slot)) }
+            if (s.recipes.isNotEmpty()) {
+                SectionTitle("Le tue ricette")
+                s.recipes.filter { r -> query.isBlank() || FoodDb.normalize(r.name).contains(FoodDb.normalize(query)) }.take(20).forEach { r ->
+                    GhostButton(r.name, Modifier.fillMaxWidth()) {
+                        val servings = r.servings.coerceAtLeast(1)
+                        ManualMealDrafts.recipes["$date#$slot"] = r.copy(id="manual:$date#$slot", servings=1, ingredients=r.ingredients.map { it.copy(grams=it.grams/servings) })
+                        Nav.go(Screen.ManualMeal(date, slot))
+                    }
                 }
+            }
+            SectionTitle(if(query.isBlank()) "Alternative suggerite" else "Risultati nel catalogo")
+            val list = alts
+            if (list == null) Text("Calcolo le alternative…", style=T.Small)
+            else if(list.isEmpty()) Text("Nessuna ricetta compatibile: prova un altro nome o componi il pasto.",style=T.Small)
+            else list.forEach { a ->
+                AltRow(s, a, a.template.id == m.solved.template.id) { Store.setSlotRecipe(date, slot, a.template.id, manualChoice = query.isNotBlank()); Nav.back() }
                 Spacer(Modifier.height(10.dp))
             }
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(24.dp))
         }
     }
 }

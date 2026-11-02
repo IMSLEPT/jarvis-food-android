@@ -241,7 +241,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
     val canAdd = sel.isNotEmpty() && sel.all { item -> parseNum(item.grams)?.let { it.isFinite() && it > 0.0 } == true }
     val photoShape = RoundedCornerShape(34.dp)
 
-    Column(Modifier.fillMaxSize().imePadding()) {
+    Column(Modifier.fillMaxSize().navigationBarsPadding().imePadding().testTag("photo-screen")) {
         Row(Modifier.fillMaxWidth().statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             BackCircle { Nav.back() }
             GapW(12.dp)
@@ -414,7 +414,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
             }
 
             if (labels.isNotEmpty()) {
-                GHead("Piatti probabili (offline)", "Tocca il più corretto per cercarlo e scegliere la porzione.")
+                GHead("Da verificare", "Il modello offline propone un nome, senza stimare grammi o calorie. Conferma cercando il piatto.")
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     labels.forEach { l ->
                         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 14.dp, elevation = 6.dp, onClick = {
@@ -424,18 +424,23 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
                         }) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(l.label, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                                Text("${(l.score * 100).toInt()}%", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.Muted))
+                                AIcon(Ic.Right, C.Navy, 20.dp)
                             }
                         }
                     }
                 }
             }
-            GapH(24.dp)
+            if (b != null && !busy) {
+                GapH(14.dp)
+                SquareAction("Cerca alimenti manualmente", Modifier.fillMaxWidth(), tag = "photo-manual-search",
+                    subtitle = "Scegli gli alimenti e il peso reale") { if (replacementEntryId != null) Nav.go(Screen.ReplaceFood(replacementEntryId, offlineOnly = !online)) else Nav.go(Screen.AddFood(date, meal, offlineOnly = !online)) }
+            }
+            GapH(36.dp)
         }
         if (sel.isNotEmpty()) {
             val barShape = RoundedCornerShape(34.dp)
             Row(
-                Modifier.navigationBarsPadding().padding(16.dp).fillMaxWidth().aShadow(barShape, 14.dp, Color(0x8017286B)).clip(barShape).background(C.Navy).padding(start = 22.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
+                Modifier.padding(16.dp).fillMaxWidth().aShadow(barShape, 14.dp, Color(0x8017286B)).clip(barShape).background(C.Navy).padding(start = 22.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(Modifier.weight(1f)) {

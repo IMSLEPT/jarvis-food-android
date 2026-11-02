@@ -82,7 +82,7 @@ object FoodAi {
      * (cioè che [parse] riesce a leggere); le altre vengono annullate. Così un modello lento non blocca l'analisi.
      */
     private suspend fun <T> ask(cfg: AiConfig, prompt: String, image: Bitmap?, onStatus: (String) -> Unit = {}, parse: (String) -> T): T = try {
-        withTimeout(if (image != null) 35_000L else 55_000L) { coroutineScope {
+        withTimeout(if (image != null) 22_000L else 55_000L) { coroutineScope {
         require(cfg.apiKey.isNotBlank()) { "Serve la chiave gratuita: Profilo → Intelligenza artificiale." }
         val models = (listOf(cfg.model) + if (cfg.baseUrl.contains("openrouter")) AiConfig.FALLBACKS else emptyList()).distinct()
         onStatus("Preparo la foto…")
@@ -134,16 +134,19 @@ object FoodAi {
             val msg = runCatching { JSONObject(txt).getJSONObject("error").getString("message") }.getOrNull()
             throw RuntimeException("Errore AI $code ($model): ${msg ?: txt.take(160)}")
         }
-        val out = JSONObject(txt).getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content", "")
-        if (out.isBlank()) throw RuntimeException("Risposta vuota ($model)")
-        return out
+        return AiResponse.text(txt)
     }
 
     /** Messaggio comprensibile per l'utente a partire da un errore di rete o dell'AI. */
     fun friendlyError(e: Throwable): String = when (e) {
         is java.net.UnknownHostException, is java.net.ConnectException, is java.net.SocketTimeoutException ->
             "Connessione assente o troppo lenta. Riprova, oppure usa la modalità Offline."
-        else -> e.message?.takeIf { it.isNotBlank() } ?: "Errore sconosciuto"
+        else -> when {
+            e.message?.contains("401") == true -> "La chiave AI non è valida. Controllala in Profilo → Intelligenza artificiale."
+            e.message?.contains("429") == true -> "Il servizio AI ha raggiunto il limite di richieste. Riprova più tardi o cerca gli alimenti."
+            e.message?.startsWith("Errore AI") == true -> "Il servizio AI non è disponibile. Riprova o cerca gli alimenti."
+            else -> e.message?.takeIf { it.isNotBlank() && it != "null" } ?: "Analisi non riuscita. Riprova o cerca gli alimenti."
+        }
     }
 
     private fun jsonOf(answer: String): JSONObject {
@@ -164,21 +167,27 @@ object FoodAi {
 
     /** Foto di un piatto: alimenti e grammi STIMATI. I valori nutrizionali li calcola l'app dal database. */
     suspend fun analyzeMeal(cfg: AiConfig, db: FoodDb, bitmap: Bitmap, hint: String, onStatus: (String) -> Unit = {}): Pair<List<AiItem>, String> {
-        val prompt = """Sei un nutrizionista. Guarda la foto del pasto, riconosci ogni alimento visibile e stima i grammi presenti nel piatto.
-Indica il peso così come appare nel piatto ("state":"cotto" se l'alimento è cotto, altrimenti "crudo"): la conversione in crudo la fa l'app.
-Non inventare alimenti non visibili. Se non sei sicuro dichiara "conf":"bassa".
-Per ogni alimento scegli l'id più adatto da questo catalogo; se non c'è, usa id null e stima kcal e macronutrienti della porzione.
-CATALOGO (id: nome):
-${catalog(db)}
-${if (hint.isNotBlank()) "Informazioni dall'utente (hanno la precedenza sulle tue stime): $hint\n" else ""}Rispondi SOLO con JSON:
-{"items":[{"id":"pasta","name":"pasta al pomodoro","grams":200,"state":"cotto","conf":"media","kcal":0,"protein":0,"carbs":0,"fat":0}],"note":"..."}"""
-        val o = ask(cfg, prompt, bitmap, { onStatus(it) }) { ans -> jsonOf(ans).also { j -> if (j.optJSONArray("items") == null) throw RuntimeException("Risposta AI senza alimenti") } }
+        // Recognition does not need the full catalog: match names locally after a valid response.
+        val prompt = """Osserva la foto. Elenca in italiano soltanto gli alimenti visibili (massimo 12).
+Per ogni ingrediente usa un nome semplice e specifico, es. "pasta di semola", "salmone", "zucchine".
+Stima il peso come servito in grammi e indica state "cotto" o "crudo". Non inventare ingredienti nascosti.
+Se un piatto composto non è separabile, descrivilo per intero e stima kcal, protein, carbs, fat della porzione.
+Se non è cibo o non è riconoscibile usa items vuoto e spiega in note. Non usare null come risposta.
+${if (hint.isNotBlank()) "Indicazioni dell’utente: ${hint.take(500)}" else ""}
+Rispondi solo JSON, senza markdown:
+{"items":[{"name":"salmone cotto","grams":150,"state":"cotto","conf":"media","kcal":300,"protein":30,"carbs":0,"fat":20}],"note":"Quantità indicative: verifica il peso."}"""
+        val o = ask(cfg, prompt, bitmap, { onStatus(it) }, AiResponse::meal)
         onStatus("Calcolo calorie e macro dal database…")
         val arr = o.optJSONArray("items") ?: JSONArray()
         val items = (0 until arr.length()).map { i ->
             val it = arr.getJSONObject(i)
             val name = it.optString("name", "Alimento")
-            val id = resolveId(db, it.optString("id").takeIf { s -> s.isNotBlank() && s != "null" }, name)
+            val normalized = FoodDb.normalize(name.removeSuffix(" cotto").removeSuffix(" cotta"))
+            val id = db.foods.firstOrNull { f -> (f.syn + f.name).any { FoodDb.normalize(it) == normalized } }?.id
+            if (id == null) require(it.optDouble("kcal", 0.0).isFinite() && it.optDouble("kcal", 0.0) > 0 &&
+                listOf("protein", "carbs", "fat").all { key -> it.optDouble(key, Double.NaN).let { v -> v.isFinite() && v >= 0 } }) {
+                "L’AI ha riconosciuto il piatto ma non ha restituito valori nutrizionali utilizzabili. Cerca gli alimenti per completarli."
+            }
             val served = it.optDouble("grams", 100.0).nz().coerceIn(1.0, 1500.0)
             val factor = if (it.optString("state").startsWith("cott", true)) id?.let { f -> db.food(f)?.cooked } else null
             val conf = when (it.optString("conf").lowercase().take(3)) { "alt", "hig" -> "alta"; "bas", "low" -> "bassa"; else -> "media" }
@@ -189,7 +198,7 @@ ${if (hint.isNotBlank()) "Informazioni dall'utente (hanno la precedenza sulle tu
                 servedGrams = if (factor != null) served else null, confidence = conf
             )
         }
-        return items to o.optString("note", "")
+        return items to o.optString("note", "").takeUnless { it.equals("null", true) }.orEmpty()
     }
 
     /** Foto di frigorifero o dispensa: prodotti visibili con quantità stimata. */
@@ -334,14 +343,18 @@ Rispondi SOLO con JSON: $RECIPE_JSON"""
         }
     }
 
-    suspend fun analyzeOffline(context: Context, bitmap: Bitmap): List<AiLabel> = withContext(Dispatchers.Default) {
+    suspend fun analyzeOffline(context: Context, bitmap: Bitmap): List<AiLabel> = OfflineFoodLabels.select(classifyOffline(context, bitmap))
+
+    internal suspend fun classifyOffline(context: Context, bitmap: Bitmap): List<AiLabel> = withContext(Dispatchers.Default) {
         val cls = getClassifier(context)
         val argb = bitmap.copy(Bitmap.Config.ARGB_8888, false)
-        try { synchronized(cls) { cls.classify(TensorImage.fromBitmap(argb)) }.flatMap { it.categories }
-            .filter { it.label.isNotBlank() && !it.label.contains("background", true) && !it.displayName.contains("background", true) }
-            .sortedByDescending { it.score }
-            .map { AiLabel(it.displayName.ifBlank { it.label }, it.score) }
-            .distinctBy { it.label.lowercase() }.take(5)
+        try {
+            val raw = synchronized(cls) {
+                cls.classify(TensorImage.fromBitmap(argb)).flatMap { it.categories }
+                    .filter { it.label.isNotBlank() && !it.label.contains("background", true) }
+                    .map { AiLabel(it.label, it.score) }
+            }
+            raw
         } finally { argb.recycle() }
     }
 }

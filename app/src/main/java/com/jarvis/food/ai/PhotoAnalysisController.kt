@@ -100,7 +100,7 @@ class PhotoAnalysisController<T>(
         if (id != generation) return
         val emptyError = when (result) {
             is PhotoAnalysisResult.Online -> if (result.items.isEmpty()) result.note.ifBlank { "Nessun alimento riconosciuto. Prova un'altra foto." } else null
-            is PhotoAnalysisResult.Offline -> if (result.labels.isEmpty()) "Nessun piatto riconosciuto. Prova una foto più nitida." else null
+            is PhotoAnalysisResult.Offline -> if (result.labels.isEmpty()) "Non riesco a riconoscere questo piatto con sufficiente chiarezza. Cerca gli alimenti e indica le quantità." else null
         }
         mutableState.value = state.value.copy(result = result, error = emptyError, status = "")
     }

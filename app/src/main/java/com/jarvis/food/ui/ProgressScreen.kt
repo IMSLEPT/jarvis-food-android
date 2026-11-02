@@ -392,8 +392,7 @@ private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, la
                     for (ratio in listOf(0f, .5f, 1f)) drawLine(C.Line, Offset(0f, size.height * ratio), Offset(size.width, size.height * ratio), 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f)))
                 }
                 Column { BarsRow(values, maximum.coerceAtLeast(.1), 60.dp, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
-                    fill = { i, _ -> if (waterChart) Brush.verticalGradient(listOf(if (i == values.lastIndex) Color(0xFF9FE6F1) else Color(0xFF29D0E7), Color(0xFF1688F9)))
-                        else SolidColor(if (i == values.lastIndex) Color(0xFF6FDDB8) else Color(0xFF10B981)) },
+                    fill = { _, _ -> TrendPalette.bars(if (waterChart) "water" else "activity") },
                     labels = if (period == 7) labels else null) }
             }
         }

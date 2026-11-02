@@ -72,7 +72,16 @@ class TrainingDiaryFlowTest {
             compose.waitForIdle()
             assertEquals(listOf(first, other), Store.current.diary)
             compose.onNodeWithText("Annulla").performClick()
-            compose.waitForIdle()
+            // Wait for the destination, not just a momentary idle frame during navigation.
+            try {
+                compose.waitUntil(timeoutMillis = 10000) {
+                    compose.onAllNodesWithTag("replacement-results").fetchSemanticsNodes().isNotEmpty()
+                }
+            } catch (failure: AssertionError) {
+                shot("replacement-cancel-destination-missing")
+                throw failure
+            }
+            assertTrue(Nav.stack.lastOrNull() is Screen.ReplaceFood)
             assertEquals(listOf(first, other), Store.current.diary)
             compose.onNodeWithTag("replacement-results").performScrollToNode(hasTestTag("replacement-${fish.id}"))
             compose.onNodeWithTag("replacement-${fish.id}").performClick()

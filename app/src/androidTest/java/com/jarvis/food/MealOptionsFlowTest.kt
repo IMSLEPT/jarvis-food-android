@@ -50,6 +50,7 @@ class MealOptionsFlowTest {
             compose.waitForIdle()
             assertTrue(Nav.stack.last() is Screen.RecipeView)
             ui { Nav.back() }
+            compose.waitUntil(10000) { compose.onAllNodesWithTag("plan-alternatives-0").fetchSemanticsNodes().isNotEmpty() }
             compose.onNodeWithTag("plan-alternatives-0").performScrollTo().performClick()
             compose.waitForIdle()
             assertTrue(Nav.stack.last() is Screen.Alternatives)
