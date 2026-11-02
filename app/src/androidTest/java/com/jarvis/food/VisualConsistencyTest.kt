@@ -160,6 +160,8 @@ class VisualConsistencyTest {
             assertTrue(Nav.stack.last() is Screen.Alternatives)
             if (ins.targetContext.resources.configuration.fontScale > 1.5f) {
                 val alternative = com.jarvis.food.engine.Planner.alternatives(Db.db, meal.solved.template.meal, meal.solved.target, Store.current.dietPrefs).first()
+                // Alternative fitting now runs off the UI thread; await its result before inspecting typography.
+                compose.waitUntil(20000) { compose.onAllNodesWithTag("alternative-title-${alternative.template.id}", useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() }
                 readable(compose.onNodeWithTag("alternative-title-${alternative.template.id}", useUnmergedTree = true).performScrollTo())
             }
             shot("plan-alternatives")
