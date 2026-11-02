@@ -57,6 +57,18 @@ class FoodFollowupTest {
         assertEquals(308.75,meals.single().solved.total.kcal,.001)
         assertNull(NutritionScience.per100(meals.single().solved.toFood(), "vitD"))
     }
+    @Test fun manualMealGapIsRedistributedOnceAcrossRemainingMeals() {
+        val base=DbFood("test_base","Alimento di prova","Dispensa","cereali",fdc=0,usda="",kcal=400.0,protein=20.0,carbs=50.0,fat=40.0/3)
+        val recipe=RecipeTemplate("test_auto","Pasto automatico","pranzo",10,listOf(TemplateIngredient(base.id,100.0,"c")),listOf("Prepara"))
+        val manual=Recipe("manual:light","Pasto leggero",1,listOf(Ingredient(base.toFood(),50.0)))
+        val prefs=DietPrefs(slots=listOf(MealSlotDef("Colazione","colazione",1,0),MealSlotDef("Pranzo","pranzo",1,1),MealSlotDef("Cena","cena",1,2)))
+        val day=DayPlan(date.toString(),listOf(PlanSlot(0,manual.id,manualRecipe=manual),PlanSlot(1,recipe.id),PlanSlot(2,recipe.id)))
+        val solved=Planner.solveDay(FoodDb(listOf(base),listOf(recipe)),day,Macro(1200.0,60.0,150.0,40.0),prefs)
+        assertEquals(50.0,solved.first().solved.items.single().grams,0.0)
+        assertEquals(1200.0,solved.sumOf { it.solved.total.kcal },2.0)
+        assertEquals(60.0,solved.sumOf { it.solved.total.protein },.5)
+        assertEquals(150.0,solved.sumOf { it.solved.total.carbs },.5)
+    }
     @Test fun schedulingFromKitchenReplacesManualContentsWithoutLoggingFood() {
         val before=Store.current
         val manual=Recipe("manual:old","Il mio pasto",1,listOf(Ingredient(food(),100.0)))

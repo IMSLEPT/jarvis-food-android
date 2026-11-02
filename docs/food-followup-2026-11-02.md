@@ -18,4 +18,6 @@ I colori descrivono specifici nutrienti dell'etichetta secondo i criteri NHS, no
 
 Fonti consultate il 02/11/2026: NHS Food labels; CREA Linee guida per una sana alimentazione, revisione 2018; riferimenti già presenti in NutritionEvidence. Collegamenti disponibili nell'app.
 
-Verifiche aggiunte: undici casi JVM per soglie, dati mancanti, crema di mandorle, storico, persistenza e quantità; quattro flussi Android eseguiti a testo normale e 130% per consigli alimento, guida senza storico, modifica/salvataggio manuale e margine dei suggerimenti rispetto ai comandi Android. Restano tutti i controlli della versione precedente. La pubblicazione resta vincolata al successo dell'intera pipeline.
+Verifiche aggiunte: dodici casi JVM per soglie, dati mancanti, crema di mandorle, storico, persistenza e quantità; quattro flussi Android eseguiti a testo normale e 130% per consigli alimento, guida senza storico, modifica/salvataggio manuale e margine dei suggerimenti rispetto ai comandi Android. Restano tutti i controlli della versione precedente. La pubblicazione resta vincolata al successo dell'intera pipeline.
+
+Corretto il bilancio residuo della giornata: lo scarto di un pasto manuale viene ridistribuito sui successivi senza ricontare la quota già assegnata. Caso riproducibile: obiettivo 1.200 kcal, primo pasto 200 kcal invece di 400, due pasti adattabili da 500 kcal: totale 1.200, anziché 1.300.

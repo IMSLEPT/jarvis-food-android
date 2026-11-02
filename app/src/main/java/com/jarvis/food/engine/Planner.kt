@@ -61,7 +61,9 @@ object Planner {
                 max(adj.carbs, base.carbs * 0.4), max(adj.fat, base.fat * 0.4)
             )
             val solved = ps.manualRecipe?.let { ManualMeals.asSolved(it, t, prefs.slots[ps.slot].meal) } ?: Solver.solve(rec, db, t)
-            residual = residual + (t - solved.total)
+            // The adjustment in t already distributes part of the previous gap.
+            // Track the gap against the base share, otherwise it is counted again.
+            residual = residual + (base - solved.total)
             val def = prefs.slots[ps.slot]
             out += PlannedMeal(ps.slot, def.name, def.diaryMeal, solved)
         }
