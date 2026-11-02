@@ -15,7 +15,7 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
     for key in counts:
         counts[key] += int(root.get(key, 0))
 # 120 previous tests - 14 removed family tests + 7 new calendar/history/upgrade tests.
-assert counts['tests'] >= 122 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
+assert counts['tests'] >= 124 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
 logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,

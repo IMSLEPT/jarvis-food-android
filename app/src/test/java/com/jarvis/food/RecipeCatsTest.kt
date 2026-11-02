@@ -5,6 +5,7 @@ import com.jarvis.food.engine.RecipeCats
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertSame
 import org.junit.Test
 import java.io.File
 
@@ -39,6 +40,41 @@ class RecipeCatsTest {
     @Test fun ilRisultatoResta_inMemoria() {
         RecipeCats.get(db)
         assertNotNull(RecipeCats.peek(db))
+    }
+
+    @Test fun richiesteConcorrentiCondividonoUnSoloCatalogo() {
+        val small = FoodDb(db.foods, db.recipes.take(37))
+        val start = java.util.concurrent.CountDownLatch(1)
+        val pool = java.util.concurrent.Executors.newFixedThreadPool(4)
+        try {
+            val pending = (1..4).map {
+                pool.submit<List<com.jarvis.food.engine.RecipeCatGroup>> {
+                    start.await()
+                    RecipeCats.get(small)
+                }
+            }
+            start.countDown()
+            val results = pending.map { it.get(30, java.util.concurrent.TimeUnit.SECONDS) }
+            results.forEach { assertSame(results.first(), it) }
+            assertEquals(small.recipes.size, results.first().first { it.id == "kcal" }.cats.sumOf { it.count })
+        } finally {
+            pool.shutdownNow()
+        }
+    }
+
+    @Test fun ricercheNormalizzanoAccentiPunteggiaturaESpaziAncheInParallelo() {
+        val inputs = mapOf("" to "", "  \t\n " to "", "Caffè, TÈ e Yogurt!" to "caffe te e yogurt", "Crème-brûlée  100%" to "creme brulee 100")
+        val pool = java.util.concurrent.Executors.newFixedThreadPool(4)
+        try {
+            val pending = (1..4).map {
+                pool.submit {
+                    repeat(1000) { inputs.forEach { (raw, expected) -> assertEquals(expected, FoodDb.normalize(raw)) } }
+                }
+            }
+            pending.forEach { it.get(30, java.util.concurrent.TimeUnit.SECONDS) }
+        } finally {
+            pool.shutdownNow()
+        }
     }
 
     @Test fun categoriePerTempoSonoCumulativeERealistiche() {

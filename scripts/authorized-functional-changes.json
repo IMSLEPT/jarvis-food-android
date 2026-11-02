@@ -64,8 +64,8 @@
     "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "be3af74477b15a53e898cca424d4e45309be2b461cb45f4bbef2d4d13a972120",
-    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+    "sha256": "16371b56bef37ed94c9ecf9d6f6797d874b2f85f050d74f0749a6561e6f2cc6d",
+    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
     "sha256": "8f0866bc4b1c2eb17570aaca494b7b37d20213a0c20b0d57ef777ec17a65fc11",
@@ -88,8 +88,8 @@
     "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
   },
   "app/src/main/java/com/jarvis/food/engine/FoodDb.kt": {
-    "sha256": "59837ea602d47aa6b0f6511fe30a696b00a94ce9f0516c99145896183272ae42",
-    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
+    "sha256": "c295e27aad2f60298477b6029a879655007173e6323b6f1d62a0605e7add89be",
+    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
   },
   "app/src/main/java/com/jarvis/food/family/FamilyCrypto.kt": {
     "deleted": true,
@@ -110,5 +110,9 @@
   "app/src/main/java/com/jarvis/food/family/FamilyStore.kt": {
     "deleted": true,
     "reason": "Richiesta esplicita di Alessandro del 1 novembre 2026: rimozione completa della funzione Famiglia, delle schermate e della sincronizzazione."
+  },
+  "app/src/main/java/com/jarvis/food/engine/RecipeCats.kt": {
+    "sha256": "e55d73ac71de4a2ec2f72ff5de4bf6e8f1de933556d97167d27139cec17fa157",
+    "reason": "Richieste e prosecuzione autorizzata da Alessandro del 02/11/2026: correzioni video, alimentazione e riepilogo a tendina; risoluzione del crash nativo ICU osservato nei test Android, riuso dei pattern e calcolo unico delle categorie senza modificare risultati nutrizionali o ricette."
   }
 }

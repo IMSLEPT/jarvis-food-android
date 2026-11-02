@@ -136,14 +136,22 @@ class FoodDb(foods: List<DbFood>, recipes: List<RecipeTemplate>) {
 
     companion object {
         private val json = Json { ignoreUnknownKeys = true }
+        // Android compila i pattern tramite ICU: riusarli evita migliaia di allocazioni native
+        // durante i conteggi delle categorie e le ricerche nel catalogo.
+        private val accents = Regex("\\p{M}+")
+        private val punctuation = Regex("[^a-z0-9 ]")
+        private val whitespace = Regex("\\s+")
 
         fun parse(foodsJson: String, recipesJson: String): FoodDb =
             FoodDb(json.decodeFromString(FoodsFile.serializer(), foodsJson).foods,
                 json.decodeFromString(RecipesFile.serializer(), recipesJson).recipes)
 
-        fun normalize(s: String): String = java.text.Normalizer.normalize(s.lowercase(), java.text.Normalizer.Form.NFD)
-            .replace(Regex("\\p{M}+"), "")
-            .replace(Regex("[^a-z0-9 ]"), " ")
-            .replace(Regex("\\s+"), " ").trim()
+        fun normalize(s: String): String {
+            if (s.isEmpty()) return ""
+            return java.text.Normalizer.normalize(s.lowercase(), java.text.Normalizer.Form.NFD)
+                .replace(accents, "")
+                .replace(punctuation, " ")
+                .replace(whitespace, " ").trim()
+        }
     }
 }
