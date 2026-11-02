@@ -16,6 +16,10 @@ class TransportEvidenceTest(unittest.TestCase):
         self.assertFalse(qa.transport_failed(0, b'FAILURES!!! AssertionError: clipped text', b''))
         self.assertFalse(qa.transport_failed(1, b'', b'INSTRUMENTATION_FAILED: app crashed'))
 
+    def test_root_daemon_disconnect_is_transport_not_app_failure(self):
+        self.assertTrue(qa.transport_failed(1, b'', b'adb: unable to connect for root: closed'))
+        self.assertFalse(qa.transport_failed(1, b'', b'INSTRUMENTATION_FAILED: application closed after assertion'))
+
     def test_truncated_binary_evidence_is_rejected(self):
         data = io.BytesIO()
         with tarfile.open(fileobj=data, mode='w') as archive:

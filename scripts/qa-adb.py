@@ -11,7 +11,7 @@ import tarfile
 def transport_failed(code, stdout, stderr):
     text = (stderr + (stdout if code else b'')).lower()
     return any(x in text for x in (b'device offline', b'device not found', b'no devices/emulators found',
-                                   b'error: closed', b'error: protocol fault'))
+                                   b'error: closed', b'unable to connect for root: closed', b'error: protocol fault'))
 
 
 def valid_capture(args, stdout):
