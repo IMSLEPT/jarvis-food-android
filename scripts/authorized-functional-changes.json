@@ -64,7 +64,7 @@
     "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "6a6ec5fceb8d5c8e49675feaa4305da0e167907db368552166af968fa9599fa8",
+    "sha256": "ff2a02f9acf85366a54ff77faff39b0ab4c845652ae26b56f738ae2a801a60c9",
     "reason": "Modifiche esplicitamente richieste nei video 1000196317 e 1000196318 del 2 novembre 2026: consigli alimento, guida immediata, alternative manuali e quantità nel piano."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {

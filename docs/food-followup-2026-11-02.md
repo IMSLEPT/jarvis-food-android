@@ -18,4 +18,4 @@ I colori descrivono specifici nutrienti dell'etichetta secondo i criteri NHS, no
 
 Fonti consultate il 02/11/2026: NHS Food labels; CREA Linee guida per una sana alimentazione, revisione 2018; riferimenti già presenti in NutritionEvidence. Collegamenti disponibili nell'app.
 
-Verifiche aggiunte: dieci casi JVM per soglie, dati mancanti, crema di mandorle, storico, persistenza e quantità; quattro flussi Android eseguiti a testo normale e 130% per consigli alimento, guida senza storico, modifica/salvataggio manuale e margine dei suggerimenti rispetto ai comandi Android. Restano tutti i controlli della versione precedente. La pubblicazione resta vincolata al successo dell'intera pipeline.
+Verifiche aggiunte: undici casi JVM per soglie, dati mancanti, crema di mandorle, storico, persistenza e quantità; quattro flussi Android eseguiti a testo normale e 130% per consigli alimento, guida senza storico, modifica/salvataggio manuale e margine dei suggerimenti rispetto ai comandi Android. Restano tutti i controlli della versione precedente. La pubblicazione resta vincolata al successo dell'intera pipeline.

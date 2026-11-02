@@ -417,7 +417,7 @@ object Store {
         val d = date.toString()
         val existing = s.plan.firstOrNull { it.date == d }
         val updated = if (existing == null) DayPlan(d, listOf(PlanSlot(slot, recipeId)))
-        else if (existing.slots.any { it.slot == slot }) existing.copy(slots = existing.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, eatenEntryIds = emptyList()) else it })
+        else if (existing.slots.any { it.slot == slot }) existing.copy(slots = existing.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId, eatenEntryIds = emptyList(), manualRecipe = null) else it })
         else existing.copy(slots = (existing.slots + PlanSlot(slot, recipeId)).sortedBy { it.slot })
         s.copy(plan = (s.plan.filterNot { it.date == d } + updated).sortedBy { it.date })
     }

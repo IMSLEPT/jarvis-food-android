@@ -57,6 +57,18 @@ class FoodFollowupTest {
         assertEquals(308.75,meals.single().solved.total.kcal,.001)
         assertNull(NutritionScience.per100(meals.single().solved.toFood(), "vitD"))
     }
+    @Test fun schedulingFromKitchenReplacesManualContentsWithoutLoggingFood() {
+        val before=Store.current
+        val manual=Recipe("manual:old","Il mio pasto",1,listOf(Ingredient(food(),100.0)))
+        try {
+            Store.update { AppState(plan=listOf(DayPlan(date.toString(),listOf(PlanSlot(0,manual.id,manualRecipe=manual))))) }
+            Store.planRecipe(date,0,"new-catalog-recipe")
+            val slot=Store.current.plan.single().slots.single()
+            assertEquals("new-catalog-recipe",slot.recipeId)
+            assertNull(slot.manualRecipe)
+            assertTrue(Store.current.diary.isEmpty())
+        } finally { Store.update { before } }
+    }
     @Test fun explicitRecipeSearchIncludesLongRecipesButKeepsDietExclusions() {
         val rice=DbFood("test_rice","Riso","Pane, pasta e cereali","cereali",listOf("glutine"),0,"",kcal=350.0,protein=8.0,carbs=75.0,fat=1.0)
         val recipe=RecipeTemplate("test_long","Riso speciale lungo","pranzo",120,listOf(TemplateIngredient(rice.id,100.0,"c")),listOf("Cuoci"))
