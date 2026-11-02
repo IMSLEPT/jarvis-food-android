@@ -53,7 +53,7 @@ object FoodGuidance {
             f.group == "legumi" -> "Esempio CREA per 2.000 kcal: almeno 3 porzioni settimanali di legumi (150 g cotti). Non è un obiettivo personale automatico; adatta il resto del piano."
             else -> "Alterna gli alimenti del gruppo: un indicatore verde non significa consumo illimitato."
         }
-        val query = when { nuts -> "mandorle"; processed -> "ceci"; "yogurt" in n -> "yogurt"; "latte" in n -> "latte"; "pane" in n || "biscott" in n -> "pane integrale"; f.liquid && high.any { it.key == "sugar" } -> "acqua"; else -> f.name }
+        val query = when { nuts -> "mandorle"; processed -> "ceci"; "cioccol" in n -> "cioccolato fondente"; "muesli" in n || "cereali" in n -> "avena"; "yogurt" in n -> "yogurt"; "latte" in n -> "latte"; "pane" in n || "biscott" in n -> "pane integrale"; f.liquid && high.any { it.key == "sugar" } -> "acqua"; else -> f.name }
         return Advice(title, explanation, portion, frequency, signals, high.isNotEmpty() || processed, query)
     }
 }

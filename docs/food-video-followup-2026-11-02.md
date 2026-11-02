@@ -1,0 +1,16 @@
+# Video 1000196321, 1000196336 e 1000196340
+
+Base: versione firmata 1.0.201 / f3e3d647.
+
+- Piano: ON/OFF e Alimentazione condividono larghezza e altezza; layout verticale con testo ingrandito e spazio prima di Dettagli nutrizionali.
+- Alimentazione: voce Salutare distinta da Bilanciata e varia, ispirata a OMS/CREA. Il piano automatico esclude salumi, dolci e alcol; favorisce vegetali, integrali, legumi, meno sale e saturi. Non promette una salute ottimale né la copertura automatica dei micronutrienti.
+- Un limite di preparazione troppo breve non viene confuso con allergeni/esclusioni. Per Giapponese il catalogo attuale parte da 20 minuti a pranzo e 25 a cena: il dialogo propone il minimo compatibile, da scegliere e confermare. Il tempo non cambia annullando. Target invariati, esclusioni sempre rispettate.
+- Verifica degli stili: matrice con tutti i 17 stili e cinque pasti, target coerenti per gli stili restrittivi. Periodi di 7 e 30 giorni per Giapponese e Salutare. Il test ha rivelato casi fuori tolleranza; un passaggio congiunto sulle quantità corregge solo giornate fuori dalle tolleranze esistenti. Conserva quantità manuali e pasti già registrati, passi interi delle uova e limiti per ingrediente.
+- Home: tre consigli brevi con illustrazioni e sfondi colorati; nessuna lunga guida espandibile. Fino a due indicazioni personali dai dati utilizzabili, completate da idee generali. Le idee generali ruotano ogni giorno, restano stabili nello stesso giorno e rispettano stile ed esclusioni. Tocco sul consiglio per la fonte; dettagli del diario conservati nella schermata dedicata.
+- Alimenti: riepilogo con pallino, punti positivi, aspetti da considerare e pulsante Alternative. Nutri-Score A–E solo se fornito da Open Food Facts, con versione quando nota. Altrimenti sintesi dichiarata di zuccheri/saturi/sale: due valori elevati = rosso, uno = arancione, incompleto senza valori elevati = grigio; frutta a guscio 100% con valori coerenti = porzione da considerare. Non è un voto clinico o un indice complessivo della dieta.
+- Proteine e fibre: soglie dei claim UE; per le fibre liquide si usa il rapporto per energia, senza assumere una densità di 1 g/ml. Additivi, ingredienti, bio e NOVA solo dai metadati presenti; nessuna deduzione di rischio dal numero degli additivi, di pesticidi dall’assenza del bio, né di indice glicemico dagli zuccheri. Nessun voto inventato su 100.
+- Arricchire la scheda di un prodotto già registrato legge soltanto i metadati: non cambia grammi, valori nutrizionali o diario.
+
+Fonti consultate il 02/11/2026: OMS Healthy diet (26/01/2026); CREA Linee guida 2018; Commissione europea Nutrition claims; documentazione primaria Open Food Facts Product Schema; Santé publique France Nutri-Score. Collegamenti disponibili nelle schede.
+
+Verifiche: test JVM per metadati mancanti e serializzazione compatibile, soglie proteine/fibre, mandorle/cioccolato, rotazione dei consigli, filtri e rispetto dei pasti fissi. Flussi Android aggiunti per dimensioni/spaziatura, correzione del tempo giapponese, annullamento e conferma Salutare, profilo/ingredienti/alternative e distinzione dati mancanti/grade noto. Esecuzione normale e 130%, oltre alla suite precedente su Android 10/15 e testo fino al 200%. La pubblicazione richiede tutti i controlli superati.

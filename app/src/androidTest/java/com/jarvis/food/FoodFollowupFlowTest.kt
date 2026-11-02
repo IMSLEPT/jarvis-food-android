@@ -40,15 +40,22 @@ class FoodFollowupFlowTest {
             shot("food-advice")
         }
     }
-    @Test fun homeShowsPracticalGuideWithoutHistory() {
+    @Test fun homeShowsThreeCompactDailyTipsWithoutHistory() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("everyday-food-guide").performScrollTo()
-            compose.onNodeWithText("Mostra la guida").performScrollTo().performClick()
-            compose.onNodeWithText("Leggi le linee guida CREA").performScrollTo().assertIsDisplayed()
+            compose.onAllNodes(hasTestTagPrefix("daily-food-tip-")).assertCountEquals(3)
+            compose.onAllNodesWithText("Mostra la guida").assertCountEquals(0)
+            compose.onAllNodes(hasTestTagPrefix("daily-food-tip-"))[0].performScrollTo().performClick()
+            compose.onNodeWithTag("daily-tip-source").assertIsDisplayed()
+            compose.onNodeWithText("Chiudi").performClick()
             assertTrue(Store.current.diary.isEmpty())
             shot("immediate-guide")
         }
+    }
+
+    private fun hasTestTagPrefix(prefix:String)=SemanticsMatcher("tag starts with $prefix") { node ->
+        node.config.getOrElse(androidx.compose.ui.semantics.SemanticsProperties.TestTag) { "" }.startsWith(prefix)
     }
     @Test fun manualPlanPreservesEditedGramsAndDoesNotMarkEaten() {
         prepare();val date=LocalDate.now()

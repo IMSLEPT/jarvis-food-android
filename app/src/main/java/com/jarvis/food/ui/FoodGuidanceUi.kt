@@ -1,6 +1,7 @@
 package com.jarvis.food.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,6 +9,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -21,8 +24,19 @@ import java.time.LocalDate
 fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, entry: DiaryEntry?, meal: Int) {
     val advice = remember(food, grams, s.diary, date) { FoodGuidance.advice(food, grams, s.diary, date) }
     var details by remember { mutableStateOf(false) }
+    var alternativesOpen by remember { mutableStateOf(false) }
+    var criteria by remember { mutableStateOf(false) }
+    var facts by remember(food.id, food.productFacts) { mutableStateOf(food.productFacts) }
+    val review = remember(food, facts) { FoodReview.assess(food.copy(productFacts = facts)) }
+    LaunchedEffect(food.id, food.productFacts) {
+        val code = food.barcode
+        if(facts==null && code!=null && food.source=="off") {
+            try { facts=OpenFoodFacts.facts(code) }
+            catch(e:Exception) { if(e is kotlinx.coroutines.CancellationException) throw e }
+        }
+    }
     var compare by remember { mutableStateOf(false) }
-    var query by remember(food.id) { mutableStateOf(food.name) }
+    var query by remember(food.id) { mutableStateOf(advice.alternativeQuery) }
     var products by remember(food.id) { mutableStateOf<List<Food>>(emptyList()) }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -33,21 +47,39 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
     }
     GapH(12.dp)
     JCard(Modifier.testTag("food-guidance")) {
-        Text(advice.title, style = T.Label.copy(color = if (advice.caution) C.AccentDeep else C.Navy))
-        GapH(8.dp)
-        advice.signals.forEach { signal ->
-            val color = when (signal.level) { FoodGuidance.Level.HIGH -> C.Danger; FoodGuidance.Level.MEDIUM -> C.AccentDeep; FoodGuidance.Level.LOW -> A.GreenInk; else -> C.Muted }
-            val label = when (signal.level) { FoodGuidance.Level.HIGH -> "alto"; FoodGuidance.Level.MEDIUM -> "medio"; FoodGuidance.Level.LOW -> "basso"; else -> "non noto" }
-            Text("● ${signal.label}: ${signal.per100?.let { "${it.r1()} g/100 ${if (food.liquid) "ml" else "g"}" } ?: "dato mancante"} · $label", style = T.Small.copy(color = color))
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text("●", style = T.Title2.copy(color=reviewColor(review.tone)))
+            GapW(8.dp)
+            Column(Modifier.weight(1f)) {
+                Text(review.title,Modifier.testTag("food-review-rating"),style=T.Label.copy(color=reviewColor(review.tone)))
+                Text(if(review.grade!=null) "Profilo nutrizionale · Open Food Facts" else "Sintesi dei dati noti dell’etichetta",style=T.Small)
+            }
         }
         GapH(8.dp)
-        if(food.liquid && advice.signals.any { it.per100 != null && it.level == FoodGuidance.Level.UNKNOWN }) Text("I liquidi che non sono bevande (es. olio e salse) non ricevono il colore delle bevande: servirebbe una base di peso comparabile.",style=T.Small)
-        TextButton(onClick = { details = !details }, modifier = Modifier.testTag("food-guidance-details")) { Text(if (details) "Chiudi consigli" else "Quantità, frequenza e alternative", color = C.Navy) }
+        if(review.positive.isNotEmpty()) {
+            Text("Punti positivi",style=T.Label.copy(color=A.GreenInk))
+            review.positive.take(3).forEach { ReviewPoint(it) }
+        }
+        val considerations=review.attention + review.facts.filter { it.tone==FoodReview.Tone.CAUTION }
+        if(considerations.isNotEmpty()) {
+            GapH(6.dp); Text("Da considerare",style=T.Label.copy(color=C.AccentDeep))
+            considerations.take(3).forEach { ReviewPoint(it) }
+        }
+        review.facts.filter { it.title in setOf("Additivi","Biologico") }.forEach { ReviewPoint(it.copy(value=it.value.substringBefore(" · "))) }
+        if(review.missing.isNotEmpty()) Text("Dati parziali · ${review.missing.joinToString()}",style=T.Small.copy(color=C.Muted))
+        Row(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick={ alternativesOpen=!alternativesOpen },modifier=Modifier.testTag("food-guidance-alternatives")) { Text(if(alternativesOpen) "Chiudi alternative" else "Alternative",color=C.Navy) }
+            TextButton(onClick={ criteria=true },modifier=Modifier.testTag("food-review-criteria")) { Text("Criteri e ingredienti",color=C.Navy) }
+        }
+        TextButton(onClick = { details = !details }, modifier = Modifier.testTag("food-guidance-details")) { Text(if (details) "Chiudi consigli" else "Quantità e frequenza", color = C.Navy) }
         if (details) {
+            Text(advice.title,style=T.Label)
             Text(advice.explanation, style = T.Small)
             GapH(6.dp)
             Text(advice.portion, style = T.Small)
             GapH(6.dp); Text(advice.frequency, style = T.Small)
+        }
+        if(alternativesOpen || details) {
             GapH(8.dp); Text("Alternative da valutare", style = T.Label)
             alternatives.forEach { candidate ->
                 val portion = NutritionScience.standardPortion(candidate) ?: 100.0
@@ -63,14 +95,31 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
                     }
                 }
             }
-            Text("Confronta ingredienti ed etichette prima di preferire una marca. Non deduco NOVA o qualità dai nomi commerciali.", style = T.Small)
+            Text("Confronta ingredienti, quantità e allergeni prima di sostituire.", style = T.Small)
             TextButton(onClick = { compare = true }) { Text("Confronta prodotti e marche", color = C.Navy) }
-            TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.LABEL_SOURCE) } }) { Text("Criteri dei colori · NHS", color = C.Navy) }
-            TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.FREQUENCY_SOURCE) } }) { Text("Frequenze alimentari · CREA", color = C.Navy) }
-            if (food.liquid) TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.DRINK_SOURCE) } }) { Text("Soglie per le bevande · Governo scozzese", color = C.Navy) }
-            TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) } }) { Text("Porzioni e varietà · CREA", color = C.Navy) }
         }
     }
+    if(criteria) AlertDialog(onDismissRequest={ criteria=false },title={ Text("Come leggere il profilo",style=T.Title2) },text={
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            Text("Il Nutri-Score A–E, quando presente, proviene da Open Food Facts${facts?.nutriScoreVersion?.let { " (versione $it)" } ?: ""}. In sua assenza il colore riassume solo zuccheri, saturi e sale noti; non è un voto complessivo alla salute dell’alimento.",style=T.Small)
+            GapH(8.dp)
+            Text("Senza Nutri-Score: due valori elevati indicano rosso; uno indica arancione. Se non emergono valori elevati ma manca uno dei tre dati, il colore è grigio. Le carni lavorate ricevono un invito a limitarle. Una crema 100% frutta a guscio richiede attenzione alla porzione, senza diventare automaticamente cibo spazzatura.",style=T.Small)
+            Text("Proteine e fibre seguono le soglie UE. Biologico e numero degli additivi sono informazioni distinte, senza un premio o una penalità inventati. Indice glicemico: non disponibile; non si ricava dai soli zuccheri.",style=T.Small)
+            GapH(8.dp)
+            (review.positive+review.attention+review.facts).distinct().forEach { ReviewPoint(it) }
+            GapH(8.dp);Text("Ingredienti",style=T.Label)
+            Text(facts?.ingredients ?: "Non disponibili: verifica la confezione.",style=T.Small)
+            facts?.additives?.takeIf { it.isNotEmpty() }?.let { Text("Additivi dichiarati: ${it.joinToString { code -> code.substringAfter(':').uppercase() }}",style=T.Small) }
+            facts?.allergens?.takeIf { it.isNotEmpty() }?.let { Text("Allergeni dichiarati: ${it.joinToString()}",style=T.Small) }
+            facts?.traces?.takeIf { it.isNotEmpty() }?.let { Text("Possibili tracce: ${it.joinToString()}",style=T.Small) }
+            if(review.missing.isNotEmpty()) Text("Dati mancanti: ${review.missing.joinToString()}",style=T.Small)
+            Text("I dati online possono essere incompleti o superati: controlla l’etichetta del prodotto.",style=T.Small)
+            TextButton(onClick={ runCatching { uri.openUri(FoodGuidance.LABEL_SOURCE) } }) { Text("Colori dei nutrienti · NHS") }
+            TextButton(onClick={ runCatching { uri.openUri(FoodReview.CLAIMS_SOURCE) } }) { Text("Proteine e fibre · UE") }
+            TextButton(onClick={ runCatching { uri.openUri(FoodReview.NUTRISCORE_SOURCE) } }) { Text("Nutri-Score · metodo") }
+            TextButton(onClick={ runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) } }) { Text("Porzioni e varietà · CREA") }
+        }
+    },confirmButton={ TextButton(onClick={ criteria=false }) { Text("Chiudi") } },containerColor=C.Surface)
     if (compare) AlertDialog(onDismissRequest = { compare = false }, title = { Text("Confronta le etichette", style = T.Title2) }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             Text("Stessa unità: per 100 ${if (food.liquid) "ml" else "g"}. Un valore più basso non prova che il prodotto sia migliore in assoluto. Controlla anche ingredienti e allergeni sulla confezione.", style = T.Small)
@@ -102,28 +151,62 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
     }, confirmButton = { TextButton(onClick = { compare = false }) { Text("Chiudi") } }, containerColor = C.Surface)
 }
 
+private fun reviewColor(tone: FoodReview.Tone): Color = when(tone) {
+    FoodReview.Tone.GOOD -> A.GreenInk
+    FoodReview.Tone.CAUTION -> C.AccentDeep
+    FoodReview.Tone.LIMIT -> C.Danger
+    FoodReview.Tone.UNKNOWN -> C.Muted
+}
+
 @Composable
-fun EverydayFoodGuide() {
-    var expanded by remember { mutableStateOf(false) }
-    val uri = LocalUriHandler.current
-    JCard(Modifier.testTag("everyday-food-guide")) {
-        Text("Idee pratiche per mangiare vario", style = T.Label)
-        Text("Puoi iniziare subito, anche con poco storico. Sono esempi per adulti sani: adatta porzioni, allergie e preferenze.", style = T.Small)
-        GapH(8.dp)
-        Text("Esempio onnivoro: alterna legumi, pesce, uova e carni fresche. Per il pesce fresco: 2–4 porzioni da 150 g a settimana; per la carne rossa: 1 da 100 g (CREA).", style = T.Small)
-        Text("Adatta questi riferimenti alla tua alimentazione e al fabbisogno: non sono una garanzia di copertura delle vitamine.", style = T.Small)
-        TextButton(onClick = { expanded = !expanded }) { Text(if (expanded) "Riduci" else "Mostra la guida", color = C.Navy) }
-        if (expanded) {
-            Text("• Alterna le fonti proteiche: legumi, pesce, uova e carni fresche; limita le carni lavorate. Esempi di porzione: legumi cotti 150 g, pesce fresco 150 g.", style = T.Small)
-            GapH(8.dp)
-            Text("• Pesce, uova e latticini apportano B12. Il pesce grasso può apportare vitamina D: mangiare pesce non garantisce di coprire da solo il fabbisogno. In una dieta vegana la B12 richiede una fonte affidabile concordata con un professionista.", style = T.Small)
-            GapH(8.dp)
-            Text("• Inserisci frutta e verdura variate ogni giorno e alterna cereali integrali. Frutta a guscio al naturale: riferimento 30 g, contando l'energia nel piano.", style = T.Small)
-            GapH(8.dp)
-            Text("• Per colazione alterna, per esempio, pane e ricotta, yogurt e avena, oppure pane e crema 100% frutta a guscio. Scegli quantità coerenti con i tuoi obiettivi.", style = T.Small)
-            TextButton(onClick = { runCatching { uri.openUri("https://sapermangiare.an.crea.gov.it/507/pesce.html") } }) { Text("Frequenze del pesce · CREA", color = C.Navy) }
-            TextButton(onClick = { runCatching { uri.openUri("https://sapermangiare.an.crea.gov.it/506/carne.html") } }) { Text("Frequenze della carne · CREA", color = C.Navy) }
-            TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) } }) { Text("Leggi le linee guida CREA", color = C.Navy) }
+private fun ReviewPoint(point: FoodReview.Point) {
+    Row(Modifier.fillMaxWidth().padding(vertical=3.dp),verticalAlignment=Alignment.Top) {
+        Text("●",style=T.Small.copy(color=reviewColor(point.tone)))
+        GapW(7.dp)
+        Column(Modifier.weight(1f)) {
+            Text(point.title,style=T.Label)
+            Text(point.value,style=T.Small.copy(color=C.Muted))
         }
+    }
+}
+
+@Composable
+fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
+    val date=Nav.today
+    val tips=remember(s.diary,s.dietPrefs,s.plan,review,date) { DailyFoodTips.build(s,date,Db.db,review) }
+    var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
+    val uri=LocalUriHandler.current
+    JCard(Modifier.testTag("everyday-food-guide")) {
+        Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween) {
+            Text("Per te oggi",style=T.Label)
+            Text("${date.dayOfMonth}/${date.monthValue}",style=T.Small)
+        }
+        Text(if(tips.any { it.personal }) "Dal diario e idee del giorno" else "3 idee del giorno",style=T.Small)
+        tips.forEachIndexed { index,tip ->
+            GapH(8.dp)
+            val tint=if(tip.attention) Color(0xFFFFF0E5) else listOf(Color(0xFFECF5EF),Color(0xFFEEF1FA),Color(0xFFFFF4E5))[index%3]
+            Row(Modifier.fillMaxWidth().testTag("daily-food-tip-${tip.id}").background(tint,RoundedCornerShape(14.dp))
+                .clickable { selected=tip }.padding(10.dp),verticalAlignment=Alignment.CenterVertically) {
+                FoodIllustration(tip.food,tip.group,38.dp)
+                GapW(10.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(tip.title,style=T.Label.copy(color=if(tip.attention) C.AccentDeep else C.Navy))
+                    Text(tip.text,style=T.Small)
+                }
+            }
+        }
+    }
+    selected?.let { tip ->
+        val source=NutritionEvidence.source(tip.source)
+        AlertDialog(onDismissRequest={ selected=null },title={ Text(tip.title,style=T.Title2) },text={
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                Text(tip.text,style=T.Body)
+                GapH(8.dp)
+                Text(if(tip.personal) "Suggerimento dai dati utilizzabili del diario; non è una diagnosi di carenza."
+                    else "Idea generale per adulti: adatta quantità, preferenze e condizioni personali. I consigli ruotano ogni giorno.",style=T.Small)
+                TextButton(onClick={ runCatching { uri.openUri(source.url) } },modifier=Modifier.testTag("daily-tip-source")) { Text("${source.title} ↗",style=T.Small) }
+                if(tip.personal) TextButton(onClick={ selected=null;Nav.go(Screen.Micronutrients) }) { Text("Dati del diario e alternative") }
+            }
+        },confirmButton={ TextButton(onClick={ selected=null }) { Text("Chiudi") } },containerColor=C.Surface)
     }
 }

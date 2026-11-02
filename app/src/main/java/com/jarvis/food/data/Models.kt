@@ -39,7 +39,22 @@ data class Food(
     val nutrientDataVersion: Int = 0,
     val sugarDataNote: String? = null,
     val portionSource: String? = null,
-    val portionUrl: String? = null
+    val portionUrl: String? = null,
+    /** Product metadata, separate from the nutrition values entered or logged by the user. */
+    val productFacts: ProductFacts? = null
+)
+
+@Serializable
+data class ProductFacts(
+    val nutriScore: String? = null,
+    val nutriScoreVersion: String? = null,
+    val ingredients: String? = null,
+    val additivesCount: Int? = null,
+    val additives: List<String> = emptyList(),
+    val organic: Boolean? = null,
+    val nova: Int? = null,
+    val allergens: List<String> = emptyList(),
+    val traces: List<String> = emptyList()
 )
 
 @Serializable

@@ -16,7 +16,7 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
         counts[key] += int(root.get(key, 0))
 # 120 previous tests - 14 removed family tests + 7 new calendar/history/upgrade tests.
 assert counts['tests'] >= 124 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
-logs = {'layout-food-followup-standard.log':4, 'layout-food-followup-large-text.log':4, 'layout-november-standard.log':3, 'layout-november-large-text.log':3, 'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
+logs = {'layout-diet-followup-standard.log':3, 'layout-diet-followup-large-text.log':3, 'layout-food-review-standard.log':2, 'layout-food-review-large-text.log':2, 'layout-food-followup-standard.log':4, 'layout-food-followup-large-text.log':4, 'layout-november-standard.log':3, 'layout-november-large-text.log':3, 'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
@@ -52,17 +52,18 @@ with zipfile.ZipFile(apk) as bundle:
             assert b'textdb.dev/api/data/' not in dex, 'Removed sync endpoint must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Videos 1000196317 and 1000196318: food guidance, immediate general advice, recipe search and manual planned meals with quantity assistance; based on 1.0.185',
+              original_signature_verified=True, visual_revision='Videos 1000196321, 1000196336, 1000196340: equal plan controls, distinct healthy style, actionable diet time limits, joint day balancing, compact daily tips and product nutrition profiles; based on 1.0.201',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Modifiche richieste nei video 1000196317 e 1000196318 del 2 novembre 2026, basate sulla versione 1.0.185.
+notes.write_text(f'''Modifiche richieste nei video 1000196321, 1000196336 e 1000196340 del 2 novembre 2026, basate sulla versione 1.0.201.
 
-- Cosa mangio adesso: area di scorrimento contenuta, testata opaca e spazio riservato ai comandi Android.
-- Ogni alimento: indicatori testuali e colorati per zuccheri, saturi e sale, quantità e frequenza registrata, alternative e confronto online delle etichette di prodotti/marche. Dati mancanti espliciti; nessuna classificazione della lavorazione o frequenza inventata dalla marca.
-- Vitamine e minerali: guida pratica consultabile subito, anche senza storico; distinta dall'analisi dei dati registrati.
-- Alternative: ricerca per nome/ingredienti nel catalogo, ricette personali e compositore con alimenti del catalogo, personalizzati o di marca.
-- Compositore: confronto calorie e macro di pasto/giornata, proposta limitata delle quantità da approvare, salvataggio persistente nel piano. Il diario cambia solo premendo Segna mangiato.
+- Piano: pulsanti ON/OFF e Alimentazione della stessa grandezza, con spazio prima dei dettagli nutrizionali.
+- Alimentazione: nuova voce Salutare distinta da Bilanciata e varia; controlli su tutti gli stili. I limiti dei tempi si distinguono dalle esclusioni, con correzione esplicita prima di confermare. Target e diario conservati.
+- Calcolo: bilanciamento congiunto delle quantità soltanto per le giornate fuori tolleranza, rispettando porzioni massime e pasti fissi o già registrati.
+- Home: tre consigli brevi con illustrazioni e colori, personalizzati quando il diario lo consente oppure generali; rotazione giornaliera e fonti apribili toccando il consiglio. Rimossa la lunga guida espandibile.
+- Alimenti: profilo con pallino colorato, punti positivi e aspetti da considerare. Nutri-Score A–E quando fornito da Open Food Facts; altrimenti sintesi trasparente dei nutrienti noti. Ingredienti, additivi e bio solo dai dati disponibili; nessun voto /100 o indice glicemico inventato. Alternative apribili con un pulsante.
+- Conservate tutte le modifiche della versione 1.0.201, inclusi ricerca ricette e pasti personali.
 
 Firma originale verificata. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati. Le prove non verificano sul telefono personale i servizi online e l'AI con la chiave dell'utente.
 ''')

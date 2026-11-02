@@ -553,7 +553,6 @@ private fun WaterCard(date: LocalDate, s: AppState) {
 @Composable
 private fun NutrientInsight(s: AppState) {
     VitaminOverview(s)
-    NutritionAdvisor(s)
 }
 
 // ---------------------------------------------------------------- Attività

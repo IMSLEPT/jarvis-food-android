@@ -67,7 +67,8 @@ object Planner {
             val def = prefs.slots[ps.slot]
             out += PlannedMeal(ps.slot, def.name, def.diaryMeal, solved)
         }
-        return out
+        val adjustable = ordered.filter { it.manualRecipe == null && it.eatenEntryIds.isEmpty() }.map { it.slot }.toSet()
+        return Solver.balanceDay(out, day, adjustable)
     }
 
     /** Alternative per un pasto, ordinate per quanto riescono a rispettare calorie e macro. */
