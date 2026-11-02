@@ -131,6 +131,7 @@ class TrainingDiaryFlowTest {
             assertTrue(Store.current.trainingNutrition.isTraining(today.plusWeeks(1)))
             shot("day-off-override")
             ui { Nav.tab = 1; Store.generatePlan(today.with(java.time.DayOfWeek.MONDAY), 7) }
+            compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
             compose.onNodeWithTag("day-type-label").assert(hasAnyAncestor(hasTestTag("plan-summary")))
             compose.onAllNodesWithTag("day-type-configure").assertCountEquals(0)
             compose.onAllNodesWithText("Opzioni del piano").assertCountEquals(0)

@@ -170,10 +170,23 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     val slots = Store.dayPlan(s, date)?.slots.orEmpty()
     val completed = meals.count { meal -> slots.any { it.slot == meal.slotIndex && it.eatenEntryIds.isNotEmpty() } }
     var expanded by remember { mutableStateOf(false) }
+    var panelOpen by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { mutableStateOf(false) }
     var chooseStyle by remember { mutableStateOf(false) }
     if (chooseStyle) DietStyleDialog(s, date) { chooseStyle = false }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 12.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
+    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 12.dp, elevation = 3.dp) {
+        Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth().heightIn(min = 52.dp).testTag("plan-summary-toggle")
+            .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
+            .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f).padding(end = 12.dp)) {
+                Text("Riepilogo del piano", style = T.Title2)
+                Text("${kcalFmt(tot.kcal)} kcal · $completed di ${meals.size} pasti", style = T.Small)
+            }
+            AIcon(if (panelOpen) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Navy, 22.dp)
+        }
+        androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
+        Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 12.dp)) {
         FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
@@ -211,8 +224,12 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 AIcon(Ic.Right, C.Navy, 14.dp)
             }
         }
+        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth()) { expanded = !expanded }
+        }
+        }
+        }
     }
-    if (expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
+    if (panelOpen && expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
         Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 20.dp, bottom = 12.dp)) {
             Text("Totale con le tue scelte", style = T.Muted.copy(fontWeight = FontWeight.Medium))
             Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {

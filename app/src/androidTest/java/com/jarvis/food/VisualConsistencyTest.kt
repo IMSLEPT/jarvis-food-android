@@ -114,6 +114,7 @@ class VisualConsistencyTest {
         val meal = Store.plannedMeals(Store.current, day).first()
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("nav-1").performClick()
+            compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
             compose.onNodeWithTag("plan-completed-count", useUnmergedTree = true).assertTextEquals("0 di ${Store.plannedMeals(Store.current, day).size} pasti")
             for (i in 0..6) singleLine(compose.onNodeWithTag("week-label-$i", useUnmergedTree = true))
             shot("plan-overview")
@@ -150,6 +151,7 @@ class VisualConsistencyTest {
             compose.waitForIdle()
             assertTrue(Store.dayPlan(Store.current, day)!!.slots.first { it.slot == meal.slotIndex }.eatenEntryIds.isNotEmpty())
             shot("plan-eaten")
+            if (compose.onAllNodesWithTag("plan-summary-content").fetchSemanticsNodes().isEmpty()) compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
             compose.onNodeWithTag("plan-completed-count", useUnmergedTree = true).performScrollTo().assertTextEquals("1 di ${Store.plannedMeals(Store.current, day).size} pasti")
             compose.onNodeWithTag("plan-eaten-${meal.diaryMeal}").performScrollTo().performClick()
             compose.waitForIdle()

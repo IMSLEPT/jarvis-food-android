@@ -103,6 +103,15 @@ class VideoCorrectionsFlowTest {
         val before = Store.current
         val targets = Store.energyFor(before,day).macro
         ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithTag("plan-summary-content").assertDoesNotExist()
+            shot("plan-summary-collapsed")
+            compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
+            compose.onNodeWithTag("plan-summary-content").assertExists()
+            shot("plan-summary-expanded")
+            compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
+            compose.onNodeWithTag("plan-summary-content").assertDoesNotExist()
+            assertEquals(before, Store.current)
+            compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
             compose.onNodeWithTag("plan-diet-style").performScrollTo().performClick()
             compose.onNodeWithTag("diet-style-vegan").performScrollTo().performClick()
             compose.onNodeWithText("Annulla").performClick()
