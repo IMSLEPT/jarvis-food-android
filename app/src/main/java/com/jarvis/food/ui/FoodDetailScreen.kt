@@ -55,11 +55,18 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
     var pieceWeight by remember { mutableStateOf("") }
     val uri = androidx.compose.ui.platform.LocalUriHandler.current
     LaunchedEffect(originalFood.id) {
-        // Fill missing per-piece information from this barcode, without replacing nutrition values.
-        if (food.source == "off" && food.barcode != null && food.servingGrams == null) {
+        // Refresh unit metadata on older saved products too; never replace their nutrition values.
+        if (food.source == "off" && food.barcode != null) {
             val fresh = runCatching { com.jarvis.food.net.OpenFoodFacts.byBarcode(food.barcode!!) }.getOrNull()
-            if (fresh?.servingGrams != null) food = food.copy(servingName = fresh.servingName, servingGrams = fresh.servingGrams,
-                portionSource = fresh.portionSource ?: "Open Food Facts · etichetta del prodotto", portionUrl = fresh.portionUrl)
+            if (fresh != null) {
+                val preservePiece = food.portionSource == "Inserito da te" || fresh.servingGrams == null
+                food = food.copy(liquid = fresh.liquid,
+                    servingName = if (preservePiece) food.servingName else fresh.servingName,
+                    servingGrams = if (preservePiece) food.servingGrams else fresh.servingGrams,
+                    portionSource = if (preservePiece) food.portionSource else fresh.portionSource ?: "Open Food Facts · etichetta del prodotto",
+                    portionUrl = if (preservePiece) food.portionUrl else fresh.portionUrl)
+                Store.rememberFoodMeasure(food)
+            }
         }
     }
     val hasServing = food.servingGrams != null && food.servingName != null

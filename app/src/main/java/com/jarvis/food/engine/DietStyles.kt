@@ -67,7 +67,7 @@ object DietStyles {
             "japanese" -> r.cuisine == "giapponese"
             "mediterranean" -> "mediterranea" in info.diets && "alcol" !in groups
             "paleo" -> groups.none { it in setOf("cereali", "cereali_integrali", "legumi", "latticini", "dolci", "salumi", "alcol", "integratori") } && ids.none { it in sugars } && "soia" !in tags
-            "carnivore" -> foods.all { (it.group in animal && "soia" !in it.tags && it.id != "soia_drink") || it.id == "sale" }
+            "carnivore" -> foods.all { (it.group in animal && "soia" !in it.tags && it.id != "soia_drink") || it.id in setOf("burro", "sale") }
             "dash" -> groups.none { it in setOf("salumi", "carne_rossa", "dolci", "alcol") } &&
                 foods.none { it.id in setOf("burro", "olio_cocco", "olio_palma", "panna") } &&
                 info.kcal > 0 && foods.sumOf { f -> val grams = r.ings.first { it.food == f.id }.g; (f.micro["sodium"] ?: 0.0) * grams / 100 } <= info.kcal

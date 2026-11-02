@@ -59,6 +59,7 @@ fun DietStyleDialog(s: AppState, date: LocalDate, onDismiss: () -> Unit) {
                         Column(Modifier.weight(1f)) {
                             Text(option.title, style = T.Label)
                             if (selected == option.id) Text(option.description, style = T.Small)
+                            if (selected == option.id && problem != null) Text(problem, style = T.Small.copy(color = C.Danger))
                         }
                         if (selected == option.id) { GapW(8.dp); AIcon(Ic.Check, C.AccentDeep, 18.dp) }
                     }
