@@ -174,7 +174,7 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
             }
             val sg = food.servingGrams
             if (hasServing && sg != null && grams > 0) Text("≈ ${amountText(grams / sg)} ${food.servingName}", style = T.Small, modifier = Modifier.padding(top = 6.dp))
-            if (cookedMode && food.cooked != null) Text("Il diario salva ${amountText(grams)} $unit a crudo (cotto ÷ ${amountText(food.cooked)}, rapporto USDA: indicativo, dipende dal tempo di cottura).", style = T.Small, modifier = Modifier.padding(top = 4.dp))
+            if (cookedMode && food.cooked != null) Text("Il diario salva ${amountText(grams)} $unit a crudo (cotto ÷ ${amountText(food.cooked ?: 1.0)}, rapporto USDA: indicativo, dipende dal tempo di cottura).", style = T.Small, modifier = Modifier.padding(top = 4.dp))
 
             SectionTitle("Pasto")
             if (replacing) Text(MEAL_NAMES[entry!!.meal], style = T.Label)
