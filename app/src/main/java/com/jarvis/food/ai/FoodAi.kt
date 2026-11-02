@@ -198,7 +198,7 @@ Rispondi solo JSON, senza markdown:
                 servedGrams = if (factor != null) served else null, confidence = conf
             )
         }
-        return items to o.optString("note", "")
+        return items to o.optString("note", "").takeUnless { it.equals("null", true) }.orEmpty()
     }
 
     /** Foto di frigorifero o dispensa: prodotti visibili con quantità stimata. */

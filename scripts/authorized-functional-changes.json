@@ -1,6 +1,6 @@
 {
   "app/src/main/java/com/jarvis/food/ai/FoodAi.kt": {
-    "sha256": "07f03ed35dfe1683319ba660bdd5cb92be73f059fde03503e616e5d4cfaae598",
+    "sha256": "5758fe0e575e05b71c9dcfd87fa85b4c59d94a7528b8ece996c2a6cdfec5f99b",
     "reason": "Richiesta nei due video del 2 novembre 2026: correzioni analisi foto e cronologia persistente delle conversazioni."
   },
   "app/src/main/res/drawable-nodpi/jarvis_logo.png": {

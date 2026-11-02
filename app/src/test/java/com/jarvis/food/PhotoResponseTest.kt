@@ -26,6 +26,11 @@ class PhotoResponseTest {
             assertTrue(value, runCatching { AiResponse.meal(value) }.isFailure)
         }
     }
+    @Test fun impossiblePhotoNutrientsAreRejected() {
+        for (value in listOf(-1, 10000)) {
+            assertTrue(runCatching { AiResponse.meal("""{"items":[{"name":"Pasta","grams":100,"kcal":$value}]}""") }.isFailure)
+        }
+    }
     @Test fun weakOrAmbiguousOfflineScoresReturnNoInventedDish() {
         assertTrue(OfflineFoodLabels.select(listOf(AiLabel("quiche", .01f), AiLabel("waffle", .01f))).isEmpty())
         assertTrue(OfflineFoodLabels.select(listOf(AiLabel("pizza", .4f), AiLabel("pasta", .38f))).isEmpty())

@@ -39,6 +39,13 @@ internal object AiResponse {
             require(name.isNotBlank() && !name.equals("null", true) && name.length <= 160 && grams.isFinite() && grams > 0 && grams <= 1500) {
                 "L’AI non ha stimato correttamente gli alimenti e le quantità. Riprova o inseriscili manualmente."
             }
+            for (key in listOf("kcal", "protein", "carbs", "fat")) {
+                if (item.has(key)) {
+                    val value = item.optDouble(key, Double.NaN)
+                    val maximum = if (key == "kcal") grams * 9.5 else grams
+                    require(value.isFinite() && value >= 0 && value <= maximum) { "L’AI ha restituito valori nutrizionali incoerenti. Riprova o inserisci gli alimenti manualmente." }
+                }
+            }
         }
         return parsed
     }

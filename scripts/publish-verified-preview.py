@@ -52,7 +52,7 @@ with zipfile.ZipFile(apk) as bundle:
             assert b'textdb.dev/api/data/' not in dex, 'Removed sync endpoint must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Video-requested fixes: barcode meal shortcuts, visible vitamins tracker with conditional advice, live seconds fasting timer, read-only trend details, corrected solid/liquid units and product-specific piece weights; based on 1.0.171',
+              original_signature_verified=True, visual_revision='2 November follow-up videos: safe footers, rectangular diet controls, persistent graph palettes, profile avatar and chat history, robust photo responses and offline abstention; based on 1.0.182',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
