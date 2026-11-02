@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -212,20 +214,10 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("completati", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
                 }
             }
-            if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell").clip(RoundedCornerShape(8.dp)).background(C.Surface).border(1.dp, C.Navy.copy(alpha = .24f), RoundedCornerShape(8.dp)).padding(horizontal = 10.dp, vertical = 8.dp)) {
-                DayTypeControl(s, date, compact = true)
-            }
-            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-diet-style")
-                .clip(RoundedCornerShape(8.dp)).background(C.Surface).border(1.dp, C.Navy.copy(alpha = .24f), RoundedCornerShape(8.dp)).clickable(role = Role.Button) { chooseStyle = true }.padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
-                AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp); GapW(8.dp)
-                Column(Modifier.weight(1f)) {
-                    Text("Alimentazione", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
-                    Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
-                }
-                AIcon(Ic.Right, C.Navy, 14.dp)
-            }
+            PlanStyleControls(s, date, large) { chooseStyle = true }
         }
-        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth()) { expanded = !expanded }
+        GapH(12.dp)
+        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth().testTag("plan-nutrition-details")) { expanded = !expanded }
         }
         }
         }
@@ -265,6 +257,41 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 AIcon(Ic.Right, A.Link, 16.dp, 2.4f)
             }
         }
+    }
+}
+
+@Composable
+private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, onChooseStyle: () -> Unit) {
+    val border = C.Navy.copy(alpha = .24f)
+    val dayControl: @Composable (Modifier) -> Unit = { modifier ->
+        Box(modifier.testTag("plan-day-type-cell").clip(RoundedCornerShape(8.dp)).background(C.Surface)
+            .border(1.dp, border, RoundedCornerShape(8.dp)).padding(horizontal = 10.dp, vertical = 8.dp)) {
+            DayTypeControl(s, date, compact = true)
+        }
+    }
+    val styleControl: @Composable (Modifier) -> Unit = { modifier ->
+        Row(modifier.testTag("plan-diet-style").clip(RoundedCornerShape(8.dp)).background(C.Surface)
+            .border(1.dp, border, RoundedCornerShape(8.dp)).clickable(role = Role.Button, onClick = onChooseStyle)
+            .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp)
+            GapW(8.dp)
+            Column(Modifier.weight(1f)) {
+                Text("Alimentazione", style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp))
+                Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+            }
+            GapW(4.dp)
+            AIcon(Ic.Right, C.Navy, 14.dp)
+        }
+    }
+    if (stacked) {
+        val controlHeight = with(LocalDensity.current) { 48.sp.toDp() + 16.dp }.coerceAtLeast(64.dp)
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (s.trainingNutrition.active) dayControl(Modifier.fillMaxWidth().height(controlHeight))
+            styleControl(Modifier.fillMaxWidth().height(controlHeight))
+        }
+    } else Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        if (s.trainingNutrition.active) dayControl(Modifier.weight(1f).fillMaxHeight().heightIn(min = 64.dp))
+        styleControl(Modifier.weight(1f).fillMaxHeight().heightIn(min = 64.dp))
     }
 }
 

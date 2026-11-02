@@ -7,11 +7,18 @@ import kotlin.math.max
 
 data class DietStyle(val id: String, val title: String, val description: String)
 data class StyledPlanResult(val days: List<DayPlan> = emptyList(), val problem: String? = null)
+data class StyleAvailability(val missingMeals: List<String>, val requiredMinutes: Int? = null) {
+    val available: Boolean get() = missingMeals.isEmpty()
+    fun message(style: String, maxMinutes: Int): String? = if (available) null else if (requiredMinutes != null)
+        "Con il limite di $maxMinutes minuti mancano ricette per ${missingMeals.joinToString()}. Per $style servono almeno $requiredMinutes minuti per pasto con le tue esclusioni attuali."
+    else "Non ci sono ricette per ${missingMeals.joinToString()} compatibili con $style e le tue esclusioni o ricette nascoste. Cambia stile oppure rivedi quei filtri: non verranno ignorati."
+}
 
 /** Explicit ingredient rules. No fallback may silently discard a style or an exclusion. */
 object DietStyles {
     val options = listOf(
         DietStyle("balanced", "Bilanciata e varia", "Varietà di fonti vegetali e animali, con preferenza per integrali, legumi, frutta e verdura. Non promette una salute ottimale per tutti."),
+        DietStyle("healthy", "Salutare", "Più verdura, frutta, cereali integrali e legumi; proteine varie e grassi insaturi. Il piano automatico esclude salumi, dolci e alcol e favorisce ricette con meno sale e saturi. I tuoi target restano invariati."),
         DietStyle("mediterranean", "Mediterranea", "Preparazioni mediterranee, olio d’oliva, cereali, legumi, verdura e pesce."),
         DietStyle("omnivore", "Onnivora", "Tutti i gruppi alimentari, rispettando esclusioni e preferenze personali."),
         DietStyle("vegetarian", "Vegetariana", "Esclude carne e pesce; comprende uova e latticini compatibili con le tue esclusioni."),
@@ -71,12 +78,25 @@ object DietStyles {
             "dash" -> groups.none { it in setOf("salumi", "carne_rossa", "dolci", "alcol") } &&
                 foods.none { it.id in setOf("burro", "olio_cocco", "olio_palma", "panna") } &&
                 info.kcal > 0 && foods.sumOf { f -> val grams = r.ings.first { it.food == f.id }.g; (f.micro["sodium"] ?: 0.0) * grams / 100 } <= info.kcal
+            "healthy" -> groups.none { it in setOf("salumi", "dolci", "alcol") } &&
+                ids.none { it in setOf("zucchero", "miele", "sciroppo_acero", "marmellata", "confettura", "burro", "panna", "strutto", "lardo", "olio_cocco", "olio_palma") }
             "keto" -> "keto" in info.diets && "alcol" !in groups
             "lowcarb" -> info.carbs * 4 <= info.kcal * .4 && "alcol" !in groups
             "glutenfree" -> "glutine" !in tags
             "lactosefree" -> "lattosio" !in tags
             else -> "alcol" !in groups
         }
+    }
+
+    /** Diagnose time limits separately from exclusions; never silently relax either. */
+    fun availability(db: FoodDb, prefs: DietPrefs, id: String): StyleAvailability {
+        val selected = prefs.copy(styleId = id)
+        val missing = prefs.slots.filter { Planner.candidates(db, it.meal, selected).isEmpty() }
+        if (missing.isEmpty()) return StyleAvailability(emptyList())
+        val minimums = missing.map { slot ->
+            Planner.candidates(db, slot.meal, selected.copy(maxMinutes = Int.MAX_VALUE)).minOfOrNull { it.minutes }
+        }
+        return StyleAvailability(missing.map { it.name }.distinct(), if (minimums.all { it != null }) minimums.filterNotNull().maxOrNull() else null)
     }
 
     fun targetProblem(id: String, target: Macro, maintenance: Double? = null): String? = when {
@@ -89,8 +109,20 @@ object DietStyles {
     }
 
     fun preferenceScore(db: FoodDb, r: RecipeTemplate, id: String): Double {
-        if (id !in setOf("balanced", "mediterranean", "dash", "highprotein")) return 0.0
+        if (id !in setOf("balanced", "mediterranean", "dash", "highprotein", "healthy")) return 0.0
         val groups = db.recipeGroups(r)
+        if (id == "healthy") {
+            val info = RecipeMeta.info(db, r)
+            val foods = r.ings.mapNotNull { ing -> db.food(ing.food)?.let { ing to it } }
+            fun nutrient(key: String) = if (foods.all { key in it.second.micro }) foods.sumOf { (ing, f) -> f.micro.getValue(key) * ing.g / 100 } else null
+            val kcal = info.kcal.coerceAtLeast(1.0)
+            return -info.fiber.times(1000 / kcal).coerceAtMost(15.0) * .12 -
+                (if (groups.any { it in setOf("cereali_integrali", "legumi") }) .6 else 0.0) -
+                (if (groups.any { it.startsWith("verdura") || it == "frutta" }) .4 else 0.0) +
+                (if ("carne_rossa" in groups) 2.0 else 0.0) +
+                (nutrient("sodium")?.let { (it / kcal - .7).coerceAtLeast(0.0) } ?: .3) +
+                (nutrient("satFat")?.let { (it * 9 / kcal - .10).coerceAtLeast(0.0) * 8 } ?: .3)
+        }
         return (if (groups.any { it in setOf("cereali_integrali", "legumi", "verdura", "verdura_foglia", "frutta") }) -.25 else 0.0) +
             (if ("salumi" in groups || "dolci" in groups) 1.5 else 0.0)
     }
@@ -102,8 +134,7 @@ object DietStyles {
         for (date in (0 until count).map { start.plusDays(it.toLong()) }) {
             targetProblem(id, targets(date), maintenance(date))?.let { return StyledPlanResult(problem = it) }
         }
-        for (slot in prefs.slots) if (Planner.candidates(db, slot.meal, selectedPrefs).isEmpty())
-            return StyledPlanResult(problem = "Nessuna ricetta ${slot.meal} compatibile con ${get(id).title} e le esclusioni attuali. Il piano resta invariato.")
+        availability(db, selectedPrefs, id).message(get(id).title, prefs.maxMinutes)?.let { return StyledPlanResult(problem = it) }
         for (attempt in 0..3) {
             val generated = Planner.generate(db, selectedPrefs, start, count, targets(start), existing,
                 seed = start.toEpochDay() + attempt * 331L, dayTargetForDate = targets).map { day ->

@@ -289,11 +289,12 @@ object Store {
         s.copy(plan = (kept + merged).sortedBy { it.date })
     }
 
-    suspend fun regenerateStyle(start: LocalDate, days: Int, styleId: String): String? {
+    suspend fun regenerateStyle(start: LocalDate, days: Int, styleId: String, maxMinutes: Int = current.dietPrefs.maxMinutes): String? {
         if (days !in listOf(1, 7, 14, 30)) return "Periodo non valido."
+        if (maxMinutes < 5) return "Scegli almeno 5 minuti per pasto."
         val snapshot = current
         val result = kotlinx.coroutines.withContext(Dispatchers.Default) {
-            com.jarvis.food.engine.DietStyles.build(Db.db, snapshot.dietPrefs, start, days, snapshot.plan, styleId,
+            com.jarvis.food.engine.DietStyles.build(Db.db, snapshot.dietPrefs.copy(maxMinutes = maxMinutes), start, days, snapshot.plan, styleId,
                 targets = { energyFor(snapshot, it).macro }, maintenance = { energyFor(snapshot, it).expectedTdee })
         }
         result.problem?.let { return it }
@@ -302,7 +303,7 @@ object Store {
             applied = fresh.plan == snapshot.plan && fresh.dietPrefs == snapshot.dietPrefs && fresh.profile == snapshot.profile &&
                 fresh.goals == snapshot.goals && fresh.energy == snapshot.energy && fresh.trainingNutrition == snapshot.trainingNutrition &&
                 fresh.diary == snapshot.diary && fresh.weights == snapshot.weights && fresh.health == snapshot.health && fresh.activities == snapshot.activities && fresh.steps == snapshot.steps
-            if (!applied) fresh else fresh.copy(dietPrefs = fresh.dietPrefs.copy(styleId = styleId),
+            if (!applied) fresh else fresh.copy(dietPrefs = fresh.dietPrefs.copy(styleId = styleId, maxMinutes = maxMinutes),
                 plan = (fresh.plan.filter { it.date !in result.days.map { d -> d.date }.toSet() } + result.days).sortedBy { it.date })
         }
         return if (applied) null else "I dati sono cambiati durante il calcolo. Conferma di nuovo per usare i target aggiornati."
