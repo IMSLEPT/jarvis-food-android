@@ -23,7 +23,14 @@ logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-android10-buttons.log':1, 'photo-ai.log':3, 'layout-features-standard.log':2,
         'layout-features-large-text.log':2, 'layout-options-standard.log':3,
         'layout-options-large-text.log':3, 'layout-nutrition.log':3, 'regression.log':3, 'emu.log':1,
-        'layout-video-standard.log':4, 'layout-video-large-text.log':4}
+        'layout-video-standard-allThreeProgressCardsOpenReadOnlyDayDetails.log':1,
+        'layout-video-standard-brandedSlicesUseGramsAndSaveTheSelectedPieceCount.log':1,
+        'layout-video-standard-timerMovesImmediatelyAndResumesWithoutReset.log':1,
+        'layout-video-standard-dietSelectionNeedsConfirmationKeepsTargetsAndRejectsConflict.log':1,
+        'layout-video-large-text-allThreeProgressCardsOpenReadOnlyDayDetails.log':1,
+        'layout-video-large-text-brandedSlicesUseGramsAndSaveTheSelectedPieceCount.log':1,
+        'layout-video-large-text-timerMovesImmediatelyAndResumesWithoutReset.log':1,
+        'layout-video-large-text-dietSelectionNeedsConfirmationKeepsTargetsAndRejectsConflict.log':1}
 for name, count in logs.items():
     content = Path(name).read_text()
     assert f'OK ({count} test' in content and 'FAILURES!!!' not in content, name
