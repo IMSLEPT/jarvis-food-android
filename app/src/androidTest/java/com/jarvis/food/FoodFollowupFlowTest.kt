@@ -19,7 +19,7 @@ class FoodFollowupFlowTest {
     private val ins=InstrumentationRegistry.getInstrumentation()
     private fun ui(block:()->Unit)=ins.runOnMainSync(block)
     private fun shot(name:String) {
-        compose.waitForIdle()
+        compose.waitForIdle();ins.waitForIdleSync();android.os.SystemClock.sleep(400)
         val profile=InstrumentationRegistry.getArguments().getString("captureName")?:"standard"
         val file=File(ins.targetContext.filesDir,"shots/food-followup-$profile/$name.png");file.parentFile!!.mkdirs()
         val b=ins.uiAutomation.takeScreenshot()
@@ -31,7 +31,10 @@ class FoodFollowupFlowTest {
         val food=Food("almond","100% crema di mandorle tostate",kcal=625.0,protein=21.0,carbs=6.0,fat=56.0,sugar=3.0,satFat=4.0,salt=.01)
         ui { Nav.go(Screen.FoodDetail(food,LocalDate.now(),0,15.0)) }
         ActivityScenario.launch(MainActivity::class.java).use {
-            compose.onNodeWithTag("food-guidance-details").performScrollTo().performClick()
+            compose.onNodeWithTag("food-guidance-details").performScrollTo()
+            compose.waitForIdle();ins.waitForIdleSync();android.os.SystemClock.sleep(200)
+            compose.onNodeWithTag("food-guidance-details").performClick()
+            compose.waitUntil(10000) { compose.onAllNodesWithText("Confronta prodotti e marche").fetchSemanticsNodes().isNotEmpty() }
             compose.onNodeWithText("100% frutta a guscio · conta la porzione").assertExists()
             assertTrue(Store.current.diary.isEmpty())
             shot("food-advice")
