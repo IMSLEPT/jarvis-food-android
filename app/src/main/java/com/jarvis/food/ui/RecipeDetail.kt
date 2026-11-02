@@ -140,7 +140,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     val manualMeal = sc.slot?.let { sl -> Store.dayPlan(s, sc.date)?.slots?.firstOrNull { it.slot == sl }?.manualRecipe }
     if (manualMeal != null) { ManualMealScreen(sc.date, sc.slot!!); return }
     val db = Db.db
-    val tpl = sc.adHoc ?: db.recipe(sc.recipeId)
+    val tpl = sc.adHoc ?: sc.slot?.let { sl -> Store.plannedMeals(s, sc.date).firstOrNull { it.slotIndex == sl }?.solved?.template } ?: db.recipe(sc.recipeId)
     if (tpl == null) { Column { TopBar("Ricetta", onBack = { Nav.back() }); EmptyState("🤔", "Ricetta non trovata", "") }; return }
     LaunchedEffect(tpl.id) { if (sc.adHoc == null) Store.recipeViewed(tpl.id) }
 

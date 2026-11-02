@@ -12,7 +12,7 @@ object ManualMeals {
         val items = recipe.ingredients.map { i ->
             val f = i.food
             val micros = (Micros.defs.map { it.key } + listOf("sugar", "satFat", "fiber", "sodium", "addedSugar", "freeSugar")).distinct().mapNotNull { key -> NutritionScience.per100(f, key)?.let { key to it } }.toMap()
-            val db = DbFood(f.id.removePrefix("db:"), f.name, f.brand, f.group, f.tags, f.fdc ?: 0, "", f.liquid, f.kcal, f.protein, f.carbs, f.fat, micros, f.servingName, f.servingGrams)
+            val db = DbFood(f.id.removePrefix("db:"), f.name, "Altro", f.group, f.tags, f.fdc ?: 0, "", f.liquid, f.kcal, f.protein, f.carbs, f.fat, micros, f.servingName, f.servingGrams)
             SolvedIngredient(TemplateIngredient(db.id, i.grams, "v", f.name), db, i.grams)
         }
         val template = RecipeTemplate(recipe.id, recipe.name, meal, recipe.minutes, items.map { it.ing }, recipe.steps.ifEmpty { listOf("Usa le quantità che hai scelto per ogni alimento.") })

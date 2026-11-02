@@ -66,10 +66,21 @@ class FoodFollowupFlowTest {
             ui { Nav.go(Screen.RecipeView("manual:test",Macro(500.0,30.0,60.0,15.0),date,0)) }
             compose.onNodeWithTag("manual-eat").assertExists()
             shot("manual-meal")
-            ui { Nav.back();Nav.go(Screen.Alternatives(date,0)) }
+            ui { Nav.go(Screen.Alternatives(date,0)) }
             compose.onNodeWithTag("alternative-search").assertExists()
             compose.onNodeWithTag("alternative-manual").assertExists()
             shot("alternatives-search")
+            val currentMeal=Store.plannedMeals(Store.current,date).first { it.slotIndex==0 }
+            val chosen=Planner.alternatives(Db.db,currentMeal.solved.template.meal,currentMeal.solved.target,Store.prefsFor(Store.current,date)).first()
+            compose.waitUntil(20000) { compose.onAllNodesWithText(chosen.template.name).fetchSemanticsNodes().isNotEmpty() }
+            compose.onNodeWithText(chosen.template.name).performScrollTo().performClick()
+            compose.waitUntil(10000) { compose.onAllNodesWithTag("alternative-search").fetchSemanticsNodes().isEmpty() }
+            compose.onAllNodesWithText("Ricetta non trovata").assertCountEquals(0)
+            compose.onAllNodesWithText(chosen.template.name).assertAny(hasText(chosen.template.name))
+            assertEquals(chosen.template.id,Store.dayPlan(Store.current,date)!!.slots.first { it.slot==0 }.recipeId)
+            assertNull(Store.dayPlan(Store.current,date)!!.slots.first { it.slot==0 }.manualRecipe)
+            assertTrue(Store.current.diary.isEmpty())
+            shot("manual-to-catalog-recipe")
         }
     }
     @Test fun nowSuggestionsStayAboveSystemNavigation() {
