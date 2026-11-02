@@ -17,9 +17,6 @@ object OpenFoodFacts {
             "nutrition_data_per,serving_quantity,serving_size,quantity,categories_tags," +
             "nutriscore_grade,nutrition_grades,nutriscore_version,ingredients_text_it,ingredients_text," +
             "additives_n,additives_tags,labels_tags,nova_group,allergens_tags,traces_tags"
-    private val factsCache = java.util.concurrent.ConcurrentHashMap<String, ProductFacts>()
-
-    suspend fun facts(code: String): ProductFacts? = factsCache[code] ?: byBarcode(code)?.productFacts
 
     private fun get(url: String): String {
         val c = URL(url).openConnection() as HttpURLConnection
@@ -157,7 +154,6 @@ object OpenFoodFacts {
         val sodium = p.per100(n, "sodium", perServing, serving)
         val salt = p.per100(n, "salt", perServing, serving) ?: sodium?.let { it * 2.5 }
         val facts = parseFacts(p)
-        factsCache[code] = facts
         return com.jarvis.food.engine.FoodAmounts.normalize(Food(
             id = "off:$code",
             name = name,

@@ -26,15 +26,8 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
     var details by remember { mutableStateOf(false) }
     var alternativesOpen by remember { mutableStateOf(false) }
     var criteria by remember { mutableStateOf(false) }
-    var facts by remember(food.id, food.productFacts) { mutableStateOf(food.productFacts) }
-    val review = remember(food, facts) { FoodReview.assess(food.copy(productFacts = facts)) }
-    LaunchedEffect(food.id, food.productFacts) {
-        val code = food.barcode
-        if(facts==null && code!=null && food.source=="off") {
-            try { facts=OpenFoodFacts.facts(code) }
-            catch(e:Exception) { if(e is kotlinx.coroutines.CancellationException) throw e }
-        }
-    }
+    val facts = food.productFacts
+    val review = remember(food) { FoodReview.assess(food) }
     var compare by remember { mutableStateOf(false) }
     var query by remember(food.id) { mutableStateOf(advice.alternativeQuery) }
     var products by remember(food.id) { mutableStateOf<List<Food>>(emptyList()) }

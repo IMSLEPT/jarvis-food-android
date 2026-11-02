@@ -80,7 +80,7 @@
     "reason": "Richieste esplicite nei video 1000196321, 1000196336 e 1000196340: correggere gli stili alimentari e il bilanciamento giornaliero; consigli quotidiani compatti; profilo nutrizionale con metadati reali, vantaggi, limiti e alternative."
   },
   "app/src/main/java/com/jarvis/food/net/OpenFoodFacts.kt": {
-    "sha256": "a196453b0c883d2bafb75609a89c686f86d83ffdd575c2a69e3cbe5c84f7a465",
+    "sha256": "4e10bb64283e09308ce3a69ce25b7310012c5220e46b1e96afae920f1340a6ab",
     "reason": "Richieste esplicite nei video 1000196321, 1000196336 e 1000196340: correggere gli stili alimentari e il bilanciamento giornaliero; consigli quotidiani compatti; profilo nutrizionale con metadati reali, vantaggi, limiti e alternative."
   },
   "app/src/main/java/com/jarvis/food/data/Nutrition.kt": {

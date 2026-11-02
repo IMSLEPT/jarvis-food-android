@@ -67,7 +67,8 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
                     servingName = if (preservePiece) food.servingName else fresh.servingName,
                     servingGrams = if (preservePiece) food.servingGrams else fresh.servingGrams,
                     portionSource = if (preservePiece) food.portionSource else fresh.portionSource ?: "Open Food Facts · etichetta del prodotto",
-                    portionUrl = if (preservePiece) food.portionUrl else fresh.portionUrl)
+                    portionUrl = if (preservePiece) food.portionUrl else fresh.portionUrl,
+                    productFacts = fresh.productFacts ?: food.productFacts)
                 Store.rememberFoodMeasure(food)
             }
         }
