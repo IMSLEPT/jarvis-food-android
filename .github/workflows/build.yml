@@ -136,6 +136,8 @@ jobs:
             timeout 90 bash -c 'until ./.ci-bin/adb shell pm list packages android 2>/dev/null | grep -q "package:android"; do sleep 1; done'
             ./.ci-bin/adb shell getprop dalvik.vm.heapgrowthlimit
             ./.ci-bin/adb shell getprop dalvik.vm.heapsize
+            # Drop only controlled framework-restart diagnostics; app checks start below.
+            ./.ci-bin/adb logcat -c
             ./.ci-bin/adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             ./.ci-bin/adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
             ./.ci-bin/adb shell am instrument -w -e class com.jarvis.food.AuroraRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
