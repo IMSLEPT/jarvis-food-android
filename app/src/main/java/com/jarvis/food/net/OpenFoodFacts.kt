@@ -85,12 +85,8 @@ object OpenFoodFacts {
     }
 
     /** Un liquido (acqua, bevande): le quantità si contano in ml. */
-    private fun isLiquid(p: JSONObject): Boolean {
-        val t = tags(p)
-        if (t.any { it.contains("beverage") || it.endsWith("waters") || it.contains("drinks") || it.contains("juices") || it.endsWith(":milks") }) return true
-        val qty = p.optString("quantity", "").lowercase().replace(" ", "")
-        return Regex("\\d(ml|cl|dl|l)\\b").containsMatchIn(qty) || Regex("\\d(ml|cl|dl|l)$").containsMatchIn(qty)
-    }
+    private fun isLiquid(p: JSONObject, name: String): Boolean =
+        com.jarvis.food.engine.FoodAmounts.liquid(name, tags(p), p.optString("quantity", ""))
 
     private fun isWater(p: JSONObject, name: String): Boolean {
         val t = tags(p)
@@ -154,7 +150,7 @@ object OpenFoodFacts {
 
         val sodium = p.per100(n, "sodium", perServing, serving)
         val salt = p.per100(n, "salt", perServing, serving) ?: sodium?.let { it * 2.5 }
-        return Food(
+        return com.jarvis.food.engine.FoodAmounts.normalize(Food(
             id = "off:$code",
             name = name,
             brand = brand,
@@ -170,10 +166,10 @@ object OpenFoodFacts {
             servingGrams = serving,
             barcode = code,
             source = "off",
-            liquid = isLiquid(p) || water,
+            liquid = isLiquid(p, name) || water,
             category = if (water) "Acqua" else "Prodotto",
             addedSugar = p.per100(n, "added-sugars", perServing, serving),
             unknownNutrients = listOfNotNull(if (protein == null) "protein" else null, if (carbs == null) "carbs" else null, if (fat == null) "fat" else null)
-        )
+        ))
     }
 }

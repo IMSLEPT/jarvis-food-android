@@ -15,14 +15,15 @@ for path in Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'
     for key in counts:
         counts[key] += int(root.get(key, 0))
 # 120 previous tests - 14 removed family tests + 7 new calendar/history/upgrade tests.
-assert counts['tests'] >= 113 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
+assert counts['tests'] >= 122 and not any(counts[k] for k in ('failures', 'errors', 'skipped')), counts
 logs = {'layout-profile-standard.log':2, 'layout-profile-large-text.log':2,
         'layout-profile-android10.log':1, 'layout-consistency-standard.log':3,
         'layout-consistency-large-text.log':3, 'layout-consistency-small-200.log':3, 'layout-standard.log':2, 'layout-large-text.log':2,
         'layout-buttons.log':1, 'layout-buttons-large-text.log':1, 'layout-gestures.log':1,
         'layout-android10-buttons.log':1, 'photo-ai.log':3, 'layout-features-standard.log':2,
         'layout-features-large-text.log':2, 'layout-options-standard.log':3,
-        'layout-options-large-text.log':3, 'layout-nutrition.log':3, 'regression.log':3, 'emu.log':1}
+        'layout-options-large-text.log':3, 'layout-nutrition.log':3, 'regression.log':3, 'emu.log':1,
+        'layout-video-standard.log':4, 'layout-video-large-text.log':4}
 for name, count in logs.items():
     content = Path(name).read_text()
     assert f'OK ({count} test' in content and 'FAILURES!!!' not in content, name
@@ -42,11 +43,13 @@ with zipfile.ZipFile(apk) as bundle:
             assert b'textdb.dev/api/data/' not in dex, 'Removed sync endpoint must not be packaged'
 record = dict(version=f'1.0.{number}', source_sha=sha, sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),
               bytes=apk.stat().st_size, unit_tests=counts, android_executions=sum(logs.values()),
-              original_signature_verified=True, visual_revision='Restored three-column plan summary and compact today status bar; reference-sized day-type dialog; all previous fixes retained',
+              original_signature_verified=True, visual_revision='Video-requested fixes: barcode meal shortcuts, visible vitamins tracker with conditional advice, live seconds fasting timer, read-only trend details, corrected solid/liquid units and product-specific piece weights; based on 1.0.171',
               checks=list(logs), offline_food_model_included=True)
 verification = Path('dist/verification.json'); verification.write_text(json.dumps(record, indent=2)+'\n')
 notes = Path('dist/release-notes.md')
-notes.write_text(f'''Ripristinate le barre richieste da Alessandro: nel Piano un solo riepilogo con calorie pianificate, pasti completati e modalità ON/OFF; in Oggi una barra compatta con stato, provenienza dal calendario e Configura. Premendo lo stato si apre il selettore con pulsanti rettangolari compatti, bordo blu, selezione arancione e Chiudi, come nell’immagine approvata. Il cambio modalità conserva le eccezioni per singola data e il ritorno al calendario settimanale. Strumenti del piano disponibili in Gestisci piano sotto i pasti. Mantenute le correzioni precedenti, inclusa la chat semplificata, le foto a tutta larghezza, lo swipe dei giorni e gli storici in sola lettura.
+notes.write_text(f'''Aggiornamento richiesto nei due video del 2 novembre e nell’anteprima approvata. Eliminato il pulsante orologio da Oggi/Piano; scorciatoie Codice a barre nei pasti; riquadro vitamine sempre visibile con andamento e copertura dati, consigli condizionati dallo storico; timer del digiuno con secondi, recupero sessione e insets corretti; dettagli interattivi per macro, acqua e attività; correzione solidi/liquidi anche nei dati esistenti, porzioni per pezzo con fonte o peso personalizzato. Per le Fette Biscottate Integrali Mulino Bianco: 8,8 g/fetta dalla scheda ufficiale (02/11/2026), senza trasferire il peso ad altre marche o varianti.
+
+Piano: riquadro a quattro elementi come nel mockup approvato e pulsante Alimentazione. Sedici stili, selezione del periodo 1/7/14/30 giorni, conferma e rigenerazione verificata; vincoli sugli ingredienti ed esclusioni senza fallback incoerenti. Target personali invariati, giornate ON/OFF mantenute. Se lo stile è incompatibile o il calcolo non rientra nelle tolleranze dichiarate (kcal ±10%, macro ±15%), nessuna modifica applicata. Diari, giornate esterne al periodo e pasti già registrati conservati.
 
 APK firmato con la chiave originale. {counts['tests']} test unitari e {sum(logs.values())} esecuzioni Android superati, Android 10/15 e testo 100/130/200%. Le prove non equivalgono a un test manuale sul dispositivo dell’utente.
 ''')

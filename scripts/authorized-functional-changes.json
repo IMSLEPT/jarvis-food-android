@@ -60,16 +60,16 @@
     "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
   },
   "app/src/main/java/com/jarvis/food/data/Models.kt": {
-    "sha256": "4e954b257f26ca0bd0fd4e2e6afdf7f620f660d4908d7bcae5eb3d9c51f846a4",
-    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati. Rimozione Famiglia richiesta esplicitamente: eliminati campo e collegamento condiviso; i backup precedenti restano leggibili tramite ignoreUnknownKeys."
+    "sha256": "6ccf6d66cba7fe8d74d0f83f987fdc3b05ecfbaaddd637f62b6c3dad88bf342a",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/data/Store.kt": {
-    "sha256": "4bd589371215e7e8cc11ca4e9104c425da6d472be1f7e3b776175886ba1d1737",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: pasti attivabili singolarmente condivisi tra diario e piano con conservazione degli alimenti registrati; modalità ON/OFF automatica e manuale con stima dal profilo e allenamento; sostituzione anche da barcode e foto AI, solo dopo conferma. Richiesta esplicita successiva: guida corporea 3D e storico misure per data e parte del corpo, con validazione e aggiornamento della sola registrazione scelta."
+    "sha256": "be3af74477b15a53e898cca424d4e45309be2b461cb45f4bbef2d4d13a972120",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/engine/Planner.kt": {
-    "sha256": "7262bad72ea287648d93950e8a0ab438d154872d8a4b115afa0e0c4ab58352cb",
-    "reason": "Richiesta esplicita di Alessandro del 27 ottobre 2026: sostituzione atomica degli alimenti nel diario e obiettivi kcal/macro ON-OFF con calendario ed eccezioni per data. Integrazione nei conteggi, piano e chatbot; compatibilità con backup e calcolo precedente quando disattivato."
+    "sha256": "8f0866bc4b1c2eb17570aaca494b7b37d20213a0c20b0d57ef777ec17a65fc11",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/engine/Micros.kt": {
     "sha256": "0e4ac4bead60bef3308e6b65fb456edcf5d0a734ffc9ab5bd5fdcd941b09732c",
@@ -80,16 +80,16 @@
     "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
   },
   "app/src/main/java/com/jarvis/food/net/OpenFoodFacts.kt": {
-    "sha256": "94207f9191c81cb6fd39d05558b8369673fd92593741fa8815fd15de3eff80a3",
-    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+    "sha256": "ced385a3bb6eb8fa4755dd7e85de49c5906ce8f4b301abe200116c84a3f683fc",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/data/Nutrition.kt": {
     "sha256": "c27b2b37bc846b29909e634620fdc14d742818bcb5b7fafc10f89ab4de4960ad",
     "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
   },
   "app/src/main/java/com/jarvis/food/engine/FoodDb.kt": {
-    "sha256": "f120d76fffd986251ec79bda2a5e14124cbfc9719b30446bd82f79e0632685a1",
-    "reason": "Richiesta di Alessandro del 1 novembre 2026: consulente scientifico in Home, zuccheri distinti, copertura dei dati e immagini alimentari; classificazione conservativa OMS solo per record semplici USDA identificati."
+    "sha256": "59837ea602d47aa6b0f6511fe30a696b00a94ce9f0516c99145896183272ae42",
+    "reason": "Richieste esplicite di Alessandro del 02/11/2026: correzioni nei video, unità/porzioni, scorciatoie e selettore alimentazione con rigenerazione confermata a target invariati; anteprima approvata."
   },
   "app/src/main/java/com/jarvis/food/family/FamilyCrypto.kt": {
     "deleted": true,

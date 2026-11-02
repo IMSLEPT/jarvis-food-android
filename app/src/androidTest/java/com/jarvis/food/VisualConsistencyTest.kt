@@ -178,7 +178,8 @@ class VisualConsistencyTest {
             compose.waitUntil(5_000) { Nav.diaryDate == day }
             compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day.minusDays(7) }
-            compose.onNodeWithTag("calendar-today").performClick()
+            compose.onNodeWithTag("calendar-today").assertDoesNotExist()
+            compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day }
             assertEquals(diaryBeforeSwipes, Store.current.diary)
             val calendarButton = compose.onNodeWithContentDescription("Calendario").fetchSemanticsNode().boundsInRoot

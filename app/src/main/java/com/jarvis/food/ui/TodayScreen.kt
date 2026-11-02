@@ -439,6 +439,9 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             var moreOpen by remember { mutableStateOf(false) }
             androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 12.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 MealAction("Foto AI") { Nav.go(Screen.PhotoAi(date, meal)) }
+                Box(Modifier.testTag("meal-barcode-$meal")) {
+                    MealAction("Codice a barre") { Nav.go(Screen.AddFood(date, meal, scanOnOpen = true)) }
+                }
                 Box {
                     MealAction("Altre azioni") { moreOpen = true }
                     DropdownMenu(expanded = moreOpen, onDismissRequest = { moreOpen = false }) {
@@ -549,6 +552,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
 /** Consigli sui micronutrienti ben visibili nella schermata principale. */
 @Composable
 private fun NutrientInsight(s: AppState) {
+    VitaminOverview(s)
     NutritionAdvisor(s)
 }
 

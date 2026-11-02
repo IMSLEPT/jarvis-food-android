@@ -24,6 +24,8 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.platform.testTag
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -83,14 +85,14 @@ fun FastingScreen() {
     var confirmStop by remember { mutableStateOf(false) }
 
     val active = f.activeStart != null
-    val elapsed = if (active) now - f.activeStart!! else 0L
+    val elapsed = fastingElapsed(now, f.activeStart)
     val target = f.targetHours * 3_600_000L
     val progress = if (active) (elapsed.toFloat() / target) else 0f
     val hours = elapsed / 3_600_000.0
     val phases = FastingPlans.phases
     val curIdx = if (active) phases.indexOfLast { hours >= it.fromH } else -1
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 40.dp)) {
+    Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 40.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             BackCircle { Nav.back() }
             GapW(12.dp)
@@ -140,7 +142,7 @@ fun FastingScreen() {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     val left = target - elapsed
                     Text(if (!active) "Pronto a partire" else if (left > 0) "Mancano ${hm(left)}" else "Obiettivo raggiunto 🎉", style = T.Small.copy(fontSize = 13.sp, color = C.Muted, fontWeight = FontWeight.Medium))
-                    Text(if (active) fmtDuration(elapsed) else "${f.targetHours}:00", style = T.H1.copy(fontSize = 54.sp, lineHeight = 56.sp))
+                    Text(if (active) fastingClock(elapsed) else "${f.targetHours}:00:00", Modifier.testTag("fasting-timer"), style = T.H1.copy(fontSize = if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 23.sp else 38.sp, lineHeight = if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 30.sp else 46.sp), maxLines = 1)
                     Text(if (active) "di digiuno su ${f.targetHours} h" else "ore di digiuno", style = T.Small.copy(fontSize = 13.sp, color = C.Muted, fontWeight = FontWeight.Medium))
                 }
             }
@@ -161,11 +163,11 @@ fun FastingScreen() {
                         }, contentAlignment = Alignment.Center) { Text(l, style = T.BtnS.copy(fontSize = 13.5.sp)) }
                     }
                 }
-                if (!confirmStop) Row(Modifier.padding(top = 10.dp).fillMaxWidth().height(56.dp).clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable {
+                if (!confirmStop) Row(Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-stop").clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable {
                     if (progress >= 1f) { Store.stopFast(true); Reminders.rescheduleAll(ctx) } else confirmStop = true
                 }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Stop, Color.White, 18.dp, fill = true); GapW(10.dp)
-                    Text("Termina digiuno", style = T.BtnL.copy(color = Color.White))
+                    Text("Termina digiuno", style = T.BtnL.copy(color = Color.White), modifier = Modifier.padding(vertical = 14.dp))
                 } else Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf(Triple("Continua", A.Ink, 0), Triple("Salva e termina", C.Navy, 1), Triple("Annulla", C.Danger, 2)).forEach { (l, col, k) ->
                         Box(Modifier.weight(1f).height(52.dp).clip(RoundedCornerShape(26.dp)).background(if (k == 1) C.Navy else Color(0xD9FFFFFF)).clickable {
@@ -178,10 +180,10 @@ fun FastingScreen() {
                 Text("Iniziato $dayWord alle ${fmtTime(f.activeStart!!)} · puoi ancora regolare l'inizio", style = T.Small.copy(fontSize = 12.5.sp, color = C.Muted),
                     textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 12.dp))
             } else {
-                Row(Modifier.padding(top = 16.dp).fillMaxWidth().height(56.dp).clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable { Store.startFast(f.planId, f.targetHours); Reminders.rescheduleAll(ctx) },
+                Row(Modifier.padding(top = 16.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-start").clip(RoundedCornerShape(28.dp)).background(C.Navy).clickable { now = System.currentTimeMillis(); Store.startFast(f.planId, f.targetHours, now); Reminders.rescheduleAll(ctx) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Bolt, C.Accent, 20.dp, 2f); GapW(10.dp)
-                    Text("Inizia digiuno ora", style = T.BtnL.copy(color = Color.White))
+                    Text("Inizia digiuno ora", style = T.BtnL.copy(color = Color.White), modifier = Modifier.padding(vertical = 14.dp))
                 }
                 Box(Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color(0xD9FFFFFF)).clickable {
                     val start = java.time.LocalDate.now().minusDays(1).atTime(21, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -191,7 +193,7 @@ fun FastingScreen() {
         }
 
         // Fasi
-        ASection("Le fasi del digiuno", top = 28.dp)
+        ASection("Le fasi del digiuno", top = 36.dp)
         GapH(14.dp)
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             phases.forEachIndexed { i, ph ->

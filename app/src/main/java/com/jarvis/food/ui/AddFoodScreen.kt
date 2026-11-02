@@ -66,7 +66,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
-fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offlineOnly: Boolean = false) {
+fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offlineOnly: Boolean = false, scanOnOpen: Boolean = false) {
     val s by Store.state.collectAsState()
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -110,7 +110,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
             .addOnSuccessListener { code ->
                 val value = code.rawValue ?: return@addOnSuccessListener
                 // Prima cerco tra gli alimenti creati da me, poi su Open Food Facts.
-                val mine = (s.customFoods + s.favorites).firstOrNull { it.barcode == value }
+                val mine = (s.customFoods + s.favorites + s.diary.asReversed().map { it.food }).firstOrNull { it.barcode == value }
                 if (mine != null) { Nav.go(Screen.FoodDetail(mine, date, mealSel)); return@addOnSuccessListener }
                 scanning = true
                 scope.launch {
@@ -128,6 +128,11 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
             .addOnFailureListener {
                 Toast.makeText(ctx, "Scanner non disponibile: ${it.message}", Toast.LENGTH_LONG).show()
             }
+    }
+
+    var initialScanLaunched by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(scanOnOpen) {
+        if (scanOnOpen && !initialScanLaunched && !offlineOnly) { initialScanLaunched = true; scan() }
     }
 
     /** Aggiunge (o toglie, se già aggiunto) l'alimento senza lasciare la schermata. */

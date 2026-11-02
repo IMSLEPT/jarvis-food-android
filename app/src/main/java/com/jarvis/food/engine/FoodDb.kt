@@ -87,7 +87,7 @@ class FoodDb(foods: List<DbFood>, recipes: List<RecipeTemplate>) {
     private val recipeById = recipes.associateBy { it.id }
 
     fun food(id: String): DbFood? = byId[id.removePrefix("db:")]
-    fun recipe(id: String): RecipeTemplate? = recipeById[id]
+    fun recipe(id: String): RecipeTemplate? = recipeById[id] ?: DietStyles.strictRecipes.firstOrNull { it.id == id }
 
     /** Tag di una ricetta (lattosio, glutine, pesce...) derivati dagli ingredienti. */
     fun recipeTags(r: RecipeTemplate): Set<String> = r.ings.flatMap { food(it.food)?.tags ?: emptyList() }.toSet()

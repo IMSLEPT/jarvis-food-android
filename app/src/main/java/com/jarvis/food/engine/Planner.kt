@@ -18,10 +18,10 @@ object Planner {
     }
 
     fun allowed(db: FoodDb, r: RecipeTemplate, prefs: DietPrefs): Boolean =
-        r.id !in prefs.disliked && db.recipeTags(r).none { it in prefs.exclude } && r.minutes <= max(prefs.maxMinutes, 5)
+        r.id !in prefs.disliked && db.recipeTags(r).none { it in prefs.exclude } && r.minutes <= max(prefs.maxMinutes, 5) && DietStyles.allowed(db, r, prefs.styleId)
 
     fun candidates(db: FoodDb, meal: String, prefs: DietPrefs): List<RecipeTemplate> =
-        db.recipes.filter { it.meal == meal && allowed(db, it, prefs) }.ifEmpty { db.recipes.filter { it.meal == meal } }
+        (if (prefs.styleId == "carnivore") DietStyles.strictRecipes else db.recipes).filter { it.meal == meal && allowed(db, it, prefs) }
 
     /**
      * Con migliaia di ricette non si risolvono tutte: si tengono le più vicine all'obiettivo del pasto per calorie e macro
@@ -107,7 +107,7 @@ object Planner {
                 val cands = pools[si]
                 val best = cands.minByOrNull { r ->
                     val groups = db.recipeGroups(r)
-                    var score = fit(r, si) * 10
+                    var score = fit(r, si) * 10 + DietStyles.preferenceScore(db, r, prefs.styleId)
                     if (r.id in recent) score += 5.0
                     if ((history + out).flatMap { dp -> dp.slots.map { it.recipeId } }.contains(r.id)) score += 0.6
                     // Varietà proteica: favorisci pesce e legumi, limita la carne rossa, evita doppioni nello stesso giorno.
@@ -126,7 +126,7 @@ object Planner {
                     if (g.contains(k) || (k == "pesce" && g.contains("pesce_grasso"))) weekCount[k] = (weekCount[k] ?: 0) + 1
                 }
             }
-            out += DayPlan(date.toString(), slots)
+            out += DayPlan(date.toString(), slots, prefs.styleId)
         }
         return out
     }

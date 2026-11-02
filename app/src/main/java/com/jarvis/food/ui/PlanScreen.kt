@@ -170,9 +170,11 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     val slots = Store.dayPlan(s, date)?.slots.orEmpty()
     val completed = meals.count { meal -> slots.any { it.slot == meal.slotIndex && it.eatenEntryIds.isNotEmpty() } }
     var expanded by remember { mutableStateOf(false) }
+    var chooseStyle by remember { mutableStateOf(false) }
+    if (chooseStyle) DietStyleDialog(s, date) { chooseStyle = false }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 12.dp, elevation = 3.dp, onClick = { expanded = !expanded }) {
-        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else if (s.trainingNutrition.active) 3 else 2, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
                 GapW(6.dp)
@@ -198,6 +200,15 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
             }
             if (s.trainingNutrition.active) Box((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-day-type-cell")) {
                 DayTypeControl(s, date, compact = true)
+            }
+            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-diet-style")
+                .clip(RoundedCornerShape(14.dp)).clickable { chooseStyle = true }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.Bowl, C.AccentDeep, 20.dp); GapW(8.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("Alimentazione", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                    Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+                }
+                AIcon(Ic.Right, C.Navy, 14.dp)
             }
         }
     }
@@ -259,7 +270,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val r = m.solved
     val slot = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }
     val eaten = slot?.eatenEntryIds?.isNotEmpty() == true
-    val alts = remember(r.template.id, r.target, s.dietPrefs) { Planner.alternatives(db, r.template.meal, r.target, s.dietPrefs, emptySet()) }
+    val alts = remember(r.template.id, r.target, Store.prefsFor(s, date)) { Planner.alternatives(db, r.template.meal, r.target, Store.prefsFor(s, date), emptySet()) }
     val idx = alts.indexOfFirst { it.template.id == r.template.id }
     val dot = MEAL_DOT[m.diaryMeal] ?: C.Accent
     val shape = RoundedCornerShape(34.dp)
@@ -340,7 +351,7 @@ fun AlternativesScreen(date: LocalDate, slot: Int) {
     Column(Modifier.fillMaxSize()) {
         TopBar("Trova alternativa", onBack = { Nav.back() })
         if (m == null) { EmptyState("🤔", "Pasto non trovato", ""); return@Column }
-        val alts = remember(m.solved.target, s.dietPrefs) { Planner.alternatives(Db.db, m.solved.template.meal, m.solved.target, s.dietPrefs) }
+        val alts = remember(m.solved.target, Store.prefsFor(s, date)) { Planner.alternatives(Db.db, m.solved.template.meal, m.solved.target, Store.prefsFor(s, date)) }
         Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             Text("${m.slotName}: obiettivo ${m.solved.target.kcal.r0()} kcal · P ${m.solved.target.protein.r0()} g · C ${m.solved.target.carbs.r0()} g · G ${m.solved.target.fat.r0()} g", style = T.Muted)
             Text("Ogni piatto è ricalcolato per avvicinarsi il più possibile a questi valori. In alto i più precisi.", style = T.Small)

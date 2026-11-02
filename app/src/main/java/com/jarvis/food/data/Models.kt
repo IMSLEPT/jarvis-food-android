@@ -37,7 +37,9 @@ data class Food(
     val freeSugar: Double? = null,
     val unknownNutrients: List<String> = emptyList(),
     val nutrientDataVersion: Int = 0,
-    val sugarDataNote: String? = null
+    val sugarDataNote: String? = null,
+    val portionSource: String? = null,
+    val portionUrl: String? = null
 )
 
 @Serializable
@@ -195,7 +197,7 @@ data class PlanSlot(
 )
 
 @Serializable
-data class DayPlan(val date: String, val slots: List<PlanSlot>)
+data class DayPlan(val date: String, val slots: List<PlanSlot>, val styleId: String = "balanced")
 
 @Serializable
 data class MealSlotDef(val name: String, val meal: String, val share: Int, val diaryMeal: Int)
@@ -212,7 +214,8 @@ data class DietPrefs(
     val exclude: List<String> = emptyList(),
     /** Ricette che non vuoi più vedere */
     val disliked: List<String> = emptyList(),
-    val maxMinutes: Int = 40
+    val maxMinutes: Int = 40,
+    val styleId: String = "balanced"
 )
 
 // ---------------- Smartwatch / Health Connect ----------------

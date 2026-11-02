@@ -269,7 +269,7 @@ fun ProgressScreen() {
         // Macro
         OverviewHeading("Macronutrienti (media)")
         GapH(8.dp)
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x661D1B3A)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(10.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-macro-detail").aShadow(shape30, 12.dp, Color(0x661D1B3A)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("macro", period)) }.padding(10.dp)) {
             if (avg == null) Text("Registra qualche pasto per vedere le medie.", style = T.Muted)
             else {
                 val kp = avg.protein * 4
@@ -299,7 +299,7 @@ fun ProgressScreen() {
         OverviewHeading("Acqua")
         GapH(8.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).padding(10.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-water-detail").aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).clickable { Nav.go(Screen.Trend("water", period)) }.padding(10.dp)) {
             OverviewChart(water, maxOf(water.maxOrNull() ?: 0.0, 1.5), period, days.map(letter), waterChart = true)
             Text("Media ${water.average().r1()} L al giorno · ultimi $period giorni", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF0E5A72)), modifier = Modifier.padding(top = 6.dp))
         }
@@ -310,7 +310,7 @@ fun ProgressScreen() {
         OverviewHeading("Passi e attività")
         GapH(8.dp)
         val burned = days.map { Store.burnedFor(s, it).toDouble() }
-        Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(10.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-activity-detail").aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("activity", period)) }.padding(10.dp)) {
             val steps = days.map { Store.stepsFor(s, it).toDouble() }
             OverviewChart(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), period, days.map(letter), waterChart = false)
             Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF065F46)), modifier = Modifier.padding(top = 6.dp))

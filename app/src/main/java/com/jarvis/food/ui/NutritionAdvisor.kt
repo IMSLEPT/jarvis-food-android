@@ -36,6 +36,30 @@ private fun rememberReview(s: AppState, days: Int): NutritionReview? {
     return review
 }
 
+/** Always visible tracking panel; warnings remain conditional on the separate review. */
+@Composable
+fun VitaminOverview(s: AppState) {
+    val review = rememberReview(s, 7)
+    GapH(18.dp)
+    ASection("Vitamine e minerali", action = "Andamento", top = 0.dp) { Nav.go(Screen.Trend("vitamins")) }
+    GapH(8.dp)
+    JCard(Modifier.testTag("home-vitamins"), onClick = { Nav.go(Screen.Trend("vitamins")) }) {
+        Text("Ultimi 7 giorni", style = T.Label)
+        Text("${review?.usableDays?.size ?: 0} giornate utilizzabili · dai pasti registrati", style = T.Small)
+        if (review != null) for (key in listOf("vitC", "vitD", "vitB12")) {
+            val nutrient = review.nutrient(key)
+            GapH(10.dp)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(nutrient.name, style = T.Label, modifier = Modifier.weight(1f))
+                Text(nutrient.percent?.let { "${it.r0()}%" } ?: "Dati incompleti", style = T.Small)
+            }
+            nutrient.percent?.let { ProgressLine((it / 100).toFloat().coerceIn(0f, 1f), C.Green, Modifier.fillMaxWidth().padding(top = 4.dp)) }
+        }
+        GapH(10.dp)
+        Text("I dati mancanti non indicano una carenza. Apri per vedere quantità, copertura e andamento.", style = T.Small)
+    }
+}
+
 @Composable
 fun NutritionAdvisor(s: AppState, full: Boolean = false, days: Int = 7) {
     val review = rememberReview(s, days)
@@ -196,7 +220,7 @@ private fun BreakfastAlternatives(s: AppState) {
         val state = s
         value = withContext(Dispatchers.Default) {
             val meal = Store.plannedMeals(state, date).firstOrNull { it.diaryMeal == 0 }
-            if (meal == null) emptyList() else Planner.alternatives(Db.db, "colazione", meal.solved.target, state.dietPrefs)
+            if (meal == null) emptyList() else Planner.alternatives(Db.db, "colazione", meal.solved.target, Store.prefsFor(state, date))
                 .filter { it.template.id != meal.solved.template.id && it.items.all { i -> "fiber" in i.food.micro } }
                 .sortedWith(compareBy<SolvedRecipe> { c -> c.toFood().freeSugar?.times(c.grams / 100) ?: Double.MAX_VALUE }
                     .thenByDescending { it.micro("fiber") + it.total.protein * 0.2 }).take(2)

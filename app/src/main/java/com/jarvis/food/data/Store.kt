@@ -73,7 +73,7 @@ object Store {
 
     /** Adegua i dati salvati dalle versioni precedenti. */
     private fun migrate(s: AppState): AppState {
-        var n = s
+        var n = com.jarvis.food.engine.FoodAmounts.migrate(s)
         if (n.ai.model == "openrouter/free") n = n.copy(ai = n.ai.copy(model = AiConfig.DEFAULT_MODEL))
         return n
     }
@@ -111,12 +111,20 @@ object Store {
 
     fun addEntry(date: LocalDate, meal: Int, food: Food, grams: Double, planRef: String? = null): String {
         val id = newId()
-        update { it.copy(diary = it.diary + DiaryEntry(id, date.toString(), meal, food, grams, System.currentTimeMillis(), planRef)) }
+        update { it.copy(diary = it.diary + DiaryEntry(id, date.toString(), meal, com.jarvis.food.engine.FoodAmounts.normalize(food), grams, System.currentTimeMillis(), planRef)) }
         return id
     }
 
     fun updateEntry(id: String, grams: Double, meal: Int) = update { s ->
         s.copy(diary = s.diary.map { if (it.id == id) it.copy(grams = grams, meal = meal) else it })
+    }
+
+    /** Fix unit/portion metadata across saved copies without changing any quantity or nutrients. */
+    fun rememberFoodMeasure(food: Food) = update { s ->
+        com.jarvis.food.engine.FoodAmounts.mapFoods(s) { old ->
+            if (old.id != food.id) old else old.copy(liquid = food.liquid, servingName = food.servingName,
+                servingGrams = food.servingGrams, portionSource = food.portionSource, portionUrl = food.portionUrl)
+        }
     }
 
     fun replaceEntry(id: String, food: Food, grams: Double) = update { s ->
@@ -248,6 +256,7 @@ object Store {
     // ---------------------------------------------------------------- Piano alimentare
 
     fun dayPlan(s: AppState, date: LocalDate): DayPlan? = s.plan.firstOrNull { it.date == date.toString() }
+    fun prefsFor(s: AppState, date: LocalDate) = s.dietPrefs.copy(styleId = dayPlan(s, date)?.styleId ?: s.dietPrefs.styleId)
 
     private val mealCache = HashMap<String, List<PlannedMeal>>()
 
@@ -258,7 +267,7 @@ object Store {
         val key = "${dp.hashCode()}|${s.dietPrefs.hashCode()}|${e.macro}"
         synchronized(mealCache) {
             mealCache[key]?.let { return it }
-            val r = Planner.solveDay(Db.db, dp, e.macro, s.dietPrefs)
+            val r = Planner.solveDay(Db.db, dp, e.macro, prefsFor(s, date))
             if (mealCache.size > 60) mealCache.clear()
             mealCache[key] = r
             return r
@@ -280,7 +289,28 @@ object Store {
         s.copy(plan = (kept + merged).sortedBy { it.date })
     }
 
+    suspend fun regenerateStyle(start: LocalDate, days: Int, styleId: String): String? {
+        if (days !in listOf(1, 7, 14, 30)) return "Periodo non valido."
+        val snapshot = current
+        val result = kotlinx.coroutines.withContext(Dispatchers.Default) {
+            com.jarvis.food.engine.DietStyles.build(Db.db, snapshot.dietPrefs, start, days, snapshot.plan, styleId,
+                targets = { energyFor(snapshot, it).macro }, maintenance = { energyFor(snapshot, it).expectedTdee })
+        }
+        result.problem?.let { return it }
+        var applied = false
+        update { fresh ->
+            applied = fresh.plan == snapshot.plan && fresh.dietPrefs == snapshot.dietPrefs && fresh.profile == snapshot.profile &&
+                fresh.goals == snapshot.goals && fresh.energy == snapshot.energy && fresh.trainingNutrition == snapshot.trainingNutrition &&
+                fresh.diary == snapshot.diary && fresh.weights == snapshot.weights && fresh.health == snapshot.health && fresh.activities == snapshot.activities && fresh.steps == snapshot.steps
+            if (!applied) fresh else fresh.copy(dietPrefs = fresh.dietPrefs.copy(styleId = styleId),
+                plan = (fresh.plan.filter { it.date !in result.days.map { d -> d.date }.toSet() } + result.days).sortedBy { it.date })
+        }
+        return if (applied) null else "I dati sono cambiati durante il calcolo. Conferma di nuovo per usare i target aggiornati."
+    }
+
     fun setSlotRecipe(date: LocalDate, slot: Int, recipeId: String) = update { s ->
+        val recipe = Db.db.recipe(recipeId) ?: return@update s
+        if (!Planner.allowed(Db.db, recipe, prefsFor(s, date))) return@update s
         s.copy(plan = s.plan.map { dp ->
             if (dp.date != date.toString()) dp
             else dp.copy(slots = dp.slots.map { if (it.slot == slot) it.copy(recipeId = recipeId) else it })

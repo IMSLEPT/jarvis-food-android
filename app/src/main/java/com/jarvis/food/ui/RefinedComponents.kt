@@ -182,6 +182,9 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
                 (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.4f)).testTag("plan-eaten-${m.diaryMeal}"), primary = true, completed = eaten) {
                 if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
             }
+            CompactPlanAction("Codice a barre", Ic.Barcode, C.Navy, Modifier.fillMaxWidth().testTag("plan-barcode-${m.diaryMeal}")) {
+                Nav.go(Screen.AddFood(date, m.diaryMeal, scanOnOpen = true))
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -47,8 +48,20 @@ import com.jarvis.food.data.Store
 import java.time.LocalDate
 
 @Composable
-fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Double?, entry: DiaryEntry?, replacing: Boolean = false) {
+fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGrams: Double?, entry: DiaryEntry?, replacing: Boolean = false) {
     val s by Store.state.collectAsState()
+    var food by remember(originalFood.id) { mutableStateOf(com.jarvis.food.engine.FoodAmounts.normalize(originalFood)) }
+    var editPiece by remember { mutableStateOf(false) }
+    var pieceWeight by remember { mutableStateOf("") }
+    val uri = androidx.compose.ui.platform.LocalUriHandler.current
+    LaunchedEffect(originalFood.id) {
+        // Fill missing per-piece information from this barcode, without replacing nutrition values.
+        if (food.source == "off" && food.barcode != null && food.servingGrams == null) {
+            val fresh = runCatching { com.jarvis.food.net.OpenFoodFacts.byBarcode(food.barcode!!) }.getOrNull()
+            if (fresh?.servingGrams != null) food = food.copy(servingName = fresh.servingName, servingGrams = fresh.servingGrams,
+                portionSource = fresh.portionSource ?: "Open Food Facts · etichetta del prodotto", portionUrl = fresh.portionUrl)
+        }
+    }
     val hasServing = food.servingGrams != null && food.servingName != null
     val unit = if (food.liquid) "ml" else "g"
     // La quantità si scrive sempre in grammi/ml (anche decimali); le porzioni sono solo scorciatoie.
@@ -61,6 +74,18 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
     val grams = typed / factor
     val t = Nutrition.of(food, grams)
     val isFav = s.favorites.any { it.id == food.id }
+
+    if (editPiece) androidx.compose.material3.AlertDialog(onDismissRequest = { editPiece = false },
+        title = { Text("Peso di una ${com.jarvis.food.engine.FoodAmounts.pieceName(food)}", style = T.Title2) },
+        text = { Column {
+            Text("Usa il peso riportato sulla confezione o pesa un pezzo. Il valore viene ricordato per questo alimento.", style = T.Small)
+            JField(pieceWeight, { pieceWeight = it.filter { c -> c.isDigit() || c == ',' || c == '.' }.take(8) }, "Grammi per pezzo", number = true, suffix = "g")
+        } },
+        confirmButton = { androidx.compose.material3.TextButton(enabled = (parseNum(pieceWeight) ?: 0.0) > 0, onClick = {
+            food = food.copy(servingName = com.jarvis.food.engine.FoodAmounts.pieceName(food), servingGrams = parseNum(pieceWeight), portionSource = "Inserito da te", portionUrl = null)
+            Store.rememberFoodMeasure(food); editPiece = false
+        }) { Text("Salva peso del pezzo") } },
+        dismissButton = { androidx.compose.material3.TextButton(onClick = { editPiece = false }) { Text("Annulla") } }, containerColor = C.Surface)
 
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar(if (replacing) "Sostituisci" else if (entry != null) "Modifica" else "Dettaglio", onBack = { Nav.back() }) {
@@ -105,6 +130,25 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             }
             if (replacing) Text("Sostituisce ${entry?.food?.name}. Controlla la quantità: resterà nello stesso pasto.", style = T.Small, modifier = Modifier.padding(top = 12.dp))
             SectionTitle("Quantità esatta")
+            if (!food.liquid) {
+                if (hasServing) {
+                    val sg = food.servingGrams!!
+                    Text("1 ${food.servingName} = ${amountText(sg)} g", Modifier.testTag("piece-weight"), style = T.Label)
+                    food.portionSource?.let { source -> Text(source, style = T.Small) }
+                    if (food.source == "db" && food.portionSource == null) Text("Peso indicativo del catalogo: puoi correggerlo.", style = T.Small)
+                    Row(Modifier.padding(top = 8.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        listOf(1, 2, 3, 4, 6).forEach { count ->
+                            Box(Modifier.testTag("piece-count-$count")) {
+                                Pill(com.jarvis.food.engine.FoodAmounts.pieces(food, count), kotlin.math.abs(grams - sg * count) < .01) { amount = amountText(sg * count * factor) }
+                            }
+                        }
+                    }
+                    food.portionUrl?.let { url -> androidx.compose.material3.TextButton(onClick = { runCatching { uri.openUri(url) } }) { Text("Fonte del peso per pezzo") } }
+                }
+                androidx.compose.material3.TextButton(onClick = { pieceWeight = food.servingGrams?.let(::amountText) ?: ""; editPiece = true }) {
+                    Text(if (hasServing) "Correggi peso per pezzo" else "Imposta peso per pezzo")
+                }
+            }
             if (food.cooked != null) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Pill("Peso a crudo", !cookedMode) { if (cookedMode) { amount = amountText(grams); cookedMode = false } }
@@ -122,7 +166,7 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             Spacer(Modifier.height(8.dp))
             Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 val sg = food.servingGrams
-                if (hasServing && sg != null) listOf(0.5, 1.0, 1.5, 2.0).forEach { k ->
+                if (food.liquid && hasServing && sg != null) listOf(0.5, 1.0, 1.5, 2.0).forEach { k ->
                     val lbl = (if (k == 1.0) "1 " else if (k == 0.5) "½ " else if (k == 1.5) "1,5 " else "2 ") + food.servingName
                     Pill(lbl, false) { amount = amountText(sg * k * factor); }
                 }
@@ -178,6 +222,7 @@ fun FoodDetailScreen(food: Food, date: LocalDate, meal: Int, initialGrams: Doubl
             } else if (entry != null) {
                 GhostButton("Elimina", Modifier.weight(1f), color = C.Danger) { Store.removeEntry(entry.id); Nav.back() }
                 PrimaryButton("Salva", Modifier.weight(2f), enabled = grams > 0) {
+                    Store.rememberFoodMeasure(food)
                     Store.updateEntry(entry.id, grams, mealSel); Nav.back()
                 }
             } else {

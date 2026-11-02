@@ -62,11 +62,6 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
                 .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }, contentAlignment = Alignment.CenterStart) {
                 Text(fullDay(date), style = T.Title2.copy(fontSize = if (large) 13.sp else 18.sp, lineHeight = if (large) 16.sp else 22.sp))
             }
-            GapW(8.dp)
-            Box(Modifier.testTag("calendar-today")) {
-                HeaderIconButton("M21 12a9 9 0 1 1-3-6.7M21 3v6h-6M12 7v5l3 2", "Torna a oggi") { onPick(Nav.today) }
-            }
-
         }
         Box(Modifier.fillMaxWidth().height(HeaderLayout.weekHeight()), contentAlignment = Alignment.Center) { WeekStrip(s, date, onPick) }
     }
