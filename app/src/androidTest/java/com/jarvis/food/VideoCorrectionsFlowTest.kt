@@ -68,7 +68,12 @@ class VideoCorrectionsFlowTest {
             compose.onNodeWithTag("food-quantity").performScrollTo().assertTextContains("61,6", substring = true)
             // The IME resizes this bottom action row. Settle that transition before a
             // physical tap, then observe the saved state rather than racing input dispatch.
-            androidx.test.espresso.Espresso.closeSoftKeyboard()
+            it.onActivity { activity ->
+                val view = activity.window.decorView
+                view.clearFocus()
+                (activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager)
+                    .hideSoftInputFromWindow(view.windowToken, 0)
+            }
             compose.waitForIdle(); ins.waitForIdleSync()
             shot("piece-quantity-before-save")
             compose.onNodeWithText("Salva").performClick()
