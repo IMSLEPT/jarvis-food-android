@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @Composable
-fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, entry: DiaryEntry?) {
+fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, entry: DiaryEntry?, meal: Int) {
     val advice = remember(food, grams, s.diary, date) { FoodGuidance.advice(food, grams, s.diary, date) }
     var details by remember { mutableStateOf(false) }
     var compare by remember { mutableStateOf(false) }
@@ -57,7 +57,7 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
                         Text("Riferimento ${portion.r0()} ${if (candidate.liquid) "ml" else "g"} · non è una sostituzione isocalorica", style = T.Small)
                         TextButton(onClick = {
                             if (entry != null) Nav.go(Screen.FoodDetail(candidate, date, entry.meal, portion, entry, replacing = true))
-                            else Nav.go(Screen.FoodDetail(candidate, date, defaultMeal(), portion))
+                            else Nav.go(Screen.FoodDetail(candidate, date, meal, portion))
                         }) { Text("Valuta alternativa", color = C.Navy) }
                     }
                 }
@@ -94,7 +94,7 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
                 TextButton(onClick = {
                     compare = false
                     if (entry != null) Nav.go(Screen.FoodDetail(product, date, entry.meal, grams, entry, replacing = true))
-                    else Nav.go(Screen.FoodDetail(product, date, defaultMeal(), grams))
+                    else Nav.go(Screen.FoodDetail(product, date, meal, grams))
                 }) { Text("Apri e controlla quantità", color = C.Navy) }
             }
         }

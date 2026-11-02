@@ -131,7 +131,7 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
                 }
             }
 
-            FoodGuidanceCard(food, grams, s, date, entry)
+            FoodGuidanceCard(food, grams, s, date, entry, mealSel)
 
             if (entry != null && !replacing) {
                 Spacer(Modifier.height(16.dp))

@@ -34,15 +34,18 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
     var selected by remember { mutableStateOf<Food?>(null) }
     var editing by remember { mutableStateOf<Int?>(null) }
     var amount by remember { mutableStateOf("100") }
-    var proposal by remember { mutableStateOf<List<Ingredient>?>(null) }
+    var proposal by remember { mutableStateOf<Pair<List<Ingredient>, Macro>?>(null) }
     val target = planned.solved.target
     val actual = ManualMeals.total(recipe.ingredients)
     val complete = ManualMeals.complete(recipe.ingredients)
     val eaten = saved.eatenEntryIds.isNotEmpty()
     val dayTarget = Store.energyFor(s, date).macro
     val recorded = s.diary.filter { it.date == date.toString() }.fold(Macro.ZERO) { a, e -> a + Macro(e.food.kcal, e.food.protein, e.food.carbs, e.food.fat) * (e.grams/100) }
-    val remainingPlan = Store.plannedMeals(s, date).filter { it.slotIndex != slot && Store.dayPlan(s, date)?.slots?.firstOrNull { ps -> ps.slot == it.slotIndex }?.eatenEntryIds?.isEmpty() == true }.fold(Macro.ZERO) { a, m -> a + m.solved.total }
+    val preview = s.copy(plan=s.plan.map { dp -> if(dp.date!=date.toString()) dp else dp.copy(slots=dp.slots.map { ps -> if(ps.slot==slot && !eaten) ps.copy(recipeId=recipe.id,manualRecipe=recipe) else ps }) })
+    val remainingPlan = Store.plannedMeals(preview, date).filter { it.slotIndex != slot && Store.dayPlan(s, date)?.slots?.firstOrNull { ps -> ps.slot == it.slotIndex }?.eatenEntryIds?.isEmpty() == true }.fold(Macro.ZERO) { a, m -> a + m.solved.total }
     val predicted = recorded + remainingPlan + if (eaten) Macro.ZERO else actual
+    val available = dayTarget - recorded - remainingPlan
+    val dayFitTarget = Macro(available.kcal.coerceAtLeast(0.0),available.protein.coerceAtLeast(0.0),available.carbs.coerceAtLeast(0.0),available.fat.coerceAtLeast(0.0))
     val local = remember(query, s.customFoods, s.favorites) {
         val terms = FoodDb.normalize(query).split(' ').filter { it.isNotEmpty() }
         ((s.customFoods + s.favorites).filter { f -> terms.all { it in FoodDb.normalize(f.name+" "+f.brand) } } + Db.db.search(query).map { it.toFood() }).distinctBy { it.id }.take(35)
@@ -77,7 +80,11 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
             }
             if (!eaten) GhostButton("Cerca e aggiungi alimenti", Modifier.fillMaxWidth().testTag("manual-add-food")) { picking=true }
             if (!eaten) GhostButton("Crea alimento personalizzato", Modifier.fillMaxWidth()) { ManualMealDrafts.recipes[draftKey]=recipe; Nav.go(Screen.CustomFood(null, planned.diaryMeal)) }
-            if (!eaten && complete) GhostButton("Suggerisci quantità per i miei obiettivi", Modifier.fillMaxWidth().testTag("manual-adjust")) { if(!eaten && recipe.ingredients.isNotEmpty()) proposal=ManualMeals.adjust(recipe.ingredients,target) }
+            if (!eaten && complete) GhostButton("Suggerisci quantità per il pasto", Modifier.fillMaxWidth().testTag("manual-adjust")) { if(!eaten && recipe.ingredients.isNotEmpty()) proposal=ManualMeals.adjust(recipe.ingredients,target) to target }
+            if (!eaten && complete) GhostButton("Suggerisci quantità per la giornata", Modifier.fillMaxWidth().testTag("manual-adjust-day")) {
+                proposal=ManualMeals.adjust(recipe.ingredients,dayFitTarget) to dayFitTarget
+            }
+            Text("Il confronto della giornata considera anche gli altri pasti ancora pianificati. I loro grammi possono essere ricalcolati dal piano quando cambi questo pasto.", style=T.Small)
             Text("La proposta varia solo le quantità inserite, entro metà e doppio. Controlla le porzioni prima di applicarla: alcuni obiettivi richiedono alimenti diversi. Non è garantito un incastro perfetto dei macro.", style=T.Small)
             if (saved.manualRecipe != null && !eaten) PrimaryButton("Segna mangiato", Modifier.fillMaxWidth().testTag("manual-eat"), enabled=recipe.ingredients.isNotEmpty()) {
                 Store.setManualMeal(date,slot,recipe)
@@ -119,9 +126,9 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
         if(index!=null&&index in next.indices) next[index]=item else next.add(item)
         change(recipe.copy(ingredients=next)); selected=null
     }){Text("Conferma quantità")}},dismissButton={TextButton(onClick={selected=null}){Text("Annulla")}},containerColor=C.Surface) }
-    proposal?.let { items -> AlertDialog(onDismissRequest={proposal=null},title={Text("Quantità suggerite",style=T.Title2)},text={
+    proposal?.let { (items, goal) -> AlertDialog(onDismissRequest={proposal=null},title={Text("Quantità suggerite",style=T.Title2)},text={
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            MacroComparison("Proposta",ManualMeals.total(items),target)
+            MacroComparison("Proposta",ManualMeals.total(items),goal)
             items.forEachIndexed { i,it -> Text("${it.food.name}: ${amountText(recipe.ingredients[i].grams)} → ${amountText(it.grams)} ${if(it.food.liquid)"ml" else "g"}",style=T.Small) }
         }
     },confirmButton={TextButton(onClick={change(recipe.copy(ingredients=items)); proposal=null}){Text("Applica proposta")}},dismissButton={TextButton(onClick={proposal=null}){Text("Mantieni le mie quantità")}},containerColor=C.Surface) }
