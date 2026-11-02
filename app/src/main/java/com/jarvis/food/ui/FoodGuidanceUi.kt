@@ -42,6 +42,7 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
         }
         GapH(8.dp)
         Text(advice.explanation, style = T.Small)
+        if(food.liquid && advice.signals.any { it.per100 != null && it.level == FoodGuidance.Level.UNKNOWN }) Text("I liquidi che non sono bevande (es. olio e salse) non ricevono il colore delle bevande: servirebbe una base di peso comparabile.",style=T.Small)
         TextButton(onClick = { details = !details }, modifier = Modifier.testTag("food-guidance-details")) { Text(if (details) "Chiudi consigli" else "Quantità, frequenza e alternative", color = C.Navy) }
         if (details) {
             Text(advice.portion, style = T.Small)
@@ -64,6 +65,7 @@ fun FoodGuidanceCard(food: Food, grams: Double, s: AppState, date: LocalDate, en
             Text("Confronta ingredienti ed etichette prima di preferire una marca. Non deduco NOVA o qualità dai nomi commerciali.", style = T.Small)
             TextButton(onClick = { compare = true }) { Text("Confronta prodotti e marche", color = C.Navy) }
             TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.LABEL_SOURCE) } }) { Text("Criteri dei colori · NHS", color = C.Navy) }
+            TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.FREQUENCY_SOURCE) } }) { Text("Frequenze alimentari · CREA", color = C.Navy) }
             if (food.liquid) TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.DRINK_SOURCE) } }) { Text("Soglie per le bevande · Governo scozzese", color = C.Navy) }
             TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) } }) { Text("Porzioni e varietà · CREA", color = C.Navy) }
         }
@@ -106,6 +108,9 @@ fun EverydayFoodGuide() {
     JCard(Modifier.testTag("everyday-food-guide")) {
         Text("Idee pratiche per mangiare vario", style = T.Label)
         Text("Puoi iniziare subito, anche con poco storico. Sono esempi per adulti sani: adatta porzioni, allergie e preferenze.", style = T.Small)
+        GapH(8.dp)
+        Text("Esempio onnivoro: alterna legumi, pesce, uova e carni fresche. Per il pesce fresco: 2–4 porzioni da 150 g a settimana; per la carne rossa: 1 da 100 g (CREA).", style = T.Small)
+        Text("Adatta questi riferimenti alla tua alimentazione e al fabbisogno: non sono una garanzia di copertura delle vitamine.", style = T.Small)
         TextButton(onClick = { expanded = !expanded }) { Text(if (expanded) "Riduci" else "Mostra la guida", color = C.Navy) }
         if (expanded) {
             Text("• Alterna le fonti proteiche: legumi, pesce, uova e carni fresche; limita le carni lavorate. Esempi di porzione: legumi cotti 150 g, pesce fresco 150 g.", style = T.Small)
@@ -115,6 +120,8 @@ fun EverydayFoodGuide() {
             Text("• Inserisci frutta e verdura variate ogni giorno e alterna cereali integrali. Frutta a guscio al naturale: riferimento 30 g, contando l'energia nel piano.", style = T.Small)
             GapH(8.dp)
             Text("• Per colazione alterna, per esempio, pane e ricotta, yogurt e avena, oppure pane e crema 100% frutta a guscio. Scegli quantità coerenti con i tuoi obiettivi.", style = T.Small)
+            TextButton(onClick = { runCatching { uri.openUri("https://sapermangiare.an.crea.gov.it/507/pesce.html") } }) { Text("Frequenze del pesce · CREA", color = C.Navy) }
+            TextButton(onClick = { runCatching { uri.openUri("https://sapermangiare.an.crea.gov.it/506/carne.html") } }) { Text("Frequenze della carne · CREA", color = C.Navy) }
             TextButton(onClick = { runCatching { uri.openUri(FoodGuidance.VARIETY_SOURCE) } }) { Text("Leggi le linee guida CREA", color = C.Navy) }
         }
     }

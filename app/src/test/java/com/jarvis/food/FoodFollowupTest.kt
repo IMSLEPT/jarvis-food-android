@@ -28,6 +28,7 @@ class FoodFollowupTest {
         assertEquals(FoodGuidance.Level.HIGH,FoodGuidance.signals(a.copy(liquid=true,sugar=11.3))[0].level)
         assertEquals(FoodGuidance.Level.HIGH,FoodGuidance.signals(a.copy(liquid=true,salt=.76))[2].level)
         assertEquals(FoodGuidance.Level.UNKNOWN,FoodGuidance.signals(a.copy(unknownNutrients=listOf("sugar")))[0].level)
+        assertTrue(FoodGuidance.signals(a.copy(name="Olio di oliva",liquid=true,group="olio")).all { it.level==FoodGuidance.Level.UNKNOWN })
     }
     @Test fun habitCountIgnoresFutureAndOldEntriesAndCountsDays() {
         val f=food()
@@ -48,6 +49,11 @@ class FoodFollowupTest {
         assertEquals(123.5,meals.single().solved.items.single().grams,0.0)
         assertEquals(308.75,meals.single().solved.total.kcal,.001)
         assertNull(NutritionScience.per100(meals.single().solved.toFood(), "vitD"))
+    }
+    @Test fun missingMacrosPreventQuantityOptimization() {
+        val items=listOf(Ingredient(food().copy(unknownNutrients=listOf("protein")),100.0))
+        assertFalse(ManualMeals.complete(items))
+        assertEquals(items,ManualMeals.adjust(items,Macro(600.0,40.0,80.0,20.0)))
     }
     @Test fun quantitySuggestionNeverWorsensFitAndStaysBounded() {
         val items=listOf(Ingredient(food(),100.0),Ingredient(food("Altro").copy(id="other",protein=30.0,carbs=2.0,fat=1.0),50.0))

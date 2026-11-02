@@ -7,18 +7,23 @@ import java.time.LocalDate
 /** Label screening, not an overall health score or a NOVA inference. */
 object FoodGuidance {
     const val LABEL_SOURCE = "https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/how-to-read-food-labels/"
+    const val FREQUENCY_SOURCE = "https://sapermangiare.an.crea.gov.it/498/che-cosa-sono-e-a-cosa-servono-le-proteine.html"
     const val DRINK_SOURCE = "https://www.gov.scot/publications/supporting-healthy-choices-framework-voluntary-action/pages/13/"
     const val VARIETY_SOURCE = "https://www.crea.gov.it/web/alimenti-e-nutrizione/-/linee-guida-per-una-sana-alimentazione-2018"
     enum class Level { LOW, MEDIUM, HIGH, UNKNOWN }
     data class Signal(val key: String, val label: String, val per100: Double?, val level: Level)
     data class Advice(val title: String, val explanation: String, val portion: String, val frequency: String, val signals: List<Signal>, val caution: Boolean, val alternativeQuery: String)
+    private fun unclassifiedLiquid(f: Food): Boolean {
+        val n = FoodDb.normalize(f.name)
+        return f.liquid && (f.group in setOf("olio", "grassi", "condimenti") || listOf("olio", "aceto", "salsa", "sciroppo").any { n.startsWith(it) })
+    }
     fun signals(f: Food): List<Signal> = listOf(
         Triple("sugar", "Zuccheri", if (f.liquid) 2.5 to 11.25 else 5.0 to 22.5),
         Triple("satFat", "Saturi", if (f.liquid) 0.75 to 2.5 else 1.5 to 5.0),
         Triple("salt", "Sale", if (f.liquid) 0.3 to 0.75 else 0.3 to 1.5)
     ).map { (key, label, limits) ->
         val v = NutritionScience.per100(f, key)
-        Signal(key, label, v, when { v == null -> Level.UNKNOWN; v > limits.second -> Level.HIGH; v <= limits.first -> Level.LOW; else -> Level.MEDIUM })
+        Signal(key, label, v, when { v == null || unclassifiedLiquid(f) -> Level.UNKNOWN; v > limits.second -> Level.HIGH; v <= limits.first -> Level.LOW; else -> Level.MEDIUM })
     }
     fun advice(f: Food, grams: Double, diary: List<DiaryEntry>, date: LocalDate): Advice {
         val n = FoodDb.normalize(f.name)
@@ -41,6 +46,10 @@ object FoodGuidance {
         val frequency = "Registrato in $occurrences giorni negli ultimi 7 (diario anche incompleto). " + when {
             pureNuts -> "Non c'è un limite generale di 2–3 volte a settimana per una crema 100%: varia le fonti e rispetta le quantità."
             processed || high.isNotEmpty() -> "Preferisci porzioni contenute e alterna con opzioni meno ricche nei nutrienti evidenziati. Non assegno frequenze precise senza una guida specifica."
+            f.group == "carne_rossa" -> "Riferimento CREA: 1 porzione di carne rossa da 100 g alla settimana. È una guida generale per adulti, da integrare con le altre fonti proteiche."
+            f.group == "carne_bianca" -> "Riferimento CREA: 1–3 porzioni di carne bianca da 100 g alla settimana, secondo il fabbisogno; alterna con legumi, pesce e uova."
+            f.group.startsWith("pesce") -> "Per il pesce fresco, CREA indica 2–4 porzioni da 150 g a settimana secondo il fabbisogno. Varia le specie; per prodotti conservati considera sale e porzioni specifiche."
+            f.group == "legumi" -> "Esempio CREA per 2.000 kcal: almeno 3 porzioni settimanali di legumi (150 g cotti). Non è un obiettivo personale automatico; adatta il resto del piano."
             else -> "Alterna gli alimenti del gruppo: un indicatore verde non significa consumo illimitato."
         }
         val query = when { nuts -> "mandorle"; processed -> "ceci"; "yogurt" in n -> "yogurt"; "latte" in n -> "latte"; "pane" in n || "biscott" in n -> "pane integrale"; f.liquid && high.any { it.key == "sugar" } -> "acqua"; else -> f.name }

@@ -6,6 +6,7 @@ import kotlin.math.abs
 
 /** Amounts stay fixed until the user requests and accepts adjustment. */
 object ManualMeals {
+    fun complete(items: List<Ingredient>) = items.isNotEmpty() && items.all { i -> listOf("kcal", "protein", "carbs", "fat").all { NutritionScience.per100(i.food, it) != null } }
     fun total(items: List<Ingredient>) = items.fold(Macro.ZERO) { a, i -> a + Macro(i.food.kcal, i.food.protein, i.food.carbs, i.food.fat) * (i.grams / 100) }
     fun asSolved(recipe: Recipe, target: Macro, meal: String): SolvedRecipe {
         val items = recipe.ingredients.map { i ->
@@ -19,7 +20,7 @@ object ManualMeals {
     }
     fun error(a: Macro, t: Macro): Double = abs(a.kcal-t.kcal)/t.kcal.coerceAtLeast(100.0)*3 + abs(a.protein-t.protein)/t.protein.coerceAtLeast(10.0)*2 + abs(a.carbs-t.carbs)/t.carbs.coerceAtLeast(15.0) + abs(a.fat-t.fat)/t.fat.coerceAtLeast(8.0)
     fun adjust(items: List<Ingredient>, target: Macro): List<Ingredient> {
-        if (items.isEmpty() || items.any { !it.grams.isFinite() || it.grams <= 0 }) return items
+        if (!complete(items) || items.any { !it.grams.isFinite() || it.grams <= 0 }) return items
         var current = items
         var best = error(total(current), target)
         for (step in listOf(20.0, 5.0, 1.0)) repeat(8) {

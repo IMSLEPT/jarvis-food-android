@@ -37,6 +37,7 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
     var proposal by remember { mutableStateOf<List<Ingredient>?>(null) }
     val target = planned.solved.target
     val actual = ManualMeals.total(recipe.ingredients)
+    val complete = ManualMeals.complete(recipe.ingredients)
     val eaten = saved.eatenEntryIds.isNotEmpty()
     val dayTarget = Store.energyFor(s, date).macro
     val recorded = s.diary.filter { it.date == date.toString() }.fold(Macro.ZERO) { a, e -> a + Macro(e.food.kcal, e.food.protein, e.food.carbs, e.food.fat) * (e.grams/100) }
@@ -60,7 +61,8 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
             Text("${planned.slotName} · $date", style=T.Label)
             if (eaten) Text("Questo pasto è già registrato. Le quantità restano consultabili; modifica il diario per correggere ciò che hai mangiato.", style=T.Small)
             JField(recipe.name, { change(recipe.copy(name=it)) }, "Nome del pasto")
-            MacroComparison("Questo pasto", actual, target)
+            MacroComparison(if(complete || recipe.ingredients.isEmpty()) "Questo pasto" else "Questo pasto · dati parziali", actual, target)
+            if(!complete && recipe.ingredients.isNotEmpty()) Text("Mancano calorie o macro per alcuni alimenti: i totali sono parziali e la proposta di quantità resta sospesa. Completa i dati di etichetta.", style=T.Small)
             MacroComparison("Giornata prevista", predicted, dayTarget)
             Text("La previsione somma diario e pasti ancora pianificati, sostituendo questo pasto una sola volta. Non conferma i pasti come mangiati.", style=T.Small)
             recipe.ingredients.forEachIndexed { index, item ->
@@ -75,7 +77,7 @@ fun ManualMealScreen(date: LocalDate, slot: Int) {
             }
             if (!eaten) GhostButton("Cerca e aggiungi alimenti", Modifier.fillMaxWidth().testTag("manual-add-food")) { picking=true }
             if (!eaten) GhostButton("Crea alimento personalizzato", Modifier.fillMaxWidth()) { ManualMealDrafts.recipes[draftKey]=recipe; Nav.go(Screen.CustomFood(null, planned.diaryMeal)) }
-            if (!eaten) GhostButton("Suggerisci quantità per i miei obiettivi", Modifier.fillMaxWidth().testTag("manual-adjust")) { if(!eaten && recipe.ingredients.isNotEmpty()) proposal=ManualMeals.adjust(recipe.ingredients,target) }
+            if (!eaten && complete) GhostButton("Suggerisci quantità per i miei obiettivi", Modifier.fillMaxWidth().testTag("manual-adjust")) { if(!eaten && recipe.ingredients.isNotEmpty()) proposal=ManualMeals.adjust(recipe.ingredients,target) }
             Text("La proposta varia solo le quantità inserite, entro metà e doppio. Controlla le porzioni prima di applicarla: alcuni obiettivi richiedono alimenti diversi. Non è garantito un incastro perfetto dei macro.", style=T.Small)
             if (saved.manualRecipe != null && !eaten) PrimaryButton("Segna mangiato", Modifier.fillMaxWidth().testTag("manual-eat"), enabled=recipe.ingredients.isNotEmpty()) {
                 Store.setManualMeal(date,slot,recipe)
