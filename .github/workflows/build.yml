@@ -120,10 +120,22 @@ jobs:
           arch: x86_64
           profile: pixel_5
           ram-size: 3072M
+          heap-size: 512M
           emulator-boot-timeout: 900
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
+            # Android 10 occasionally starts with the system-image 16 MB growth limit.
+            # Set a normal phone-sized heap before starting any app/test process.
+            ./.ci-bin/adb root
+            timeout 90 ./.ci-bin/adb wait-for-device
+            ./.ci-bin/adb shell setprop dalvik.vm.heapgrowthlimit 256m
+            ./.ci-bin/adb shell setprop dalvik.vm.heapsize 512m
+            ./.ci-bin/adb shell stop
+            ./.ci-bin/adb shell start
+            timeout 90 bash -c 'until ./.ci-bin/adb shell pm list packages android 2>/dev/null | grep -q "package:android"; do sleep 1; done'
+            ./.ci-bin/adb shell getprop dalvik.vm.heapgrowthlimit
+            ./.ci-bin/adb shell getprop dalvik.vm.heapsize
             ./.ci-bin/adb install -r -g app/build/outputs/apk/debug/app-debug.apk
             ./.ci-bin/adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
             ./.ci-bin/adb shell am instrument -w -e class com.jarvis.food.AuroraRegressionTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > regression.log 2>&1
@@ -152,6 +164,7 @@ jobs:
           arch: x86_64
           profile: pixel_5
           ram-size: 4096M
+          heap-size: 512M
           emulator-boot-timeout: 900
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
