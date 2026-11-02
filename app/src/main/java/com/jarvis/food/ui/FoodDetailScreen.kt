@@ -144,11 +144,23 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
                     food.portionSource?.let { source -> Text(source, style = T.Small) }
                     if (food.source == "db" && food.portionSource == null) Text("Peso indicativo del catalogo: puoi correggerlo.", style = T.Small)
                     Row(Modifier.padding(top = 8.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        listOf(1, 2, 3, 4, 6).forEach { count ->
+                        listOf(1, 2, 3, 4, 5, 6).forEach { count ->
                             Box(Modifier.testTag("piece-count-$count")) {
                                 Pill(com.jarvis.food.engine.FoodAmounts.pieces(food, count), kotlin.math.abs(grams - sg * count) < .01) { amount = amountText(sg * count * factor) }
                             }
                         }
+                    }
+                    val ratio = grams / sg
+                    var pieceCount by remember(amount, sg) { mutableStateOf(if (kotlin.math.abs(ratio - Math.round(ratio)) < .01) Math.round(ratio).toString() else "") }
+                    Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        GhostButton("−1") { amount = amountText((grams - sg).coerceAtLeast(0.0) * factor) }
+                        Spacer(Modifier.width(8.dp))
+                        JField(pieceCount, { value ->
+                            pieceCount = value.filter(Char::isDigit).take(4)
+                            pieceCount.toDoubleOrNull()?.let { amount = amountText(it * sg * factor) }
+                        }, "N. pezzi", Modifier.weight(1f).testTag("piece-quantity"), number = true)
+                        Spacer(Modifier.width(8.dp))
+                        GhostButton("+1") { amount = amountText((grams + sg) * factor) }
                     }
                     food.portionUrl?.let { url -> androidx.compose.material3.TextButton(onClick = { runCatching { uri.openUri(url) } }) { Text("Fonte del peso per pezzo") } }
                 }

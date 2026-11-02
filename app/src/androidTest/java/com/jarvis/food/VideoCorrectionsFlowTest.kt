@@ -64,8 +64,10 @@ class VideoCorrectionsFlowTest {
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithTag("piece-count-4").performScrollTo().performClick()
             compose.onNodeWithTag("food-quantity").performScrollTo().assertTextContains("35,2", substring = true)
+            compose.onNodeWithTag("piece-quantity").performScrollTo().performTextReplacement("7")
+            compose.onNodeWithTag("food-quantity").performScrollTo().assertTextContains("61,6", substring = true)
             compose.onNodeWithText("Salva").performClick()
-            assertEquals(35.2, Store.current.diary.first { it.id == id }.grams, .001)
+            assertEquals(61.6, Store.current.diary.first { it.id == id }.grams, .001)
             assertFalse(Store.current.diary.first { it.id == id }.food.liquid)
             compose.onNodeWithTag("home-vitamins").performScrollTo().assertIsDisplayed()
             shot("home-vitamins-restored")

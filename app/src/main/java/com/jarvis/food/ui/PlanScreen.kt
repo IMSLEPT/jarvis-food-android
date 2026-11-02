@@ -203,7 +203,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
             }
             Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).testTag("plan-diet-style")
                 .clip(RoundedCornerShape(14.dp)).clickable { chooseStyle = true }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(Ic.Bowl, C.AccentDeep, 20.dp); GapW(8.dp)
+                AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp); GapW(8.dp)
                 Column(Modifier.weight(1f)) {
                     Text("Alimentazione", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
                     Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
