@@ -70,7 +70,7 @@ fun DietStyleDialog(s: AppState, date: LocalDate, onDismiss: () -> Unit) {
                 }
             }
                     GapH(12.dp)
-                    SquareAction(if (busy) "Calcolo…" else "Conferma e aggiorna", Modifier.fillMaxWidth(), tag = "diet-style-confirm", enabled = !busy && problem == null) {
+                    SquareAction(if (busy) "Calcolo…" else "Conferma e aggiorna", Modifier.fillMaxWidth(), tag = "diet-style-confirm", primary = true, enabled = !busy && problem == null) {
                         busy = true; error = null
                         scope.launch {
                             val result = try { Store.regenerateStyle(date, days, selected) }

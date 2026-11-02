@@ -46,6 +46,7 @@ class VideoNovemberFlowTest {
             compose.onNodeWithContentDescription("Cronologia delle chat").performClick()
             compose.onNodeWithTag("chat-history-screen").assertIsDisplayed()
             compose.onNodeWithTag("chat-history-first").performClick()
+            compose.waitUntil(5000) { compose.onAllNodesWithTag("chat-history-screen").fetchSemanticsNodes().isEmpty() }
             compose.onNodeWithText("Conversazione da conservare").assertExists()
             assertEquals("first", Store.current.chat.single().id)
             shot("chat-profile-and-history")
@@ -88,6 +89,8 @@ class VideoNovemberFlowTest {
     @Test fun nutrientsAndPhotoContentStayAboveAndroidButtons() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            compose.waitForIdle()
+            ins.waitForIdleSync()
             var safeBottom = 0
             scenario.onActivity { activity ->
                 val bottom = androidx.core.view.ViewCompat.getRootWindowInsets(activity.window.decorView)!!
@@ -96,10 +99,13 @@ class VideoNovemberFlowTest {
             }
             ui { Nav.go(Screen.DayNutrients(LocalDate.now())) }
             compose.onNodeWithTag("day-nutrients-meals").performScrollTo()
+            compose.onNode(hasScrollAction()).performTouchInput { swipeUp() }
+            compose.waitForIdle()
             compose.onNodeWithText("Spuntino serale").assertIsDisplayed()
             val bottom = compose.onNodeWithTag("day-nutrients-meals").fetchSemanticsNode().boundsInRoot.bottom
-            assertTrue("Nutrient card overlaps navigation", bottom < safeBottom - 8)
             shot("nutrient-footer")
+            val margin = 20f * ins.targetContext.resources.displayMetrics.density
+            assertTrue("Nutrient card bottom=$bottom, safeBottom=$safeBottom, required margin=$margin", bottom <= safeBottom - margin + 1f)
             ui { Nav.clear(); Nav.go(Screen.PhotoAi(LocalDate.now(),0)) }
             compose.onNodeWithTag("photo-mode-offline").performScrollTo().assertIsDisplayed()
             assertTrue(compose.onNodeWithTag("photo-mode-offline").fetchSemanticsNode().boundsInRoot.bottom < safeBottom)
