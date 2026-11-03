@@ -6,6 +6,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -87,7 +89,14 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
             }
         }
         val shape = RoundedCornerShape(30.dp)
-        Row(Modifier.fillMaxSize().testTag("week-strip").aShadow(shape, 7.dp, Color(0x24134B83)).clip(shape)
+        Row(Modifier.fillMaxSize().testTag("week-strip").pointerInput(pager, today) {
+            var distance = 0f
+            detectHorizontalDragGestures(onDragStart = { distance = 0f }, onDragEnd = {
+                if (kotlin.math.abs(distance) > 40.dp.toPx()) scope.launch {
+                    pager.animateScrollToPage((pager.currentPage + if (distance < 0) 1 else -1).coerceIn(0, 20000))
+                }
+            }) { change, delta -> change.consume(); distance += delta }
+        }.aShadow(shape, 7.dp, Color(0x24134B83)).clip(shape)
             .background(Color.White).border(1.dp, Color(0xFFE9EEF5), shape).padding(horizontal = 2.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
             CalendarArrow(false, pager.currentPage > 0) { scope.launch { pager.animateScrollToPage((pager.currentPage - 1).coerceAtLeast(0)) } }
             HorizontalPager(pager, Modifier.weight(1f).fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) { page ->

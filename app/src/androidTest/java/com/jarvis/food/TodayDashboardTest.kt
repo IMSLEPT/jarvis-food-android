@@ -91,6 +91,10 @@ class TodayDashboardTest {
     @Test fun calendarAndFiveDestinationsKeepTheirActions() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
+            compose.waitUntil(5000) { Nav.diaryDate == day.plusWeeks(1) }
+            compose.onNodeWithTag("week-strip").performTouchInput { swipeRight(durationMillis = 400) }
+            compose.waitUntil(5000) { Nav.diaryDate == day }
             compose.onNodeWithTag("week-next").performClick(); compose.waitForIdle()
             assertEquals(day.plusWeeks(1), Nav.diaryDate)
             compose.onNodeWithTag("week-previous").performClick(); compose.waitForIdle()

@@ -174,6 +174,10 @@ class VisualConsistencyTest {
             for (tab in listOf(0, 1, 2, 3, 5)) singleLine(compose.onNodeWithTag("nav-label-$tab", useUnmergedTree = true))
             val homeFrame = compose.onNodeWithTag("top-header-frame").fetchSemanticsNode().boundsInRoot
             val homeCalendar = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
+            // Only Today adopts the approved taller proposal-nine calendar; other headers keep their geometry.
+            val fontScale = ins.targetContext.resources.configuration.fontScale
+            val originalWeekHeight = when { fontScale > 1.5f -> 168f; fontScale > 1.2f -> 88f; else -> 64f }
+            val todayCalendarDelta = homeCalendar.height - originalWeekHeight * ins.targetContext.resources.displayMetrics.density
             val diaryBeforeSwipes = Store.current.diary
             compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
             compose.waitUntil(5_000) { Nav.diaryDate == day.plusDays(7) }
@@ -204,13 +208,13 @@ class VisualConsistencyTest {
                 compose.onNodeWithTag("nav-$tab").performClick()
                 val frame = compose.onNodeWithTag("top-header-frame").fetchSemanticsNode().boundsInRoot
                 assertEquals("Header top must match across all five tabs", homeFrame.top, frame.top, 1f)
-                assertEquals("Header bottom must match across all five tabs", homeFrame.bottom, frame.bottom, 1f)
+                assertEquals("Other headers keep their original height", homeFrame.bottom - todayCalendarDelta, frame.bottom, 1f)
                 assertEquals(homeFrame.left, frame.left, 1f)
                 assertEquals(homeFrame.right, frame.right, 1f)
                 if (tab == 1) {
                     val calendar = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
                     assertEquals(homeCalendar.top, calendar.top, 1f)
-                    assertEquals(homeCalendar.bottom, calendar.bottom, 1f)
+                    assertEquals(homeCalendar.bottom - todayCalendarDelta, calendar.bottom, 1f)
                     compose.onNodeWithTag("week-strip").performTouchInput { swipeLeft(durationMillis = 400) }
                     compose.waitUntil(5_000) { Nav.planDate == day.plusDays(7) }
             compose.waitForIdle()
