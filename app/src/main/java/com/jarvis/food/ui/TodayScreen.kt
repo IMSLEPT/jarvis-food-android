@@ -343,7 +343,7 @@ private fun QuickTile(label: String, icon: String, modifier: Modifier, primary: 
     Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Box(Modifier.size(46.dp).clip(CircleShape).background(if (primary) C.Navy else Color.Transparent), contentAlignment = Alignment.Center) {
-            AIcon(icon, if (primary) Color.White else ink, if (primary) 28.dp else 32.dp, 2f, modifier = Modifier.testTag("quick-icon-$label"))
+            AIcon(icon, if (primary) Color.White else ink, if (primary) 28.dp else 40.dp, 2f, modifier = Modifier.testTag("quick-icon-$label"))
         }
         Spacer(Modifier.height(8.dp))
         Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)

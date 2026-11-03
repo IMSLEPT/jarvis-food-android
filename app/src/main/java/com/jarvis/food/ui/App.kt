@@ -250,7 +250,7 @@ private fun RowScope.BottomTabItem(tab: Int, icon: String, label: String) {
         .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 24.dp)
         Spacer(Modifier.height(4.dp))
-        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
+        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
         Spacer(Modifier.height(4.dp))
         Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.Accent else Color.Transparent))
     }
