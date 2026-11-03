@@ -46,7 +46,7 @@ class TodayDashboardTest {
         compose.onNodeWithTag("calories-remaining", true).assertTextEquals(kcalFmt(kotlin.math.abs(energy.targetKcal - totals.kcal)))
         compose.onNodeWithTag("calories-Mangiate", true).assertTextEquals("${kcalFmt(totals.kcal)} kcal")
         compose.onNodeWithTag("calories-Obiettivo", true).assertTextEquals("${kcalFmt(energy.targetKcal)} kcal")
-        compose.onNodeWithTag("calories-Attività", true).assertTextEquals("${Store.burnedFor(s, Nav.diaryDate)} kcal")
+        compose.onNodeWithTag("calories-Attività", true).assertTextEquals("${kcalFmt(Store.burnedFor(s, Nav.diaryDate).toDouble())} kcal")
         listOf(Triple("Proteine", totals.protein, energy.protein), Triple("Carboidrati", totals.carbs, energy.carbs), Triple("Grassi", totals.fat, energy.fat)).forEach { (label, value, goal) ->
             compose.onNodeWithTag("macro-value-$label", true).performScrollTo().assertTextEquals("${value.r0()} g / ${goal.r0()} g")
             val range = compose.onNodeWithTag("macro-ring-$label", true).fetchSemanticsNode().config[SemanticsProperties.ProgressBarRangeInfo]
@@ -59,7 +59,12 @@ class TodayDashboardTest {
         node.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
         assertTrue(layouts.isNotEmpty())
         layouts.forEach { result ->
-            assertFalse("Clipped ${result.layoutInput.text}", result.hasVisualOverflow)
+            assertFalse("Missing text ${result.layoutInput.text}", result.multiParagraph.didExceedMaxLines)
+            assertTrue("Clipped height ${result.layoutInput.text}: ${result.multiParagraph.height} > ${result.size.height}", result.multiParagraph.height <= result.size.height + 1f)
+            for (line in 0 until result.lineCount) {
+                assertFalse("Ellipsis ${result.layoutInput.text}", result.isLineEllipsized(line))
+                assertTrue("Clipped width ${result.layoutInput.text}", result.getLineRight(line) - result.getLineLeft(line) <= result.size.width + 1f)
+            }
         }
     }
     @Test fun dataChangesDatesOverflowAndRecreationStayLive() {
@@ -68,7 +73,10 @@ class TodayDashboardTest {
             verifyValues()
             ui { Store.addEntry(day, 0, Db.db.food("pasta")!!.toFood(), 85.0) }
             verifyValues()
-            compose.onNodeWithTag("today-calories").performScrollTo(); shot("home")
+            ui { Store.update { it.copy(goals = it.goals.copy(kcal = 2350)) }; Store.setSteps(day, 2000) }
+            verifyValues()
+            compose.onNodeWithTag("main-scroll").performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, -10000f) }
+            shot("home")
             for (tag in listOf("calories-remaining", "calories-Mangiate", "calories-Obiettivo", "calories-Attività", "macro-value-Proteine", "macro-value-Carboidrati", "macro-value-Grassi")) readable(tag)
             val before = Store.current
             scenario.recreate(); verifyValues()

@@ -142,8 +142,9 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
     val fraction = TodayProgress.remainingRatio(eaten, target).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(650), label = "calorie-remaining")
     ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 24.dp, brush = Brush.linearGradient(listOf(Color(0xFF071B40), Color(0xFF123D70), Color(0xFF091A38))), padding = 12.dp, bordered = false, onClick = onClick) {
+      Column {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val roomy = maxWidth / LocalDensity.current.fontScale >= 290.dp
+            val roomy = maxWidth / LocalDensity.current.fontScale >= 220.dp
             val info: @Composable () -> Unit = {
                 Column(Modifier.fillMaxWidth()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -172,7 +173,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
         Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x334F719A)))
         GapH(8.dp)
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val narrow = maxWidth / LocalDensity.current.fontScale < 260.dp
+            val narrow = maxWidth / LocalDensity.current.fontScale < 180.dp
             val stats: @Composable RowScope.() -> Unit = {
                 CalorieStat("Mangiate", eaten, DashboardIcon.Fork, Color.White, Modifier.weight(1f))
                 DashboardDivider(36.dp, Color(0x446B85AB))
@@ -186,6 +187,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
                 CalorieStat("Attività", burned.toDouble(), DashboardIcon.Runner, Color(0xFFABF0C5), Modifier.fillMaxWidth())
             } else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, content = stats)
         }
+      }
     }
 }
 
@@ -208,12 +210,18 @@ private fun CalorieGauge(progress: Float, valid: Boolean, fraction: Float) {
 
 @Composable
 private fun CalorieStat(label: String, value: Double, icon: String, tint: Color, modifier: Modifier) {
-    Row(modifier.padding(horizontal = 3.dp), verticalAlignment = Alignment.CenterVertically) {
-        AIcon(icon, Color.White, 21.dp); GapW(5.dp)
-        Column(Modifier.weight(1f)) {
-            Text(label, style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 10.sp, lineHeight = 14.sp))
-            Text("${kcalFmt(value)} kcal", Modifier.testTag("calories-$label"), style = T.Num.copy(color = tint, fontSize = 12.sp, lineHeight = 17.sp))
+    val enlarged = LocalDensity.current.fontScale > 1.2f
+    val text: @Composable () -> Unit = {
+        Column(horizontalAlignment = if (enlarged) Alignment.CenterHorizontally else Alignment.Start) {
+            Text(label, style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 10.sp, lineHeight = 15.sp))
+            Text("${kcalFmt(value)} kcal", Modifier.testTag("calories-$label"), style = T.Num.copy(color = tint, fontSize = 12.sp, lineHeight = 18.sp))
         }
+    }
+    if (enlarged) Column(modifier.padding(horizontal = 3.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        AIcon(icon, Color.White, 21.dp); GapH(3.dp); text()
+    } else Row(modifier.padding(horizontal = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+        AIcon(icon, Color.White, 21.dp); GapW(5.dp)
+        Box(Modifier.weight(1f)) { text() }
     }
 }
 
