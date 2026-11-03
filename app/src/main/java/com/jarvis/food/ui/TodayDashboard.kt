@@ -37,6 +37,8 @@ import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
+internal val DashboardOrange = Color(0xFFFF8000)
+
 /** Display calculations only; target already includes any extra allowed by the energy engine. */
 internal object TodayProgress {
     fun ratio(value: Double, goal: Double): Float =
@@ -58,8 +60,8 @@ internal object DashboardIcon {
 @Composable
 internal fun DashboardRobot(selected: Boolean) {
     Box(Modifier.size(26.dp)) {
-        AIcon(DashboardIcon.Robot, if (selected) C.Accent else C.Navy, 26.dp)
-        Box(Modifier.align(Alignment.TopCenter).size(4.dp).clip(CircleShape).background(C.Accent))
+        AIcon(DashboardIcon.Robot, if (selected) DashboardOrange else C.Navy, 26.dp)
+        Box(Modifier.align(Alignment.TopCenter).size(4.dp).clip(CircleShape).background(DashboardOrange))
     }
 }
 
@@ -101,7 +103,7 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                 val tile = RoundedCornerShape(18.dp)
                                 Column(Modifier.weight(1f).then(if (active) Modifier.testTag("week-day-$i") else Modifier)
                                     .clip(tile).background(if (selected) Brush.verticalGradient(listOf(Color(0xFF164572), Color(0xFF071B40))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
-                                    .border(if (selected) 2.dp else 0.dp, if (selected) C.Accent else Color.Transparent, tile)
+                                    .border(if (selected) 2.dp else 0.dp, if (selected) DashboardOrange else Color.Transparent, tile)
                                     .semantics { contentDescription = day.toString() }
                                     .selectableCalendar(selected) { pick(day) }.padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(day.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, IT).take(3).replaceFirstChar { it.uppercase() },
@@ -109,7 +111,7 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                         style = T.Small.copy(fontSize = 10.sp, lineHeight = 14.sp, color = if (selected) Color.White else C.Navy, fontWeight = FontWeight.SemiBold))
                                     Text(day.dayOfMonth.toString(), style = T.Num.copy(fontSize = 21.sp, lineHeight = 26.sp, color = if (selected) Color.White else C.Navy))
                                     GapH(3.dp)
-                                    Box(Modifier.width(if (selected) 22.dp else 4.dp).height(4.dp).clip(CircleShape).background(if (selected || logged) C.Accent else Color(0xFF9BA6B8)))
+                                    Box(Modifier.width(if (selected) 22.dp else 4.dp).height(4.dp).clip(CircleShape).background(if (selected || logged) DashboardOrange else Color(0xFF9BA6B8)))
                                 }
                                 if (n < group.lastIndex) Box(Modifier.width(1.dp).height(39.dp).background(if (selected || days[group[n + 1]] == date) Color.Transparent else Color(0xFFDDE2EA)))
                             }
@@ -148,15 +150,24 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
             val info: @Composable () -> Unit = {
                 Column(Modifier.fillMaxWidth()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        AIcon(Ic.Flame, C.Accent, 24.dp, fill = true); GapW(5.dp)
+                        AIcon(Ic.Flame, DashboardOrange, 24.dp, fill = true); GapW(5.dp)
                         Text("Le tue calorie", style = T.Title2.copy(color = Color.White, fontSize = 16.sp, lineHeight = 21.sp))
                     }
                     GapH(4.dp)
-                    Text(kcalFmt(kotlin.math.abs(remaining)), Modifier.testTag("calories-remaining"), style = T.Big.copy(fontSize = 34.sp, lineHeight = 39.sp, color = if (remaining < 0) Color(0xFFFFC1B5) else Color.White))
-                    Text(if (remaining < 0) "kcal oltre l’obiettivo" else "kcal disponibili", style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 12.sp))
+                    BoxWithConstraints(Modifier.fillMaxWidth()) {
+                        val number: @Composable () -> Unit = {
+                            Text(kcalFmt(kotlin.math.abs(remaining)), Modifier.testTag("calories-remaining"), style = T.Big.copy(fontSize = 34.sp, lineHeight = 39.sp, color = if (remaining < 0) Color(0xFFFFC1B5) else Color.White))
+                        }
+                        val unit: @Composable () -> Unit = {
+                            Text(if (remaining < 0) "kcal oltre l’obiettivo" else "kcal disponibili", style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 11.sp, lineHeight = 16.sp))
+                        }
+                        if (maxWidth / LocalDensity.current.fontScale >= 185.dp && remaining >= 0) Row(verticalAlignment = Alignment.CenterVertically) {
+                            number(); GapW(6.dp); Box(Modifier.weight(1f).padding(top = 10.dp)) { unit() }
+                        } else Column { number(); unit() }
+                    }
                     GapH(8.dp)
                     Box(Modifier.testTag("calorie-bar").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }) {
-                        ABar(progress, Brush.horizontalGradient(listOf(C.Accent, Color(0xFFFFCB74))), Color(0xFF485F85), 8.dp)
+                        ABar(progress, Brush.horizontalGradient(listOf(DashboardOrange, Color(0xFFFFCB74))), Color(0xFF485F85), 8.dp)
                     }
                 }
             }
@@ -169,9 +180,9 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
             }
             AIcon(Ic.Right, Color.White, 17.dp, modifier = Modifier.align(Alignment.TopEnd))
         }
-        GapH(10.dp)
-        Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x334F719A)))
         GapH(8.dp)
+        Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x334F719A)))
+        GapH(6.dp)
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val narrow = maxWidth / LocalDensity.current.fontScale < 180.dp
             val stats: @Composable RowScope.() -> Unit = {
@@ -193,15 +204,15 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
 
 @Composable
 private fun CalorieGauge(progress: Float, valid: Boolean, fraction: Float) {
-    Box(Modifier.size(90.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)).testTag("calorie-gauge").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
+    Box(Modifier.size(80.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)).testTag("calorie-gauge").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.fillMaxSize().padding(6.dp)) {
             val stroke = 7.dp.toPx(); val inset = stroke / 2
             val sz = Size(size.width - stroke, size.height - stroke)
             drawArc(Color(0xFF334F79), 135f, 270f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
-            if (progress > 0) drawArc(Brush.sweepGradient(listOf(Color(0xFFFFB845), C.Accent, Color(0xFFFFB845))), 135f, 270f * progress, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
+            if (progress > 0) drawArc(Brush.sweepGradient(listOf(Color(0xFFFFB845), DashboardOrange, Color(0xFFFFB845))), 135f, 270f * progress, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            AIcon(Ic.Flame, C.Accent, 19.dp, fill = true)
+            AIcon(Ic.Flame, DashboardOrange, 19.dp, fill = true)
             Text(if (valid) "${(fraction * 100).roundToInt()}%" else "—", style = T.Num.copy(color = Color.White, fontSize = 22.sp, lineHeight = 25.sp))
             Text("al target", style = T.Small.copy(color = Color.White, fontSize = 10.sp, lineHeight = 13.sp))
         }
@@ -214,7 +225,7 @@ private fun CalorieStat(label: String, value: Double, icon: String, tint: Color,
     val text: @Composable () -> Unit = {
         Column(horizontalAlignment = if (enlarged) Alignment.CenterHorizontally else Alignment.Start) {
             Text(label, style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 10.sp, lineHeight = 15.sp))
-            Text("${kcalFmt(value)} kcal", Modifier.testTag("calories-$label"), style = T.Num.copy(color = tint, fontSize = 12.sp, lineHeight = 18.sp))
+            Text("${kcalFmt(value)} kcal", Modifier.testTag("calories-$label"), style = T.Num.copy(color = tint, fontSize = 12.sp, lineHeight = 17.sp))
         }
     }
     if (enlarged) Column(modifier.padding(horizontal = 3.dp), horizontalAlignment = Alignment.CenterHorizontally) {
