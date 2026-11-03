@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -149,22 +150,22 @@ fun TodayScreen() {
         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
             if (LocalDensity.current.fontScale > 1.5f) Column {
                 Row(Modifier.fillMaxWidth()) {
-                    QuickTile("Aggiungi", Ic.Plus, Modifier.weight(1f), primary = true) { Nav.go(Screen.AddFood(date, defaultMeal())) }
-                    QuickTile("Foto piatto", Ic.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
+                    QuickTile("Aggiungi", TodayArt.Add, Modifier.weight(1f)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
+                    QuickTile("Foto piatto", TodayArt.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
                 }
                 Row(Modifier.fillMaxWidth()) {
-                    QuickTile("Frigo", Ic.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
-                    QuickTile("Digiuno", Ic.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
+                    QuickTile("Frigo", TodayArt.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
+                    QuickTile("Digiuno", TodayArt.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
                 }
             } else {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                QuickTile("Aggiungi", Ic.Plus, Modifier.weight(1f), primary = true) { Nav.go(Screen.AddFood(date, defaultMeal())) }
+                QuickTile("Aggiungi", TodayArt.Add, Modifier.weight(1f)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
                 HomeDivider()
-                QuickTile("Foto piatto", Ic.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
+                QuickTile("Foto piatto", TodayArt.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
                 HomeDivider()
-                QuickTile("Frigo", Ic.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
+                QuickTile("Frigo", TodayArt.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
                 HomeDivider()
-                QuickTile("Digiuno", Ic.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
+                QuickTile("Digiuno", TodayArt.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
             }            }
 
         }
@@ -338,15 +339,13 @@ private fun MacroRing(label: String, value: Double, goal: Double, color: Color, 
 }
 
 @Composable
-private fun QuickTile(label: String, icon: String, modifier: Modifier, primary: Boolean = false, onClick: () -> Unit) {
-    val ink = C.Navy
-    Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp)).clickable(onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
+private fun QuickTile(label: String, art: TodayArt, modifier: Modifier, onClick: () -> Unit) {
+    Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp))
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(46.dp).clip(CircleShape).background(if (primary) C.Navy else Color.Transparent), contentAlignment = Alignment.Center) {
-            AIcon(icon, if (primary) Color.White else ink, if (primary) 28.dp else 40.dp, 2f, modifier = Modifier.testTag("quick-icon-$label"))
-        }
+        TodayArtwork(art, Modifier.size(46.dp).testTag("quick-icon-$label"))
         Spacer(Modifier.height(8.dp))
-        Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = ink), textAlign = TextAlign.Center)
+        Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = C.Navy), textAlign = TextAlign.Center)
     }
 }
 
@@ -501,43 +500,32 @@ private fun WaterCard(date: LocalDate, s: AppState) {
     val fill by animateFloatAsState((ml.toFloat() / goal).coerceIn(0f, 1f), tween(900), label = "water")
     val shape = RoundedCornerShape(24.dp)
     Row(
-        Modifier.fillMaxWidth().aShadow(shape, 8.dp, Color(0xB306B6D4)).clip(shape)
-            .background(C.Surface).padding(16.dp),
+        Modifier.fillMaxWidth().testTag("home-water").aShadow(shape, 4.dp, Color(0x2009194D)).clip(shape)
+            .background(C.Surface).border(1.dp, A.Hair, shape).padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val glass = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp, bottomStart = 30.dp, bottomEnd = 30.dp)
-        Box(Modifier.size(width = if (LocalDensity.current.fontScale > 1.2f) 48.dp else 64.dp, height = 96.dp).clip(glass).background(C.SurfaceAlt).border(2.dp, C.Line, glass)) {
-            Canvas(Modifier.fillMaxSize()) {
-                val h = size.height * fill
-                if (h > 0f) {
-                    val top = size.height - h
-                    drawRect(A.WaterFill, Offset(0f, top), Size(size.width, h))
-                    val w = Path().apply {
-                        moveTo(0f, top); val seg = size.width / 4
-                        for (i in 0 until 4) { quadraticTo(seg * i + seg / 2, top - 8.dp.toPx(), seg * (i + 1), top) }
-                        lineTo(size.width, top + 12.dp.toPx()); lineTo(0f, top + 12.dp.toPx()); close()
-                    }
-                    drawPath(w, Color(0xFF5CD6EA))
-                }
-            }
-        }
+        TodayWaterBottle(fill, Modifier.size(width = if (LocalDensity.current.fontScale > 1.2f) 48.dp else 64.dp, height = 96.dp)
+            .testTag("water-bottle").semantics {
+                contentDescription = "$ml ml su $goal ml"
+                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
+            })
         Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
-            Text("Acqua", style = T.Label.copy(fontSize = 13.sp, color = A.WaterInk))
-            Text("${(ml / 1000.0).r1()} L", style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold))
-            Text("su ${(goal / 1000.0).r1()} L", style = T.Small)
-            Text("bicchiere da ${s.glassMl} ml", style = T.Small.copy(color = Color(0xFF4B6A85)))
+            Text("Acqua", style = T.Label.copy(color = C.Navy))
+            Text("${waterLitres(ml)} L", modifier = Modifier.testTag("water-amount"), style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold))
+            Text("su ${waterLitres(goal)} L", style = T.Small)
+            Text("Bicchiere da ${s.glassMl} ml", style = T.Small)
             androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Box(Modifier.size(48.dp).testTag("water-minus").clip(CircleShape)
                     .semantics { contentDescription = "Rimuovi un bicchiere" }
-                    .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, (ml - s.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
-                    Box(Modifier.size(40.dp).clip(CircleShape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
+                    .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, ((Store.current.water[date.toString()] ?: 0) - Store.current.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xFFF1F3F7)), contentAlignment = Alignment.Center) {
                         AIcon(Ic.Minus, C.Muted.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.2f)
                     }
                 }
                 Row(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(16.dp)).background(C.Navy)
                     .semantics { contentDescription = "Aggiungi un bicchiere" }
-                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, ml + s.glassMl) }.padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, (Store.current.water[date.toString()] ?: 0) + Store.current.glassMl) }.padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Plus, Color.White, 16.dp, 2.8f)
                     Spacer(Modifier.width(8.dp))
                     Text("Bicchiere", style = T.BtnS.copy(color = Color.White))
@@ -557,6 +545,7 @@ private fun NutrientInsight(s: AppState) {
 
 // ---------------------------------------------------------------- Attività
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun ActivityCard(date: LocalDate, s: AppState) {
     val list = s.activities.filter { it.date == date.toString() }
@@ -568,25 +557,24 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
     var stepsText by remember(date) { mutableStateOf(if (steps > 0) steps.toString() else "") }
     val fr = (steps.toFloat() / goal).coerceIn(0f, 1f)
     val p by animateFloatAsState(fr, tween(1100), label = "steps")
-    ACard(radius = 28.dp, elevation = 6.dp, glow = Color(0x591D1B3A)) {
+    ACard(Modifier.testTag("home-activity"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(96.dp), contentAlignment = Alignment.Center) {
-                    Canvas(Modifier.size(96.dp)) {
-                        val st = 12.dp.toPx(); val inset = st / 2 + 2.dp.toPx(); val sz = Size(size.width - inset * 2, size.height - inset * 2)
-                        drawArc(Color(0xFFD9F6EA), 0f, 360f, false, Offset(inset, inset), sz, style = Stroke(st))
-                        if (p > 0f) drawArc(Color(0xFF10B981), -90f, 360f * p, false, Offset(inset, inset), sz, style = Stroke(st, cap = StrokeCap.Round))
+                TodayIconBadge(TodayArt.Activity, 52.dp)
+                Spacer(Modifier.width(12.dp))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("Passi giornalieri", style = T.Small)
+                    androidx.compose.foundation.layout.FlowRow(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        Text(steps.thousands(), style = T.Num.copy(fontSize = 26.sp))
+                        Text("  su ${goal.thousands()}", style = T.Small, modifier = Modifier.padding(top = 10.dp))
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("${(fr * 100).toInt()}%", style = T.Num.copy(fontSize = 20.sp, lineHeight = 22.sp, fontWeight = FontWeight.ExtraBold))
-                        Text("passi", style = T.Small.copy(fontSize = 12.sp))
-                    }
-                }
-                Spacer(Modifier.width(16.dp))
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text(steps.thousands(), style = T.Num.copy(fontSize = 20.sp))
-                        Text("  su ${goal.thousands()}", style = T.Small.copy(fontSize = 13.sp, fontWeight = FontWeight.Medium), modifier = Modifier.padding(bottom = 2.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        ABar(p, Brush.horizontalGradient(listOf(C.NavyDeep, C.Navy)), Color(0xFFE9ECF3), 8.dp,
+                            Modifier.weight(1f).testTag("activity-progress").semantics {
+                                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
+                            })
+                        Text("${(fr * 100).toInt()}%", style = T.Label.copy(fontSize = 13.sp), modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp)).background(Color(0xFFF0F3F9)).padding(horizontal = 9.dp, vertical = 4.dp))
                     }
                     if (watch) h?.sessions?.take(2)?.forEach { w ->
                         ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
@@ -622,3 +610,9 @@ private fun ActivityRow(title: String, sub: String, kcal: String?, onRemove: (()
         if (onRemove != null) Text("✕", style = T.Label.copy(color = C.Faint), modifier = Modifier.clip(CircleShape).clickable(onClick = onRemove).padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 2.dp))
     }
 }
+
+/** Keep a 250 ml glass visible as 0,25 L instead of rounding to 0,3 L. */
+private fun waterLitres(ml: Int): String = java.text.NumberFormat.getNumberInstance(Locale.ITALIAN).apply {
+    minimumFractionDigits = 1
+    maximumFractionDigits = 2
+}.format(ml / 1000.0)

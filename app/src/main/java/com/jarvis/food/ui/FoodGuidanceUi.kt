@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -169,22 +170,29 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     val tips=remember(s.diary,s.dietPrefs,s.plan,review,date) { DailyFoodTips.build(s,date,Db.db,review) }
     var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
     val uri=LocalUriHandler.current
-    JCard(Modifier.testTag("everyday-food-guide")) {
-        Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween) {
-            Text("Per te oggi",style=T.Label)
-            Text("${date.dayOfMonth}/${date.monthValue}",style=T.Small)
-        }
-        Text(if(tips.any { it.personal }) "Dal diario e idee del giorno" else "3 idee del giorno",style=T.Small)
-        tips.forEachIndexed { index,tip ->
-            GapH(8.dp)
-            val tint=if(tip.attention) Color(0xFFFFF0E5) else listOf(Color(0xFFECF5EF),Color(0xFFEEF1FA),Color(0xFFFFF4E5))[index%3]
-            Row(Modifier.fillMaxWidth().testTag("daily-food-tip-${tip.id}").background(tint,RoundedCornerShape(14.dp))
-                .clickable { selected=tip }.padding(10.dp),verticalAlignment=Alignment.CenterVertically) {
-                FoodIllustration(tip.food,tip.group,38.dp)
+    ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
+        Column {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                TodayIconBadge(TodayArt.Calendar, 40.dp)
                 GapW(10.dp)
                 Column(Modifier.weight(1f)) {
-                    Text(tip.title,style=T.Label.copy(color=if(tip.attention) C.AccentDeep else C.Navy))
-                    Text(tip.text,style=T.Small)
+                    Text("Per te oggi", style = T.Label)
+                    Text(if(tips.any { it.personal }) "Dal diario e idee del giorno" else "3 idee del giorno", style = T.Small)
+                }
+                Text("${date.dayOfMonth}/${date.monthValue}", style = T.Small, modifier = Modifier.padding(start = 8.dp))
+            }
+            tips.forEach { tip ->
+                GapH(8.dp)
+                Row(Modifier.fillMaxWidth().testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
+                    .background(if (tip.attention) Color(0xFFFFF5EF) else Color(0xFFF0F3F9))
+                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { selected=tip }
+                    .padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(tip.title, style = T.Label.copy(color = C.Navy))
+                        Text(tip.text, style = T.Small)
+                    }
+                    GapW(8.dp)
+                    AIcon(Ic.Right, C.Navy, 18.dp)
                 }
             }
         }

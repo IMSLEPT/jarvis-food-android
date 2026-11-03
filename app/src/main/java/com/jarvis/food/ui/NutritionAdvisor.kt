@@ -43,20 +43,33 @@ fun VitaminOverview(s: AppState) {
     GapH(18.dp)
     ASection("Vitamine e minerali", action = "Andamento", top = 0.dp) { Nav.go(Screen.Trend("vitamins")) }
     GapH(8.dp)
-    JCard(Modifier.testTag("home-vitamins"), onClick = { Nav.go(Screen.Trend("vitamins")) }) {
-        Text("Ultimi 7 giorni", style = T.Label)
-        Text("${review?.usableDays?.size ?: 0} giornate utilizzabili · dai pasti registrati", style = T.Small)
-        if (review != null) for (key in listOf("vitC", "vitD", "vitB12")) {
-            val nutrient = review.nutrient(key)
-            GapH(10.dp)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(nutrient.name, style = T.Label, modifier = Modifier.weight(1f))
-                Text(nutrient.percent?.let { "${it.r0()}%" } ?: "Dati incompleti", style = T.Small)
+    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D),
+        onClick = { Nav.go(Screen.Trend("vitamins")) }) {
+        Column {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TodayIconBadge(TodayArt.Vitamins)
+                GapW(12.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("Ultimi 7 giorni", style = T.Label)
+                    Text("${review?.usableDays?.size ?: 0} giornate utilizzabili · dai pasti registrati", style = T.Small)
+                }
+                AIcon(Ic.Right, C.Muted, 18.dp)
             }
-            nutrient.percent?.let { ProgressLine((it / 100).toFloat().coerceIn(0f, 1f), C.Green, Modifier.fillMaxWidth().padding(top = 4.dp)) }
+            if (review != null) for (key in listOf("vitC", "vitD", "vitB12")) {
+                val nutrient = review.nutrient(key)
+                GapH(12.dp)
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(nutrient.name, style = T.Label, modifier = Modifier.weight(1f))
+                    Text(nutrient.percent?.let { "${it.r0()}%" } ?: "Dati incompleti", style = T.Small,
+                        modifier = Modifier.padding(start = 8.dp))
+                }
+                nutrient.percent?.let {
+                    ProgressLine((it / 100).toFloat().coerceIn(0f, 1f), C.Navy, Modifier.fillMaxWidth().padding(top = 6.dp))
+                }
+            }
+            GapH(10.dp)
+            Text("I dati mancanti non indicano una carenza. Apri per vedere quantità, copertura e andamento.", style = T.Small)
         }
-        GapH(10.dp)
-        Text("I dati mancanti non indicano una carenza. Apri per vedere quantità, copertura e andamento.", style = T.Small)
     }
     GapH(10.dp)
     EverydayFoodGuide(s, review)
