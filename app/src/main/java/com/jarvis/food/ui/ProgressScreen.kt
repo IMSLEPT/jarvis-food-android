@@ -270,7 +270,7 @@ fun ProgressScreen() {
                     style = T.Chip.copy(fontSize = 13.sp, color = C.AccentDeep), modifier = Modifier.testTag("calorie-day-detail"))
             }
             GapH(12.dp)
-            BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) 10.dp else 3.dp,
+            BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) { if (expanded) 4.dp else 10.dp } else 3.dp,
                 fill = { i, sel ->
                     if (sel) Brush.verticalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C089)))
                     else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > dailyGoals[i] * 1.1) Color(0xFFFFC2A3) else Color(0xFFF2A277))
@@ -423,27 +423,37 @@ private fun OverviewHeading(title: String) {
 
 @Composable
 private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, labels: List<String>, waterChart: Boolean, present: List<Boolean>) {
-    val chartHeight = if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f) 120.dp else 88.dp
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        Column(Modifier.width(when {
-            androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f -> 96.dp
-            androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f -> 72.dp
-            else -> 48.dp
-        }).height(chartHeight), verticalArrangement = Arrangement.SpaceBetween) {
+    val scale = androidx.compose.ui.platform.LocalDensity.current.fontScale
+    val large = scale > 1.5f || (scale > 1.2f && androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp < 360)
+    val chartHeight = if (large) 120.dp else 88.dp
+    val plot: @Composable () -> Unit = {
+        Box(Modifier.fillMaxWidth()) {
+            Canvas(Modifier.fillMaxWidth().height(chartHeight)) {
+                for (ratio in listOf(0f, .5f, 1f)) drawLine(C.Line, Offset(0f, size.height * ratio), Offset(size.width, size.height * ratio), 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f)))
+            }
+            Column {
+                BarsRow(values, maximum.coerceAtLeast(.1), chartHeight, if (period == 7) 9.dp else 4.dp,
+                    if (period == 7) { if (large) 4.dp else 8.dp } else 3.dp,
+                    fill = { _, _ -> TrendPalette.bars(if (waterChart) "water" else "activity") },
+                    labels = if (period == 7) labels else null, present = present, unit = if (waterChart) "L" else "passi")
+            }
+        }
+    }
+    if (large) {
+        // A side axis leaves insufficient width for seven readable day labels at
+        // 200% text. Keep the full plot width and state its unchanged range above.
+        Column(Modifier.fillMaxWidth()) {
+            Text("Scala: 0–${if (waterChart) maximum.r1() else kcalFmt(maximum)} ${if (waterChart) "L" else "passi"}", style = T.Small)
+            GapH(8.dp)
+            plot()
+        }
+    } else Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        Column(Modifier.width(if (scale > 1.2f) 72.dp else 48.dp).height(chartHeight), verticalArrangement = Arrangement.SpaceBetween) {
             listOf(1.0, .5, 0.0).forEach { ratio ->
                 Text(if (waterChart) "${(maximum * ratio).r1()} L" else kcalFmt(maximum * ratio), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
             }
         }
-        Column(Modifier.weight(1f)) {
-            Box {
-                Canvas(Modifier.fillMaxWidth().height(chartHeight)) {
-                    for (ratio in listOf(0f, .5f, 1f)) drawLine(C.Line, Offset(0f, size.height * ratio), Offset(size.width, size.height * ratio), 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f)))
-                }
-                Column { BarsRow(values, maximum.coerceAtLeast(.1), chartHeight, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
-                    fill = { _, _ -> TrendPalette.bars(if (waterChart) "water" else "activity") },
-                    labels = if (period == 7) labels else null, present = present, unit = if (waterChart) "L" else "passi") }
-            }
-        }
+        Column(Modifier.weight(1f)) { plot() }
     }
 }
 
