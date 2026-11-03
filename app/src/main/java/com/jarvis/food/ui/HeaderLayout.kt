@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,9 +60,10 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
             HeaderAccountActions { showDatePicker(context, date, onPick) }
         }
         Row(Modifier.fillMaxWidth().height(HeaderLayout.dateHeight()), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.weight(1f).fillMaxHeight().testTag(dateTag).clip(RoundedCornerShape(12.dp))
+            Box(Modifier.weight(1f).fillMaxHeight().testTag(dateTag).semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(12.dp))
                 .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }, contentAlignment = Alignment.CenterStart) {
-                Text(fullDay(date), style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
+                Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
+                    style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
             }
         }
         Box(Modifier.fillMaxWidth().height(HeaderLayout.weekHeight()), contentAlignment = Alignment.Center) { WeekStrip(s, date, onPick) }

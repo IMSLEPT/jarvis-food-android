@@ -45,11 +45,15 @@ class PremiumUiTest {
         prepare()
         ui { Store.update { it.copy(ai = it.ai.copy(chatEngine = 1, apiKey = "layout-test-no-network")) }; Nav.tab = 5 }
         val before = Store.current
-        ActivityScenario.launch(MainActivity::class.java).use {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             compose.onAllNodes(hasSetTextAction()).assertCountEquals(1)
             compose.onNodeWithContentDescription("Nuova chat").assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button))
             compose.onNodeWithTag("chat-input").performTextReplacement("Pasta per stasera")
-            androidx.test.espresso.Espresso.closeSoftKeyboard()
+            scenario.onActivity { activity ->
+                val keyboard = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                keyboard.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
+            }
+            compose.waitForIdle()
             compose.onNodeWithContentDescription("Motore della chat").performClick()
             compose.onNodeWithContentDescription("Chiudi impostazioni motore").performClick()
             compose.onNodeWithTag("chat-input").assertTextContains("Pasta per stasera")
