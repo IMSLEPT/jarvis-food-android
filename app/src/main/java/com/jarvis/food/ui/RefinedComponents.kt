@@ -109,7 +109,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
         meals.forEach { meal ->
             val selected = meal.slotIndex == selectedSlot
             val shape = RoundedCornerShape(24.dp)
-            Row(Modifier.heightIn(min = 44.dp).testTag("plan-slot-${meal.diaryMeal}").clip(shape)
+            Row(Modifier.heightIn(min = 48.dp).testTag("plan-slot-${meal.diaryMeal}").clip(shape)
                 .background(if (selected) C.Navy else Color.White).border(1.dp, if (selected) C.Navy else C.Line, shape)
                 .selectable(selected, role = Role.Tab, onClick = {
                     selectedSlot = meal.slotIndex
@@ -136,20 +136,21 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
     JCard(Modifier.testTag("plan-card-${m.diaryMeal}"), padding = PaddingValues(0.dp)) {
-        FlowRow(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 18.dp, end = 18.dp, top = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
-            Row((if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).clickable {
-                Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
-            }, verticalAlignment = Alignment.Top) {
-                TonalIcon(mealIcon(m.diaryMeal), Color.White, C.AccentDeep, box = 34.dp, radius = 17.dp)
-                GapW(10.dp)
-                Column(Modifier.weight(1f)) {
-                    Text(m.slotName, style = T.Small.copy(fontSize = 11.sp))
-                    Text(r.template.name, modifier = Modifier.testTag("plan-recipe-title-${m.diaryMeal}"),
-                        style = T.Title2.copy(fontSize = 22.sp, lineHeight = 27.sp))
+        Column(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 16.dp, end = 16.dp, top = 12.dp)) {
+            FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TonalIcon(mealIcon(m.diaryMeal), Color.White, C.AccentDeep, box = 28.dp, radius = 14.dp, size = 18.dp)
+                    GapW(8.dp)
+                    Text(m.slotName, style = T.Small)
                 }
+                Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                    .background(if (eaten) A.GreenSoft else C.SurfaceAlt).padding(horizontal = 10.dp, vertical = 4.dp),
+                    style = T.Small.copy(color = if (eaten) A.GreenInk else C.Muted))
             }
-            Text(if (eaten) "Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(20.dp))
-                .background(if (eaten) A.GreenSoft else C.SurfaceAlt).padding(horizontal = 10.dp, vertical = 5.dp), style = T.Small.copy(color = if (eaten) A.GreenInk else C.Muted))
+            GapH(8.dp)
+            Text(r.template.name, modifier = Modifier.fillMaxWidth().testTag("plan-recipe-title-${m.diaryMeal}").clickable(role = Role.Button) {
+                Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
+            }, style = T.Dish.copy(fontSize = 21.sp, lineHeight = 26.sp))
         }
         Column(Modifier.fillMaxWidth().testTag("plan-recipe-${m.diaryMeal}").clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
             Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
@@ -157,7 +158,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             GapH(10.dp)
             RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.75f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 0.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)
         }
-        FlowRow(Modifier.fillMaxWidth().padding(18.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
+        FlowRow(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.Clock, C.Navy, 24.dp); GapW(10.dp)
                 Column {
@@ -170,19 +171,19 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
                 Text("${kcalFmt(r.total.kcal)} kcal", style = T.Title2.copy(fontSize = 21.sp))
             }
         }
-        FlowRow(Modifier.padding(horizontal = 18.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.Bg).padding(horizontal = 14.dp, vertical = 12.dp),
+        FlowRow(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.Bg).padding(horizontal = 12.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly, verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text("P ${r.total.protein.r0()} g", style = T.Label.copy(fontSize = 15.sp, color = A.ProteinInk))
             Text("C ${r.total.carbs.r0()} g", style = T.Label.copy(fontSize = 15.sp, color = A.CarbInk))
             Text("G ${r.total.fat.r0()} g", style = T.Label.copy(fontSize = 15.sp, color = A.FatInk))
         }
         FlowRow(Modifier.fillMaxWidth().padding(14.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
-            CompactPlanAction("Alternative", Ic.Swap, C.Navy, (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}")) { Nav.go(Screen.Alternatives(date, m.slotIndex)) }
             CompactPlanAction(if (eaten) "Mangiato" else "Segna mangiato", Ic.Check, if (eaten) A.GreenInk else Color.White,
                 (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.4f)).testTag("plan-eaten-${m.diaryMeal}"), primary = true, completed = eaten) {
                 if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
             }
-            CompactPlanAction("Codice a barre", Ic.Barcode, C.Navy, Modifier.fillMaxWidth().testTag("plan-barcode-${m.diaryMeal}")) {
+            CompactPlanAction("Alternative", Ic.Swap, C.Navy, (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}")) { Nav.go(Screen.Alternatives(date, m.slotIndex)) }
+            CompactPlanAction("Codice a barre", Ic.Barcode, C.AccentDeep, Modifier.fillMaxWidth().testTag("plan-barcode-${m.diaryMeal}")) {
                 Nav.go(Screen.AddFood(date, m.diaryMeal, scanOnOpen = true))
             }
         }
@@ -194,7 +195,7 @@ private fun CompactPlanAction(text: String, icon: String, color: Color, modifier
     Row(modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(if (primary) { if (completed) A.GreenSoft else C.Navy } else C.Surface).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 8.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         AIcon(icon, color, 18.dp); GapW(8.dp)
-        Text(text, style = T.Label.copy(color = color, fontSize = 13.sp), modifier = Modifier.weight(1f, fill = false))
+        Text(text, style = T.Label.copy(color = color, fontSize = 14.sp), modifier = Modifier.weight(1f, fill = false))
     }
 }
 
@@ -208,7 +209,7 @@ fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, home
     Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding()) {
         val expanded = LocalDensity.current.fontScale > 1.5f
         if (header != null) header() else Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
-        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll).padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 20.dp)) {
+        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll).padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 24.dp)) {
             if (expanded && homeName != null) {
                 if (eyebrow != null) HeaderGreeting(eyebrow)
                 Text(homeName, modifier = Modifier.testTag("home-name"), style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp))

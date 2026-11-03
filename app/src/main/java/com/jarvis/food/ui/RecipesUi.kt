@@ -159,7 +159,7 @@ private val TILE_W = 184.dp
 private fun TileMeta(kcal: String, minutes: Int) {
     androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            AIcon(Ic.Flame, C.Accent, 13.dp); GapW(3.dp)
+            AIcon(Ic.Flame, C.AccentDeep, 14.dp); GapW(3.dp)
             Text(kcal, style = T.Small, maxLines = 1)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -365,12 +365,12 @@ internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTempla
 private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
     val large = LocalDensity.current.fontScale > 1.5f
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
-        ACard(modifier.heightIn(min = if (large) 104.dp else 96.dp).testTag(tag), radius = 20.dp, padding = 12.dp, onClick = open) {
+        ACard(modifier.heightIn(min = if (large) 88.dp else 64.dp).testTag(tag), radius = 20.dp, padding = 12.dp, onClick = open) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AIcon(icon, C.Navy, 22.dp); GapW(8.dp)
                 Column(Modifier.weight(1f)) {
                     Text(label, style = T.Label.copy(fontSize = 14.sp))
-                    Text("$count ricette", style = T.Small.copy(fontSize = 12.sp))
+                    Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Small.copy(fontSize = 12.sp))
                 }
                 AIcon(Ic.Right, C.AccentDeep, 16.dp)
             }

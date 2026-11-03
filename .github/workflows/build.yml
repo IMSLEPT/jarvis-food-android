@@ -2,7 +2,7 @@ name: Build APK
 
 on:
   push:
-    branches: [main, feat/aurora-approved-redesign, feat/aurora-layout-polish, feat/recipe-editorial-photos, feat/ui-consistency-2026-10-28, feat/cucina-piano-2026-11-01, fix/video-feedback-2026-11-02]
+    branches: [feat/premium-ui-2026-11-03, main, feat/aurora-approved-redesign, feat/aurora-layout-polish, feat/recipe-editorial-photos, feat/ui-consistency-2026-10-28, feat/cucina-piano-2026-11-01, fix/video-feedback-2026-11-02]
   workflow_dispatch:
     inputs:
       publish_existing_run:
@@ -275,6 +275,10 @@ jobs:
             cat layout-options-large-text.log
             ./.ci-bin/adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
             ./.ci-bin/adb shell settings put system font_scale 1.0
+            ./.ci-bin/adb shell am instrument -w -e captureName standard -e class com.jarvis.food.PremiumUiTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-premium-standard.log 2>&1
+            cat layout-premium-standard.log
+            ./.ci-bin/adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
+            grep -q "OK (2 tests)" layout-premium-standard.log
             ./.ci-bin/adb shell am instrument -w -e captureName standard -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-standard.log 2>&1
             cat layout-consistency-standard.log
             ./.ci-bin/adb logcat -d > layout-consistency-full.log

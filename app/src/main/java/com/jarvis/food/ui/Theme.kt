@@ -36,7 +36,7 @@ object C {
     val ProfileBorder = Color(0xFFE2E2DF)
     val Text = Color(0xFF09194D)
     val Muted = Color(0xFF5E6678)
-    val Faint = Color(0xFF9197A5)
+    val Faint = Color(0xFF6B7280)
     val Accent = Color(0xFFEA7138)
     // Brand orange stays on icons; white button labels need the darker variant.
     val ButtonOrange = Color(0xFFC94D00)

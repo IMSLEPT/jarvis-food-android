@@ -39,6 +39,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.draw.clip
@@ -79,7 +81,7 @@ fun streak(s: AppState): Int {
 @Composable
 private fun BarsRow(
     values: List<Double>, max: Double, height: Dp, radius: Dp, gap: Dp,
-    fill: (Int, Boolean) -> Brush, labels: List<String>? = null, sel: Int = -1, onPick: ((Int) -> Unit)? = null, goal: Double? = null, goals: List<Double>? = null
+    fill: (Int, Boolean) -> Brush, labels: List<String>? = null, sel: Int = -1, onPick: ((Int) -> Unit)? = null, goal: Double? = null, goals: List<Double>? = null, present: List<Boolean>? = null, unit: String = ""
 ) {
     Box(Modifier.fillMaxWidth().height(height)) {
         if (goals != null && max > 0) {
@@ -100,10 +102,18 @@ private fun BarsRow(
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(gap), verticalAlignment = Alignment.Bottom) {
             values.forEachIndexed { i, v ->
                 val shape = RoundedCornerShape(radius)
-                val click = if (onPick != null) Modifier.clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) { onPick(i) } else Modifier
-                Box(Modifier.weight(1f).fillMaxHeight().then(click), contentAlignment = Alignment.BottomCenter) {
-                    val bar = Modifier.fillMaxWidth().fillMaxHeight(chartFraction(v, max))
-                    Box((if (i == sel) bar.aShadow(shape, 8.dp, Color(0xA6E88C60)) else bar).clip(shape).background(fill(i, i == sel)))
+                val available = present?.getOrNull(i) != false
+                val click = if (onPick != null) Modifier.clickable(role = Role.Button, indication = null, interactionSource = remember { MutableInteractionSource() }) { onPick(i) } else Modifier
+                Box(Modifier.weight(1f).fillMaxHeight().semantics {
+                    contentDescription = "${labels?.getOrNull(i) ?: "Giorno ${i + 1}"}: ${if (available) "${v.r1()} $unit" else "Nessun dato registrato"}"
+                    if (onPick != null) stateDescription = if (i == sel) "Selezionato" else "Non selezionato"
+                }.then(click), contentAlignment = Alignment.BottomCenter) {
+                    if (available) {
+                        val bar = Modifier.fillMaxWidth().fillMaxHeight(chartFraction(v, max))
+                        Box((if (i == sel) bar.aShadow(shape, 8.dp, Color(0xA6E88C60)) else bar).clip(shape).background(fill(i, i == sel)))
+                    } else {
+                        Box(Modifier.padding(bottom = 2.dp).width(8.dp).height(2.dp).background(C.Muted))
+                    }
                 }
             }
         }
@@ -151,7 +161,7 @@ fun ProgressScreen() {
         Row(Modifier.padding(top = 10.dp).fillMaxWidth().clip(seg).background(Color(0xD9FFFFFF)).border(1.dp, A.Hair, seg).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(7 to "7 giorni", 30 to "30 giorni").forEach { (d, l) ->
                 val sel = period == d
-                Box(Modifier.weight(1f).heightIn(min = 36.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { period = d }, contentAlignment = Alignment.Center) {
+                Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { period = d }, contentAlignment = Alignment.Center) {
                     Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink))
                 }
             }
@@ -167,7 +177,7 @@ fun ProgressScreen() {
                 GapW(10.dp)
                 Column {
                     Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp))
-                    Text(if (streakDays > 0) "hai registrato i pasti ogni giorno" else "registra un pasto per iniziare la serie", style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp, color = A.Muted))
+                    Text(if (streakDays > 0) "hai registrato i pasti ogni giorno" else "registra un pasto per iniziare la serie", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = A.Muted))
                 }
             }
             Row(Modifier.padding(top = 6.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -187,11 +197,13 @@ fun ProgressScreen() {
             GapH(10.dp)
             FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (metricStack) 1 else 2,
                 horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                ProgressMetric("Peso", "${weight.r1()} kg", "IMC ${bmi.r1()} · ${Nutrition.bmiLabel(bmi)}", "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2", C.Blue,
+                ProgressMetric("Peso", "${weight.r1()} kg", "Ultimo peso disponibile", "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2", C.Blue,
                     (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.WeightHistory) }
-                ProgressMetric("Calorie", "${avg?.kcal?.let { kcalFmt(it) } ?: "—"} kcal", "Media · Obiettivo ${kcalFmt(goalKcal)}", Ic.Flame, C.Accent,
+                ProgressMetric("Calorie", "${avg?.kcal?.let { kcalFmt(it) } ?: "—"} kcal", "Media registrata · Obiettivo ${kcalFmt(goalKcal)}", Ic.Flame, C.Accent,
                     (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { Nav.go(Screen.CalorieHistory) }
             }
+            Text("${logged.size} ${if (logged.size == 1) "giorno registrato" else "giorni registrati"} su $period · anche giornate parziali",
+                style = T.Small, modifier = Modifier.testTag("progress-calorie-coverage").padding(top = 8.dp))
         }
         if ((section in 1..2 || query.isNotBlank()) && matches("peso", "obiettivo", "kg", "andamento")) {
         // Peso
@@ -217,6 +229,8 @@ fun ProgressScreen() {
                     }
                 }
             }
+            Text("Ultimo peso disponibile", style = T.Small, modifier = Modifier.testTag("weight-value-context").padding(bottom = 4.dp))
+            s.weights.maxByOrNull { it.date }?.let { latest -> Text("Registrato il ${LocalDate.parse(latest.date).format(DM)}", style = T.Small) }
             Text("IMC ${bmi.r1()} · ${Nutrition.bmiLabel(bmi)}", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 2.dp))
             WeightLine(ws.map { LocalDate.parse(it.date).toEpochDay() to it.kg })
             if (ws.isNotEmpty()) Text(if (ws.size == 1) "Una misurazione: registra un altro peso per vedere l’andamento." else "${ws.first().date} – ${ws.last().date}", style = T.Small, modifier = Modifier.testTag("weight-history-caption").padding(top = 8.dp))
@@ -261,7 +275,8 @@ fun ProgressScreen() {
                     if (sel) Brush.verticalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C089)))
                     else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > dailyGoals[i] * 1.1) Color(0xFFFFC2A3) else Color(0xFFF2A277))
                 },
-                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null)
+                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null, present = hasLog, unit = "kcal")
+            Text("Trattino: nessun pasto registrato. I giorni senza dati non sono zero calorie.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
         }
 
         }
@@ -289,10 +304,20 @@ fun ProgressScreen() {
                     MacroShare("$pc%", "Carboidrati", "${avg.carbs.r0()} g al giorno", A.CarbSoft, A.CarbInk, Modifier.fillMaxWidth(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 1f else 0.3f))
                     MacroShare("$pf%", "Grassi", "${avg.fat.r0()} g al giorno", A.FatSoft, A.FatInk, Modifier.fillMaxWidth(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 1f else 0.3f))
                 }
-                Text("Fibre ${avg.fiber.r1()} g · Zuccheri ${avg.sugar.r1()} g · Sale ${avg.salt.r1()} g", style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = A.Muted), modifier = Modifier.padding(top = 6.dp))
+                Text("Fibre ${avg.fiber.r1()} g · Zuccheri ${avg.sugar.r1()} g · Sale ${avg.salt.r1()} g", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = A.Muted), modifier = Modifier.padding(top = 6.dp))
             }
         }
 
+        }
+        if (section == 0 && query.isBlank()) {
+            OverviewHeading("Andamento del peso")
+            GapH(8.dp)
+            JCard {
+                val from = today.minusDays((period - 1).toLong())
+                val samples = s.weights.filter { !LocalDate.parse(it.date).isBefore(from) }.sortedBy { it.date }
+                WeightLine(samples.map { LocalDate.parse(it.date).toEpochDay() to it.kg })
+                if (samples.isNotEmpty()) Text("${samples.size} ${if (samples.size == 1) "misurazione" else "misurazioni"} nel periodo", style = T.Small)
+            }
         }
         if ((section == 0 || query.isNotBlank()) && matches("acqua", "idratazione")) {
         // Acqua
@@ -300,7 +325,7 @@ fun ProgressScreen() {
         GapH(8.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
         Column(Modifier.fillMaxWidth().testTag("progress-water-detail").aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).clickable { Nav.go(Screen.Trend("water", period)) }.padding(10.dp)) {
-            OverviewChart(water, maxOf(water.maxOrNull() ?: 0.0, 1.5), period, days.map(letter), waterChart = true)
+            OverviewChart(water, maxOf(water.maxOrNull() ?: 0.0, 1.5), period, days.map(letter), waterChart = true, present = days.map { s.water.containsKey(it.toString()) })
             Text("Media ${water.average().r1()} L al giorno · ultimi $period giorni", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF0E5A72)), modifier = Modifier.padding(top = 6.dp))
         }
 
@@ -312,7 +337,7 @@ fun ProgressScreen() {
         val burned = days.map { Store.burnedFor(s, it).toDouble() }
         Column(Modifier.fillMaxWidth().testTag("progress-activity-detail").aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("activity", period)) }.padding(10.dp)) {
             val steps = days.map { Store.stepsFor(s, it).toDouble() }
-            OverviewChart(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), period, days.map(letter), waterChart = false)
+            OverviewChart(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), period, days.map(letter), waterChart = false, present = days.map { s.steps.containsKey(it.toString()) || s.health.containsKey(it.toString()) })
             Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF065F46)), modifier = Modifier.padding(top = 6.dp))
         }
 
@@ -326,7 +351,15 @@ fun ProgressScreen() {
         }.take(4)
         if (latest.isEmpty()) {
             ACard(radius = 24.dp, padding = 16.dp, elevation = 2.dp, onClick = { Nav.go(Screen.Measurements) }) {
-                Text("Vita, fianchi, petto, braccia, cosce e massa grassa: tocca per iniziare.", style = T.Muted)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TonalIcon(Ic.User, C.Navy, C.NavySoft)
+                    GapW(12.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text("Le tue misure corporee", style = T.Title2)
+                        Text("Vita, fianchi, petto, braccia, cosce e massa grassa: tocca per iniziare.", style = T.Muted)
+                    }
+                    AIcon(Ic.Right, C.AccentDeep, 18.dp)
+                }
             }
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -358,7 +391,17 @@ fun ProgressScreen() {
         if ((section == 3 || query.isNotBlank()) && matches("vitamine", "nutrienti", "consigli", "statistiche")) {
             GapH(12.dp)
             NutritionAdvisor(s)
-            TextButton(onClick = { Nav.go(Screen.Micronutrients) }) { Text("Apri analisi nutrizionale", color = C.Navy) }
+            JCard(onClick = { Nav.go(Screen.Micronutrients) }) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TonalIcon(Ic.Chart, C.Navy, C.NavySoft)
+                    GapW(12.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text("Apri analisi nutrizionale", style = T.Title2)
+                        Text("Vitamine, minerali e copertura dei dati", style = T.Muted)
+                    }
+                    AIcon(Ic.Right, C.AccentDeep, 18.dp)
+                }
+            }
         }
         if (section == 2) {
             GapH(16.dp)
@@ -379,21 +422,21 @@ private fun OverviewHeading(title: String) {
 }
 
 @Composable
-private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, labels: List<String>, waterChart: Boolean) {
+private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, labels: List<String>, waterChart: Boolean, present: List<Boolean>) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        Column(Modifier.width(35.dp).height(60.dp), verticalArrangement = Arrangement.SpaceBetween) {
+        Column(Modifier.width(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 72.dp else 48.dp).height(88.dp), verticalArrangement = Arrangement.SpaceBetween) {
             listOf(1.0, .5, 0.0).forEach { ratio ->
-                Text(if (waterChart) "${(maximum * ratio).r1()} L" else kcalFmt(maximum * ratio), style = T.Small.copy(fontSize = 9.sp, lineHeight = 10.sp))
+                Text(if (waterChart) "${(maximum * ratio).r1()} L" else kcalFmt(maximum * ratio), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
             }
         }
         Column(Modifier.weight(1f)) {
             Box {
-                Canvas(Modifier.fillMaxWidth().height(60.dp)) {
+                Canvas(Modifier.fillMaxWidth().height(88.dp)) {
                     for (ratio in listOf(0f, .5f, 1f)) drawLine(C.Line, Offset(0f, size.height * ratio), Offset(size.width, size.height * ratio), 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f)))
                 }
-                Column { BarsRow(values, maximum.coerceAtLeast(.1), 60.dp, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
+                Column { BarsRow(values, maximum.coerceAtLeast(.1), 88.dp, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
                     fill = { _, _ -> TrendPalette.bars(if (waterChart) "water" else "activity") },
-                    labels = if (period == 7) labels else null) }
+                    labels = if (period == 7) labels else null, present = present, unit = if (waterChart) "L" else "passi") }
             }
         }
     }
@@ -412,13 +455,13 @@ private fun ProgressMetric(title: String, value: String, detail: String, icon: S
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(number, style = T.Title.copy(fontSize = if (number.length > 6) 18.sp else 22.sp, lineHeight = 26.sp),
                         modifier = Modifier.weight(1f, fill = false).testTag(if (title == "Calorie") "progress-calorie-value" else "progress-weight-value"), maxLines = 1)
-                    Text(" $unit", style = T.Small.copy(fontSize = 11.sp, lineHeight = 17.sp), maxLines = 1)
+                    Text(" $unit", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp), maxLines = 1)
                 }
             }
-            AIcon(Ic.Right, C.Accent, 12.dp)
+            AIcon(Ic.Right, C.AccentDeep, 16.dp)
         }
         GapH(3.dp)
-        Text(detail, style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp))
+        Text(detail, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
     }
 }
 
@@ -426,8 +469,8 @@ private fun ProgressMetric(title: String, value: String, detail: String, icon: S
 private fun MacroShare(pct: String, name: String, sub: String, bg: Color, ink: Color, modifier: Modifier) {
     Column(modifier.padding(horizontal = 2.dp, vertical = 4.dp)) {
         Text(pct, style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, color = ink))
-        Text(name, style = T.Chip.copy(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.SemiBold))
-        Text(sub, style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp, color = A.Muted))
+        Text(name, style = T.Chip.copy(fontSize = 12.sp, lineHeight = 17.sp, fontWeight = FontWeight.SemiBold))
+        Text(sub, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = A.Muted))
     }
 }
 
@@ -436,8 +479,13 @@ private fun MacroShare(pct: String, name: String, sub: String, bg: Color, ink: C
 private fun WeightLine(samples: List<Pair<Long, Double>>) {
     val points = weightPlotPositions(samples)
     if (points.isEmpty()) {
-        Text("Nessuna misurazione nel periodo selezionato.", style = T.Muted,
-            modifier = Modifier.fillMaxWidth().testTag("weight-empty").padding(vertical = 24.dp))
+        Column(Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
+            Text("Nessuna misurazione nel periodo selezionato.", style = T.Muted,
+                modifier = Modifier.fillMaxWidth().testTag("weight-empty"))
+            TextButton(onClick = { Nav.go(Screen.Weight) }, modifier = Modifier.heightIn(min = 48.dp).testTag("progress-register-weight")) {
+                Text("Registra peso", style = T.Link)
+            }
+        }
         return
     }
     Canvas(Modifier.padding(top = 12.dp).fillMaxWidth().height(if (points.size == 1) 64.dp else 130.dp)

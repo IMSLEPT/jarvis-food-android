@@ -93,9 +93,14 @@ fun KitchenScreen() {
             onSelect = { Nav.kitchenTab = order[it] }, query = "", onQuery = {}, hint = "",
             labelTags = order.map { "kitchen-tab-label-$it" }, searchContent = {
                 if (Nav.kitchenTab == 2) RecipeSearchBar()
+                else Row(Modifier.fillMaxWidth().fillMaxHeight().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    AIcon(if (Nav.kitchenTab == 0) Ic.Fridge else Ic.Cart, Color.White, 20.dp)
+                    GapW(8.dp)
+                    Text(if (Nav.kitchenTab == 0) "I tuoi ingredienti, pronti da usare" else "La tua lista, sempre a portata di mano", style = T.Body.copy(color = Color.White), maxLines = 2)
+                }
             })
         Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)
-            .padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 24.dp)) {
+            .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 24.dp)) {
             when (Nav.kitchenTab) {
                 0 -> PantryTab(s)
                 1 -> ShoppingTab(s)
@@ -166,6 +171,7 @@ private fun CookTodayBlock(s: AppState) {
             AIcon(Ic.Spark, C.Accent, 22.dp, 2f); GapW(10.dp)
             Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White))
         }
+        if (!enabled && !busy) Text("Aggiungi alla dispensa un ingrediente riconosciuto per creare una ricetta.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
     }
     GapH(14.dp)
     if (s.pantry.isEmpty()) {

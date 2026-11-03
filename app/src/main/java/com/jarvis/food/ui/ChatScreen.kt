@@ -157,7 +157,8 @@ private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: 
             query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",
             icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, "M3 12a9 9 0 1 0 2.6-6.4M3 4v5h5M12 7v5l3 2"),
             descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
-            accounts = true, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null)
+            accounts = true, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
+            actions = true, supportingText = "Pasti, ricette, piano e spesa")
     }
 }
 
@@ -201,9 +202,9 @@ private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolea
             value = input, onValueChange = onInput,
             modifier = Modifier.weight(1f).heightIn(min = 56.dp).then(if (active) Modifier.aShadow(shape, 9.dp, Color(0x2617286B)) else Modifier).testTag("chat-input"), enabled = ready,
             placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = if (active) T.Read.copy(color = C.Muted) else T.Muted, maxLines = 1) },
-            textStyle = if (active) T.Read else T.Body, shape = shape, maxLines = 4,
+            textStyle = T.Read, shape = shape, maxLines = 4,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send), keyboardActions = KeyboardActions(onSend = { onSend() }),
-            trailingIcon = if (active) ({ Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, 44.dp, onSend, onStop) } }) else null,
+            trailingIcon = if (active) ({ Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, 48.dp, onSend, onStop) } }) else null,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = C.Navy, unfocusedBorderColor = C.Line, cursorColor = C.Accent,
                 focusedContainerColor = C.Surface, unfocusedContainerColor = C.Surface, disabledContainerColor = C.SurfaceAlt, disabledBorderColor = C.Line
@@ -247,19 +248,28 @@ private val CAPABILITIES = listOf(
 @Composable
 private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        JarvisLogo(72.dp)
+        JarvisLogo(64.dp)
         Spacer(Modifier.height(12.dp))
-        Text("Ciao, sono Jarvis", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
+        Text("Come posso aiutarti?", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
         Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
             style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp))
         if (ready) {
             Spacer(Modifier.height(8.dp))
-            CAPABILITIES.chunked(2).forEachIndexed { rowIndex, row ->
-                Row(Modifier.fillMaxWidth().then(if (rowIndex == 2) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            val groups = CAPABILITIES.chunked(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f) 1 else 2)
+            groups.forEachIndexed { rowIndex, row ->
+                Row(Modifier.fillMaxWidth().then(if (rowIndex == groups.lastIndex) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (emoji, title, example) ->
                         Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
                             .clickable { onPick(example) }.padding(10.dp)) {
-                            Text("$emoji  $title", style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                val icon = when (title) {
+                                    "Diario" -> Ic.Bowl; "Ricette" -> Ic.Receipt; "Piano" -> Ic.Calendar
+                                    "Spesa e dispensa" -> Ic.Cart; "Obiettivi" -> Ic.Chart; else -> Ic.Timer
+                                }
+                                AIcon(icon, C.Navy, 20.dp)
+                                GapW(8.dp)
+                                Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.weight(1f))
+                            }
                             Spacer(Modifier.height(4.dp))
                             Text("“$example”", style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
                         }

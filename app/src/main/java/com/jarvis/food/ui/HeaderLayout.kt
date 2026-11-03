@@ -15,28 +15,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.AppState
 import java.time.LocalDate
 
-/** One geometry for all five destinations, including accessibility font sizes. */
+/** Identical outer geometry for calendar and navy headers at each text scale. */
 object HeaderLayout {
     val ReferenceBlue = Color(0xFF0F1F52)
-    @Composable fun titleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 96.dp; LocalDensity.current.fontScale > 1.2f -> 76.dp; else -> 60.dp }
-    @Composable fun tabsHeight() = when { LocalDensity.current.fontScale > 1.5f -> 144.dp; LocalDensity.current.fontScale > 1.2f -> 76.dp; else -> 52.dp }
-    @Composable fun searchHeight() = when { LocalDensity.current.fontScale > 1.5f -> 88.dp; LocalDensity.current.fontScale > 1.2f -> 52.dp; else -> 44.dp }
-    @Composable fun dateHeight() = when { LocalDensity.current.fontScale > 1.5f -> 80.dp; LocalDensity.current.fontScale > 1.2f -> 56.dp; else -> 48.dp }
+    @Composable fun titleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 120.dp; LocalDensity.current.fontScale > 1.2f -> 76.dp; else -> 56.dp }
+    @Composable fun tabsHeight() = when { LocalDensity.current.fontScale > 1.5f -> 144.dp; LocalDensity.current.fontScale > 1.2f -> 76.dp; else -> 48.dp }
+    @Composable fun searchHeight() = when { LocalDensity.current.fontScale > 1.5f -> 72.dp; LocalDensity.current.fontScale > 1.2f -> 56.dp; else -> 48.dp }
+    @Composable fun searchGap() = if (LocalDensity.current.fontScale > 1.2f && LocalDensity.current.fontScale <= 1.5f) 12.dp else 8.dp
+    @Composable fun dateHeight() = if (LocalDensity.current.fontScale > 1.2f) 56.dp else 40.dp
     @Composable fun weekHeight() = when { LocalDensity.current.fontScale > 1.5f -> 168.dp; LocalDensity.current.fontScale > 1.2f -> 88.dp; else -> 64.dp }
 }
 
 @Composable
 fun ScreenHeaderFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
-    Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 6.dp, end = 6.dp, top = 16.dp, bottom = 8.dp)) {
-        Column(Modifier.fillMaxWidth().testTag("top-header-frame").clip(RoundedCornerShape(28.dp))
-            .background(if (navy) HeaderLayout.ReferenceBlue else C.Bg).padding(horizontal = 14.dp, vertical = 8.dp), content = content)
+    Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 8.dp, end = 8.dp, top = 12.dp, bottom = 8.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("top-header-frame").clip(RoundedCornerShape(24.dp))
+            .background(if (navy) HeaderLayout.ReferenceBlue else C.Bg).padding(horizontal = 8.dp, vertical = 8.dp), content = content)
     }
 }
 
@@ -52,15 +51,16 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     ScreenHeaderFrame(false) {
         Row(Modifier.fillMaxWidth().height(HeaderLayout.titleHeight()), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f).padding(end = 8.dp)) {
-                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"), style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp))
-                Text(if (greeting != null && !large) s.profile.name else title, style = T.Title.copy(fontSize = if (large) 23.sp else 30.sp, lineHeight = if (large) 28.sp else 34.sp), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"), style = T.Body.copy(fontSize = 14.sp, lineHeight = 18.sp))
+                Text(if (greeting != null && !large) s.profile.name else title, style = T.Title.copy(fontSize = 28.sp, lineHeight = 34.sp),
+                    maxLines = if (large) 2 else 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
             }
             HeaderAccountActions { showDatePicker(context, date, onPick) }
         }
         Row(Modifier.fillMaxWidth().height(HeaderLayout.dateHeight()), verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.weight(1f).fillMaxHeight().testTag(dateTag).clip(RoundedCornerShape(12.dp))
                 .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }, contentAlignment = Alignment.CenterStart) {
-                Text(fullDay(date), style = T.Title2.copy(fontSize = if (large) 13.sp else 18.sp, lineHeight = if (large) 16.sp else 22.sp))
+                Text(fullDay(date), style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
             }
         }
         Box(Modifier.fillMaxWidth().height(HeaderLayout.weekHeight()), contentAlignment = Alignment.Center) { WeekStrip(s, date, onPick) }
