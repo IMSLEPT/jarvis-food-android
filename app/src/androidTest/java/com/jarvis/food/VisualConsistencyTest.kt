@@ -231,6 +231,22 @@ class VisualConsistencyTest {
                     } finally { pixel.recycle() }
                 }
                 compose.onAllNodesWithContentDescription("Famiglia").assertCountEquals(0)
+                // A selected label can be wider than the same unselected text.
+                // Check every state at each font scale, not only the first tab.
+                if (tab == 2) {
+                    for ((index, kitchenTab) in listOf(2, 0, 1).withIndex()) {
+                        compose.onNodeWithTag("banner-tab-Cucina-$index").performClick()
+                        singleLine(compose.onNodeWithTag("kitchen-tab-label-$kitchenTab", useUnmergedTree = true))
+                    }
+                    compose.onNodeWithTag("banner-tab-Cucina-0").performClick()
+                }
+                if (tab == 3) {
+                    for (index in 0..3) {
+                        compose.onNodeWithTag("banner-tab-Progressi-$index").performClick()
+                        singleLine(compose.onNodeWithTag("banner-label-Progressi-$index", useUnmergedTree = true))
+                    }
+                    compose.onNodeWithTag("banner-tab-Progressi-0").performClick()
+                }
                 shot("header-$tab")
             }
             ui { Nav.clear(); Nav.tab = 0 }

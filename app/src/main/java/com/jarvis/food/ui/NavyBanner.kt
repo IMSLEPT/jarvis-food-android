@@ -53,7 +53,7 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
                     icons.getOrNull(i)?.let { AIcon(it, Color.White, 22.dp); GapH(4.dp) }
                     Text(label, modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }),
                         style = T.Body.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White,
-                            fontWeight = if (!actions && i == selected) FontWeight.SemiBold else FontWeight.Normal), textAlign = TextAlign.Center)
+                            fontWeight = if (!actions && i == selected && LocalDensity.current.fontScale <= 1.2f) FontWeight.SemiBold else FontWeight.Normal), textAlign = TextAlign.Center)
                     if (!actions) {
                         GapH(4.dp)
                         Box(Modifier.fillMaxWidth(.85f).height(3.dp).clip(RoundedCornerShape(2.dp)).background(if (i == selected) C.Accent else Color.Transparent))
