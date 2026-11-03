@@ -278,7 +278,6 @@ jobs:
             ./.ci-bin/adb shell am instrument -w -e captureName standard -e class com.jarvis.food.PremiumUiTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-premium-standard.log 2>&1
             cat layout-premium-standard.log
             ./.ci-bin/adb exec-out run-as com.jarvis.food tar cf - files/shots > layout-shots.tar
-            grep -q "OK (2 tests)" layout-premium-standard.log
             ./.ci-bin/adb shell am instrument -w -e captureName standard -e class com.jarvis.food.VisualConsistencyTest com.jarvis.food.test/androidx.test.runner.AndroidJUnitRunner > layout-consistency-standard.log 2>&1
             cat layout-consistency-standard.log
             ./.ci-bin/adb logcat -d > layout-consistency-full.log
@@ -340,6 +339,7 @@ jobs:
             grep -q "OK (3 tests)" layout-consistency-standard.log
             grep -q "OK (3 tests)" layout-consistency-large-text.log
             grep -q "OK (3 tests)" layout-consistency-small-200.log
+            grep -q "OK (2 tests)" layout-premium-standard.log
 
       - name: Save Android 15 diagnostics early
         if: failure()

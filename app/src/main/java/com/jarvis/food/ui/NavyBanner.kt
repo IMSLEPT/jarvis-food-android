@@ -65,7 +65,7 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
         GapH(HeaderLayout.searchGap())
         Box(Modifier.fillMaxWidth().height(HeaderLayout.searchHeight()), contentAlignment = Alignment.CenterStart) {
             when {
-                supportingText != null -> Text(supportingText, style = T.Body.copy(color = Color(0xFFE5EBFA)), modifier = Modifier.padding(horizontal = 8.dp))
+                supportingText != null -> Text(supportingText, style = T.Body.copy(lineHeight = 18.sp, color = Color(0xFFE5EBFA)), modifier = Modifier.padding(horizontal = 8.dp))
                 searchContent != null -> searchContent()
                 else -> BasicTextField(query, onQuery, Modifier.fillMaxWidth().fillMaxHeight().testTag("banner-search-$title")
                     .semantics { contentDescription = hint }

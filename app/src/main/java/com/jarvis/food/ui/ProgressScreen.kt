@@ -423,18 +423,19 @@ private fun OverviewHeading(title: String) {
 
 @Composable
 private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, labels: List<String>, waterChart: Boolean, present: List<Boolean>) {
+    val chartHeight = if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f) 120.dp else 88.dp
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        Column(Modifier.width(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 72.dp else 48.dp).height(88.dp), verticalArrangement = Arrangement.SpaceBetween) {
+        Column(Modifier.width(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f) 72.dp else 48.dp).height(chartHeight), verticalArrangement = Arrangement.SpaceBetween) {
             listOf(1.0, .5, 0.0).forEach { ratio ->
                 Text(if (waterChart) "${(maximum * ratio).r1()} L" else kcalFmt(maximum * ratio), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
             }
         }
         Column(Modifier.weight(1f)) {
             Box {
-                Canvas(Modifier.fillMaxWidth().height(88.dp)) {
+                Canvas(Modifier.fillMaxWidth().height(chartHeight)) {
                     for (ratio in listOf(0f, .5f, 1f)) drawLine(C.Line, Offset(0f, size.height * ratio), Offset(size.width, size.height * ratio), 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 5f)))
                 }
-                Column { BarsRow(values, maximum.coerceAtLeast(.1), 88.dp, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
+                Column { BarsRow(values, maximum.coerceAtLeast(.1), chartHeight, if (period == 7) 9.dp else 4.dp, if (period == 7) 8.dp else 3.dp,
                     fill = { _, _ -> TrendPalette.bars(if (waterChart) "water" else "activity") },
                     labels = if (period == 7) labels else null, present = present, unit = if (waterChart) "L" else "passi") }
             }

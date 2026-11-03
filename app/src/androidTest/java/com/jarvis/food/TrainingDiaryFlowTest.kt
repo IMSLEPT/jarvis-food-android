@@ -87,8 +87,24 @@ class TrainingDiaryFlowTest {
             compose.onNodeWithTag("replacement-${fish.id}").performClick()
             compose.onNodeWithTag("food-quantity").performScrollTo().performTextReplacement("150")
             hideKeyboard(scenario)
-            compose.onNode(hasText("Sostituisci") and hasClickAction()).assertIsDisplayed().assertIsEnabled().performClick()
-            compose.waitUntil(timeoutMillis = 5000) { Store.current.diary.firstOrNull { item -> item.id == first.id }?.food?.id == fish.id }
+            val save = compose.onNode(hasText("Sostituisci") and hasClickAction()).assertIsDisplayed().assertIsEnabled()
+            // Insets can report IME hidden before its resize animation has finished.
+            // Keep the real pointer click, but wait for a stable target instead of
+            // tapping coordinates from a transient frame. Data assertions stay strict.
+            var previous = save.fetchSemanticsNode().boundsInRoot
+            var stableSince = android.os.SystemClock.uptimeMillis()
+            compose.waitUntil(timeoutMillis = 5000) {
+                val current = save.fetchSemanticsNode().boundsInRoot
+                if (current != previous) { previous = current; stableSince = android.os.SystemClock.uptimeMillis() }
+                android.os.SystemClock.uptimeMillis() - stableSince >= 150
+            }
+            save.performClick()
+            try {
+                compose.waitUntil(timeoutMillis = 5000) { Store.current.diary.firstOrNull { item -> item.id == first.id }?.food?.id == fish.id }
+            } catch (failure: Throwable) {
+                shot("replacement-save-failure")
+                throw failure
+            }
             compose.waitForIdle()
             val result = Store.current.diary
             assertEquals(2, result.size)

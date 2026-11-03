@@ -76,7 +76,7 @@ class PremiumUiTest {
         }
         val before = Store.current
         ActivityScenario.launch(MainActivity::class.java).use {
-            compose.onNodeWithTag("progress-calorie-coverage", useUnmergedTree = true).performScrollTo().assertTextContains("1 giorno registrato su 7")
+            compose.onNodeWithTag("progress-calorie-coverage", useUnmergedTree = true).performScrollTo().assertTextContains("1 giorno registrato su 7", substring = true)
             compose.onNodeWithTag("progress-weight-summary").performScrollTo().assertTextContains("Ultimo peso disponibile", substring = true)
             shot("progress-context")
             compose.onNodeWithTag("banner-tab-Progressi-1").performClick()

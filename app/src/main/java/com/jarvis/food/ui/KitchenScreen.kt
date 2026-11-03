@@ -50,6 +50,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -97,7 +99,7 @@ fun KitchenScreen() {
                 else Row(Modifier.fillMaxWidth().fillMaxHeight().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(if (Nav.kitchenTab == 0) Ic.Fridge else Ic.Cart, Color.White, 20.dp)
                     GapW(8.dp)
-                    Text(if (Nav.kitchenTab == 0) "I tuoi ingredienti, pronti da usare" else "La tua lista, sempre a portata di mano", style = T.Body.copy(color = Color.White), maxLines = 2)
+                    Text(if (Nav.kitchenTab == 0) "La tua dispensa" else "La tua lista della spesa", style = T.Body.copy(lineHeight = 18.sp, color = Color.White), maxLines = 2)
                 }
             })
         Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)
@@ -159,7 +161,7 @@ private fun CookTodayBlock(s: AppState) {
         GapH(14.dp)
         val bs = RoundedCornerShape(28.dp)
         val enabled = !busy && s.pantry.any { it.foodId != null }
-        Row(Modifier.fillMaxWidth().height(56.dp).clip(bs).background(if (enabled) C.Navy else Color(0x6617286B)).clickable(enabled = enabled) {
+        Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(bs).background(if (enabled) C.Navy else Color(0x6617286B)).clickable(enabled = enabled) {
             if (s.ai.apiKey.isBlank()) { Nav.go(Screen.AiSettings); return@clickable }
             busy = true
             scope.launch {
@@ -168,7 +170,7 @@ private fun CookTodayBlock(s: AppState) {
                     .onFailure { Toast.makeText(ctx, it.message ?: "Errore", Toast.LENGTH_LONG).show() }
                 busy = false
             }
-        }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        }.padding(vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             AIcon(Ic.Spark, C.Accent, 22.dp, 2f); GapW(10.dp)
             Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White))
         }
@@ -216,13 +218,13 @@ private fun PantryTab(s: AppState) {
     GapH(12.dp)
     // Aggiunta a mano
     val fs = RoundedCornerShape(30.dp)
-    Row(Modifier.fillMaxWidth().height(56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-            if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = C.Muted))
+            if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = C.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
             androidx.compose.foundation.text.BasicTextField(name, { name = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
-                cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Ingrediente da aggiungere alla dispensa" })
         }
-        PlusButton("Aggiungi", 44.dp) {
+        PlusButton("Aggiungi", 48.dp) {
             if (name.isNotBlank()) {
                 val f = Db.db.match(name) ?: Db.db.search(name, 1).firstOrNull()
                 Store.addPantry(listOf(PantryItem(Store.newId(), f?.id, f?.name ?: name.trim(), null)))
@@ -309,13 +311,13 @@ private fun ShoppingTab(s: AppState) {
     }
     GapH(12.dp)
     val fs = RoundedCornerShape(30.dp)
-    Row(Modifier.fillMaxWidth().height(56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-            if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = C.Muted))
+            if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = C.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
             androidx.compose.foundation.text.BasicTextField(manual, { manual = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
-                cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth())
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(C.Accent), modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Articolo da aggiungere alla lista della spesa" })
         }
-        PlusButton("Aggiungi", 44.dp) { if (manual.isNotBlank()) { Store.addShoppingManual(manual); manual = "" } }
+        PlusButton("Aggiungi", 48.dp) { if (manual.isNotBlank()) { Store.addShoppingManual(manual); manual = "" } }
     }
     GapH(12.dp)
     if (s.shopping.isEmpty()) EmptyState("🛒", "Lista vuota", "Crea il piano nella scheda Piano, poi genera la lista per i prossimi giorni.")

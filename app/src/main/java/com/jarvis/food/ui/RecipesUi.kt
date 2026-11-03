@@ -236,7 +236,7 @@ private fun FrequentRecipeRow(t: RecipeTemplate, count: Int, s: AppState, onClic
         Box(Modifier.width(if (large) 92.dp else 142.dp).height(96.dp)) {
             RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.fillMaxSize(), recEmoji(t.meal), 0.dp)
             Text("$count aperture", modifier = Modifier.align(Alignment.BottomStart).padding(6.dp).clip(RoundedCornerShape(10.dp))
-                .background(Color.White).padding(horizontal = 7.dp, vertical = 3.dp), style = T.Small.copy(color = C.Navy, fontSize = 11.sp))
+                .background(Color.White).padding(horizontal = 7.dp, vertical = 3.dp), style = T.Small.copy(color = C.Navy, fontSize = 12.sp))
         }
         Column(Modifier.weight(1f).padding(10.dp)) {
             Text(t.name, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp))

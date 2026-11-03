@@ -196,7 +196,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 GapW(6.dp)
                 Column(Modifier.weight(1f)) {
                     Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 13.sp, lineHeight = 18.sp))
-                    Text("pianificate", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+                    Text("pianificate", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
                 }
             }
             Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -211,7 +211,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 GapW(6.dp)
                 Column(Modifier.weight(1f)) {
                     Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
-                    Text("completati", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+                    Text("completati", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
                 }
             }
             PlanStyleControls(s, date, large) { chooseStyle = true }
@@ -277,7 +277,7 @@ private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, on
             GapW(8.dp)
             Column(Modifier.weight(1f)) {
                 Text("Alimentazione", style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp))
-                Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+                Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
             }
             GapW(4.dp)
             AIcon(Ic.Right, C.Navy, 14.dp)

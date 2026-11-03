@@ -53,7 +53,7 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     ScreenHeaderFrame(false) {
         Row(Modifier.fillMaxWidth().height(HeaderLayout.titleHeight()), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f).padding(end = 8.dp)) {
-                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"), style = T.Body.copy(fontSize = 14.sp, lineHeight = 18.sp))
+                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"), style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp))
                 Text(if (greeting != null && !large) s.profile.name else title, style = T.Title.copy(fontSize = 28.sp, lineHeight = 34.sp),
                     maxLines = if (large) 2 else 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
             }
