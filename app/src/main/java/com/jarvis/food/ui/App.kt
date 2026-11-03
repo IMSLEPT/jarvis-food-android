@@ -231,7 +231,7 @@ private fun Tabs() {
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
     val expanded = LocalDensity.current.fontScale > 1.5f
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(30.dp)
     Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)) {
         Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().aShadow(shape, 10.dp, Color(0x261D1B3A)).clip(shape).background(Color.White).border(1.dp, C.Line, shape).padding(4.dp)) {
             items.chunked(if (expanded) 3 else 5).forEach { group ->
@@ -249,12 +249,12 @@ private fun RowScope.BottomTabItem(tab: Int, icon: String, label: String) {
     // Preserve the user's text size: extra weight makes "Progressi" wrap at
     // 130% on a five-item bar. Colour and underline still identify selection.
     val emphasizeLabel = selected && LocalDensity.current.fontScale <= 1.2f
-    Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp))
+    Column(Modifier.weight(1f).heightIn(min = 60.dp).testTag("nav-$tab").clip(RoundedCornerShape(22.dp)).background(if (selected) Color(0xFFFFF0E1) else Color.Transparent)
         .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(vertical = 7.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        if (icon.isEmpty()) JarvisLogo(24.dp) else AIcon(icon, if (selected) C.Accent else A.Muted, 24.dp)
+        if (icon.isEmpty()) DashboardRobot(selected) else AIcon(icon, if (selected) C.Accent else C.Navy, 26.dp)
         Spacer(Modifier.height(4.dp))
-        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) C.Navy else A.Muted), textAlign = TextAlign.Center)
+        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = C.Navy), textAlign = TextAlign.Center)
         Spacer(Modifier.height(4.dp))
-        Box(Modifier.width(28.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (selected) C.Accent else Color.Transparent))
+        Box(Modifier.width(28.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).background(if (selected) C.Accent else Color.Transparent))
     }
 }

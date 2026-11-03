@@ -126,25 +126,11 @@ fun TodayScreen() {
 
         // ---- Hero calorie
         Spacer(Modifier.height(16.dp))
-        HeroCard(totals.kcal, e.targetKcal, burned, e.extraKcal) { Nav.go(Screen.DayNutrients(date)) }
+        TodayCalorieCard(totals.kcal, e.targetKcal, burned) { Nav.go(Screen.DayNutrients(date)) }
 
         // ---- Macro
         Spacer(Modifier.height(12.dp))
-        ACard(Modifier.fillMaxWidth(), radius = 20.dp, padding = 4.dp, elevation = 4.dp) {
-            if (LocalDensity.current.fontScale > 1.5f) Column {
-                MacroRing("Proteine", totals.protein, e.protein, C.Protein, A.ProteinSoft, A.ProteinInk, Modifier.fillMaxWidth())
-                MacroRing("Carboidrati", totals.carbs, e.carbs, C.Blue, A.CarbSoft, A.CarbInk, Modifier.fillMaxWidth())
-                MacroRing("Grassi", totals.fat, e.fat, C.Gold, A.FatSoft, A.FatInk, Modifier.fillMaxWidth())
-            } else {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                MacroRing("Proteine", totals.protein, e.protein, C.Protein, A.ProteinSoft, A.ProteinInk, Modifier.weight(1f))
-                HomeDivider()
-                MacroRing("Carboidrati", totals.carbs, e.carbs, C.Blue, A.CarbSoft, A.CarbInk, Modifier.weight(1f))
-                HomeDivider()
-                MacroRing("Grassi", totals.fat, e.fat, C.Gold, A.FatSoft, A.FatInk, Modifier.weight(1f))
-            }
-            }
-        }
+        TodayMacroCard(totals.protein, e.protein, totals.carbs, e.carbs, totals.fat, e.fat)
 
         Spacer(Modifier.height(20.dp))
         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
@@ -295,47 +281,6 @@ private fun WeekPage(s: AppState, date: LocalDate, days: List<LocalDate>, active
     }
         }
         }
-}
-
-@Composable
-@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
-private fun HeroCard(eaten: Double, target: Double, burned: Int, extra: Double, onClick: () -> Unit) {
-    val over = eaten > target
-    val fraction = if (target > 0) (eaten / target).toFloat().coerceIn(0f, 1f) else 0f
-    val p by animateFloatAsState(fraction, tween(800), label = "hero")
-    ACard(Modifier.fillMaxWidth(), radius = 24.dp, brush = C.NavyBrush, padding = 16.dp, bordered = false, onClick = onClick) {
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Le tue calorie", style = T.Label.copy(color = Color(0xFFDCE5FA)), modifier = Modifier.weight(1f))
-                AIcon(Ic.Right, Color.White, 20.dp)
-            }
-            GapH(8.dp)
-            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(kcalFmt(kotlin.math.abs(target - eaten)), style = T.Big.copy(fontSize = 36.sp, lineHeight = 42.sp, color = if (over) Color(0xFFFFB4A9) else Color.White))
-                Text(if (over) "kcal oltre l’obiettivo" else "kcal disponibili", style = T.Small.copy(color = Color(0xFFDCE5FA)), modifier = Modifier.padding(top = 18.dp))
-            }
-            GapH(12.dp)
-            ABar(p, Brush.horizontalGradient(listOf(C.Accent, Color(0xFFFFAD60))), Color(0x33FFFFFF), 6.dp)
-            GapH(12.dp)
-            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Mangiate ${kcalFmt(eaten)}", style = T.Small.copy(color = Color.White))
-                Text("Obiettivo ${kcalFmt(target)}", style = T.Small.copy(color = Color.White))
-                if (burned > 0 || extra > 0) Text("Attività ${if (extra > 0) "+${extra.r0()}" else burned.toString()}", style = T.Small.copy(color = Color(0xFFB6F0D8)))
-            }
-        }
-    }
-}
-
-@Composable
-private fun MacroRing(label: String, value: Double, goal: Double, color: Color, soft: Color, ink: Color, modifier: Modifier) {
-    val fraction = if (goal > 0) (value / goal).toFloat().coerceIn(0f, 1f) else 0f
-    val p by animateFloatAsState(fraction, tween(600), label = "macro")
-    Column(modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(10.dp)) {
-        Text(label, style = T.Small.copy(color = ink, fontSize = 12.sp))
-        Text("${value.r0()} g", style = T.Num.copy(fontSize = 21.sp), modifier = Modifier.padding(top = 4.dp))
-        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 12.sp))
-        ABar(p, Brush.horizontalGradient(listOf(color, color)), soft, 5.dp, Modifier.padding(top = 8.dp))
-    }
 }
 
 @Composable
