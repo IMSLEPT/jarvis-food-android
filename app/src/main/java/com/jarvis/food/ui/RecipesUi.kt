@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -575,6 +576,7 @@ private fun FilterPanel(f: RecipeFilter, onChange: (RecipeFilter) -> Unit) {
 
 @Composable
 fun RecipeListScreen(sc: Screen.RecipeList) {
+    val imageContext = androidx.compose.ui.platform.LocalContext.current
     val s by Store.state.collectAsState()
     val db = Db.db
     var f by remember { mutableStateOf(sc.filter) }
@@ -632,7 +634,14 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
                     if (f.fridge && s.pantry.isEmpty()) Text("La dispensa è vuota: fotografa il frigo e Jarvis riconosce i prodotti.", style = T.Small.copy(color = A.TonalInk))
                 }
                 if (hits.isEmpty()) item { EmptyState("🔎", "Nessuna ricetta con questi filtri", "Prova a toglierne qualcuno: ogni filtro restringe i risultati.") }
-                items(hits, key = { it.tpl.id }) { h -> RecipeRow(h, s) { openRecipe(s, h.tpl) } }
+                itemsIndexed(hits, key = { _, h -> h.tpl.id }) { index, h ->
+                    LaunchedEffect(h.tpl.id, hits) {
+                        OnlineRecipeImages.prefetch(imageContext, hits.drop(index + 1).take(4).filter {
+                            s.recipePhotos[it.tpl.id] == null && EditorialPhotos.asset(it.tpl.id, it.tpl.image) == null
+                        }.map { it.tpl.id })
+                    }
+                    RecipeRow(h, s) { openRecipe(s, h.tpl) }
+                }
             } else {
                 item { APrimary("+ Nuova ricetta", Modifier.fillMaxWidth(), height = 52.dp) { Nav.go(Screen.RecipeEditor(null)) } }
                 if (mine.isEmpty()) item { EmptyState("🧑‍🍳", "Nessuna ricetta tua", "Crea una ricetta: i valori si calcolano dagli ingredienti.") }

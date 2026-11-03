@@ -280,7 +280,7 @@ private fun decodeScaled(path: String, maxSide: Int = 1280): Bitmap? {
 fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: Modifier, emoji: String = "🍽️", corner: Dp = 18.dp, contentScale: ContentScale = ContentScale.Crop) {
     val ctx = LocalContext.current
     val resolvedAsset = EditorialPhotos.asset(recipeId, asset)
-    val key = userPhoto ?: resolvedAsset ?: ""
+    val key = userPhoto ?: resolvedAsset ?: "online:$recipeId"
     // Lo stato dipende dalla chiave: cambiando piatto si riparte dalla foto del NUOVO piatto (o dal segnaposto),
     // mai da quella precedente (produceState tiene il valore vecchio quando cambia la chiave).
     var bmp by remember(key) { mutableStateOf<Bitmap?>(bitmapCache.get(key)) }
@@ -289,7 +289,8 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
         bmp = withContext(Dispatchers.IO) {
             runCatching {
                 val b = if (userPhoto != null) decodeScaled(File(userPhoto).absolutePath)
-                else ctx.assets.open(resolvedAsset!!).use { BitmapFactory.decodeStream(it) }
+                else if (resolvedAsset != null) ctx.assets.open(resolvedAsset).use { BitmapFactory.decodeStream(it) }
+                else OnlineRecipeImages.load(ctx, recipeId)
                 b?.also { bitmapCache.put(key, it) }
             }.getOrNull()
         }

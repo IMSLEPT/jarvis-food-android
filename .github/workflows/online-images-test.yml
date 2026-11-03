@@ -1,0 +1,66 @@
+name: Online recipe images isolated test
+on:
+  push:
+    branches: [test/online-recipe-images-2026-11-03]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build comparable unmodified baseline
+        run: |
+          git worktree add --detach ../image-baseline 974ae5c83c34553ef3ffce35652386b04150949e
+          cd ../image-baseline
+          ./gradlew assembleDebug --console=plain --max-workers=2
+          mkdir -p ../jarvis-food-android/image-test-evidence
+          stat -c%s app/build/outputs/apk/debug/app-debug.apk > ../jarvis-food-android/image-test-evidence/baseline-bytes.txt
+      - name: Verify protected files and build test APK
+        run: |
+          git diff --exit-code 974ae5c83c34553ef3ffce35652386b04150949e -- app/src/main/assets app/src/main/res app/src/main/java/com/jarvis/food/ui/EditorialPhotos.kt app/src/main/java/com/jarvis/food/data
+          python3 scripts/verify-aurora-boundary.py
+          python3 tools/photography/verify.py
+          ./gradlew assembleDebug testDebugUnitTest assembleDebugAndroidTest --console=plain --max-workers=2
+          stat -c%s app/build/outputs/apk/debug/app-debug.apk > image-test-evidence/experimental-bytes.txt
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Real Android image decoding and cache tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_5
+          ram-size: 3072M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            adb install -r -g app/build/outputs/apk/debug/app-debug.apk
+            adb install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            adb logcat -c
+            adb shell am instrument -w -e class com.jarvis.food.OnlineRecipeImagesTest com.jarvis.food.imagestest.test/androidx.test.runner.AndroidJUnitRunner > image-test-evidence/android.log 2>&1
+            cat image-test-evidence/android.log
+            adb logcat -d -s AndroidRuntime:E > image-test-evidence/crash.log
+            grep -q 'OK (4 tests)' image-test-evidence/android.log
+            ! grep -q 'FATAL EXCEPTION' image-test-evidence/crash.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Jarvis-Food-Images-Test
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/test-results/**/*.xml
+            image-test-evidence/*
+          retention-days: 14

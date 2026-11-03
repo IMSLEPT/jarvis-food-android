@@ -10,13 +10,13 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.jarvis.food"
+        applicationId = "com.jarvis.food.imagestest"
         minSdk = 26
         targetSdk = 35
         // Numero build di GitHub Actions: ogni APK nuovo si installa sopra il precedente.
         val run = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
         versionCode = run
-        versionName = "1.0.$run"
+        versionName = "1.0.205-images-test"
         // Solo ARM (tutti gli smartphone moderni): APK più leggero. x86_64 solo per i test su emulatore.
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
