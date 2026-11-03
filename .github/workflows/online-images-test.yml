@@ -17,9 +17,16 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
+      - name: Preserve the original offline food model
+        run: |
+          curl -fsSL --retry 2 https://github.com/IMSLEPT/jarvis-food-android/releases/download/preview-v1.0.205/JarvisFood-v1.0.205.apk -o /tmp/original-205.apk
+          echo '323c0c69dd088e4d1326c44ef19b656ba36febb46ee42ae1f30674a1cc100c5b  /tmp/original-205.apk' | sha256sum -c -
+          unzip -p /tmp/original-205.apk assets/food.tflite > app/src/main/assets/food.tflite
+          test -s app/src/main/assets/food.tflite
       - name: Build comparable unmodified baseline
         run: |
           git worktree add --detach ../image-baseline 974ae5c83c34553ef3ffce35652386b04150949e
+          cp app/src/main/assets/food.tflite ../image-baseline/app/src/main/assets/food.tflite
           cd ../image-baseline
           ./gradlew assembleDebug --console=plain --max-workers=2
           mkdir -p ../jarvis-food-android/image-test-evidence
