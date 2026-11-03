@@ -240,7 +240,13 @@ class VisualConsistencyTest {
             singleLine(compose.onNodeWithTag("diary-title-0", useUnmergedTree = true).performScrollTo())
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
             readable(compose.onNodeWithText("Nessun alimento registrato", useUnmergedTree = true).performScrollTo())
-            val dateLabel = compose.onNodeWithText(fullDay(day), useUnmergedTree = true)
+            // At 200% the visible date is abbreviated to preserve the user's font
+            // size; the calendar still exposes the complete date to accessibility.
+            compose.onNodeWithTag("calendar-date", useUnmergedTree = true).assertContentDescriptionEquals(fullDay(day))
+            val visibleDate = if (ins.targetContext.resources.configuration.fontScale > 1.5f)
+                day.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() }
+            else fullDay(day)
+            val dateLabel = compose.onNodeWithText(visibleDate, useUnmergedTree = true)
             dateLabel.assertIsDisplayed() // The aligned date header is now pinned outside the scrolling body.
             readable(dateLabel)
             compose.onNodeWithContentDescription("Aggiungi a Colazione").assertHeightIsAtLeast(48.dp)
