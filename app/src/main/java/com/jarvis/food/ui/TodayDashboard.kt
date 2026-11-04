@@ -117,7 +117,7 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                     .selectableCalendar(selected) { pick(day) }.padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(day.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, IT).take(3).replaceFirstChar { it.uppercase() },
                                         modifier = if (active) Modifier.testTag("week-label-$i") else Modifier,
-                                        style = T.Small.copy(fontSize = 10.sp, lineHeight = 14.sp, color = if (selected) Color.White else C.Navy, fontWeight = FontWeight.SemiBold))
+                                        style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, color = if (selected) Color.White else C.Navy, fontWeight = FontWeight.SemiBold))
                                     Text(day.dayOfMonth.toString(), style = T.Num.copy(fontSize = 21.sp, lineHeight = 26.sp, color = if (selected) Color.White else C.Navy))
                                     GapH(3.dp)
                                     Box(Modifier.width(if (selected) 22.dp else 4.dp).height(4.dp).clip(CircleShape).background(if (selected || logged) DashboardOrange else Color(0xFF9BA6B8)))

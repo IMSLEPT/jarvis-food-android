@@ -21,7 +21,7 @@ def adb(*args):
 try:
     adb('uninstall', PACKAGE)
     original, previous, new = (glob.glob(pattern)[0] for pattern in ('original/*.apk', 'previous/*.apk', 'app/build/outputs/apk/release/*.apk'))
-    adb('install', original)
+    adb('install', '-g', original)
     adb('shell', 'am', 'start', '-W', '-n', f'{PACKAGE}/.MainActivity')
     time.sleep(2)
     adb('shell', 'am', 'force-stop', PACKAGE)
@@ -37,7 +37,7 @@ try:
     adb('shell', 'chmod', '600', STATE)
     for label, apk in [('original', None), ('latest-preview', previous), ('new-release', new)]:
         if apk:
-            assert 'Success' in adb('install', '-r', apk), f'Upgrade rejected: {label}'
+            assert 'Success' in adb('install', '-r', '-g', apk), f'Upgrade rejected: {label}'
         adb('logcat', '-c')
         launch = adb('shell', 'am', 'start', '-W', '-n', f'{PACKAGE}/.MainActivity')
         assert 'Status: ok' in launch, f'Launch failed: {label}'
@@ -46,8 +46,13 @@ try:
         adb('shell', 'am', 'force-stop', PACKAGE)
         state = json.loads(adb('shell', 'cat', STATE))
         assert state['profile']['name'] == fixture['profile']['name'], f'Profile lost: {label}'
-        for key in ('water', 'steps', 'chat'):
+        for key in ('water', 'steps'):
             assert state[key] == fixture[key], f'{key} lost: {label}'
+        # Kotlin serialization writes optional defaults such as actions/suggestions/pending.
+        # Compare saved message identity/content/time, while retaining the message count check.
+        assert len(state['chat']) == len(fixture['chat']), f'Chat messages lost: {label}'
+        for actual, expected in zip(state['chat'], fixture['chat']):
+            assert all(actual.get(key) == value for key, value in expected.items()), f'Chat content lost: {label}'
         assert 'FATAL EXCEPTION' not in adb('logcat', '-d', '-s', 'AndroidRuntime:E'), f'Crash: {label}'
         log.write(f'PASS {label}: signed install, launch, profile/water/steps/chat retained\n')
         log.flush()

@@ -206,7 +206,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
         ReferenceInsightBody(TodayArt.Calendar) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text("Per te oggi", style = T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink), modifier = Modifier.weight(1f))
-                Row(Modifier.heightIn(min = 40.dp).testTag("daily-tips-all").clip(RoundedCornerShape(10.dp))
+                Row(Modifier.heightIn(min = 48.dp).testTag("daily-tips-all").clip(RoundedCornerShape(10.dp))
                     .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }.padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 15.sp, color = RD.Grey)); GapW(4.dp)
                     AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
@@ -244,7 +244,7 @@ private fun TipRow(tip: DailyFoodTips.Tip, scale: androidx.compose.runtime.Mutab
         TipIcon(tip.id)
         GapW(12.dp)
         // Una sola riga per tutte le idee: righe della stessa altezza, come nel riferimento.
-        SharedFitText(tip.title, T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), scale, Modifier.weight(1f), minScale = 0.75f)
+        Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), modifier = Modifier.weight(1f))
         GapW(4.dp)
         AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
     }

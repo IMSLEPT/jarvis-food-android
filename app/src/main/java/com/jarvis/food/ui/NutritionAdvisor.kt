@@ -88,7 +88,7 @@ fun VitaminOverview(s: AppState) {
                 avg.isNotEmpty() -> "Media 7 giorni: ${avg.joinToString(" · ")} · stima EFSA adulti"
                 else -> "Stima EFSA per adulti · storico 7 e 30 giorni in Andamento"
             } + (today.sumOf { it.unknown }.takeIf { it > 0 }?.let { " · alcuni alimenti senza dato" } ?: ""),
-                style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+                style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
         }
     }
     GapH(10.dp)

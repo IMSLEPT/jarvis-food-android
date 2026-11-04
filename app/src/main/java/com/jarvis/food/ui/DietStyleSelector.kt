@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ fun DietStyleDialog(s: AppState, date: LocalDate, onDismiss: () -> Unit) {
     var error by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
     val uri = LocalUriHandler.current
+    val compactOptions = LocalConfiguration.current.screenWidthDp / LocalDensity.current.fontScale < 400
     val energy = Store.energyFor(s, date)
     val targetProblem = (0 until days).firstNotNullOfOrNull { offset ->
         val e = Store.energyFor(s, date.plusDays(offset.toLong()))
@@ -62,7 +64,7 @@ fun DietStyleDialog(s: AppState, date: LocalDate, onDismiss: () -> Unit) {
                 }
                 GapH(2.dp)
                 SectionTitle(RIc.Clock, "Per quanto tempo?")
-                listOf(listOf(1 to "Giorno", 7 to "7 giorni"), listOf(14 to "14 giorni", 30 to "30 giorni")).forEach { row ->
+                listOf(1 to "Giorno", 7 to "7 giorni", 14 to "14 giorni", 30 to "30 giorni").chunked(if (compactOptions) 1 else 2).forEach { row ->
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         row.forEach { (n, label) ->
                             RefOption(label, Modifier.weight(1f), tag = "diet-period-$n", isSelected = days == n, selectedStyle = OptionStyle.Navy, enabled = !busy, minHeight = 58.dp,
@@ -74,7 +76,7 @@ fun DietStyleDialog(s: AppState, date: LocalDate, onDismiss: () -> Unit) {
                     icon = { Box(Modifier.size(30.dp)) { AIcon(RIc.Stopwatch, RD.Ink, 30.dp, 2.1f); AIcon(RIc.StopwatchHand, RD.Orange, 30.dp, 2.4f); AIcon(RIc.StopwatchTicks, RD.Ink, 30.dp, 1.4f) } },
                     trailing = { ChevronCircle(40.dp, up = chooseTime) }) { chooseTime = !chooseTime }
                 if (chooseTime) {
-                    (listOf(5, 10, 15, 20, 25, 30, 40, 60) + maxMinutes).distinct().sorted().chunked(3).forEach { row ->
+                    (listOf(5, 10, 15, 20, 25, 30, 40, 60) + maxMinutes).distinct().sorted().chunked(if (compactOptions) 2 else 3).forEach { row ->
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             row.forEach { n -> RefOption("$n min", Modifier.weight(1f), tag = "diet-time-$n", isSelected = maxMinutes == n, selectedStyle = OptionStyle.Navy,
                                 enabled = !busy, minHeight = 50.dp, centered = true, trailing = {}) { maxMinutes = n; error = null } }

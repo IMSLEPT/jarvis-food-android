@@ -59,6 +59,7 @@ class PremiumVideoLayoutTest {
     @Test fun fiveTabsKeepAccessibleNavigationAndHeaderInsets() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            compose.waitForIdle(); ins.waitForIdleSync()
             var safeBottom = 0
             scenario.onActivity { activity ->
                 val decor = activity.window.decorView
@@ -87,6 +88,33 @@ class PremiumVideoLayoutTest {
                 }
                 shot("tab-$tab")
             }
+        }
+    }
+    @Test fun dietPeriodChoicesKeepWholeWordsAndReadableType() {
+        prepare()
+        ui { Store.generatePlan(LocalDate.now().with(java.time.DayOfWeek.MONDAY), 7); Nav.tab = 1 }
+        ActivityScenario.launch(MainActivity::class.java).use {
+            if (compose.onAllNodesWithTag("plan-diet-style").fetchSemanticsNodes().isEmpty())
+                compose.onNodeWithTag("plan-summary-toggle").performScrollTo().performClick()
+            compose.onNodeWithTag("plan-diet-style").performScrollTo().performClick()
+            for (period in listOf(1, 7, 14, 30)) {
+                val label = compose.onNodeWithTag("diet-period-$period-label", useUnmergedTree = true).performScrollTo()
+                readable(label, 14f)
+                val layouts = mutableListOf<TextLayoutResult>()
+                label.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
+                layouts.forEach { layout ->
+                    assertTrue("Period label becomes a narrow column", layout.lineCount <= 2)
+                    val text = layout.layoutInput.text.text
+                    for (line in 0 until layout.lineCount - 1) {
+                        val end = layout.getLineEnd(line, visibleEnd = true)
+                        val next = layout.getLineStart(line + 1)
+                        val splitsWord = end == next && text.getOrNull(end - 1)?.isLetterOrDigit() == true && text.getOrNull(next)?.isLetterOrDigit() == true
+                        assertFalse("Period word split across lines: $text", splitsWord)
+                    }
+                }
+            }
+            shot("diet-period-choices")
+            compose.onNodeWithText("Annulla").performClick()
         }
     }
     @Test fun chatComposerRemainsAboveKeyboardWithoutSending() {

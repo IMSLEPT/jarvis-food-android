@@ -236,7 +236,7 @@ private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolea
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     PeachTile(56.dp, radius = 18.dp) { DuoIcon(RIc.Calendar + RIc.CalendarBand, size = 32.dp, stroke = 2.4f, ink = RD.Orange) }
                     GapW(14.dp); OrangeDivider(46.dp); GapW(14.dp)
-                    AutoFitText("${dayLabel(date)} · tipo di giornata", T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp, color = RD.Ink), Modifier.weight(1f), minScale = 0.72f)
+                    Text("${dayLabel(date)} · tipo di giornata", style = T.Title.copy(fontSize = 20.sp, lineHeight = 26.sp, color = RD.Ink), modifier = Modifier.weight(1f))
                 }
                 Spacer(Modifier.height(14.dp))
                 Text("La modifica vale soltanto per questa data.", style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, color = RD.Grey))

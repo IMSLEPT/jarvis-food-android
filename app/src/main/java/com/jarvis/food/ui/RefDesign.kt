@@ -369,6 +369,7 @@ enum class OptionStyle { Plain, Navy, Peach }
 fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable () -> Unit)? = null, subtitle: String? = null,
     isSelected: Boolean = false, selectedStyle: OptionStyle = OptionStyle.Peach, tag: String? = null, enabled: Boolean = true,
     trailing: (@Composable () -> Unit)? = null, minHeight: Dp = 56.dp, centered: Boolean = false, labelSize: androidx.compose.ui.unit.TextUnit = 17.sp, onClick: () -> Unit) {
+    val compactPeriod = tag?.startsWith("diet-period-") == true
     val shape = RoundedCornerShape(16.dp)
     val navy = isSelected && selectedStyle == OptionStyle.Navy
     val peach = isSelected && selectedStyle == OptionStyle.Peach
@@ -378,23 +379,24 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
         .then(if (navy) Modifier.refShadow(shape, 3.dp) else Modifier).clip(shape).background(bg)
         .border(if (peach) 2.dp else 1.5.dp, when { peach -> RD.Orange; navy -> RD.Navy; else -> RD.Ink.copy(alpha = if (enabled) 0.85f else 0.3f) }, shape)
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
-        .padding(horizontal = 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
+        .padding(horizontal = if (compactPeriod) 10.dp else 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (centered) Arrangement.Center else Arrangement.Start) {
         if (icon != null) {
-            Box(Modifier.size(34.dp), contentAlignment = Alignment.Center) { icon() }
-            GapW(12.dp); OrangeDivider(if (subtitle != null) 40.dp else 28.dp); GapW(14.dp)
+            Box(Modifier.size(if (compactPeriod) 28.dp else 34.dp), contentAlignment = Alignment.Center) { icon() }
+            GapW(if (compactPeriod) 8.dp else 12.dp); OrangeDivider(if (subtitle != null) 40.dp else if (compactPeriod) 24.dp else 28.dp); GapW(if (compactPeriod) 8.dp else 14.dp)
         }
         Column(if (centered) Modifier else Modifier.weight(1f)) {
             val labelStyle = T.Title2.copy(fontSize = labelSize, lineHeight = labelSize * 1.3f, color = if (navy) Color.White else if (enabled) RD.Ink else C.Muted)
             // Le scelte affiancate (periodi) restano su una riga.
-            if (centered) AutoFitText(label, labelStyle, minScale = 0.75f) else Text(label, style = labelStyle)
+            val labelModifier = if (tag != null) Modifier.testTag("$tag-label") else Modifier
+            if (centered) AutoFitText(label, labelStyle, modifier = labelModifier, minScale = 0.75f) else Text(label, modifier = labelModifier, style = labelStyle)
             if (subtitle != null) Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 17.sp, color = if (navy) Color(0xFFDDE4F2) else Color(0xFF3F4760)))
         }
         if (trailing != null) { GapW(8.dp); trailing() }
         else if (isSelected) {
             GapW(8.dp)
             if (peach) Box(Modifier.size(40.dp).clip(CircleShape).background(RD.PeachDeep), contentAlignment = Alignment.Center) { AIcon(RIc.Check, RD.Orange, 24.dp, 3f) }
-            else AIcon(RIc.Check, RD.Orange, 24.dp, 3f)
+            else AIcon(RIc.Check, RD.Orange, if (compactPeriod) 20.dp else 24.dp, 3f)
         }
     }
 }
