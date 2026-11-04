@@ -97,6 +97,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          ls dist/*.apk >/dev/null 2>&1 || { echo "Nessun APK"; exit 1; }
+          find dist -type f -size 0 -delete
           TAG="preview-v1.0.$APK_CODE-redesign"
           gh release delete "$TAG" -y --cleanup-tag 2>/dev/null || true
           gh release create "$TAG" dist/* --target "$GITHUB_SHA" --prerelease --title "Jarvis Food v1.0.$APK_CODE — anteprima redesign novembre" --notes 'Anteprima in verifica: redesign grafico del 4 novembre 2026.'
