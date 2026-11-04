@@ -3,6 +3,9 @@ on:
   push:
     branches: [delivery/premium-227]
     paths: [scripts/package-premium-delivery.py, .github/workflows/package-premium-delivery.yml, reports/premium-227-visual-verdict.json]
+concurrency:
+  group: package-premium-227
+  cancel-in-progress: true
 permissions:
   contents: write
   actions: read
@@ -26,6 +29,20 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload preview-v1.0.227-redesign delivery/* --clobber
+      - name: Retain comparison PDF and native inspection images
+        run: |
+          mkdir -p reports/images
+          cp delivery/JarvisFood-v1.0.227-Prima-Dopo.pdf reports/
+          cp delivery/confronto-*.png reports/images/
+          cp delivery-work/final/shots/files/shots/whole-large-text/settings-watch-bottom.png reports/images/watch-text130.png
+          cp delivery-work/final/shots/files/shots/whole-large-text/settings-backup-bottom.png reports/images/backup-text130.png
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --force reports/JarvisFood-v1.0.227-Prima-Dopo.pdf reports/images
+          if ! git diff --cached --quiet; then
+            git commit -m 'Retain actual Android comparison artifacts [skip ci]'
+            git push
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: Premium-delivery-227
