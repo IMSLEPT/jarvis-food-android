@@ -47,3 +47,8 @@ Source-target comparison uses the approved reference assets and the final revise
 - Build and unit tests passed in first Android build. Final build and rendering verdict pending.
 
 No final 9/10 score is asserted before visual comparison. Desktop/tablet are outside this Android phone task; physical Pixel 9 Pro XL has not been connected.
+
+
+## Second rendered comparison - blocked
+
+Run 41915212910 passed all 164 unit tests and 44 current-version Android tests (plus 2 baseline captures). Visual comparison confirms the earlier calendar, macro, kitchen spacing and tab distribution corrections. However, the new bottom-of-form captures exposed a P1 issue: Backup's last button occupies the Android gesture-navigation area. This also affects secondary pages that lack their own bottom inset. Fix: ScreenHost owns and consumes navigationBarsPadding once; child inset-aware footers do not double-pad. Extend the whole-app test to assert visible clickable bounds stay above the actual system navigation inset in every captured secondary destination. A new signed build is required; v225 is an intermediate preview, not the final handoff.

@@ -6,6 +6,8 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -41,7 +43,12 @@ class PremiumWholeAppTest {
             Store.setSteps(day, 3285)
             Nav.clear(); Nav.tab = 0; Nav.diaryDate = day; Nav.planDate = day
         }
-        ActivityScenario.launch(MainActivity::class.java).use {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            var safeBottom = 0
+            scenario.onActivity { activity ->
+                val decor = activity.window.decorView
+                safeBottom = decor.height - (ViewCompat.getRootWindowInsets(decor)?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0)
+            }
             for (tab in listOf(0, 1, 2, 3, 5)) {
                 compose.onNodeWithTag("nav-$tab").performClick().assertIsSelected().assertHeightIsAtLeast(48.dp)
                 compose.onNodeWithTag("header-profile").assertHeightIsAtLeast(48.dp)
@@ -71,6 +78,13 @@ class PremiumWholeAppTest {
                 if (scrolls.fetchSemanticsNodes().isNotEmpty()) {
                     scrolls[0].performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, 100_000f) }
                     shot("settings-$key-bottom")
+                }
+                if (!capture.contains("before")) {
+                    compose.onAllNodes(hasClickAction(), useUnmergedTree = true).fetchSemanticsNodes().forEach { node ->
+                        val bounds = node.boundsInRoot
+                        if (bounds.width > 0f && bounds.height > 0f)
+                            assertTrue("$key: interactive content overlaps Android navigation area: $bounds / $safeBottom", bounds.bottom <= safeBottom + 1f)
+                    }
                 }
                 ui { Nav.back() }; compose.waitForIdle()
                 assertEquals(Screen.Profile, Nav.stack.last())

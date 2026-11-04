@@ -165,7 +165,9 @@ fun App() {
 
 @Composable
 private fun ScreenHost(s: Screen) {
-    Box(Modifier.fillMaxSize().background(C.Bg)) {
+    // Own and consume the system navigation inset once for every secondary destination.
+    // Children that already pad for navigation bars see the consumed inset, avoiding double gaps.
+    Box(Modifier.fillMaxSize().background(C.Bg).navigationBarsPadding()) {
         when (s) {
             is Screen.AddFood -> AddFoodScreen(s.date, s.meal, s.query, s.offlineOnly, s.scanOnOpen)
             is Screen.Trend -> TrendDetailScreen(s.kind, s.days)
