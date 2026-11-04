@@ -28,18 +28,21 @@ jobs:
       - name: Publish compared screenshots and verification files
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload preview-v1.0.227-redesign delivery/* --clobber
+        run: |
+          gh release upload preview-v1.0.227-redesign delivery/* --clobber
+          gh release edit preview-v1.0.227-redesign --title 'Jarvis Food v1.0.227 — interfaccia aggiornata e verificata' --notes-file delivery/JarvisFood-v1.0.227-Verifiche.md
       - name: Retain comparison PDF and native inspection images
         run: |
           mkdir -p reports/images
           cp delivery/JarvisFood-v1.0.227-Prima-Dopo.pdf reports/
+          cp delivery/JarvisFood-v1.0.227-Verifiche.md reports/
           cp delivery/confronto-*.png reports/images/
           cp delivery/pdf-preview-*.png reports/images/
           cp delivery-work/final/shots/files/shots/whole-large-text/settings-watch-bottom.png reports/images/watch-text130.png
           cp delivery-work/final/shots/files/shots/whole-large-text/settings-backup-bottom.png reports/images/backup-text130.png
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add --force reports/JarvisFood-v1.0.227-Prima-Dopo.pdf reports/images reports/visual-encoded
+          git add --force reports/JarvisFood-v1.0.227-Prima-Dopo.pdf reports/JarvisFood-v1.0.227-Verifiche.md reports/images reports/visual-encoded
           if ! git diff --cached --quiet; then
             git commit -m 'Retain actual Android comparison artifacts [skip ci]'
             git push

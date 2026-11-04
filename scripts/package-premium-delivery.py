@@ -83,7 +83,11 @@ score='Verifica visiva finale in attesa; i soli test automatici non certificano 
 if verdict['result']=='passed':
  keys=['coerenza','proporzioni','leggibilita','gerarchia','fedelta']
  score='Valutazione visiva interna: '+str(sum(verdict[k] for k in keys)/5)+'/10. '+', '.join(k+': '+str(verdict[k])+'/10' for k in keys)+'. Giudizio sui percorsi e sulle configurazioni documentate, non un test con utenti reali.'
+if verdict['result']=='passed':
+ score += ' Nessun problema bloccante o sovrapposizione rilevato nei percorsi verificati.'
 report=f'''# Jarvis Food 1.0.227 - correzioni e verifiche
+
+Data: 4 novembre 2026.
 
 Applicazione originale aggiornata. Package com.jarvis.food; stessa firma originale.
 Installare sopra la versione attuale senza disinstallarla.
@@ -175,3 +179,10 @@ for p in images:
   part=name+f'-{index:03}.txt';(visual/part).write_text(encoded[start:start+60000]);parts.append(part)
  items.append(dict(name=name,parts=parts,bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest()))
 (visual/'manifest.json').write_text(json.dumps(dict(source_sha=SHA,run_id=RUN,images=items),indent=2))
+
+if verdict['result']=='passed':
+ expected=verdict['reviewed_image_sha256']
+ assert len(expected)==len(items)==10
+ for item in items:
+  assert expected[item['name']]==item['sha256'], 'Reviewed image changed: '+item['name']
+ print('Visual seal: all ten reviewed comparison/native/rendered images are byte-identical.')

@@ -1,6 +1,6 @@
 # Jarvis Food - design QA
 
-Final result: blocked - final Android captures and visual comparison pending.
+Final result: passed for the documented Android phone configurations and paths.
 
 ## Source and scope
 
@@ -60,3 +60,25 @@ Run 41919566657 passed 164 unit tests and all 44 current-version Android tests, 
 
 
 The first isolated Watch run (41923560793) passed compilation, 164 unit tests, signing/assets and upgrade checks, but its new label-overflow assertion failed before completing Profile captures. The label now fills its measured column and uses an explicit matching 12/16 sp style and zero tracking in both measurement and rendering. The test checks actual line bounds with a one-physical-pixel rounding tolerance, plus whole-word boundaries, and captures the diagram before asserting. A new build remains required; no failed APK is handed off.
+
+
+## Final rendered review - passed
+
+APK v1.0.227 source: `6aa999e8d7d4bfda4e03d56f982963b18bd6c710`.
+Successful Android run: https://github.com/IMSLEPT/jarvis-food-android/actions/runs/41928404591.
+
+- 164 unit tests passed; 6 current Android test executions at three configurations plus 2 baseline executions, all 8 passed.
+- Previous full interaction suite: 44 executions passed on v226, before the isolated Watch typography change; unchanged components retain that evidence.
+- 139 final Android captures. Reviewed six actual v224/v227 main/Profile comparison boards, native Watch and Backup at 130%, and rasterized first/last pages of the 18-page PDF.
+- Watch labels now preserve whole words, with matching measurement/rendering style and explicit column width. Connect is visually complete at 130%.
+- Backup's final action is visibly clear of Android system gestures; automated visible-control bounds pass in all 13 Profile destinations.
+- Calendar continuity, long-name layout, photo/action proportions, main headers, navigation, grouped Profile rows and unchanged settings were reviewed across this and the preceding rendering passes.
+- Source/target references were compared together; sizes follow actual phone use, as requested.
+- Original certificate and signed update fixture retention passed; 671 APK application assets unchanged.
+- The failed retry 41925333993 never reached UI tests: the emulator could not allocate its default 7.2 GB partition. A 4 GB test disk and prompt boot timeout resolved that infrastructure failure. App code was unchanged by this CI fix.
+- The local workspace disconnected during delivery. Files were reconstructed from the successful remote evidence, with asset hashes verified. Exact visual payload hashes are retained in reports/premium-227-visual-verdict.json.
+
+Internal assessment: consistency 9/10, proportions 9/10, readability 9/10, hierarchy 9/10, reference fidelity 9/10. This is an internal judgment limited to the documented paths, not user research or certification.
+No active P0/P1/P2 finding remains in those verified paths. Intentional viewport scrolling, horizontally scrollable tabs on narrow screens and abbreviated search hints are retained.
+
+Limits: emulator Android 15 at 448 dp / fonts 100%,115% and 360 dp / font130%; no physical phone, other Android versions, live AI, Health Connect synchronization or camera/scanner integration test.
