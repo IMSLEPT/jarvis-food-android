@@ -129,7 +129,7 @@ class RedesignNovemberTest {
             compose.onNodeWithTag("banner-tab-Cucina-1").performClick(); shot("23-cucina-dispensa")
             compose.onNodeWithTag("nav-3").performClick(); shot("24-progressi")
             compose.onNodeWithTag("banner-tab-Progressi-1").performClick().assertIsSelected(); shot("24b-progressi-grafici")
-            ui { Nav.clear(); Nav.tab = 4 }; shot("25-jarvis")
+            compose.onNodeWithTag("nav-5").performClick(); shot("25-jarvis")
             compose.onNodeWithTag("header-profile").performClick()
             assertEquals(Screen.Profile, Nav.stack.last())
         }
