@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.*
@@ -36,36 +38,57 @@ private fun rememberReview(s: AppState, days: Int): NutritionReview? {
     return review
 }
 
-/** Always visible tracking panel; warnings remain conditional on the separate review. */
+/** Apporto di oggi di un micronutriente: somma dei valori noti e numero di alimenti senza dato. */
+internal data class DailyMicro(val key: String, val name: String, val unit: String, val amount: Double, val reference: Double?, val unknown: Int, val entries: Int) {
+    val fraction: Float get() = if (reference != null && reference > 0) (amount / reference).toFloat().coerceIn(0f, 1f) else 0f
+}
+
+internal fun dailyMicros(s: AppState, date: LocalDate): List<DailyMicro> {
+    val rows = Store.entriesFor(s, date)
+    return listOf(Triple("vitC", "Vitamina C", "mg"), Triple("vitD", "Vitamina D", "µg"), Triple("vitB12", "Vitamina B12", "µg")).map { (key, name, unit) ->
+        val known = rows.mapNotNull { e -> NutritionScience.per100(e.food, key)?.times(e.grams / 100) }
+        DailyMicro(key, name, unit, known.sum(), NutritionEvidence.reference(key, s.profile), rows.size - known.size, rows.size)
+    }
+}
+
+private fun microFmt(v: Double): String = if (v >= 10) v.r0() else NutritionScience.fmt(v)
+
+/** Video 4 novembre: barra giornaliera con stima del fabbisogno; lo storico 7/30 giorni resta in "Andamento". */
 @Composable
 fun VitaminOverview(s: AppState) {
     val review = rememberReview(s, 7)
+    val date = Nav.diaryDate
+    val today = remember(s.diary, s.profile, date) { dailyMicros(s, date) }
     GapH(18.dp)
     ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D),
         onClick = { Nav.go(Screen.Trend("vitamins")) }) {
         ReferenceInsightBody(TodayArt.Vitamins) {
             ReferenceInsightHeading("Vitamine e minerali", "Andamento") { Nav.go(Screen.Trend("vitamins")) }
-            Text("Ultimi 7 giorni", style = T.Small)
-            for (key in listOf("vitC", "vitD", "vitB12")) {
-                val nutrient = review?.nutrient(key)
-                val label = nutrient?.name ?: when (key) { "vitC" -> "Vitamina C"; "vitD" -> "Vitamina D"; else -> "Vitamina B12" }
-                GapH(10.dp)
-                val wide = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 400 && androidx.compose.ui.platform.LocalDensity.current.fontScale <= 1.2f
-                Column(Modifier.fillMaxWidth().testTag("home-nutrient-$key").clickable { Nav.go(Screen.Trend("vitamins")) }) {
+            Text("${dayLabel(date)} · fabbisogno giornaliero", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
+            val wide = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 380 && androidx.compose.ui.platform.LocalDensity.current.fontScale <= 1.2f
+            for (m in today) {
+                GapH(8.dp)
+                val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
+                Column(Modifier.fillMaxWidth().testTag("home-nutrient-${m.key}").semantics {
+                    progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
+                }.clickable { Nav.go(Screen.Trend("vitamins")) }) {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(label, style = T.Label.copy(fontSize = 13.sp), modifier = if (wide) Modifier.width(90.dp) else Modifier.weight(1f))
-                        if (wide) {
-                            ProgressLine(((nutrient?.percent ?: 0.0) / 100).toFloat().coerceIn(0f, 1f), C.Navy, Modifier.weight(1f))
-                            GapW(8.dp)
-                        }
-                        Text(nutrient?.percent?.let { "${it.r0()}%" } ?: "—", style = T.Label.copy(fontSize = 13.sp))
-                        GapW(4.dp); AIcon(Ic.Right, C.Navy, 14.dp)
+                        Text(m.name, style = T.Title2.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Ink), modifier = if (wide) Modifier.width(104.dp) else Modifier.weight(1f))
+                        if (wide) { ProgressLine(m.fraction, RD.Navy, Modifier.weight(1f), height = 10.dp); GapW(10.dp) }
+                        Text(percent, modifier = Modifier.testTag("home-nutrient-value-${m.key}"), style = T.Title2.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Ink))
+                        GapW(6.dp); AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
                     }
-                    if (!wide) ProgressLine(((nutrient?.percent ?: 0.0) / 100).toFloat().coerceIn(0f, 1f), C.Navy, Modifier.fillMaxWidth().padding(top = 5.dp))
+                    if (!wide) ProgressLine(m.fraction, RD.Navy, Modifier.fillMaxWidth().padding(top = 5.dp), height = 10.dp)
                 }
             }
             GapH(8.dp)
-            Text(if (review == null) "Analisi del diario…" else "${review.usableDays.size} giorni utilizzabili · — dati incompleti", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+            val avg = listOf("vitC", "vitD", "vitB12").mapNotNull { k -> review?.nutrient(k)?.percent?.let { "${today.first { it.key == k }.name.removePrefix("Vitamina ")} ${it.toInt()}%" } }
+            Text(when {
+                review == null -> "Analisi del diario…"
+                avg.isNotEmpty() -> "Media 7 giorni: ${avg.joinToString(" · ")} · stima EFSA adulti"
+                else -> "Stima EFSA per adulti · storico 7 e 30 giorni in Andamento"
+            } + (today.sumOf { it.unknown }.takeIf { it > 0 }?.let { " · alcuni alimenti senza dato" } ?: ""),
+                style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
         }
     }
     GapH(10.dp)

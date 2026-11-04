@@ -153,7 +153,8 @@ fun ProgressScreen() {
     fun matches(vararg terms: String) = query.isBlank() || terms.any { it.contains(query.trim(), ignoreCase = true) }
     MainPage("Progressi", resetKey = section, header = {
         NavyBanner("Progressi", listOf("Dati", "Grafici", "Obiettivi", "Analisi"), section, { section = it },
-            query, { query = it }, "Cerca dati, misure o obiettivi")
+            query, { query = it }, "Cerca dati, misure o obiettivi", icons = listOf(RIc.Bars, RIc.LineChart, RIc.TargetRing, RIc.Pie),
+            logo = { ProgressBarsLogo(44.dp) })
     }) {
 
         // Intervallo

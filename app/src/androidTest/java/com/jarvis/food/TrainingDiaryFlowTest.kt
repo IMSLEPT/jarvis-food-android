@@ -142,7 +142,9 @@ class TrainingDiaryFlowTest {
             assertEquals(160.0, Store.energyFor(Store.current, today).protein, 0.0)
             ui { Nav.clear() }
             compose.onNodeWithTag("day-type-label").assert(hasAnyAncestor(hasTestTag("today-day-type-bar")))
-            compose.onNodeWithTag("day-type-configure").assert(hasAnyAncestor(hasTestTag("today-day-type-bar"))).performClick()
+            // Redesign 4 novembre: "Configura giorni ON/OFF" è nella finestra del tipo di giornata.
+            compose.onNodeWithTag("today-day-type-bar").performClick()
+            compose.onNodeWithTag("day-type-configure").assert(hasAnyAncestor(hasTestTag("day-type-dialog"))).performClick()
             assertEquals(Screen.TrainingGoals, Nav.stack.last())
             ui { Nav.back() }
             shot("today-restored-day-bar")

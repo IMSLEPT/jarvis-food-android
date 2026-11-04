@@ -183,8 +183,7 @@ private fun TargetFields(title: String, key: String, values: List<String>, onEdi
     }
 }
 
-/** Date-specific status: one compact bar in Oggi, a third summary cell in Piano. */
-@OptIn(ExperimentalLayoutApi::class)
+/** Date-specific status: the reference card in Oggi, a summary cell in Piano. Both open the same dialog. */
 @Composable
 fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
     if (!s.trainingNutrition.active) return
@@ -192,69 +191,74 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
     val settings = Store.resolvedTraining(s)
     val label = if (settings.isTraining(date)) "ON · Allenamento" else "OFF · Riposo"
     val caption = if (date.toString() in settings.overrides) "Solo questa data · cambia" else "Da calendario · cambia"
-    val status: @Composable () -> Unit = {
+    if (compact) {
         Column(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("day-type-label")
             .clip(RoundedCornerShape(6.dp)).clickable(role = Role.Button) { dialog = true }
             .padding(vertical = 2.dp), verticalArrangement = Arrangement.Center) {
-            Text(label, style = T.Label.copy(fontSize = if (compact) 12.sp else 14.sp,
-                lineHeight = if (compact) 18.sp else 20.sp, color = if (compact) C.AccentDeep else C.Navy))
-            Text(caption, style = T.Small.copy(fontSize = if (compact) 11.sp else 12.sp,
-                lineHeight = if (compact) 15.sp else 17.sp))
+            Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp, color = C.AccentDeep))
+            Text(caption, style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
         }
-    }
-    if (compact) status() else {
-        val stacked = LocalDensity.current.fontScale > 1.2f
-        FlowRow(Modifier.fillMaxWidth().testTag("today-day-type-bar").clip(RoundedCornerShape(14.dp))
-            .background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(14.dp)).padding(horizontal = 10.dp, vertical = 3.dp),
-            maxItemsInEachRow = if (stacked) 1 else 2, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Box(if (stacked) Modifier.fillMaxWidth() else Modifier.weight(1f)) { status() }
-            TextButton(onClick = { Nav.go(Screen.TrainingGoals) }, modifier = Modifier.heightIn(min = 48.dp).testTag("day-type-configure")) {
-                Text("Configura", style = T.Label.copy(fontSize = 14.sp, lineHeight = 20.sp, color = C.AccentDeep))
+    } else {
+        // Immagine 5: scheda bianca con tessera pesca, manubrio arancio, separatore e freccia nel cerchio.
+        val shape = RoundedCornerShape(28.dp)
+        val large = LocalDensity.current.fontScale > 1.2f
+        Row(Modifier.fillMaxWidth().testTag("today-day-type-bar").refShadow(shape, 5.dp).clip(shape).background(androidx.compose.ui.graphics.Color.White)
+            .border(1.dp, androidx.compose.ui.graphics.Color(0xFFE3E5EC), shape)
+            .clickable(role = Role.Button) { dialog = true }.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically) {
+            PeachTile(if (large) 52.dp else 60.dp, radius = 18.dp) {
+                DuoIcon(RIc.DumbbellBold, size = if (large) 32.dp else 38.dp, stroke = 3.2f, ink = RD.OrangeDeep)
             }
+            GapW(14.dp); OrangeDivider(52.dp); GapW(14.dp)
+            Column(Modifier.weight(1f).testTag("day-type-label")) {
+                Text(label, style = T.Title.copy(fontSize = 21.sp, lineHeight = 26.sp, color = RD.Ink))
+                Text(caption, style = T.Body.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Grey))
+            }
+            GapW(8.dp)
+            ChevronCircle(40.dp)
         }
     }
     if (dialog) DayTypeDialog(date, settings.overrides[date.toString()], onSelect = {
         Store.setDayType(date, it); dialog = false
-    }, onClose = { dialog = false })
+    }, onClose = { dialog = false }, onConfigure = { dialog = false; Nav.go(Screen.TrainingGoals) })
 }
 
-/** Match the reference: compact outlined controls, with full 48 dp touch targets. */
+/** Immagine 3: intestazione con calendario pesca, tre scelte con icona e "Chiudi" navy. */
 @Composable
-private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolean?) -> Unit, onClose: () -> Unit) {
+private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolean?) -> Unit, onClose: () -> Unit, onConfigure: () -> Unit) {
     androidx.compose.ui.window.Dialog(onDismissRequest = onClose) {
-        Surface(shape = RoundedCornerShape(28.dp), color = C.Surface) {
-            Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .8f).dp)
-                .verticalScroll(rememberScrollState()).padding(18.dp).testTag("day-type-dialog")) {
-                Text("${dayLabel(date)} · tipo di giornata", style = T.Title2.copy(fontSize = 18.sp, lineHeight = 24.sp))
-                Spacer(Modifier.height(12.dp))
-                Text("La modifica vale soltanto per questa data.", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
-                Spacer(Modifier.height(8.dp))
-                listOf("ON · Allenamento" to true, "OFF · Riposo" to false, "Segui calendario settimanale" to null).forEach { (text, value) ->
-                    DayTypeDialogAction(text, Modifier.fillMaxWidth(), "day-type-choice-${value ?: "calendar"}", override == value) { onSelect(value) }
+        Surface(shape = RoundedCornerShape(30.dp), color = C.Surface, shadowElevation = 8.dp) {
+            Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .85f).dp)
+                .verticalScroll(rememberScrollState()).padding(20.dp).testTag("day-type-dialog")) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    PeachTile(56.dp, radius = 18.dp) { DuoIcon(RIc.Calendar + RIc.CalendarBand, size = 32.dp, stroke = 2.4f, ink = RD.Orange) }
+                    GapW(14.dp); OrangeDivider(46.dp); GapW(14.dp)
+                    Text("${dayLabel(date)} · tipo di giornata", style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp, color = RD.Ink), modifier = Modifier.weight(1f))
                 }
-                Spacer(Modifier.height(6.dp))
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    DayTypeDialogAction("Chiudi", Modifier.width((76 * LocalDensity.current.fontScale.coerceAtLeast(1f)).dp), "day-type-close", small = true, onClick = onClose)
+                Spacer(Modifier.height(14.dp))
+                Text("La modifica vale soltanto per questa data.", style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, color = RD.Grey))
+                Spacer(Modifier.height(16.dp))
+                val choices = listOf("ON · Allenamento" to true, "OFF · Riposo" to false, "Segui calendario settimanale" to null)
+                choices.forEachIndexed { i, (text, value) ->
+                    if (i > 0) Spacer(Modifier.height(12.dp))
+                    RefOption(text, Modifier.fillMaxWidth(), tag = "day-type-choice-${value ?: "calendar"}", isSelected = override == value,
+                        minHeight = 62.dp, icon = {
+                            when (value) {
+                                true -> DuoIcon(RIc.Dumbbell, RIc.DumbbellBar, 32.dp, stroke = 2.2f)
+                                false -> Box(Modifier.size(32.dp)) { AIcon(RIc.BedFill, RD.Orange, 32.dp, fill = true); AIcon(RIc.Bed, RD.Ink, 32.dp, 2.2f); AIcon(RIc.BedPillow, RD.Ink, 32.dp, 1.8f) }
+                                null -> DuoIcon("", RIc.Calendar + RIc.CalendarBand + RIc.CalendarDot, 32.dp, stroke = 2.2f)
+                            }
+                        }) { onSelect(value) }
+                }
+                Spacer(Modifier.height(18.dp))
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f).heightIn(min = 48.dp).testTag("day-type-configure").clip(RoundedCornerShape(12.dp))
+                        .clickable(role = Role.Button, onClick = onConfigure).padding(horizontal = 4.dp, vertical = 12.dp), contentAlignment = Alignment.CenterStart) {
+                        Text("Configura giorni ON/OFF", style = T.Link.copy(fontSize = 14.sp, color = RD.OrangeText))
+                    }
+                    RefPrimaryButton("Chiudi", Modifier.widthIn(min = 120.dp).testTag("day-type-close"), height = 56.dp, onClick = onClose)
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun DayTypeDialogAction(label: String, modifier: Modifier, tag: String, isSelected: Boolean = false,
-    small: Boolean = false, onClick: () -> Unit) {
-    val orange = androidx.compose.ui.graphics.Color(0xFFD46622)
-    val shape = RoundedCornerShape(5.dp)
-    Box(modifier.heightIn(min = 48.dp).testTag(tag).semantics { selected = isSelected }
-        .clickable(role = Role.Button, onClick = onClick).padding(vertical = 4.dp), contentAlignment = Alignment.Center) {
-        Row(Modifier.fillMaxWidth().heightIn(min = if (small) 34.dp else 40.dp).clip(shape)
-            .background(if (isSelected) androidx.compose.ui.graphics.Color(0xFFFFE5D2) else C.Surface)
-            .border(1.dp, if (isSelected) orange else C.Navy, shape).padding(horizontal = 10.dp, vertical = 7.dp),
-            verticalAlignment = Alignment.CenterVertically) {
-            Text(label, Modifier.weight(1f), style = T.Label.copy(fontSize = 14.sp, lineHeight = 20.sp),
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-            if (isSelected) { Spacer(Modifier.width(6.dp)); AIcon(Ic.Check, orange, 18.dp) }
         }
     }
 }

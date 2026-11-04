@@ -297,40 +297,68 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
     val planned = remember(s.plan, s.dietPrefs, s.trainingNutrition, s.weights, s.profile, s.goals, s.energy, date) { Store.plannedMeals(s, date).firstOrNull { it.diaryMeal == meal } }
     val shape = RoundedCornerShape(24.dp)
     val chevron by animateFloatAsState(if (open) 180f else 0f, tween(250), label = "chev")
-    Column(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x591D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).animateContentSize(tween(260))) {
-        if (LocalDensity.current.fontScale > 1.5f) Column(Modifier.fillMaxWidth().clickable { open = !open }.padding(14.dp)) {
+    val kcal = if (entries.isNotEmpty()) t.kcal else planned?.solved?.total?.kcal
+    val subtitle = when {
+        planned != null -> "Consigliato: ${kcalFmt(planned.solved.total.kcal)} kcal"
+        entries.isNotEmpty() -> "P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()} g"
+        else -> "Nessun alimento"
+    }
+    val large = LocalDensity.current.fontScale > 1.2f
+    val photoId = planned?.solved?.template
+    // Immagine 8: bordo navy, foto del piatto, titolo, kcal nella pillola pesca, freccia e "+" navy.
+    Column(Modifier.fillMaxWidth().testTag("diary-meal-$meal").refShadow(shape, 5.dp).clip(shape).background(Color.White)
+        .border(2.dp, RD.Ink, shape).animateContentSize(tween(260))) {
+        val photo: @Composable () -> Unit = {
+            Box(Modifier.size(if (large) 52.dp else 60.dp).clip(RoundedCornerShape(16.dp)).background(RD.PeachBrush), contentAlignment = Alignment.Center) {
+                if (photoId != null) RecipeImage(photoId.id, photoId.image, s.recipePhotos[photoId.id], Modifier.fillMaxSize(), recEmoji(photoId.meal), 16.dp,
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop)
+                else MealDuoIcon(meal, 32.dp)
+            }
+        }
+        val pill: @Composable () -> Unit = {
+            if (kcal != null) Row(Modifier.testTag("diary-kcal-$meal").clip(RoundedCornerShape(20.dp)).background(Color(0xFFFDE8D2))
+                .padding(horizontal = 10.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(RIc.Flame, RD.Orange, 16.dp, fill = true); GapW(5.dp)
+                Text("${kcalFmt(kcal)} kcal", style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp, color = Color(0xFF9A4A12)), maxLines = 1, softWrap = false)
+            }
+        }
+        val controls: @Composable () -> Unit = {
+            Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon(RIc.Chevron, RD.Ink, 22.dp, 2.8f) }
+            GapW(6.dp)
+            Box(Modifier.size(48.dp).clip(RoundedCornerShape(15.dp)).background(RD.ButtonBrush)
+                .semantics { contentDescription = "Aggiungi a ${MEAL_LABEL.getValue(meal)}" }
+                .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.AddFood(date, meal)) }, contentAlignment = Alignment.Center) {
+                AIcon(RIc.Plus, Color.White, 24.dp, 3f)
+            }
+        }
+        if (large) Column(Modifier.fillMaxWidth().clickable { open = !open }.padding(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                MealArt(meal)
-                GapW(12.dp)
-                Text(MEAL_LABEL.getValue(meal), modifier = Modifier.weight(1f).testTag("diary-title-$meal"), style = T.Title2.copy(fontSize = 17.sp))
+                photo(); GapW(12.dp)
+                Text(MEAL_LABEL.getValue(meal), modifier = Modifier.weight(1f).testTag("diary-title-$meal"), style = T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink))
             }
             GapH(8.dp)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(if (entries.isNotEmpty()) "${t.kcal.r0()} kcal · ${entries.size} alimenti"
-                    else if (planned != null) "Consigliato: ${planned.solved.total.kcal.r0()} kcal" else "Nessun alimento", style = T.Small, modifier = Modifier.weight(1f).padding(end = 8.dp))
-                Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon("M6 9l6 6 6-6", A.Muted, 20.dp, 2.4f) }
-                GapW(6.dp)
-                PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
+            Text(subtitle, style = T.Body.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.Grey))
+            GapH(8.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) { Box(Modifier.weight(1f)) { pill() }; controls() }
+        } else BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val roomy = maxWidth >= 372.dp
+            Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                photo()
+                GapW(12.dp)
+                Column(Modifier.weight(1f)) {
+                    Text(MEAL_LABEL.getValue(meal), modifier = Modifier.testTag("diary-title-$meal"), style = T.Title.copy(fontSize = 19.sp, lineHeight = 23.sp, color = RD.Ink), maxLines = 2)
+                    Text(subtitle, style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = RD.Grey), maxLines = 2)
+                    if (!roomy && kcal != null) { GapH(6.dp); pill() }
+                }
+                if (roomy) {
+                    GapW(8.dp)
+                    Box(Modifier.width(1.dp).height(44.dp).background(RD.GreyLine))
+                    GapW(8.dp)
+                    pill()
+                }
+                GapW(4.dp)
+                controls()
             }
-        } else {
-        Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 14.dp, end = 12.dp, top = 12.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            MealArt(meal)
-            Spacer(Modifier.width(12.dp))
-            Column(Modifier.weight(1f)) {
-                Text(MEAL_LABEL.getValue(meal), modifier = Modifier.testTag("diary-title-$meal"), style = T.Title2.copy(fontSize = 17.sp))
-                Text(
-                    if (entries.isNotEmpty()) "${t.kcal.r0()} kcal · P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()}"
-                    else if (planned != null) "Consigliato: ${planned.solved.total.kcal.r0()} kcal" else "Nessun alimento",
-                    style = T.Small
-                )
-            }
-            if (entries.isNotEmpty()) Box(Modifier.padding(end = 8.dp).clip(RoundedCornerShape(12.dp)).background(C.Surface).padding(horizontal = 8.dp, vertical = 4.dp)) {
-                Text("${entries.size}", style = T.Chip.copy(fontSize = 12.sp, color = A.Muted))
-            }
-            Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon("M6 9l6 6 6-6", A.Muted, 20.dp, 2.4f) }
-            Spacer(Modifier.width(6.dp))
-            PlusButton("Aggiungi a ${MEAL_LABEL.getValue(meal)}") { Nav.go(Screen.AddFood(date, meal)) }
-        }
         }
         if (open) Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
             if (entries.isEmpty()) {
@@ -493,17 +521,18 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
         Column {
             ReferenceInsightBody(TodayArt.Activity) {
                     ReferenceInsightHeading("Attività", "Smartwatch") { Nav.go(Screen.Watch) }
-                    Text("Passi giornalieri", style = T.Small)
-                    androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (LocalDensity.current.fontScale > 1.2f) 1 else 2, horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Column {
-                            Text(steps.thousands(), style = T.Num.copy(fontSize = 30.sp, lineHeight = 36.sp))
-                            Text("su ${goal.thousands()}", style = T.Small)
+                    Text("Passi giornalieri", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Row(Modifier.weight(1f), verticalAlignment = Alignment.Bottom) {
+                            Text(steps.thousands(), style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, color = RD.Ink))
+                            GapW(6.dp)
+                            Text("su ${goal.thousands()}", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey), modifier = Modifier.padding(bottom = 5.dp))
                         }
-                        Text("${(steps.toDouble() / goal * 100).toInt()}%", style = T.Num.copy(fontSize = 20.sp), modifier = Modifier
-                            .clip(RoundedCornerShape(16.dp)).background(Color(0xFFF0F3F9)).padding(horizontal = 10.dp, vertical = 7.dp))
+                        Text("${(steps.toDouble() / goal * 100).toInt()}%", style = T.Title.copy(fontSize = 22.sp, lineHeight = 26.sp, color = RD.Ink), modifier = Modifier
+                            .clip(RoundedCornerShape(22.dp)).background(Color(0xFFEEF2F8)).padding(horizontal = 14.dp, vertical = 10.dp))
                     }
                     Spacer(Modifier.height(8.dp))
-                    ABar(p, Brush.horizontalGradient(listOf(C.NavyDeep, C.Navy)), Color(0xFFE9ECF3), 9.dp,
+                    ABar(p, Brush.horizontalGradient(listOf(RD.Navy, RD.Navy)), Color(0xFFE6EAF1), 10.dp,
                         Modifier.fillMaxWidth().testTag("activity-progress").semantics {
                             progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
                         })

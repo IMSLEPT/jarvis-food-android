@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -47,6 +48,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -312,12 +315,12 @@ private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id)
 private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>) {
     var selected by rememberSaveable { mutableStateOf("pasto") }
     var showAll by rememberSaveable { mutableStateOf(false) }
-    val labels = mapOf("pasto" to "🍽️ Pasto", "tempo" to "⏱️ Tempo", "kcal" to "🔥 Calorie", "obiettivo" to "🎯 Obiettivo", "dieta" to "🌿 Dieta", "metodo" to "🍳 Metodo", "cucina" to "🌍 Cucina")
+    val chipLabels = mapOf("pasto" to "Pasto", "tempo" to "Tempo", "kcal" to "Calorie", "obiettivo" to "Obiettivo", "dieta" to "Dieta", "metodo" to "Metodo", "cucina" to "Cucina")
     ASection("Esplora le ricette", action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
     GapH(12.dp)
-    if (!showAll) Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        groups.forEach { g -> APill(labels[g.id] ?: g.title, selected == g.id, height = 42.dp, hPad = 14.dp) { selected = g.id } }
+    if (!showAll) Row(Modifier.horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        groups.forEach { g -> CategoryChip(g.id, chipLabels[g.id] ?: g.title, selected == g.id) { selected = g.id } }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
         if (showAll) {
@@ -352,6 +355,43 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     }
 }
 
+/** Immagine 13: icona bicolore, separatore grigio e testo; la voce attiva è navy con barra arancio. */
+@Composable
+private fun CategoryChip(id: String, label: String, active: Boolean, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(20.dp)
+    Box(Modifier.heightIn(min = 58.dp).testTag("recipe-group-$id").refShadow(shape, if (active) 4.dp else 2.dp).clip(shape)
+        .background(if (active) RD.Navy else Color.White).border(1.5.dp, RD.Ink, shape)
+        .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
+        Row(Modifier.padding(start = 14.dp, end = 18.dp, top = 9.dp, bottom = 11.dp), verticalAlignment = Alignment.CenterVertically) {
+            CategoryIcon(id, active)
+            GapW(12.dp)
+            Box(Modifier.width(1.5.dp).height(30.dp).background(if (active) Color(0x88FFFFFF) else Color(0xFF8A90A2)))
+            GapW(12.dp)
+            Text(label, style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = if (active) Color.White else RD.Ink))
+        }
+        if (active) Box(Modifier.align(Alignment.BottomCenter).padding(horizontal = 18.dp).fillMaxWidth(0.82f).height(7.dp)
+            .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp)).background(RD.Orange))
+    }
+}
+
+@Composable
+private fun CategoryIcon(id: String, active: Boolean) {
+    val ink = if (active) Color.White else RD.Ink
+    val size = 30.dp
+    Box(Modifier.size(size)) {
+        when (id) {
+            "pasto" -> { AIcon(RIc.Plate, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 3.6), if (active) Color(0xFFE6E8EC) else Color(0xFFE6E8EC), size, fill = true)
+                AIcon(RIc.ForkKnife, ink, size, 1.8f); AIcon(RIc.PlateHandles, RD.Orange, size, 2.4f) }
+            "tempo" -> { AIcon(RIc.Stopwatch, ink, size, 2f); AIcon(RIc.StopwatchHand, ink, size, 2.2f); AIcon(RIc.StopwatchTicks, ink, size, 1.3f); AIcon("M10 3h4", RD.Orange, size, 2.6f) }
+            "kcal" -> { AIcon(RIc.FlameInner, RD.Orange, size, fill = true); AIcon(RIc.Flame, ink, size, 2f) }
+            "obiettivo" -> { AIcon(RIc.Target, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 4.8), RD.Orange, size, 2f); AIcon(RIc.TargetCenter, RD.Orange, size, fill = true); AIcon(RIc.TargetArrow, RD.Orange, size, 2f) }
+            "dieta" -> { AIcon(RIc.Leaf, ink, size, 2f); AIcon("M5 19l8.5-8.5", RD.Orange, size, 2.2f) }
+            "metodo" -> { AIcon("M3 12h13a0 0 0 0 1 0 0v1a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5zM16 13h5", ink, size, 2f); AIcon("M7 8c-1-1.2 1-2 0-3.5M11 8c-1-1.2 1-2 0-3.5", RD.Orange, size, 2f) }
+            else -> { AIcon(Ic.circ(12.0, 12.0, 8.5) + "M3.5 12h17M12 3.5c-3 3-3 14 0 17M12 3.5c3 3 3 14 0 17", ink, size, 1.8f); AIcon(Ic.circ(12.0, 12.0, 2.0), RD.Orange, size, fill = true) }
+        }
+    }
+}
+
 /** Segnaposto mentre le categorie si calcolano in background (di solito sono già pronte all'apertura). */
 @Composable
 private fun CatPlaceholder() {
@@ -364,36 +404,60 @@ internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTempla
 @Composable
 private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
     val large = LocalDensity.current.fontScale > 1.5f
+    // Immagine 15: tessera pesca con icona arancio, separatore, titolo e conteggio, freccia navy.
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
-        ACard(modifier.heightIn(min = if (large) 88.dp else 64.dp).testTag(tag), radius = 20.dp, padding = 12.dp, onClick = open) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                AIcon(icon, C.Navy, 22.dp); GapW(8.dp)
-                Column(Modifier.weight(1f)) {
-                    Text(label, style = T.Label.copy(fontSize = 14.sp))
-                    Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Small.copy(fontSize = 12.sp))
-                }
-                AIcon(Ic.Right, C.AccentDeep, 16.dp)
+        val shape = RoundedCornerShape(26.dp)
+        Row(modifier.heightIn(min = if (large) 96.dp else 84.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
+            .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically) {
+            PeachTile(54.dp, radius = 16.dp) { AIcon(icon, RD.OrangeDeep, 30.dp, 2.4f) }
+            GapW(10.dp); OrangeDivider(44.dp); GapW(10.dp)
+            Column(Modifier.weight(1f)) {
+                Text(label, style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink), maxLines = 2)
+                Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
             }
+            AIcon(RIc.Right, RD.Ink, 20.dp, 2.8f)
         }
     }
     if (large) Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Shortcut("Preferite", favourites, Ic.Heart, Modifier.fillMaxWidth(), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
-        Shortcut("Le mie ricette", personal, Ic.Receipt, Modifier.fillMaxWidth(), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+        Shortcut("Preferite", favourites, RIc.Heart, Modifier.fillMaxWidth(), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, RIc.Bookmark, Modifier.fillMaxWidth(), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
     } else Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        Shortcut("Preferite", favourites, Ic.Heart, Modifier.weight(1f), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
-        Shortcut("Le mie ricette", personal, Ic.Receipt, Modifier.weight(1f), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+        Shortcut("Preferite", favourites, RIc.Heart, Modifier.weight(1f), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, RIc.Bookmark, Modifier.weight(1f), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+    }
+}
+
+/** Immagine 14: lampadina su tessera pesca, testi, piatto con onda pesca e freccia nel cerchio. */
+@Composable
+private fun InspirationBanner() {
+    val shape = RoundedCornerShape(28.dp)
+    val large = LocalDensity.current.fontScale > 1.2f
+    Row(Modifier.fillMaxWidth().then(if (large) Modifier.heightIn(min = 96.dp) else Modifier.height(108.dp)).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(Color.White)
+        .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.WhatNow) }, verticalAlignment = Alignment.CenterVertically) {
+        GapW(12.dp)
+        PeachTile(58.dp, radius = 17.dp) { Box(Modifier.size(34.dp)) { AIcon(RIc.Bulb, RD.OrangeDeep, 34.dp, 2.2f); AIcon(RIc.BulbRays, RD.OrangeDeep, 34.dp, 2.2f) } }
+        GapW(12.dp); OrangeDivider(48.dp); GapW(12.dp)
+        Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
+            Text("Ispirazione su misura", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink))
+            Text("Un piatto per ciò che ti resta oggi", style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = Color(0xFF4A5470)))
+        }
+        if (!large) Box(Modifier.width(128.dp).fillMaxHeight()) {
+            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.ref_inspiration_bowl), null,
+                Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop, alignment = Alignment.CenterEnd)
+            Box(Modifier.align(Alignment.CenterEnd).padding(end = 10.dp).size(46.dp).refShadow(CircleShape, 3.dp).clip(CircleShape).background(Color(0xFFFFF3EA))
+                .border(3.dp, Color.White, CircleShape), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 24.dp, 3f) }
+        } else Box(Modifier.padding(end = 12.dp).size(44.dp).clip(CircleShape).background(Color(0xFFFFF3EA)), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 22.dp, 3f) }
     }
 }
 
 /** Scheda "Ricette": home con sezioni orizzontali, ricetta del giorno, categorie reali e "Cosa mangio adesso?". */
 @Composable
 fun RecipeSearchBar() {
-    Row(Modifier.fillMaxWidth().fillMaxHeight().clip(RoundedCornerShape(24.dp)).background(Color.White)
-        .testTag("kitchen-search").clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) }
-        .padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        AIcon(Ic.Search, C.Muted, 20.dp); GapW(10.dp)
-        Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 14.sp, color = C.Muted), maxLines = if (LocalDensity.current.fontScale > 1.5f) 2 else 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(end = 8.dp))
-        Text("${Db.db.recipes.size}", style = T.Small)
+    RefSearchShell(Modifier.testTag("kitchen-search").clip(RoundedCornerShape(28.dp)).clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) },
+        count = Db.db.recipes.size.thousands()) {
+        Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 17.sp, lineHeight = 22.sp, color = Color(0xFF59627A)),
+            maxLines = if (LocalDensity.current.fontScale > 1.5f) 2 else 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(end = 8.dp))
     }
 }
 
@@ -424,19 +488,11 @@ fun RecipesHome() {
     GapH(12.dp)
     RecipeLibraryShortcuts(s.recipeFavs.size, s.recipes.size)
     GapH(12.dp)
-    ACard(Modifier.fillMaxWidth(), color = A.Tonal, brush = Brush.horizontalGradient(listOf(C.AccentSoft, C.AccentSoft)), radius = 20.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(Ic.Spark, C.Navy, Color.White, box = 42.dp, radius = 14.dp)
-            GapW(12.dp)
-            Column(Modifier.weight(1f)) {
-                Text("Ispirazione su misura", style = T.Title2)
-                Text("Un piatto per ciò che ti resta oggi", style = T.Small.copy(color = A.TonalInk))
-            }
-            AIcon(Ic.Right, C.Navy, 18.dp)
-        }
-    }
-
     if (catGroups == null) CatPlaceholder() else catGroups?.let { CategoryBrowser(it) }
+
+    // Video 4 novembre: prima "Esplora le ricette", poi "Ispirazione su misura" con la nuova grafica.
+    GapH(14.dp)
+    InspirationBanner()
 
     // Più aperte da te (dati reali: nessuna finta classifica di popolarità)
     val most = remember(s.recipeViews) { s.recipeViews.entries.sortedByDescending { it.value }.mapNotNull { e -> db.recipe(e.key)?.let { it to e.value } }.take(8) }

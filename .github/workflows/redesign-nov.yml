@@ -1,0 +1,102 @@
+name: Redesign novembre APK
+on:
+  push:
+    branches: [feat/redesign-reference-2026-11-04]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Accept installed Android SDK licenses
+        run: yes | "${ANDROID_HOME:-$ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Original APK assets and next version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p dist original
+          gh release download v1.0.220 -p '*.apk' -D original
+          python3 - <<'PY'
+          import zipfile,pathlib
+          with zipfile.ZipFile(next(pathlib.Path('original').glob('*.apk'))) as z:
+              pathlib.Path('app/src/main/assets/food.tflite').write_bytes(z.read('assets/food.tflite'))
+          PY
+          CODE=$(gh api 'repos/IMSLEPT/jarvis-food-android/releases?per_page=100' --jq '[.[].tag_name | select(test("^(preview-)?v1\\.0\\.")) | split(".")[-1] | tonumber?] | max + 1')
+          if [ "$CODE" -lt 222 ]; then CODE=222; fi
+          echo "APK_CODE=$CODE" >> "$GITHUB_ENV"
+          python3 scripts/verify-aurora-boundary.py
+          python3 tools/photography/verify.py
+      - name: Decrypt original signing key
+        env:
+          SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
+        run: openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/jarvisfood.jks.enc -out app/jarvisfood.jks -pass env:SIGNING_PASS
+      - name: Build and unit tests
+        run: |
+          chmod +x gradlew
+          set +e
+          GITHUB_RUN_NUMBER="$APK_CODE" ./gradlew assembleRelease testReleaseUnitTest assembleDebug assembleDebugAndroidTest --console=plain 2>&1 | tee build.log
+          CODE=${PIPESTATUS[0]}
+          if [ $CODE -ne 0 ]; then grep -E "^e: |error:|What went wrong|FAILED" -A3 build.log | head -120; exit $CODE; fi
+          cp app/build/outputs/apk/release/app-release.apk "dist/JarvisFood-v1.0.$APK_CODE.apk"
+          TOOL=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -1)
+          "$TOOL" verify --print-certs original/*.apk > dist/original-certificate.txt
+          "$TOOL" verify --print-certs dist/*.apk > dist/new-certificate.txt
+          diff <(grep 'certificate SHA-256 digest' dist/original-certificate.txt) <(grep 'certificate SHA-256 digest' dist/new-certificate.txt)
+          python3 - <<'PY'
+          import glob, xml.etree.ElementTree as ET
+          t=f=0
+          for p in glob.glob('app/build/test-results/testReleaseUnitTest/*.xml'):
+              r=ET.parse(p).getroot(); t+=int(r.get('tests')); f+=int(r.get('failures'))+int(r.get('errors'))
+          open('dist/unit-tests.txt','w').write(f'{t} test unitari, {f} falliti\n')
+          print(t,f)
+          PY
+      - name: Enable KVM
+        run: |
+          ./gradlew --stop
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Reliable emulator transport
+        run: |
+          mkdir -p .ci-bin
+          cp scripts/qa-adb.py .ci-bin/adb
+          chmod +x .ci-bin/adb
+      - name: Android 15 Pixel 9 Pro XL verification
+        continue-on-error: true
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7_pro
+          ram-size: 4096M
+          heap-size: 512M
+          emulator-boot-timeout: 900
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash scripts/verify-redesign-nov.sh
+      - name: Collect evidence
+        if: always()
+        run: |
+          mkdir -p screenshots
+          [ -f redesign-shots.tar ] && tar xf redesign-shots.tar -C screenshots || true
+          (cd screenshots && zip -qr ../dist/screenshots.zip . ) || true
+          cat redesign-*.log > dist/android-tests.log 2>/dev/null || true
+          cp redesign-crash.txt dist/ 2>/dev/null || true
+          sha256sum dist/*.apk > dist/SHA256.txt || true
+          ls -la dist
+      - name: Publish preview release
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="preview-v1.0.$APK_CODE-redesign"
+          gh release delete "$TAG" -y --cleanup-tag 2>/dev/null || true
+          gh release create "$TAG" dist/* --target "$GITHUB_SHA" --prerelease --title "Jarvis Food v1.0.$APK_CODE — anteprima redesign novembre" --notes 'Anteprima in verifica: redesign grafico del 4 novembre 2026.'

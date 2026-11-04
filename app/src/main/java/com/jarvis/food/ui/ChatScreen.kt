@@ -154,11 +154,11 @@ private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: 
     Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
         NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
             onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
-            query = input, onQuery = onInput, hint = "Cerca una funzione o chiedi a Jarvis",
-            icons = listOf(NEW_CHAT_ICON, ENGINE_ICON, "M3 12a9 9 0 1 0 2.6-6.4M3 4v5h5M12 7v5l3 2"),
+            query = input, onQuery = onInput, hint = "Pasti, ricette, piano e spesa",
+            icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(56.dp) },
             descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
             accounts = true, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
-            actions = true, supportingText = "Pasti, ricette, piano e spesa")
+            actions = true)
     }
 }
 
@@ -248,8 +248,7 @@ private val CAPABILITIES = listOf(
 @Composable
 private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        JarvisLogo(64.dp)
-        Spacer(Modifier.height(12.dp))
+        // Video 4 novembre: il volto di Jarvis è nel banner, l'immagine qui sotto è stata tolta.
         Text("Come posso aiutarti?", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
         Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
             style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp))

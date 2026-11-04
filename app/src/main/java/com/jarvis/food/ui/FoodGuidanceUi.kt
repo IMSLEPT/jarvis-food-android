@@ -165,45 +165,128 @@ private fun ReviewPoint(point: FoodReview.Point) {
     }
 }
 
+private fun tipIcon(id: String): Pair<String, String> = when {
+    "protein" in id -> RIc.Dumbbell to RIc.DumbbellBar
+    "sugar" in id || "sodium" in id || "salumi" in id || "label" in id || "saturated" in id -> (Ic.circ(10.0, 10.0, 6.0)) to "M14.5 14.5l5.5 5.5"
+    "portion" in id || "quantity" in id || "over" in id || "under" in id -> RIc.Bowl to RIc.Steam
+    "veg" in id || "legume" in id || "fresh" in id || "fiber" in id -> RIc.Leaf to ""
+    "fruit" in id -> RIc.Apple to RIc.AppleLeaf
+    "water" in id -> Ic.Drop to ""
+    "repeat" in id || "variety" in id -> RIc.Swap to ""
+    "breakfast" in id -> RIc.Cup to RIc.CupSteam
+    "sweets" in id -> RIc.Muffin to RIc.MuffinTop
+    else -> Ic.Spark to ""
+}
+
+@Composable
+private fun TipIcon(id: String, size: androidx.compose.ui.unit.Dp = 30.dp) {
+    val (navy, accent) = tipIcon(id)
+    DuoIcon(navy, accent, size, accentFill = accent == RIc.AppleLeaf || accent == RIc.MuffinTop, stroke = 2.1f)
+}
+
+/** Consigli per oggi: analisi del diario (giorno, 7 e 30 giorni) più idee generali a rotazione. */
 @Composable
 fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     val date=Nav.today
-    val tips=remember(s.diary,s.dietPrefs,s.plan,review,date) { DailyFoodTips.build(s,date,Db.db,review) }
+    val ctx=remember(s.profile,s.goals,s.energy,s.trainingNutrition,s.weights) {
+        DietCoach.Context({ Store.energyFor(s,it).targetKcal }, { Store.energyFor(s,it).protein }, s.goals.waterMl)
+    }
+    val general=remember(s.diary,s.dietPrefs,s.plan,date) { DailyFoodTips.build(s,date,Db.db,null) }
+    val personal=remember(s.diary,s.water,s.dietPrefs,review,date,ctx) {
+        (DietCoach.analyze(s,date,1,ctx) + DietCoach.analyze(s,date,7,ctx,review) + DietCoach.analyze(s,date,30,ctx)).distinctBy { it.id }
+    }
+    val all=(personal+general).distinctBy { it.id }
+    val shown=all.take(3)
     var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
+    var full by remember { mutableStateOf(false) }
     val uri=LocalUriHandler.current
     ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
         ReferenceInsightBody(TodayArt.Calendar) {
-            ReferenceInsightHeading("Per te oggi")
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("${tips.size} idee del giorno", style = T.Small)
-                Text("${tips.size}", style = T.Label)
-            }
-            tips.forEach { tip ->
-                GapH(8.dp)
-                Row(Modifier.fillMaxWidth().testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(12.dp))
-                    .background(Color(0xFFF0F3F9))
-                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { selected=tip }
-                    .padding(horizontal = 8.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                    FoodIllustration(tip.food, tip.group, 26.dp)
-                    GapW(7.dp)
-                    Text(tip.title, style = T.Label.copy(color = C.Navy, fontSize = 13.sp, lineHeight = 18.sp), modifier = Modifier.weight(1f))
-                    GapW(4.dp)
-                    AIcon(Ic.Right, C.Navy, 16.dp)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text("Per te oggi", style = T.Title.copy(fontSize = 21.sp, lineHeight = 26.sp, color = RD.Ink), modifier = Modifier.weight(1f))
+                Row(Modifier.heightIn(min = 40.dp).testTag("daily-tips-all").clip(RoundedCornerShape(10.dp))
+                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }.padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 15.sp, color = RD.Grey)); GapW(4.dp)
+                    AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
                 }
+            }
+            Text(if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
+            shown.forEach { tip ->
+                GapH(8.dp)
+                TipRow(tip) { selected = tip }
             }
         }
     }
+    if (full) DietCoachDialog(s, date, ctx, review, onOpen = { full = false; selected = it }) { full = false }
     selected?.let { tip ->
         val source=NutritionEvidence.source(tip.source)
         AlertDialog(onDismissRequest={ selected=null },title={ Text(tip.title,style=T.Title2) },text={
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 Text(tip.text,style=T.Body)
                 GapH(8.dp)
-                Text(if(tip.personal) "Suggerimento dai dati utilizzabili del diario; non è una diagnosi di carenza."
+                Text(if(tip.personal) "Suggerimento calcolato dal tuo diario; non è una diagnosi."
                     else "Idea generale per adulti: adatta quantità, preferenze e condizioni personali. I consigli ruotano ogni giorno.",style=T.Small)
                 TextButton(onClick={ runCatching { uri.openUri(source.url) } },modifier=Modifier.testTag("daily-tip-source")) { Text("${source.title} ↗",style=T.Small) }
                 if(tip.personal) TextButton(onClick={ selected=null;Nav.go(Screen.Micronutrients) }) { Text("Dati del diario e alternative") }
             }
         },confirmButton={ TextButton(onClick={ selected=null }) { Text("Chiudi") } },containerColor=C.Surface)
+    }
+}
+
+@Composable
+private fun TipRow(tip: DailyFoodTips.Tip, onClick: () -> Unit) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 52.dp).testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
+        .background(Color(0xFFEEF2F8))
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
+        .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        TipIcon(tip.id)
+        GapW(12.dp)
+        Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), modifier = Modifier.weight(1f))
+        GapW(4.dp)
+        AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
+    }
+}
+
+/** Tutti i consigli con periodo selezionabile e, se configurata, l'analisi scritta dall'AI di Jarvis. */
+@Composable
+private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context, review: NutritionReview?, onOpen: (DailyFoodTips.Tip) -> Unit, onClose: () -> Unit) {
+    var days by remember { mutableIntStateOf(7) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val tips = remember(days, s.diary, s.water, review) { DietCoach.analyze(s, date, days, ctx, if (days == 7) review else null) }
+    val scope = rememberCoroutineScope()
+    var ai by remember(days) { mutableStateOf(DietCoachAi.cached(date, days)) }
+    var busy by remember(days) { mutableStateOf(false) }
+    val ready = remember(s.ai) { DietCoachAi.ready(context, s) }
+    androidx.compose.ui.window.Dialog(onDismissRequest = onClose) {
+        Surface(shape = RoundedCornerShape(30.dp), color = C.Surface) {
+            Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .85f).dp)
+                .verticalScroll(rememberScrollState()).padding(20.dp).testTag("diet-coach-dialog")) {
+                Text("La tua dieta", style = T.Title.copy(fontSize = 23.sp, color = RD.Ink))
+                Text("Analisi del diario ${DietCoach.windowLabel(days)}", style = T.Small)
+                GapH(12.dp)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf(1 to "Oggi", 7 to "7 giorni", 30 to "30 giorni").forEach { (n, label) ->
+                        RefOption(label, Modifier.weight(1f), isSelected = days == n, selectedStyle = OptionStyle.Navy, tag = "diet-coach-$n", minHeight = 48.dp, centered = true,
+                            trailing = {}) { days = n }
+                    }
+                }
+                GapH(12.dp)
+                if (tips.isEmpty()) Text(if (s.diary.isEmpty()) "Registra i pasti per ricevere consigli personali." else "Nessuna abitudine da correggere ${DietCoach.windowLabel(days)}: continua così.", style = T.Body)
+                tips.forEach { tip -> TipRow(tip) { onOpen(tip) }; GapH(8.dp) }
+                GapH(8.dp)
+                if (ready) {
+                    RefPrimaryButton(if (busy) "Jarvis sta analizzando…" else "Analisi di Jarvis AI", Modifier.fillMaxWidth(), icon = Ic.Spark, tag = "diet-coach-ai", enabled = !busy && s.diary.isNotEmpty()) {
+                        busy = true
+                        scope.launch {
+                            ai = DietCoachAi.ask(context, s, date, days, DietCoach.summary(s, date, days, ctx, tips))
+                            busy = false
+                        }
+                    }
+                } else Text("Per un commento scritto dall’AI, attiva il modello di Jarvis in Profilo → Intelligenza artificiale.", style = T.Small)
+                ai?.let { GapH(10.dp); Text(it, Modifier.testTag("diet-coach-ai-text"), style = T.Body) }
+                GapH(14.dp)
+                RefOutlineButton("Chiudi", Modifier.fillMaxWidth(), icon = RIc.Close, onClick = onClose)
+            }
+        }
     }
 }

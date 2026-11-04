@@ -50,24 +50,38 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date") {
     val large = LocalDensity.current.fontScale > 1.5f
     val context = LocalContext.current
-    ScreenHeaderFrame(false) {
-        Row(Modifier.fillMaxWidth().height(HeaderLayout.titleHeight()), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f).padding(end = 8.dp)) {
-                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"), style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp))
-                Text(if (greeting != null && !large) s.profile.name else title, style = T.Title.copy(fontSize = 28.sp, lineHeight = 34.sp),
+    val navy = greeting == null
+    val ink = if (navy) Color.White else RD.Ink
+    RefBannerFrame(navy) {
+        Row(Modifier.fillMaxWidth().height(RD.bannerTitleHeight()).padding(start = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (navy) {
+                PlanCalendarLogo(if (large) 36.dp else 46.dp)
+                GapW(14.dp)
+                Box(Modifier.width(2.dp).height(54.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x99FFFFFF)))
+                GapW(14.dp)
+            }
+            Column(Modifier.weight(1f).padding(end = 8.dp), verticalArrangement = Arrangement.Center) {
+                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
+                    style = T.Body.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink))
+                Text(if (greeting != null && !large) s.profile.name else title,
+                    style = T.Title.copy(fontSize = if (navy) 32.sp else 31.sp, lineHeight = if (navy) 36.sp else 35.sp, color = ink),
                     maxLines = if (large) 2 else 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                Box(Modifier.testTag(dateTag).semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(10.dp))
+                    .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }.padding(vertical = 2.dp)) {
+                    Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
+                        style = T.Title2.copy(fontSize = 19.sp, lineHeight = 24.sp, color = ink, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold),
+                        maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                }
             }
-            HeaderAccountActions { showDatePicker(context, date, onPick) }
+            val button = if (large) 48.dp else 56.dp
+            RefCalendarButton(button) { showDatePicker(context, date, onPick) }
+            GapW(10.dp)
+            RefProfileButton(button)
         }
-        Row(Modifier.fillMaxWidth().height(HeaderLayout.dateHeight()), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.weight(1f).fillMaxHeight().testTag(dateTag).semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(12.dp))
-                .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }, contentAlignment = Alignment.CenterStart) {
-                Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
-                    style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
-            }
-        }
-        Box(Modifier.fillMaxWidth().height(when { LocalDensity.current.fontScale > 1.5f -> 180.dp; LocalDensity.current.fontScale > 1.2f -> 94.dp; else -> 76.dp }), contentAlignment = Alignment.Center) {
+        GapH(6.dp)
+        Box(Modifier.fillMaxWidth().height(RD.stripHeight()), contentAlignment = Alignment.Center) {
             ProposalNineCalendar(s, date, onPick)
         }
+        GapH(2.dp)
     }
 }

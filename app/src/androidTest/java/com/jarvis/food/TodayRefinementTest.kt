@@ -133,8 +133,8 @@ class TodayRefinementTest {
             for (name in listOf("Vitamina C", "Vitamina D", "Vitamina B12")) {
                 readable(compose.onNodeWithText(name, useUnmergedTree = true).performScrollTo())
             }
-            val tips = com.jarvis.food.engine.DailyFoodTips.build(Store.current, day, Db.db)
-            compose.onNodeWithTag("daily-food-tip-${tips.first().id}").performScrollTo().performClick()
+            val firstTip = SemanticsMatcher("first daily tip") { it.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("daily-food-tip-") == true }
+            compose.onAllNodes(firstTip)[0].performScrollTo().performClick()
             compose.onNodeWithTag("daily-tip-source").assertExists()
             compose.onNodeWithText("Chiudi").performClick()
             compose.onNodeWithTag("everyday-food-guide").performScrollTo()

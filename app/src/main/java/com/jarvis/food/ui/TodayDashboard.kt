@@ -138,11 +138,11 @@ private fun Modifier.selectableCalendar(selected: Boolean, onClick: () -> Unit) 
 
 @Composable
 private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
-    Box(Modifier.width(30.dp).fillMaxHeight().testTag(if (next) "week-next" else "week-previous")
+    Box(Modifier.width(40.dp).fillMaxHeight().testTag(if (next) "week-next" else "week-previous")
         .semantics { contentDescription = if (next) "Settimana successiva" else "Settimana precedente" }
         .clickable(enabled = enabled, role = Role.Button, onClick = action), contentAlignment = Alignment.Center) {
-        Box(Modifier.size(24.dp).clip(CircleShape).background(Color(0xFF0B2854)), contentAlignment = Alignment.Center) {
-            AIcon(if (next) Ic.Right else Ic.Left, Color.White, 17.dp)
+        Box(Modifier.size(34.dp).clip(CircleShape).background(RD.Navy), contentAlignment = Alignment.Center) {
+            AIcon(if (next) RIc.Right else RIc.Left, Color.White, 20.dp, 2.6f)
         }
     }
 }
@@ -150,8 +150,9 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
 @Composable
 internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClick: () -> Unit) {
     val remaining = TodayProgress.remaining(eaten, target)
-    val fraction = TodayProgress.remainingRatio(eaten, target).coerceIn(0f, 1f)
-    val progress by animateFloatAsState(fraction, tween(650), label = "calorie-remaining")
+    // Video 4 novembre: la percentuale e la barra partono da 0 e crescono verso l'obiettivo.
+    val fraction = TodayProgress.ratio(eaten, target).coerceIn(0f, 1f)
+    val progress by animateFloatAsState(fraction, tween(650), label = "calorie-progress")
     ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 24.dp, brush = Brush.linearGradient(listOf(Color(0xFF071B40), Color(0xFF123D70), Color(0xFF091A38))), padding = 12.dp, bordered = false, onClick = onClick) {
       Column {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
