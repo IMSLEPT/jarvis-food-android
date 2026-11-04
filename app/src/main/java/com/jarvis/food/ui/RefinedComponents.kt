@@ -198,7 +198,8 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             }
         }
         BoxWithConstraints(Modifier.padding(horizontal = 12.dp).fillMaxWidth()) {
-            val oneRow = !expanded && maxWidth >= 392.dp
+            // Tempo, kcal e macro in una riga solo se c'è spazio anche con il carattere ingrandito.
+            val oneRow = !expanded && maxWidth >= 392.dp * androidx.compose.ui.platform.LocalDensity.current.fontScale
             if (expanded) Column(Modifier.fillMaxWidth().clip(strip).background(RD.Strip).padding(14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 time(); kcal(); macros()
             } else if (oneRow) Row(Modifier.fillMaxWidth().clip(strip).background(RD.Strip).padding(horizontal = 12.dp, vertical = 12.dp),
@@ -222,10 +223,12 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
         }
         FlowRow(Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
-            val eatenModifier = (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.3f)).testTag("plan-eaten-${m.diaryMeal}")
-            if (eaten) RefOutlineButton("Mangiato", eatenModifier, icon = RIc.Check, divider = false) { Store.uneatPlanned(date, m.slotIndex) }
-            else RefPrimaryButton("Segna mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 56.dp) { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
-            RefOutlineButton("Alternative", (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}"), icon = RIc.Swap, divider = false) {
+            // Riferimento: due pulsanti della stessa altezza, testo su una riga.
+            val eatenModifier = (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.15f)).testTag("plan-eaten-${m.diaryMeal}")
+            if (eaten) RefOutlineButton("Mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 16.sp) { Store.uneatPlanned(date, m.slotIndex) }
+            else RefPrimaryButton("Segna mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 16.sp) { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
+            RefOutlineButton("Alternative", (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}"), icon = RIc.Swap, divider = false,
+                height = 52.dp, singleLine = true, textSize = 16.sp) {
                 Nav.go(Screen.Alternatives(date, m.slotIndex))
             }
         }

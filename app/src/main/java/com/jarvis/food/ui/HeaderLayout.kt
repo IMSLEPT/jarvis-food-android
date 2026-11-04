@@ -56,23 +56,23 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     RefBannerFrame(navy) {
         Row(Modifier.fillMaxWidth().height(RD.bannerTitleHeight()).padding(start = 6.dp), verticalAlignment = Alignment.CenterVertically) {
             if (navy) {
-                PlanCalendarLogo(if (big) 34.dp else 42.dp)
+                PlanCalendarLogo(RD.BannerLogo)
                 GapW(12.dp)
-                Box(Modifier.width(2.dp).height(54.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x99FFFFFF)))
+                Box(Modifier.width(1.5.dp).height(46.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x99FFFFFF)))
                 GapW(12.dp)
             }
             Column(Modifier.weight(1f).padding(end = 8.dp), verticalArrangement = Arrangement.Center) {
                 if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
                     style = T.Body.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink))
                 AutoFitText(if (greeting != null && !large) s.profile.name else title,
-                    T.Title.copy(fontSize = if (navy) 32.sp else 31.sp, lineHeight = if (navy) 36.sp else 35.sp, color = ink))
+                    T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 35.sp, color = ink))
                 Box(Modifier.testTag(dateTag).semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(10.dp))
                     .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }.padding(vertical = 2.dp)) {
                     AutoFitText(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
                         T.Title2.copy(fontSize = 19.sp, lineHeight = 24.sp, color = ink, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
                 }
             }
-            val button = if (big) 48.dp else 54.dp
+            val button = RD.headerButton()
             RefCalendarButton(button) { showDatePicker(context, date, onPick) }
             GapW(10.dp)
             RefProfileButton(button)

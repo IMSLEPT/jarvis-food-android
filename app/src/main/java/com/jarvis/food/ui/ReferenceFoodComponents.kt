@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -43,28 +44,33 @@ internal val InsightTile = Color(0xFFEEF2F8)
 @Composable
 internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScope.() -> Unit) {
     // Riferimento del 4 novembre: icone grandi su tessera azzurrina, separatore sottile grigio.
+    // Il separatore è disegnato sul bordo della colonna di testo: niente misura intrinseca, così
+    // l'ultima riga (stima EFSA, consigli su due righe) non viene mai tagliata.
     val large = LocalDensity.current.fontScale > 1.2f
-    val tile = if (large) 64.dp else 88.dp
-    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), verticalAlignment = Alignment.CenterVertically) {
-        // Le illustrazioni hanno già la propria tessera azzurrina: si mostrano a piena dimensione.
+    val tile = if (large) 76.dp else 88.dp
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         ReferenceIllustration(art, Modifier.size(tile).testTag("insight-icon-$art"))
         GapW(14.dp)
-        Box(Modifier.width(1.dp).fillMaxHeight().padding(vertical = 4.dp).background(Color(0xFFE1E4EA)))
-        GapW(16.dp)
-        Column(Modifier.weight(1f), content = content)
+        Column(Modifier.weight(1f).drawBehind {
+            val x = 0.5.dp.toPx(); val inset = 4.dp.toPx()
+            drawLine(Color(0xFFE1E4EA), Offset(x, inset), Offset(x, size.height - inset), 1.dp.toPx())
+        }.padding(start = 16.dp), content = content)
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ReferenceInsightHeading(title: String, action: String? = null, onAction: () -> Unit = {}) {
-    FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
-        verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(title, style = T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink))
-        if (action != null) Row(Modifier.heightIn(min = 36.dp).clip(RoundedCornerShape(8.dp))
-            .clickable(role = Role.Button, onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
-            Text(action, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.OrangeText)); GapW(4.dp)
-            AIcon(RIc.Right, RD.OrangeText, 16.dp, 2.6f)
+    // Titolo e azione sulla stessa riga, con spazio fra i due (riferimento): il titolo si riduce
+    // leggermente invece di andare a capo o toccare il link.
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        AutoFitText(title, T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink), Modifier.weight(1f), minScale = 0.72f)
+        if (action != null) {
+            GapW(8.dp)
+            Row(Modifier.heightIn(min = 36.dp).clip(RoundedCornerShape(8.dp))
+                .clickable(role = Role.Button, onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
+                Text(action, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.OrangeText), maxLines = 1, softWrap = false); GapW(4.dp)
+                AIcon(RIc.Right, RD.OrangeText, 16.dp, 2.6f)
+            }
         }
     }
 }

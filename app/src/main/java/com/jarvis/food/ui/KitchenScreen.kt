@@ -94,7 +94,7 @@ fun KitchenScreen() {
         val order = listOf(2, 0, 1)
         NavyBanner("Cucina", listOf("Ricette", "Dispensa", "Spesa"), order.indexOf(Nav.kitchenTab),
             onSelect = { Nav.kitchenTab = order[it] }, query = "", onQuery = {}, hint = "",
-            labelTags = order.map { "kitchen-tab-label-$it" }, icons = listOf(RIc.Fork, RIc.Basket, RIc.Cart), logo = { ChefHatLogo(46.dp) }, searchContent = {
+            labelTags = order.map { "kitchen-tab-label-$it" }, icons = listOf(RIc.Fork, RIc.Basket, RIc.Cart), logo = { ChefHatLogo(RD.BannerLogo) }, searchContent = {
                 if (Nav.kitchenTab == 2) RecipeSearchBar()
                 else Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(if (Nav.kitchenTab == 0) Ic.Fridge else Ic.Cart, Color.White, 20.dp)

@@ -75,7 +75,7 @@ class RedesignNovemberTest {
             compose.onNodeWithTag("diary-meal-0").performScrollTo(); shot("03-diario")
             compose.onNodeWithContentDescription("Aggiungi a Colazione").performClick()
             assertEquals(Screen.AddFood(day, 0), Nav.stack.last())
-            ui { Nav.back() }
+            ui { Nav.back() }; compose.waitForIdle()
             compose.onNodeWithTag("home-vitamins").performScrollTo(); shot("04-vitamine")
             compose.onNodeWithTag("everyday-food-guide").performScrollTo(); shot("05-per-te-oggi")
             compose.onNodeWithTag("daily-tips-all").performClick()
@@ -125,7 +125,7 @@ class RedesignNovemberTest {
             compose.onNodeWithTag("recipe-group-tempo").performScrollTo().performClick().assertIsSelected(); shot("22-cucina-filtri")
             compose.onNodeWithTag("kitchen-inspiration").performScrollTo().performClick()
             assertEquals(Screen.WhatNow, Nav.stack.last())
-            ui { Nav.back() }
+            ui { Nav.back() }; compose.waitForIdle()
             compose.onNodeWithTag("banner-tab-Cucina-1").performClick(); shot("23-cucina-dispensa")
             compose.onNodeWithTag("nav-3").performClick(); shot("24-progressi")
             compose.onNodeWithTag("banner-tab-Progressi-1").performClick().assertIsSelected(); shot("24b-progressi-grafici")

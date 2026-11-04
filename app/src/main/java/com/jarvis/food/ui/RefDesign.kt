@@ -73,6 +73,12 @@ object RD {
     @Composable fun bannerTitleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 150.dp; LocalDensity.current.fontScale > 1.2f -> 118.dp; else -> 100.dp }
     @Composable fun stripHeight() = when { LocalDensity.current.fontScale > 1.5f -> 180.dp; LocalDensity.current.fontScale > 1.2f -> 96.dp; else -> 84.dp }
     @Composable fun large() = LocalDensity.current.fontScale > 1.2f
+    /** Calendario e profilo hanno la stessa misura in tutti i banner. */
+    @Composable fun headerButton() = if (large()) 46.dp else 50.dp
+    /** Loghi dei banner: stessa impronta visiva su tutte le schede. */
+    val BannerLogo = 44.dp
+    /** Titoli dei banner: stessa dimensione su tutte le schede. */
+    val BannerTitle = 30.sp
 }
 
 // ------------------------------------------------------------------------------- Icone
@@ -260,11 +266,11 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
     val rows = if (LocalDensity.current.fontScale > 1.5f) labels.indices.chunked(2) else listOf(labels.indices.toList())
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         rows.forEach { row ->
-            Row(Modifier.fillMaxWidth().heightIn(min = if (large) 64.dp else 52.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().heightIn(min = if (large) 56.dp else 48.dp), verticalAlignment = Alignment.CenterVertically) {
                 row.forEachIndexed { n, i ->
                     val active = i == selected
                     val pill = RoundedCornerShape(26.dp)
-                    val base = Modifier.weight(labels[i].length + if (icons.isEmpty()) 2f else 5f).heightIn(min = if (large) 60.dp else 50.dp)
+                    val base = Modifier.weight(labels[i].length + if (icons.isEmpty()) 2f else 5f).heightIn(min = if (large) 54.dp else 48.dp)
                         .testTag("banner-tab-$title-$i")
                         .then(if (active) Modifier.refShadow(pill, 3.dp) else Modifier).clip(pill)
                         .background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
@@ -272,13 +278,13 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
                     val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                         else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
                     Box(control, contentAlignment = Alignment.Center) {
-                        Row(Modifier.padding(horizontal = 4.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                            icons.getOrNull(i)?.let { BannerTabIcon(it, if (large || labels.size > 3) 19.dp else 22.dp); GapW(6.dp) }
-                            AutoFitText(labels[i], T.Title2.copy(fontSize = if (labels.size > 3) 15.sp else 16.sp, lineHeight = 20.sp, color = Color.White),
+                        Row(Modifier.padding(horizontal = 6.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                            icons.getOrNull(i)?.let { BannerTabIcon(it, if (large) 18.dp else 20.dp); GapW(6.dp) }
+                            AutoFitText(labels[i], T.Title2.copy(fontSize = 15.sp, lineHeight = 19.sp, color = Color.White),
                                 Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), textAlign = TextAlign.Center)
                         }
                     }
-                    if (n < row.lastIndex) Box(Modifier.padding(horizontal = 3.dp).width(2.dp).height(26.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x80C9D3E6)))
+                    if (n < row.lastIndex) Box(Modifier.padding(horizontal = 3.dp).width(1.5.dp).height(22.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x80C9D3E6)))
                 }
             }
         }
@@ -298,12 +304,12 @@ private fun BannerTabIcon(icon: String, size: Dp) {
 /** Campo di ricerca bianco a pillola, con conteggio opzionale (immagini 9-12). */
 @Composable
 fun RefSearchShell(modifier: Modifier = Modifier, count: String? = null, content: @Composable RowScope.() -> Unit) {
-    Row(modifier.fillMaxWidth().heightIn(min = 52.dp).clip(RoundedCornerShape(28.dp)).background(Color.White)
-        .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-        AIcon(RIc.Search, Color(0xFF59627A), 22.dp, 2.1f); GapW(12.dp)
+    Row(modifier.fillMaxWidth().heightIn(min = 46.dp).clip(RoundedCornerShape(24.dp)).background(Color.White)
+        .padding(start = 14.dp, end = 6.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        AIcon(RIc.Search, Color(0xFF59627A), 20.dp, 2.1f); GapW(10.dp)
         content()
-        if (count != null) Box(Modifier.padding(start = 6.dp).clip(RoundedCornerShape(18.dp)).background(Color(0xFFEDEEF1)).padding(horizontal = 12.dp, vertical = 6.dp)) {
-            Text(count, style = T.Title2.copy(fontSize = 15.sp, lineHeight = 19.sp, color = RD.Ink))
+        if (count != null) Box(Modifier.padding(start = 6.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFFEDEEF1)).padding(horizontal = 10.dp, vertical = 5.dp)) {
+            Text(count, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp, color = RD.Ink), maxLines = 1)
         }
     }
 }
@@ -401,7 +407,7 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
 /** Pulsante principale navy con icona arancio e separatore (immagini 1, 2, 3). */
 @Composable
 fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
-    height: Dp = 58.dp, divider: Boolean = true, onClick: () -> Unit) {
+    height: Dp = 58.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 18.sp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(18.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).refShadow(shape, if (enabled) 4.dp else 0.dp).clip(shape)
         .background(if (enabled) RD.ButtonBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
@@ -411,14 +417,15 @@ fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? 
             AIcon(icon, RD.Orange, 26.dp, 2.4f)
             if (divider) { GapW(14.dp); Box(Modifier.width(2.dp).height(28.dp).background(Color(0x66FFFFFF))); GapW(14.dp) } else GapW(12.dp)
         }
-        Text(text, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 22.sp, color = if (enabled) Color.White else C.Muted), textAlign = TextAlign.Center)
+        val style = T.Title2.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = if (enabled) Color.White else C.Muted)
+        if (singleLine) AutoFitText(text, style, minScale = 0.75f, textAlign = TextAlign.Center) else Text(text, style = style, textAlign = TextAlign.Center)
     }
 }
 
 /** Pulsante secondario bianco con bordo navy (immagini 1 e 2). */
 @Composable
 fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
-    height: Dp = 56.dp, divider: Boolean = true, onClick: () -> Unit) {
+    height: Dp = 56.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 18.sp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(18.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(Color.White)
         .border(1.8.dp, RD.Ink, shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 14.dp, vertical = 10.dp),
@@ -427,8 +434,9 @@ fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? 
             AIcon(icon, RD.Ink, 24.dp, 2.4f)
             if (divider) { GapW(14.dp); OrangeDivider(26.dp); GapW(14.dp) } else GapW(12.dp)
         }
-        Text(text, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink), textAlign = TextAlign.Center,
-            maxLines = 2, overflow = TextOverflow.Ellipsis)
+        val style = T.Title2.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = RD.Ink)
+        if (singleLine) AutoFitText(text, style, minScale = 0.75f, textAlign = TextAlign.Center)
+        else Text(text, style = style, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }
 

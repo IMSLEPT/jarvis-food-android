@@ -341,13 +341,14 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             GapH(8.dp)
             Row(verticalAlignment = Alignment.CenterVertically) { Box(Modifier.weight(1f)) { pill() }; controls() }
         } else BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val roomy = maxWidth >= 372.dp
+            // Con la pillola in riga servono almeno 400 dp, altrimenti titolo e kcal vanno a capo in modo irregolare.
+            val roomy = maxWidth >= 430.dp * LocalDensity.current.fontScale
             Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                 photo()
                 GapW(12.dp)
                 Column(Modifier.weight(1f)) {
-                    Text(MEAL_LABEL.getValue(meal), modifier = Modifier.testTag("diary-title-$meal"), style = T.Title.copy(fontSize = 19.sp, lineHeight = 23.sp, color = RD.Ink), maxLines = 2)
-                    Text(subtitle, style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = RD.Grey), maxLines = 2)
+                    AutoFitText(MEAL_LABEL.getValue(meal), T.Title.copy(fontSize = 19.sp, lineHeight = 23.sp, color = RD.Ink), Modifier.testTag("diary-title-$meal"), minScale = 0.8f)
+                    AutoFitText(subtitle, T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = RD.Grey), minScale = 0.8f)
                     if (!roomy && kcal != null) { GapH(6.dp); pill() }
                 }
                 if (roomy) {

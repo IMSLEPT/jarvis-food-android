@@ -32,17 +32,17 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
     actions: Boolean = false, supportingText: String? = null, logo: (@Composable () -> Unit)? = null, count: String? = null) {
     val large = RD.large()
     RefBannerFrame(true) {
-        Row(Modifier.fillMaxWidth().heightIn(min = if (large) 76.dp else 64.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth().heightIn(min = if (large) 64.dp else 56.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) Box(Modifier.size(44.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack),
                 contentAlignment = Alignment.Center) { AIcon(RIc.Left, Color.White, 26.dp, 2.6f) }
-            if (logo != null) { Box(Modifier.padding(start = 6.dp), contentAlignment = Alignment.Center) { logo() }; GapW(16.dp) } else GapW(8.dp)
-            AutoFitText(title, T.Title.copy(fontSize = 34.sp, lineHeight = 40.sp, color = Color.White), Modifier.weight(1f))
-            if (accounts) RefProfileButton(56.dp)
+            if (logo != null) { Box(Modifier.padding(start = 6.dp).size(RD.BannerLogo + 4.dp), contentAlignment = Alignment.Center) { logo() }; GapW(12.dp) } else GapW(8.dp)
+            AutoFitText(title, T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 36.sp, color = Color.White), Modifier.weight(1f))
+            if (accounts) RefProfileButton(RD.headerButton())
         }
-        GapH(6.dp)
+        GapH(4.dp)
         RefBannerTabs(labels, icons, selected, onSelect, actions, title, descriptions, labelTags)
-        GapH(10.dp)
-        Box(Modifier.fillMaxWidth().height(if (large) 60.dp else 52.dp), contentAlignment = Alignment.CenterStart) {
+        GapH(8.dp)
+        Box(Modifier.fillMaxWidth().height(if (large) 56.dp else 46.dp), contentAlignment = Alignment.CenterStart) {
             when {
                 searchContent != null -> searchContent()
                 supportingText != null && query.isEmpty() && hint.isEmpty() -> Text(supportingText, style = T.Body.copy(lineHeight = 18.sp, color = Color(0xFFE5EBFA)), modifier = Modifier.padding(horizontal = 8.dp))

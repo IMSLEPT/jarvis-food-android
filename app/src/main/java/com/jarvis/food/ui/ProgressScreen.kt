@@ -154,7 +154,7 @@ fun ProgressScreen() {
     MainPage("Progressi", resetKey = section, header = {
         NavyBanner("Progressi", listOf("Dati", "Grafici", "Obiettivi", "Analisi"), section, { section = it },
             query, { query = it }, "Cerca dati, misure o obiettivi", icons = listOf(RIc.Bars, RIc.LineChart, RIc.TargetRing, RIc.Pie),
-            logo = { ProgressBarsLogo(44.dp) })
+            logo = { ProgressBarsLogo(RD.BannerLogo) })
     }) {
 
         // Intervallo
@@ -477,7 +477,8 @@ private fun ProgressMetric(title: String, value: String, detail: String, icon: S
             AIcon(Ic.Right, C.AccentDeep, 16.dp)
         }
         GapH(3.dp)
-        Text(detail, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
+        // Una riga per entrambe le schede affiancate: stessa altezza anche con il carattere ingrandito.
+        AutoFitText(detail, T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp), minScale = 0.8f)
     }
 }
 

@@ -21,6 +21,9 @@ $A shell wm density 480
 $A shell settings put system font_scale 1.0
 run_suite pixel9 'com.jarvis.food.RedesignNovemberTest'
 run_suite regression 'com.jarvis.food.ReferenceUiTest,com.jarvis.food.TodayDashboardTest,com.jarvis.food.TodayRefinementTest,com.jarvis.food.AuroraRegressionTest,com.jarvis.food.TrainingDiaryFlowTest,com.jarvis.food.DietSelectionFollowupFlowTest'
+# Pixel 9 Pro XL con carattere leggermente ingrandito, come nel video di Alessandro
+$A shell settings put system font_scale 1.15
+run_suite pixel9-text115 'com.jarvis.food.RedesignNovemberTest'
 # Telefono più stretto e testo ingrandito
 $A shell wm size 1080x2340
 $A shell wm density 480

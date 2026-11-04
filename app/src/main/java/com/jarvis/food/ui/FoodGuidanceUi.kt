@@ -235,13 +235,14 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 
 @Composable
 private fun TipRow(tip: DailyFoodTips.Tip, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().heightIn(min = 52.dp).testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
+    Row(Modifier.fillMaxWidth().heightIn(min = 50.dp).testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
         .background(Color(0xFFEEF2F8))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         TipIcon(tip.id)
         GapW(12.dp)
-        Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), modifier = Modifier.weight(1f))
+        // Una sola riga per tutte le idee: righe della stessa altezza, come nel riferimento.
+        AutoFitText(tip.title, T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), Modifier.weight(1f), minScale = 0.75f)
         GapW(4.dp)
         AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
     }
