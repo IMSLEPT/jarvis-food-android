@@ -1,0 +1,95 @@
+name: Oggi Piano reference APK
+on:
+  push:
+    branches: [feat/oggi-piano-reference-2026-11-04]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Preserve original APK assets and select next version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p dist original
+          gh release download v1.0.219 -p '*.apk' -D original
+          python3 - <<'PY'
+          import zipfile,pathlib
+          with zipfile.ZipFile(next(pathlib.Path('original').glob('*.apk'))) as z:
+              model = z.read('assets/food.tflite')
+              pathlib.Path('app/src/main/assets/food.tflite').write_bytes(model)
+          PY
+          CODE=$(gh api 'repos/IMSLEPT/jarvis-food-android/releases?per_page=100' --jq '[.[].tag_name | select(startswith("v1.0.")) | split(".")[-1] | tonumber?] | max + 1')
+          echo "APK_CODE=$CODE" >> "$GITHUB_ENV"
+          python3 scripts/verify-aurora-boundary.py
+          python3 tools/photography/verify.py
+      - name: Decrypt original signing key
+        env:
+          SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
+        run: openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/jarvisfood.jks.enc -out app/jarvisfood.jks -pass env:SIGNING_PASS
+      - name: Build and run unit tests
+        run: |
+          chmod +x gradlew
+          GITHUB_RUN_NUMBER="$APK_CODE" ./gradlew assembleRelease testReleaseUnitTest assembleDebug assembleDebugAndroidTest --console=plain
+          cp app/build/outputs/apk/release/app-release.apk "dist/JarvisFood-v1.0.$APK_CODE.apk"
+          python3 - <<'PY'
+          import pathlib,zipfile,hashlib,json
+          old=zipfile.ZipFile(next(pathlib.Path('original').glob('*.apk')))
+          new=zipfile.ZipFile('app/build/outputs/apk/release/app-release.apk')
+          assets=[n for n in old.namelist() if n.startswith('assets/') and not n.startswith('assets/dexopt/') and not n.endswith('/')]
+          for n in assets:
+              assert hashlib.sha256(old.read(n)).digest()==hashlib.sha256(new.read(n)).digest(),n
+          pathlib.Path('dist/asset-verification.json').write_text(json.dumps({'unchanged_original_assets':len(assets)},indent=2))
+          PY
+          TOOL=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -1)
+          "$TOOL" verify --print-certs original/*.apk > dist/original-certificate.txt
+          "$TOOL" verify --print-certs dist/*.apk > dist/new-certificate.txt
+          diff <(grep 'certificate SHA-256 digest' dist/original-certificate.txt) <(grep 'certificate SHA-256 digest' dist/new-certificate.txt)
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Android 15 Pixel size and accessibility verification
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7_pro
+          ram-size: 4096M
+          emulator-boot-timeout: 900
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash scripts/verify-reference-ui.sh
+      - name: Save build and QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oggi-Piano-APK-QA
+          path: |
+            dist/*
+            reference-*.log
+            reference-shots.tar
+            reference-crash.txt
+            app/build/test-results/**/*.xml
+            app/build/outputs/apk/debug/*.apk
+          retention-days: 14
+      - name: Publish verified APK and screenshots
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p screenshots
+          tar xf reference-shots.tar -C screenshots
+          (cd screenshots && zip -qr ../dist/screenshots.zip .)
+          sha256sum dist/*.apk > dist/SHA256.txt
+          gh release create "v1.0.$APK_CODE" dist/* --target "$GITHUB_SHA" --title "Jarvis Food v1.0.$APK_CODE — Oggi e Piano" --notes 'Aggiornamento dei componenti Oggi e Piano secondo i riferimenti approvati. Calendario condiviso e sincronizzato; banner Jarvis chef; riquadri vitamine, idee e attività; riepilogo espandibile e selettori dei pasti. APK con firma originale, asset preservati, verifiche Android e screenshot inclusi.'

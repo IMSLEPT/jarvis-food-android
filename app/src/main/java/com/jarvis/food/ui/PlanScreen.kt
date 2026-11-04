@@ -1,6 +1,7 @@
 package com.jarvis.food.ui
 
 import android.widget.Toast
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
@@ -172,54 +173,77 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     val tot = meals.fold(com.jarvis.food.engine.Macro.ZERO) { a, m -> a + m.solved.total }
     val slots = Store.dayPlan(s, date)?.slots.orEmpty()
     val completed = meals.count { meal -> slots.any { it.slot == meal.slotIndex && it.eatenEntryIds.isNotEmpty() } }
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { mutableStateOf(false) }
     var panelOpen by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { mutableStateOf(false) }
     var chooseStyle by remember { mutableStateOf(false) }
     if (chooseStyle) DietStyleDialog(s, date) { chooseStyle = false }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-    ACard(Modifier.fillMaxWidth().testTag("plan-summary"), radius = 20.dp, padding = 12.dp, elevation = 3.dp) {
+    ACard(Modifier.fillMaxWidth().testTag("plan-summary").animateContentSize(), radius = 24.dp, padding = 12.dp, elevation = 4.dp) {
         Column(Modifier.fillMaxWidth()) {
-        Row(Modifier.fillMaxWidth().heightIn(min = 52.dp).testTag("plan-summary-toggle")
-            .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
-            .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f).padding(end = 12.dp)) {
-                Text("Riepilogo del piano", style = T.Title2)
-                Text("${kcalFmt(tot.kcal)} kcal · $completed di ${meals.size} pasti", style = T.Small)
-            }
-            AIcon(if (panelOpen) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Navy, 22.dp)
-        }
-        androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
-        Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 12.dp)) {
-        FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 1 else 2, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(Ic.MealLunch, C.AccentDeep, 20.dp, 1.8f)
-                GapW(6.dp)
+            Row(Modifier.fillMaxWidth().heightIn(min = 64.dp).testTag("plan-summary-toggle")
+                .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
+                .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                TonalIcon(Ic.Chart, DashboardOrange, C.AccentSoft, box = if (large) 36.dp else 42.dp, radius = 13.dp)
+                GapW(10.dp)
+                Box(Modifier.width(1.dp).height(38.dp).background(DashboardOrange))
+                GapW(10.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 13.sp, lineHeight = 18.sp))
-                    Text("pianificate", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
-                }
-            }
-            Row((if (large) Modifier.fillMaxWidth() else Modifier.weight(1.2f)).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt).border(1.dp, C.Line, RoundedCornerShape(8.dp)).padding(10.dp).heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
-                val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
-                Canvas(Modifier.size(20.dp).semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
-                    val stroke = 4.dp.toPx()
-                    val inset = stroke / 2
-                    val arcSize = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
-                    drawArc(C.SurfaceAlt, -90f, 360f, false, Offset(inset, inset), arcSize, style = Stroke(stroke))
-                    if (fraction > 0f) drawArc(if (completed == meals.size) A.GreenInk else C.AccentDeep, -90f, 360f * fraction, false, Offset(inset, inset), arcSize, style = Stroke(stroke, cap = StrokeCap.Round))
+                    Text("Riepilogo del piano", style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp))
+                    Text("${kcalFmt(tot.kcal)} kcal · $completed di ${meals.size} pasti", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
                 }
                 GapW(6.dp)
-                Column(Modifier.weight(1f)) {
-                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp))
-                    Text("completati", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
+                Box(Modifier.size(36.dp).clip(CircleShape).background(Color(0xFFF0F1F4)), contentAlignment = Alignment.Center) {
+                    AIcon(if (panelOpen) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Navy, 22.dp)
                 }
             }
-            PlanStyleControls(s, date, large) { chooseStyle = true }
-        }
-        GapH(12.dp)
-        GhostButton(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", Modifier.fillMaxWidth().testTag("plan-nutrition-details")) { expanded = !expanded }
-        }
-        }
+            androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
+                Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 10.dp)) {
+                    val shape = RoundedCornerShape(18.dp)
+                    Row(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, C.Line, shape)
+                        .clickable(role = Role.Button) { expanded = !expanded }.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
+                        Box(Modifier.size(if (large) 52.dp else 76.dp), contentAlignment = Alignment.Center) {
+                            Canvas(Modifier.fillMaxSize().semantics { contentDescription = "$completed di ${meals.size} pasti completati" }) {
+                                val stroke = 7.dp.toPx()
+                                val inset = stroke / 2
+                                val arcSize = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
+                                drawArc(C.Line, -90f, 360f, false, Offset(inset, inset), arcSize, style = Stroke(stroke))
+                                if (fraction > 0f) drawArc(DashboardOrange, -90f, 360f * fraction, false, Offset(inset, inset), arcSize, style = Stroke(stroke, cap = StrokeCap.Round))
+                            }
+                            AIcon(Ic.Bowl, C.Navy, if (large) 24.dp else 32.dp)
+                        }
+                        GapW(12.dp)
+                        Box(Modifier.width(1.dp).height(if (large) 108.dp else 72.dp).background(DashboardOrange))
+                        GapW(12.dp)
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                AIcon(Ic.Bowl, DashboardOrange, 20.dp); GapW(8.dp)
+                                Column(Modifier.weight(1f)) {
+                                    Text("${kcalFmt(tot.kcal)} kcal", style = T.Title2.copy(fontSize = 17.sp, lineHeight = 22.sp))
+                                    Text("pianificate", style = T.Small)
+                                }
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                AIcon(Ic.MealDinner, DashboardOrange, 20.dp); GapW(8.dp)
+                                Column(Modifier.weight(1f)) {
+                                    Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label)
+                                    Text("completati", style = T.Small)
+                                }
+                            }
+                        }
+                        AIcon(Ic.Right, C.Navy, 16.dp)
+                    }
+                    GapH(10.dp)
+                    PlanStyleControls(s, date, large) { chooseStyle = true }
+                    GapH(12.dp)
+                    Row(Modifier.fillMaxWidth().testTag("plan-nutrition-details").clip(RoundedCornerShape(22.dp)).background(C.Navy)
+                        .clickable(role = Role.Button) { expanded = !expanded }.padding(horizontal = 14.dp, vertical = 14.dp),
+                        horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(Ic.Chart, DashboardOrange, 22.dp); GapW(10.dp)
+                        Text(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", style = T.Label.copy(color = Color.White), modifier = Modifier.weight(1f))
+                    }
+                }
+            }
         }
     }
     if (panelOpen && expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
@@ -264,14 +288,18 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
 private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, onChooseStyle: () -> Unit) {
     val border = C.Navy.copy(alpha = .24f)
     val dayControl: @Composable (Modifier) -> Unit = { modifier ->
-        Box(modifier.testTag("plan-day-type-cell").clip(RoundedCornerShape(8.dp)).background(C.Surface)
-            .border(1.dp, border, RoundedCornerShape(8.dp)).padding(horizontal = 10.dp, vertical = 8.dp)) {
-            DayTypeControl(s, date, compact = true)
+        Box(modifier.testTag("plan-day-type-cell").clip(RoundedCornerShape(16.dp)).background(C.Surface)
+            .border(1.dp, border, RoundedCornerShape(16.dp)).padding(horizontal = 10.dp, vertical = 8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AIcon("M3 10v4M6 8v8M18 8v8M21 10v4M6 12h12", DashboardOrange, 22.dp); GapW(8.dp)
+                Box(Modifier.weight(1f)) { DayTypeControl(s, date, compact = true) }
+                AIcon(Ic.Right, C.Navy, 14.dp)
+            }
         }
     }
     val styleControl: @Composable (Modifier) -> Unit = { modifier ->
-        Row(modifier.testTag("plan-diet-style").clip(RoundedCornerShape(8.dp)).background(C.Surface)
-            .border(1.dp, border, RoundedCornerShape(8.dp)).clickable(role = Role.Button, onClick = onChooseStyle)
+        Row(modifier.testTag("plan-diet-style").clip(RoundedCornerShape(16.dp)).background(C.Surface)
+            .border(1.dp, border, RoundedCornerShape(16.dp)).clickable(role = Role.Button, onClick = onChooseStyle)
             .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp)
             GapW(8.dp)
@@ -284,10 +312,9 @@ private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, on
         }
     }
     if (stacked) {
-        val controlHeight = with(LocalDensity.current) { 48.sp.toDp() + 16.dp }.coerceAtLeast(64.dp)
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (s.trainingNutrition.active) dayControl(Modifier.fillMaxWidth().height(controlHeight))
-            styleControl(Modifier.fillMaxWidth().height(controlHeight))
+            if (s.trainingNutrition.active) dayControl(Modifier.fillMaxWidth().heightIn(min = 64.dp))
+            styleControl(Modifier.fillMaxWidth().heightIn(min = 64.dp))
         }
     } else Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         if (s.trainingNutrition.active) dayControl(Modifier.weight(1f).fillMaxHeight().heightIn(min = 64.dp))

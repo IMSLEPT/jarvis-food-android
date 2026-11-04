@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.*
 import com.jarvis.food.engine.*
 import com.jarvis.food.net.OpenFoodFacts
@@ -171,28 +172,23 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
     val uri=LocalUriHandler.current
     ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
-        Column {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                TodayIconBadge(TodayArt.Calendar, 40.dp)
-                GapW(10.dp)
-                Column(Modifier.weight(1f)) {
-                    Text("Per te oggi", style = T.Label)
-                    Text(if(tips.any { it.personal }) "Dal diario e idee del giorno" else "3 idee del giorno", style = T.Small)
-                }
-                Text("${date.dayOfMonth}/${date.monthValue}", style = T.Small, modifier = Modifier.padding(start = 8.dp))
+        ReferenceInsightBody(TodayArt.Calendar) {
+            ReferenceInsightHeading("Per te oggi")
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text("${tips.size} idee del giorno", style = T.Small)
+                Text("${tips.size}", style = T.Label)
             }
             tips.forEach { tip ->
                 GapH(8.dp)
-                Row(Modifier.fillMaxWidth().testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
-                    .background(if (tip.attention) Color(0xFFFFF5EF) else Color(0xFFF0F3F9))
+                Row(Modifier.fillMaxWidth().testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFFF0F3F9))
                     .clickable(role = androidx.compose.ui.semantics.Role.Button) { selected=tip }
-                    .padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(tip.title, style = T.Label.copy(color = C.Navy))
-                        Text(tip.text, style = T.Small)
-                    }
-                    GapW(8.dp)
-                    AIcon(Ic.Right, C.Navy, 18.dp)
+                    .padding(horizontal = 8.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    FoodIllustration(tip.food, tip.group, 26.dp)
+                    GapW(7.dp)
+                    Text(tip.title, style = T.Label.copy(color = C.Navy, fontSize = 13.sp, lineHeight = 18.sp), modifier = Modifier.weight(1f))
+                    GapW(4.dp)
+                    AIcon(Ic.Right, C.Navy, 16.dp)
                 }
             }
         }

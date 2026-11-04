@@ -41,34 +41,31 @@ private fun rememberReview(s: AppState, days: Int): NutritionReview? {
 fun VitaminOverview(s: AppState) {
     val review = rememberReview(s, 7)
     GapH(18.dp)
-    ASection("Vitamine e minerali", action = "Andamento", top = 0.dp) { Nav.go(Screen.Trend("vitamins")) }
-    GapH(8.dp)
     ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D),
         onClick = { Nav.go(Screen.Trend("vitamins")) }) {
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                TodayIconBadge(TodayArt.Vitamins)
-                GapW(12.dp)
-                Column(Modifier.weight(1f)) {
-                    Text("Ultimi 7 giorni", style = T.Label)
-                    Text("${review?.usableDays?.size ?: 0} giornate utilizzabili · dai pasti registrati", style = T.Small)
+        ReferenceInsightBody(TodayArt.Vitamins) {
+            ReferenceInsightHeading("Vitamine e minerali", "Andamento") { Nav.go(Screen.Trend("vitamins")) }
+            Text("Ultimi 7 giorni", style = T.Small)
+            for (key in listOf("vitC", "vitD", "vitB12")) {
+                val nutrient = review?.nutrient(key)
+                val label = nutrient?.name ?: when (key) { "vitC" -> "Vitamina C"; "vitD" -> "Vitamina D"; else -> "Vitamina B12" }
+                GapH(10.dp)
+                val wide = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 400 && androidx.compose.ui.platform.LocalDensity.current.fontScale <= 1.2f
+                Column(Modifier.fillMaxWidth().testTag("home-nutrient-$key").clickable { Nav.go(Screen.Trend("vitamins")) }) {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(label, style = T.Label.copy(fontSize = 13.sp), modifier = if (wide) Modifier.width(90.dp) else Modifier.weight(1f))
+                        if (wide) {
+                            ProgressLine(((nutrient?.percent ?: 0.0) / 100).toFloat().coerceIn(0f, 1f), C.Navy, Modifier.weight(1f))
+                            GapW(8.dp)
+                        }
+                        Text(nutrient?.percent?.let { "${it.r0()}%" } ?: "—", style = T.Label.copy(fontSize = 13.sp))
+                        GapW(4.dp); AIcon(Ic.Right, C.Navy, 14.dp)
+                    }
+                    if (!wide) ProgressLine(((nutrient?.percent ?: 0.0) / 100).toFloat().coerceIn(0f, 1f), C.Navy, Modifier.fillMaxWidth().padding(top = 5.dp))
                 }
-                AIcon(Ic.Right, C.Muted, 18.dp)
             }
-            if (review != null) for (key in listOf("vitC", "vitD", "vitB12")) {
-                val nutrient = review.nutrient(key)
-                GapH(12.dp)
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text(nutrient.name, style = T.Label, modifier = Modifier.weight(1f))
-                    Text(nutrient.percent?.let { "${it.r0()}%" } ?: "Dati incompleti", style = T.Small,
-                        modifier = Modifier.padding(start = 8.dp))
-                }
-                nutrient.percent?.let {
-                    ProgressLine((it / 100).toFloat().coerceIn(0f, 1f), C.Navy, Modifier.fillMaxWidth().padding(top = 6.dp))
-                }
-            }
-            GapH(10.dp)
-            Text("I dati mancanti non indicano una carenza. Apri per vedere quantità, copertura e andamento.", style = T.Small)
+            GapH(8.dp)
+            Text(if (review == null) "Analisi del diario…" else "${review.usableDays.size} giorni utilizzabili · — dati incompleti", style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
         }
     }
     GapH(10.dp)

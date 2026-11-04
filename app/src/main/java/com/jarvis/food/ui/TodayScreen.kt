@@ -179,17 +179,7 @@ fun TodayScreen() {
 
         // ---- Cosa mangio adesso?
         Spacer(Modifier.height(12.dp))
-        ACard(color = A.Tonal, brush = Brush.horizontalGradient(listOf(C.AccentSoft, C.AccentSoft)), radius = 24.dp, bordered = false, elevation = 0.dp, padding = 14.dp, onClick = { Nav.go(Screen.WhatNow) }) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(40.dp).clip(CircleShape).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Spark, A.TonalInk, 22.dp, 2f) }
-                Spacer(Modifier.width(12.dp))
-                Column(Modifier.weight(1f)) {
-                    Text("Cosa mangio adesso?", style = T.Title2)
-                    Text("Piatti su misura per i macro che ti restano oggi.", style = T.Small)
-                }
-                AIcon(Ic.Right, C.Navy, 20.dp, 2.4f)
-            }
-        }
+        JarvisChefBanner()
 
 
 
@@ -203,10 +193,7 @@ fun TodayScreen() {
         NutrientInsight(s)
 
         // ---- Attività
-        ASection("Attività", action = if (s.energy.mode == 2) "Smartwatch" else "Aggiungi") {
-            if (s.energy.mode == 2) Nav.go(Screen.Watch) else Nav.go(Screen.Activity(date))
-        }
-        Spacer(Modifier.height(0.dp))
+        Spacer(Modifier.height(14.dp))
         ActivityCard(date, s)
         Spacer(Modifier.height(30.dp))
     }
@@ -504,29 +491,28 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
     val p by animateFloatAsState(fr, tween(1100), label = "steps")
     ACard(Modifier.testTag("home-activity"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
         Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                TodayIconBadge(TodayArt.Activity, 52.dp)
-                Spacer(Modifier.width(12.dp))
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            ReferenceInsightBody(TodayArt.Activity) {
+                    ReferenceInsightHeading("Attività", "Smartwatch") { Nav.go(Screen.Watch) }
                     Text("Passi giornalieri", style = T.Small)
-                    androidx.compose.foundation.layout.FlowRow(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        Text(steps.thousands(), style = T.Num.copy(fontSize = 26.sp))
-                        Text("  su ${goal.thousands()}", style = T.Small, modifier = Modifier.padding(top = 10.dp))
+                    androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (LocalDensity.current.fontScale > 1.2f) 1 else 2, horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Column {
+                            Text(steps.thousands(), style = T.Num.copy(fontSize = 30.sp, lineHeight = 36.sp))
+                            Text("su ${goal.thousands()}", style = T.Small)
+                        }
+                        Text("${(steps.toDouble() / goal * 100).toInt()}%", style = T.Num.copy(fontSize = 20.sp), modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp)).background(Color(0xFFF0F3F9)).padding(horizontal = 10.dp, vertical = 7.dp))
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        ABar(p, Brush.horizontalGradient(listOf(C.NavyDeep, C.Navy)), Color(0xFFE9ECF3), 8.dp,
-                            Modifier.weight(1f).testTag("activity-progress").semantics {
-                                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
-                            })
-                        Text("${(fr * 100).toInt()}%", style = T.Label.copy(fontSize = 13.sp), modifier = Modifier
-                            .clip(RoundedCornerShape(10.dp)).background(Color(0xFFF0F3F9)).padding(horizontal = 9.dp, vertical = 4.dp))
-                    }
+                    Spacer(Modifier.height(8.dp))
+                    ABar(p, Brush.horizontalGradient(listOf(C.NavyDeep, C.Navy)), Color(0xFFE9ECF3), 9.dp,
+                        Modifier.fillMaxWidth().testTag("activity-progress").semantics {
+                            progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
+                        })
                     if (watch) h?.sessions?.take(2)?.forEach { w ->
                         ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
                     }
                     list.forEach { a -> ActivityRow(a.name, "${a.minutes} min · inserita a mano", a.kcal.toString(), onRemove = { Store.removeActivity(a.id) }) }
+                    if (!watch) Text("Aggiungi attività", style = T.Link, modifier = Modifier.clickable { Nav.go(Screen.Activity(date)) }.padding(vertical = 2.dp))
                     if (!watch) Text(if (editSteps) "Chiudi" else "Modifica passi", style = T.Link, modifier = Modifier.clickable { editSteps = !editSteps }.padding(vertical = 2.dp))
-                }
             }
             if (editSteps && !watch) {
                 Spacer(Modifier.height(10.dp))

@@ -66,10 +66,8 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
                     style = T.Title2.copy(fontSize = 16.sp, lineHeight = 22.sp))
             }
         }
-        Box(Modifier.fillMaxWidth().height(if (greeting != null) {
-            when { LocalDensity.current.fontScale > 1.5f -> 180.dp; LocalDensity.current.fontScale > 1.2f -> 94.dp; else -> 76.dp }
-        } else HeaderLayout.weekHeight()), contentAlignment = Alignment.Center) {
-            if (greeting != null) ProposalNineCalendar(s, date, onPick) else WeekStrip(s, date, onPick)
+        Box(Modifier.fillMaxWidth().height(when { LocalDensity.current.fontScale > 1.5f -> 180.dp; LocalDensity.current.fontScale > 1.2f -> 94.dp; else -> 76.dp }), contentAlignment = Alignment.Center) {
+            ProposalNineCalendar(s, date, onPick)
         }
     }
 }

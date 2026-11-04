@@ -115,13 +115,17 @@ object Nav {
     var tab by mutableIntStateOf(0)
     var today by mutableStateOf(LocalDate.now())
         private set
-    var diaryDate by mutableStateOf(LocalDate.now())
-    var planDate by mutableStateOf(LocalDate.now())
+    private var calendarDate by mutableStateOf(LocalDate.now())
+    var diaryDate: LocalDate
+        get() = calendarDate
+        set(value) { calendarDate = value }
+    var planDate: LocalDate
+        get() = calendarDate
+        set(value) { calendarDate = value }
     var kitchenTab by mutableIntStateOf(2)
     fun refreshToday(now: LocalDate = LocalDate.now()) {
         if (now == today) return
         diaryDate = CalendarWindow.followToday(diaryDate, today, now)
-        planDate = CalendarWindow.followToday(planDate, today, now)
         today = now
     }
     fun go(s: Screen) { stack.add(s) }

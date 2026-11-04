@@ -108,15 +108,23 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     Row(Modifier.fillMaxWidth().testTag("plan-slot-strip").horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         meals.forEach { meal ->
             val selected = meal.slotIndex == selectedSlot
-            val shape = RoundedCornerShape(24.dp)
-            Row(Modifier.heightIn(min = 48.dp).testTag("plan-slot-${meal.diaryMeal}").clip(shape)
-                .background(if (selected) C.Navy else Color.White).border(1.dp, if (selected) C.Navy else C.Line, shape)
+            val shape = RoundedCornerShape(13.dp)
+            Box(Modifier.heightIn(min = 58.dp).testTag("plan-slot-${meal.diaryMeal}")
+                .aShadow(shape, if (selected) 3.dp else 0.dp, Color(0x2409194D)).clip(shape)
+                .background(if (selected) C.Navy else Color.White).border(1.dp, C.Navy, shape)
                 .selectable(selected, role = Role.Tab, onClick = {
                     selectedSlot = meal.slotIndex
                     scope.launch { requesters[meal.slotIndex]?.bringIntoView() }
-                }).padding(horizontal = 18.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(mealIcon(meal.diaryMeal), if (selected) Color.White else C.Navy, 20.dp); GapW(8.dp)
-                Text(meal.slotName, style = T.Label.copy(color = if (selected) Color.White else C.Navy))
+                })) {
+                Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    ReferenceMealIcon(meal.diaryMeal, selected, Modifier.size(30.dp))
+                    GapW(10.dp)
+                    Box(Modifier.width(1.dp).height(28.dp).background(if (selected) Color(0x88FFFFFF) else C.Line))
+                    GapW(12.dp)
+                    Text(meal.slotName, style = T.Label.copy(color = if (selected) Color.White else C.Navy))
+                }
+                if (selected) Box(Modifier.align(Alignment.BottomCenter).width(72.dp).height(3.dp)
+                    .clip(RoundedCornerShape(topStart = 3.dp, topEnd = 3.dp)).background(DashboardOrange))
             }
         }
     }
