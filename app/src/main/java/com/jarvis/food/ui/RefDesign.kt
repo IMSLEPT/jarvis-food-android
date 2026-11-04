@@ -38,6 +38,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -267,22 +268,32 @@ fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
 @Composable
 fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSelect: (Int) -> Unit, actions: Boolean,
     title: String, descriptions: List<String> = labels, labelTags: List<String> = emptyList()) {
-    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
-        labels.indices.forEach { i ->
-            val active = i == selected
-            val pill = RoundedCornerShape(14.dp)
-            val base = Modifier.widthIn(min = 80.dp).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
-                .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
-                .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
-            val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
-                else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
-            Row(control.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center) {
-                icons.getOrNull(i)?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
-                Text(labels[i], style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
-                    modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), maxLines = 1, softWrap = false)
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val density = LocalDensity.current
+        val measurer = rememberTextMeasurer()
+        val widths = labels.mapIndexed { index, label ->
+            val textWidth = with(density) { measurer.measure(label, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp)).size.width.toDp() }
+            maxOf(80.dp, textWidth + 20.dp + if (icons.getOrNull(index) != null) 26.dp else 0.dp)
+        }
+        val total = widths.fold(0.dp) { sum, width -> sum + width } + 9.dp * (labels.size - 1).coerceAtLeast(0)
+        val extra = if (labels.isEmpty()) 0.dp else (maxWidth - total).coerceAtLeast(0.dp) / labels.size
+        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
+            labels.indices.forEach { i ->
+                val active = i == selected
+                val pill = RoundedCornerShape(14.dp)
+                val base = Modifier.width(widths[i] + extra).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
+                    .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
+                    .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
+                val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
+                    else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
+                Row(control.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center) {
+                    icons.getOrNull(i)?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
+                    Text(labels[i], style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
+                        modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), maxLines = 1, softWrap = false)
+                }
+                if (i < labels.lastIndex) Box(Modifier.padding(horizontal = 4.dp).width(1.dp).height(22.dp).background(Color(0x80C9D3E6)))
             }
-            if (i < labels.lastIndex) Box(Modifier.padding(horizontal = 4.dp).width(1.dp).height(22.dp).background(Color(0x80C9D3E6)))
         }
     }
 }

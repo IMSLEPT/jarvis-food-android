@@ -31,6 +31,8 @@ Opened combined before/current captures from run 41910900546 at 100% and inspect
 
 - P2: selected-day marker touches the lower rounded border in the 130% capture. Narrow the marker and reserve 8 dp bottom padding; confirm in revised capture.
 
+- P2: banner tabs leave unused horizontal space while approved references distribute them across the banner. Measure label widths, distribute spare space evenly, retain horizontal scrolling when labels require more width. Recheck pending.
+
 Source-target comparison uses the approved reference assets and the final revised captures, with dimensions adapted for mobile use per user instruction.
 
 ## Validation plan and current evidence
