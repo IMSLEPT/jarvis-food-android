@@ -200,23 +200,23 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
         }
     } else {
         // Immagine 5: scheda bianca con tessera pesca, manubrio arancio, separatore e freccia nel cerchio.
-        val shape = RoundedCornerShape(28.dp)
+        val shape = RoundedCornerShape(20.dp)
         val large = LocalDensity.current.fontScale > 1.2f
         Box(Modifier.fillMaxWidth().testTag("today-day-type-bar")) {
         Row(Modifier.fillMaxWidth().testTag("day-type-label").refShadow(shape, 5.dp).clip(shape).background(androidx.compose.ui.graphics.Color.White)
             .border(1.dp, androidx.compose.ui.graphics.Color(0xFFE3E5EC), shape)
             .clickable(role = Role.Button) { dialog = true }.padding(horizontal = 14.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically) {
-            PeachTile(if (large) 52.dp else 60.dp, radius = 18.dp) {
-                DuoIcon(RIc.DumbbellBold, size = if (large) 32.dp else 38.dp, stroke = 3.2f, ink = RD.OrangeDeep)
+            PeachTile(40.dp, radius = 12.dp) {
+                DuoIcon(RIc.DumbbellBold, size = 26.dp, stroke = 3.2f, ink = RD.OrangeDeep)
             }
-            GapW(14.dp); OrangeDivider(52.dp); GapW(14.dp)
+            GapW(10.dp); OrangeDivider(32.dp); GapW(10.dp)
             Column(Modifier.weight(1f)) {
-                Text(label, style = T.Title.copy(fontSize = 21.sp, lineHeight = 26.sp, color = RD.Ink))
-                Text(caption, style = T.Body.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Grey))
+                Text(label, style = T.Title.copy(fontSize = 16.sp, lineHeight = 22.sp, color = RD.Ink))
+                Text(caption, style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = RD.Grey))
             }
             GapW(8.dp)
-            ChevronCircle(40.dp)
+            ChevronCircle(28.dp)
         }
         }
     }

@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -72,15 +76,15 @@ object RD {
     val WarmBrush = Brush.linearGradient(listOf(Color(0xFFFBF7F4), Color(0xFFF7EEE8)))
 
     /** Banner pages share the same proportions. */
-    @Composable fun bannerTitleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 150.dp; LocalDensity.current.fontScale > 1.2f -> 118.dp; else -> 100.dp }
-    @Composable fun stripHeight() = when { LocalDensity.current.fontScale > 1.5f -> 180.dp; LocalDensity.current.fontScale > 1.2f -> 96.dp; else -> 84.dp }
+    @Composable fun bannerTitleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 132.dp; LocalDensity.current.fontScale > 1.2f -> 100.dp; else -> 76.dp }
+    @Composable fun stripHeight() = when { LocalDensity.current.fontScale > 1.5f -> 160.dp; LocalDensity.current.fontScale > 1.2f -> 88.dp; else -> 72.dp }
     @Composable fun large() = LocalDensity.current.fontScale > 1.2f
     /** Calendario e profilo hanno la stessa misura in tutti i banner. */
     @Composable fun headerButton() = 48.dp
     /** Loghi dei banner: stessa impronta visiva su tutte le schede. */
-    val BannerLogo = 44.dp
+    val BannerLogo = 34.dp
     /** Titoli dei banner: stessa dimensione su tutte le schede. */
-    val BannerTitle = 30.sp
+    val BannerTitle = 26.sp
 }
 
 // ------------------------------------------------------------------------------- Icone
@@ -206,7 +210,7 @@ fun ChevronCircle(size: Dp = 36.dp, bg: Color = RD.GreyFill, ink: Color = RD.Ink
 
 /** Ombra morbida delle schede di riferimento. */
 fun Modifier.refShadow(shape: Shape, elevation: Dp = 8.dp): Modifier =
-    this.shadow(elevation, shape, ambientColor = Color(0x1A0A1F4E), spotColor = Color(0x290A1F4E))
+    this.shadow(elevation.coerceAtMost(3.dp), shape, ambientColor = Color(0x100A1F4E), spotColor = Color(0x180A1F4E))
 
 // ------------------------------------------------------------------------------- Profilo e calendario
 
@@ -226,9 +230,8 @@ fun RefProfileButton(size: Dp = 56.dp, onClick: () -> Unit = { Nav.go(Screen.Pro
 @Composable
 fun ProfileGearIcon(size: Dp) {
     Box(Modifier.size(size)) {
-        AIcon(RIc.Person, RD.Ink, size, 2.1f)
-        AIcon(RIc.Gear, RD.Orange, size, 2.2f)
-        Box(Modifier.align(Alignment.TopEnd).padding(top = size * 0.02f).size(size * 0.17f).clip(CircleShape).background(RD.Orange))
+        Icon(Icons.Default.Person, null, tint = RD.Ink, modifier = Modifier.fillMaxSize().padding(end = size * 0.14f, bottom = size * 0.08f))
+        Icon(Icons.Default.Settings, null, tint = RD.OrangeDeep, modifier = Modifier.align(Alignment.BottomEnd).size(size * 0.48f).background(Color.White, CircleShape))
     }
 }
 
@@ -247,7 +250,7 @@ fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
 /** Cornice comune dei banner: stessi margini e raggi per tutte le schede. */
 @Composable
 fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(30.dp)
+    val shape = RoundedCornerShape(24.dp)
     Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 8.dp)) {
         Column(Modifier.fillMaxWidth().testTag("top-header-frame").refShadow(shape, if (navy) 6.dp else 4.dp).clip(shape)
             .background(if (navy) RD.NavyBrush else RD.WarmBrush)
@@ -267,16 +270,16 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
     Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
         labels.indices.forEach { i ->
             val active = i == selected
-            val pill = RoundedCornerShape(24.dp)
+            val pill = RoundedCornerShape(14.dp)
             val base = Modifier.widthIn(min = 80.dp).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
                 .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
                 .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
             val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                 else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
-            Row(control.padding(horizontal = 10.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically,
+            Row(control.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center) {
                 icons.getOrNull(i)?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
-                Text(labels[i], style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
+                Text(labels[i], style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
                     modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), maxLines = 1, softWrap = false)
             }
             if (i < labels.lastIndex) Box(Modifier.padding(horizontal = 4.dp).width(1.dp).height(22.dp).background(Color(0x80C9D3E6)))
@@ -368,7 +371,7 @@ enum class OptionStyle { Plain, Navy, Peach }
 @Composable
 fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable () -> Unit)? = null, subtitle: String? = null,
     isSelected: Boolean = false, selectedStyle: OptionStyle = OptionStyle.Peach, tag: String? = null, enabled: Boolean = true,
-    trailing: (@Composable () -> Unit)? = null, minHeight: Dp = 56.dp, centered: Boolean = false, labelSize: androidx.compose.ui.unit.TextUnit = 17.sp, onClick: () -> Unit) {
+    trailing: (@Composable () -> Unit)? = null, minHeight: Dp = 52.dp, centered: Boolean = false, labelSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
     val compactPeriod = tag?.startsWith("diet-period-") == true
     val shape = RoundedCornerShape(16.dp)
     val navy = isSelected && selectedStyle == OptionStyle.Navy
@@ -377,12 +380,12 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
     Row(modifier.heightIn(min = minHeight).then(if (tag != null) Modifier.testTag(tag) else Modifier)
         .semantics { selected = isSelected }
         .then(if (navy) Modifier.refShadow(shape, 3.dp) else Modifier).clip(shape).background(bg)
-        .border(if (peach) 2.dp else 1.5.dp, when { peach -> RD.Orange; navy -> RD.Navy; else -> RD.Ink.copy(alpha = if (enabled) 0.85f else 0.3f) }, shape)
+        .border(if (peach) 1.5.dp else 1.dp, when { peach -> RD.Orange; navy -> RD.Navy; else -> RD.Ink.copy(alpha = if (enabled) 0.35f else 0.15f) }, shape)
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
         .padding(horizontal = if (compactPeriod) 10.dp else 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (centered) Arrangement.Center else Arrangement.Start) {
         if (icon != null) {
-            Box(Modifier.size(if (compactPeriod) 28.dp else 34.dp), contentAlignment = Alignment.Center) { icon() }
+            Box(Modifier.size(if (compactPeriod) 28.dp else 28.dp), contentAlignment = Alignment.Center) { icon() }
             GapW(if (compactPeriod) 8.dp else 12.dp); OrangeDivider(if (subtitle != null) 40.dp else if (compactPeriod) 24.dp else 28.dp); GapW(if (compactPeriod) 8.dp else 14.dp)
         }
         Column(if (centered) Modifier else Modifier.weight(1f)) {
@@ -404,17 +407,17 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
 /** Pulsante principale navy con icona arancio e separatore (immagini 1, 2, 3). */
 @Composable
 fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
-    height: Dp = 58.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 18.sp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
+    height: Dp = 52.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(14.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).refShadow(shape, if (enabled) 4.dp else 0.dp).clip(shape)
         .background(if (enabled) RD.ButtonBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 16.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         if (icon != null) {
-            AIcon(icon, if (divider) RD.Orange else Color.White, if (divider) 26.dp else 20.dp, 2.4f)
-            if (divider) { GapW(14.dp); Box(Modifier.width(2.dp).height(28.dp).background(Color(0x66FFFFFF))); GapW(14.dp) } else GapW(8.dp)
+            AIcon(icon, if (divider) RD.Orange else Color.White, if (divider) 22.dp else 20.dp, 2.4f)
+            if (divider) { GapW(10.dp); Box(Modifier.width(1.dp).height(24.dp).background(Color(0x66FFFFFF))); GapW(10.dp) } else GapW(8.dp)
         }
-        val style = T.Title2.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = if (enabled) Color.White else C.Muted)
+        val style = T.Label.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = if (enabled) Color.White else C.Muted)
         Text(text, modifier = Modifier.weight(1f, fill = false), style = style, textAlign = TextAlign.Center)
     }
 }
@@ -422,16 +425,16 @@ fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? 
 /** Pulsante secondario bianco con bordo navy (immagini 1 e 2). */
 @Composable
 fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
-    height: Dp = 56.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 18.sp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
+    height: Dp = 50.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(14.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(Color.White)
-        .border(1.8.dp, RD.Ink, shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
+        .border(1.dp, RD.Ink.copy(alpha = 0.5f), shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         if (icon != null) {
             AIcon(icon, RD.Ink, if (divider) 24.dp else 20.dp, 2.4f)
-            if (divider) { GapW(14.dp); OrangeDivider(26.dp); GapW(14.dp) } else GapW(8.dp)
+            if (divider) { GapW(10.dp); OrangeDivider(24.dp); GapW(10.dp) } else GapW(8.dp)
         }
-        val style = T.Title2.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = RD.Ink)
+        val style = T.Label.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = RD.Ink)
         Text(text, modifier = Modifier.weight(1f, fill = false), style = style, textAlign = TextAlign.Center)
     }
 }

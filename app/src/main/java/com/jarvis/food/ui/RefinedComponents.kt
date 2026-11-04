@@ -110,7 +110,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
         meals.forEach { meal ->
             val selected = meal.slotIndex == selectedSlot
             // Immagine 4: pillola con tessera pesca, separatore arancio, nome e freccia nel cerchio.
-            val shape = RoundedCornerShape(26.dp)
+            val shape = RoundedCornerShape(18.dp)
             Row(Modifier.heightIn(min = 56.dp).testTag("plan-slot-${meal.diaryMeal}")
                 .refShadow(shape, if (selected) 5.dp else 2.dp).clip(shape)
                 .background(if (selected) RD.NavyBrush else androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color.White, Color.White)))
@@ -142,7 +142,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
     val r = m.solved
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 380
-    val shape = RoundedCornerShape(30.dp)
+    val shape = RoundedCornerShape(24.dp)
     Column(Modifier.fillMaxWidth().testTag("plan-card-${m.diaryMeal}").refShadow(shape, 6.dp).clip(shape).background(Color.White)
         .border(1.dp, Color(0xFFE6E8EE), shape)
         .drawBehindWarm()) {
@@ -165,16 +165,16 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             GapH(12.dp)
             Text(r.template.name, modifier = Modifier.fillMaxWidth().testTag("plan-recipe-title-${m.diaryMeal}").clickable(role = Role.Button) {
                 Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
-            }, style = T.Title.copy(fontSize = 22.sp, lineHeight = 28.sp, color = RD.Ink))
+            }, style = T.Title.copy(fontSize = 20.sp, lineHeight = 26.sp, color = RD.Ink))
         }
         Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 12.dp).testTag("plan-recipe-${m.diaryMeal}")
             .clip(RoundedCornerShape(24.dp)).clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
                 Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
             }) {
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(1.7f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 24.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(2f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 24.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)
         }
         // Riquadro informazioni: tempo, calorie e macro con barre colorate.
-        val strip = RoundedCornerShape(24.dp)
+        val strip = RoundedCornerShape(16.dp)
         // Barre: quota del fabbisogno giornaliero di ciascun macro coperta da questo pasto.
         val target = Store.energyFor(s, date)
         val time: @Composable () -> Unit = {
@@ -238,7 +238,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             .clickable(role = Role.Button) { Nav.go(Screen.AddFood(date, m.diaryMeal, scanOnOpen = true)) },
             horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             AIcon(RIc.Barcode, RD.OrangeDeep, 26.dp, 2.2f); GapW(10.dp)
-            Text("Codice a barre", style = T.Title.copy(fontSize = 19.sp, lineHeight = 23.sp, color = RD.OrangeText))
+            Text("Codice a barre", style = T.Title.copy(fontSize = 15.sp, lineHeight = 21.sp, color = RD.OrangeText))
         }
         GapH(6.dp)
     }

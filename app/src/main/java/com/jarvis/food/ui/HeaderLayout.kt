@@ -54,31 +54,26 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     val navy = greeting == null
     val ink = if (navy) Color.White else RD.Ink
     RefBannerFrame(navy) {
-        Column(Modifier.fillMaxWidth().heightIn(min = RD.bannerTitleHeight()), verticalArrangement = Arrangement.Center) {
-            Row(Modifier.fillMaxWidth().heightIn(min = if (large) 90.dp else if (big) 78.dp else 64.dp), verticalAlignment = Alignment.CenterVertically) {
-                if (navy) {
-                    PlanCalendarLogo(RD.BannerLogo)
-                    GapW(10.dp)
-                    Box(Modifier.width(1.5.dp).height(40.dp).background(Color(0x99FFFFFF)))
-                    GapW(10.dp)
-                }
-                Column(Modifier.weight(1f).padding(end = 8.dp)) {
-                    if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
-                        style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Ink))
-                    Text(if (greeting != null && !large) s.profile.name else title,
-                        style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 35.sp, color = ink))
-                }
-                RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
-                GapW(8.dp)
-                RefProfileButton(RD.headerButton())
-            }
-            Box(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag(dateTag)
-                .semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(10.dp))
+        Row(Modifier.fillMaxWidth().heightIn(min = RD.bannerTitleHeight()), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f).testTag(dateTag)
+                .semantics { contentDescription = fullDay(date) }
+                .clip(RoundedCornerShape(12.dp))
                 .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
-                .padding(top = 6.dp, bottom = 6.dp)) {
+                .padding(vertical = 4.dp, horizontal = 4.dp)) {
+                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
+                    style = T.Small.copy(color = RD.Grey))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (navy) { PlanCalendarLogo(28.dp); GapW(8.dp) }
+                    Text(if (greeting != null && !large) s.profile.name else title,
+                        style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp, color = ink), modifier = Modifier.weight(1f))
+                }
                 Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
-                    style = T.Title2.copy(fontSize = 17.sp, lineHeight = 23.sp, color = ink))
+                    style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = if (navy) Color(0xFFDCE5F5) else RD.Grey))
             }
+            GapW(4.dp)
+            RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
+            GapW(4.dp)
+            RefProfileButton(RD.headerButton())
         }
         GapH(6.dp)
         Box(Modifier.fillMaxWidth().height(RD.stripHeight()), contentAlignment = Alignment.Center) {

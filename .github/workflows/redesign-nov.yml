@@ -45,6 +45,15 @@ jobs:
         env:
           SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
         run: openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/jarvisfood.jks.enc -out app/jarvisfood.jks -pass env:SIGNING_PASS
+      - name: Build exact v224 baseline with identical visual fixture
+        run: |
+          git worktree add /tmp/jarvis-premium-before 9158f43d881d5d626f77e41a54d34881c5ebbf93
+          cp app/src/main/assets/food.tflite /tmp/jarvis-premium-before/app/src/main/assets/food.tflite
+          cp app/src/androidTest/java/com/jarvis/food/PremiumWholeAppTest.kt /tmp/jarvis-premium-before/app/src/androidTest/java/com/jarvis/food/
+          ./gradlew -p /tmp/jarvis-premium-before assembleDebug assembleDebugAndroidTest --console=plain
+          mkdir -p baseline
+          cp /tmp/jarvis-premium-before/app/build/outputs/apk/debug/app-debug.apk baseline/app-debug.apk
+          cp /tmp/jarvis-premium-before/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk baseline/app-debug-androidTest.apk
       - name: Build and unit tests
         run: |
           chmod +x gradlew

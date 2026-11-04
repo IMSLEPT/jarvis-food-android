@@ -122,7 +122,7 @@ class VisualConsistencyTest {
             for (slot in planned) {
                 compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).performScrollTo().assertIsDisplayed()
                 val photo = compose.onNodeWithTag("plan-photo-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
-                assertEquals("All meal photographs use reference proportions", photo.width / 1.7f, photo.height, 2f)
+                assertEquals("All meal photographs use reference proportions", photo.width / 2f, photo.height, 2f)
                 val card = compose.onNodeWithTag("plan-card-${slot.diaryMeal}", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
                 assertEquals("Recipe photo keeps symmetric 12dp card padding", card.width - 24f * ins.targetContext.resources.displayMetrics.density, photo.width, 2f)
                 assertEquals(card.center.x, photo.center.x, 2f)

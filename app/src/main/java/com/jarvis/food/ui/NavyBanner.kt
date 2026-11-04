@@ -32,11 +32,11 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
     actions: Boolean = false, supportingText: String? = null, logo: (@Composable () -> Unit)? = null, count: String? = null) {
     val large = RD.large()
     RefBannerFrame(true) {
-        Row(Modifier.fillMaxWidth().heightIn(min = if (large) 64.dp else 56.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth().heightIn(min = if (large) 64.dp else 48.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack),
                 contentAlignment = Alignment.Center) { AIcon(RIc.Left, Color.White, 26.dp, 2.6f) }
             if (logo != null) { Box(Modifier.padding(start = 6.dp).size(RD.BannerLogo + 4.dp), contentAlignment = Alignment.Center) { logo() }; GapW(12.dp) } else GapW(8.dp)
-            Text(title, style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 36.sp, color = Color.White), modifier = Modifier.weight(1f).padding(end = 8.dp))
+            Text(title, style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 32.sp, color = Color.White), modifier = Modifier.weight(1f).padding(end = 8.dp))
             if (accounts) RefProfileButton(RD.headerButton())
         }
         GapH(4.dp)
@@ -48,17 +48,17 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
                 supportingText != null && query.isEmpty() && hint.isEmpty() -> Text(supportingText, style = T.Body.copy(lineHeight = 18.sp, color = Color(0xFFE5EBFA)), modifier = Modifier.padding(horizontal = 8.dp))
                 else -> RefSearchShell(count = count) {
                     BasicTextField(query, onQuery, Modifier.weight(1f).testTag("banner-search-$title").semantics { contentDescription = hint },
-                        textStyle = T.Body.copy(fontSize = 17.sp, color = RD.Ink), cursorBrush = SolidColor(RD.Ink), singleLine = true,
+                        textStyle = T.Body.copy(fontSize = 16.sp, color = RD.Ink), cursorBrush = SolidColor(RD.Ink), singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
                         decorationBox = { inner ->
                             Box(Modifier.fillMaxWidth()) {
-                                if (query.isEmpty()) Text(hint, style = T.Body.copy(fontSize = 17.sp, lineHeight = 22.sp, color = Color(0xFF59627A)), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                if (query.isEmpty()) Text(hint, style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, color = Color(0xFF59627A)), maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 inner()
                             }
                         })
                 }
             }
         }
-        GapH(4.dp)
+        GapH(0.dp)
     }
 }

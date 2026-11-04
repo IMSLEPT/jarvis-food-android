@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
+import androidx.compose.material3.Shapes
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -28,12 +31,12 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF6F5F1)
+    val Bg = Color(0xFFF7F8FA)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
-    val SurfaceHi = Color(0xFFE2E2DF)
-    val Line = Color(0xFFE5E3DF)
-    val ProfileBorder = Color(0xFFE2E2DF)
+    val SurfaceHi = Color(0xFFE4E8EF)
+    val Line = Color(0xFFE4E8EF)
+    val ProfileBorder = Color(0xFFE4E8EF)
     val Text = Color(0xFF09194D)
     val Muted = Color(0xFF5E6678)
     val Faint = Color(0xFF6B7280)
@@ -91,13 +94,13 @@ val DmSans = FontFamily(
 
 object T {
     private val tight = (-0.6).sp
-    val Display = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = tight, color = C.Text)
-    val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 27.sp, lineHeight = 32.sp, letterSpacing = (-0.8).sp, color = C.Text)
-    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 19.sp, lineHeight = 25.sp, letterSpacing = (-0.4).sp, color = C.Text)
-    val Title = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 24.sp, lineHeight = 30.sp, letterSpacing = (-0.4).sp, color = C.Text)
+    val Display = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = tight, color = C.Text)
+    val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 27.sp, lineHeight = 32.sp, letterSpacing = (-0.8).sp, color = C.Text)
+    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 19.sp, lineHeight = 25.sp, letterSpacing = (-0.4).sp, color = C.Text)
+    val Title = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 24.sp, lineHeight = 30.sp, letterSpacing = (-0.4).sp, color = C.Text)
     val Title2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 17.sp, lineHeight = 22.sp, color = C.Text)
     val Dish = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 21.sp, lineHeight = 25.sp, letterSpacing = (-0.2).sp, color = C.Text)
-    val DishBig = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = (-0.5).sp, color = C.Text)
+    val DishBig = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = (-0.5).sp, color = C.Text)
     val Body = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp, color = C.Text)
     val Read = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 16.sp, lineHeight = 24.sp, color = C.Text)
     val Muted = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 13.sp, lineHeight = 19.sp, color = C.Muted)
@@ -111,8 +114,8 @@ object T {
     val Link = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, color = C.AccentDeep)
     val Eyebrow = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 0.5.sp, color = C.Muted)
     val Num = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 20.sp, lineHeight = 24.sp, color = C.Text)
-    val Big = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 38.sp, lineHeight = 42.sp, letterSpacing = (-1).sp, color = C.Text)
-    val Hero = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.ExtraBold, fontSize = 56.sp, lineHeight = 58.sp, letterSpacing = (-1.6).sp, color = C.Text)
+    val Big = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 38.sp, lineHeight = 42.sp, letterSpacing = (-1).sp, color = C.Text)
+    val Hero = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 56.sp, lineHeight = 58.sp, letterSpacing = (-1.6).sp, color = C.Text)
 }
 
 @Composable
@@ -123,7 +126,14 @@ fun JarvisTheme(content: @Composable () -> Unit) {
             surface = C.Surface, onSurface = C.Text, surfaceVariant = C.SurfaceAlt, onSurfaceVariant = C.Muted,
             outline = C.Line, error = C.Danger, surfaceContainer = C.Surface, surfaceContainerHigh = C.Surface,
             surfaceContainerLow = C.Surface, surfaceContainerHighest = C.SurfaceAlt
-        )
+        ),
+        typography = Typography(
+            headlineLarge = T.H1, headlineMedium = T.Title, headlineSmall = T.H2,
+            titleLarge = T.Title2, titleMedium = T.Label, titleSmall = T.Label,
+            bodyLarge = T.Read, bodyMedium = T.Body, bodySmall = T.Small,
+            labelLarge = T.BtnM, labelMedium = T.Label, labelSmall = T.Small
+        ),
+        shapes = Shapes(small = RoundedCornerShape(12.dp), medium = RoundedCornerShape(16.dp), large = RoundedCornerShape(20.dp), extraLarge = RoundedCornerShape(24.dp))
     ) {
         CompositionLocalProvider(LocalTextStyle provides T.Body) { content() }
     }

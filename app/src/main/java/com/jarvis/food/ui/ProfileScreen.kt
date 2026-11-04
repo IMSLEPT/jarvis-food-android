@@ -100,30 +100,30 @@ private object PIc {
 
 @Composable
 private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: String?, divider: Boolean = true, key: String? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(13.dp)
     val warm = bg == C.AccentSoft || bg == A.FatSoft
     val tag = if (key == null) Modifier else Modifier.testTag("profile-item-$key")
-    Row(Modifier.fillMaxWidth().then(tag).heightIn(min = 62.dp).aShadow(shape, 8.dp).clip(shape)
-        .background(C.ProfileSurface).border(1.dp, C.ProfileBorder, shape).clickable(role = Role.Button, onClick = onClick)
-        .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(44.dp).clip(RoundedCornerShape(10.dp)).background(if (warm) C.AccentSoft else C.NavySoft), contentAlignment = Alignment.Center) {
-            AIcon(icon, if (warm) C.ProfileOrange else C.Navy, 24.dp)
+    Column(Modifier.fillMaxWidth().background(C.ProfileSurface)) {
+        Row(Modifier.fillMaxWidth().then(tag).heightIn(min = 68.dp).clickable(role = Role.Button, onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(36.dp).clip(RoundedCornerShape(11.dp)).background(if (warm) C.AccentSoft else C.NavySoft), contentAlignment = Alignment.Center) {
+                AIcon(icon, if (warm) C.ProfileOrange else C.Navy, 21.dp)
+            }
+            GapW(12.dp)
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text(title, style = T.Label.copy(fontSize = 15.sp, lineHeight = 21.sp))
+                if (sub != null) Text(sub, style = T.Small.copy(lineHeight = 18.sp))
+            }
+            GapW(8.dp)
+            AIcon(Ic.Right, C.ProfileMuted, 16.dp, 2f)
         }
-        GapW(16.dp)
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Text(title, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp, letterSpacing = (-0.3).sp, color = C.Navy))
-            if (sub != null) Text(sub, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = C.ProfileMuted))
-        }
-        GapW(8.dp)
-        AIcon(Ic.Right, C.ProfileMuted, 18.dp, 2.2f)
+        if (divider) HorizontalDivider(Modifier.padding(start = 62.dp, end = 14.dp), color = C.Line)
     }
-    if (divider) GapH(10.dp)
 }
 
 @Composable
 private fun ProfileSectionTitle(title: String) {
-    Text(title, style = T.H2.copy(fontSize = 20.5.sp, lineHeight = 26.sp, letterSpacing = (-0.3).sp, color = C.Navy),
-        modifier = Modifier.padding(top = 22.dp, bottom = 7.dp))
+    Text(title, style = T.H2.copy(fontSize = 18.sp, lineHeight = 24.sp, letterSpacing = (-0.3).sp, color = C.Navy),
+        modifier = Modifier.padding(top = 22.dp, bottom = 10.dp))
 }
 
 @Composable
@@ -165,7 +165,7 @@ fun ProfileScreen() {
             .onFailure { Toast.makeText(ctx, "Errore: ${it.message}", Toast.LENGTH_LONG).show() }
     }
     val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
-    val shape30 = RoundedCornerShape(30.dp)
+    val shape30 = RoundedCornerShape(20.dp)
 
     Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding().navigationBarsPadding()) {
         Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -193,7 +193,7 @@ fun ProfileScreen() {
                 }
             }
             GapH(16.dp)
-            val summaryShape = RoundedCornerShape(14.dp)
+            val summaryShape = RoundedCornerShape(20.dp)
             BoxWithConstraints(Modifier.fillMaxWidth().heightIn(min = 72.dp).aShadow(summaryShape, 8.dp).clip(summaryShape).background(C.ProfileSurface)
                 .border(1.dp, C.ProfileBorder, summaryShape).padding(12.dp)) {
                 val stacked = maxWidth / LocalDensity.current.fontScale < 280.dp
@@ -215,16 +215,21 @@ fun ProfileScreen() {
             }
 
             ProfileSectionTitle("Dati e obiettivi")
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).border(1.dp, C.Line, RoundedCornerShape(20.dp))) {
             ProfRow(Ic.User, C.NavySoft, C.Navy, "Profilo e obiettivo", "Dati personali e ritmo", key = "profile") { Nav.go(Screen.ProfileEdit) }
             ProfRow(PIc.Scale, C.AccentSoft, C.AccentDeep, "Peso", "Ultima registrazione: ${w.r1()} kg", key = "weight") { Nav.go(Screen.Weight) }
             ProfRow(PIc.Ruler, C.NavySoft, C.Navy, "Misure corporee", "Vita, fianchi, petto e altre misure", divider = false, key = "measurements") { Nav.go(Screen.Measurements) }
+            }
 
             ProfileSectionTitle("Alimentazione")
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).border(1.dp, C.Line, RoundedCornerShape(20.dp))) {
             ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Calorie e macronutrienti", if (s.trainingNutrition.active) "Obiettivi ON/OFF attivi" else "${s.goals.carbsPct}% carboidrati · ${s.goals.proteinPct}% proteine · ${s.goals.fatPct}% grassi", key = "goals") { Nav.go(Screen.Goals) }
             ProfRow(Ic.Calendar, C.NavySoft, C.Navy, "Giorni ON e OFF", if (s.trainingNutrition.active) "Allenamento e riposo · attivi" else "Imposta calorie e macro per tipo di giornata", key = "training-goals") { Nav.go(Screen.TrainingGoals) }
             ProfRow(PIc.Leaf, C.AccentSoft, C.AccentDeep, "Preferenze della dieta", "Alimenti esclusi, pasti e tempi", divider = false, key = "diet") { Nav.go(Screen.DietSettings) }
+            }
 
             ProfileSectionTitle("Strumenti")
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).border(1.dp, C.Line, RoundedCornerShape(20.dp))) {
             ProfRow(PIc.Chat, C.NavySoft, C.Navy, "Chat con Jarvis", "Il tuo assistente alimentare", key = "chat") { Nav.go(Screen.Chat) }
             ProfRow(PIc.Watch, C.AccentSoft, C.AccentDeep, "Smartwatch e attività", "Collegamenti e livello di attività", key = "watch") { Nav.go(Screen.Watch) }
             ProfRow(PIc.Sparks, C.NavySoft, C.Navy, "Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", key = "ai") { Nav.go(Screen.AiSettings) }
@@ -233,6 +238,7 @@ fun ProfileScreen() {
             ProfRow(PIc.Cook, C.AccentSoft, C.AccentDeep, "I miei alimenti", "${s.customFoods.size} alimenti · ${s.favorites.size} preferiti", key = "foods") { Nav.go(Screen.MyFoods) }
             ProfRow(PIc.Save, C.NavySoft, C.Navy, "Backup e dati", "Esporta, importa, CSV", key = "backup") { Nav.go(Screen.Backup) }
             ProfRow(PIc.Info, C.AccentSoft, C.AccentDeep, "Informazioni", "Versione ${BuildConfig.VERSION_NAME}", divider = false, key = "about") { Nav.go(Screen.About) }
+            }
 
             // Privacy
             Column(

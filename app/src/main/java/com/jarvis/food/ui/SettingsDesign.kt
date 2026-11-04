@@ -32,7 +32,7 @@ fun SettingsHeading(title: String, subtitle: String? = null, warm: Boolean = fal
 @Composable
 fun SettingsCard(title: String? = null, subtitle: String? = null, warm: Boolean = false,
                  modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(22.dp)
+    val shape = RoundedCornerShape(20.dp)
     Column(modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape)) {
         if (title != null) Column(Modifier.fillMaxWidth().background(if (warm) C.AccentSoft else C.NavySoft).padding(horizontal = 16.dp, vertical = 13.dp)) {
             Text(title, style = T.Label.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold))
@@ -49,9 +49,9 @@ fun SettingsIntro(title: String, description: String, warm: Boolean = false) {
 
 @Composable
 fun SettingsChoice(title: String, description: String? = null, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
+    val shape = RoundedCornerShape(14.dp)
     Row(modifier.fillMaxWidth().clip(shape).background(if (selected) C.NavySoft else C.Surface)
-        .border(if (selected) 2.dp else 1.dp, if (selected) C.Navy else C.Line, shape)
+        .border(if (selected) 1.5.dp else 1.dp, if (selected) C.Navy else C.Line, shape)
         .selectable(selected = selected, role = Role.RadioButton, onClick = onClick).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(title, style = T.Label.copy(fontSize = 15.sp, lineHeight = 21.sp))

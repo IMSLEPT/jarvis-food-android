@@ -97,7 +97,7 @@ fun JCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(20.dp)
     val base = modifier.fillMaxWidth()
         .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
         .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)).border(1.dp, A.Hair, shape) }
@@ -106,7 +106,7 @@ fun JCard(
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = null, onAction: (() -> Unit)? = null) {
-    ASection(text, modifier, action, top = 24.dp, onAction = onAction)
+    ASection(text, modifier, action, top = 20.dp, onAction = onAction)
 }
 
 @Composable
@@ -123,7 +123,7 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
 /** Pulsante principale: arancione sfumato con testo bianco. Con [color] diverso dall'arancione diventa pieno (es. blu navy). */
 @Composable
 fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(50)
+    val shape = RoundedCornerShape(14.dp)
     val orange = color == C.Accent
     val fill: Modifier = when {
         !enabled -> Modifier.background(C.SurfaceHi, shape)
@@ -132,7 +132,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
     }
     Box(
         modifier.heightIn(min = 52.dp).then(fill)
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else if (orange) C.OnOrange else C.OnAccent), textAlign = TextAlign.Center) }
 }
@@ -140,7 +140,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
 @Composable
 fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Text, onClick: () -> Unit) {
     Box(
-        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, Color(0x1A1D1B3A), RoundedCornerShape(50))
+        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, Color(0x1A1D1B3A), RoundedCornerShape(14.dp))
             .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(color = color), textAlign = TextAlign.Center) }
@@ -149,8 +149,8 @@ fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Te
 @Composable
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
-        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(50)).background(if (selected) color else C.Surface)
-            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), RoundedCornerShape(50))
+        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(if (selected) color else C.Surface)
+            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), RoundedCornerShape(14.dp))
             .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), textAlign = TextAlign.Center) }
 }
@@ -209,7 +209,7 @@ fun JField(value: String, onChange: (String) -> Unit, label: String, modifier: M
 
 @Composable
 fun Tag(text: String, color: Color, bg: Color = color.copy(alpha = 0.13f)) {
-    Box(Modifier.clip(RoundedCornerShape(50)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(50)).padding(horizontal = 9.dp, vertical = 3.dp)) {
+    Box(Modifier.clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(14.dp)).padding(horizontal = 9.dp, vertical = 3.dp)) {
         Text(text, style = T.Small.copy(color = color))
     }
 }
@@ -339,8 +339,8 @@ fun MacroBar(label: String, value: Double, goal: Double, color: Color, modifier:
     Column(modifier) {
         Text(label, style = T.Small.copy(color = if (onDark) Color.White.copy(alpha = 0.72f) else C.Muted))
         Spacer(Modifier.height(5.dp))
-        Box(Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(50)).background(if (onDark) Color.White.copy(alpha = 0.16f) else C.SurfaceAlt)) {
-            Box(Modifier.fillMaxWidth(p).height(8.dp).clip(RoundedCornerShape(50)).background(if (value > goal * 1.1) C.Danger else color))
+        Box(Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(14.dp)).background(if (onDark) Color.White.copy(alpha = 0.16f) else C.SurfaceAlt)) {
+            Box(Modifier.fillMaxWidth(p).height(8.dp).clip(RoundedCornerShape(14.dp)).background(if (value > goal * 1.1) C.Danger else color))
         }
         Spacer(Modifier.height(5.dp))
         Text("${value.r0()} / ${goal.r0()} g", style = T.Label.copy(color = if (onDark) Color.White else C.Text))
@@ -350,8 +350,8 @@ fun MacroBar(label: String, value: Double, goal: Double, color: Color, modifier:
 @Composable
 fun ProgressLine(p: Float, color: Color, modifier: Modifier = Modifier, height: Dp = 8.dp, marker: Float? = null) {
     val a by animateFloatAsState(p.coerceIn(0f, 1f), tween(600), label = "line")
-    Box(modifier.fillMaxWidth().height(height).clip(RoundedCornerShape(50)).background(C.SurfaceAlt)) {
-        Box(Modifier.fillMaxWidth(a).height(height).clip(RoundedCornerShape(50)).background(color))
+    Box(modifier.fillMaxWidth().height(height).clip(RoundedCornerShape(14.dp)).background(C.SurfaceAlt)) {
+        Box(Modifier.fillMaxWidth(a).height(height).clip(RoundedCornerShape(14.dp)).background(color))
         if (marker != null) Canvas(Modifier.fillMaxSize()) {
             val x = size.width * marker.coerceIn(0f, 1f)
             drawLine(C.Text.copy(alpha = 0.5f), Offset(x, 0f), Offset(x, size.height), 2.dp.toPx())

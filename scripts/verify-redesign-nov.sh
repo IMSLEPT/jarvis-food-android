@@ -33,14 +33,19 @@ run_suite() {
 $A shell wm size 1344x2992
 $A shell wm density 480
 $A shell settings put system font_scale 1.0
-run_suite pixel9 'com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
+$A install -r -g baseline/app-debug.apk
+$A install -r -g baseline/app-debug-androidTest.apk
+run_suite before 'com.jarvis.food.PremiumWholeAppTest'
+$A install -r -g app/build/outputs/apk/debug/app-debug.apk
+$A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+run_suite pixel9 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
 run_suite regression 'com.jarvis.food.ReferenceUiTest,com.jarvis.food.TodayDashboardTest,com.jarvis.food.TodayRefinementTest,com.jarvis.food.AuroraRegressionTest,com.jarvis.food.TrainingDiaryFlowTest,com.jarvis.food.DietSelectionFollowupFlowTest'
 $A shell settings put system font_scale 1.15
-run_suite pixel9-text115 'com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest'
+run_suite pixel9-text115 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest'
 $A shell wm size 945x2048
 $A shell wm density 420
 $A shell settings put system font_scale 1.3
-run_suite large-text 'com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
+run_suite large-text 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
 $A logcat -d -s AndroidRuntime:E > redesign-crash.txt
 if grep -q 'FATAL EXCEPTION' redesign-crash.txt; then failures=$((failures + 1)); cat redesign-crash.txt; fi
 collect
