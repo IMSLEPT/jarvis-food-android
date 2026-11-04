@@ -16,8 +16,8 @@ $A shell settings put secure user_setup_complete 1
 $A shell pm disable-user --user 0 com.google.android.googlesdksetup || true
 $A shell pm disable-user --user 0 com.google.android.setupwizard || true
 $A shell am force-stop com.google.android.apps.nexuslauncher || true
-$A install -r -g app/build/outputs/apk/debug/app-debug.apk
-$A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+$A install -r -g baseline/app-debug.apk
+$A install -r -g baseline/app-debug-androidTest.apk
 $A logcat -c
 $A shell settings put secure show_ime_with_hard_keyboard 1
 run_suite() {
@@ -33,8 +33,6 @@ run_suite() {
 $A shell wm size 1344x2992
 $A shell wm density 480
 $A shell settings put system font_scale 1.0
-$A install -r -g baseline/app-debug.apk
-$A install -r -g baseline/app-debug-androidTest.apk
 run_suite before 'com.jarvis.food.PremiumWholeAppTest'
 $A install -r -g app/build/outputs/apk/debug/app-debug.apk
 $A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
