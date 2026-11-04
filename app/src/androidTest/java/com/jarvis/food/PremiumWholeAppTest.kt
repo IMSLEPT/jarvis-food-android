@@ -44,6 +44,7 @@ class PremiumWholeAppTest {
             Nav.clear(); Nav.tab = 0; Nav.diaryDate = day; Nav.planDate = day
         }
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            compose.waitForIdle(); ins.waitForIdleSync()
             var safeBottom = 0
             scenario.onActivity { activity ->
                 val decor = activity.window.decorView
