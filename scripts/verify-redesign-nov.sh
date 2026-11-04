@@ -36,6 +36,16 @@ $A shell settings put system font_scale 1.0
 run_suite before 'com.jarvis.food.PremiumWholeAppTest'
 $A install -r -g app/build/outputs/apk/debug/app-debug.apk
 $A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+if [ "${QA_SCREEN_SCOPE:-full}" = profile ]; then
+  # Watch-only typography change: all five tabs and all 13 Profile destinations on three configurations.
+  run_suite pixel9 'com.jarvis.food.PremiumWholeAppTest'
+  $A shell settings put system font_scale 1.15
+  run_suite pixel9-text115 'com.jarvis.food.PremiumWholeAppTest'
+  $A shell wm size 945x2048
+  $A shell wm density 420
+  $A shell settings put system font_scale 1.3
+  run_suite large-text 'com.jarvis.food.PremiumWholeAppTest'
+else
 run_suite pixel9 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
 run_suite regression 'com.jarvis.food.ReferenceUiTest,com.jarvis.food.TodayDashboardTest,com.jarvis.food.TodayRefinementTest,com.jarvis.food.AuroraRegressionTest,com.jarvis.food.TrainingDiaryFlowTest,com.jarvis.food.DietSelectionFollowupFlowTest'
 $A shell settings put system font_scale 1.15
@@ -44,6 +54,7 @@ $A shell wm size 945x2048
 $A shell wm density 420
 $A shell settings put system font_scale 1.3
 run_suite large-text 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
+fi
 $A logcat -d -s AndroidRuntime:E > redesign-crash.txt
 if grep -q 'FATAL EXCEPTION' redesign-crash.txt; then failures=$((failures + 1)); cat redesign-crash.txt; fi
 collect

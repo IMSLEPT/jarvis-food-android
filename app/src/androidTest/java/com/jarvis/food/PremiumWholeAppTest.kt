@@ -5,6 +5,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -75,6 +76,23 @@ class PremiumWholeAppTest {
                 compose.waitForIdle()
                 assertEquals("Profile route $key", route, Nav.stack.last())
                 shot("settings-$key")
+                if (key == "watch" && !capture.contains("before")) {
+                    for (label in listOf("Amazfit", "Zepp", "Health Connect", "Jarvis Food")) {
+                        val node = compose.onNodeWithTag("watch-chain-$label", useUnmergedTree = true).performScrollTo()
+                        val layouts = mutableListOf<TextLayoutResult>()
+                        node.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
+                        assertTrue(layouts.isNotEmpty())
+                        for (layout in layouts) {
+                            assertFalse("Watch label clipped: $label", layout.hasVisualOverflow)
+                            for (line in 0 until layout.lineCount - 1) {
+                                val end = layout.getLineEnd(line, visibleEnd = true)
+                                val next = layout.getLineStart(line + 1)
+                                val brokenWord = end == next && label.getOrNull(end - 1)?.isLetterOrDigit() == true && label.getOrNull(next)?.isLetterOrDigit() == true
+                                assertFalse("Watch name split across lines: $label", brokenWord)
+                            }
+                        }
+                    }
+                }
                 val scrolls = compose.onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsProperties.VerticalScrollAxisRange))
                 if (scrolls.fetchSemanticsNodes().isNotEmpty()) {
                     scrolls[0].performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, 100_000f) }

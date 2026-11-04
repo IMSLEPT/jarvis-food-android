@@ -3,10 +3,13 @@ package com.jarvis.food.ui
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +33,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -239,14 +244,26 @@ fun WatchScreen() {
             SettingsHeading("Collegamento del dispositivo", "Amazfit → Zepp → Health Connect → Jarvis Food")
             ACard(Modifier.fillMaxWidth().testTag("watch-device-card"), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                 Column {
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
-                        ChainStep("Amazfit", WIc.Watch, C.Surface, C.Navy, Modifier.weight(1f))
-                        ChainArrow()
-                        ChainStep("Zepp", WIc.Phone, A.CarbSoft, A.CarbInk, Modifier.weight(1f))
-                        ChainArrow()
-                        ChainStep("Health Connect", Ic.Heart, A.GreenSoft, A.GreenInk, Modifier.weight(1f))
-                        ChainArrow()
-                        ChainStep("Jarvis Food", Ic.Bowl, null, Color.White, Modifier.weight(1f))
+                    BoxWithConstraints(Modifier.fillMaxWidth()) {
+                        val labels = listOf("Amazfit", "Zepp", "Health Connect", "Jarvis Food")
+                        val density = LocalDensity.current
+                        val measurer = rememberTextMeasurer()
+                        val labelStyle = T.Body.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                        val widths = labels.map { label ->
+                            val word = label.split(" ").maxOf { word -> with(density) { measurer.measure(word, style = labelStyle).size.width.toDp() } }
+                            maxOf(48.dp, word + 2.dp)
+                        }
+                        val needed = widths.fold(54.dp) { sum, width -> sum + width }
+                        val extra = (maxWidth - needed).coerceAtLeast(0.dp) / labels.size
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.Top) {
+                            ChainStep(labels[0], WIc.Watch, C.Surface, C.Navy, Modifier.width(widths[0] + extra))
+                            ChainArrow()
+                            ChainStep(labels[1], WIc.Phone, A.CarbSoft, A.CarbInk, Modifier.width(widths[1] + extra))
+                            ChainArrow()
+                            ChainStep(labels[2], Ic.Heart, A.GreenSoft, A.GreenInk, Modifier.width(widths[2] + extra))
+                            ChainArrow()
+                            ChainStep(labels[3], Ic.Bowl, null, Color.White, Modifier.width(widths[3] + extra))
+                        }
                     }
                     Text("Il watch sincronizza con Zepp, Zepp scrive su Health Connect e Jarvis Food legge da lì, solo sul tuo telefono. Se i passi non si aggiornano, apri prima Zepp e lascia che sincronizzi.",
                         style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 14.dp))
@@ -313,7 +330,7 @@ private fun ChainStep(label: String, icon: String, bg: Color?, ink: Color, modif
         Box(Modifier.size(48.dp).clip(RoundedCornerShape(18.dp)).background(bg?.let { C.cardSurface(it) } ?: Color.Transparent).then(if (bg == null) Modifier.background(A.Dawn) else Modifier), contentAlignment = Alignment.Center) {
             AIcon(icon, ink, 24.dp, if (bg == null) 2.2f else 2f)
         }
-        Text(label, style = T.Body.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Ink, textAlign = TextAlign.Center), modifier = Modifier.padding(top = 6.dp))
+        Text(label, style = T.Body.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Ink, textAlign = TextAlign.Center), modifier = Modifier.padding(top = 6.dp).testTag("watch-chain-$label"))
     }
 }
 
