@@ -134,7 +134,8 @@ fun TodayScreen() {
 
         Spacer(Modifier.height(20.dp))
         ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
-            if (LocalDensity.current.fontScale > 1.5f) Column {
+            BoxWithConstraints(Modifier.fillMaxWidth()) {
+            if (maxWidth / LocalDensity.current.fontScale < 320.dp) Column {
                 Row(Modifier.fillMaxWidth()) {
                     QuickTile("Aggiungi", TodayArt.Add, Modifier.weight(1f)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
                     QuickTile("Foto piatto", TodayArt.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
@@ -152,8 +153,9 @@ fun TodayScreen() {
                 QuickTile("Frigo", TodayArt.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
                 HomeDivider()
                 QuickTile("Digiuno", TodayArt.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
-            }            }
-
+            }
+            }
+            }
         }
 
         // ---- Diario
@@ -277,7 +279,7 @@ private fun QuickTile(label: String, art: TodayArt, modifier: Modifier, onClick:
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         TodayArtwork(art, Modifier.size(46.dp).testTag("quick-icon-$label"))
         Spacer(Modifier.height(8.dp))
-        Text(label, style = T.Small.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = C.Navy), textAlign = TextAlign.Center)
+        Text(label, style = T.Small.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.SemiBold, color = C.Navy), textAlign = TextAlign.Center)
     }
 }
 
@@ -303,13 +305,14 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
         entries.isNotEmpty() -> "P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()} g"
         else -> "Nessun alimento"
     }
-    val large = LocalDensity.current.fontScale > 1.2f
     val photoId = planned?.solved?.template
     // Immagine 8: bordo navy, foto del piatto, titolo, kcal nella pillola pesca, freccia e "+" navy.
     Column(Modifier.fillMaxWidth().testTag("diary-meal-$meal").refShadow(shape, 5.dp).clip(shape).background(Color.White)
-        .border(2.dp, RD.Ink, shape).animateContentSize(tween(260))) {
+        .border(1.5.dp, RD.Ink, shape).animateContentSize(tween(260))) {
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val large = maxWidth / LocalDensity.current.fontScale < 320.dp
         val photo: @Composable () -> Unit = {
-            Box(Modifier.size(if (large) 52.dp else 60.dp).clip(RoundedCornerShape(16.dp)).background(RD.PeachBrush), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(52.dp).clip(RoundedCornerShape(16.dp)).background(RD.PeachBrush), contentAlignment = Alignment.Center) {
                 if (photoId != null) RecipeImage(photoId.id, photoId.image, s.recipePhotos[photoId.id], Modifier.fillMaxSize(), recEmoji(photoId.meal), 16.dp,
                     contentScale = androidx.compose.ui.layout.ContentScale.Crop)
                 else MealDuoIcon(meal, 32.dp)
@@ -323,7 +326,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             }
         }
         val controls: @Composable () -> Unit = {
-            Box(Modifier.size(32.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon(RIc.Chevron, RD.Ink, 22.dp, 2.8f) }
+            Box(Modifier.size(24.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon(RIc.Chevron, RD.Ink, 22.dp, 2.8f) }
             GapW(6.dp)
             Box(Modifier.size(48.dp).clip(RoundedCornerShape(15.dp)).background(RD.ButtonBrush)
                 .semantics { contentDescription = "Aggiungi a ${MEAL_LABEL.getValue(meal)}" }
@@ -340,15 +343,15 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             Text(subtitle, style = T.Body.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.Grey))
             GapH(8.dp)
             Row(verticalAlignment = Alignment.CenterVertically) { Box(Modifier.weight(1f)) { pill() }; controls() }
-        } else BoxWithConstraints(Modifier.fillMaxWidth()) {
-            // Con la pillola in riga servono almeno 400 dp, altrimenti titolo e kcal vanno a capo in modo irregolare.
-            val roomy = maxWidth >= 430.dp * LocalDensity.current.fontScale
+        } else {
+            // Keep the full meal name readable; move energy below it on phone widths.
+            val roomy = maxWidth / LocalDensity.current.fontScale >= 540.dp
             Row(Modifier.fillMaxWidth().clickable { open = !open }.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                 photo()
                 GapW(12.dp)
                 Column(Modifier.weight(1f)) {
-                    AutoFitText(MEAL_LABEL.getValue(meal), T.Title.copy(fontSize = 19.sp, lineHeight = 23.sp, color = RD.Ink), Modifier.testTag("diary-title-$meal"), minScale = 0.8f)
-                    AutoFitText(subtitle, T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = RD.Grey), minScale = 0.8f)
+                    Text(MEAL_LABEL.getValue(meal), style = T.Title.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink), modifier = Modifier.testTag("diary-title-$meal"))
+                    Text(subtitle, style = T.Body.copy(fontSize = 13.sp, lineHeight = 18.sp, color = RD.Grey))
                     if (!roomy && kcal != null) { GapH(6.dp); pill() }
                 }
                 if (roomy) {
@@ -360,6 +363,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                 GapW(4.dp)
                 controls()
             }
+        }
         }
         if (open) Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
             if (entries.isEmpty()) {
@@ -524,10 +528,9 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
                     ReferenceInsightHeading("Attività", "Smartwatch") { Nav.go(Screen.Watch) }
                     Text("Passi giornalieri", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
                     androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Row(verticalAlignment = Alignment.Bottom) {
+                        Column {
                             Text(steps.thousands(), style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, color = RD.Ink))
-                            GapW(6.dp)
-                            Text("su ${goal.thousands()}", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey), modifier = Modifier.padding(bottom = 5.dp), softWrap = false)
+                            Text("su ${goal.thousands()}", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
                         }
                         Text("${(steps.toDouble() / goal * 100).toInt()}%", style = T.Title.copy(fontSize = 22.sp, lineHeight = 26.sp, color = RD.Ink), modifier = Modifier
                             .clip(RoundedCornerShape(22.dp)).background(Color(0xFFEEF2F8)).padding(horizontal = 14.dp, vertical = 10.dp))
@@ -541,15 +544,14 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
                         ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
                     }
                     list.forEach { a -> ActivityRow(a.name, "${a.minutes} min · inserita a mano", a.kcal.toString(), onRemove = { Store.removeActivity(a.id) }) }
-                    if (!watch) Text("Aggiungi attività", style = T.Link, modifier = Modifier.clickable { Nav.go(Screen.Activity(date)) }.padding(vertical = 2.dp))
-                    if (!watch) Text(if (editSteps) "Chiudi" else "Modifica passi", style = T.Link, modifier = Modifier.clickable { editSteps = !editSteps }.padding(vertical = 2.dp))
+                    if (!watch) Text("Aggiungi attività", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Activity(date)) }.padding(vertical = 12.dp))
+                    if (!watch) Text(if (editSteps) "Chiudi" else "Modifica passi", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { editSteps = !editSteps }.padding(vertical = 12.dp))
             }
             if (editSteps && !watch) {
                 Spacer(Modifier.height(10.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    JField(stepsText, { stepsText = it.filter { c -> c.isDigit() }.take(6) }, "Passi di oggi", Modifier.weight(1f), number = true)
-                    Spacer(Modifier.width(8.dp))
-                    PrimaryButton("Salva") { Store.setSteps(date, stepsText.toIntOrNull() ?: 0); editSteps = false }
+                Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    JField(stepsText, { stepsText = it.filter { c -> c.isDigit() }.take(6) }, "Passi di oggi", Modifier.fillMaxWidth(), number = true)
+                    PrimaryButton("Salva", Modifier.fillMaxWidth()) { Store.setSteps(date, stepsText.toIntOrNull() ?: 0); editSteps = false }
                 }
             }
             if (s.energy.mode == 0 && (list.isNotEmpty() || steps > 0)) {
@@ -564,11 +566,14 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
 private fun ActivityRow(title: String, sub: String, kcal: String?, onRemove: (() -> Unit)? = null) {
     Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
-            Text(title, style = T.Label.copy(fontSize = 13.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text(sub, style = T.Small.copy(fontSize = 12.sp))
+            Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp))
+            Text(sub, style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp))
         }
-        if (kcal != null) Text("$kcal kcal", style = T.Label.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.GreenInk))
-        if (onRemove != null) Text("✕", style = T.Label.copy(color = C.Faint), modifier = Modifier.clip(CircleShape).clickable(onClick = onRemove).padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 2.dp))
+        if (kcal != null) Text("$kcal kcal", style = T.Label.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.GreenInk), modifier = Modifier.padding(start = 8.dp))
+        if (onRemove != null) Box(Modifier.size(48.dp).clip(CircleShape).semantics { contentDescription = "Elimina $title" }
+            .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onRemove), contentAlignment = Alignment.Center) {
+            AIcon("M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12", C.Muted, 20.dp)
+        }
     }
 }
 

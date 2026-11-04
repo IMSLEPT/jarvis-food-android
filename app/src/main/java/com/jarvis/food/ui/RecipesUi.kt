@@ -407,18 +407,18 @@ internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTempla
 private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
     val large = LocalDensity.current.fontScale > 1.2f || androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp < 380
     // Immagine 15: tessera pesca con icona arancio, separatore, titolo e conteggio, freccia navy.
-    val titleScale = androidx.compose.runtime.remember { androidx.compose.runtime.mutableFloatStateOf(1f) }
+
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
         val shape = RoundedCornerShape(26.dp)
         Row(modifier.heightIn(min = if (large) 88.dp else 76.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
             .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             // Riferimento: titolo e conteggio su una riga, due schede identiche affiancate.
-            PeachTile(if (large) 54.dp else 46.dp, radius = 14.dp) { AIcon(icon, RD.OrangeDeep, if (large) 30.dp else 26.dp, 2.4f) }
-            GapW(8.dp); OrangeDivider(36.dp); GapW(8.dp)
+            PeachTile(if (large) 48.dp else 36.dp, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, if (large) 28.dp else 24.dp, 2.4f) }
+            GapW(6.dp); OrangeDivider(32.dp); GapW(6.dp)
             Column(Modifier.weight(1f)) {
-                SharedFitText(label, T.Title.copy(fontSize = 17.sp, lineHeight = 21.sp, color = RD.Ink), titleScale, minScale = 0.7f)
-                AutoFitText(if (count == 1) "1 ricetta" else "$count ricette", T.Body.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.Grey), minScale = 0.75f)
+                Text(label, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Ink))
+                Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Body.copy(fontSize = 13.sp, lineHeight = 18.sp, color = RD.Grey))
             }
             GapW(2.dp)
             AIcon(RIc.Right, RD.Ink, 18.dp, 2.8f)
@@ -438,16 +438,16 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
 private fun InspirationBanner() {
     val shape = RoundedCornerShape(28.dp)
     val large = LocalDensity.current.fontScale > 1.2f
-    Row(Modifier.fillMaxWidth().then(if (large) Modifier.heightIn(min = 96.dp) else Modifier.height(108.dp)).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(Color.White)
+    Row(Modifier.fillMaxWidth().heightIn(min = 104.dp).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(Color.White)
         .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.WhatNow) }, verticalAlignment = Alignment.CenterVertically) {
         GapW(12.dp)
-        PeachTile(58.dp, radius = 17.dp) { Box(Modifier.size(34.dp)) { AIcon(RIc.Bulb, RD.OrangeDeep, 34.dp, 2.2f); AIcon(RIc.BulbRays, RD.OrangeDeep, 34.dp, 2.2f) } }
-        GapW(12.dp); OrangeDivider(48.dp); GapW(12.dp)
+        PeachTile(44.dp, radius = 13.dp) { Box(Modifier.size(34.dp)) { AIcon(RIc.Bulb, RD.OrangeDeep, 34.dp, 2.2f); AIcon(RIc.BulbRays, RD.OrangeDeep, 34.dp, 2.2f) } }
+        GapW(8.dp); OrangeDivider(40.dp); GapW(8.dp)
         Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
             Text("Ispirazione su misura", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink))
             Text("Un piatto per ciò che ti resta oggi", style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = Color(0xFF4A5470)))
         }
-        if (!large) Box(Modifier.width(128.dp).fillMaxHeight()) {
+        if (!large) Box(Modifier.width(84.dp).height(104.dp)) {
             androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.ref_inspiration_bowl), null,
                 Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop, alignment = Alignment.CenterEnd)
             Box(Modifier.align(Alignment.CenterEnd).padding(end = 10.dp).size(46.dp).refShadow(CircleShape, 3.dp).clip(CircleShape).background(Color(0xFFFFF3EA))

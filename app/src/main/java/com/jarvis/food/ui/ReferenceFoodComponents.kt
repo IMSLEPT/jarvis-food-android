@@ -43,34 +43,34 @@ internal val InsightTile = Color(0xFFEEF2F8)
 
 @Composable
 internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScope.() -> Unit) {
-    // Riferimento del 4 novembre: icone grandi su tessera azzurrina, separatore sottile grigio.
-    // Il separatore è disegnato sul bordo della colonna di testo: niente misura intrinseca, così
-    // l'ultima riga (stima EFSA, consigli su due righe) non viene mai tagliata.
-    val large = LocalDensity.current.fontScale > 1.2f
-    val tile = if (large) 76.dp else 88.dp
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        ReferenceIllustration(art, Modifier.size(tile).testTag("insight-icon-$art"))
-        GapW(14.dp)
-        Column(Modifier.weight(1f).drawBehind {
-            val x = 0.5.dp.toPx(); val inset = 4.dp.toPx()
-            drawLine(Color(0xFFE1E4EA), Offset(x, inset), Offset(x, size.height - inset), 1.dp.toPx())
-        }.padding(start = 16.dp), content = content)
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val stacked = maxWidth / LocalDensity.current.fontScale < 280.dp
+        if (stacked) {
+            Column(Modifier.fillMaxWidth()) {
+                ReferenceIllustration(art, Modifier.size(64.dp).testTag("insight-icon-$art"))
+                GapH(10.dp)
+                Column(Modifier.fillMaxWidth(), content = content)
+            }
+        } else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            ReferenceIllustration(art, Modifier.size(72.dp).testTag("insight-icon-$art"))
+            GapW(12.dp)
+            Column(Modifier.weight(1f).drawBehind {
+                drawLine(Color(0xFFE1E4EA), Offset(0f, 4.dp.toPx()), Offset(0f, size.height - 4.dp.toPx()), 1.dp.toPx())
+            }.padding(start = 12.dp), content = content)
+        }
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ReferenceInsightHeading(title: String, action: String? = null, onAction: () -> Unit = {}) {
-    // Titolo e azione sulla stessa riga, con spazio fra i due (riferimento): il titolo si riduce
-    // leggermente invece di andare a capo o toccare il link.
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        AutoFitText(title, T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink), Modifier.weight(1f), minScale = 0.72f)
-        if (action != null) {
-            GapW(8.dp)
-            Row(Modifier.heightIn(min = 36.dp).clip(RoundedCornerShape(8.dp))
-                .clickable(role = Role.Button, onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
-                Text(action, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.OrangeText), maxLines = 1, softWrap = false); GapW(4.dp)
-                AIcon(RIc.Right, RD.OrangeText, 16.dp, 2.6f)
-            }
+    FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(title, modifier = Modifier.align(Alignment.CenterVertically), style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink))
+        if (action != null) Row(Modifier.align(Alignment.CenterVertically).heightIn(min = 48.dp).clip(RoundedCornerShape(8.dp))
+            .clickable(role = Role.Button, onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
+            Text(action, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.OrangeText))
+            GapW(4.dp)
+            AIcon(RIc.Right, RD.OrangeText, 16.dp, 2.6f)
         }
     }
 }

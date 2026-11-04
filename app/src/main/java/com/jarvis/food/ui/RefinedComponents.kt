@@ -111,7 +111,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
             val selected = meal.slotIndex == selectedSlot
             // Immagine 4: pillola con tessera pesca, separatore arancio, nome e freccia nel cerchio.
             val shape = RoundedCornerShape(26.dp)
-            Row(Modifier.heightIn(min = 64.dp).testTag("plan-slot-${meal.diaryMeal}")
+            Row(Modifier.heightIn(min = 56.dp).testTag("plan-slot-${meal.diaryMeal}")
                 .refShadow(shape, if (selected) 5.dp else 2.dp).clip(shape)
                 .background(if (selected) RD.NavyBrush else androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color.White, Color.White)))
                 .border(1.dp, if (selected) Color.White else Color(0xFFD5D9E3), shape)
@@ -119,9 +119,9 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
                     selectedSlot = meal.slotIndex
                     scope.launch { requesters[meal.slotIndex]?.bringIntoView() }
                 }).padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                PeachTile(48.dp, radius = 15.dp, brush = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0xFFFDEBDC), Color(0xFFFFF5EE)))) { MealDuoIcon(meal.diaryMeal, 32.dp) }
+                PeachTile(40.dp, radius = 12.dp, brush = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0xFFFDEBDC), Color(0xFFFFF5EE)))) { MealDuoIcon(meal.diaryMeal, 26.dp) }
                 GapW(12.dp); OrangeDivider(32.dp); GapW(12.dp)
-                Text(meal.slotName, style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = if (selected) Color.White else RD.Ink))
+                Text(meal.slotName, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = if (selected) Color.White else RD.Ink))
                 GapW(12.dp)
                 ChevronCircle(34.dp, if (selected) Color(0xFF1E4A8C) else RD.GreyFill, if (selected) Color.White else RD.Ink)
             }
@@ -141,29 +141,31 @@ private fun mealIcon(id: Int) = when (id) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealL
 fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifier: Modifier = Modifier) {
     val r = m.solved
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
-    val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
+    val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 380
     val shape = RoundedCornerShape(30.dp)
     Column(Modifier.fillMaxWidth().testTag("plan-card-${m.diaryMeal}").refShadow(shape, 6.dp).clip(shape).background(Color.White)
         .border(1.dp, Color(0xFFE6E8EE), shape)
         .drawBehindWarm()) {
         Column(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(52.dp).clip(RoundedCornerShape(16.dp)).background(RD.OrangeBrush), contentAlignment = Alignment.Center) {
-                    AIcon(RIc.BowlSmile, Color.White, 32.dp, 2.4f)
+            FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(RD.OrangeBrush), contentAlignment = Alignment.Center) {
+                        AIcon(RIc.BowlSmile, Color.White, 26.dp, 2.4f)
+                    }
+                    GapW(10.dp)
+                    Box(Modifier.width(1.dp).height(28.dp).background(RD.GreyLine))
+                    GapW(10.dp)
+                    Text(m.slotName, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink), modifier = Modifier.weight(1f))
                 }
-                GapW(12.dp)
-                Box(Modifier.width(2.dp).height(36.dp).background(RD.GreyLine))
-                GapW(12.dp)
-                AutoFitText(m.slotName, T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp, color = RD.Ink), Modifier.weight(1f).padding(end = 6.dp))
-                Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(22.dp))
-                    .background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB)).border(1.dp, Color(0xFFE2DFDC), RoundedCornerShape(22.dp))
-                    .padding(horizontal = 14.dp, vertical = 8.dp),
-                    style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp, color = if (eaten) A.GreenInk else RD.Ink), maxLines = 1, softWrap = false)
+                Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = (if (expanded) Modifier.fillMaxWidth() else Modifier)
+                    .clip(RoundedCornerShape(18.dp)).background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB))
+                    .padding(horizontal = 10.dp, vertical = 8.dp),
+                    style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp, color = if (eaten) A.GreenInk else RD.Ink))
             }
             GapH(12.dp)
             Text(r.template.name, modifier = Modifier.fillMaxWidth().testTag("plan-recipe-title-${m.diaryMeal}").clickable(role = Role.Button) {
                 Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
-            }, style = T.Title.copy(fontSize = 25.sp, lineHeight = 30.sp, color = RD.Ink))
+            }, style = T.Title.copy(fontSize = 22.sp, lineHeight = 28.sp, color = RD.Ink))
         }
         Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 12.dp).testTag("plan-recipe-${m.diaryMeal}")
             .clip(RoundedCornerShape(24.dp)).clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
@@ -224,11 +226,11 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
         FlowRow(Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             // Riferimento: due pulsanti della stessa altezza, testo su una riga.
-            val eatenModifier = (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.15f)).testTag("plan-eaten-${m.diaryMeal}")
-            if (eaten) RefOutlineButton("Mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 16.sp) { Store.uneatPlanned(date, m.slotIndex) }
-            else RefPrimaryButton("Segna mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 16.sp) { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
+            val eatenModifier = (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.3f)).testTag("plan-eaten-${m.diaryMeal}")
+            if (eaten) RefOutlineButton("Mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 15.sp) { Store.uneatPlanned(date, m.slotIndex) }
+            else RefPrimaryButton("Segna mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 15.sp) { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
             RefOutlineButton("Alternative", (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}"), icon = RIc.Swap, divider = false,
-                height = 52.dp, singleLine = true, textSize = 16.sp) {
+                height = 52.dp, singleLine = true, textSize = 15.sp) {
                 Nav.go(Screen.Alternatives(date, m.slotIndex))
             }
         }

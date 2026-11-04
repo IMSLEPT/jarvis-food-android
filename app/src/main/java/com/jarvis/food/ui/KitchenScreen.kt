@@ -104,6 +104,7 @@ fun KitchenScreen() {
             })
         Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)
             .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 24.dp)) {
+            if (Nav.kitchenTab != 2) GapH(12.dp)
             when (Nav.kitchenTab) {
                 0 -> PantryTab(s)
                 1 -> ShoppingTab(s)
@@ -170,9 +171,10 @@ private fun CookTodayBlock(s: AppState) {
                     .onFailure { Toast.makeText(ctx, it.message ?: "Errore", Toast.LENGTH_LONG).show() }
                 busy = false
             }
-        }.padding(vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        }.padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             AIcon(Ic.Spark, C.Accent, 22.dp, 2f); GapW(10.dp)
-            Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White))
+            Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White),
+                modifier = Modifier.weight(1f, fill = false), textAlign = TextAlign.Center)
         }
         if (!enabled && !busy) Text("Aggiungi alla dispensa un ingrediente riconosciuto per creare una ricetta.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
     }

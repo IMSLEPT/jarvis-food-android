@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -250,12 +251,10 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     if (panelOpen && expanded) ACard(radius = 24.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 0.dp) {
         Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 20.dp, bottom = 12.dp)) {
             Text("Totale con le tue scelte", style = T.Muted.copy(fontWeight = FontWeight.Medium))
-            Row(Modifier.padding(top = 2.dp), verticalAlignment = Alignment.Bottom) {
-                Text(kcalFmt(tot.kcal), style = T.Hero.copy(fontSize = 54.sp, lineHeight = 56.sp))
-                Text("  kcal", style = T.Body.copy(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 7.dp))
-                Spacer(Modifier.weight(1f))
-                Box(Modifier.padding(bottom = 6.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xCCFFFFFF)).padding(horizontal = 12.dp, vertical = 6.dp)) {
-                    Text("Obiettivo ${kcalFmt(e.targetKcal)}", style = T.Small.copy(fontWeight = FontWeight.SemiBold, fontSize = 12.sp))
+            FlowRow(Modifier.fillMaxWidth().padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("${kcalFmt(tot.kcal)} kcal", style = T.Hero.copy(fontSize = 36.sp, lineHeight = 43.sp))
+                Box(Modifier.clip(RoundedCornerShape(16.dp)).background(C.NavySoft).padding(horizontal = 12.dp, vertical = 8.dp)) {
+                    Text("Obiettivo ${kcalFmt(e.targetKcal)} kcal", style = T.Small.copy(fontWeight = FontWeight.SemiBold, fontSize = 14.sp, lineHeight = 19.sp))
                 }
             }
             if (e.extraKcal > 0) Text("+${e.extraKcal.r0()} kcal dall'attività", style = T.Small.copy(color = A.GreenInk, fontWeight = FontWeight.SemiBold))
@@ -272,10 +271,18 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     }
                 }
             }
-            Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                TotalCol("Proteine", tot.protein, e.protein, C.Protein, A.ProteinSoft, Modifier.weight(1f))
-                TotalCol("Carboidrati", tot.carbs, e.carbs, C.Blue, A.CarbSoft, Modifier.weight(1f))
-                TotalCol("Grassi", tot.fat, e.fat, C.Gold, A.FatSoft, Modifier.weight(1f))
+            BoxWithConstraints(Modifier.fillMaxWidth().padding(top = 16.dp)) {
+                if (maxWidth / LocalDensity.current.fontScale < 330.dp) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        TotalCol("Proteine", tot.protein, e.protein, C.Protein, A.ProteinSoft, Modifier.fillMaxWidth())
+                        TotalCol("Carboidrati", tot.carbs, e.carbs, C.Blue, A.CarbSoft, Modifier.fillMaxWidth())
+                        TotalCol("Grassi", tot.fat, e.fat, C.Gold, A.FatSoft, Modifier.fillMaxWidth())
+                    }
+                } else Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TotalCol("Proteine", tot.protein, e.protein, C.Protein, A.ProteinSoft, Modifier.weight(1f))
+                    TotalCol("Carboidrati", tot.carbs, e.carbs, C.Blue, A.CarbSoft, Modifier.weight(1f))
+                    TotalCol("Grassi", tot.fat, e.fat, C.Gold, A.FatSoft, Modifier.weight(1f))
+                }
             }
             Row(Modifier.padding(top = 6.dp).heightIn(min = 48.dp).clickable { Nav.go(Screen.EnergyInfo) }, verticalAlignment = Alignment.CenterVertically) {
                 Text("Come è calcolato", style = T.Link.copy(color = A.Link))
@@ -305,8 +312,8 @@ private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, on
             AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", DashboardOrange, 20.dp)
             GapW(8.dp)
             Column(Modifier.weight(1f)) {
-                Text("Alimentazione", style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp))
-                Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
+                Text("Alimentazione", style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp))
+                Text(com.jarvis.food.engine.DietStyles.get(Store.prefsFor(s, date).styleId).title, style = T.Small.copy(fontSize = 14.sp, lineHeight = 19.sp))
             }
             GapW(4.dp)
             AIcon(Ic.Right, C.Navy, 14.dp)
@@ -325,13 +332,13 @@ private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, on
 
 @Composable
 private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 10.dp)) {
+    Column(modifier.clip(RoundedCornerShape(18.dp)).background(soft.copy(alpha = .55f)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
             Text(" g", style = T.Small.copy(fontSize = 12.sp), modifier = Modifier.padding(bottom = 3.dp))
         }
-        Text(label, style = T.Small.copy(fontSize = 12.sp))
-        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 12.sp))
+        Text(label, style = T.Small.copy(fontSize = 14.sp, lineHeight = 19.sp, fontWeight = FontWeight.SemiBold))
+        Text("su ${goal.r0()} g", style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp))
         ABar((if (goal > 0) v / goal else 0.0).toFloat(), Brush.horizontalGradient(listOf(color, color)), soft, 6.dp, Modifier.padding(top = 8.dp))
     }
 }
@@ -534,8 +541,8 @@ fun DietSettingsScreen() {
             SettingsHeading("Ripartizione delle calorie", "Imposta le quote: Jarvis le riporta in proporzione al totale giornaliero.")
             SettingsCard(title = "Quote dei pasti") {
                 p.slots.forEachIndexed { i, sl ->
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(sl.name, style = T.Label, modifier = Modifier.weight(1f))
+                    FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(sl.name, style = T.Label)
                         Text("${(100.0 * sl.share / sum).r0()}% · ${kcalFmt(kcal * sl.share / sum)} kcal", style = T.Small)
                     }
                     Slider(sl.share.toFloat(), { v -> p = p.copy(slots = p.slots.map { if (it.diaryMeal == sl.diaryMeal) it.copy(share = v.toInt().coerceAtLeast(1)) else it }) },

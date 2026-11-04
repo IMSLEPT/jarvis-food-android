@@ -1,10 +1,13 @@
 name: Redesign novembre APK
 on:
   push:
-    branches: [feat/redesign-reference-2026-11-04]
+    branches: [feat/redesign-reference-2026-11-04, fix/video-ui-premium-2026-11-04]
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: premium-ui-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,11 +32,15 @@ jobs:
           with zipfile.ZipFile(next(pathlib.Path('original').glob('*.apk'))) as z:
               pathlib.Path('app/src/main/assets/food.tflite').write_bytes(z.read('assets/food.tflite'))
           PY
-          CODE=$(gh api 'repos/IMSLEPT/jarvis-food-android/releases?per_page=100' --jq '[.[].tag_name | select(test("^(preview-)?v1\\.0\\.")) | split(".")[-1] | tonumber?] | max + 1')
-          if [ "$CODE" -lt 222 ]; then CODE=222; fi
-          echo "APK_CODE=$CODE" >> "$GITHUB_ENV"
+          gh api --paginate 'repos/IMSLEPT/jarvis-food-android/releases?per_page=100' --jq '.[].tag_name' | python3 scripts/next-apk-version.py >> "$GITHUB_ENV"
           python3 scripts/verify-aurora-boundary.py
           python3 tools/photography/verify.py
+      - name: Download latest installed-version upgrade baseline
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p previous
+          gh release download "$PREVIOUS_RELEASE_TAG" -p '*.apk' -D previous
       - name: Decrypt original signing key
         env:
           SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
@@ -45,6 +52,7 @@ jobs:
           GITHUB_RUN_NUMBER="$APK_CODE" ./gradlew assembleRelease testReleaseUnitTest assembleDebug assembleDebugAndroidTest --console=plain 2>&1 | tee build.log
           CODE=${PIPESTATUS[0]}
           if [ $CODE -ne 0 ]; then grep -E "^e: |error:|What went wrong|FAILED" -A3 build.log | head -120; exit $CODE; fi
+          set -e
           cp app/build/outputs/apk/release/app-release.apk "dist/JarvisFood-v1.0.$APK_CODE.apk"
           TOOL=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -1)
           "$TOOL" verify --print-certs original/*.apk > dist/original-certificate.txt
@@ -69,7 +77,6 @@ jobs:
           cp scripts/qa-adb.py .ci-bin/adb
           chmod +x .ci-bin/adb
       - name: Android 15 Pixel 9 Pro XL verification
-        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -93,7 +100,7 @@ jobs:
           sha256sum dist/*.apk > dist/SHA256.txt || true
           ls -la dist
       - name: Publish preview release
-        if: always()
+        if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -102,3 +109,16 @@ jobs:
           TAG="preview-v1.0.$APK_CODE-redesign"
           gh release delete "$TAG" -y --cleanup-tag 2>/dev/null || true
           gh release create "$TAG" dist/* --target "$GITHUB_SHA" --prerelease --title "Jarvis Food v1.0.$APK_CODE — anteprima redesign novembre" --notes 'Anteprima in verifica: redesign grafico del 4 novembre 2026.'
+      - name: Save APK and complete QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Premium-UI-APK-QA-${{ github.run_id }}
+          path: |
+            dist/
+            build.log
+            redesign-*.log
+            redesign-*.txt
+            redesign-shots.tar
+            app/build/test-results/testReleaseUnitTest/*.xml
+          retention-days: 14

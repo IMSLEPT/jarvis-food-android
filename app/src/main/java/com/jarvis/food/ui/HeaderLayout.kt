@@ -54,28 +54,31 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     val navy = greeting == null
     val ink = if (navy) Color.White else RD.Ink
     RefBannerFrame(navy) {
-        Row(Modifier.fillMaxWidth().height(RD.bannerTitleHeight()).padding(start = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (navy) {
-                PlanCalendarLogo(RD.BannerLogo)
-                GapW(12.dp)
-                Box(Modifier.width(1.5.dp).height(46.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x99FFFFFF)))
-                GapW(12.dp)
-            }
-            Column(Modifier.weight(1f).padding(end = 8.dp), verticalArrangement = Arrangement.Center) {
-                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
-                    style = T.Body.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink))
-                AutoFitText(if (greeting != null && !large) s.profile.name else title,
-                    T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 35.sp, color = ink))
-                Box(Modifier.testTag(dateTag).semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(10.dp))
-                    .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }.padding(vertical = 2.dp)) {
-                    AutoFitText(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
-                        T.Title2.copy(fontSize = 19.sp, lineHeight = 24.sp, color = ink, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold))
+        Column(Modifier.fillMaxWidth().heightIn(min = RD.bannerTitleHeight()), verticalArrangement = Arrangement.Center) {
+            Row(Modifier.fillMaxWidth().heightIn(min = if (large) 90.dp else if (big) 78.dp else 64.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (navy) {
+                    PlanCalendarLogo(RD.BannerLogo)
+                    GapW(10.dp)
+                    Box(Modifier.width(1.5.dp).height(40.dp).background(Color(0x99FFFFFF)))
+                    GapW(10.dp)
                 }
+                Column(Modifier.weight(1f).padding(end = 8.dp)) {
+                    if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
+                        style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Ink))
+                    Text(if (greeting != null && !large) s.profile.name else title,
+                        style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 35.sp, color = ink))
+                }
+                RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
+                GapW(8.dp)
+                RefProfileButton(RD.headerButton())
             }
-            val button = RD.headerButton()
-            RefCalendarButton(button) { showDatePicker(context, date, onPick) }
-            GapW(10.dp)
-            RefProfileButton(button)
+            Box(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag(dateTag)
+                .semantics { contentDescription = fullDay(date) }.clip(RoundedCornerShape(10.dp))
+                .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
+                .padding(top = 6.dp, bottom = 6.dp)) {
+                Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
+                    style = T.Title2.copy(fontSize = 17.sp, lineHeight = 23.sp, color = ink))
+            }
         }
         GapH(6.dp)
         Box(Modifier.fillMaxWidth().height(RD.stripHeight()), contentAlignment = Alignment.Center) {

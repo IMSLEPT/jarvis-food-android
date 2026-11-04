@@ -2,6 +2,8 @@ package com.jarvis.food.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -74,7 +76,7 @@ object RD {
     @Composable fun stripHeight() = when { LocalDensity.current.fontScale > 1.5f -> 180.dp; LocalDensity.current.fontScale > 1.2f -> 96.dp; else -> 84.dp }
     @Composable fun large() = LocalDensity.current.fontScale > 1.2f
     /** Calendario e profilo hanno la stessa misura in tutti i banner. */
-    @Composable fun headerButton() = if (large()) 46.dp else 50.dp
+    @Composable fun headerButton() = 48.dp
     /** Loghi dei banner: stessa impronta visiva su tutte le schede. */
     val BannerLogo = 44.dp
     /** Titoli dei banner: stessa dimensione su tutte le schede. */
@@ -262,31 +264,22 @@ fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
 @Composable
 fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSelect: (Int) -> Unit, actions: Boolean,
     title: String, descriptions: List<String> = labels, labelTags: List<String> = emptyList()) {
-    val large = RD.large()
-    val rows = if (LocalDensity.current.fontScale > 1.5f) labels.indices.chunked(2) else listOf(labels.indices.toList())
-    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        rows.forEach { row ->
-            Row(Modifier.fillMaxWidth().heightIn(min = if (large) 56.dp else 48.dp), verticalAlignment = Alignment.CenterVertically) {
-                row.forEachIndexed { n, i ->
-                    val active = i == selected
-                    val pill = RoundedCornerShape(26.dp)
-                    val base = Modifier.weight(labels[i].length + if (icons.isEmpty()) 2f else 5f).heightIn(min = if (large) 54.dp else 48.dp)
-                        .testTag("banner-tab-$title-$i")
-                        .then(if (active) Modifier.refShadow(pill, 3.dp) else Modifier).clip(pill)
-                        .background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
-                        .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
-                    val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
-                        else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
-                    Box(control, contentAlignment = Alignment.Center) {
-                        Row(Modifier.padding(horizontal = 6.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                            icons.getOrNull(i)?.let { BannerTabIcon(it, if (large) 18.dp else 20.dp); GapW(6.dp) }
-                            AutoFitText(labels[i], T.Title2.copy(fontSize = 15.sp, lineHeight = 19.sp, color = Color.White),
-                                Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), textAlign = TextAlign.Center)
-                        }
-                    }
-                    if (n < row.lastIndex) Box(Modifier.padding(horizontal = 3.dp).width(1.5.dp).height(22.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x80C9D3E6)))
-                }
+    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
+        labels.indices.forEach { i ->
+            val active = i == selected
+            val pill = RoundedCornerShape(24.dp)
+            val base = Modifier.widthIn(min = 96.dp).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
+                .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
+                .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
+            val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
+                else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
+            Row(control.padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center) {
+                icons.getOrNull(i)?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
+                Text(labels[i], style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
+                    modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), maxLines = 1, softWrap = false)
             }
+            if (i < labels.lastIndex) Box(Modifier.padding(horizontal = 4.dp).width(1.dp).height(22.dp).background(Color(0x80C9D3E6)))
         }
     }
 }
@@ -304,7 +297,7 @@ private fun BannerTabIcon(icon: String, size: Dp) {
 /** Campo di ricerca bianco a pillola, con conteggio opzionale (immagini 9-12). */
 @Composable
 fun RefSearchShell(modifier: Modifier = Modifier, count: String? = null, content: @Composable RowScope.() -> Unit) {
-    Row(modifier.fillMaxWidth().heightIn(min = 46.dp).clip(RoundedCornerShape(24.dp)).background(Color.White)
+    Row(modifier.fillMaxWidth().heightIn(min = 48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White)
         .padding(start = 14.dp, end = 6.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(RIc.Search, Color(0xFF59627A), 20.dp, 2.1f); GapW(10.dp)
         content()
@@ -413,14 +406,14 @@ fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? 
     val shape = RoundedCornerShape(18.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).refShadow(shape, if (enabled) 4.dp else 0.dp).clip(shape)
         .background(if (enabled) RD.ButtonBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
-        .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 16.dp, vertical = 10.dp),
+        .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 16.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         if (icon != null) {
-            AIcon(icon, RD.Orange, 26.dp, 2.4f)
-            if (divider) { GapW(14.dp); Box(Modifier.width(2.dp).height(28.dp).background(Color(0x66FFFFFF))); GapW(14.dp) } else GapW(12.dp)
+            AIcon(icon, if (divider) RD.Orange else Color.White, if (divider) 26.dp else 20.dp, 2.4f)
+            if (divider) { GapW(14.dp); Box(Modifier.width(2.dp).height(28.dp).background(Color(0x66FFFFFF))); GapW(14.dp) } else GapW(8.dp)
         }
         val style = T.Title2.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = if (enabled) Color.White else C.Muted)
-        if (singleLine) AutoFitText(text, style, minScale = 0.75f, textAlign = TextAlign.Center) else Text(text, style = style, textAlign = TextAlign.Center)
+        Text(text, modifier = Modifier.weight(1f, fill = false), style = style, textAlign = TextAlign.Center)
     }
 }
 
@@ -430,15 +423,14 @@ fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? 
     height: Dp = 56.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 18.sp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(18.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(Color.White)
-        .border(1.8.dp, RD.Ink, shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 14.dp, vertical = 10.dp),
+        .border(1.8.dp, RD.Ink, shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         if (icon != null) {
-            AIcon(icon, RD.Ink, 24.dp, 2.4f)
-            if (divider) { GapW(14.dp); OrangeDivider(26.dp); GapW(14.dp) } else GapW(12.dp)
+            AIcon(icon, RD.Ink, if (divider) 24.dp else 20.dp, 2.4f)
+            if (divider) { GapW(14.dp); OrangeDivider(26.dp); GapW(14.dp) } else GapW(8.dp)
         }
         val style = T.Title2.copy(fontSize = textSize, lineHeight = textSize * 1.25f, color = RD.Ink)
-        if (singleLine) AutoFitText(text, style, minScale = 0.75f, textAlign = TextAlign.Center)
-        else Text(text, style = style, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        Text(text, modifier = Modifier.weight(1f, fill = false), style = style, textAlign = TextAlign.Center)
     }
 }
 

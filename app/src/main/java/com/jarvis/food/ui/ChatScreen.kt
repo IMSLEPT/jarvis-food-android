@@ -123,7 +123,7 @@ fun ChatScreen() {
     } else emptyList()
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
-    Column(Modifier.fillMaxSize().imePadding()) {
+    Column(Modifier.fillMaxSize().background(C.Bg).imePadding()) {
         ChatHeader(active, showSetup, input, { input = it }, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup }, { send(input) })
         if (showSetup || (!ready && !active)) {
             // Keep the motor settings scrollable without squeezing the composer.
@@ -155,7 +155,7 @@ private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: 
         NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
             onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
             query = input, onQuery = onInput, hint = "Pasti, ricette, piano e spesa",
-            icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(RD.BannerLogo + 4.dp) },
+            icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(RD.BannerLogo) },
             descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
             accounts = true, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
             actions = true)

@@ -477,8 +477,8 @@ private fun ProgressMetric(title: String, value: String, detail: String, icon: S
             AIcon(Ic.Right, C.AccentDeep, 16.dp)
         }
         GapH(3.dp)
-        // Una riga per entrambe le schede affiancate: stessa altezza anche con il carattere ingrandito.
-        AutoFitText(detail, T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp), minScale = 0.8f)
+        // Reserve equal space in the paired cards without shrinking the explanation.
+        Text(detail, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp), minLines = 2)
     }
 }
 
