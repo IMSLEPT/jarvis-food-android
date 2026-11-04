@@ -140,12 +140,12 @@ jobs:
           (cd screenshots && zip -qr ../dist/screenshots.zip .)
           sha256sum dist/*.apk > dist/SHA256.txt
           for attempt in 1 2 3; do
-            if gh release view v1.0.221 >/dev/null 2>&1; then break; fi
-            if gh release create v1.0.221 --target dc015b6529708665d3326247094fd0c0cfb92d72 --title 'Jarvis Food v1.0.221 — Oggi e Piano' --notes 'APK con firma originale. 161 test unitari e 16 esecuzioni Android superati; installazione come aggiornamento verificata. Calendario condiviso, riquadri Oggi, banner Jarvis, riepilogo del piano e pulsanti pasti aggiornati.'; then break; fi
+            if gh release view v1.0.221 -R IMSLEPT/jarvis-food-android >/dev/null 2>&1; then break; fi
+            if gh release create v1.0.221 -R IMSLEPT/jarvis-food-android --target dc015b6529708665d3326247094fd0c0cfb92d72 --title 'Jarvis Food v1.0.221 — Oggi e Piano' --notes 'APK con firma originale. 161 test unitari e 16 esecuzioni Android superati; installazione come aggiornamento verificata. Calendario condiviso, riquadri Oggi, banner Jarvis, riepilogo del piano e pulsanti pasti aggiornati.'; then break; fi
             sleep 5
           done
           for attempt in 1 2 3; do
-            if gh release upload v1.0.221 dist/* --clobber; then exit 0; fi
+            if gh release upload v1.0.221 -R IMSLEPT/jarvis-food-android dist/* --clobber; then exit 0; fi
             sleep 5
           done
           exit 1
