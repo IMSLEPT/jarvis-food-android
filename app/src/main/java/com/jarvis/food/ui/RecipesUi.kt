@@ -316,7 +316,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     var selected by rememberSaveable { mutableStateOf("pasto") }
     var showAll by rememberSaveable { mutableStateOf(false) }
     val chipLabels = mapOf("pasto" to "Pasto", "tempo" to "Tempo", "kcal" to "Calorie", "obiettivo" to "Obiettivo", "dieta" to "Dieta", "metodo" to "Metodo", "cucina" to "Cucina")
-    ASection("Esplora le ricette", action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
+    ASection("Esplora le ricette", top = 8.dp, action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
     GapH(12.dp)
     if (!showAll) Row(Modifier.testTag("recipe-group-strip").horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -409,12 +409,12 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
     // Immagine 15: tessera pesca con icona arancio, separatore, titolo e conteggio, freccia navy.
 
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
-        val shape = RoundedCornerShape(26.dp)
-        Row(modifier.heightIn(min = if (large) 88.dp else 76.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
+        val shape = RoundedCornerShape(20.dp)
+        Row(modifier.heightIn(min = 76.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
             .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             // Riferimento: titolo e conteggio su una riga, due schede identiche affiancate.
-            PeachTile(if (large) 48.dp else 36.dp, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, if (large) 28.dp else 24.dp, 2.4f) }
+            PeachTile(if (large) 40.dp else 36.dp, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, 24.dp, 2.4f) }
             GapW(6.dp); OrangeDivider(32.dp); GapW(6.dp)
             Column(Modifier.weight(1f)) {
                 Text(label, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Ink))

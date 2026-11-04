@@ -196,7 +196,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 MacroBar("P", r.total.protein, target.protein, Color(0xFFE2294F), Color(0xFFFAD0DA))
                 MacroBar("C", r.total.carbs, target.carbs, Color(0xFF1F63E8), Color(0xFFD3E1FB))
-                MacroBar("G", r.total.fat, target.fat, Color(0xFFC77A12), Color(0xFFFCE3C2), Color(0xFFF7A93B))
+                MacroBar("G", r.total.fat, target.fat, A.FatInk, Color(0xFFFCE3C2), Color(0xFFF7A93B))
             }
         }
         BoxWithConstraints(Modifier.padding(horizontal = 12.dp).fillMaxWidth()) {

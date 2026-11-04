@@ -114,13 +114,13 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                     .clip(tile).background(if (selected) Brush.verticalGradient(listOf(Color(0xFF164572), Color(0xFF071B40))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
                                     .border(if (selected) 2.dp else 0.dp, if (selected) DashboardOrange else Color.Transparent, tile)
                                     .semantics { contentDescription = day.toString() }
-                                    .selectableCalendar(selected) { pick(day) }.padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                    .selectableCalendar(selected) { pick(day) }.padding(top = 4.dp, bottom = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(day.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, IT).take(if (LocalDensity.current.fontScale > 1.2f) 2 else 3).replaceFirstChar { it.uppercase() },
                                         modifier = if (active) Modifier.testTag("week-label-$i") else Modifier,
                                         style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, color = if (selected) Color.White else C.Navy, fontWeight = FontWeight.SemiBold), maxLines = 1, softWrap = false)
                                     Text(day.dayOfMonth.toString(), style = T.Num.copy(fontSize = 21.sp, lineHeight = 26.sp, color = if (selected) Color.White else C.Navy))
                                     GapH(3.dp)
-                                    Box(Modifier.width(if (selected) 22.dp else 4.dp).height(4.dp).clip(CircleShape).background(if (selected || logged) DashboardOrange else Color(0xFF9BA6B8)))
+                                    Box(Modifier.width(if (selected) 16.dp else 4.dp).height(3.dp).clip(CircleShape).background(if (selected || logged) DashboardOrange else Color(0xFF9BA6B8)))
                                 }
                                 if (n < group.lastIndex) Box(Modifier.width(1.dp).height(39.dp).background(if (selected || days[group[n + 1]] == date) Color.Transparent else Color(0xFFDDE2EA)))
                             }
@@ -275,10 +275,7 @@ internal fun TodayMacroCard(protein: Double, proteinGoal: Double, carbs: Double,
 private fun MacroDial(label: String, value: Double, goal: Double, color: Color, soft: Color, icon: String, modifier: Modifier, wide: Boolean = false) {
     val fraction = TodayProgress.ratio(value, goal).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(600), label = "macro-$label")
-    Column(modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 8.dp, vertical = 10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp), textAlign = TextAlign.Center)
-        GapH(6.dp)
+    val ring: @Composable () -> Unit = {
         Box(Modifier.size(32.dp).testTag("macro-ring-$label").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
             Canvas(Modifier.fillMaxSize().padding(2.dp)) {
                 val stroke = 3.dp.toPx(); val inset = stroke / 2; val sz = Size(size.width - stroke, size.height - stroke)
@@ -287,9 +284,19 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
             }
             AIcon(icon, color, 18.dp, fill = true)
         }
-        GapH(6.dp)
-        Text("${value.r0()} g / ${goal.r0()} g", Modifier.testTag("macro-value-$label"), style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp), textAlign = TextAlign.Center)
+    }
+    val name: @Composable () -> Unit = { Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp)) }
+    val grams: @Composable () -> Unit = { Text("${value.r0()} g / ${goal.r0()} g", Modifier.testTag("macro-value-$label"), style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp), textAlign = TextAlign.Center) }
+    val percent: @Composable () -> Unit = {
         Text(if (goal > 0) "${TodayProgress.percent(value, goal)}%" else "—", Modifier.testTag("macro-percent-$label"),
             style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = androidx.compose.ui.graphics.lerp(color, Color.Black, 0.3f)))
+    }
+    val control = modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 8.dp, vertical = 10.dp)
+    if (wide) Row(control, verticalAlignment = Alignment.CenterVertically) {
+        ring(); GapW(12.dp)
+        Column(Modifier.weight(1f)) { name(); grams() }
+        GapW(8.dp); percent()
+    } else Column(control, horizontalAlignment = Alignment.CenterHorizontally) {
+        name(); GapH(6.dp); ring(); GapH(6.dp); grams(); percent()
     }
 }

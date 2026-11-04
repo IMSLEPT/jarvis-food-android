@@ -21,6 +21,18 @@ Baseline: v1.0.224, commit `9158f43d881d5d626f77e41a54d34881c5ebbf93`.
 | Tall recipe photos and barcode heading | P2, proportions | 2:1 photo and smaller supporting actions | Recipe card capture and retained actions |
 | Hand-drawn profile gear unclear | P2, icon quality | Material Person and Settings icons | Header close-up |
 
+## First Android comparison - blocked
+
+Opened combined before/current captures from run 41910900546 at 100% and inspected the 130% dashboard and Profile/settings boards. Main headers, recipe card density, grouped profile rows and type hierarchy improve. Two actionable issues remain:
+
+- P2: 115% calendars differ by 2 dp; instrumented bounds detect 6 physical pixels. Fixed with shared measured name/date height and scalable calendar. Recheck pending.
+- P2: wide nutrient layout lost its compact row treatment at 130%, making the card too tall. Restore ring/detail/percent rows for narrow screens. Recheck pending.
+- P2: Kitchen category heading carries an excessive preceding gap and enlarged shortcuts have unnecessary height. Reduce heading top spacing and keep shortcut minimum 76 dp with natural content growth. Recheck pending.
+
+- P2: selected-day marker touches the lower rounded border in the 130% capture. Narrow the marker and reserve 8 dp bottom padding; confirm in revised capture.
+
+Source-target comparison uses the approved reference assets and the final revised captures, with dimensions adapted for mobile use per user instruction.
+
 ## Validation plan and current evidence
 
 - Actual Android 15 emulator: 1344x2992 at density 480, fonts 100% and 115%; 945x2048 at density 420, font 130%.

@@ -51,7 +51,6 @@ fun showDatePicker(context: android.content.Context, date: LocalDate, onPick: (L
 fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: String? = null,
     onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date") {
     val large = LocalDensity.current.fontScale > 1.5f
-    val big = LocalDensity.current.fontScale > 1.2f
     val context = LocalContext.current
     val navy = greeting == null
     val ink = if (navy) Color.White else RD.Ink
@@ -69,27 +68,27 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
                 style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp), constraints = Constraints(maxWidth = textWidth)).size.height.toDp() }
             val greetingHeight = with(density) { if (large) 0.dp else 17.sp.toDp() }
             val sharedTitleHeight = maxOf(RD.bannerTitleHeight(), nameHeight + captionHeight + greetingHeight + 8.dp)
-        Row(Modifier.fillMaxWidth().heightIn(min = sharedTitleHeight), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f).testTag(dateTag)
-                .semantics { contentDescription = fullDay(date) }
-                .clip(RoundedCornerShape(12.dp))
-                .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
-                .padding(vertical = 4.dp, horizontal = 4.dp)) {
-                if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
-                    style = T.Small.copy(color = RD.Grey))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (navy) { PlanCalendarLogo(28.dp); GapW(8.dp) }
-                    Text(if (greeting != null && !large) s.profile.name else title,
-                        style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp, color = ink), modifier = Modifier.weight(1f))
+            Row(Modifier.fillMaxWidth().heightIn(min = sharedTitleHeight), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f).testTag(dateTag)
+                    .semantics { contentDescription = fullDay(date) }
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
+                    .padding(vertical = 4.dp, horizontal = 4.dp)) {
+                    if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
+                        style = T.Small.copy(color = RD.Grey))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (navy) { PlanCalendarLogo(28.dp); GapW(8.dp) }
+                        Text(if (greeting != null && !large) s.profile.name else title,
+                            style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp, color = ink), modifier = Modifier.weight(1f))
+                    }
+                    Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
+                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = if (navy) Color(0xFFDCE5F5) else RD.Grey))
                 }
-                Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
-                    style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = if (navy) Color(0xFFDCE5F5) else RD.Grey))
+                GapW(4.dp)
+                RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
+                GapW(4.dp)
+                RefProfileButton(RD.headerButton())
             }
-            GapW(4.dp)
-            RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
-            GapW(4.dp)
-            RefProfileButton(RD.headerButton())
-        }
         }
         GapH(6.dp)
         Box(Modifier.fillMaxWidth().height(RD.stripHeight()), contentAlignment = Alignment.Center) {

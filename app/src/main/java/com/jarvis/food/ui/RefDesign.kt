@@ -385,7 +385,7 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
         .padding(horizontal = if (compactPeriod) 10.dp else 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (centered) Arrangement.Center else Arrangement.Start) {
         if (icon != null) {
-            Box(Modifier.size(if (compactPeriod) 28.dp else 28.dp), contentAlignment = Alignment.Center) { icon() }
+            Box(Modifier.size(28.dp), contentAlignment = Alignment.Center) { icon() }
             GapW(if (compactPeriod) 8.dp else 12.dp); OrangeDivider(if (subtitle != null) 40.dp else if (compactPeriod) 24.dp else 28.dp); GapW(if (compactPeriod) 8.dp else 14.dp)
         }
         Column(if (centered) Modifier else Modifier.weight(1f)) {
