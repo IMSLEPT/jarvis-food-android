@@ -7,6 +7,7 @@ permissions:
   contents: write
 jobs:
   build:
+    if: github.event.head_commit.message != 'Publish verified reference APK 221'
     runs-on: ubuntu-latest
     timeout-minutes: 65
     steps:
@@ -102,3 +103,49 @@ jobs:
           (cd screenshots && zip -qr ../dist/screenshots.zip .)
           sha256sum dist/*.apk > dist/SHA256.txt
           gh release create "v1.0.$APK_CODE" dist/* --target "$GITHUB_SHA" --title "Jarvis Food v1.0.$APK_CODE — Oggi e Piano" --notes 'Aggiornamento dei componenti Oggi e Piano secondo i riferimenti approvati. Calendario condiviso e sincronizzato; banner Jarvis chef; riquadri vitamine, idee e attività; riepilogo espandibile e selettori dei pasti. APK con firma originale, asset preservati, verifiche Android e screenshot inclusi.'
+
+  publish_verified:
+    if: github.event.head_commit.message == 'Publish verified reference APK 221'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Oggi-Piano-APK-QA
+          run-id: 41811218945
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: verified
+      - name: Verify and publish existing APK without rebuilding
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd verified
+          python3 - <<'PYTHON'
+          import pathlib,hashlib,xml.etree.ElementTree as ET
+          apk=pathlib.Path('dist/JarvisFood-v1.0.221.apk')
+          assert hashlib.sha256(apk.read_bytes()).hexdigest()=='e8e979ef8059d542daa25aedf02bf57d4d46721801e453e9366781df66ae2101'
+          totals={k:0 for k in ('tests','failures','errors','skipped')}
+          for p in pathlib.Path('app/build/test-results/testReleaseUnitTest').glob('TEST-*.xml'):
+              r=ET.parse(p).getroot()
+              for k in totals:totals[k]+=int(r.get(k,0))
+          assert totals==dict(tests=161,failures=0,errors=0,skipped=0),totals
+          for name,count in [('pixel9',10),('large-text',4),('small-200',2)]:
+              assert f'OK ({count} tests)' in pathlib.Path(f'reference-{name}.log').read_text()
+          assert 'FATAL EXCEPTION' not in pathlib.Path('reference-crash.txt').read_text()
+          PYTHON
+          mkdir -p screenshots
+          tar xf reference-shots.tar -C screenshots
+          (cd screenshots && zip -qr ../dist/screenshots.zip .)
+          sha256sum dist/*.apk > dist/SHA256.txt
+          for attempt in 1 2 3; do
+            if gh release view v1.0.221 >/dev/null 2>&1; then break; fi
+            if gh release create v1.0.221 --target dc015b6529708665d3326247094fd0c0cfb92d72 --title 'Jarvis Food v1.0.221 — Oggi e Piano' --notes 'APK con firma originale. 161 test unitari e 16 esecuzioni Android superati; installazione come aggiornamento verificata. Calendario condiviso, riquadri Oggi, banner Jarvis, riepilogo del piano e pulsanti pasti aggiornati.'; then break; fi
+            sleep 5
+          done
+          for attempt in 1 2 3; do
+            if gh release upload v1.0.221 dist/* --clobber; then exit 0; fi
+            sleep 5
+          done
+          exit 1
