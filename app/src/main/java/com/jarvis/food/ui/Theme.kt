@@ -53,7 +53,7 @@ object C {
     val Ink = Navy
     val OnOrange = Color.White
     val ProfileSurface = Color(0xFFFEFEFE)
-    val ProfileMuted = Color(0xFF777D91)
+    val ProfileMuted = C.Muted
     val ProfileOrange = Color(0xFFDC6F2C)
     val Green = Color(0xFF10B981)
     val GreenSoft = Color(0xFFD9F6EA)

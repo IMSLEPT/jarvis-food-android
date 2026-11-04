@@ -76,6 +76,15 @@ jobs:
           open('dist/unit-tests.txt','w').write(f'{t} test unitari, {f} falliti\n')
           print(t,f)
           PY
+          python3 - <<'PY'
+          import zipfile, glob, hashlib
+          def assets(path):
+              with zipfile.ZipFile(path) as z:
+                  return {n:hashlib.sha256(z.read(n)).hexdigest() for n in z.namelist() if n.startswith('assets/') and not n.startswith('assets/dexopt/')}
+          old=assets(glob.glob('previous/*.apk')[0]); new=assets(glob.glob('dist/*.apk')[0])
+          assert old == new, 'Existing assets changed, removed or added'
+          open('dist/assets-unchanged.txt','w').write(f'{len(old)} original application assets unchanged; compiler profiles excluded.\n')
+          PY
       - name: Enable KVM
         run: |
           ./gradlew --stop

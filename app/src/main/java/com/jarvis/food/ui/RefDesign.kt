@@ -59,7 +59,7 @@ object RD {
     val Ink = Color(0xFF0B1B4A)
     val Orange = Color(0xFFF7892F)
     val OrangeDeep = Color(0xFFEE6A17)
-    val OrangeText = Color(0xFFD5601A)
+    val OrangeText = C.AccentDeep
     val OrangeLine = Color(0xFFF28A36)
     val Peach = Color(0xFFFFF0E6)
     val PeachDeep = Color(0xFFFFE1CB)
@@ -71,13 +71,13 @@ object RD {
     val Green = Color(0xFF6E9F62)
     val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Navy, NavyHi), start = Offset(0f, Float.POSITIVE_INFINITY), end = Offset(Float.POSITIVE_INFINITY, 0f))
     val ButtonBrush = Brush.verticalGradient(listOf(Color(0xFF173468), Color(0xFF071A45)))
-    val OrangeBrush = Brush.verticalGradient(listOf(Color(0xFFFFA049), Color(0xFFF0691B)))
+    val OrangeBrush = C.OrangeBrush
     val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFFFE6D3), Color(0xFFFFF4EB)))
     val WarmBrush = Brush.linearGradient(listOf(Color(0xFFFBF7F4), Color(0xFFF7EEE8)))
 
     /** Banner pages share the same proportions. */
-    @Composable fun bannerTitleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 132.dp; LocalDensity.current.fontScale > 1.2f -> 100.dp; else -> 76.dp }
-    @Composable fun stripHeight() = when { LocalDensity.current.fontScale > 1.5f -> 160.dp; LocalDensity.current.fontScale > 1.2f -> 88.dp; else -> 72.dp }
+    @Composable fun bannerTitleHeight() = 76.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)
+    @Composable fun stripHeight() = (if (LocalDensity.current.fontScale > 1.5f) 112.dp else 72.dp) * LocalDensity.current.fontScale.coerceAtLeast(1f)
     @Composable fun large() = LocalDensity.current.fontScale > 1.2f
     /** Calendario e profilo hanno la stessa misura in tutti i banner. */
     @Composable fun headerButton() = 48.dp

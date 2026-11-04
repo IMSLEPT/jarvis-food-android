@@ -2,6 +2,8 @@ package com.jarvis.food
 
 import android.graphics.Bitmap
 import androidx.compose.ui.test.*
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ActivityScenario
@@ -46,7 +48,7 @@ class PremiumWholeAppTest {
                 if (!capture.contains("before") && ins.targetContext.resources.configuration.fontScale <= 1.2f) {
                     val density = ins.targetContext.resources.displayMetrics.density
                     val bounds = compose.onNodeWithTag("top-header-frame").fetchSemanticsNode().boundsInRoot
-                    assertTrue("Header should leave room for content", bounds.height / density <= 180f)
+                    assertTrue("Header should leave room for content", bounds.height / density <= 180f * ins.targetContext.resources.configuration.fontScale)
                 }
                 shot("main-$tab")
             }
@@ -65,6 +67,11 @@ class PremiumWholeAppTest {
                 compose.waitForIdle()
                 assertEquals("Profile route $key", route, Nav.stack.last())
                 shot("settings-$key")
+                val scrolls = compose.onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsProperties.VerticalScrollAxisRange))
+                if (scrolls.fetchSemanticsNodes().isNotEmpty()) {
+                    scrolls[0].performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, 100_000f) }
+                    shot("settings-$key-bottom")
+                }
                 ui { Nav.back() }; compose.waitForIdle()
                 assertEquals(Screen.Profile, Nav.stack.last())
             }
@@ -72,4 +79,23 @@ class PremiumWholeAppTest {
             shot("profile-tools")
         }
     }
+    @Test fun longNamesKeepTodayAndPlanCalendarsAligned() {
+        Store.init(ins.targetContext)
+        ui {
+            Store.update { AppState(onboarded = true, profile = Profile(name = "Alessandro Maria Calamai", detailed = true)) }
+            Nav.clear(); Nav.tab = 0; Nav.diaryDate = LocalDate.now(); Nav.planDate = LocalDate.now()
+        }
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.waitForIdle()
+            val first = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
+            if (!capture.contains("before")) {
+                compose.onNodeWithTag("nav-1").performClick(); compose.waitForIdle()
+                val second = compose.onNodeWithTag("week-strip").fetchSemanticsNode().boundsInRoot
+                assertEquals("Long names must not move the shared calendar", first.top, second.top, 1f)
+                assertEquals(first.bottom, second.bottom, 1f)
+            }
+            shot("long-name-header")
+        }
+    }
+
 }

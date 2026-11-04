@@ -19,6 +19,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.text.rememberTextMeasurer
 import com.jarvis.food.data.AppState
 import java.time.LocalDate
 
@@ -54,7 +56,20 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     val navy = greeting == null
     val ink = if (navy) Color.White else RD.Ink
     RefBannerFrame(navy) {
-        Row(Modifier.fillMaxWidth().heightIn(min = RD.bannerTitleHeight()), verticalAlignment = Alignment.CenterVertically) {
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val density = LocalDensity.current
+            val measurer = rememberTextMeasurer()
+            val textWidth = with(density) { (maxWidth - 112.dp).coerceAtLeast(80.dp).roundToPx() }
+            val caption = if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date)
+            // Both tabs reserve the actual name/date height, including long names and larger fonts.
+            // This keeps the week strip stationary without shrinking or clipping text.
+            val nameHeight = with(density) { measurer.measure(if (large) "Oggi" else s.profile.name,
+                style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp), constraints = Constraints(maxWidth = textWidth)).size.height.toDp() }
+            val captionHeight = with(density) { measurer.measure(caption,
+                style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp), constraints = Constraints(maxWidth = textWidth)).size.height.toDp() }
+            val greetingHeight = with(density) { if (large) 0.dp else 17.sp.toDp() }
+            val sharedTitleHeight = maxOf(RD.bannerTitleHeight(), nameHeight + captionHeight + greetingHeight + 8.dp)
+        Row(Modifier.fillMaxWidth().heightIn(min = sharedTitleHeight), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f).testTag(dateTag)
                 .semantics { contentDescription = fullDay(date) }
                 .clip(RoundedCornerShape(12.dp))
@@ -74,6 +89,7 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
             RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
             GapW(4.dp)
             RefProfileButton(RD.headerButton())
+        }
         }
         GapH(6.dp)
         Box(Modifier.fillMaxWidth().height(RD.stripHeight()), contentAlignment = Alignment.Center) {
