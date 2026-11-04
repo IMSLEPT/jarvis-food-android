@@ -154,3 +154,24 @@ with zipfile.ZipFile(out/'JarvisFood-v1.0.227-Schermate.zip','w',zipfile.ZIP_DEF
 status=dict(source_sha=SHA,run_id=RUN,visual=verdict['result'],screenshots=len(pngs),unit=164,android=8,apk_sha256=sha)
 (out/'delivery-status.json').write_text(json.dumps(status,indent=2))
 print(json.dumps(status))
+
+# Render representative PDF pages and retain byte-exact visual payloads for review without a local runtime.
+import base64
+import pypdfium2 as pdfium
+doc=pdfium.PdfDocument(str(out/'JarvisFood-v1.0.227-Prima-Dopo.pdf'))
+assert len(doc)==18
+for index in (0,17):
+ page=doc[index];bitmap=page.render(scale=2)
+ bitmap.to_pil().save(out/f'pdf-preview-{index+1:02}.png')
+ bitmap.close();page.close()
+doc.close()
+visual=Path('reports/visual-encoded');visual.mkdir(exist_ok=True)
+items=[]
+images=list(out.glob('*.png'))+[shots/'whole-large-text/settings-watch-bottom.png',shots/'whole-large-text/settings-backup-bottom.png']
+for p in images:
+ name=p.stem if p.parent==out else p.stem+'-text130'
+ encoded=base64.b64encode(p.read_bytes()).decode('ascii');parts=[]
+ for index,start in enumerate(range(0,len(encoded),60000)):
+  part=name+f'-{index:03}.txt';(visual/part).write_text(encoded[start:start+60000]);parts.append(part)
+ items.append(dict(name=name,parts=parts,bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest()))
+(visual/'manifest.json').write_text(json.dumps(dict(source_sha=SHA,run_id=RUN,images=items),indent=2))
