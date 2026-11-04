@@ -36,6 +36,7 @@ class ReferenceUiTest {
     }
     private fun shot(name: String) {
         compose.waitForIdle(); ins.waitForIdleSync()
+        android.os.SystemClock.sleep(300)
         val config = InstrumentationRegistry.getArguments().getString("captureName") ?: "standard"
         val dir = File(ins.targetContext.filesDir, "shots/reference-$config").apply { mkdirs() }
         val image = ins.uiAutomation.takeScreenshot()

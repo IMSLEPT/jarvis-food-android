@@ -72,8 +72,13 @@ internal fun JarvisChefBanner() {
         .clip(shape).background(Brush.linearGradient(listOf(Color(0xFF09254B), Color(0xFF0B3B73), C.Navy)))
         .border(1.dp, Color.White, shape).clickable(role = Role.Button) { Nav.go(Screen.WhatNow) }
         .padding(start = 6.dp, end = 12.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Image(painterResource(R.drawable.reference_jarvis_chef), null,
-            Modifier.size(width = if (large) 56.dp else 76.dp, height = 96.dp), contentScale = ContentScale.Fit)
+        Box(Modifier.size(width = if (large) 64.dp else 88.dp, height = 96.dp)) {
+            Canvas(Modifier.fillMaxSize()) {
+                drawOval(Brush.linearGradient(listOf(Color(0xFFFFA615), Color(0xFFC96712))),
+                    Offset(-size.width * .08f, size.height * .76f), androidx.compose.ui.geometry.Size(size.width * 1.16f, size.height * .55f))
+            }
+            Image(painterResource(R.drawable.reference_jarvis_chef), null, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
+        }
         GapW(8.dp)
         Column(Modifier.weight(1f)) {
             Text("Cosa mangio con Jarvis?", style = T.Title2.copy(color = Color.White, fontSize = 17.sp, lineHeight = 22.sp))
@@ -93,10 +98,24 @@ internal fun JarvisChefBanner() {
 internal fun ReferenceMealIcon(meal: Int, selected: Boolean, modifier: Modifier = Modifier) {
     val ink = if (selected) Color.White else C.Navy
     Box(modifier, contentAlignment = Alignment.Center) {
-        AIcon(when (meal) { 0 -> Ic.MealBreakfast; 1 -> Ic.MealLunch; 2, 5 -> Ic.MealDinner; else -> Ic.MealSnack }, ink, 28.dp, 1.9f)
+        AIcon(when (meal) { 0 -> "M3 10h14v4a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6zM17 11h2a3 3 0 0 1 0 6h-2M6 6c-2-2 2-2 0-4M10 6c-2-2 2-2 0-4M14 6c-2-2 2-2 0-4"; 1 -> Ic.MealLunch; 2, 5 -> Ic.MealDinner; else -> Ic.MealSnack }, ink, 28.dp, 1.9f)
         Canvas(Modifier.size(30.dp)) {
             if (meal == 0) drawLine(DashboardOrange, Offset(size.width * .48f, size.height * .04f), Offset(size.width * .48f, size.height * .22f), 2.dp.toPx())
             else drawCircle(DashboardOrange, 2.dp.toPx(), Offset(size.width * .72f, size.height * .22f))
         }
     }
 }
+
+/** Filled ascending bars used by both reference summary controls. */
+@Composable
+internal fun ReferenceChartIcon(modifier: Modifier = Modifier) {
+    Canvas(modifier) {
+        val u = size.minDimension / 24f
+        listOf(3f to 13f, 10f to 8f, 17f to 3f).forEach { (x, y) ->
+            drawRoundRect(DashboardOrange, Offset(x * u, y * u),
+                androidx.compose.ui.geometry.Size(4f * u, (21f - y) * u), androidx.compose.ui.geometry.CornerRadius(1.4f * u))
+        }
+    }
+}
+
+internal const val ReferenceCutlery = "M4 3v6c0 4 7 4 7 0V3M7.5 3v18M19 3c-4 0-4 9 0 9h1V3zM20 12v9"

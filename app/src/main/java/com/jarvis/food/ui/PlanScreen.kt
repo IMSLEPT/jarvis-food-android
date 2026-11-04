@@ -183,7 +183,8 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
             Row(Modifier.fillMaxWidth().heightIn(min = 64.dp).testTag("plan-summary-toggle")
                 .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
                 .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                TonalIcon(Ic.Chart, DashboardOrange, C.AccentSoft, box = if (large) 36.dp else 42.dp, radius = 13.dp)
+                Box(Modifier.size(if (large) 36.dp else 42.dp).clip(RoundedCornerShape(13.dp))
+                    .background(Color(0xFFFFF0DF)).padding(9.dp)) { ReferenceChartIcon(Modifier.fillMaxSize()) }
                 GapW(10.dp)
                 Box(Modifier.width(1.dp).height(38.dp).background(DashboardOrange))
                 GapW(10.dp)
@@ -224,7 +225,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                                 }
                             }
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                AIcon(Ic.MealDinner, DashboardOrange, 20.dp); GapW(8.dp)
+                                AIcon(ReferenceCutlery, DashboardOrange, 20.dp); GapW(8.dp)
                                 Column(Modifier.weight(1f)) {
                                     Text("$completed di ${meals.size} pasti", modifier = Modifier.testTag("plan-completed-count"), style = T.Label)
                                     Text("completati", style = T.Small)
@@ -239,7 +240,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Row(Modifier.fillMaxWidth().testTag("plan-nutrition-details").clip(RoundedCornerShape(22.dp)).background(C.Navy)
                         .clickable(role = Role.Button) { expanded = !expanded }.padding(horizontal = 14.dp, vertical = 14.dp),
                         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                        AIcon(Ic.Chart, DashboardOrange, 22.dp); GapW(10.dp)
+                        ReferenceChartIcon(Modifier.size(22.dp)); GapW(10.dp)
                         Text(if (expanded) "Nascondi dettagli nutrizionali" else "Dettagli nutrizionali", style = T.Label.copy(color = Color.White), modifier = Modifier.weight(1f))
                     }
                 }
@@ -301,7 +302,7 @@ private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, on
         Row(modifier.testTag("plan-diet-style").clip(RoundedCornerShape(16.dp)).background(C.Surface)
             .border(1.dp, border, RoundedCornerShape(16.dp)).clickable(role = Role.Button, onClick = onChooseStyle)
             .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", C.AccentDeep, 20.dp)
+            AIcon("M5 19c0-9 5-14 15-14 0 10-5 15-14 15zM5 19l8-8", DashboardOrange, 20.dp)
             GapW(8.dp)
             Column(Modifier.weight(1f)) {
                 Text("Alimentazione", style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp))

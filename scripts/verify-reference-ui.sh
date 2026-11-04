@@ -37,6 +37,8 @@ run_suite small-200 'com.jarvis.food.ReferenceUiTest' 2
 ./.ci-bin/adb uninstall com.jarvis.food
 ./.ci-bin/adb install original/*.apk
 ./.ci-bin/adb install -r app/build/outputs/apk/release/app-release.apk
-./.ci-bin/adb shell monkey -p com.jarvis.food -c android.intent.category.LAUNCHER 1
+./.ci-bin/adb shell am start -W -n com.jarvis.food/.MainActivity
+sleep 2
+./.ci-bin/adb shell pidof com.jarvis.food
 ./.ci-bin/adb logcat -d -s AndroidRuntime:E > reference-crash.txt
 if grep -q 'FATAL EXCEPTION' reference-crash.txt; then cat reference-crash.txt; exit 1; fi
