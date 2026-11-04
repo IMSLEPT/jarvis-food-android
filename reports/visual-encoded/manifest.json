@@ -1,0 +1,147 @@
+{
+  "source_sha": "6aa999e8d7d4bfda4e03d56f982963b18bd6c710",
+  "run_id": 41928404591,
+  "images": [
+    {
+      "name": "confronto-main-2",
+      "parts": [
+        "confronto-main-2-000.txt",
+        "confronto-main-2-001.txt",
+        "confronto-main-2-002.txt",
+        "confronto-main-2-003.txt",
+        "confronto-main-2-004.txt",
+        "confronto-main-2-005.txt",
+        "confronto-main-2-006.txt"
+      ],
+      "bytes": 293107,
+      "sha256": "eab5546d208e2bf35afb02c2ff23f27fd307c3ef00ab53bcab2be29ea4bef143"
+    },
+    {
+      "name": "confronto-main-5",
+      "parts": [
+        "confronto-main-5-000.txt",
+        "confronto-main-5-001.txt",
+        "confronto-main-5-002.txt",
+        "confronto-main-5-003.txt",
+        "confronto-main-5-004.txt",
+        "confronto-main-5-005.txt",
+        "confronto-main-5-006.txt"
+      ],
+      "bytes": 274980,
+      "sha256": "08854b842bf8dd20e0e6bc5845e0bab81886af55e95317225b325777eeea76ad"
+    },
+    {
+      "name": "confronto-profile-top",
+      "parts": [
+        "confronto-profile-top-000.txt",
+        "confronto-profile-top-001.txt",
+        "confronto-profile-top-002.txt",
+        "confronto-profile-top-003.txt",
+        "confronto-profile-top-004.txt"
+      ],
+      "bytes": 204648,
+      "sha256": "229dd8fc5342f6188a6fd8e71cedf7c00d2ec244459acf45e6bd987b65ef6e54"
+    },
+    {
+      "name": "pdf-preview-01",
+      "parts": [
+        "pdf-preview-01-000.txt",
+        "pdf-preview-01-001.txt",
+        "pdf-preview-01-002.txt",
+        "pdf-preview-01-003.txt",
+        "pdf-preview-01-004.txt",
+        "pdf-preview-01-005.txt",
+        "pdf-preview-01-006.txt",
+        "pdf-preview-01-007.txt",
+        "pdf-preview-01-008.txt"
+      ],
+      "bytes": 360309,
+      "sha256": "e5d87e943429ff3d40d1ec3b394cfcfbe1fdfa9a9ac6b637a124e3c7e85b570b"
+    },
+    {
+      "name": "confronto-main-3",
+      "parts": [
+        "confronto-main-3-000.txt",
+        "confronto-main-3-001.txt",
+        "confronto-main-3-002.txt",
+        "confronto-main-3-003.txt",
+        "confronto-main-3-004.txt",
+        "confronto-main-3-005.txt"
+      ],
+      "bytes": 253561,
+      "sha256": "0315f8f92cf3694b15e455e579667688de42949074b17c3c9882a0faa021207d"
+    },
+    {
+      "name": "confronto-main-0",
+      "parts": [
+        "confronto-main-0-000.txt",
+        "confronto-main-0-001.txt",
+        "confronto-main-0-002.txt",
+        "confronto-main-0-003.txt",
+        "confronto-main-0-004.txt",
+        "confronto-main-0-005.txt",
+        "confronto-main-0-006.txt",
+        "confronto-main-0-007.txt"
+      ],
+      "bytes": 341237,
+      "sha256": "bc850902e029e7f3808f89d28c596e7b7dc2025a57a8be42666b0f19b4e0e6ac"
+    },
+    {
+      "name": "pdf-preview-18",
+      "parts": [
+        "pdf-preview-18-000.txt",
+        "pdf-preview-18-001.txt",
+        "pdf-preview-18-002.txt",
+        "pdf-preview-18-003.txt",
+        "pdf-preview-18-004.txt",
+        "pdf-preview-18-005.txt"
+      ],
+      "bytes": 265431,
+      "sha256": "eb319f693d8586e6e9043d70894fc26ed8e1eb6e2134e78556fbe28ae8a937b9"
+    },
+    {
+      "name": "confronto-main-1",
+      "parts": [
+        "confronto-main-1-000.txt",
+        "confronto-main-1-001.txt",
+        "confronto-main-1-002.txt",
+        "confronto-main-1-003.txt",
+        "confronto-main-1-004.txt",
+        "confronto-main-1-005.txt",
+        "confronto-main-1-006.txt",
+        "confronto-main-1-007.txt",
+        "confronto-main-1-008.txt",
+        "confronto-main-1-009.txt",
+        "confronto-main-1-010.txt",
+        "confronto-main-1-011.txt",
+        "confronto-main-1-012.txt",
+        "confronto-main-1-013.txt"
+      ],
+      "bytes": 616508,
+      "sha256": "f76eb5b9376230a50b54306e8b39b1435f4dfd9068037e90459cd5232b098c7e"
+    },
+    {
+      "name": "settings-watch-bottom-text130",
+      "parts": [
+        "settings-watch-bottom-text130-000.txt",
+        "settings-watch-bottom-text130-001.txt",
+        "settings-watch-bottom-text130-002.txt",
+        "settings-watch-bottom-text130-003.txt",
+        "settings-watch-bottom-text130-004.txt"
+      ],
+      "bytes": 182780,
+      "sha256": "5b6e82bfc91ad09d10396ed569169f085deec2ca3a8e34dc9f7e287a9b80ad43"
+    },
+    {
+      "name": "settings-backup-bottom-text130",
+      "parts": [
+        "settings-backup-bottom-text130-000.txt",
+        "settings-backup-bottom-text130-001.txt",
+        "settings-backup-bottom-text130-002.txt",
+        "settings-backup-bottom-text130-003.txt"
+      ],
+      "bytes": 156327,
+      "sha256": "394ff6b5d92dd294a306b207734ed20981ff13426abbc72abe4647ab232d990a"
+    }
+  ]
+}
