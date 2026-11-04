@@ -13,7 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -231,7 +231,7 @@ fun RefProfileButton(size: Dp = 56.dp, onClick: () -> Unit = { Nav.go(Screen.Pro
 @Composable
 fun ProfileGearIcon(size: Dp) {
     Box(Modifier.size(size)) {
-        Icon(Icons.Default.Person, null, tint = RD.Ink, modifier = Modifier.fillMaxSize().padding(end = size * 0.14f, bottom = size * 0.08f))
+        Icon(Icons.Outlined.Person, null, tint = RD.Ink, modifier = Modifier.fillMaxSize().padding(end = size * 0.14f, bottom = size * 0.08f))
         Icon(Icons.Default.Settings, null, tint = RD.OrangeDeep, modifier = Modifier.align(Alignment.BottomEnd).size(size * 0.48f).background(Color.White, CircleShape))
     }
 }
