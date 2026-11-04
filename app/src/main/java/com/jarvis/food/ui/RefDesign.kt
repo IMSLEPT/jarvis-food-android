@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.isSpecified
 import com.jarvis.food.R
 import com.jarvis.food.data.Store
 
@@ -262,7 +264,7 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
                 row.forEachIndexed { n, i ->
                     val active = i == selected
                     val pill = RoundedCornerShape(26.dp)
-                    val base = Modifier.weight(if (active) 1.15f else 1f).heightIn(min = if (large) 60.dp else 50.dp)
+                    val base = Modifier.weight(labels[i].length + if (icons.isEmpty()) 2f else 5f).heightIn(min = if (large) 60.dp else 50.dp)
                         .testTag("banner-tab-$title-$i")
                         .then(if (active) Modifier.refShadow(pill, 3.dp) else Modifier).clip(pill)
                         .background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
@@ -270,11 +272,10 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
                     val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                         else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
                     Box(control, contentAlignment = Alignment.Center) {
-                        Row(Modifier.padding(horizontal = 6.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                            icons.getOrNull(i)?.let { BannerTabIcon(it, if (large) 20.dp else 24.dp); GapW(7.dp) }
-                            Text(labels[i], modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }),
-                                style = T.Title2.copy(fontSize = if (large) 14.sp else 16.sp, lineHeight = if (large) 18.sp else 20.sp, color = Color.White),
-                                textAlign = TextAlign.Center, maxLines = 2)
+                        Row(Modifier.padding(horizontal = 4.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                            icons.getOrNull(i)?.let { BannerTabIcon(it, if (large || labels.size > 3) 19.dp else 22.dp); GapW(6.dp) }
+                            AutoFitText(labels[i], T.Title2.copy(fontSize = if (labels.size > 3) 15.sp else 16.sp, lineHeight = 20.sp, color = Color.White),
+                                Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), textAlign = TextAlign.Center)
                         }
                     }
                     if (n < row.lastIndex) Box(Modifier.padding(horizontal = 3.dp).width(2.dp).height(26.dp).clip(RoundedCornerShape(1.dp)).background(Color(0x80C9D3E6)))
@@ -368,7 +369,7 @@ enum class OptionStyle { Plain, Navy, Peach }
 @Composable
 fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable () -> Unit)? = null, subtitle: String? = null,
     isSelected: Boolean = false, selectedStyle: OptionStyle = OptionStyle.Peach, tag: String? = null, enabled: Boolean = true,
-    trailing: (@Composable () -> Unit)? = null, minHeight: Dp = 56.dp, centered: Boolean = false, onClick: () -> Unit) {
+    trailing: (@Composable () -> Unit)? = null, minHeight: Dp = 56.dp, centered: Boolean = false, labelSize: androidx.compose.ui.unit.TextUnit = 17.sp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(16.dp)
     val navy = isSelected && selectedStyle == OptionStyle.Navy
     val peach = isSelected && selectedStyle == OptionStyle.Peach
@@ -385,7 +386,7 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
             GapW(12.dp); OrangeDivider(if (subtitle != null) 40.dp else 28.dp); GapW(14.dp)
         }
         Column(if (centered) Modifier else Modifier.weight(1f)) {
-            Text(label, style = T.Title2.copy(fontSize = 17.sp, lineHeight = 22.sp, color = if (navy) Color.White else if (enabled) RD.Ink else C.Muted))
+            Text(label, style = T.Title2.copy(fontSize = labelSize, lineHeight = labelSize * 1.3f, color = if (navy) Color.White else if (enabled) RD.Ink else C.Muted))
             if (subtitle != null) Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 17.sp, color = if (navy) Color(0xFFDDE4F2) else Color(0xFF3F4760)))
         }
         if (trailing != null) { GapW(8.dp); trailing() }
@@ -429,4 +430,15 @@ fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? 
         Text(text, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink), textAlign = TextAlign.Center,
             maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
+}
+
+/** Testo su una riga che si riduce leggermente invece di andare a capo o venire troncato. */
+@Composable
+fun AutoFitText(text: String, style: androidx.compose.ui.text.TextStyle, modifier: Modifier = Modifier, minScale: Float = 0.62f,
+    textAlign: TextAlign? = null) {
+    var scale by androidx.compose.runtime.remember(text, style) { androidx.compose.runtime.mutableFloatStateOf(1f) }
+    Text(text, modifier, style = style.copy(fontSize = if (style.fontSize.isSpecified) style.fontSize * scale else style.fontSize,
+        lineHeight = if (style.lineHeight.isSpecified) style.lineHeight * scale else style.lineHeight), maxLines = 1, softWrap = false,
+        overflow = if (scale <= minScale) TextOverflow.Ellipsis else TextOverflow.Clip, textAlign = textAlign,
+        onTextLayout = { if (it.hasVisualOverflow && scale > minScale) scale = (scale - 0.06f).coerceAtLeast(minScale) })
 }

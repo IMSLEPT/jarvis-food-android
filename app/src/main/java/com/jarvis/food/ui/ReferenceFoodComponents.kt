@@ -44,7 +44,7 @@ internal val InsightTile = Color(0xFFEEF2F8)
 internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScope.() -> Unit) {
     // Riferimento del 4 novembre: icone grandi su tessera azzurrina, separatore sottile grigio.
     val large = LocalDensity.current.fontScale > 1.2f
-    val tile = if (large) 68.dp else 96.dp
+    val tile = if (large) 64.dp else 88.dp
     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), verticalAlignment = Alignment.CenterVertically) {
         // Le illustrazioni hanno già la propria tessera azzurrina: si mostrano a piena dimensione.
         ReferenceIllustration(art, Modifier.size(tile).testTag("insight-icon-$art"))
@@ -60,10 +60,10 @@ internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScop
 internal fun ReferenceInsightHeading(title: String, action: String? = null, onAction: () -> Unit = {}) {
     FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
         verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(title, style = T.Title.copy(fontSize = 21.sp, lineHeight = 26.sp, color = RD.Ink))
+        Text(title, style = T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink))
         if (action != null) Row(Modifier.heightIn(min = 36.dp).clip(RoundedCornerShape(8.dp))
             .clickable(role = Role.Button, onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
-            Text(action, style = T.Title2.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.OrangeText)); GapW(4.dp)
+            Text(action, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.OrangeText)); GapW(4.dp)
             AIcon(RIc.Right, RD.OrangeText, 16.dp, 2.6f)
         }
     }

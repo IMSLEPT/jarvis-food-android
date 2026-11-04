@@ -36,14 +36,13 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
             if (onBack != null) Box(Modifier.size(44.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack),
                 contentAlignment = Alignment.Center) { AIcon(RIc.Left, Color.White, 26.dp, 2.6f) }
             if (logo != null) { Box(Modifier.padding(start = 6.dp), contentAlignment = Alignment.Center) { logo() }; GapW(16.dp) } else GapW(8.dp)
-            Text(title, style = T.Title.copy(fontSize = 34.sp, lineHeight = 40.sp, color = Color.White), modifier = Modifier.weight(1f),
-                maxLines = 1, overflow = TextOverflow.Ellipsis)
+            AutoFitText(title, T.Title.copy(fontSize = 34.sp, lineHeight = 40.sp, color = Color.White), Modifier.weight(1f))
             if (accounts) RefProfileButton(56.dp)
         }
         GapH(6.dp)
         RefBannerTabs(labels, icons, selected, onSelect, actions, title, descriptions, labelTags)
         GapH(10.dp)
-        Box(Modifier.fillMaxWidth().heightIn(min = if (large) 60.dp else 52.dp), contentAlignment = Alignment.CenterStart) {
+        Box(Modifier.fillMaxWidth().height(if (large) 60.dp else 52.dp), contentAlignment = Alignment.CenterStart) {
             when {
                 searchContent != null -> searchContent()
                 supportingText != null && query.isEmpty() && hint.isEmpty() -> Text(supportingText, style = T.Body.copy(lineHeight = 18.sp, color = Color(0xFFE5EBFA)), modifier = Modifier.padding(horizontal = 8.dp))

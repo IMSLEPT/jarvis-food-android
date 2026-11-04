@@ -203,7 +203,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
         ReferenceInsightBody(TodayArt.Calendar) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text("Per te oggi", style = T.Title.copy(fontSize = 21.sp, lineHeight = 26.sp, color = RD.Ink), modifier = Modifier.weight(1f))
+                Text("Per te oggi", style = T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink), modifier = Modifier.weight(1f))
                 Row(Modifier.heightIn(min = 40.dp).testTag("daily-tips-all").clip(RoundedCornerShape(10.dp))
                     .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }.padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 15.sp, color = RD.Grey)); GapW(4.dp)
@@ -266,7 +266,7 @@ private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context
                 GapH(12.dp)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf(1 to "Oggi", 7 to "7 giorni", 30 to "30 giorni").forEach { (n, label) ->
-                        RefOption(label, Modifier.weight(1f), isSelected = days == n, selectedStyle = OptionStyle.Navy, tag = "diet-coach-$n", minHeight = 48.dp, centered = true,
+                        RefOption(label, Modifier.weight(1f), isSelected = days == n, selectedStyle = OptionStyle.Navy, tag = "diet-coach-$n", minHeight = 48.dp, centered = true, labelSize = 14.sp,
                             trailing = {}) { days = n }
                     }
                 }

@@ -522,11 +522,11 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
             ReferenceInsightBody(TodayArt.Activity) {
                     ReferenceInsightHeading("Attività", "Smartwatch") { Nav.go(Screen.Watch) }
                     Text("Passi giornalieri", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Row(Modifier.weight(1f), verticalAlignment = Alignment.Bottom) {
+                    androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(verticalAlignment = Alignment.Bottom) {
                             Text(steps.thousands(), style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, color = RD.Ink))
                             GapW(6.dp)
-                            Text("su ${goal.thousands()}", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey), modifier = Modifier.padding(bottom = 5.dp))
+                            Text("su ${goal.thousands()}", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey), modifier = Modifier.padding(bottom = 5.dp), softWrap = false)
                         }
                         Text("${(steps.toDouble() / goal * 100).toInt()}%", style = T.Title.copy(fontSize = 22.sp, lineHeight = 26.sp, color = RD.Ink), modifier = Modifier
                             .clip(RoundedCornerShape(22.dp)).background(Color(0xFFEEF2F8)).padding(horizontal = 14.dp, vertical = 10.dp))

@@ -96,7 +96,7 @@ fun KitchenScreen() {
             onSelect = { Nav.kitchenTab = order[it] }, query = "", onQuery = {}, hint = "",
             labelTags = order.map { "kitchen-tab-label-$it" }, icons = listOf(RIc.Fork, RIc.Basket, RIc.Cart), logo = { ChefHatLogo(46.dp) }, searchContent = {
                 if (Nav.kitchenTab == 2) RecipeSearchBar()
-                else Row(Modifier.fillMaxWidth().fillMaxHeight().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                else Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(if (Nav.kitchenTab == 0) Ic.Fridge else Ic.Cart, Color.White, 20.dp)
                     GapW(8.dp)
                     Text(if (Nav.kitchenTab == 0) "La tua dispensa" else "La tua lista della spesa", style = T.Body.copy(lineHeight = 18.sp, color = Color.White), maxLines = 2)

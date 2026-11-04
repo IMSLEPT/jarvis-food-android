@@ -98,6 +98,7 @@ class RedesignNovemberTest {
             compose.onNodeWithTag("plan-slot-strip").performScrollTo(); shot("11-piano-pasti")
             compose.onNodeWithTag("plan-card-${meals.first().diaryMeal}").performScrollTo(); shot("12-piano-scheda")
             val second = meals[1]
+            compose.onNodeWithTag("plan-slot-strip").performScrollTo()
             compose.onNodeWithTag("plan-slot-${second.diaryMeal}").performScrollTo().performClick().assertIsSelected()
             compose.onNodeWithTag("plan-eaten-${second.diaryMeal}").performScrollTo().performClick()
             assertTrue(Store.dayPlan(Store.current, day)!!.slots.first { it.slot == second.slotIndex }.eatenEntryIds.isNotEmpty())
@@ -120,14 +121,15 @@ class RedesignNovemberTest {
             compose.waitUntil(15000) { compose.onAllNodesWithTag("kitchen-favourites").fetchSemanticsNodes().isNotEmpty() }
             shot("20-cucina-top")
             compose.onNodeWithTag("kitchen-inspiration").performScrollTo(); shot("21-cucina-esplora-ispirazione")
+            compose.onNodeWithTag("recipe-group-strip").performScrollTo()
             compose.onNodeWithTag("recipe-group-tempo").performScrollTo().performClick().assertIsSelected(); shot("22-cucina-filtri")
             compose.onNodeWithTag("kitchen-inspiration").performScrollTo().performClick()
             assertEquals(Screen.WhatNow, Nav.stack.last())
             ui { Nav.back() }
             compose.onNodeWithTag("banner-tab-Cucina-1").performClick(); shot("23-cucina-dispensa")
             compose.onNodeWithTag("nav-3").performClick(); shot("24-progressi")
-            compose.onNodeWithTag("banner-tab-Progressi-1").performClick().assertIsSelected()
-            compose.onNodeWithTag("nav-4").performClick(); shot("25-jarvis")
+            compose.onNodeWithTag("banner-tab-Progressi-1").performClick().assertIsSelected(); shot("24b-progressi-grafici")
+            ui { Nav.clear(); Nav.tab = 4 }; shot("25-jarvis")
             compose.onNodeWithTag("header-profile").performClick()
             assertEquals(Screen.Profile, Nav.stack.last())
         }

@@ -319,7 +319,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     ASection("Esplora le ricette", action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
     GapH(12.dp)
-    if (!showAll) Row(Modifier.horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+    if (!showAll) Row(Modifier.testTag("recipe-group-strip").horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         groups.forEach { g -> CategoryChip(g.id, chipLabels[g.id] ?: g.title, selected == g.id) { selected = g.id } }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
@@ -403,7 +403,7 @@ internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTempla
 
 @Composable
 private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
-    val large = LocalDensity.current.fontScale > 1.5f
+    val large = LocalDensity.current.fontScale > 1.2f || androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp < 380
     // Immagine 15: tessera pesca con icona arancio, separatore, titolo e conteggio, freccia navy.
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
         val shape = RoundedCornerShape(26.dp)

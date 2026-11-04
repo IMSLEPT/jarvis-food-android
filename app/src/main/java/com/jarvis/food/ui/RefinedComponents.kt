@@ -154,11 +154,11 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
                 GapW(12.dp)
                 Box(Modifier.width(2.dp).height(36.dp).background(RD.GreyLine))
                 GapW(12.dp)
-                Text(m.slotName, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp, color = RD.Ink), modifier = Modifier.weight(1f), maxLines = 2)
+                AutoFitText(m.slotName, T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp, color = RD.Ink), Modifier.weight(1f).padding(end = 6.dp))
                 Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = Modifier.clip(RoundedCornerShape(22.dp))
                     .background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB)).border(1.dp, Color(0xFFE2DFDC), RoundedCornerShape(22.dp))
                     .padding(horizontal = 14.dp, vertical = 8.dp),
-                    style = T.Title2.copy(fontSize = 15.sp, lineHeight = 19.sp, color = if (eaten) A.GreenInk else RD.Ink))
+                    style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp, color = if (eaten) A.GreenInk else RD.Ink), maxLines = 1, softWrap = false)
             }
             GapH(12.dp)
             Text(r.template.name, modifier = Modifier.fillMaxWidth().testTag("plan-recipe-title-${m.diaryMeal}").clickable(role = Role.Button) {
