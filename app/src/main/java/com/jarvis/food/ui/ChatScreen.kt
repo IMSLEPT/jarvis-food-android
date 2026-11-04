@@ -195,7 +195,7 @@ private fun ChatDaySeparator(day: LocalDate) {
 @Composable
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = ready && input.isNotBlank() && !busy
-    val shape = RoundedCornerShape(if (active) 28.dp else 26.dp)
+    val shape = RoundedCornerShape(18.dp)
     Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(

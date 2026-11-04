@@ -358,20 +358,20 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
 /** Immagine 13: icona bicolore, separatore grigio e testo; la voce attiva è navy con barra arancio. */
 @Composable
 private fun CategoryChip(id: String, label: String, active: Boolean, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(20.dp)
-    Box(Modifier.heightIn(min = 50.dp).testTag("recipe-group-$id").refShadow(shape, if (active) 4.dp else 2.dp).clip(shape)
-        .background(if (active) RD.Navy else Color.White).border(1.5.dp, RD.Ink, shape)
+    val shape = RoundedCornerShape(14.dp)
+    Box(Modifier.heightIn(min = 48.dp).testTag("recipe-group-$id").refShadow(shape, if (active) 4.dp else 2.dp).clip(shape)
+        .background(if (active) RD.Navy else Color.White).border(1.dp, RD.Ink.copy(alpha = 0.4f), shape)
         .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
-        Row(Modifier.padding(start = 16.dp, end = 20.dp, top = 8.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.padding(start = 12.dp, end = 14.dp, top = 8.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
             CategoryIcon(id, active)
-            GapW(12.dp)
-            Box(Modifier.width(1.5.dp).height(26.dp).background(if (active) Color(0x88FFFFFF) else Color(0xFF8A90A2)))
-            GapW(12.dp)
-            Text(label, style = T.Title.copy(fontSize = 17.sp, lineHeight = 21.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
+            GapW(8.dp)
+            Box(Modifier.width(1.5.dp).height(22.dp).background(if (active) Color(0x88FFFFFF) else Color(0xFF8A90A2)))
+            GapW(8.dp)
+            Text(label, style = T.Title.copy(fontSize = 15.sp, lineHeight = 21.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
         }
         // Barra arancio della voce attiva (riferimento): misurata sulla pillola, non sulla striscia scorrevole.
         if (active) Box(Modifier.matchParentSize(), contentAlignment = Alignment.BottomCenter) {
-            Box(Modifier.fillMaxWidth(0.82f).height(6.dp).clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp)).background(RD.Orange))
+            Box(Modifier.fillMaxWidth(0.82f).height(3.dp).clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp)).background(RD.Orange))
         }
     }
 }
@@ -379,7 +379,7 @@ private fun CategoryChip(id: String, label: String, active: Boolean, onClick: ()
 @Composable
 private fun CategoryIcon(id: String, active: Boolean) {
     val ink = if (active) Color.White else RD.Ink
-    val size = 28.dp
+    val size = 24.dp
     Box(Modifier.size(size)) {
         when (id) {
             "pasto" -> { AIcon(RIc.Plate, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 3.6), if (active) Color(0xFFE6E8EC) else Color(0xFFE6E8EC), size, fill = true)

@@ -172,11 +172,11 @@ fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
 fun ACard(
-    modifier: Modifier = Modifier, radius: Dp = 24.dp, color: Color = Color.White, brush: Brush? = null,
+    modifier: Modifier = Modifier, radius: Dp = 20.dp, color: Color = Color.White, brush: Brush? = null,
     padding: Dp = 16.dp, elevation: Dp = 10.dp, glow: Color = Color(0x4D1D1B3A), bordered: Boolean = true,
     onClick: (() -> Unit)? = null, content: @Composable () -> Unit
 ) {
-    val shape = RoundedCornerShape(radius)
+    val shape = RoundedCornerShape(radius.coerceAtMost(24.dp))
     var m = modifier.aShadow(shape, elevation, glow).clip(shape)
     m = if (brush != null) m.background(brush) else m.background(C.cardSurface(color))
     if (bordered) m = m.border(1.dp, A.Hair, shape)
@@ -221,7 +221,7 @@ fun MacroChips(p: Double, c: Double, f: Double) {
 /** Pulsante principale arancione a pillola (58 px nel design). */
 @Composable
 fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(50)
+    val shape = RoundedCornerShape(14.dp)
     Box(
         modifier.heightIn(min = height).aShadow(shape, 10.dp, Color(0x73F25E00)).clip(shape)
             .background(if (enabled) C.NavyBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
@@ -233,7 +233,7 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, en
 /** Pulsante "inchiostro" navy (52 px) e variante tonale. */
 @Composable
 fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(50)
+    val shape = RoundedCornerShape(14.dp)
     Box(modifier.heightIn(min = height).clip(shape).background(C.cardSurface(bg)).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
         Text(text, style = T.BtnM.copy(color = fg), textAlign = TextAlign.Center)
     }
@@ -260,7 +260,7 @@ fun BackCircle(onBack: () -> Unit) {
 /** Selettore a pillole (pasti, piani digiuno...). [sel] = navy con testo bianco. */
 @Composable
 fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(50)
+    val shape = RoundedCornerShape(14.dp)
     Box(
         modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.Navy else Color.White)
             .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),

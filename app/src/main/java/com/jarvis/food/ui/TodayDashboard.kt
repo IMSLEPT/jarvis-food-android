@@ -61,8 +61,8 @@ internal object DashboardIcon {
 
 @Composable
 internal fun DashboardRobot(selected: Boolean) {
-    Box(Modifier.size(26.dp)) {
-        AIcon(DashboardIcon.Robot, if (selected) DashboardOrange else C.Navy, 26.dp)
+    Box(Modifier.size(22.dp)) {
+        AIcon(DashboardIcon.Robot, if (selected) DashboardOrange else C.Navy, 22.dp)
         Box(Modifier.align(Alignment.TopCenter).size(4.dp).clip(CircleShape).background(DashboardOrange))
     }
 }

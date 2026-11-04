@@ -131,7 +131,7 @@ fun JarvisTheme(content: @Composable () -> Unit) {
             headlineLarge = T.H1, headlineMedium = T.Title, headlineSmall = T.H2,
             titleLarge = T.Title2, titleMedium = T.Label, titleSmall = T.Label,
             bodyLarge = T.Read, bodyMedium = T.Body, bodySmall = T.Small,
-            labelLarge = T.BtnM, labelMedium = T.Label, labelSmall = T.Small
+            labelLarge = T.BtnM.copy(color = Color.Unspecified), labelMedium = T.Label, labelSmall = T.Small
         ),
         shapes = Shapes(small = RoundedCornerShape(12.dp), medium = RoundedCornerShape(16.dp), large = RoundedCornerShape(20.dp), extraLarge = RoundedCornerShape(24.dp))
     ) {
