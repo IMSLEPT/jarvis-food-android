@@ -1,0 +1,32 @@
+name: Package premium Android delivery
+on:
+  push:
+    branches: [delivery/premium-227]
+    paths: [scripts/package-premium-delivery.py, .github/workflows/package-premium-delivery.yml, reports/premium-227-visual-verdict.json]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pillow reportlab
+      - name: Verify Android evidence and prepare screenshot comparisons
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANDROID_RUN: '41928404591'
+          ANDROID_SHA: 6aa999e8d7d4bfda4e03d56f982963b18bd6c710
+        run: python scripts/package-premium-delivery.py
+      - name: Publish compared screenshots and verification files
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload preview-v1.0.227-redesign delivery/* --clobber
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Premium-delivery-227
+          path: delivery/
