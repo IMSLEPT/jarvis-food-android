@@ -268,12 +268,12 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
         labels.indices.forEach { i ->
             val active = i == selected
             val pill = RoundedCornerShape(24.dp)
-            val base = Modifier.widthIn(min = 96.dp).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
+            val base = Modifier.widthIn(min = 80.dp).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
                 .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
                 .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
             val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                 else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
-            Row(control.padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically,
+            Row(control.padding(horizontal = 10.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center) {
                 icons.getOrNull(i)?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
                 Text(labels[i], style = T.Title2.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
