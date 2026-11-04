@@ -199,6 +199,8 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     val shown=all.take(3)
     var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
     var full by remember { mutableStateOf(false) }
+    // Le righe visibili condividono la stessa dimensione del testo.
+    val tipScale = remember(personal, general) { androidx.compose.runtime.mutableFloatStateOf(1f) }
     val uri=LocalUriHandler.current
     ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
         ReferenceInsightBody(TodayArt.Calendar) {
@@ -213,7 +215,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
             Text(if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
             shown.forEach { tip ->
                 GapH(8.dp)
-                TipRow(tip) { selected = tip }
+                TipRow(tip, tipScale) { selected = tip }
             }
         }
     }
@@ -234,7 +236,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 }
 
 @Composable
-private fun TipRow(tip: DailyFoodTips.Tip, onClick: () -> Unit) {
+private fun TipRow(tip: DailyFoodTips.Tip, scale: androidx.compose.runtime.MutableFloatState, onClick: () -> Unit) {
     Row(Modifier.fillMaxWidth().heightIn(min = 50.dp).testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
         .background(Color(0xFFEEF2F8))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
@@ -242,7 +244,7 @@ private fun TipRow(tip: DailyFoodTips.Tip, onClick: () -> Unit) {
         TipIcon(tip.id)
         GapW(12.dp)
         // Una sola riga per tutte le idee: righe della stessa altezza, come nel riferimento.
-        AutoFitText(tip.title, T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), Modifier.weight(1f), minScale = 0.75f)
+        SharedFitText(tip.title, T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), scale, Modifier.weight(1f), minScale = 0.75f)
         GapW(4.dp)
         AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
     }
@@ -254,12 +256,13 @@ private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context
     var days by remember { mutableIntStateOf(7) }
     val context = androidx.compose.ui.platform.LocalContext.current
     val tips = remember(days, s.diary, s.water, review) { DietCoach.analyze(s, date, days, ctx, if (days == 7) review else null) }
+    val tipScale = remember(tips) { androidx.compose.runtime.mutableFloatStateOf(1f) }
     val scope = rememberCoroutineScope()
     var ai by remember(days) { mutableStateOf(DietCoachAi.cached(date, days)) }
     var busy by remember(days) { mutableStateOf(false) }
     val ready = remember(s.ai) { DietCoachAi.ready(context, s) }
-    androidx.compose.ui.window.Dialog(onDismissRequest = onClose) {
-        Surface(shape = RoundedCornerShape(30.dp), color = C.Surface) {
+    androidx.compose.ui.window.Dialog(onDismissRequest = onClose, properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)) {
+        Surface(Modifier.fillMaxWidth().widthIn(max = 460.dp).padding(horizontal = 20.dp), shape = RoundedCornerShape(30.dp), color = C.Surface) {
             Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .85f).dp)
                 .verticalScroll(rememberScrollState()).padding(20.dp).testTag("diet-coach-dialog")) {
                 Text("La tua dieta", style = T.Title.copy(fontSize = 23.sp, color = RD.Ink))
@@ -273,7 +276,7 @@ private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context
                 }
                 GapH(12.dp)
                 if (tips.isEmpty()) Text(if (s.diary.isEmpty()) "Registra i pasti per ricevere consigli personali." else "Nessuna abitudine da correggere ${DietCoach.windowLabel(days)}: continua così.", style = T.Body)
-                tips.forEach { tip -> TipRow(tip) { onOpen(tip) }; GapH(8.dp) }
+                tips.forEach { tip -> TipRow(tip, tipScale) { onOpen(tip) }; GapH(8.dp) }
                 GapH(8.dp)
                 if (ready) {
                     RefPrimaryButton(if (busy) "Jarvis sta analizzando…" else "Analisi di Jarvis AI", Modifier.fillMaxWidth(), icon = Ic.Spark, tag = "diet-coach-ai", enabled = !busy && s.diary.isNotEmpty()) {

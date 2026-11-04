@@ -407,6 +407,7 @@ internal class HomeData(val ctx: NowCtx, val recommended: List<Pair<RecipeTempla
 private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
     val large = LocalDensity.current.fontScale > 1.2f || androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp < 380
     // Immagine 15: tessera pesca con icona arancio, separatore, titolo e conteggio, freccia navy.
+    val titleScale = androidx.compose.runtime.remember { androidx.compose.runtime.mutableFloatStateOf(1f) }
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
         val shape = RoundedCornerShape(26.dp)
         Row(modifier.heightIn(min = if (large) 88.dp else 76.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
@@ -416,7 +417,7 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
             PeachTile(if (large) 54.dp else 46.dp, radius = 14.dp) { AIcon(icon, RD.OrangeDeep, if (large) 30.dp else 26.dp, 2.4f) }
             GapW(8.dp); OrangeDivider(36.dp); GapW(8.dp)
             Column(Modifier.weight(1f)) {
-                AutoFitText(label, T.Title.copy(fontSize = 17.sp, lineHeight = 21.sp, color = RD.Ink), minScale = 0.7f)
+                SharedFitText(label, T.Title.copy(fontSize = 17.sp, lineHeight = 21.sp, color = RD.Ink), titleScale, minScale = 0.7f)
                 AutoFitText(if (count == 1) "1 ricetta" else "$count ricette", T.Body.copy(fontSize = 14.sp, lineHeight = 19.sp, color = RD.Grey), minScale = 0.75f)
             }
             GapW(2.dp)

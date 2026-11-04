@@ -392,7 +392,9 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
             GapW(12.dp); OrangeDivider(if (subtitle != null) 40.dp else 28.dp); GapW(14.dp)
         }
         Column(if (centered) Modifier else Modifier.weight(1f)) {
-            Text(label, style = T.Title2.copy(fontSize = labelSize, lineHeight = labelSize * 1.3f, color = if (navy) Color.White else if (enabled) RD.Ink else C.Muted))
+            val labelStyle = T.Title2.copy(fontSize = labelSize, lineHeight = labelSize * 1.3f, color = if (navy) Color.White else if (enabled) RD.Ink else C.Muted)
+            // Le scelte affiancate (periodi) restano su una riga.
+            if (centered) AutoFitText(label, labelStyle, minScale = 0.75f) else Text(label, style = labelStyle)
             if (subtitle != null) Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 17.sp, color = if (navy) Color(0xFFDDE4F2) else Color(0xFF3F4760)))
         }
         if (trailing != null) { GapW(8.dp); trailing() }
@@ -449,4 +451,18 @@ fun AutoFitText(text: String, style: androidx.compose.ui.text.TextStyle, modifie
         lineHeight = if (style.lineHeight.isSpecified) style.lineHeight * scale else style.lineHeight), maxLines = 1, softWrap = false,
         overflow = if (scale <= minScale) TextOverflow.Ellipsis else TextOverflow.Clip, textAlign = textAlign,
         onTextLayout = { if (it.hasVisualOverflow && scale > minScale) scale = (scale - 0.06f).coerceAtLeast(minScale) })
+}
+
+/**
+ * Come [AutoFitText], ma più testi dello stesso gruppo (schede affiancate, righe di un elenco)
+ * condividono la riduzione: restano tutti della stessa dimensione invece di averne uno più piccolo.
+ */
+@Composable
+fun SharedFitText(text: String, style: androidx.compose.ui.text.TextStyle, scale: androidx.compose.runtime.MutableFloatState,
+    modifier: Modifier = Modifier, minScale: Float = 0.72f) {
+    val k = scale.floatValue
+    Text(text, modifier, style = style.copy(fontSize = if (style.fontSize.isSpecified) style.fontSize * k else style.fontSize,
+        lineHeight = if (style.lineHeight.isSpecified) style.lineHeight * k else style.lineHeight), maxLines = 1, softWrap = false,
+        overflow = if (k <= minScale) TextOverflow.Ellipsis else TextOverflow.Clip,
+        onTextLayout = { if (it.hasVisualOverflow && scale.floatValue > minScale) scale.floatValue = (scale.floatValue - 0.04f).coerceAtLeast(minScale) })
 }

@@ -228,14 +228,15 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
 /** Immagine 3: intestazione con calendario pesca, tre scelte con icona e "Chiudi" navy. */
 @Composable
 private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolean?) -> Unit, onClose: () -> Unit, onConfigure: () -> Unit) {
-    androidx.compose.ui.window.Dialog(onDismissRequest = onClose) {
-        Surface(shape = RoundedCornerShape(30.dp), color = C.Surface, shadowElevation = 8.dp) {
+    // Larghezza come nel riferimento: le scelte restano su una riga anche con il carattere ingrandito.
+    androidx.compose.ui.window.Dialog(onDismissRequest = onClose, properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)) {
+        Surface(Modifier.fillMaxWidth().widthIn(max = 460.dp).padding(horizontal = 20.dp), shape = RoundedCornerShape(30.dp), color = C.Surface, shadowElevation = 8.dp) {
             Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .85f).dp)
                 .verticalScroll(rememberScrollState()).padding(20.dp).testTag("day-type-dialog")) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     PeachTile(56.dp, radius = 18.dp) { DuoIcon(RIc.Calendar + RIc.CalendarBand, size = 32.dp, stroke = 2.4f, ink = RD.Orange) }
                     GapW(14.dp); OrangeDivider(46.dp); GapW(14.dp)
-                    Text("${dayLabel(date)} · tipo di giornata", style = T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp, color = RD.Ink), modifier = Modifier.weight(1f))
+                    AutoFitText("${dayLabel(date)} · tipo di giornata", T.Title.copy(fontSize = 23.sp, lineHeight = 28.sp, color = RD.Ink), Modifier.weight(1f), minScale = 0.72f)
                 }
                 Spacer(Modifier.height(14.dp))
                 Text("La modifica vale soltanto per questa data.", style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, color = RD.Grey))
