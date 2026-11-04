@@ -77,13 +77,21 @@ class PremiumWholeAppTest {
                 assertEquals("Profile route $key", route, Nav.stack.last())
                 shot("settings-$key")
                 if (key == "watch" && !capture.contains("before")) {
+                    compose.onNodeWithTag("watch-chain-Health Connect", useUnmergedTree = true).performScrollTo()
+                    shot("settings-watch-diagram")
                     for (label in listOf("Amazfit", "Zepp", "Health Connect", "Jarvis Food")) {
                         val node = compose.onNodeWithTag("watch-chain-$label", useUnmergedTree = true).performScrollTo()
                         val layouts = mutableListOf<TextLayoutResult>()
                         node.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
                         assertTrue(layouts.isNotEmpty())
                         for (layout in layouts) {
-                            assertFalse("Watch label clipped: $label", layout.hasVisualOverflow)
+                            val metrics = "$label: size=${layout.size}, paragraph=${layout.multiParagraph.width}x${layout.multiParagraph.height}, lines=${layout.lineCount}"
+                            // Check actual line bounds with one physical pixel for layout rounding.
+                            // Paragraph overflow alone also includes its unconstrained width, even when glyphs fit.
+                            for (line in 0 until layout.lineCount) {
+                                assertTrue("Watch text outside horizontal bounds: $metrics", layout.getLineLeft(line) >= -1f && layout.getLineRight(line) <= layout.size.width + 1f)
+                                assertTrue("Watch text outside vertical bounds: $metrics", layout.getLineBottom(line) <= layout.size.height + 1f)
+                            }
                             for (line in 0 until layout.lineCount - 1) {
                                 val end = layout.getLineEnd(line, visibleEnd = true)
                                 val next = layout.getLineStart(line + 1)

@@ -248,7 +248,7 @@ fun WatchScreen() {
                         val labels = listOf("Amazfit", "Zepp", "Health Connect", "Jarvis Food")
                         val density = LocalDensity.current
                         val measurer = rememberTextMeasurer()
-                        val labelStyle = T.Body.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                        val labelStyle = T.Body.copy(fontSize = 12.sp, lineHeight = 16.sp, letterSpacing = 0.sp, fontWeight = FontWeight.SemiBold)
                         val widths = labels.map { label ->
                             val word = label.split(" ").maxOf { word -> with(density) { measurer.measure(word, style = labelStyle).size.width.toDp() } }
                             maxOf(48.dp, word + 2.dp)
@@ -330,7 +330,7 @@ private fun ChainStep(label: String, icon: String, bg: Color?, ink: Color, modif
         Box(Modifier.size(48.dp).clip(RoundedCornerShape(18.dp)).background(bg?.let { C.cardSurface(it) } ?: Color.Transparent).then(if (bg == null) Modifier.background(A.Dawn) else Modifier), contentAlignment = Alignment.Center) {
             AIcon(icon, ink, 24.dp, if (bg == null) 2.2f else 2f)
         }
-        Text(label, style = T.Body.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = A.Ink, textAlign = TextAlign.Center), modifier = Modifier.padding(top = 6.dp).testTag("watch-chain-$label"))
+        Text(label, style = T.Body.copy(fontSize = 12.sp, lineHeight = 16.sp, letterSpacing = 0.sp, fontWeight = FontWeight.SemiBold, color = A.Ink, textAlign = TextAlign.Center), modifier = Modifier.fillMaxWidth().padding(top = 6.dp).testTag("watch-chain-$label"))
     }
 }
 
