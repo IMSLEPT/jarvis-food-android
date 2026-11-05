@@ -45,13 +45,13 @@ jobs:
         env:
           SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
         run: openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/jarvisfood.jks.enc -out app/jarvisfood.jks -pass env:SIGNING_PASS
-      - name: Build exact v228 baseline with identical visual fixture
+      - name: Build exact v229 baseline with identical visual fixture
         run: |
-          git fetch --depth=1 origin e01963dcd183546d4b5dd3733708ac3fe48478be
-          git worktree add /tmp/jarvis-premium-before e01963dcd183546d4b5dd3733708ac3fe48478be
+          git fetch --depth=1 origin 3bc6057e5228a969f4649692d1119d1603aece79
+          git worktree add /tmp/jarvis-premium-before 3bc6057e5228a969f4649692d1119d1603aece79
           cp app/src/main/assets/food.tflite /tmp/jarvis-premium-before/app/src/main/assets/food.tflite
           cp app/src/androidTest/java/com/jarvis/food/{PremiumWholeAppTest,RedesignNovemberTest}.kt /tmp/jarvis-premium-before/app/src/androidTest/java/com/jarvis/food/
-          GITHUB_RUN_NUMBER=228 ./gradlew -p /tmp/jarvis-premium-before assembleDebug assembleDebugAndroidTest --console=plain
+          GITHUB_RUN_NUMBER=229 ./gradlew -p /tmp/jarvis-premium-before assembleDebug assembleDebugAndroidTest --console=plain
           mkdir -p baseline
           cp /tmp/jarvis-premium-before/app/build/outputs/apk/debug/app-debug.apk baseline/app-debug.apk
           cp /tmp/jarvis-premium-before/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk baseline/app-debug-androidTest.apk
@@ -97,7 +97,7 @@ jobs:
           chmod +x .ci-bin/adb
       - name: Android 15 Pixel 9 Pro XL verification
         env:
-          QA_SCREEN_SCOPE: general-recheck
+          QA_SCREEN_SCOPE: video-followup
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35

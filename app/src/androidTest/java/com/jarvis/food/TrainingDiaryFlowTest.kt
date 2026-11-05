@@ -180,7 +180,7 @@ class TrainingDiaryFlowTest {
             assertEquals(Screen.TrainingGoals, Nav.stack.last())
             ui { Nav.back(); Nav.tab = 0 }
             ui { Nav.go(Screen.DayNutrients(today)) }
-            compose.onNodeWithTag("day-nutrients-target").assertTextEquals("Obiettivo ${kcalFmt(2100.0)} kcal").assertIsDisplayed()
+            compose.onNodeWithTag("day-nutrients-target").assertTextEquals("${kcalFmt(2100.0)} kcal").assertIsDisplayed()
             ui { Nav.back() }
             compose.onNodeWithTag("day-type-label").performScrollTo().performClick()
             compose.onNodeWithText("Segui calendario settimanale").performClick()

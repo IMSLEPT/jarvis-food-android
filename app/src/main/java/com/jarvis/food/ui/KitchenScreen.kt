@@ -133,6 +133,19 @@ private fun shopDot(shop: String): Color = when {
     else -> Color(0xFFB8B4CC)
 }
 
+private fun shoppingCategoryIcon(shop: String): String = when (shop) {
+    "Frutta e verdura" -> RIc.Leaf
+    "Pane, pasta e cereali" -> DashboardIcon.Wheat
+    "Carne e pesce" -> "M3 12c4-5 9-6 14-2l4-3v10l-4-3c-5 4-10 3-14-2zM8 11h.1"
+    "Latticini e uova" -> "M8 3h8v4l3 4v9H5v-9l3-4zM8 7h8M5 11h14M9 15h6"
+    "Legumi e tofu" -> "M17 4c4 1 5 6 3 10-2 4-6 7-11 6-4-1-6-4-4-7 1-2 4-2 6-4 2-2 2-6 6-5zM7 16c4 2 9-2 10-6"
+    "Frutta secca e semi" -> "M5 18c-3-3-1-7 3-11 3-3 7-4 10-3 1 3 0 7-3 11-4 4-7 6-10 3zM7 16l8-9"
+    "Dispensa" -> "M8 4h8v3l2 3v9a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-9l2-3zM8 7h8M6 13h12"
+    "Condimenti" -> "M10 3h4v5l3 3v8a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-8l3-3zM7 13h10"
+    "Bevande" -> Ic.Drop
+    else -> Ic.Cart
+}
+
 /** "Cosa cucino oggi": scelta del pasto, ricetta nuova con l'AI e idee dal ricettario con ciò che c'è in dispensa. */
 @Composable
 private fun CookTodayBlock(s: AppState) {
@@ -370,9 +383,7 @@ private fun ShoppingTab(s: AppState) {
         val cardShape = RoundedCornerShape(28.dp)
         Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-                if (shop.startsWith("Frutta")) {
-                    AIcon("M4 19C1 10 9 4 20 4c0 10-5 17-14 15zM4 20l9-9", shopDot(shop), 20.dp, 2.3f)
-                } else Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
+                AIcon(shoppingCategoryIcon(shop), shopDot(shop), 20.dp, 2.2f)
                 GapW(10.dp)
                 Text(shop.uppercase(), style = T.Eyebrow.copy(fontSize = 13.sp, letterSpacing = 0.4.sp, color = RD.Ink))
             }

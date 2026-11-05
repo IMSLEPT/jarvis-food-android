@@ -276,13 +276,13 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
     val fraction = TodayProgress.ratio(value, goal).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(600), label = "macro-$label")
     val ring: @Composable () -> Unit = {
-        Box(Modifier.size(32.dp).testTag("macro-ring-$label").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
+        Box(Modifier.size(44.dp).testTag("macro-ring-$label").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
             Canvas(Modifier.fillMaxSize().padding(2.dp)) {
-                val stroke = 3.dp.toPx(); val inset = stroke / 2; val sz = Size(size.width - stroke, size.height - stroke)
+                val stroke = 4.dp.toPx(); val inset = stroke / 2; val sz = Size(size.width - stroke, size.height - stroke)
                 drawArc(soft, -90f, 360f, false, Offset(inset, inset), sz, style = Stroke(stroke))
                 if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            AIcon(icon, color, 18.dp, fill = true)
+            AIcon(icon, color, 25.dp, fill = true)
         }
     }
     val name: @Composable () -> Unit = { Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp)) }

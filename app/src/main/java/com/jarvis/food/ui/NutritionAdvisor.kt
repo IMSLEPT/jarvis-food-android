@@ -60,35 +60,22 @@ fun VitaminOverview(s: AppState) {
     val date = Nav.diaryDate
     val today = remember(s.diary, s.profile, date) { dailyMicros(s, date) }
     GapH(18.dp)
-    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D),
+    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 22.dp, padding = 8.dp, elevation = 4.dp, glow = Color(0x2009194D),
         onClick = { Nav.go(Screen.Trend("vitamins")) }) {
         ReferenceInsightBody(TodayArt.Vitamins) {
-            ReferenceInsightHeading("Vitamine e minerali", "Andamento") { Nav.go(Screen.Trend("vitamins")) }
-            Text("${dayLabel(date)} · fabbisogno giornaliero", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
-            val wide = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 380 && androidx.compose.ui.platform.LocalDensity.current.fontScale <= 1.2f
-            for (m in today) {
-                GapH(8.dp)
-                val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
-                Column(Modifier.fillMaxWidth().testTag("home-nutrient-${m.key}").semantics {
-                    progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
-                }.clickable { Nav.go(Screen.Trend("vitamins")) }) {
-                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(m.name, style = T.Title2.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Ink), modifier = if (wide) Modifier.width(104.dp) else Modifier.weight(1f))
-                        if (wide) { ProgressLine(m.fraction, RD.Navy, Modifier.weight(1f), height = 10.dp); GapW(10.dp) }
-                        Text(percent, modifier = Modifier.testTag("home-nutrient-value-${m.key}"), style = T.Title2.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Ink))
-                        GapW(6.dp); AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
-                    }
-                    if (!wide) ProgressLine(m.fraction, RD.Navy, Modifier.fillMaxWidth().padding(top = 5.dp), height = 10.dp)
-                }
+            ReferenceInsightHeading("Vitamine e minerali", "${dayLabel(date)} · fabbisogno giornaliero", RIc.Leaf, "Andamento") {
+                Nav.go(Screen.Trend("vitamins"))
             }
-            GapH(8.dp)
-            val avg = listOf("vitC", "vitD", "vitB12").mapNotNull { k -> review?.nutrient(k)?.percent?.let { "${today.first { it.key == k }.name.removePrefix("Vitamina ")} ${it.toInt()}%" } }
-            Text(when {
-                review == null -> "Analisi del diario…"
-                avg.isNotEmpty() -> "Media 7 giorni: ${avg.joinToString(" · ")} · stima EFSA adulti"
-                else -> "Stima EFSA per adulti · storico 7 e 30 giorni in Andamento"
-            } + (today.sumOf { it.unknown }.takeIf { it > 0 }?.let { " · alcuni alimenti senza dato" } ?: ""),
-                style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
+            for ((index, m) in today.withIndex()) {
+                val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
+                ReferenceMetric(m.name, percent, m.fraction,
+                    Modifier.testTag("home-nutrient-${m.key}").semantics {
+                        progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
+                    },
+                    valueModifier = Modifier.testTag("home-nutrient-value-${m.key}")
+                ) { Nav.go(Screen.Trend("vitamins", metric = index)) }
+            }
+            if (today.any { it.unknown > 0 }) Text("Alcuni alimenti senza dato", style = T.Small.copy(fontSize = 11.sp))
         }
     }
     GapH(10.dp)

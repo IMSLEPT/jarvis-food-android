@@ -107,6 +107,33 @@ class TodayRefinementTest {
         }
     }
 
+    @Test fun openedDiaryKeepsAllThreeActionsOnOneRowAndNutrientMealsAreReadOnly() {
+        prepare()
+        ui { Store.addEntry(day, 0, Food("test-oats", "Fiocchi di avena", kcal = 375.0, protein = 13.0, carbs = 60.0, fat = 7.0), 50.0) }
+        val before = Store.current.diary
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithText("Colazione").performScrollTo().performClick()
+            compose.onNodeWithText("Fiocchi di avena").performScrollTo().assertIsDisplayed()
+            val actions = listOf("Foto AI", "Codice a barre", "Altre azioni").map { label ->
+                compose.onNode(hasText(label) and hasClickAction()).performScrollTo().assertIsDisplayed()
+                    .assertHeightIsAtLeast(48.dp).fetchSemanticsNode().boundsInRoot
+            }
+            assertTrue(actions.zipWithNext().all { (left, right) -> left.right <= right.left + 1f && kotlin.math.abs(left.top - right.top) <= 1f })
+            shot("diario-aperto")
+            compose.onNodeWithText("Altre azioni").performClick()
+            compose.onNodeWithText("Copia su domani").assertIsDisplayed()
+        }
+        ui { Nav.go(Screen.DayNutrients(day)) }
+        ActivityScenario.launch(MainActivity::class.java).use {
+            compose.onNodeWithTag("day-nutrients-target", useUnmergedTree = true).assertIsDisplayed()
+            shot("nutrienti-alto")
+            compose.onNode(hasText("Colazione") and hasClickAction()).performScrollTo().performClick()
+            compose.onNodeWithText("Fiocchi di avena", substring = true).performScrollTo().assertIsDisplayed()
+            shot("nutrienti-per-pasto")
+            assertEquals(before, Store.current.diary)
+        }
+    }
+
     @Test fun quickActionsVitaminsTipsAndActivityKeepExistingDestinations() {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use {
@@ -134,6 +161,9 @@ class TodayRefinementTest {
             for (name in listOf("Vitamina C", "Vitamina D", "Vitamina B12")) {
                 readable(compose.onNodeWithText(name, useUnmergedTree = true).performScrollTo())
             }
+            compose.onNodeWithTag("home-nutrient-vitD").performScrollTo().performClick()
+            assertEquals(Screen.Trend("vitamins", metric = 1), Nav.stack.last())
+            ui { Nav.back() }
             val firstTip = SemanticsMatcher("first daily tip") { it.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("daily-food-tip-") == true }
             compose.onAllNodes(firstTip)[0].performScrollTo().performClick()
             compose.onNodeWithTag("daily-tip-source").assertExists()
@@ -148,6 +178,9 @@ class TodayRefinementTest {
             assertEquals(3285, Store.stepsFor(Store.current, day))
             compose.onNodeWithTag("home-activity").performScrollTo()
             shot("activity-with-steps")
+            compose.onNode(hasText("Calorie attive") and hasClickAction()).performScrollTo().performClick()
+            assertEquals(Screen.Trend("activity", metric = 1), Nav.stack.last())
+            ui { Nav.back() }
             ui { Store.update { s -> s.copy(energy = s.energy.copy(mode = 2)) } }
             compose.onNodeWithText("Smartwatch").performScrollTo().performClick()
             assertEquals(Screen.Watch, Nav.stack.last())

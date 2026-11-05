@@ -32,10 +32,10 @@ private data class TrendSample(val date: LocalDate, val value: Double?, val comp
 /** Read-only history: selecting a day or a period never inserts missing measurements. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
+fun TrendDetailScreen(kind: String, initialDays: Int = 7, initialMetric: Int = 0) {
     val s by Store.state.collectAsState()
     var days by remember { mutableIntStateOf(initialDays) }
-    var metric by remember(kind) { mutableIntStateOf(0) }
+    var metric by remember(kind, initialMetric) { mutableIntStateOf(initialMetric.coerceIn(0, when (kind) { "macro", "vitamins" -> 2; "activity" -> 1; else -> 0 })) }
     var picked by remember(days, metric) { mutableIntStateOf(days - 1) }
     val title = when (kind) { "macro" -> "Macronutrienti"; "water" -> "Acqua"; "activity" -> "Passi e attività"; else -> "Vitamine e minerali" }
     val options = when (kind) { "macro" -> listOf("Proteine", "Carboidrati", "Grassi"); "activity" -> listOf("Passi", "Calorie attività"); "vitamins" -> listOf("Vitamina C", "Vitamina D", "Vitamina B12"); else -> emptyList() }

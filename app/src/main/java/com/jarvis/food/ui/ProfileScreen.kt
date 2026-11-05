@@ -714,6 +714,12 @@ fun ActivityScreen(date: LocalDate) {
     }
 }
 
+private data class NutrientTile(
+    val label: String, val value: Double, val goal: Double, val icon: String, val color: Color, val ink: Color, val detail: String = ""
+) {
+    val amount: String get() = "${value.r1()} / ${goal.r0()} g"
+}
+
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun DayNutrientsScreen(date: LocalDate) {
@@ -723,72 +729,164 @@ fun DayNutrientsScreen(date: LocalDate) {
     val energy = Store.energyFor(s, date)
     val valid = energy.targetKcal > 0.0
     val fraction = TodayProgress.ratio(t.kcal, energy.targetKcal)
+    var expandedMeal by remember(date) { mutableStateOf<Int?>(null) }
     val macros = listOf(
-        Triple("Proteine", t.protein to energy.protein, C.Protein),
-        Triple("Carboidrati", t.carbs to energy.carbs, C.Carbs),
-        Triple("Grassi", t.fat to energy.fat, C.Fat)
+        NutrientTile("Proteine", t.protein, energy.protein, DashboardIcon.Muscle, C.Protein, A.ProteinInk),
+        NutrientTile("Carboidrati", t.carbs, energy.carbs, DashboardIcon.Wheat, C.Carbs, A.CarbInk),
+        NutrientTile("Grassi", t.fat, energy.fat, Ic.Drop, C.Fat, A.FatInk)
+    )
+    val extras = listOf(
+        NutrientTile("Fibre", t.fiber, 25.0, RIc.Leaf, C.Green, A.GreenInk, "Consigliate ≥ 25 g"),
+        NutrientTile("Zuccheri", t.sugar, 50.0, "M12 3l7 4v9l-7 4-7-4V7zM5 7l7 4 7-4M12 11v9", C.Accent, RD.OrangeText, "Limite consigliato 50 g"),
+        NutrientTile("Grassi saturi", t.satFat, energy.targetKcal * .10 / 9,
+            Ic.circ(12.0, 7.5, 3.5) + Ic.circ(8.0, 15.5, 3.5) + Ic.circ(16.0, 15.5, 3.5),
+            C.Protein, A.ProteinInk, "Limite 10% kcal"),
+        NutrientTile("Sale", t.salt, 5.0, "M8 5h8l2 14H6zM9 3h6M9 9h.1M12 9h.1M15 9h.1",
+            C.Blue, A.CarbInk, "Limite OMS 5 g")
     )
     Column(Modifier.fillMaxSize()) {
         TopBar("Nutrienti · ${dayLabel(date)}", onBack = { Nav.back() })
-        Column(Modifier.weight(1f).navigationBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(RD.NavyBrush).padding(12.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CalorieGauge(fraction.coerceIn(0f, 1f), valid, fraction)
-                    GapW(10.dp)
-                    Column(Modifier.weight(1f)) {
-                        Text("${kcalFmt(t.kcal)} kcal", style = T.Title.copy(fontSize = 26.sp, color = Color.White))
-                        Text("Obiettivo ${kcalFmt(energy.targetKcal)} kcal", Modifier.testTag("day-nutrients-target"), style = T.Small.copy(color = Color.White))
+        Column(Modifier.weight(1f).navigationBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 12.dp)) {
+            BoxWithConstraints(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(RD.NavyBrush).padding(10.dp)) {
+                val compact = maxWidth / androidx.compose.ui.platform.LocalDensity.current.fontScale < 305.dp
+                val target: @Composable () -> Unit = {
+                    val shape = RoundedCornerShape(10.dp)
+                    Row(Modifier.border(1.dp, Color(0x805B789E), shape).padding(horizontal = 7.dp, vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(DashboardIcon.Target, DashboardOrange, 20.dp)
+                        GapW(4.dp)
+                        Column {
+                            Text("Obiettivo", style = T.Small.copy(fontSize = 10.sp, lineHeight = 13.sp, color = Color.White))
+                            Text("${kcalFmt(energy.targetKcal)} kcal", Modifier.testTag("day-nutrients-target"),
+                                style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = Color.White))
+                        }
                     }
                 }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    NutrientGoalRing(fraction, valid)
+                    GapW(8.dp)
+                    OrangeDivider(43.dp)
+                    GapW(8.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text("${kcalFmt(t.kcal)} kcal", style = T.Title.copy(fontSize = 25.sp, lineHeight = 30.sp, color = Color.White))
+                        Text("su ${kcalFmt(energy.targetKcal)} kcal", style = T.Small.copy(color = Color(0xFFDDE7F6)))
+                        if (compact) { GapH(6.dp); target() }
+                    }
+                    if (!compact) { GapW(6.dp); target() }
+                }
             }
-            GapH(10.dp)
+            GapH(8.dp)
             val stacked = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f
             androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(),
                 maxItemsInEachRow = if (stacked) 1 else 3,
                 horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                macros.forEach { (label, pair, color) ->
-                    JCard(if (stacked) Modifier.fillMaxWidth() else Modifier.weight(1f), padding = PaddingValues(8.dp)) {
-                        Text(label, style = T.Small.copy(fontWeight = FontWeight.Bold, color = RD.Ink))
-                        Text("${pair.first.r1()} / ${pair.second.r0()} g", style = T.Small)
-                        GapH(4.dp)
-                        ProgressLine((pair.first / pair.second.coerceAtLeast(1.0)).toFloat(), color)
+                macros.forEach { tile ->
+                    JCard(if (stacked) Modifier.fillMaxWidth() else Modifier.weight(1f), padding = PaddingValues(7.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            TonalIcon(tile.icon, tile.ink, tile.color.copy(alpha = .14f), box = 29.dp, radius = 9.dp, size = 18.dp)
+                            GapW(4.dp)
+                            Column(Modifier.weight(1f)) {
+                                Text(tile.label, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Ink))
+                                Text(tile.amount, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = tile.ink))
+                            }
+                        }
+                        GapH(6.dp)
+                        NutrientBar(tile)
                     }
                 }
             }
             GapH(10.dp)
-            JCard {
-                Text("Altri nutrienti", style = T.Title2)
-                listOf(
-                    Triple("Fibre (consigliate ≥ 25 g)", t.fiber to 25.0, C.Accent),
-                    Triple("Zuccheri (limite consigliato 50 g)", t.sugar to 50.0, C.Fat),
-                    Triple("Grassi saturi (limite 10% kcal)", t.satFat to energy.targetKcal * 0.10 / 9, C.Protein),
-                    Triple("Sale (limite OMS 5 g)", t.salt to 5.0, C.Water)
-                ).forEach { (label, pair, color) ->
-                    Column(Modifier.padding(vertical = 6.dp)) {
-                        Row {
-                            Text(label, style = T.Label, modifier = Modifier.weight(1f))
-                            GapW(8.dp)
-                            Text("${pair.first.r1()} / ${pair.second.r0()} g", style = T.Label.copy(color = color))
+            JCard(padding = PaddingValues(10.dp)) {
+                NutrientSection("Altri nutrienti", "M12 5L5 17h14z" + Ic.circ(12.0, 5.0, 2.1) + Ic.circ(5.0, 17.0, 2.1) + Ic.circ(19.0, 17.0, 2.1))
+                extras.forEach { tile ->
+                    Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        TonalIcon(tile.icon, tile.ink, tile.color.copy(alpha = .13f), box = 30.dp, radius = 9.dp, size = 18.dp)
+                        GapW(6.dp)
+                        Column(Modifier.weight(1f)) {
+                            Text(tile.label, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp))
+                            Text(tile.detail, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp))
                         }
-                        GapH(4.dp)
-                        ProgressLine((pair.first / pair.second.coerceAtLeast(1.0)).toFloat(), color)
+                        GapW(6.dp)
+                        Column(Modifier.fillMaxWidth(.43f), horizontalAlignment = Alignment.End) {
+                            Text(tile.amount, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp))
+                            GapH(4.dp)
+                            NutrientBar(tile)
+                        }
+                    }
+                    Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
+                }
+                GapH(6.dp)
+                Text("Fibre, zuccheri, saturi e sale si sommano solo per gli alimenti che riportano questi valori.",
+                    style = T.Small.copy(fontSize = 11.sp, lineHeight = 15.sp))
+            }
+            GapH(10.dp)
+            NutrientSection("Per pasto", DashboardIcon.Fork)
+            GapH(4.dp)
+            JCard(Modifier.testTag("day-nutrients-meals"), padding = PaddingValues(horizontal = 9.dp, vertical = 4.dp)) {
+                MEAL_LABEL.entries.forEachIndexed { index, (id, label) ->
+                    val mealEntries = entries.filter { it.meal == id }
+                    val mt = Nutrition.sum(mealEntries)
+                    val selected = expandedMeal == id
+                    if (index > 0) Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
+                    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp)
+                        .clickable { expandedMeal = if (selected) null else id }
+                        .padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(29.dp).clip(RoundedCornerShape(9.dp)).background(RD.Peach), contentAlignment = Alignment.Center) {
+                            MealDuoIcon(id, 21.dp)
+                        }
+                        GapW(7.dp)
+                        Text(label, style = T.Label.copy(fontSize = 13.sp, lineHeight = 17.sp), modifier = Modifier.weight(1f))
+                        Text("${mt.kcal.r0()} kcal", Modifier.clip(CircleShape).background(InsightTile).padding(horizontal = 7.dp, vertical = 4.dp),
+                            style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp))
+                        GapW(5.dp)
+                        AIcon(if (selected) RIc.Chevron else RIc.Right, RD.Ink, 13.dp)
+                    }
+                    if (selected) {
+                        if (mealEntries.isEmpty()) Text("Nessun alimento registrato", Modifier.padding(start = 36.dp, bottom = 7.dp), style = T.Small)
+                        else mealEntries.forEach { entry ->
+                            Text("${entry.food.name} · ${amountText(entry.grams)} ${if (entry.food.liquid) "ml" else "g"}",
+                                Modifier.padding(start = 36.dp, bottom = 7.dp), style = T.Small)
+                        }
                     }
                 }
-                Text("Fibre, zuccheri, saturi e sale si sommano solo per gli alimenti che riportano questi valori.", style = T.Small, modifier = Modifier.padding(top = 6.dp))
             }
-            SectionTitle("Per pasto")
-            JCard(Modifier.testTag("day-nutrients-meals")) {
-                MEAL_LABEL.forEach { (id, label) ->
-                    val mt = Nutrition.sum(entries.filter { it.meal == id })
-                    Row(Modifier.fillMaxWidth().padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
-                        MealDuoIcon(id, 22.dp)
-                        GapW(8.dp)
-                        Text(label, style = T.Body, modifier = Modifier.weight(1f))
-                        Text("${mt.kcal.r0()} kcal", style = T.Label)
-                    }
-                }
-            }
-            GapH(24.dp)
+            GapH(20.dp)
+        }
+    }
+}
+
+@Composable
+private fun NutrientSection(label: String, icon: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        TonalIcon(icon, RD.Ink, InsightTile, box = 28.dp, radius = 9.dp, size = 18.dp)
+        GapW(6.dp)
+        Text(label, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 20.sp))
+    }
+}
+
+@Composable
+private fun NutrientBar(tile: NutrientTile) {
+    val fraction = TodayProgress.ratio(tile.value, tile.goal).coerceIn(0f, 1f)
+    ABar(fraction, Brush.horizontalGradient(listOf(tile.color, tile.color)), tile.color.copy(alpha = .20f), 5.dp)
+}
+
+@Composable
+private fun NutrientGoalRing(fraction: Float, valid: Boolean) {
+    Box(Modifier.size(68.dp), contentAlignment = Alignment.Center) {
+        androidx.compose.foundation.Canvas(Modifier.fillMaxSize()) {
+            val stroke = 6.dp.toPx()
+            val inset = stroke / 2f
+            val bounds = androidx.compose.ui.geometry.Size(size.width - stroke, size.height - stroke)
+            val origin = androidx.compose.ui.geometry.Offset(inset, inset)
+            val style = androidx.compose.ui.graphics.drawscope.Stroke(stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+            drawArc(Color(0xFF6C84A9), -90f, 360f, false, origin, bounds, style = style)
+            if (valid && fraction == 0f) drawCircle(DashboardOrange, stroke / 2, androidx.compose.ui.geometry.Offset(size.width / 2, inset))
+            if (valid && fraction > 0f) drawArc(DashboardOrange, -90f, fraction.coerceAtMost(1f) * 360f, false, origin, bounds, style = style)
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(if (valid) "${(fraction * 100).roundToInt()}%" else "—",
+                style = T.Title2.copy(fontSize = 17.sp, lineHeight = 20.sp, color = Color.White))
+            Text("completati", style = T.Small.copy(fontSize = 9.sp, lineHeight = 12.sp, color = Color.White))
         }
     }
 }

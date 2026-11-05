@@ -36,7 +36,13 @@ $A shell settings put system font_scale 1.0
 run_suite before 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest'
 $A install -r -g app/build/outputs/apk/debug/app-debug.apk
 $A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-if [ "${QA_SCREEN_SCOPE:-full}" = general ]; then
+if [ "${QA_SCREEN_SCOPE:-full}" = video-followup ]; then
+  run_suite pixel9 'com.jarvis.food.RedesignNovemberTest,com.jarvis.food.TodayRefinementTest,com.jarvis.food.TodayDashboardTest,com.jarvis.food.TrainingDiaryFlowTest,com.jarvis.food.VideoNovemberFlowTest'
+  $A shell wm size 945x2048
+  $A shell wm density 420
+  $A shell settings put system font_scale 1.3
+  run_suite large-text 'com.jarvis.food.TodayRefinementTest,com.jarvis.food.VisualConsistencyTest'
+elif [ "${QA_SCREEN_SCOPE:-full}" = general ]; then
   run_suite pixel9 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
   run_suite diary-plan 'com.jarvis.food.ReferenceUiTest,com.jarvis.food.TodayDashboardTest,com.jarvis.food.TodayRefinementTest,com.jarvis.food.TrainingDiaryFlowTest,com.jarvis.food.MealOptionsFlowTest,com.jarvis.food.DietSelectionFollowupFlowTest'
   run_suite app-controls 'com.jarvis.food.AuroraRegressionTest,com.jarvis.food.FoodFollowupFlowTest,com.jarvis.food.FoodReviewFlowTest,com.jarvis.food.PhotoAiFlowTest,com.jarvis.food.ProfileFormsFlowTest,com.jarvis.food.NutritionAdvisorFlowTest,com.jarvis.food.BottomActionInsetsTest,com.jarvis.food.VideoNovemberFlowTest'

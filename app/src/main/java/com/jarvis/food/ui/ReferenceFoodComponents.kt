@@ -38,7 +38,7 @@ internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScop
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         val stacked = maxWidth / LocalDensity.current.fontScale < 258.dp
         val artwork: @Composable () -> Unit = {
-            val illustration = Modifier.size(width = if (stacked) 60.dp else 80.dp, height = if (stacked) 66.dp else 92.dp)
+            val illustration = Modifier.size(width = if (stacked) 60.dp else 90.dp, height = if (stacked) 66.dp else 112.dp)
                 .testTag("insight-icon-$art")
             if (resource != null) Image(painterResource(resource), null, illustration, contentScale = ContentScale.Fit)
             else TodayArtwork(art, illustration)
@@ -51,25 +51,54 @@ internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScop
             }
         } else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             artwork()
-            GapW(10.dp)
+            GapW(8.dp)
             Column(Modifier.weight(1f), content = content)
         }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun ReferenceInsightHeading(title: String, action: String? = null, onAction: () -> Unit = {}) {
-    FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(title, modifier = Modifier.align(Alignment.CenterVertically), style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink))
-        if (action != null) Row(Modifier.align(Alignment.CenterVertically).heightIn(min = 48.dp)
-            .clickable(role = Role.Button, onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
-            Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 11.dp, vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-                Text(action, style = T.Title2.copy(fontSize = 13.sp, lineHeight = 18.sp, color = Color.White))
+internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: String, action: String, onAction: () -> Unit) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AIcon(icon, RD.OrangeText, 15.dp)
                 GapW(4.dp)
-                AIcon(RIc.Right, Color.White, 14.dp, 2.6f)
+                Text(title, modifier = Modifier.weight(1f), style = T.Title2.copy(fontSize = 15.sp, lineHeight = 18.sp, color = RD.Ink))
             }
+            Text(subtitle, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
+        }
+        GapW(4.dp)
+        Box(Modifier.heightIn(min = 48.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
+            Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 7.dp, vertical = 5.dp),
+                verticalAlignment = Alignment.CenterVertically) {
+                Text(action, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = Color.White))
+                GapW(3.dp)
+                AIcon(RIc.Right, Color.White, 11.dp, 2.4f)
+            }
+        }
+    }
+}
+
+@Composable
+internal fun ReferenceMetric(label: String, value: String, progress: Float?, modifier: Modifier = Modifier,
+    valueModifier: Modifier = Modifier, barModifier: Modifier = Modifier, onClick: () -> Unit) {
+    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 43.dp)
+        .clickable(role = Role.Button, onClick = onClick).padding(vertical = 3.dp), contentAlignment = Alignment.CenterStart) {
+        val inline = maxWidth / LocalDensity.current.fontScale >= 203.dp
+        Column(Modifier.fillMaxWidth()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink),
+                    modifier = if (inline) Modifier.width(94.dp) else Modifier.weight(1f))
+                if (inline) {
+                    ProgressLine(progress ?: 0f, RD.Navy, barModifier.weight(1f), height = 6.dp)
+                    GapW(6.dp)
+                }
+                Text(value, modifier = valueModifier, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink))
+                GapW(3.dp)
+                AIcon(RIc.Right, RD.Ink, 12.dp, 2.4f)
+            }
+            if (!inline) ProgressLine(progress ?: 0f, RD.Navy, barModifier.fillMaxWidth().padding(top = 4.dp), height = 6.dp)
         }
     }
 }
