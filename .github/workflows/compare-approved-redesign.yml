@@ -16,8 +16,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh run watch 42067699792 --interval 20 --exit-status
-          gh run download 42067699792 -n Premium-UI-APK-QA-42067699792 -D evidence
+          gh run watch 42071566317 --interval 20 --exit-status
+          gh run download 42071566317 -n Premium-UI-APK-QA-42071566317 -D evidence
       - name: Render before and after from identical fixtures
         run: |
           python3 -m pip install Pillow
@@ -28,7 +28,7 @@ jobs:
           import io
           output = Path('reports/redesign-2026-11-05')
           output.mkdir(parents=True, exist_ok=True)
-          pairs = ['04-vitamine', '07-attivita', '23-cucina-dispensa', '24-progressi', '24b-progressi-grafici', '25-jarvis']
+          pairs = ['04-vitamine', '07-attivita', '23-cucina-dispensa', '23b-scontrino', '23c-spesa', '24-progressi', '24a-progressi-acqua', '24b-progressi-grafici', '24c-progressi-calorie', '24d-progressi-attivita', '25-jarvis']
           font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 17)
           pages = []
           with ZipFile('evidence/dist/screenshots.zip') as screenshots:
