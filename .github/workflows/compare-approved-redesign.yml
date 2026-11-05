@@ -1,0 +1,60 @@
+name: Compare Jarvis Food Android screenshots
+on:
+  push:
+    branches: [qa/redesign-approved-2026-11-05]
+    paths: [.github/workflows/compare-approved-redesign.yml]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve the exact Android run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh run watch 42067699792 --interval 20 --exit-status
+          gh run download 42067699792 -n Premium-UI-APK-QA-42067699792 -D evidence
+      - name: Render before and after from identical fixtures
+        run: |
+          python3 -m pip install Pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from PIL import Image, ImageDraw, ImageFont
+          import io
+          output = Path('reports/redesign-2026-11-05')
+          output.mkdir(parents=True, exist_ok=True)
+          pairs = ['04-vitamine', '07-attivita', '23-cucina-dispensa', '24-progressi', '24b-progressi-grafici', '25-jarvis']
+          font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 17)
+          pages = []
+          with ZipFile('evidence/dist/screenshots.zip') as screenshots:
+              for name in pairs:
+                  page = Image.new('RGB', (908, 1050), '#edf2f8')
+                  draw = ImageDraw.Draw(page)
+                  for config, label, x in [('before', 'Prima · v1.0.227', 14), ('pixel9', 'Dopo · nuova build', 460)]:
+                      path = f'files/shots/redesign-{config}/{name}.png'
+                      with Image.open(io.BytesIO(screenshots.read(path))) as source:
+                          source.thumbnail((434, 980), Image.Resampling.LANCZOS)
+                          draw.text((x, 13), label, font=font, fill='#0a1f4e')
+                          page.paste(source, (x, 42))
+                  page.save(output / f'{name}.jpg', quality=87, optimize=True)
+                  pages.append(page)
+          pages[0].save(output / 'JarvisFood-Prima-Dopo.pdf', save_all=True, append_images=pages[1:], resolution=110)
+          PY
+      - name: Preserve the comparison and attach it to the matching APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          APK=$(basename "$(find evidence/dist -name 'JarvisFood-*.apk' -print -quit)")
+          VERSION=${APK#JarvisFood-}
+          VERSION=${VERSION%.apk}
+          gh release upload "preview-$VERSION-redesign" reports/redesign-2026-11-05/JarvisFood-Prima-Dopo.pdf
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --force reports/redesign-2026-11-05
+          git commit -m 'Keep before and after Android screenshots for the approved references'
+          git push origin HEAD
