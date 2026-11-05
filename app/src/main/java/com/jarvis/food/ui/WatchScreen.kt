@@ -95,7 +95,7 @@ fun WatchScreen() {
     val e = Store.energyFor(s, LocalDate.now())
     val today = s.health[LocalDate.now().toString()]
     val ok = status == 0 && granted.any { it in HealthSync.PERMISSIONS }
-    val shape34 = RoundedCornerShape(34.dp)
+    val connectionShape = RoundedCornerShape(22.dp)
 
     Column(Modifier.fillMaxSize().navigationBarsPadding()) {
         Row(Modifier.fillMaxWidth().background(RD.NavyBrush).statusBarsPadding()
@@ -115,16 +115,16 @@ fun WatchScreen() {
             }
             // Connessione
             Column(
-                Modifier.padding(top = 6.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x803B82F6)).clip(shape34)
-                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp)
+                Modifier.padding(top = 6.dp).fillMaxWidth().refShadow(connectionShape, 4.dp).clip(connectionShape)
+                    .background(Color.White).border(1.dp, A.Hair, connectionShape).padding(14.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(64.dp).clip(RoundedCornerShape(24.dp)).background(C.Navy), contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy), contentAlignment = Alignment.Center) {
                         AIcon(WIc.Watch, Color(0xFFFFB820), 32.dp, 1.9f)
                     }
-                    GapW(16.dp)
+                    GapW(12.dp)
                     Column(Modifier.weight(1f)) {
-                        Text("Amazfit Balance", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, letterSpacing = (-0.4).sp))
+                        Text("Amazfit Balance", style = T.H1.copy(fontSize = 20.sp, lineHeight = 25.sp, letterSpacing = (-0.4).sp))
                         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
                             Box(Modifier.size(8.dp).clip(CircleShape).background(if (ok) Color(0xFF10B981) else Color(0xFFF59E0B)))
                             GapW(6.dp)
@@ -166,29 +166,6 @@ fun WatchScreen() {
                     Text("Gestisci permessi", style = T.Link, modifier = Modifier.padding(top = 4.dp).clickable { permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND) }.padding(vertical = 8.dp))
                 }
                 msg?.let { Text(it, style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 6.dp)) }
-            }
-
-            // Oggi dal watch
-            SettingsHeading("Oggi dal watch", "I dati dell’ultima sincronizzazione disponibile.")
-            if (today != null) {
-                val tiles = listOf(
-                    WTile("Passi", today.steps.thousands(), "", WIc.Steps, A.Tonal, A.TonalInk, Color(0x99E88C60)),
-                    WTile("Kcal attive", today.activeKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Flame, A.FatSoft, A.FatInk, Color(0x99F59E0B)),
-                    WTile("Allenamenti", today.sessions.size.toString(), "oggi", WIc.Dumbbell, A.FastSoft, A.FastInk, Color(0x998B5CF6)),
-                    WTile("FC a riposo", today.restingHr?.r0() ?: "—", "bpm", Ic.Heart, A.ProteinSoft, A.ProteinInk, Color(0x99F43F6E)),
-                    WTile("Sonno", today.sleepMinutes?.let { "${it / 60}h ${it % 60}m" } ?: "—", "", WIc.Moon, A.CarbSoft, A.CarbInk, Color(0x993B82F6)),
-                    WTile("Kcal totali", today.totalKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Bolt, A.GreenSoft, A.GreenInk, Color(0x9910B981))
-                )
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    tiles.chunked(2).forEach { pair ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { pair.forEach { WatchTile(it, Modifier.weight(1f)) } }
-                    }
-                }
-                if (today.activeKcal == null) Text("Il watch non ha condiviso le calorie attive: le stimo da passi e allenamenti.", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, top = 10.dp))
-            } else {
-                ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 16.dp, elevation = 8.dp) {
-                    Text(if (ok) "Ancora nessun dato di oggi: tocca \"Sincronizza ora\"." else "Collega Health Connect per vedere qui passi, calorie attive, allenamenti, battito e sonno.", style = T.Body.copy(fontSize = 13.5.sp, color = Color(0xFF4B4A6A)))
-                }
             }
 
             // Come contare l'attività
@@ -279,11 +256,33 @@ fun WatchScreen() {
                         style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 14.dp))
                     Text("Una volta sola, nell'app Zepp: Profilo → Collegamento account di terze parti (3rd Party Account Linking) → Health Connect → consenti tutte le categorie.",
                         style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 8.dp))
-                    AInk("Apri Zepp", Modifier.padding(top = 14.dp).fillMaxWidth().testTag("watch-open-zepp"), height = 50.dp, bg = C.NavySoft, fg = C.Navy) {
+                    AInk("Apri Zepp", Modifier.padding(top = 14.dp).fillMaxWidth().testTag("watch-open-zepp"), height = 50.dp, bg = RD.Peach, fg = C.Navy) {
                         val i = ctx.packageManager.getLaunchIntentForPackage("com.huami.watch.hmwatchmanager")
                         runCatching { ctx.startActivity(i ?: Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.huami.watch.hmwatchmanager"))) }
                             .onFailure { android.widget.Toast.makeText(ctx, "Impossibile aprire Zepp o il Play Store.", android.widget.Toast.LENGTH_LONG).show() }
                     }
+                }
+            }
+            // Oggi dal watch
+            SettingsHeading("Oggi dal watch", "I dati dell’ultima sincronizzazione disponibile.")
+            if (today != null) {
+                val tiles = listOf(
+                    WTile("Passi", today.steps.thousands(), "", WIc.Steps, A.Tonal, A.TonalInk, Color(0x99E88C60)),
+                    WTile("Kcal attive", today.activeKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Flame, A.FatSoft, A.FatInk, Color(0x99F59E0B)),
+                    WTile("Allenamenti", today.sessions.size.toString(), "oggi", WIc.Dumbbell, A.FastSoft, A.FastInk, Color(0x998B5CF6)),
+                    WTile("FC a riposo", today.restingHr?.r0() ?: "—", "bpm", Ic.Heart, A.ProteinSoft, A.ProteinInk, Color(0x99F43F6E)),
+                    WTile("Sonno", today.sleepMinutes?.let { "${it / 60}h ${it % 60}m" } ?: "—", "", WIc.Moon, A.CarbSoft, A.CarbInk, Color(0x993B82F6)),
+                    WTile("Kcal totali", today.totalKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Bolt, A.GreenSoft, A.GreenInk, Color(0x9910B981))
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    tiles.chunked(2).forEach { pair ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { pair.forEach { WatchTile(it, Modifier.weight(1f)) } }
+                    }
+                }
+                if (today.activeKcal == null) Text("Il watch non ha condiviso le calorie attive: le stimo da passi e allenamenti.", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, top = 10.dp))
+            } else {
+                ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 16.dp, elevation = 8.dp) {
+                    Text(if (ok) "Ancora nessun dato di oggi: tocca \"Sincronizza ora\"." else "Collega Health Connect per vedere qui passi, calorie attive, allenamenti, battito e sonno.", style = T.Body.copy(fontSize = 13.5.sp, color = Color(0xFF4B4A6A)))
                 }
             }
         }
@@ -320,8 +319,8 @@ private fun WatchTile(t: WTile, modifier: Modifier) {
 private fun WatchMode(id: Int, current: Int, name: String, desc: String, icon: String, tint: Color, ink: Color, onClick: () -> Unit) {
     val sel = id == current
     AChoice(sel, Modifier.fillMaxWidth(), minHeight = 78.dp, radius = 28.dp, onClick = onClick) {
-        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(icon, ink, tint, box = 46.dp, radius = 17.dp, size = 23.dp)
+        Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            TonalIcon(icon, ink, tint, box = 40.dp, radius = 13.dp, size = 21.dp)
             GapW(14.dp)
             Column(Modifier.weight(1f)) {
                 Text(name, style = T.Body.copy(fontSize = 15.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))

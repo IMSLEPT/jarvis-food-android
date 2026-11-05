@@ -474,11 +474,6 @@ private fun ProgressNote(text: String, icon: String, tint: Color, background: Co
 }
 
 @Composable
-private fun OverviewHeading(title: String) {
-    Text(title, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 22.sp), modifier = Modifier.padding(top = 14.dp))
-}
-
-@Composable
 private fun OverviewChart(values: List<Double>, maximum: Double, period: Int, labels: List<String>, waterChart: Boolean, present: List<Boolean>) {
     val scale = androidx.compose.ui.platform.LocalDensity.current.fontScale
     val large = scale > 1.5f || (scale > 1.2f && androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp < 360)

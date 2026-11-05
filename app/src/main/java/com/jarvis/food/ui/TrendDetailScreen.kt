@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.*
 import com.jarvis.food.engine.NutritionEvidence
 import com.jarvis.food.engine.NutritionScience
@@ -29,6 +30,7 @@ import java.time.format.DateTimeFormatter
 private data class TrendSample(val date: LocalDate, val value: Double?, val complete: Boolean = true)
 
 /** Read-only history: selecting a day or a period never inserts missing measurements. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
     val s by Store.state.collectAsState()
@@ -67,19 +69,58 @@ fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
     val chartInk = TrendPalette.ink(kind, metric)
     val chartBrush = TrendPalette.bars(kind, metric)
     val known = samples.filter { it.value != null }
+    val vitamins = kind == "vitamins"
     Column(Modifier.fillMaxSize().navigationBarsPadding().testTag("trend-$kind")) {
         TopBar(title, onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(18.dp)) {
-            ASegment(listOf("7 giorni", "14 giorni", "30 giorni"), listOf(7,14,30).indexOf(days)) { days = listOf(7,14,30)[it] }
-            if (options.isNotEmpty()) {
-                GapH(12.dp)
-                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    options.forEachIndexed { i, name -> Pill(name, metric == i) { metric = i } }
+            val periods = listOf(7, 14, 30)
+            if (vitamins) {
+                val large = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f
+                FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 2 else 3,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    periods.forEach { period ->
+                        RefOption("$period giorni", Modifier.weight(1f), isSelected = period == days,
+                            selectedStyle = OptionStyle.Navy, minHeight = 48.dp, centered = true, labelSize = 13.sp, trailing = {}) { days = period }
+                    }
+                }
+                GapH(8.dp)
+                FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (large) 2 else 3,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    options.forEachIndexed { i, name ->
+                        RefOption(name, Modifier.weight(1f), isSelected = metric == i,
+                            minHeight = 48.dp, centered = true, labelSize = 12.sp, trailing = {}) { metric = i }
+                    }
+                }
+            } else {
+                ASegment(periods.map { "$it giorni" }, periods.indexOf(days)) { days = periods[it] }
+                if (options.isNotEmpty()) {
+                    GapH(12.dp)
+                    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        options.forEachIndexed { i, name -> Pill(name, metric == i) { metric = i } }
+                    }
                 }
             }
-            GapH(18.dp)
+            GapH(12.dp)
             JCard {
-                Text(if (options.isEmpty()) title else options[metric], style = T.Title2)
+                if (vitamins) {
+                    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(15.dp)).background(RD.NavyBrush).padding(10.dp),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(RIc.Leaf, RD.Orange, 21.dp)
+                        GapW(8.dp)
+                        Column(Modifier.weight(1f)) {
+                            Text(options[metric], style = T.Title2.copy(color = Color.White))
+                            Text("Andamento ultimi $days giorni", style = T.Small.copy(color = Color.White))
+                        }
+                        reference?.let {
+                            GapW(6.dp)
+                            Column(Modifier.clip(RoundedCornerShape(10.dp)).background(RD.NavyHi).padding(7.dp)) {
+                                Text("Riferimento EFSA", style = T.Small.copy(fontSize = 11.sp, color = Color.White))
+                                Text("${it.r1()} $unit", style = T.Label.copy(color = RD.Orange))
+                            }
+                        }
+                    }
+                } else Text(if (options.isEmpty()) title else options[metric], style = T.Title2)
+                GapH(6.dp)
                 Text("Tocca una colonna per vedere la giornata", style = T.Small)
                 GapH(18.dp)
                 Box(Modifier.fillMaxWidth().height(180.dp).testTag("trend-chart")) {
@@ -105,7 +146,7 @@ fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
                 GapH(12.dp)
                 Text(fullDay(selected.date), style = T.Label)
                 Text(selected.value?.let { "${it.r1()} $unit${if (selected.complete) "" else " · quantità minima nota"}" } ?: "Nessun dato registrato", Modifier.testTag("trend-selected-value"), style = T.Title2)
-                reference?.let { Text("${if (kind == "vitamins") "Riferimento EFSA per adulti" else "Obiettivo impostato"}: ${it.r1()} $unit", style = T.Small) }
+                if (!vitamins) reference?.let { Text("Obiettivo impostato: ${it.r1()} $unit", style = T.Small) }
                 if (kind in listOf("macro", "vitamins")) Text("Somma dei pasti registrati; un diario incompleto non rappresenta tutta la giornata.", style = T.Small)
             }
             GapH(14.dp)
@@ -115,7 +156,7 @@ fun TrendDetailScreen(kind: String, initialDays: Int = 7) {
             if (kind == "vitamins") {
                 Text("I valori assenti restano sconosciuti. Le colonne parziali mostrano soltanto le quantità note e non diagnosticano carenze.", style = T.Small)
                 GapH(12.dp)
-                GhostButton("Consigli, dati e fonti", Modifier.fillMaxWidth()) { Nav.go(Screen.Micronutrients) }
+                RefOutlineButton("Consigli, dati e fonti", Modifier.fillMaxWidth(), icon = Ic.Receipt, divider = false) { Nav.go(Screen.Micronutrients) }
             }
             GapH(18.dp)
             Text("Storico giornaliero", style = T.Title2)

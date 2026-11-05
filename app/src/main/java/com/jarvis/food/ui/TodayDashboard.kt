@@ -213,7 +213,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
 }
 
 @Composable
-private fun CalorieGauge(progress: Float, valid: Boolean, fraction: Float) {
+internal fun CalorieGauge(progress: Float, valid: Boolean, fraction: Float) {
     Box(Modifier.size(if (LocalDensity.current.fontScale > 1.2f) 88.dp else 80.dp).testTag("calorie-gauge").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.fillMaxSize().padding(6.dp)) {
             val stroke = 7.dp.toPx(); val inset = stroke / 2

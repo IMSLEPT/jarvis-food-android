@@ -149,8 +149,7 @@ object RIc {
     val Person = c(10.0, 7.5, 3.8) + "M3 20c.7-4.2 3.4-6.5 7-6.5 1.4 0 2.6.3 3.6.9"
     val Gear = c(17.6, 17.6, 1.6) + "M17.6 13.6v1.4M17.6 20.2v1.4M13.6 17.6H15M20.2 17.6h1.4M14.8 14.8l1 1M19.4 19.4l1 1M14.8 20.4l1-1M19.4 15.8l1-1"
     // Linguette dei banner (bianche)
-    val Fork = "M5 3v6.5c0 2.4 4.2 2.4 4.2 0V3M7.1 3v18M18.5 3c-3.2 1.2-3.2 9 0 9.5V21"
-    val ForkFill = rr(6.0, 11.0, 2.2, 10.0, 1.1) + "M17 3.2c-2.8 1.6-2.9 8.4-.4 9.4H17V21h2.4V3.3c-.8-.2-1.6-.3-2.4-.1z"
+    val Fork = "M4 4v5a3 3 0 0 0 6 0V4M7 4v16M19 4c-3 1.5-4 5-4 9h4M19 4v16"
     val Basket = "M3 9.5h18l-1.8 9.2a2 2 0 0 1-2 1.6H6.8a2 2 0 0 1-2-1.6zM7.5 9.5L11 4M16.5 9.5L13 4M9.5 13v3.5M14.5 13v3.5"
     val Cart = "M2.5 3.5h2.8l2.3 11.5h10.6l2.1-8.3H6.2" + c(9.0, 19.3, 1.5) + c(17.0, 19.3, 1.5) + "M10.5 10h.01M14.5 10h.01"
     val Bars = rr(4.0, 13.0, 3.6, 7.0, 1.0) + rr(10.2, 8.5, 3.6, 11.5, 1.0) + rr(16.4, 4.0, 3.6, 16.0, 1.0)
@@ -298,11 +297,10 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
     }
 }
 
-/** Linguette: alcune icone sono piene (Ricette, Dati), le altre a tratto. */
+/** Linguette: Dati ha un’icona piena, le altre sono a tratto. */
 @Composable
 private fun BannerTabIcon(icon: String, size: Dp) {
     when (icon) {
-        RIc.Fork -> AIcon(RIc.ForkFill, Color.White, size, fill = true)
         RIc.Bars -> AIcon(RIc.Bars, Color.White, size, fill = true)
         else -> AIcon(icon, Color.White, size, 2.1f)
     }

@@ -714,32 +714,51 @@ fun ActivityScreen(date: LocalDate) {
     }
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun DayNutrientsScreen(date: LocalDate) {
     val s by Store.state.collectAsState()
     val entries = Store.entriesFor(s, date)
     val t = Nutrition.sum(entries)
     val energy = Store.energyFor(s, date)
-    val (gc, gp, gf) = Triple(energy.carbs, energy.protein, energy.fat)
+    val valid = energy.targetKcal > 0.0
+    val fraction = TodayProgress.ratio(t.kcal, energy.targetKcal)
+    val macros = listOf(
+        Triple("Proteine", t.protein to energy.protein, C.Protein),
+        Triple("Carboidrati", t.carbs to energy.carbs, C.Carbs),
+        Triple("Grassi", t.fat to energy.fat, C.Fat)
+    )
     Column(Modifier.fillMaxSize()) {
         TopBar("Nutrienti · ${dayLabel(date)}", onBack = { Nav.back() })
         Column(Modifier.weight(1f).navigationBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            JCard {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(RD.NavyBrush).padding(12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    MacroDonut(t.carbs, t.protein, t.fat, 110.dp)
-                    Spacer(Modifier.width(16.dp))
-                    Column {
-                        Text("${t.kcal.r0()} kcal", style = T.Big)
-                        Text("su ${energy.targetKcal.r0()} kcal", style = T.Muted)
+                    CalorieGauge(fraction.coerceIn(0f, 1f), valid, fraction)
+                    GapW(10.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text("${kcalFmt(t.kcal)} kcal", style = T.Title.copy(fontSize = 26.sp, color = Color.White))
+                        Text("Obiettivo ${kcalFmt(energy.targetKcal)} kcal", style = T.Small.copy(color = Color.White))
                     }
                 }
             }
-            Spacer(Modifier.height(12.dp))
+            GapH(10.dp)
+            val stacked = androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.2f
+            androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(),
+                maxItemsInEachRow = if (stacked) 1 else 3,
+                horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                macros.forEach { (label, pair, color) ->
+                    JCard(if (stacked) Modifier.fillMaxWidth() else Modifier.weight(1f), padding = PaddingValues(8.dp)) {
+                        Text(label, style = T.Small.copy(fontWeight = FontWeight.Bold, color = RD.Ink))
+                        Text("${pair.first.r1()} / ${pair.second.r0()} g", style = T.Small)
+                        GapH(4.dp)
+                        ProgressLine((pair.first / pair.second.coerceAtLeast(1.0)).toFloat(), color)
+                    }
+                }
+            }
+            GapH(10.dp)
             JCard {
+                Text("Altri nutrienti", style = T.Title2)
                 listOf(
-                    Triple("Carboidrati", t.carbs to gc, C.Carbs),
-                    Triple("Proteine", t.protein to gp, C.Protein),
-                    Triple("Grassi", t.fat to gf, C.Fat),
                     Triple("Fibre (consigliate ≥ 25 g)", t.fiber to 25.0, C.Accent),
                     Triple("Zuccheri (limite consigliato 50 g)", t.sugar to 50.0, C.Fat),
                     Triple("Grassi saturi (limite 10% kcal)", t.satFat to energy.targetKcal * 0.10 / 9, C.Protein),
@@ -748,9 +767,10 @@ fun DayNutrientsScreen(date: LocalDate) {
                     Column(Modifier.padding(vertical = 6.dp)) {
                         Row {
                             Text(label, style = T.Label, modifier = Modifier.weight(1f))
+                            GapW(8.dp)
                             Text("${pair.first.r1()} / ${pair.second.r0()} g", style = T.Label.copy(color = color))
                         }
-                        Spacer(Modifier.height(4.dp))
+                        GapH(4.dp)
                         ProgressLine((pair.first / pair.second.coerceAtLeast(1.0)).toFloat(), color)
                     }
                 }
@@ -758,15 +778,17 @@ fun DayNutrientsScreen(date: LocalDate) {
             }
             SectionTitle("Per pasto")
             JCard(Modifier.testTag("day-nutrients-meals")) {
-                MEAL_NAMES.forEachIndexed { i, n ->
-                    val mt = Nutrition.sum(entries.filter { it.meal == i })
-                    Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
-                        Text(n, style = T.Body, modifier = Modifier.weight(1f))
+                MEAL_LABEL.forEach { (id, label) ->
+                    val mt = Nutrition.sum(entries.filter { it.meal == id })
+                    Row(Modifier.fillMaxWidth().padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+                        MealDuoIcon(id, 22.dp)
+                        GapW(8.dp)
+                        Text(label, style = T.Body, modifier = Modifier.weight(1f))
                         Text("${mt.kcal.r0()} kcal", style = T.Label)
                     }
                 }
             }
-            Spacer(Modifier.height(36.dp))
+            GapH(24.dp)
         }
     }
 }
