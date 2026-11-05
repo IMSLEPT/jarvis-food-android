@@ -145,24 +145,35 @@ private fun CookTodayBlock(s: AppState) {
         value = withContext(Dispatchers.Default) { Kitchen.suggest(Db.db, pantry, meal, { target }, { Planner.allowed(Db.db, it, prefs) }) }
     }
 
-    ASection("Cosa cucino oggi", top = 26.dp)
-    GapH(12.dp)
-    val cs = RoundedCornerShape(30.dp)
-    Column(Modifier.fillMaxWidth().aShadow(cs, 10.dp, Color(0x66E88C60)).clip(cs)
-        .background(C.Surface).padding(16.dp)) {
+    Row(Modifier.padding(top = 20.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        PeachTile(36.dp) { ChefHatLogo(23.dp) }
+        GapW(8.dp)
+        Text("Cosa cucino oggi", style = T.Title2)
+    }
+    val cs = RoundedCornerShape(22.dp)
+    Column(Modifier.fillMaxWidth().refShadow(cs, 4.dp).clip(cs)
+        .background(Color.White).border(1.dp, A.Hair, cs).padding(14.dp)) {
         Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
-        Row(Modifier.padding(top = 12.dp).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        val compact = LocalDensity.current.fontScale <= 1.15f && androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 350
+        Row(Modifier.padding(top = 12.dp).fillMaxWidth().then(if (compact) Modifier else Modifier.horizontalScroll(rememberScrollState())),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)) {
             listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
                 val sel = meal == k
-                Box(Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(19.dp)).background(if (sel) C.Navy else Color.White).clickable { meal = k }.padding(horizontal = 16.dp), contentAlignment = Alignment.Center) {
-                    Text(l, style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
+                val chip = RoundedCornerShape(24.dp)
+                Box((if (compact) Modifier.weight(if (l.length > 6) 1.18f else 0.82f) else Modifier).heightIn(min = 48.dp)
+                    .clip(chip).background(if (sel) C.Navy else Color.White)
+                    .border(if (sel) 1.5.dp else 1.dp, if (sel) RD.OrangeLine else A.Hair, chip)
+                    .selectable(selected = sel, role = Role.Tab) { meal = k }
+                    .padding(horizontal = if (compact) 4.dp else 12.dp), contentAlignment = Alignment.Center) {
+                    Text(l, style = T.Chip.copy(fontSize = 12.sp, color = if (sel) Color.White else A.Ink), textAlign = TextAlign.Center)
                 }
             }
         }
         GapH(14.dp)
         val bs = RoundedCornerShape(28.dp)
         val enabled = !busy && s.pantry.any { it.foodId != null }
-        Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(bs).background(if (enabled) C.Navy else Color(0x6617286B)).clickable(enabled = enabled) {
+        Row(Modifier.fillMaxWidth().heightIn(min = 50.dp).clip(bs)
+            .background(RD.OrangeBrush).clickable(enabled = enabled, role = Role.Button) {
             if (s.ai.apiKey.isBlank()) { Nav.go(Screen.AiSettings); return@clickable }
             busy = true
             scope.launch {
@@ -172,15 +183,23 @@ private fun CookTodayBlock(s: AppState) {
                 busy = false
             }
         }.padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            AIcon(Ic.Spark, C.Accent, 22.dp, 2f); GapW(10.dp)
+            AIcon(Ic.Spark, Color.White, 22.dp, 2f)
+            GapW(10.dp)
             Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White),
-                modifier = Modifier.weight(1f, fill = false), textAlign = TextAlign.Center)
+                modifier = Modifier.weight(1f))
+            AIcon(Ic.Right, Color.White, 16.dp)
         }
         if (!enabled && !busy) Text("Aggiungi alla dispensa un ingrediente riconosciuto per creare una ricetta.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
     }
     GapH(14.dp)
     if (s.pantry.isEmpty()) {
-        Text("Aggiungi qualcosa alla dispensa per vedere le ricette possibili.", style = T.Small)
+        val hintShape = RoundedCornerShape(18.dp)
+        Row(Modifier.fillMaxWidth().clip(hintShape).background(C.Surface).border(1.dp, A.Hair, hintShape)
+            .padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            AIcon("M12 7v.2M12 10v6" + Ic.circ(12.0, 12.0, 9.0), C.Navy, 17.dp)
+            GapW(8.dp)
+            Text("Aggiungi qualcosa alla dispensa per vedere le ricette possibili.", style = T.Small)
+        }
     }
     ideas.take(4).forEach { sg ->
         val rs = RoundedCornerShape(30.dp)
@@ -210,9 +229,9 @@ private fun CookTodayBlock(s: AppState) {
 @Composable
 private fun PantryTab(s: AppState) {
     var name by remember { mutableStateOf("") }
-    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.linearGradient(listOf(Color(0xFFC9F4E2), Color(0xFFE3F8EF))), C.Navy, C.Navy.copy(alpha = 0.15f)) { Nav.go(Screen.PantryScan("foto")) }
+    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.verticalGradient(listOf(Color(0xFFE2EFFB), Color(0xFFEAF4FE))), C.Navy) { Nav.go(Screen.PantryScan("foto")) }
     GapH(12.dp)
-    ScanTile(Ic.Receipt, "Fotografa lo scontrino", "Leggo i prodotti acquistati e li metto in dispensa", Brush.linearGradient(listOf(Color(0xFFFFE3B0), Color(0xFFFFF2DA))), C.Accent, C.Accent.copy(alpha = 0.15f)) { Nav.go(Screen.PantryScan("scontrino")) }
+    ScanTile(Ic.Receipt, "Fotografa lo scontrino", "Leggo i prodotti acquistati e li metto in dispensa", RD.PeachBrush, C.AccentDeep) { Nav.go(Screen.PantryScan("scontrino")) }
 
     CookTodayBlock(s)
 
@@ -273,19 +292,22 @@ private fun PantryTab(s: AppState) {
 
 /** Scheda larga e comoda da toccare: icona grande a sinistra, titolo e spiegazione, freccia a destra. */
 @Composable
-private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, glow: Color, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(28.dp)
-    Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp, glow).clip(shape).background(C.Surface).border(1.dp, C.Line, shape).clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 18.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(60.dp).clip(RoundedCornerShape(22.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(icon, ink, 46.dp, 2f, modifier = Modifier.testTag("scan-icon-$title")) }
-        GapW(16.dp)
+private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(20.dp)
+    Row(Modifier.fillMaxWidth().refShadow(shape, 4.dp).clip(shape).background(Color.White)
+        .border(1.dp, C.Line, shape).clickable(role = Role.Button, onClick = onClick)
+        .padding(horizontal = 12.dp, vertical = 13.dp), verticalAlignment = Alignment.CenterVertically) {
+        PeachTile(44.dp, brush = bg) { AIcon(icon, ink, 27.dp, 2f, modifier = Modifier.testTag("scan-icon-$title")) }
+        GapW(12.dp)
+        OrangeDivider(36.dp)
+        GapW(12.dp)
         Column(Modifier.weight(1f)) {
-            Text(title, style = T.Label.copy(fontSize = 17.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, color = A.Ink))
+            Text(title, style = T.Label.copy(fontSize = 16.sp, lineHeight = 21.sp, fontWeight = FontWeight.Bold, color = RD.Ink))
             GapH(2.dp)
-            Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp, color = A.Ink.copy(alpha = 0.65f)))
+            Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp, color = C.Muted))
         }
-        GapW(10.dp)
-        Box(Modifier.size(36.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.7f)), contentAlignment = Alignment.Center) { AIcon(Ic.Right, ink, 18.dp, 2.4f) }
+        GapW(6.dp)
+        AIcon(Ic.Right, RD.Ink, 16.dp, 2.4f)
     }
 }
 
@@ -298,18 +320,31 @@ private fun ShoppingTab(s: AppState) {
         ?: "Genera la lista dai pasti del tuo piano: quantità calcolate e arrotondate alle confezioni.",
         style = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = A.Muted), modifier = Modifier.padding(horizontal = 4.dp))
     GapH(12.dp)
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf(3, 7).forEach { d ->
-            APill("Prossimi $d giorni", false, Modifier.padding(vertical = 2.dp), height = 48.dp, hPad = 22.dp) {
+            val selected = range?.get(1)?.toIntOrNull() == d
+            val shape = RoundedCornerShape(24.dp)
+            Row(Modifier.weight(1f).heightIn(min = 48.dp).clip(shape)
+                .background(if (selected) RD.Peach else Color.White)
+                .border(1.dp, if (selected) RD.OrangeLine else C.Line, shape)
+                .clickable(role = Role.Button) {
                 val today = LocalDate.now()
                 if ((0 until d).any { Store.dayPlan(Store.current, today.plusDays(it.toLong())) == null }) {
                     Store.generatePlan(today.with(DayOfWeek.MONDAY), 14)
                 }
                 Store.buildShopping(today, d)
                 Toast.makeText(ctx, "Lista aggiornata", Toast.LENGTH_SHORT).show()
+            }.padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center) {
+                AIcon(Ic.Calendar, if (selected) C.AccentDeep else RD.Navy, 19.dp)
+                GapW(6.dp)
+                Text("Prossimi $d giorni", style = T.Chip.copy(color = RD.Ink), textAlign = TextAlign.Center)
             }
         }
-        if (s.shopping.any { it.checked }) AInk("Spuntati → dispensa", height = 44.dp, bg = A.GreenInk) { Store.moveCheckedToPantry() }
+    }
+    if (s.shopping.any { it.checked }) {
+        GapH(8.dp)
+        AInk("Spuntati → dispensa", height = 48.dp, bg = A.GreenInk) { Store.moveCheckedToPantry() }
     }
     GapH(12.dp)
     val fs = RoundedCornerShape(30.dp)
@@ -328,17 +363,19 @@ private fun ShoppingTab(s: AppState) {
         val cardShape = RoundedCornerShape(28.dp)
         Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
+                if (shop.startsWith("Frutta")) {
+                    AIcon("M4 19C1 10 9 4 20 4c0 10-5 17-14 15zM4 20l9-9", shopDot(shop), 20.dp, 2.3f)
+                } else Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
                 GapW(10.dp)
-                Text(shop.uppercase(), style = T.Eyebrow.copy(fontSize = 12.5.sp, letterSpacing = 0.6.sp, color = A.Muted))
+                Text(shop.uppercase(), style = T.Eyebrow.copy(fontSize = 13.sp, letterSpacing = 0.4.sp, color = RD.Ink))
             }
             groups[shop]!!.forEach { it ->
                 val f = it.foodId?.let { id -> Db.db.food(id) }
                 Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
                 Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clickable { Store.toggleShopping(it.id) }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(
-                        Modifier.size(26.dp).clip(RoundedCornerShape(9.dp)).background(if (it.checked) A.Ink else Color.Transparent)
-                            .border(2.dp, if (it.checked) A.Ink else C.Line, RoundedCornerShape(9.dp)),
+                        Modifier.size(24.dp).clip(RoundedCornerShape(7.dp)).background(if (it.checked) A.Ink else Color.Transparent)
+                            .border(2.dp, if (it.checked) A.Ink else RD.GreyLine, RoundedCornerShape(7.dp)),
                         contentAlignment = Alignment.Center
                     ) { if (it.checked) AIcon(Ic.Check, Color.White, 16.dp, 3.2f) }
                     GapW(14.dp)
@@ -348,7 +385,7 @@ private fun ShoppingTab(s: AppState) {
                         val d = Shopping.describe(it, f)
                         if (d.isNotBlank()) Text(d + if (it.note.isNotBlank() && !it.manual) " · ${it.note}" else "", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
-                    Box(Modifier.size(48.dp).clip(CircleShape).background(C.Surface).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(48.dp).clip(CircleShape).clickable { Store.removeShopping(it.id) }, contentAlignment = Alignment.Center) {
                         AIcon(Ic.Close, A.Ink, 18.dp, 2.4f)
                     }
                 }
@@ -407,16 +444,36 @@ fun PantryScanScreen(mode: String) {
         TopBar(if (receipt) "Scontrino della spesa" else "Frigo e dispensa", onBack = { Nav.back() })
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             val b = bitmap
-            if (b == null) JCard {
-                Text(if (receipt) "🧾" else "🧊", style = T.Big)
-                Text(if (receipt) "Fotografa lo scontrino" else "Fotografa frigorifero o dispensa", style = T.Title)
-                Text(if (receipt) "Il testo viene letto sul telefono (senza internet); l'AI abbina ogni riga a un alimento e alla quantità acquistata."
-                else "L'AI riconosce i prodotti visibili e stima le quantità. Potrai correggere tutto prima di salvare.", style = T.Read.copy(color = C.Muted))
+            if (b == null) {
+                val shape = RoundedCornerShape(22.dp)
+                Column(Modifier.fillMaxWidth().refShadow(shape, 5.dp).clip(shape)
+                    .background(Brush.linearGradient(listOf(Color.White, Color.White, RD.Peach)))
+                    .border(1.dp, A.Hair, shape).padding(16.dp)) {
+                    Box(Modifier.size(width = 100.dp, height = 76.dp)) {
+                        Box(Modifier.align(Alignment.CenterStart).size(72.dp).clip(RoundedCornerShape(20.dp))
+                            .background(RD.PeachBrush), contentAlignment = Alignment.Center) {
+                            AIcon(if (receipt) Ic.Receipt else Ic.Fridge, RD.Navy, 53.dp, 1.65f)
+                        }
+                        Box(Modifier.align(Alignment.BottomEnd).size(38.dp).clip(RoundedCornerShape(12.dp))
+                            .background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
+                            AIcon(if (receipt) Ic.Cart else Ic.Spark, C.AccentDeep, 25.dp, 2f)
+                        }
+                    }
+                    GapH(10.dp)
+                    Text(if (receipt) "Fotografa lo scontrino" else "Fotografa frigorifero o dispensa",
+                        style = T.Title2.copy(color = RD.Ink))
+                    GapH(5.dp)
+                    Text(if (receipt) "Il testo viene letto sul telefono (senza internet); l'AI abbina ogni riga a un alimento e alla quantità acquistata."
+                    else "L'AI riconosce i prodotti visibili e stima le quantità. Potrai correggere tutto prima di salvare.",
+                        style = T.Read.copy(color = C.Muted))
+                }
             } else Image(b.asImageBitmap(), null, Modifier.fillMaxWidth().height(220.dp).clip(RoundedCornerShape(20.dp)), contentScale = ContentScale.Crop)
             Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                PrimaryButton("Scatta foto", Modifier.weight(1f)) { camera.launch(photoUri) }
-                GhostButton("Galleria", Modifier.weight(1f)) { gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
+                RefPrimaryButton("Scatta foto", Modifier.weight(1f), divider = false) { camera.launch(photoUri) }
+                RefOutlineButton("Galleria", Modifier.weight(1f), divider = false, height = 52.dp) {
+                    gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }
             }
             if (busy) Row(Modifier.padding(vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
                 CircularProgressIndicator(Modifier.size(22.dp), color = C.Accent, strokeWidth = 2.dp); Spacer(Modifier.width(12.dp)); Text("Riconoscimento in corso…", style = T.Muted)

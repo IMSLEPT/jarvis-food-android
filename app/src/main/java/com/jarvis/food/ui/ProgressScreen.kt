@@ -66,6 +66,8 @@ import java.time.format.TextStyle
 import kotlin.math.roundToInt
 
 private val DM = DateTimeFormatter.ofPattern("d MMM", IT)
+private const val ProgressScaleIcon = "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2"
+private val ProgressInfoIcon = Ic.circ(12.0, 12.0, 9.0) + "M12 7.5v.2M12 10.5v6"
 
 /** Giorni consecutivi (fino a oggi o ieri) con almeno un alimento registrato. */
 fun streak(s: AppState): Int {
@@ -162,7 +164,11 @@ fun ProgressScreen() {
         Row(Modifier.padding(top = 10.dp).fillMaxWidth().clip(seg).background(Color(0xD9FFFFFF)).border(1.dp, A.Hair, seg).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(7 to "7 giorni", 30 to "30 giorni").forEach { (d, l) ->
                 val sel = period == d
-                Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { period = d }, contentAlignment = Alignment.Center) {
+                val choice = RoundedCornerShape(22.dp)
+                Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(choice)
+                    .background(if (sel) RD.NavyBrush else SolidColor(Color.Transparent))
+                    .then(if (sel) Modifier.border(1.5.dp, RD.OrangeLine, choice) else Modifier)
+                    .clickable(role = Role.Button) { period = d }, contentAlignment = Alignment.Center) {
                     Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink))
                 }
             }
@@ -208,12 +214,21 @@ fun ProgressScreen() {
         }
         if ((section in 1..2 || query.isNotBlank()) && matches("peso", "obiettivo", "kg", "andamento")) {
         // Peso
-        ASection("Peso", action = "Storico", top = 28.dp) { Nav.go(Screen.WeightHistory) }
+        GapH(14.dp)
         val from = today.minusDays((period - 1).toLong())
         val ws = s.weights.filter { !LocalDate.parse(it.date).isBefore(from) }.sortedBy { it.date }
         val wd = if (ws.size >= 2) ws.last().kg - ws.first().kg else 0.0
         Column(Modifier.fillMaxWidth().aShadow(shape30, 12.dp, Color(0x8C3B82F6)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30)
-            .clickable { Nav.go(Screen.WeightHistory) }.padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 14.dp)) {
+            .clickable { Nav.go(Screen.WeightHistory) }.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ProgressCardHeading("Peso", ProgressScaleIcon, C.Blue, A.CarbSoft, modifier = Modifier.weight(1f))
+                TextButton(onClick = { Nav.go(Screen.WeightHistory) }, modifier = Modifier.heightIn(min = 48.dp)) {
+                    Text("Storico", style = T.Link)
+                    GapW(5.dp)
+                    AIcon(Ic.Right, RD.Ink, 15.dp)
+                }
+            }
+            GapH(6.dp)
             androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(weight.r1(), style = T.H1.copy(fontSize = 46.sp, lineHeight = 48.sp))
@@ -241,7 +256,11 @@ fun ProgressScreen() {
             val prog = weightGoalFraction(sw, weight, tw)
             Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
                 androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
-                    Text(if (left < 0.05) "Obiettivo raggiunto" else "Obiettivo ${tw.r1().removeSuffix(",0")} kg", modifier = Modifier.testTag("weight-goal-title"), style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(RIc.TargetRing, C.Blue, 19.dp)
+                        GapW(6.dp)
+                        Text(if (left < 0.05) "Obiettivo raggiunto" else "Obiettivo ${tw.r1().removeSuffix(",0")} kg", modifier = Modifier.testTag("weight-goal-title"), style = T.Chip.copy(fontWeight = FontWeight.SemiBold))
+                    }
                     Text("${left.r1()} kg da raggiungere", modifier = Modifier.testTag("weight-goal-remaining"), style = T.Chip.copy(fontWeight = FontWeight.Bold, color = A.CarbInk))
                 }
                 GapH(8.dp)
@@ -263,7 +282,10 @@ fun ProgressScreen() {
             Text("${logged.size} ${if (logged.size == 1) "giorno registrato" else "giorni registrati"} su $period · anche giornate parziali", style = T.Small, modifier = Modifier.testTag("calorie-sample-size").padding(top = 4.dp))
             val pk = picked.coerceIn(0, days.size - 1)
             val diff = (daily[pk].kcal - dailyGoals[pk]).roundToInt()
-            Box(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.CenterStart) {
+            Row(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = 40.dp).clip(RoundedCornerShape(16.dp))
+                .background(RD.Peach).padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                AIcon(Ic.Calendar, C.AccentDeep, 18.dp)
+                GapW(8.dp)
                 val detail = if (!hasLog[pk]) "Nessun pasto registrato"
                     else if (days[pk] == today) "${kcalFmt(daily[pk].kcal)} kcal · giornata in corso"
                     else "${kcalFmt(daily[pk].kcal)} kcal registrate · ${(if (diff >= 0) "+" else "−")}${kotlin.math.abs(diff)} dal target"
@@ -271,13 +293,20 @@ fun ProgressScreen() {
                     style = T.Chip.copy(fontSize = 13.sp, color = C.AccentDeep), modifier = Modifier.testTag("calorie-day-detail"))
             }
             GapH(12.dp)
-            BarsRow(daily.map { it.kcal }, maxK, 190.dp, if (period == 7) 14.dp else 5.dp, if (period == 7) { if (expanded) 4.dp else 10.dp } else 3.dp,
-                fill = { i, sel ->
-                    if (sel) Brush.verticalGradient(listOf(Color(0xFFF28B7A), Color(0xFFF59E6C), Color(0xFFF8C089)))
-                    else SolidColor(if (i == days.size - 1) Color(0xFFFFD9C4) else if (daily[i].kcal > dailyGoals[i] * 1.1) Color(0xFFFFC2A3) else Color(0xFFF2A277))
-                },
-                labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null, present = hasLog, unit = "kcal")
-            Text("Trattino: nessun pasto registrato. I giorni senza dati non sono zero calorie.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(10.dp)) {
+                BarsRow(daily.map { it.kcal }, maxK, 128.dp, if (period == 7) 11.dp else 4.dp, if (period == 7) { if (expanded) 4.dp else 7.dp } else 3.dp,
+                    fill = { i, sel ->
+                        val top = when {
+                            sel -> Color(0xFFFF9B38)
+                            daily[i].kcal > dailyGoals[i] * 1.1 -> Color(0xFFFFBC73)
+                            else -> Color(0xFFFFAD52)
+                        }
+                        Brush.verticalGradient(listOf(top, if (sel) RD.OrangeDeep else RD.Orange))
+                    },
+                    labels = if (period == 7) days.map(letter) else null, sel = pk, onPick = { picked = it }, goal = goalKcal, goals = if (s.trainingNutrition.active) dailyGoals else null, present = hasLog, unit = "kcal")
+            }
+            GapH(10.dp)
+            ProgressNote("Trattino: nessun pasto registrato. I giorni senza dati non sono zero calorie.", ProgressInfoIcon, C.Navy, C.Surface)
         }
 
         }
@@ -311,9 +340,9 @@ fun ProgressScreen() {
 
         }
         if (section == 0 && query.isBlank()) {
-            OverviewHeading("Andamento del peso")
-            GapH(8.dp)
+            GapH(10.dp)
             JCard {
+                ProgressCardHeading("Andamento del peso", Ic.Chart, C.Blue, A.CarbSoft)
                 val from = today.minusDays((period - 1).toLong())
                 val samples = s.weights.filter { !LocalDate.parse(it.date).isBefore(from) }.sortedBy { it.date }
                 WeightLine(samples.map { LocalDate.parse(it.date).toEpochDay() to it.kg })
@@ -322,24 +351,28 @@ fun ProgressScreen() {
         }
         if ((section == 0 || query.isNotBlank()) && matches("acqua", "idratazione")) {
         // Acqua
-        OverviewHeading("Acqua")
-        GapH(8.dp)
+        GapH(10.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
-        Column(Modifier.fillMaxWidth().testTag("progress-water-detail").aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(C.Surface).clickable { Nav.go(Screen.Trend("water", period)) }.padding(10.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-water-detail").aShadow(shape30, 12.dp, Color(0xB306B6D4)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("water", period)) }.padding(12.dp)) {
+            ProgressCardHeading("Acqua", Ic.Drop, C.Blue, A.CarbSoft, chevron = true)
+            GapH(8.dp)
             OverviewChart(water, maxOf(water.maxOrNull() ?: 0.0, 1.5), period, days.map(letter), waterChart = true, present = days.map { s.water.containsKey(it.toString()) })
-            Text("Media ${water.average().r1()} L al giorno · ultimi $period giorni", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF0E5A72)), modifier = Modifier.padding(top = 6.dp))
+            GapH(8.dp)
+            ProgressNote("Media ${water.average().r1()} L al giorno · ultimi $period giorni", Ic.Drop, A.CarbInk, A.CarbSoft)
         }
 
         }
         if ((section == 0 || query.isNotBlank()) && matches("passi", "attività", "movimento")) {
         // Passi e attività
-        OverviewHeading("Passi e attività")
-        GapH(8.dp)
+        GapH(10.dp)
         val burned = days.map { Store.burnedFor(s, it).toDouble() }
-        Column(Modifier.fillMaxWidth().testTag("progress-activity-detail").aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("activity", period)) }.padding(10.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-activity-detail").aShadow(shape30, 12.dp, Color(0x8C10B981)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("activity", period)) }.padding(12.dp)) {
+            ProgressCardHeading("Passi e attività", Ic.Bolt, A.GreenInk, A.GreenSoft, chevron = true)
+            GapH(8.dp)
             val steps = days.map { Store.stepsFor(s, it).toDouble() }
             OverviewChart(steps, maxOf(10000.0, (steps.maxOrNull() ?: 0.0)), period, days.map(letter), waterChart = false, present = days.map { s.steps.containsKey(it.toString()) || s.health.containsKey(it.toString()) })
-            Text("Calorie bruciate in media: ${burned.average().r0()} kcal", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF065F46)), modifier = Modifier.padding(top = 6.dp))
+            GapH(8.dp)
+            ProgressNote("Calorie bruciate in media: ${burned.average().r0()} kcal", Ic.Flame, A.GreenInk, A.GreenSoft)
         }
 
         }
@@ -414,6 +447,26 @@ fun ProgressScreen() {
             }
         }
 
+    }
+}
+
+@Composable
+private fun ProgressCardHeading(title: String, icon: String, tint: Color, soft: Color, modifier: Modifier = Modifier, chevron: Boolean = false) {
+    Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        TonalIcon(icon, tint, soft, box = 34.dp, radius = 11.dp, size = 20.dp)
+        GapW(9.dp)
+        Text(title, modifier = Modifier.weight(1f), style = T.Title2.copy(fontSize = 17.sp, lineHeight = 21.sp, color = RD.Ink))
+        if (chevron) AIcon(Ic.Right, RD.Ink, 16.dp)
+    }
+}
+
+@Composable
+private fun ProgressNote(text: String, icon: String, tint: Color, background: Color, modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(background)
+        .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        AIcon(icon, tint, 17.dp)
+        GapW(8.dp)
+        Text(text, style = T.Small.copy(color = tint), modifier = Modifier.weight(1f))
     }
 }
 
@@ -496,11 +549,18 @@ private fun MacroShare(pct: String, name: String, sub: String, bg: Color, ink: C
 private fun WeightLine(samples: List<Pair<Long, Double>>) {
     val points = weightPlotPositions(samples)
     if (points.isEmpty()) {
-        Column(Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
-            Text("Nessuna misurazione nel periodo selezionato.", style = T.Muted,
-                modifier = Modifier.fillMaxWidth().testTag("weight-empty"))
-            TextButton(onClick = { Nav.go(Screen.Weight) }, modifier = Modifier.heightIn(min = 48.dp).testTag("progress-register-weight")) {
-                Text("Registra peso", style = T.Link)
+        Column(Modifier.fillMaxWidth().padding(vertical = 10.dp)) {
+            ProgressNote("Nessuna misurazione nel periodo selezionato.", ProgressInfoIcon, C.Navy, C.Surface,
+                Modifier.testTag("weight-empty"))
+            GapH(8.dp)
+            val buttonShape = RoundedCornerShape(24.dp)
+            Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("progress-register-weight")
+                .clip(buttonShape).background(RD.PeachBrush).border(1.dp, RD.OrangeLine, buttonShape)
+                .clickable(role = Role.Button) { Nav.go(Screen.Weight) }.padding(horizontal = 12.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                AIcon(ProgressScaleIcon, C.AccentDeep, 20.dp)
+                GapW(8.dp)
+                Text("Registra peso", style = T.Label.copy(color = C.AccentDeep))
             }
         }
         return

@@ -33,7 +33,7 @@ run_suite() {
 $A shell wm size 1344x2992
 $A shell wm density 480
 $A shell settings put system font_scale 1.0
-run_suite before 'com.jarvis.food.PremiumWholeAppTest'
+run_suite before 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest'
 $A install -r -g app/build/outputs/apk/debug/app-debug.apk
 $A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 if [ "${QA_SCREEN_SCOPE:-full}" = profile ]; then

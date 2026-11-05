@@ -195,7 +195,7 @@ private fun ChatDaySeparator(day: LocalDate) {
 @Composable
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = ready && input.isNotBlank() && !busy
-    val shape = RoundedCornerShape(18.dp)
+    val shape = RoundedCornerShape(if (active) 30.dp else 18.dp)
     Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
@@ -247,30 +247,40 @@ private val CAPABILITIES = listOf(
 
 @Composable
 private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
-    Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        // Video 4 novembre: il volto di Jarvis è nel banner, l'immagine qui sotto è stata tolta.
-        Text("Come posso aiutarti?", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp))
-        Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
-            style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp))
+    Column(Modifier.fillMaxWidth().padding(top = 8.dp)) {
+        Row(verticalAlignment = Alignment.Top) {
+            Box(Modifier.padding(top = 3.dp).size(width = 4.dp, height = 24.dp)
+                .clip(RoundedCornerShape(2.dp)).background(C.Accent))
+            GapW(9.dp)
+            Column(Modifier.weight(1f)) {
+                Text("Come posso aiutarti?", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp, color = RD.Ink))
+                Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
+                    style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(top = 4.dp, bottom = 6.dp))
+            }
+        }
         if (ready) {
             Spacer(Modifier.height(8.dp))
-            val groups = CAPABILITIES.chunked(if (androidx.compose.ui.platform.LocalDensity.current.fontScale > 1.5f) 1 else 2)
+            val narrow = LocalDensity.current.fontScale > 1.3f || LocalConfiguration.current.screenWidthDp < 330
+            val groups = CAPABILITIES.chunked(if (narrow) 1 else 2)
+            val tile = RoundedCornerShape(18.dp)
             groups.forEachIndexed { rowIndex, row ->
                 Row(Modifier.fillMaxWidth().then(if (rowIndex == groups.lastIndex) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    row.forEach { (emoji, title, example) ->
-                        Column(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(18.dp))
-                            .clickable { onPick(example) }.padding(10.dp)) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                val icon = when (title) {
-                                    "Diario" -> Ic.Bowl; "Ricette" -> Ic.Receipt; "Piano" -> Ic.Calendar
-                                    "Spesa e dispensa" -> Ic.Cart; "Obiettivi" -> Ic.Chart; else -> Ic.Timer
-                                }
-                                AIcon(icon, C.Navy, 20.dp)
-                                GapW(8.dp)
-                                Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.weight(1f))
+                    row.forEach { (_, title, example) ->
+                        val icon = when (title) {
+                            "Diario" -> Ic.Bowl; "Ricette" -> Ic.Receipt; "Piano" -> Ic.Calendar
+                            "Spesa e dispensa" -> Ic.Cart; "Obiettivi" -> Ic.Chart; else -> Ic.Timer
+                        }
+                        Row(Modifier.weight(1f).heightIn(min = if (narrow) 64.dp else 92.dp)
+                            .refShadow(tile, 4.dp).clip(tile).background(Color.White).border(1.dp, C.Line, tile)
+                            .clickable(role = Role.Button) { onPick(example) }.padding(10.dp),
+                            verticalAlignment = Alignment.Top) {
+                            PeachTile(32.dp) { AIcon(icon, C.AccentDeep, 19.dp, 2.1f) }
+                            GapW(7.dp)
+                            Column(Modifier.weight(1f)) {
+                                Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, color = RD.Ink))
+                                GapH(3.dp)
+                                Text("“$example”", style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
                             }
-                            Spacer(Modifier.height(4.dp))
-                            Text("“$example”", style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
                         }
                     }
                 }

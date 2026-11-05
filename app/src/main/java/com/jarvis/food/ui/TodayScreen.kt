@@ -540,6 +540,11 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
                         Modifier.fillMaxWidth().testTag("activity-progress").semantics {
                             progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
                         })
+                    GapH(8.dp)
+                    val minutes = list.sumOf { it.minutes.toLong() } +
+                        (if (watch) h?.sessions?.sumOf { (it.end - it.start) / 60000 } ?: 0L else 0L)
+                    ActivityMetric("Calorie attive", "${Store.burnedFor(s, date)} kcal")
+                    ActivityMetric("Allenamento", "$minutes min")
                     if (watch) h?.sessions?.take(2)?.forEach { w ->
                         ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
                     }
@@ -559,6 +564,15 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
                 Text("Con il livello di attività fisso, le attività non cambiano l'obiettivo (sono già considerate). Puoi cambiarlo in Profilo → Smartwatch e attività.", style = T.Small)
             }
         }
+    }
+}
+
+@Composable
+private fun ActivityMetric(label: String, value: String) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(label, style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp, color = RD.Ink), modifier = Modifier.weight(1f))
+        GapW(6.dp)
+        Text(value, style = T.Label.copy(fontSize = 13.sp, lineHeight = 18.sp, color = RD.Ink))
     }
 }
 
