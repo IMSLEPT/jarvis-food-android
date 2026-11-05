@@ -46,6 +46,12 @@ if [ "${QA_SCREEN_SCOPE:-full}" = general ]; then
   $A shell wm density 420
   $A shell settings put system font_scale 1.3
   run_suite large-text 'com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
+elif [ "${QA_SCREEN_SCOPE:-full}" = general-recheck ]; then
+  run_suite pixel9 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest,com.jarvis.food.TrainingDiaryFlowTest,com.jarvis.food.BottomActionInsetsTest,com.jarvis.food.VideoNovemberFlowTest'
+  $A shell wm size 945x2048
+  $A shell wm density 420
+  $A shell settings put system font_scale 1.3
+  run_suite large-text 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.BottomActionInsetsTest'
 elif [ "${QA_SCREEN_SCOPE:-full}" = references ]; then
   run_suite pixel9 'com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
   $A shell settings put system font_scale 1.15

@@ -99,7 +99,7 @@ class BottomActionInsetsTest {
             ui { Nav.clear(); Nav.go(Screen.Watch) }
             compose.waitForIdle()
             compose.onNodeWithTag("watch-open-zepp").performScrollTo().assertIsDisplayed().assertHeightIsAtLeast(androidx.compose.ui.unit.Dp(48f))
-            compose.onNode(hasScrollAction()).performTouchInput { swipeUp() }
+            compose.onNodeWithTag("watch-vertical-scroll").performTouchInput { swipeUp() }
             compose.waitForIdle()
             val card = compose.onNodeWithTag("watch-device-card").fetchSemanticsNode().boundsInRoot
             val safeBottom = windowHeight - navigationBottom

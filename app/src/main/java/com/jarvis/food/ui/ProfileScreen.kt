@@ -737,7 +737,7 @@ fun DayNutrientsScreen(date: LocalDate) {
                     GapW(10.dp)
                     Column(Modifier.weight(1f)) {
                         Text("${kcalFmt(t.kcal)} kcal", style = T.Title.copy(fontSize = 26.sp, color = Color.White))
-                        Text("Obiettivo ${kcalFmt(energy.targetKcal)} kcal", style = T.Small.copy(color = Color.White))
+                        Text("Obiettivo ${kcalFmt(energy.targetKcal)} kcal", Modifier.testTag("day-nutrients-target"), style = T.Small.copy(color = Color.White))
                     }
                 }
             }

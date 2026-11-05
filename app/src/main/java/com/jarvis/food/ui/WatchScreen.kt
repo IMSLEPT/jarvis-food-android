@@ -105,7 +105,7 @@ fun WatchScreen() {
             Text("Smartwatch e attività", style = T.Title.copy(fontSize = 21.sp, lineHeight = 27.sp, color = Color.White),
                 modifier = Modifier.weight(1f))
         }
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp)) {
+        Column(Modifier.weight(1f).testTag("watch-vertical-scroll").verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp)) {
             if (s.trainingNutrition.active) {
                 JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
                     Text("Obiettivi ON/OFF attivi", style = T.Title2)
@@ -227,6 +227,29 @@ fun WatchScreen() {
                 }
             }
 
+            // Oggi dal watch
+            SettingsHeading("Oggi dal watch", "I dati dell’ultima sincronizzazione disponibile.")
+            if (today != null) {
+                val tiles = listOf(
+                    WTile("Passi", today.steps.thousands(), "", WIc.Steps, A.Tonal, A.TonalInk, Color(0x99E88C60)),
+                    WTile("Kcal attive", today.activeKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Flame, A.FatSoft, A.FatInk, Color(0x99F59E0B)),
+                    WTile("Allenamenti", today.sessions.size.toString(), "oggi", WIc.Dumbbell, A.FastSoft, A.FastInk, Color(0x998B5CF6)),
+                    WTile("FC a riposo", today.restingHr?.r0() ?: "—", "bpm", Ic.Heart, A.ProteinSoft, A.ProteinInk, Color(0x99F43F6E)),
+                    WTile("Sonno", today.sleepMinutes?.let { "${it / 60}h ${it % 60}m" } ?: "—", "", WIc.Moon, A.CarbSoft, A.CarbInk, Color(0x993B82F6)),
+                    WTile("Kcal totali", today.totalKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Bolt, A.GreenSoft, A.GreenInk, Color(0x9910B981))
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    tiles.chunked(2).forEach { pair ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { pair.forEach { WatchTile(it, Modifier.weight(1f)) } }
+                    }
+                }
+                if (today.activeKcal == null) Text("Il watch non ha condiviso le calorie attive: le stimo da passi e allenamenti.", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, top = 10.dp))
+            } else {
+                ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 16.dp, elevation = 8.dp) {
+                    Text(if (ok) "Ancora nessun dato di oggi: tocca \"Sincronizza ora\"." else "Collega Health Connect per vedere qui passi, calorie attive, allenamenti, battito e sonno.", style = T.Body.copy(fontSize = 13.5.sp, color = Color(0xFF4B4A6A)))
+                }
+            }
+
             // Come arrivano i dati
             SettingsHeading("Collegamento del dispositivo", "Amazfit → Zepp → Health Connect → Jarvis Food")
             ACard(Modifier.fillMaxWidth().testTag("watch-device-card"), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
@@ -263,28 +286,7 @@ fun WatchScreen() {
                     }
                 }
             }
-            // Oggi dal watch
-            SettingsHeading("Oggi dal watch", "I dati dell’ultima sincronizzazione disponibile.")
-            if (today != null) {
-                val tiles = listOf(
-                    WTile("Passi", today.steps.thousands(), "", WIc.Steps, A.Tonal, A.TonalInk, Color(0x99E88C60)),
-                    WTile("Kcal attive", today.activeKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Flame, A.FatSoft, A.FatInk, Color(0x99F59E0B)),
-                    WTile("Allenamenti", today.sessions.size.toString(), "oggi", WIc.Dumbbell, A.FastSoft, A.FastInk, Color(0x998B5CF6)),
-                    WTile("FC a riposo", today.restingHr?.r0() ?: "—", "bpm", Ic.Heart, A.ProteinSoft, A.ProteinInk, Color(0x99F43F6E)),
-                    WTile("Sonno", today.sleepMinutes?.let { "${it / 60}h ${it % 60}m" } ?: "—", "", WIc.Moon, A.CarbSoft, A.CarbInk, Color(0x993B82F6)),
-                    WTile("Kcal totali", today.totalKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Bolt, A.GreenSoft, A.GreenInk, Color(0x9910B981))
-                )
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    tiles.chunked(2).forEach { pair ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { pair.forEach { WatchTile(it, Modifier.weight(1f)) } }
-                    }
-                }
-                if (today.activeKcal == null) Text("Il watch non ha condiviso le calorie attive: le stimo da passi e allenamenti.", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.padding(start = 4.dp, top = 10.dp))
-            } else {
-                ACard(Modifier.fillMaxWidth(), radius = 28.dp, padding = 16.dp, elevation = 8.dp) {
-                    Text(if (ok) "Ancora nessun dato di oggi: tocca \"Sincronizza ora\"." else "Collega Health Connect per vedere qui passi, calorie attive, allenamenti, battito e sonno.", style = T.Body.copy(fontSize = 13.5.sp, color = Color(0xFF4B4A6A)))
-                }
-            }
+
         }
     }
 }

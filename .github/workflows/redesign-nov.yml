@@ -97,7 +97,7 @@ jobs:
           chmod +x .ci-bin/adb
       - name: Android 15 Pixel 9 Pro XL verification
         env:
-          QA_SCREEN_SCOPE: general
+          QA_SCREEN_SCOPE: general-recheck
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
