@@ -62,11 +62,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import com.jarvis.food.R
 import com.jarvis.food.ai.FoodAi
 import com.jarvis.food.ai.Ocr
 import com.jarvis.food.ai.PantryGuess
@@ -410,10 +412,17 @@ fun PantryScanScreen(mode: String) {
     val photoUri = remember { FileProvider.getUriForFile(ctx, "${ctx.packageName}.files", photoFile) }
     val receipt = mode == "scontrino"
 
-    fun analyze(b: Bitmap) {
-        busy = true; error = null; info = null; found.clear()
+    fun analyze(uri: android.net.Uri) {
+        if (busy) return
+        busy = true
+        error = null
+        info = null
+        found.clear()
         scope.launch {
             try {
+                val b = withContext(Dispatchers.IO) { loadBitmap(ctx, uri, 2000) }
+                    ?: throw IllegalArgumentException("Immagine illeggibile. Prova un'altra foto.")
+                bitmap = b
                 val list: List<PantryGuess> = if (receipt) {
                     val text = Ocr.read(b)
                     if (text.isBlank()) throw RuntimeException("Non riesco a leggere il testo: prova con più luce e lo scontrino ben disteso.")
@@ -429,16 +438,21 @@ fun PantryScanScreen(mode: String) {
                 }
                 found.addAll(list.map { it to (it.foodId != null) })
                 if (list.isEmpty()) error = "Nessun alimento riconosciuto."
-            } catch (e: Exception) { error = e.message }
-            busy = false
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                error = e.message ?: "Impossibile analizzare la foto."
+            } finally {
+                busy = false
+            }
         }
     }
 
     val camera = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
-        if (ok) scope.launch { bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, photoUri, 2000) }; bitmap?.let { analyze(it) } }
+        if (ok) analyze(photoUri)
     }
     val gallery = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) scope.launch { bitmap = withContext(Dispatchers.IO) { loadBitmap(ctx, uri, 2000) }; bitmap?.let { analyze(it) } }
+        if (uri != null) analyze(uri)
     }
 
     Column(Modifier.fillMaxSize().imePadding()) {
@@ -450,16 +464,8 @@ fun PantryScanScreen(mode: String) {
                 Column(Modifier.fillMaxWidth().refShadow(shape, 5.dp).clip(shape)
                     .background(Brush.linearGradient(listOf(Color.White, Color.White, RD.Peach)))
                     .border(1.dp, A.Hair, shape).padding(16.dp)) {
-                    Box(Modifier.size(width = 100.dp, height = 76.dp)) {
-                        Box(Modifier.align(Alignment.CenterStart).size(72.dp).clip(RoundedCornerShape(20.dp))
-                            .background(RD.PeachBrush), contentAlignment = Alignment.Center) {
-                            AIcon(if (receipt) Ic.Receipt else Ic.Fridge, RD.Navy, 53.dp, 1.65f)
-                        }
-                        Box(Modifier.align(Alignment.BottomEnd).size(38.dp).clip(RoundedCornerShape(12.dp))
-                            .background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
-                            AIcon(if (receipt) Ic.Cart else Ic.Spark, C.AccentDeep, 25.dp, 2f)
-                        }
-                    }
+                    Image(painterResource(if (receipt) R.drawable.approved_receipt else R.drawable.approved_fridge),
+                        null, Modifier.size(width = 111.dp, height = 88.dp), contentScale = ContentScale.Fit)
                     GapH(10.dp)
                     Text(if (receipt) "Fotografa lo scontrino" else "Fotografa frigorifero o dispensa",
                         style = T.Title2.copy(color = RD.Ink))
@@ -471,9 +477,12 @@ fun PantryScanScreen(mode: String) {
             } else Image(b.asImageBitmap(), null, Modifier.fillMaxWidth().height(220.dp).clip(RoundedCornerShape(20.dp)), contentScale = ContentScale.Crop)
             Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                RefPrimaryButton("Scatta foto", Modifier.weight(1f), divider = false) { camera.launch(photoUri) }
-                RefOutlineButton("Galleria", Modifier.weight(1f), divider = false, height = 52.dp) {
-                    gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                RefPrimaryButton("Scatta foto", Modifier.weight(1f), divider = false, enabled = !busy) {
+                    runCatching { camera.launch(photoUri) }.onFailure { error = "Fotocamera non disponibile." }
+                }
+                RefOutlineButton("Galleria", Modifier.weight(1f), divider = false, height = 52.dp, enabled = !busy) {
+                    runCatching { gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
+                        .onFailure { error = "Impossibile aprire la galleria." }
                 }
             }
             if (busy) Row(Modifier.padding(vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.alpha
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.ui.platform.testTag
@@ -96,7 +98,13 @@ fun WatchScreen() {
     val shape34 = RoundedCornerShape(34.dp)
 
     Column(Modifier.fillMaxSize().navigationBarsPadding()) {
-        TopBar("Smartwatch e attività", onBack = { Nav.back() })
+        Row(Modifier.fillMaxWidth().background(RD.NavyBrush).statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            BackCircle { Nav.back() }
+            GapW(12.dp)
+            Text("Smartwatch e attività", style = T.Title.copy(fontSize = 21.sp, lineHeight = 27.sp, color = Color.White),
+                modifier = Modifier.weight(1f))
+        }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp)) {
             if (s.trainingNutrition.active) {
                 JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
@@ -133,10 +141,11 @@ fun WatchScreen() {
                 }, style = T.Body.copy(fontSize = 13.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 16.dp))
                 val btnShape = RoundedCornerShape(27.dp)
                 Row(
-                    Modifier.padding(top = 10.dp).fillMaxWidth().height(54.dp).aShadow(btnShape, 8.dp, Color(0xB31D1B3A)).clip(btnShape).background(C.Navy)
-                        .clickable(enabled = !busy) {
+                    Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = 54.dp).aShadow(btnShape, 8.dp, Color(0xB31D1B3A)).clip(btnShape).background(C.Navy)
+                        .clickable(enabled = !busy && status != 2) {
                             when {
                                 status == 1 -> runCatching { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.healthdata"))) }
+                                    .onFailure { msg = "Impossibile aprire il Play Store su questo dispositivo." }
                                 status != 0 -> {}
                                 ok -> sync()
                                 else -> permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND)
@@ -189,7 +198,8 @@ fun WatchScreen() {
                 WatchMode(1, s.energy.mode, "Attività a mano", "Aggiungi tu gli allenamenti nel diario; l'obiettivo cresce di conseguenza.", WIc.Pencil, A.FatSoft, A.FatInk) { Store.setEnergy(s.energy.copy(mode = 1)) }
                 WatchMode(2, s.energy.mode, "Dal watch", "Conta in automatico una parte delle calorie attive misurate dal watch.", WIc.Watch, A.GreenSoft, A.GreenInk) {
                     if (granted.any { it in HealthSync.PERMISSIONS }) Store.setEnergy(s.energy.copy(mode = 2, watchConnected = true))
-                    else permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND)
+                    else if (status == 0) permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND)
+                    else msg = "Health Connect non è disponibile. Controlla la connessione nella scheda Amazfit Balance."
                 }
             }
 
@@ -272,6 +282,7 @@ fun WatchScreen() {
                     AInk("Apri Zepp", Modifier.padding(top = 14.dp).fillMaxWidth().testTag("watch-open-zepp"), height = 50.dp, bg = C.NavySoft, fg = C.Navy) {
                         val i = ctx.packageManager.getLaunchIntentForPackage("com.huami.watch.hmwatchmanager")
                         runCatching { ctx.startActivity(i ?: Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.huami.watch.hmwatchmanager"))) }
+                            .onFailure { android.widget.Toast.makeText(ctx, "Impossibile aprire Zepp o il Play Store.", android.widget.Toast.LENGTH_LONG).show() }
                     }
                 }
             }

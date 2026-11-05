@@ -310,7 +310,8 @@ private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup, cols: Int = 4)
 @Composable
 private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id) { "kcal" -> CatKcalGrid(g, 4); "tempo" -> CatKcalGrid(g, 3); else -> CatGroupRow(g) } }
 
-/** All original categories, arranged exactly as the approved compact / complete browser. */
+/** Category tabs wrap so every available group is discoverable. */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>) {
     var selected by rememberSaveable { mutableStateOf("pasto") }
@@ -319,7 +320,10 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     ASection("Esplora le ricette", top = 8.dp, action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
     GapH(12.dp)
-    if (!showAll) Row(Modifier.testTag("recipe-group-strip").horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+    if (!showAll) androidx.compose.foundation.layout.FlowRow(
+        Modifier.fillMaxWidth().testTag("recipe-group-strip").padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
         groups.forEach { g -> CategoryChip(g.id, chipLabels[g.id] ?: g.title, selected == g.id) { selected = g.id } }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
@@ -362,12 +366,12 @@ private fun CategoryChip(id: String, label: String, active: Boolean, onClick: ()
     Box(Modifier.heightIn(min = 48.dp).testTag("recipe-group-$id").refShadow(shape, if (active) 4.dp else 2.dp).clip(shape)
         .background(if (active) RD.Navy else Color.White).border(1.dp, RD.Ink.copy(alpha = 0.4f), shape)
         .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
-        Row(Modifier.padding(start = 12.dp, end = 14.dp, top = 8.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.align(Alignment.Center).padding(horizontal = 8.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
             CategoryIcon(id, active)
-            GapW(8.dp)
-            Box(Modifier.width(1.5.dp).height(22.dp).background(if (active) Color(0x88FFFFFF) else Color(0xFF8A90A2)))
-            GapW(8.dp)
-            Text(label, style = T.Title.copy(fontSize = 15.sp, lineHeight = 21.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
+            GapW(5.dp)
+            Box(Modifier.width(1.dp).height(17.dp).background(if (active) Color(0x88FFFFFF) else RD.GreyLine))
+            GapW(5.dp)
+            Text(label, style = T.Title.copy(fontSize = 13.sp, lineHeight = 18.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
         }
         // Barra arancio della voce attiva (riferimento): misurata sulla pillola, non sulla striscia scorrevole.
         if (active) Box(Modifier.matchParentSize(), contentAlignment = Alignment.BottomCenter) {
@@ -379,7 +383,7 @@ private fun CategoryChip(id: String, label: String, active: Boolean, onClick: ()
 @Composable
 private fun CategoryIcon(id: String, active: Boolean) {
     val ink = if (active) Color.White else RD.Ink
-    val size = 24.dp
+    val size = 20.dp
     Box(Modifier.size(size)) {
         when (id) {
             "pasto" -> { AIcon(RIc.Plate, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 3.6), if (active) Color(0xFFE6E8EC) else Color(0xFFE6E8EC), size, fill = true)

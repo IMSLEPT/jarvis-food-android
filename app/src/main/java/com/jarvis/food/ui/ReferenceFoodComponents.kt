@@ -13,9 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -27,63 +25,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.R
 
-/** Illustrations have the same visual footprint as the existing water bottle. */
-@Composable
-internal fun ReferenceIllustration(art: TodayArt, modifier: Modifier = Modifier) {
-    val resource = when (art) {
-        TodayArt.Vitamins -> R.drawable.reference_vitamins
-        TodayArt.Calendar -> R.drawable.reference_calendar
-        TodayArt.Activity -> R.drawable.reference_runner
-        else -> null
-    }
-    if (resource != null) Image(painterResource(resource), null, modifier, contentScale = ContentScale.Fit)
-    else TodayArtwork(art, modifier)
-}
-
 internal val InsightTile = Color(0xFFEEF2F8)
 
 @Composable
 internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScope.() -> Unit) {
-    val navyPanel = art == TodayArt.Activity || art == TodayArt.Vitamins
+    val resource = when (art) {
+        TodayArt.Vitamins -> R.drawable.approved_vitamins
+        TodayArt.Calendar -> R.drawable.approved_daily_tips
+        TodayArt.Activity -> R.drawable.approved_activity
+        else -> null
+    }
     BoxWithConstraints(Modifier.fillMaxWidth()) {
-        val stacked = maxWidth / LocalDensity.current.fontScale < (if (navyPanel) 258.dp else 280.dp)
-        val illustrationSize = if (navyPanel) { if (stacked) 58.dp else 66.dp } else if (stacked) 64.dp else 72.dp
+        val stacked = maxWidth / LocalDensity.current.fontScale < 258.dp
         val artwork: @Composable () -> Unit = {
-            val illustration = Modifier.size(illustrationSize).testTag("insight-icon-$art")
-            if (navyPanel) {
-                Box(Modifier.size(width = illustrationSize + 12.dp, height = illustrationSize + 26.dp)
-                    .clip(RoundedCornerShape(18.dp)), contentAlignment = Alignment.Center) {
-                    Canvas(Modifier.fillMaxSize()) {
-                        val edge = Path().apply {
-                            moveTo(0f, 0f)
-                            lineTo(size.width * .78f, 0f)
-                            quadraticTo(size.width * 1.14f, size.height * .5f, size.width * .78f, size.height)
-                            lineTo(0f, size.height)
-                            close()
-                        }
-                        drawPath(edge, RD.NavyBrush)
-                        drawPath(Path().apply {
-                            moveTo(size.width * .78f, 0f)
-                            quadraticTo(size.width * 1.14f, size.height * .5f, size.width * .78f, size.height)
-                        }, RD.Orange, style = androidx.compose.ui.graphics.drawscope.Stroke(3.dp.toPx()))
-                    }
-                    ReferenceIllustration(art, illustration)
-                }
-            } else ReferenceIllustration(art, illustration)
+            val illustration = Modifier.size(width = if (stacked) 60.dp else 80.dp, height = if (stacked) 66.dp else 92.dp)
+                .testTag("insight-icon-$art")
+            if (resource != null) Image(painterResource(resource), null, illustration, contentScale = ContentScale.Fit)
+            else TodayArtwork(art, illustration)
         }
         if (stacked) {
             Column(Modifier.fillMaxWidth()) {
                 artwork()
-                GapH(10.dp)
+                GapH(8.dp)
                 Column(Modifier.fillMaxWidth(), content = content)
             }
         } else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             artwork()
-            GapW(if (navyPanel) 10.dp else 12.dp)
-            val detail = if (navyPanel) Modifier else Modifier.drawBehind {
-                drawLine(Color(0xFFE1E4EA), Offset(0f, 4.dp.toPx()), Offset(0f, size.height - 4.dp.toPx()), 1.dp.toPx())
-            }.padding(start = 12.dp)
-            Column(Modifier.weight(1f).then(detail), content = content)
+            GapW(10.dp)
+            Column(Modifier.weight(1f), content = content)
         }
     }
 }

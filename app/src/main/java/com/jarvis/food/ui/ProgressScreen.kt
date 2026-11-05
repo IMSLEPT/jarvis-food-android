@@ -177,15 +177,17 @@ fun ProgressScreen() {
         if (section == 0 && query.isBlank()) {
         // Serie
         val streakDays = streak(s)
-        Column(Modifier.padding(top = 10.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0xB3FF963C)).clip(shape30)
-            .background(C.Surface).padding(10.dp)) {
+        Column(Modifier.padding(top = 10.dp).fillMaxWidth().refShadow(shape30, 4.dp).clip(shape30)
+            .background(Color.White).border(1.dp, A.Hair, shape30).padding(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(32.dp).clip(RoundedCornerShape(12.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 26.dp, fill = true) }
                 GapW(10.dp)
-                Column {
-                    Text(if (streakDays == 1) "1 giorno di fila" else "$streakDays giorni di fila", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp))
+                Column(Modifier.weight(1f)) {
+                    Text("Giorni di fila", style = T.H1.copy(fontSize = 17.sp, lineHeight = 21.sp))
                     Text(if (streakDays > 0) "hai registrato i pasti ogni giorno" else "registra un pasto per iniziare la serie", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = A.Muted))
                 }
+                GapW(8.dp)
+                Text(streakDays.toString(), style = T.Title2.copy(fontSize = 22.sp, color = RD.Ink))
             }
             Row(Modifier.padding(top = 6.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 (6 downTo 0).map { today.minusDays(it.toLong()) }.forEach { d ->
@@ -312,9 +314,10 @@ fun ProgressScreen() {
         }
         if ((section == 0 || query.isNotBlank()) && matches("macro", "proteine", "carboidrati", "grassi", "fibre", "zuccheri", "sale")) {
         // Macro
-        OverviewHeading("Macronutrienti (media)")
-        GapH(8.dp)
+        GapH(10.dp)
         Column(Modifier.fillMaxWidth().testTag("progress-macro-detail").aShadow(shape30, 12.dp, Color(0x661D1B3A)).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("macro", period)) }.padding(10.dp)) {
+            ProgressCardHeading("Macronutrienti (media)", RIc.Pie, C.Blue, A.CarbSoft)
+            GapH(8.dp)
             if (avg == null) Text("Registra qualche pasto per vedere le medie.", style = T.Muted)
             else {
                 val kp = avg.protein * 4

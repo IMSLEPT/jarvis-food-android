@@ -1,7 +1,7 @@
 name: Redesign novembre APK
 on:
   push:
-    branches: [feat/redesign-reference-2026-11-04, fix/video-ui-premium-2026-11-04, fix/premium-final-2026-11-04, feat/redesign-approved-2026-11-05]
+    branches: [feat/redesign-reference-2026-11-04, fix/video-ui-premium-2026-11-04, fix/premium-final-2026-11-04, feat/redesign-approved-2026-11-05, fix/jarvis-food-controls-2026-11-05]
   workflow_dispatch:
 permissions:
   contents: write
@@ -45,13 +45,13 @@ jobs:
         env:
           SIGNING_PASS: ${{ secrets.SIGNING_PASS }}
         run: openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/jarvisfood.jks.enc -out app/jarvisfood.jks -pass env:SIGNING_PASS
-      - name: Build exact v227 baseline with identical visual fixture
+      - name: Build exact v228 baseline with identical visual fixture
         run: |
-          git fetch --depth=1 origin 6aa999e8d7d4bfda4e03d56f982963b18bd6c710
-          git worktree add /tmp/jarvis-premium-before 6aa999e8d7d4bfda4e03d56f982963b18bd6c710
+          git fetch --depth=1 origin e01963dcd183546d4b5dd3733708ac3fe48478be
+          git worktree add /tmp/jarvis-premium-before e01963dcd183546d4b5dd3733708ac3fe48478be
           cp app/src/main/assets/food.tflite /tmp/jarvis-premium-before/app/src/main/assets/food.tflite
           cp app/src/androidTest/java/com/jarvis/food/{PremiumWholeAppTest,RedesignNovemberTest}.kt /tmp/jarvis-premium-before/app/src/androidTest/java/com/jarvis/food/
-          GITHUB_RUN_NUMBER=227 ./gradlew -p /tmp/jarvis-premium-before assembleDebug assembleDebugAndroidTest --console=plain
+          GITHUB_RUN_NUMBER=228 ./gradlew -p /tmp/jarvis-premium-before assembleDebug assembleDebugAndroidTest --console=plain
           mkdir -p baseline
           cp /tmp/jarvis-premium-before/app/build/outputs/apk/debug/app-debug.apk baseline/app-debug.apk
           cp /tmp/jarvis-premium-before/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk baseline/app-debug-androidTest.apk
@@ -97,7 +97,7 @@ jobs:
           chmod +x .ci-bin/adb
       - name: Android 15 Pixel 9 Pro XL verification
         env:
-          QA_SCREEN_SCOPE: references
+          QA_SCREEN_SCOPE: general
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -129,8 +129,7 @@ jobs:
           ls dist/*.apk >/dev/null 2>&1 || { echo "Nessun APK"; exit 1; }
           find dist -type f -size 0 -delete
           TAG="preview-v1.0.$APK_CODE-redesign"
-          gh release delete "$TAG" -y --cleanup-tag 2>/dev/null || true
-          gh release create "$TAG" dist/* --target "$GITHUB_SHA" --prerelease --title "Jarvis Food v1.0.$APK_CODE — anteprima interfaccia 5 novembre" --notes 'Anteprima delle modifiche grafiche del 5 novembre 2026.'
+          gh release create "$TAG" dist/* --target "$GITHUB_SHA" --prerelease --title "Jarvis Food v1.0.$APK_CODE — interfaccia e verifiche dei comandi" --notes 'Correzioni grafiche e verifiche Android dei flussi principali.'
       - name: Save APK and complete QA evidence
         if: always()
         uses: actions/upload-artifact@v4

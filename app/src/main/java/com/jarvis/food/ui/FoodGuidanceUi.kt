@@ -1,9 +1,11 @@
 package com.jarvis.food.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -199,23 +201,27 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     val shown=all.take(3)
     var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
     var full by remember { mutableStateOf(false) }
-    // Le righe visibili condividono la stessa dimensione del testo.
-    val tipScale = remember(personal, general) { androidx.compose.runtime.mutableFloatStateOf(1f) }
     val uri=LocalUriHandler.current
     ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 24.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
         ReferenceInsightBody(TodayArt.Calendar) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text("Per te oggi", style = T.Title.copy(fontSize = 19.sp, lineHeight = 24.sp, color = RD.Ink), modifier = Modifier.weight(1f))
-                Row(Modifier.heightIn(min = 48.dp).testTag("daily-tips-all").clip(RoundedCornerShape(10.dp))
-                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }.padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 15.sp, color = RD.Grey)); GapW(4.dp)
-                    AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
+                AIcon(RIc.Leaf, RD.OrangeText, 19.dp)
+                GapW(6.dp)
+                Text("Per te oggi", style = T.Title.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink), modifier = Modifier.weight(1f))
+                Box(Modifier.heightIn(min = 48.dp).testTag("daily-tips-all")
+                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }, contentAlignment = Alignment.Center) {
+                    Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 13.sp, color = Color.White))
+                        GapW(3.dp)
+                        AIcon(RIc.Right, Color.White, 13.dp, 2.4f)
+                    }
                 }
             }
             Text(if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno", style = T.Body.copy(fontSize = 15.sp, lineHeight = 20.sp, color = RD.Grey))
             shown.forEach { tip ->
-                GapH(8.dp)
-                TipRow(tip, tipScale) { selected = tip }
+                GapH(5.dp)
+                TipRow(tip) { selected = tip }
             }
         }
     }
@@ -236,14 +242,14 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 }
 
 @Composable
-private fun TipRow(tip: DailyFoodTips.Tip, scale: androidx.compose.runtime.MutableFloatState, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().heightIn(min = 50.dp).testTag("daily-food-tip-${tip.id}").clip(RoundedCornerShape(14.dp))
-        .background(Color(0xFFEEF2F8))
+private fun TipRow(tip: DailyFoodTips.Tip, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(10.dp)
+    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
+        .background(InsightTile).border(1.dp, RD.GreyLine, shape)
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         TipIcon(tip.id)
         GapW(12.dp)
-        // Una sola riga per tutte le idee: righe della stessa altezza, come nel riferimento.
         Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = 15.sp, lineHeight = 20.sp), modifier = Modifier.weight(1f))
         GapW(4.dp)
         AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
@@ -256,7 +262,6 @@ private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context
     var days by remember { mutableIntStateOf(7) }
     val context = androidx.compose.ui.platform.LocalContext.current
     val tips = remember(days, s.diary, s.water, review) { DietCoach.analyze(s, date, days, ctx, if (days == 7) review else null) }
-    val tipScale = remember(tips) { androidx.compose.runtime.mutableFloatStateOf(1f) }
     val scope = rememberCoroutineScope()
     var ai by remember(days) { mutableStateOf(DietCoachAi.cached(date, days)) }
     var busy by remember(days) { mutableStateOf(false) }
@@ -276,7 +281,7 @@ private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context
                 }
                 GapH(12.dp)
                 if (tips.isEmpty()) Text(if (s.diary.isEmpty()) "Registra i pasti per ricevere consigli personali." else "Nessuna abitudine da correggere ${DietCoach.windowLabel(days)}: continua così.", style = T.Body)
-                tips.forEach { tip -> TipRow(tip, tipScale) { onOpen(tip) }; GapH(8.dp) }
+                tips.forEach { tip -> TipRow(tip) { onOpen(tip) }; GapH(8.dp) }
                 GapH(8.dp)
                 if (ready) {
                     RefPrimaryButton(if (busy) "Jarvis sta analizzando…" else "Analisi di Jarvis AI", Modifier.fillMaxWidth(), icon = Ic.Spark, tag = "diet-coach-ai", enabled = !busy && s.diary.isNotEmpty()) {
