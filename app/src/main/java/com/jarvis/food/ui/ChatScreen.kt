@@ -195,7 +195,7 @@ private fun ChatDaySeparator(day: LocalDate) {
 @Composable
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = ready && input.isNotBlank() && !busy
-    val shape = RoundedCornerShape(if (active) 30.dp else 18.dp)
+    val shape = RoundedCornerShape(30.dp)
     Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
@@ -204,16 +204,12 @@ private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolea
             placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = if (active) T.Read.copy(color = C.Muted) else T.Muted, maxLines = 1) },
             textStyle = T.Read, shape = shape, maxLines = 4,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send), keyboardActions = KeyboardActions(onSend = { onSend() }),
-            trailingIcon = if (active) ({ Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, 48.dp, onSend, onStop) } }) else null,
+            trailingIcon = { Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, 48.dp, onSend, onStop) } },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = C.Navy, unfocusedBorderColor = C.Line, cursorColor = C.Accent,
                 focusedContainerColor = C.Surface, unfocusedContainerColor = C.Surface, disabledContainerColor = C.SurfaceAlt, disabledBorderColor = C.Line
             )
         )
-        if (!active) {
-            Spacer(Modifier.size(8.dp))
-            ChatSendControl(canSend, busy, 50.dp, onSend, onStop)
-        }
     }
 }
 

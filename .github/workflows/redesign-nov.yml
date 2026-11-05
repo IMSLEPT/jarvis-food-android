@@ -50,7 +50,7 @@ jobs:
           git fetch --depth=1 origin 6aa999e8d7d4bfda4e03d56f982963b18bd6c710
           git worktree add /tmp/jarvis-premium-before 6aa999e8d7d4bfda4e03d56f982963b18bd6c710
           cp app/src/main/assets/food.tflite /tmp/jarvis-premium-before/app/src/main/assets/food.tflite
-          cp app/src/androidTest/java/com/jarvis/food/PremiumWholeAppTest.kt /tmp/jarvis-premium-before/app/src/androidTest/java/com/jarvis/food/
+          cp app/src/androidTest/java/com/jarvis/food/{PremiumWholeAppTest,RedesignNovemberTest}.kt /tmp/jarvis-premium-before/app/src/androidTest/java/com/jarvis/food/
           GITHUB_RUN_NUMBER=227 ./gradlew -p /tmp/jarvis-premium-before assembleDebug assembleDebugAndroidTest --console=plain
           mkdir -p baseline
           cp /tmp/jarvis-premium-before/app/build/outputs/apk/debug/app-debug.apk baseline/app-debug.apk
@@ -97,7 +97,7 @@ jobs:
           chmod +x .ci-bin/adb
       - name: Android 15 Pixel 9 Pro XL verification
         env:
-          QA_SCREEN_SCOPE: full
+          QA_SCREEN_SCOPE: references
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35

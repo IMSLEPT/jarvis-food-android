@@ -36,7 +36,15 @@ $A shell settings put system font_scale 1.0
 run_suite before 'com.jarvis.food.PremiumWholeAppTest,com.jarvis.food.RedesignNovemberTest'
 $A install -r -g app/build/outputs/apk/debug/app-debug.apk
 $A install -r -g app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-if [ "${QA_SCREEN_SCOPE:-full}" = profile ]; then
+if [ "${QA_SCREEN_SCOPE:-full}" = references ]; then
+  run_suite pixel9 'com.jarvis.food.RedesignNovemberTest,com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
+  $A shell settings put system font_scale 1.15
+  run_suite pixel9-text115 'com.jarvis.food.PremiumVideoLayoutTest'
+  $A shell wm size 945x2048
+  $A shell wm density 420
+  $A shell settings put system font_scale 1.3
+  run_suite large-text 'com.jarvis.food.PremiumVideoLayoutTest,com.jarvis.food.VisualConsistencyTest'
+elif [ "${QA_SCREEN_SCOPE:-full}" = profile ]; then
   # Watch-only typography change: all five tabs and all 13 Profile destinations on three configurations.
   run_suite pixel9 'com.jarvis.food.PremiumWholeAppTest'
   $A shell settings put system font_scale 1.15

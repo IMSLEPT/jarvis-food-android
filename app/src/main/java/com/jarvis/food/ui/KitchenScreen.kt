@@ -173,7 +173,7 @@ private fun CookTodayBlock(s: AppState) {
         val bs = RoundedCornerShape(28.dp)
         val enabled = !busy && s.pantry.any { it.foodId != null }
         Row(Modifier.fillMaxWidth().heightIn(min = 50.dp).clip(bs)
-            .background(RD.OrangeBrush).clickable(enabled = enabled, role = Role.Button) {
+            .background(if (enabled) RD.OrangeBrush else RD.PeachBrush).clickable(enabled = enabled, role = Role.Button) {
             if (s.ai.apiKey.isBlank()) { Nav.go(Screen.AiSettings); return@clickable }
             busy = true
             scope.launch {
@@ -183,11 +183,12 @@ private fun CookTodayBlock(s: AppState) {
                 busy = false
             }
         }.padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            AIcon(Ic.Spark, Color.White, 22.dp, 2f)
+            val actionInk = if (enabled) Color.White else C.AccentDeep
+            AIcon(Ic.Spark, actionInk, 22.dp, 2f)
             GapW(10.dp)
-            Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = Color.White),
+            Text(if (busy) "Sto pensando…" else "Ricetta nuova con l'AI", style = T.BtnM.copy(color = actionInk),
                 modifier = Modifier.weight(1f))
-            AIcon(Ic.Right, Color.White, 16.dp)
+            AIcon(Ic.Right, actionInk, 16.dp)
         }
         if (!enabled && !busy) Text("Aggiungi alla dispensa un ingrediente riconosciuto per creare una ricetta.", style = T.Small, modifier = Modifier.padding(top = 8.dp))
     }

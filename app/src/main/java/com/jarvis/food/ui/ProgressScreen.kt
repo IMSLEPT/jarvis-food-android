@@ -462,11 +462,11 @@ private fun ProgressCardHeading(title: String, icon: String, tint: Color, soft: 
 
 @Composable
 private fun ProgressNote(text: String, icon: String, tint: Color, background: Color, modifier: Modifier = Modifier) {
-    Row(modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(background)
+    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(background)
         .padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(icon, tint, 17.dp)
         GapW(8.dp)
-        Text(text, style = T.Small.copy(color = tint), modifier = Modifier.weight(1f))
+        Text(text, style = T.Small.copy(color = tint), modifier = modifier.weight(1f))
     }
 }
 
