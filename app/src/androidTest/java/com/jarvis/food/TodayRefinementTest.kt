@@ -114,11 +114,15 @@ class TodayRefinementTest {
         ActivityScenario.launch(MainActivity::class.java).use {
             compose.onNodeWithText("Colazione").performScrollTo().performClick()
             compose.onNodeWithText("Fiocchi di avena").performScrollTo().assertIsDisplayed()
+            val toolbar = compose.onNodeWithTag("diary-actions-0").performScrollTo().assertIsDisplayed()
+                .fetchSemanticsNode().boundsInRoot
             val actions = listOf("Foto AI", "Codice a barre", "Altre azioni").map { label ->
-                compose.onNode(hasText(label) and hasClickAction()).performScrollTo().assertIsDisplayed()
+                compose.onNode(hasText(label) and hasClickAction()).assertIsDisplayed()
                     .assertHeightIsAtLeast(48.dp).fetchSemanticsNode().boundsInRoot
             }
-            assertTrue(actions.zipWithNext().all { (left, right) -> left.right <= right.left + 1f && kotlin.math.abs(left.top - right.top) <= 1f })
+            assertTrue("Diary actions must share one row: toolbar=$toolbar, buttons=$actions",
+                actions.all { it.left >= toolbar.left - 1f && it.right <= toolbar.right + 1f && kotlin.math.abs(it.top - toolbar.top) <= 1f } &&
+                    actions.zipWithNext().all { (left, right) -> left.right <= right.left + 1f })
             shot("diario-aperto")
             compose.onNodeWithText("Altre azioni").performClick()
             compose.onNodeWithText("Copia su domani").assertIsDisplayed()

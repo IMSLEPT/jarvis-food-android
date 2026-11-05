@@ -69,7 +69,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.AppState
@@ -413,7 +412,8 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                 }
             }
             var moreOpen by remember { mutableStateOf(false) }
-            Row(Modifier.padding(top = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(Modifier.padding(top = 8.dp).fillMaxWidth().testTag("diary-actions-$meal"),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 MealAction("Foto AI", Ic.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, meal)) }
                 MealAction("Codice a barre", RIc.Barcode, Modifier.weight(1f).testTag("meal-barcode-$meal")) {
                     Nav.go(Screen.AddFood(date, meal, scanOnOpen = true))
