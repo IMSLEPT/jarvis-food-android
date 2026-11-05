@@ -1,0 +1,83 @@
+name: Capture vitamin and calorie comparisons
+on:
+  push:
+    branches: [qa/redesign-approved-2026-11-05]
+    paths: [.github/workflows/capture-reference-details.yml]
+permissions:
+  contents: write
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build both exact sources for Android instrumentation
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/original
+          gh release download v1.0.220 -p '*.apk' -D evidence/original
+          unzip -p evidence/original/*.apk assets/food.tflite > evidence/food.tflite
+          for pair in before:6aa999e8d7d4bfda4e03d56f982963b18bd6c710 after:e01963dcd183546d4b5dd3733708ac3fe48478be; do
+            side=${pair%%:*}
+            sha=${pair#*:}
+            git fetch --depth=1 origin "$sha"
+            git worktree add "/tmp/jarvis-detail-$side" "$sha"
+            root="/tmp/jarvis-detail-$side"
+            cp evidence/food.tflite "$root/app/src/main/assets/"
+            cp reports/redesign-2026-11-05/ReferenceDetailScreenshots.kt "$root/app/src/androidTest/java/com/jarvis/food/"
+            ./gradlew -p "$root" assembleDebug assembleDebugAndroidTest --console=plain
+          done
+      - name: Enable KVM
+        run: |
+          ./gradlew --stop
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Capture both versions at Pixel 9 Pro XL dimensions
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7_pro
+          ram-size: 4096M
+          heap-size: 512M
+          disk-size: 4096M
+          emulator-boot-timeout: 300
+          disable-animations: true
+          emulator-options: -no-window -no-snapshot -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash reports/redesign-2026-11-05/capture-details.sh
+      - name: Replace the two pages with the verified screen captures
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 -m pip install Pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+          directory = Path('reports/redesign-2026-11-05')
+          font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 17)
+          for name in ('04-vitamine', '24c-progressi-calorie'):
+              page = Image.new('RGB', (908, 1050), '#edf2f8')
+              draw = ImageDraw.Draw(page)
+              for folder, label, x in [('before', 'Prima · v1.0.227', 14), ('after', 'Dopo · v1.0.228', 460)]:
+                  with Image.open(Path('evidence') / folder / f'{name}.png') as source:
+                      source.thumbnail((434, 980), Image.Resampling.LANCZOS)
+                      draw.text((x, 13), label, font=font, fill='#0a1f4e')
+                      page.paste(source, (x, 42))
+              page.save(directory / f'{name}.jpg', quality=87, optimize=True)
+          pages = [Image.open(p) for p in sorted(directory.glob('*.jpg'))]
+          pages[0].save(directory / 'JarvisFood-Prima-Dopo.pdf', save_all=True, append_images=pages[1:], resolution=110)
+          PY
+          gh release upload preview-v1.0.228-redesign reports/redesign-2026-11-05/JarvisFood-Prima-Dopo.pdf --clobber
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --force reports/redesign-2026-11-05/*.jpg reports/redesign-2026-11-05/JarvisFood-Prima-Dopo.pdf
+          git commit -m 'Capture the vitamin panel and calorie plot on both Android versions'
+          git push origin HEAD
