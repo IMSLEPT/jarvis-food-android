@@ -71,6 +71,15 @@ class TodayDashboardTest {
         prepare()
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             verifyValues()
+            compose.onNodeWithTag("today-macros").performScrollTo()
+            for (label in listOf("Proteine", "Carboidrati", "Grassi")) {
+                val ring = compose.onNodeWithTag("macro-ring-$label", true).assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+                val grams = compose.onNodeWithTag("macro-value-$label", true).assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+                val badge = compose.onNodeWithTag("macro-percent-$label", true).assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+                assertTrue("Macro icon must sit to the left of the grams for $label", ring.right <= grams.left + 1f)
+                assertTrue("Macro percentage must sit below the grams for $label", badge.top >= grams.bottom - 1f)
+            }
+            shot("macronutrienti")
             ui { Store.addEntry(day, 0, Db.db.food("pasta")!!.toFood(), 85.0) }
             verifyValues()
             ui { Store.update { it.copy(goals = it.goals.copy(kcal = 2350)) }; Store.setSteps(day, 2000) }

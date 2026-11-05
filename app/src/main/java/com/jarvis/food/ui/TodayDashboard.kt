@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.data.AppState
@@ -253,50 +252,54 @@ private fun DashboardDivider(height: androidx.compose.ui.unit.Dp = 54.dp, color:
 
 @Composable
 internal fun TodayMacroCard(protein: Double, proteinGoal: Double, carbs: Double, carbsGoal: Double, fat: Double, fatGoal: Double) {
-    ACard(Modifier.fillMaxWidth().testTag("today-macros"), radius = 22.dp, padding = 5.dp, elevation = 4.dp) {
+    ACard(Modifier.fillMaxWidth().testTag("today-macros"), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val stacked = maxWidth / LocalDensity.current.fontScale < 265.dp
-            if (stacked) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                MacroDial("Proteine", protein, proteinGoal, Color(0xFFE94378), Color(0xFFFBE0E8), DashboardIcon.Muscle, Modifier.fillMaxWidth(), true)
-                MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFF479CEB), Color(0xFFDDEFFC), DashboardIcon.Wheat, Modifier.fillMaxWidth(), true)
-                MacroDial("Grassi", fat, fatGoal, Color(0xFFFF980A), Color(0xFFFFE8CA), Ic.Drop, Modifier.fillMaxWidth(), true)
+            val stacked = maxWidth / LocalDensity.current.fontScale < 300.dp
+            val ringSize = if (stacked || maxWidth >= 385.dp) 38.dp else 32.dp
+            if (stacked) Column {
+                MacroDial("Proteine", protein, proteinGoal, C.Protein, A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, ringSize, Modifier.fillMaxWidth())
+                MacroDial("Carboidrati", carbs, carbsGoal, C.Carbs, A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, ringSize, Modifier.fillMaxWidth())
+                MacroDial("Grassi", fat, fatGoal, C.Fat, A.FatSoft, A.FatInk, Ic.Drop, ringSize, Modifier.fillMaxWidth())
             } else Row(verticalAlignment = Alignment.CenterVertically) {
-                MacroDial("Proteine", protein, proteinGoal, Color(0xFFE94378), Color(0xFFFBE0E8), DashboardIcon.Muscle, Modifier.weight(1f))
-                DashboardDivider()
-                MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFF479CEB), Color(0xFFDDEFFC), DashboardIcon.Wheat, Modifier.weight(1f))
-                DashboardDivider()
-                MacroDial("Grassi", fat, fatGoal, Color(0xFFFF980A), Color(0xFFFFE8CA), Ic.Drop, Modifier.weight(1f))
+                MacroDial("Proteine", protein, proteinGoal, C.Protein, A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, ringSize, Modifier.weight(1f))
+                DashboardDivider(50.dp)
+                MacroDial("Carboidrati", carbs, carbsGoal, C.Carbs, A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, ringSize, Modifier.weight(1f))
+                DashboardDivider(50.dp)
+                MacroDial("Grassi", fat, fatGoal, C.Fat, A.FatSoft, A.FatInk, Ic.Drop, ringSize, Modifier.weight(1f))
             }
         }
     }
 }
 
 @Composable
-private fun MacroDial(label: String, value: Double, goal: Double, color: Color, soft: Color, icon: String, modifier: Modifier, wide: Boolean = false) {
+private fun MacroDial(label: String, value: Double, goal: Double, color: Color, soft: Color, ink: Color, icon: String,
+    ringSize: androidx.compose.ui.unit.Dp, modifier: Modifier) {
     val fraction = TodayProgress.ratio(value, goal).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(600), label = "macro-$label")
-    val ring: @Composable () -> Unit = {
-        Box(Modifier.size(44.dp).testTag("macro-ring-$label").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
-            Canvas(Modifier.fillMaxSize().padding(2.dp)) {
-                val stroke = 4.dp.toPx(); val inset = stroke / 2; val sz = Size(size.width - stroke, size.height - stroke)
-                drawArc(soft, -90f, 360f, false, Offset(inset, inset), sz, style = Stroke(stroke))
-                if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
+    Row(modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 5.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(ringSize).testTag("macro-ring-$label").semantics {
+            progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f)
+        }, contentAlignment = Alignment.Center) {
+            Canvas(Modifier.fillMaxSize().padding(1.dp)) {
+                val stroke = 3.dp.toPx()
+                val inset = stroke / 2
+                val bounds = Size(size.width - stroke, size.height - stroke)
+                drawArc(soft, -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
+                if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), bounds,
+                    style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            AIcon(icon, color, 25.dp, fill = true)
+            AIcon(icon, color, ringSize * .62f, fill = true)
         }
-    }
-    val name: @Composable () -> Unit = { Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp)) }
-    val grams: @Composable () -> Unit = { Text("${value.r0()} g / ${goal.r0()} g", Modifier.testTag("macro-value-$label"), style = T.Label.copy(fontSize = 12.sp, lineHeight = 18.sp), textAlign = TextAlign.Center) }
-    val percent: @Composable () -> Unit = {
-        Text(if (goal > 0) "${TodayProgress.percent(value, goal)}%" else "—", Modifier.testTag("macro-percent-$label"),
-            style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp, color = androidx.compose.ui.graphics.lerp(color, Color.Black, 0.3f)))
-    }
-    val control = modifier.clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 8.dp, vertical = 10.dp)
-    if (wide) Row(control, verticalAlignment = Alignment.CenterVertically) {
-        ring(); GapW(12.dp)
-        Column(Modifier.weight(1f)) { name(); grams() }
-        GapW(8.dp); percent()
-    } else Column(control, horizontalAlignment = Alignment.CenterHorizontally) {
-        name(); GapH(6.dp); ring(); GapH(6.dp); grams(); percent()
+        GapW(6.dp)
+        Column(Modifier.weight(1f)) {
+            Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink))
+            Text("${value.r0()} g / ${goal.r0()} g", Modifier.testTag("macro-value-$label"),
+                style = T.Body.copy(fontSize = 11.sp, lineHeight = 15.sp, color = RD.Ink))
+            GapH(3.dp)
+            Text(if (goal > 0) "${TodayProgress.percent(value, goal)}%" else "—",
+                Modifier.testTag("macro-percent-$label").clip(CircleShape).background(soft).padding(horizontal = 10.dp, vertical = 2.dp),
+                style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = ink))
+        }
     }
 }
