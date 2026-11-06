@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -113,16 +115,28 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
     valueModifier: Modifier = Modifier, barModifier: Modifier = Modifier, onClick: () -> Unit) {
     BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 40.dp)
         .clickable(role = Role.Button, onClick = onClick).padding(vertical = 3.dp), contentAlignment = Alignment.CenterStart) {
-        val inline = maxWidth / LocalDensity.current.fontScale >= 203.dp
+        val style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink)
+        val density = LocalDensity.current
+        val measurer = rememberTextMeasurer()
+        val percentage = value.endsWith('%') || value == "—"
+        val labels = if (percentage) listOf("Vitamina B12") else listOf("Calorie attive", "Allenamento")
+        val labelWidth = with(density) {
+            labels.maxOf { measurer.measure(it, style).size.width }.toDp() + 5.dp
+        }.coerceAtLeast(88.dp)
+        val valueWidth = with(density) {
+            val example = if (percentage) "100%" else "9999 kcal"
+            maxOf(measurer.measure(example, style).size.width, measurer.measure(value, style).size.width).toDp() + 2.dp
+        }
+        val inline = maxWidth >= labelWidth + valueWidth + 54.dp
         Column(Modifier.fillMaxWidth()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink),
-                    modifier = if (inline) Modifier.width(88.dp) else Modifier.weight(1f))
+                Text(label, style = style, modifier = if (inline) Modifier.width(labelWidth) else Modifier.weight(1f))
                 if (inline) {
                     ProgressLine(progress ?: 0f, RD.Navy, barModifier.weight(1f), height = 6.dp)
                     GapW(6.dp)
                 }
-                Text(value, modifier = valueModifier, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink))
+                Text(value, modifier = valueModifier.then(if (inline) Modifier.width(valueWidth) else Modifier),
+                    style = style, textAlign = TextAlign.End)
                 GapW(3.dp)
                 AIcon(RIc.Right, RD.Ink, 12.dp, 2.4f)
             }
