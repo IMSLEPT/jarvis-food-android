@@ -424,22 +424,22 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
             .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             // Riferimento: titolo e conteggio su una riga, due schede identiche affiancate.
-            PeachTile(PremiumScale.iconTile, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, PremiumScale.icon, 2.4f) }
-            GapW(6.dp); OrangeDivider(32.dp); GapW(6.dp)
+            PeachTile(34.dp, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, PremiumScale.icon, 2.4f) }
+            GapW(5.dp); OrangeDivider(30.dp); GapW(5.dp)
             Column(Modifier.weight(1f)) {
                 Text(label, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
                 Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Body.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine, color = RD.Grey))
             }
             GapW(2.dp)
-            AIcon(RIc.Right, RD.Ink, 18.dp, 2.8f)
+            AIcon(RIc.Right, RD.Ink, 16.dp, 2.8f)
         }
     }
     if (large) Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Shortcut("Preferite", favourites, RIc.Heart, Modifier.fillMaxWidth(), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
         Shortcut("Le mie ricette", personal, RIc.Bookmark, Modifier.fillMaxWidth(), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
-    } else Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        Shortcut("Preferite", favourites, RIc.Heart, Modifier.weight(1f), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
-        Shortcut("Le mie ricette", personal, RIc.Bookmark, Modifier.weight(1f), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
+    } else Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Shortcut("Preferite", favourites, RIc.Heart, Modifier.weight(1f).fillMaxHeight(), "kitchen-favourites") { Nav.go(Screen.RecipeList(RecipeFilter(onlyFavs = true), "Ricette preferite")) }
+        Shortcut("Le mie ricette", personal, RIc.Bookmark, Modifier.weight(1f).fillMaxHeight(), "kitchen-my-recipes") { Nav.go(Screen.RecipeList(RecipeFilter(), "Le mie ricette", mine = true)) }
     }
 }
 

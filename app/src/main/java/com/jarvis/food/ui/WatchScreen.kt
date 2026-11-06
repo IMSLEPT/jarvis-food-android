@@ -302,7 +302,7 @@ fun WatchScreen() {
                     WTile("Sonno", today.sleepMinutes?.let { "${it / 60}h ${it % 60}m" } ?: "—", "", WIc.Moon, A.CarbSoft, A.CarbInk),
                     WTile("Kcal totali", today.totalKcal?.let { kcalFmt(it) } ?: "—", "kcal", Ic.Bolt, A.GreenSoft, A.GreenInk)
                 )
-                BoxWithConstraints(Modifier.fillMaxWidth()) {
+                BoxWithConstraints(Modifier.fillMaxWidth().testTag("watch-data-tiles")) {
                     val columns = if (maxWidth / LocalDensity.current.fontScale < 245.dp) 1 else 2
                     Column(verticalArrangement = Arrangement.spacedBy(PremiumScale.gap)) {
                         tiles.chunked(columns).forEach { pair ->
