@@ -14,10 +14,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release download preview-v1.0.231-redesign --repo IMSLEPT/jarvis-food-android -p 'JarvisFood-v1.0.231.apk' -D baseline
+      - name: Wait for the signed build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: timeout 420 gh run watch 42193663839 --exit-status --interval 10 --repo IMSLEPT/jarvis-food-android
       - uses: actions/download-artifact@v4
         with:
           name: JarvisFood-v1.0.232-signed
-          run-id: '42192875951'
+          run-id: '42193663839'
           github-token: ${{ github.token }}
           path: candidate
       - name: Enable KVM
