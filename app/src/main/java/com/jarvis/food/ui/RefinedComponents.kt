@@ -100,6 +100,7 @@ private fun HeaderGreeting(text: String) {
 fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     if (meals.isEmpty()) return
     var selectedSlot by androidx.compose.runtime.saveable.rememberSaveable(date.toString()) { androidx.compose.runtime.mutableStateOf(meals.first().slotIndex) }
+    val activeSlot = selectedSlot.takeIf { index -> meals.any { it.slotIndex == index } } ?: meals.first().slotIndex
     val scope = androidx.compose.runtime.rememberCoroutineScope()
     val requesters = androidx.compose.runtime.remember(date, meals.map { it.slotIndex }) {
         meals.associate { it.slotIndex to androidx.compose.foundation.relocation.BringIntoViewRequester() }
@@ -108,22 +109,22 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     GapH(14.dp)
     Row(Modifier.fillMaxWidth().testTag("plan-slot-strip").horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         meals.forEach { meal ->
-            val selected = meal.slotIndex == selectedSlot
+            val selected = meal.slotIndex == activeSlot
             // Immagine 4: pillola con tessera pesca, separatore arancio, nome e freccia nel cerchio.
             val shape = RoundedCornerShape(18.dp)
             Row(Modifier.heightIn(min = 56.dp).testTag("plan-slot-${meal.diaryMeal}")
                 .refShadow(shape, if (selected) 5.dp else 2.dp).clip(shape)
-                .background(if (selected) RD.NavyBrush else androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color.White, Color.White)))
-                .border(1.dp, if (selected) Color.White else Color(0xFFD5D9E3), shape)
+                .background(RD.NavyBrush)
+                .border(if (selected) 2.dp else 1.dp, if (selected) DashboardOrange else Color(0xFF244576), shape)
                 .selectable(selected, role = Role.Tab, onClick = {
                     selectedSlot = meal.slotIndex
                     scope.launch { requesters[meal.slotIndex]?.bringIntoView() }
                 }).padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                 PeachTile(40.dp, radius = 12.dp, brush = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0xFFFDEBDC), Color(0xFFFFF5EE)))) { MealDuoIcon(meal.diaryMeal, 26.dp) }
                 GapW(12.dp); OrangeDivider(32.dp); GapW(12.dp)
-                Text(meal.slotName, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = if (selected) Color.White else RD.Ink))
+                Text(meal.slotName, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = Color.White))
                 GapW(12.dp)
-                ChevronCircle(34.dp, if (selected) Color(0xFF1E4A8C) else RD.GreyFill, if (selected) Color.White else RD.Ink)
+                ChevronCircle(34.dp, if (selected) Color(0xFF245698) else Color(0xFF173969), Color.White)
             }
         }
     }

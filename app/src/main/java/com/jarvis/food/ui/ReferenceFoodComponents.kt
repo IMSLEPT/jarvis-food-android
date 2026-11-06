@@ -16,66 +16,94 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jarvis.food.R
+import kotlin.math.roundToInt
 
 internal val InsightTile = Color(0xFFEEF2F8)
 
 @Composable
-internal fun ReferenceInsightBody(art: TodayArt, content: @Composable ColumnScope.() -> Unit) {
+internal fun ReferenceInsightCard(
+    art: TodayArt, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit
+) {
     val resource = when (art) {
         TodayArt.Vitamins -> R.drawable.approved_vitamins
         TodayArt.Calendar -> R.drawable.approved_daily_tips
         TodayArt.Activity -> R.drawable.approved_activity
-        else -> null
+        else -> error("Unsupported insight artwork: $art")
     }
-    BoxWithConstraints(Modifier.fillMaxWidth()) {
-        val stacked = maxWidth / LocalDensity.current.fontScale < 258.dp
-        val artwork: @Composable () -> Unit = {
-            val illustration = Modifier.size(width = if (stacked) 60.dp else 90.dp, height = if (stacked) 66.dp else 112.dp)
-                .testTag("insight-icon-$art")
-            if (resource != null) Image(painterResource(resource), null, illustration, contentScale = ContentScale.Fit)
-            else TodayArtwork(art, illustration)
-        }
-        if (stacked) {
-            Column(Modifier.fillMaxWidth()) {
-                artwork()
-                GapH(8.dp)
-                Column(Modifier.fillMaxWidth(), content = content)
+    val bitmap = ImageBitmap.imageResource(resource)
+    ACard(modifier.fillMaxWidth(), radius = 22.dp, padding = 0.dp, elevation = 4.dp,
+        glow = Color(0x2009194D), onClick = onClick) {
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val panelWidth = (maxWidth * (if (art == TodayArt.Calendar) .225f else .255f)).coerceAtMost(116.dp)
+            val naturalHeight = panelWidth * bitmap.height / bitmap.width
+            Box(Modifier.fillMaxWidth().heightIn(min = naturalHeight)) {
+                Canvas(Modifier.matchParentSize().testTag("insight-icon-$art")) {
+                    val width = panelWidth.roundToPx()
+                    val height = size.height.roundToInt()
+                    val edge = bitmap.height / 9
+                    val centre = bitmap.height - 2 * edge
+                    val middleHeight = (centre.toFloat() * width / bitmap.width).roundToInt()
+                    val topHeight = (height - middleHeight) / 2
+                    // Keep the illustration at its original aspect ratio. Only the ends of the panel
+                    // extend to match the space required by dynamic text and accessibility settings.
+                    drawImage(bitmap, srcSize = IntSize(bitmap.width, edge), dstSize = IntSize(width, topHeight))
+                    drawImage(bitmap, srcOffset = IntOffset(0, edge), srcSize = IntSize(bitmap.width, centre),
+                        dstOffset = IntOffset(0, topHeight), dstSize = IntSize(width, middleHeight))
+                    drawImage(bitmap, srcOffset = IntOffset(0, bitmap.height - edge), srcSize = IntSize(bitmap.width, edge),
+                        dstOffset = IntOffset(0, topHeight + middleHeight),
+                        dstSize = IntSize(width, height - topHeight - middleHeight))
+                }
+                Column(Modifier.fillMaxWidth().padding(start = panelWidth + 4.dp, end = 9.dp, top = 7.dp, bottom = 9.dp), content = content)
             }
-        } else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            artwork()
-            GapW(8.dp)
-            Column(Modifier.weight(1f), content = content)
         }
     }
 }
 
 @Composable
 internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: String, action: String, onAction: () -> Unit) {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                AIcon(icon, RD.OrangeText, 15.dp)
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val heading: @Composable (Modifier) -> Unit = { modifier ->
+            Row(modifier, verticalAlignment = Alignment.Top) {
+                AIcon(icon, RD.OrangeText, 17.dp)
                 GapW(4.dp)
-                Text(title, modifier = Modifier.weight(1f), style = T.Title2.copy(fontSize = 15.sp, lineHeight = 18.sp, color = RD.Ink))
+                Column {
+                    Text(title, style = T.Title2.copy(fontSize = 15.sp, lineHeight = 18.sp, color = RD.Ink))
+                    Text(subtitle, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
+                }
             }
-            Text(subtitle, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
         }
-        GapW(4.dp)
-        Box(Modifier.heightIn(min = 48.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
-            Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 7.dp, vertical = 5.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-                Text(action, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = Color.White))
-                GapW(3.dp)
-                AIcon(RIc.Right, Color.White, 11.dp, 2.4f)
+        val button: @Composable () -> Unit = {
+            Box(Modifier.heightIn(min = 42.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
+                Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(action, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = Color.White))
+                    GapW(3.dp)
+                    AIcon(RIc.Right, Color.White, 11.dp, 2.4f)
+                }
             }
+        }
+        if (maxWidth / LocalDensity.current.fontScale < 192.dp) {
+            Column {
+                heading(Modifier.fillMaxWidth())
+                Box(Modifier.align(Alignment.End)) { button() }
+            }
+        } else Row(verticalAlignment = Alignment.CenterVertically) {
+            heading(Modifier.weight(1f))
+            GapW(4.dp)
+            button()
         }
     }
 }
@@ -83,13 +111,13 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
 @Composable
 internal fun ReferenceMetric(label: String, value: String, progress: Float?, modifier: Modifier = Modifier,
     valueModifier: Modifier = Modifier, barModifier: Modifier = Modifier, onClick: () -> Unit) {
-    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 43.dp)
+    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 41.dp)
         .clickable(role = Role.Button, onClick = onClick).padding(vertical = 3.dp), contentAlignment = Alignment.CenterStart) {
         val inline = maxWidth / LocalDensity.current.fontScale >= 203.dp
         Column(Modifier.fillMaxWidth()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(label, style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink),
-                    modifier = if (inline) Modifier.width(94.dp) else Modifier.weight(1f))
+                    modifier = if (inline) Modifier.width(88.dp) else Modifier.weight(1f))
                 if (inline) {
                     ProgressLine(progress ?: 0f, RD.Navy, barModifier.weight(1f), height = 6.dp)
                     GapW(6.dp)

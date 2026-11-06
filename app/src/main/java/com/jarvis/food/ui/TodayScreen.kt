@@ -17,6 +17,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.ui.platform.LocalDensity
@@ -382,25 +384,26 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                 ) { Text("Nessun alimento registrato", style = T.Small.copy(fontSize = 13.sp)) }
             } else entries.forEachIndexed { index, en ->
                 val et = Nutrition.of(en.food, en.grams)
-                val itemShape = RoundedCornerShape(13.dp)
+                val itemShape = RoundedCornerShape(17.dp)
                 if (index > 0) Spacer(Modifier.height(8.dp))
                 Row(
                     Modifier.fillMaxWidth().testTag("diary-entry-${en.id}").clip(itemShape).background(Color.White)
-                        .border(1.dp, C.Line, itemShape).clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }
-                        .padding(start = 8.dp, end = 4.dp, top = 5.dp, bottom = 5.dp),
+                        .border(1.dp, RD.GreyLine, itemShape).clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }
+                        .height(IntrinsicSize.Min).padding(start = 11.dp, end = 4.dp, top = 7.dp, bottom = 7.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    OrangeDivider(27.dp)
-                    GapW(8.dp)
+                    Box(Modifier.padding(vertical = 5.dp).fillMaxHeight().width(2.dp).clip(CircleShape).background(RD.Orange))
+                    GapW(9.dp)
                     Column(Modifier.weight(1f).padding(end = 6.dp)) {
-                        Text(en.food.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp))
-                        GapH(2.dp)
+                        Text(en.food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 19.sp, color = RD.Ink))
+                        GapH(3.dp)
                         Text("${amountText(en.grams)} ${if (en.food.liquid) "ml" else "g"}" +
                             " · P ${et.protein.r0()} g · C ${et.carbs.r0()} g · G ${et.fat.r0()} g", style = T.Small)
                     }
-                    Column(Modifier.clip(RoundedCornerShape(9.dp)).background(InsightTile).padding(horizontal = 7.dp, vertical = 5.dp),
+                    Box(Modifier.padding(vertical = 5.dp).fillMaxHeight().width(1.dp).background(RD.GreyLine))
+                    Column(Modifier.widthIn(min = 42.dp).padding(horizontal = 5.dp, vertical = 4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 15.sp, lineHeight = 17.sp))
+                        Text(et.kcal.r0(), style = T.Title2.copy(fontSize = 17.sp, lineHeight = 19.sp, color = RD.Ink))
                         Text("kcal", style = T.Small.copy(fontSize = 11.sp, lineHeight = 13.sp))
                     }
                     Box(Modifier.size(48.dp).semantics { contentDescription = "Elimina ${en.food.name}" }
@@ -412,13 +415,13 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                 }
             }
             var moreOpen by remember { mutableStateOf(false) }
-            Row(Modifier.padding(top = 8.dp).fillMaxWidth().testTag("diary-actions-$meal"),
+            Row(Modifier.padding(top = 12.dp).fillMaxWidth().height(IntrinsicSize.Min).testTag("diary-actions-$meal"),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 MealAction("Foto AI", Ic.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, meal)) }
                 MealAction("Codice a barre", RIc.Barcode, Modifier.weight(1f).testTag("meal-barcode-$meal")) {
                     Nav.go(Screen.AddFood(date, meal, scanOnOpen = true))
                 }
-                Box(Modifier.weight(1f)) {
+                Box(Modifier.weight(1f).fillMaxHeight()) {
                     MealAction("Altre azioni", Ic.circ(12.0, 12.0, 9.0) + "M8 12h.1M12 12h.1M16 12h.1", Modifier.fillMaxWidth()) { moreOpen = true }
                     DropdownMenu(expanded = moreOpen, onDismissRequest = { moreOpen = false }) {
                         DropdownMenuItem(text = { Text("Copia da ieri") }, onClick = { moreOpen = false; Store.copyMeal(date.minusDays(1), meal, date, meal) })
@@ -434,12 +437,12 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
 @Composable
 private fun MealAction(label: String, icon: String, modifier: Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(13.dp)
-    Column(modifier.heightIn(min = 56.dp).clip(shape).background(Color.White).border(1.dp, RD.GreyLine, shape)
+    Column(modifier.fillMaxHeight().heightIn(min = 68.dp).clip(shape).background(Color.White).border(1.dp, RD.GreyLine, shape)
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
-        .padding(horizontal = 3.dp, vertical = 6.dp),
+        .padding(horizontal = 4.dp, vertical = 9.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        AIcon(icon, RD.OrangeText, 18.dp, 2f)
-        GapH(3.dp)
+        AIcon(icon, RD.OrangeText, 25.dp, 2f)
+        GapH(5.dp)
         Text(label, textAlign = TextAlign.Center, style = T.Chip.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink))
     }
 }
@@ -476,42 +479,63 @@ private fun FastingMini(s: AppState) {
 // ---------------------------------------------------------------- Acqua
 
 @Composable
-@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 private fun WaterCard(date: LocalDate, s: AppState) {
     val ml = s.water[date.toString()] ?: 0
     val goal = s.goals.waterMl.coerceAtLeast(1)
     val fill by animateFloatAsState((ml.toFloat() / goal).coerceIn(0f, 1f), tween(900), label = "water")
-    val shape = RoundedCornerShape(24.dp)
-    Row(
-        Modifier.fillMaxWidth().testTag("home-water").aShadow(shape, 4.dp, Color(0x2009194D)).clip(shape)
-            .background(C.Surface).border(1.dp, A.Hair, shape).padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TodayWaterBottle(fill, Modifier.size(width = if (LocalDensity.current.fontScale > 1.2f) 48.dp else 64.dp, height = 96.dp)
-            .testTag("water-bottle").semantics {
-                contentDescription = "$ml ml su $goal ml"
-                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
-            })
-        Spacer(Modifier.width(16.dp))
-        Column(Modifier.weight(1f)) {
-            Text("Acqua", style = T.Label.copy(color = C.Navy))
-            Text("${waterLitres(ml)} L", modifier = Modifier.testTag("water-amount"), style = T.Title.copy(fontSize = 32.sp, lineHeight = 38.sp, fontWeight = FontWeight.Bold))
-            Text("su ${waterLitres(goal)} L", style = T.Small)
-            Text("Bicchiere da ${s.glassMl} ml", style = T.Small)
-            androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.size(48.dp).testTag("water-minus").clip(CircleShape)
-                    .semantics { contentDescription = "Rimuovi un bicchiere" }
-                    .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, ((Store.current.water[date.toString()] ?: 0) - Store.current.glassMl).coerceAtLeast(0)) }, contentAlignment = Alignment.Center) {
-                    Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xFFF1F3F7)), contentAlignment = Alignment.Center) {
-                        AIcon(Ic.Minus, C.Muted.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.2f)
+    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = 24.dp, padding = 10.dp,
+        elevation = 4.dp, glow = Color(0x2009194D)) {
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val inline = maxWidth / LocalDensity.current.fontScale >= 292.dp
+            val controls: @Composable () -> Unit = {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Box(Modifier.size(48.dp).testTag("water-minus").clip(RoundedCornerShape(14.dp))
+                        .semantics { contentDescription = "Rimuovi un bicchiere" }
+                        .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) {
+                            val current = Store.current
+                            Store.setWater(date, ((current.water[date.toString()] ?: 0) - current.glassMl).coerceAtLeast(0))
+                        }, contentAlignment = Alignment.Center) {
+                        Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xFFF0F2F6)),
+                            contentAlignment = Alignment.Center) {
+                            AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.4f)
+                        }
+                    }
+                    Row(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(14.dp))
+                        .background(RD.NavyBrush).semantics { contentDescription = "Aggiungi un bicchiere" }
+                        .clickable(role = androidx.compose.ui.semantics.Role.Button) {
+                            val current = Store.current
+                            Store.setWater(date, (current.water[date.toString()] ?: 0) + current.glassMl)
+                        }.padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        AIcon(Ic.Plus, Color.White, 15.dp, 2.8f)
+                        GapW(4.dp)
+                        Text("Bicchiere", style = T.BtnS.copy(color = Color.White, fontSize = 12.sp))
                     }
                 }
-                Row(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(16.dp)).background(C.Navy)
-                    .semantics { contentDescription = "Aggiungi un bicchiere" }
-                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { Store.setWater(date, (Store.current.water[date.toString()] ?: 0) + Store.current.glassMl) }.padding(horizontal = 12.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    AIcon(Ic.Plus, Color.White, 16.dp, 2.8f)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Bicchiere", style = T.BtnS.copy(color = Color.White))
+            }
+            Column {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    TodayWaterBottle(fill, Modifier.size(if (inline) 74.dp else 80.dp)
+                        .testTag("water-bottle").semantics {
+                            contentDescription = "$ml ml su $goal ml"
+                            progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
+                        })
+                    GapW(6.dp)
+                    Box(Modifier.width(1.dp).height(68.dp).background(RD.GreyLine))
+                    GapW(9.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text("Acqua", style = T.Label.copy(color = RD.Ink))
+                        Text("${waterLitres(ml)} L", Modifier.testTag("water-amount"),
+                            style = T.Title.copy(color = RD.Ink, fontSize = 27.sp, lineHeight = 31.sp))
+                        Text("su ${waterLitres(goal)} L", style = T.Small)
+                        Text("Bicchiere da ${s.glassMl} ml", style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp))
+                    }
+                    if (inline) {
+                        GapW(3.dp)
+                        controls()
+                    }
+                }
+                if (!inline) Box(Modifier.fillMaxWidth().padding(top = 5.dp), contentAlignment = Alignment.CenterEnd) {
+                    controls()
                 }
             }
         }
@@ -540,47 +564,45 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
     var stepsText by remember(date) { mutableStateOf(if (steps > 0) steps.toString() else "") }
     val fr = (steps.toFloat() / goal).coerceIn(0f, 1f)
     val p by animateFloatAsState(fr, tween(1100), label = "steps")
-    ACard(Modifier.testTag("home-activity"), radius = 22.dp, padding = 8.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
-        Column {
-            ReferenceInsightBody(TodayArt.Activity) {
-                ReferenceInsightHeading("Attività", "${dayLabel(date)} · movimento giornaliero", DashboardIcon.Runner, "Andamento") {
-                    Nav.go(Screen.Trend("activity"))
-                }
-                val minutes = list.sumOf { it.minutes.toLong() } +
-                    (if (watch) h?.sessions?.sumOf { (it.end - it.start) / 60000 } ?: 0L else 0L)
-                ReferenceMetric("Passi", steps.thousands(), p, barModifier = Modifier.testTag("activity-progress").semantics {
-                    progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
-                    contentDescription = "${steps.thousands()} passi su ${goal.thousands()}"
-                }) { Nav.go(Screen.Trend("activity")) }
-                ReferenceMetric("Calorie attive", "${Store.burnedFor(s, date)} kcal", null) {
-                    Nav.go(Screen.Trend("activity", metric = 1))
-                }
-                ReferenceMetric("Allenamento", "$minutes min", null) {
-                    Nav.go(if (watch) Screen.Watch else Screen.Activity(date))
-                }
+    Column(Modifier.testTag("home-activity")) {
+        ReferenceInsightCard(TodayArt.Activity) {
+            ReferenceInsightHeading("Attività", "${dayLabel(date)} · movimento giornaliero", DashboardIcon.Runner, "Andamento") {
+                Nav.go(Screen.Trend("activity"))
             }
-            if (watch) h?.sessions?.take(2)?.forEach { w ->
-                ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
+            val minutes = list.sumOf { it.minutes.toLong() } +
+                (if (watch) h?.sessions?.sumOf { (it.end - it.start) / 60000 } ?: 0L else 0L)
+            ReferenceMetric("Passi", steps.thousands(), p, barModifier = Modifier.testTag("activity-progress").semantics {
+                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
+                contentDescription = "${steps.thousands()} passi su ${goal.thousands()}"
+            }) { Nav.go(Screen.Trend("activity")) }
+            ReferenceMetric("Calorie attive", "${Store.burnedFor(s, date)} kcal", null) {
+                Nav.go(Screen.Trend("activity", metric = 1))
             }
-            list.forEach { a -> ActivityRow(a.name, "${a.minutes} min · inserita a mano", a.kcal.toString(), onRemove = { Store.removeActivity(a.id) }) }
-            androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("Smartwatch", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Watch) }.padding(vertical = 12.dp))
-                if (!watch) {
-                    Text("Aggiungi attività", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Activity(date)) }.padding(vertical = 12.dp))
-                    Text(if (editSteps) "Chiudi" else "Modifica passi", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { editSteps = !editSteps }.padding(vertical = 12.dp))
-                }
+            ReferenceMetric("Allenamento", "$minutes min", null) {
+                Nav.go(if (watch) Screen.Watch else Screen.Activity(date))
             }
-            if (editSteps && !watch) {
-                Spacer(Modifier.height(10.dp))
-                Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    JField(stepsText, { stepsText = it.filter { c -> c.isDigit() }.take(6) }, "Passi di oggi", Modifier.fillMaxWidth(), number = true)
-                    PrimaryButton("Salva", Modifier.fillMaxWidth()) { Store.setSteps(date, stepsText.toIntOrNull() ?: 0); editSteps = false }
-                }
+        }
+        if (watch) h?.sessions?.take(2)?.forEach { w ->
+            ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
+        }
+        list.forEach { a -> ActivityRow(a.name, "${a.minutes} min · inserita a mano", a.kcal.toString(), onRemove = { Store.removeActivity(a.id) }) }
+        androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("Smartwatch", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Watch) }.padding(vertical = 12.dp))
+            if (!watch) {
+                Text("Aggiungi attività", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Activity(date)) }.padding(vertical = 12.dp))
+                Text(if (editSteps) "Chiudi" else "Modifica passi", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { editSteps = !editSteps }.padding(vertical = 12.dp))
             }
-            if (s.energy.mode == 0 && (list.isNotEmpty() || steps > 0)) {
-                Spacer(Modifier.height(8.dp))
-                Text("Con il livello di attività fisso, le attività non cambiano l'obiettivo (sono già considerate). Puoi cambiarlo in Profilo → Smartwatch e attività.", style = T.Small)
+        }
+        if (editSteps && !watch) {
+            Spacer(Modifier.height(10.dp))
+            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                JField(stepsText, { stepsText = it.filter { c -> c.isDigit() }.take(6) }, "Passi di oggi", Modifier.fillMaxWidth(), number = true)
+                PrimaryButton("Salva", Modifier.fillMaxWidth()) { Store.setSteps(date, stepsText.toIntOrNull() ?: 0); editSteps = false }
             }
+        }
+        if (s.energy.mode == 0 && (list.isNotEmpty() || steps > 0)) {
+            Spacer(Modifier.height(8.dp))
+            Text("Con il livello di attività fisso, le attività non cambiano l'obiettivo (sono già considerate). Puoi cambiarlo in Profilo → Smartwatch e attività.", style = T.Small)
         }
     }
 }
@@ -589,13 +611,13 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
 private fun ActivityRow(title: String, sub: String, kcal: String?, onRemove: (() -> Unit)? = null) {
     Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
-            Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp))
-            Text(sub, style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp))
+        Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp))
+        Text(sub, style = T.Small.copy(fontSize = 13.sp, lineHeight = 18.sp))
         }
         if (kcal != null) Text("$kcal kcal", style = T.Label.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = A.GreenInk), modifier = Modifier.padding(start = 8.dp))
         if (onRemove != null) Box(Modifier.size(48.dp).clip(CircleShape).semantics { contentDescription = "Elimina $title" }
-            .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onRemove), contentAlignment = Alignment.Center) {
-            AIcon("M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12", C.Muted, 20.dp)
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onRemove), contentAlignment = Alignment.Center) {
+        AIcon("M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12", C.Muted, 20.dp)
         }
     }
 }

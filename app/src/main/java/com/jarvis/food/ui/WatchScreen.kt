@@ -4,6 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.Role
+import kotlin.math.roundToInt
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,9 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -98,21 +102,17 @@ fun WatchScreen() {
     val connectionShape = RoundedCornerShape(22.dp)
 
     Column(Modifier.fillMaxSize().navigationBarsPadding()) {
-        Row(Modifier.fillMaxWidth().background(RD.NavyBrush).statusBarsPadding()
+        Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp))
+            .background(RD.NavyBrush).drawBehind {
+                drawCircle(Color(0x220E4AA0), size.width * .62f, Offset(size.width, -size.width * .18f))
+            }.statusBarsPadding()
             .padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             BackCircle { Nav.back() }
             GapW(12.dp)
             Text("Smartwatch e attività", style = T.Title.copy(fontSize = 21.sp, lineHeight = 27.sp, color = Color.White),
                 modifier = Modifier.weight(1f))
         }
-        Column(Modifier.weight(1f).testTag("watch-vertical-scroll").verticalScroll(rememberScrollState()).padding(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp)) {
-            if (s.trainingNutrition.active) {
-                JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
-                    Text("Obiettivi ON/OFF attivi", style = T.Title2)
-                    Text("Passi e attività vengono registrati. Il budget rimane quello ON/OFF che hai impostato.", style = T.Small)
-                }
-                GapH(12.dp)
-            }
+        Column(Modifier.weight(1f).testTag("watch-vertical-scroll").verticalScroll(rememberScrollState()).padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 28.dp)) {
             // Connessione
             Column(
                 Modifier.padding(top = 6.dp).fillMaxWidth().refShadow(connectionShape, 4.dp).clip(connectionShape)
@@ -133,15 +133,18 @@ fun WatchScreen() {
                                 style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = if (ok) Color(0xFF0F6B4D) else Color(0xFF8A5A00))
                             )
                         }
+                        Text(buildAnnotatedString {
+                            append("Ultimo aggiornamento: ")
+                            withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = RD.Ink)) {
+                                append(if (s.energy.lastSync > 0) fmtDayTime(s.energy.lastSync) else "mai")
+                            }
+                        }, style = T.Body.copy(fontSize = 12.sp, lineHeight = 16.sp, color = RD.Grey),
+                            modifier = Modifier.padding(top = 3.dp))
                     }
                 }
-                Text(buildAnnotatedString {
-                    append("Ultimo aggiornamento: ")
-                    withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = A.Ink)) { append(if (s.energy.lastSync > 0) fmtDayTime(s.energy.lastSync) else "mai") }
-                }, style = T.Body.copy(fontSize = 13.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 16.dp))
                 val btnShape = RoundedCornerShape(27.dp)
                 Row(
-                    Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = 54.dp).aShadow(btnShape, 8.dp, Color(0xB31D1B3A)).clip(btnShape).background(C.Navy)
+                    Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = 54.dp).clip(btnShape).background(RD.NavyBrush)
                         .clickable(enabled = !busy && status != 2) {
                             when {
                                 status == 1 -> runCatching { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.healthdata"))) }
@@ -158,40 +161,69 @@ fun WatchScreen() {
                     GapW(10.dp)
                     Text(
                         when { busy -> "Sincronizzo…"; status == 1 -> "Apri Play Store"; status != 0 -> "Non disponibile"; ok -> "Sincronizza ora"; else -> "Collega Health Connect" },
-                        style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color.White), maxLines = 1
+                        style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
                     )
                 }
                 if (ok) {
                     if (HealthSync.BACKGROUND !in granted) Text("Lettura in background non autorizzata: i dati si aggiornano quando apri l'app.", style = T.Small.copy(fontSize = 12.sp, color = A.Muted), modifier = Modifier.padding(top = 10.dp))
-                    Text("Gestisci permessi", style = T.Link, modifier = Modifier.padding(top = 4.dp).clickable { permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND) }.padding(vertical = 8.dp))
+                    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable(role = Role.Button) {
+                        permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND)
+                    }, verticalAlignment = Alignment.CenterVertically) {
+                        Text("Gestisci permessi", style = T.Link, modifier = Modifier.weight(1f))
+                        AIcon(Ic.Right, RD.OrangeText, 16.dp, 2.2f)
+                    }
                 }
                 msg?.let { Text(it, style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 6.dp)) }
             }
 
             // Come contare l'attività
             SettingsHeading("Fonte delle calorie attive", "Scegli una modalità di conteggio.", warm = true)
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                WatchMode(0, s.energy.mode, "Livello fisso", "Usa solo il livello di attività del profilo. Il watch non cambia l'obiettivo.", WIc.Sliders, A.CarbSoft, A.CarbInk) { Store.setEnergy(s.energy.copy(mode = 0)) }
-                WatchMode(1, s.energy.mode, "Attività a mano", "Aggiungi tu gli allenamenti nel diario; l'obiettivo cresce di conseguenza.", WIc.Pencil, A.FatSoft, A.FatInk) { Store.setEnergy(s.energy.copy(mode = 1)) }
-                WatchMode(2, s.energy.mode, "Dal watch", "Conta in automatico una parte delle calorie attive misurate dal watch.", WIc.Watch, A.GreenSoft, A.GreenInk) {
-                    if (granted.any { it in HealthSync.PERMISSIONS }) Store.setEnergy(s.energy.copy(mode = 2, watchConnected = true))
-                    else if (status == 0) permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND)
-                    else msg = "Health Connect non è disponibile. Controlla la connessione nella scheda Amazfit Balance."
+            ACard(radius = 22.dp, padding = 5.dp, elevation = 4.dp) {
+                Column(Modifier.fillMaxWidth().selectableGroup()) {
+                    WatchMode(0, s.energy.mode, "Livello fisso", "Usa solo il livello di attività del profilo. Il watch non cambia l'obiettivo.", WIc.Sliders, A.CarbSoft, A.CarbInk) {
+                        Store.setEnergy(Store.current.energy.copy(mode = 0))
+                    }
+                    WatchModeDivider(s.energy.mode != 0 && s.energy.mode != 1)
+                    WatchMode(1, s.energy.mode, "Attività a mano", "Aggiungi tu gli allenamenti nel diario; l'obiettivo cresce di conseguenza.", WIc.Pencil, A.FatSoft, A.FatInk) {
+                        Store.setEnergy(Store.current.energy.copy(mode = 1))
+                    }
+                    WatchModeDivider(s.energy.mode != 1 && s.energy.mode != 2)
+                    WatchMode(2, s.energy.mode, "Dal watch", "Conta in automatico una parte delle calorie attive misurate dal watch.", WIc.Watch, A.GreenSoft, A.GreenInk) {
+                        if (granted.any { it in HealthSync.PERMISSIONS }) Store.setEnergy(Store.current.energy.copy(mode = 2, watchConnected = true))
+                        else if (status == 0) permLauncher.launch(HealthSync.PERMISSIONS + HealthSync.BACKGROUND)
+                        else msg = "Health Connect non è disponibile. Controlla la connessione nella scheda Amazfit Balance."
+                    }
                 }
             }
 
             // Percentuale
-            ACard(Modifier.padding(top = 16.dp).fillMaxWidth().alpha(if (s.energy.mode == 2) 1f else 0.4f), radius = 30.dp, padding = 20.dp, elevation = 8.dp) {
+            ACard(Modifier.padding(top = 12.dp).fillMaxWidth().testTag("watch-calories"), radius = 22.dp, padding = 13.dp, elevation = 4.dp) {
                 Column {
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text("Calorie attive conteggiate", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                        Text("${s.energy.eatBackPct}%", style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = 0.sp, color = C.AccentDeep))
+                    val percentage = s.energy.eatBackPct.coerceIn(0, 100)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        TonalIcon(Ic.Flame, RD.OrangeText, RD.Peach, box = 32.dp, radius = 10.dp, size = 20.dp)
+                        GapW(7.dp)
+                        Text("Calorie attive conteggiate", style = T.Label.copy(color = RD.Ink), modifier = Modifier.weight(1f))
+                        Text("$percentage%", Modifier.testTag("watch-activity-percentage")
+                            .clip(CircleShape).background(RD.Peach).padding(horizontal = 10.dp, vertical = 5.dp),
+                            style = T.Title2.copy(color = RD.OrangeText))
                     }
-                    val pcts = listOf(0, 25, 50, 75, 100)
-                    ASegment(pcts.map { "$it%" }, pcts.indexOf(s.energy.eatBackPct), modifier = Modifier.padding(top = 12.dp)) { i -> Store.setEnergy(Store.current.energy.copy(eatBackPct = pcts[i])) }
+                    Slider(
+                        value = percentage.toFloat(), valueRange = 0f..100f,
+                        onValueChange = { value ->
+                            val current = Store.current.energy
+                            val newPercentage = value.roundToInt()
+                            if (newPercentage != current.eatBackPct) Store.setEnergy(current.copy(eatBackPct = newPercentage))
+                        },
+                        modifier = Modifier.fillMaxWidth().testTag("watch-activity-slider"),
+                        colors = SliderDefaults.colors(thumbColor = RD.Orange, activeTrackColor = RD.Orange,
+                            inactiveTrackColor = Color(0xFFDCE1EA))
+                    )
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        listOf(0, 25, 50, 75, 100).forEach { Text("$it%", style = T.Small.copy(color = RD.Ink)) }
+                    }
                     Column(
-                        Modifier.padding(top = 16.dp).fillMaxWidth().clip(RoundedCornerShape(22.dp))
-                            .background(C.Surface).padding(horizontal = 16.dp, vertical = 14.dp)
+                        Modifier.padding(top = 10.dp).fillMaxWidth()
                     ) {
                         val lab = T.Body.copy(fontSize = 13.5.sp, color = Color(0xFF4B4A6A))
                         val num = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.Bold, color = A.Ink)
@@ -205,9 +237,11 @@ fun WatchScreen() {
                             Text("+ ${kcalFmt(e.extraKcal)} kcal", style = num)
                         }
                         Box(Modifier.padding(vertical = 10.dp).fillMaxWidth().height(1.dp).background(Color(0x1A1D1B3A)))
-                        Row(verticalAlignment = Alignment.Bottom) {
-                            Text("Obiettivo di oggi", style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                            Text("${kcalFmt(e.targetKcal)} kcal", style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = 0.sp))
+                        Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(13.dp)).background(RD.Peach)
+                            .padding(horizontal = 9.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Text("Obiettivo di oggi", style = T.Label.copy(color = RD.Ink), modifier = Modifier.weight(1f))
+                            Text("${kcalFmt(e.targetKcal)} kcal", Modifier.testTag("watch-calorie-target"),
+                                style = T.Title2.copy(fontSize = 19.sp, lineHeight = 23.sp, color = RD.OrangeText))
                         }
                     }
                     Text("I dispositivi da polso tendono a sovrastimare le calorie dell'attività: conteggiarne una parte è prudente. Se il peso scende più del previsto aumenta la percentuale, se sale diminuiscila.",
@@ -216,7 +250,7 @@ fun WatchScreen() {
             }
 
             ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 16.dp, elevation = 8.dp) {
-                SwitchRow("Importa il peso da Health Connect", "Ultima pesata degli ultimi 30 giorni", s.energy.importWeight) { Store.setEnergy(s.energy.copy(importWeight = it)) }
+                SwitchRow("Importa il peso da Health Connect", "Ultima pesata degli ultimi 30 giorni", s.energy.importWeight) { Store.setEnergy(Store.current.energy.copy(importWeight = it)) }
             }
             ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 0.dp, elevation = 8.dp, onClick = { Nav.go(Screen.EnergyInfo) }) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -229,6 +263,13 @@ fun WatchScreen() {
 
             // Oggi dal watch
             SettingsHeading("Oggi dal watch", "I dati dell’ultima sincronizzazione disponibile.")
+            if (s.trainingNutrition.active) {
+                JCard(onClick = { Nav.go(Screen.TrainingGoals) }) {
+                    Text("Obiettivi ON/OFF attivi", style = T.Title2)
+                    Text("Passi e attività vengono registrati. Il budget rimane quello ON/OFF che hai impostato.", style = T.Small)
+                }
+                GapH(8.dp)
+            }
             if (today != null) {
                 val tiles = listOf(
                     WTile("Passi", today.steps.thousands(), "", WIc.Steps, A.Tonal, A.TonalInk, Color(0x99E88C60)),
@@ -320,20 +361,28 @@ private fun WatchTile(t: WTile, modifier: Modifier) {
 @Composable
 private fun WatchMode(id: Int, current: Int, name: String, desc: String, icon: String, tint: Color, ink: Color, onClick: () -> Unit) {
     val sel = id == current
-    AChoice(sel, Modifier.fillMaxWidth(), minHeight = 78.dp, radius = 28.dp, onClick = onClick) {
-        Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            TonalIcon(icon, ink, tint, box = 40.dp, radius = 13.dp, size = 21.dp)
-            GapW(14.dp)
-            Column(Modifier.weight(1f)) {
-                Text(name, style = T.Body.copy(fontSize = 15.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                Text(desc, style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted), modifier = Modifier.padding(top = 2.dp))
-            }
-            GapW(14.dp)
-            Box(Modifier.size(24.dp).clip(CircleShape).background(if (sel) A.Ink else Color.Transparent).border(2.dp, if (sel) A.Ink else Color(0xFFC9C5D8), CircleShape), contentAlignment = Alignment.Center) {
-                if (sel) AIcon(Ic.Check, Color.White, 14.dp, 3.4f)
-            }
+    val shape = RoundedCornerShape(16.dp)
+    Row(Modifier.fillMaxWidth().heightIn(min = 66.dp).clip(shape)
+        .border(if (sel) 1.5.dp else 0.dp, if (sel) RD.Navy else Color.Transparent, shape)
+        .selectable(sel, role = Role.RadioButton, onClick = onClick).padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        TonalIcon(icon, ink, tint, box = 40.dp, radius = 13.dp, size = 21.dp)
+        GapW(14.dp)
+        Column(Modifier.weight(1f)) {
+            Text(name, style = T.Body.copy(fontSize = 15.5.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
+            Text(desc, style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 18.sp, color = A.Muted), modifier = Modifier.padding(top = 2.dp))
+        }
+        GapW(14.dp)
+        Box(Modifier.size(24.dp).clip(CircleShape).background(if (sel) A.Ink else Color.Transparent).border(2.dp, if (sel) A.Ink else Color(0xFFC9C5D8), CircleShape), contentAlignment = Alignment.Center) {
+            if (sel) AIcon(Ic.Check, Color.White, 14.dp, 3.4f)
         }
     }
+}
+
+@Composable
+private fun WatchModeDivider(visible: Boolean) {
+    Box(Modifier.fillMaxWidth().padding(horizontal = 10.dp).height(1.dp)
+        .background(if (visible) RD.GreyLine else Color.Transparent))
 }
 
 @Composable

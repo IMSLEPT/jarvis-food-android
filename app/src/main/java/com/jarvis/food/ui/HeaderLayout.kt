@@ -1,6 +1,7 @@
 package com.jarvis.food.ui
 
 import android.app.DatePickerDialog
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
@@ -52,37 +57,46 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
     onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date") {
     val large = LocalDensity.current.fontScale > 1.5f
     val context = LocalContext.current
-    val navy = greeting == null
-    val ink = if (navy) Color.White else RD.Ink
-    RefBannerFrame(navy) {
+    RefBannerFrame(navy = true) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val density = LocalDensity.current
             val measurer = rememberTextMeasurer()
-            val textWidth = with(density) { (maxWidth - 112.dp).coerceAtLeast(80.dp).roundToPx() }
+            val showSun = maxWidth >= 270.dp && !large
+            val buttonSize = RD.headerButton()
+            val textWidth = with(density) { (maxWidth - buttonSize * 2 - 16.dp - (if (showSun) 54.dp else 0.dp)).coerceAtLeast(48.dp).roundToPx() }
             val caption = if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date)
             // Both tabs reserve the actual name/date height, including long names and larger fonts.
             // This keeps the week strip stationary without shrinking or clipping text.
-            val nameHeight = with(density) { measurer.measure(if (large) "Oggi" else s.profile.name,
+            val nameHeight = with(density) { measurer.measure(s.profile.name,
                 style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp), constraints = Constraints(maxWidth = textWidth)).size.height.toDp() }
             val captionHeight = with(density) { measurer.measure(caption,
                 style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp), constraints = Constraints(maxWidth = textWidth)).size.height.toDp() }
-            val greetingHeight = with(density) { if (large) 0.dp else 17.sp.toDp() }
+            val greetingHeight = with(density) {
+                measurer.measure("Buon pomeriggio,", style = T.Label, constraints = Constraints(maxWidth = textWidth)).size.height.toDp()
+            }
             val sharedTitleHeight = maxOf(RD.bannerTitleHeight(), nameHeight + captionHeight + greetingHeight + 8.dp)
             Row(Modifier.fillMaxWidth().heightIn(min = sharedTitleHeight), verticalAlignment = Alignment.CenterVertically) {
+                if (greeting != null && showSun) {
+                    WelcomeSun(Modifier.size(38.dp))
+                    GapW(7.dp)
+                    Box(Modifier.width(1.dp).height(45.dp).background(Color(0xFFE7ECF4)))
+                    GapW(8.dp)
+                }
                 Column(Modifier.weight(1f).testTag(dateTag)
                     .semantics { contentDescription = fullDay(date) }
                     .clip(RoundedCornerShape(12.dp))
                     .clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
                     .padding(vertical = 4.dp, horizontal = 4.dp)) {
-                    if (greeting != null && !large) Text(greeting, Modifier.testTag("home-greeting"),
-                        style = T.Small.copy(color = RD.Grey))
+                    if (greeting != null) Text(greeting, Modifier.testTag("home-greeting"),
+                        style = T.Label.copy(color = Color.White))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (navy) { PlanCalendarLogo(28.dp); GapW(8.dp) }
-                        Text(if (greeting != null && !large) s.profile.name else title,
-                            style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp, color = ink), modifier = Modifier.weight(1f))
+                        if (greeting == null) { PlanCalendarLogo(28.dp); GapW(8.dp) }
+                        Text(if (greeting != null) s.profile.name else title,
+                            style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 31.sp, color = Color.White),
+                            modifier = Modifier.weight(1f).then(if (greeting != null) Modifier.testTag("home-name") else Modifier))
                     }
                     Text(if (large) date.format(java.time.format.DateTimeFormatter.ofPattern("EEE d MMM", IT)).replaceFirstChar { it.uppercase() } else fullDay(date),
-                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = if (navy) Color(0xFFDCE5F5) else RD.Grey))
+                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFFDCE5F5)))
                 }
                 GapW(4.dp)
                 RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
@@ -95,5 +109,27 @@ fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: St
             ProposalNineCalendar(s, date, onPick)
         }
         GapH(2.dp)
+    }
+}
+
+@Composable
+private fun WelcomeSun(modifier: Modifier) {
+    Canvas(modifier) {
+        val unit = size.width / 40f
+        fun point(x: Float, y: Float) = Offset(x * unit, y * unit)
+        drawCircle(DashboardOrange, 9f * unit, point(20f, 23f))
+        for ((start, end) in listOf(
+            point(20f, 5f) to point(20f, 10f),
+            point(7f, 9f) to point(11f, 13f),
+            point(33f, 9f) to point(29f, 13f),
+            point(2f, 23f) to point(7f, 23f),
+            point(33f, 23f) to point(38f, 23f),
+            point(8f, 34f) to point(11f, 31f),
+            point(32f, 34f) to point(29f, 31f)
+        )) drawLine(DashboardOrange, start, end, 3f * unit, StrokeCap.Round)
+        drawPath(Path().apply {
+            moveTo(unit, 36f * unit)
+            quadraticTo(20f * unit, 30f * unit, 39f * unit, 36f * unit)
+        }, Color.White, style = Stroke(2.4f * unit, cap = StrokeCap.Round))
     }
 }

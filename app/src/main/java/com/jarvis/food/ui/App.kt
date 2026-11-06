@@ -138,10 +138,11 @@ object Nav {
 fun App() {
     val state by Store.state.collectAsState()
     val view = androidx.compose.ui.platform.LocalView.current
+    val top = Nav.stack.lastOrNull()
     androidx.compose.runtime.SideEffect {
         val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
             .filterIsInstance<android.app.Activity>().firstOrNull()
-        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = true }
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !state.onboarded || top != Screen.Watch }
     }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
@@ -156,7 +157,6 @@ fun App() {
         focus.clearFocus(force = true)
     }
     AppBackground {
-        val top = Nav.stack.lastOrNull()
         AnimatedContent(targetState = top, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "nav") { screen ->
             if (screen == null) Tabs() else ScreenHost(screen)
         }

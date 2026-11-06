@@ -60,23 +60,20 @@ fun VitaminOverview(s: AppState) {
     val date = Nav.diaryDate
     val today = remember(s.diary, s.profile, date) { dailyMicros(s, date) }
     GapH(18.dp)
-    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 22.dp, padding = 8.dp, elevation = 4.dp, glow = Color(0x2009194D),
-        onClick = { Nav.go(Screen.Trend("vitamins")) }) {
-        ReferenceInsightBody(TodayArt.Vitamins) {
-            ReferenceInsightHeading("Vitamine e minerali", "${dayLabel(date)} · fabbisogno giornaliero", RIc.Leaf, "Andamento") {
-                Nav.go(Screen.Trend("vitamins"))
-            }
-            for ((index, m) in today.withIndex()) {
-                val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
-                ReferenceMetric(m.name, percent, m.fraction,
-                    Modifier.testTag("home-nutrient-${m.key}").semantics {
-                        progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
-                    },
-                    valueModifier = Modifier.testTag("home-nutrient-value-${m.key}")
-                ) { Nav.go(Screen.Trend("vitamins", metric = index)) }
-            }
-            if (today.any { it.unknown > 0 }) Text("Alcuni alimenti senza dato", style = T.Small.copy(fontSize = 11.sp))
+    ReferenceInsightCard(TodayArt.Vitamins, Modifier.testTag("home-vitamins"), onClick = { Nav.go(Screen.Trend("vitamins")) }) {
+        ReferenceInsightHeading("Vitamine e minerali", "${dayLabel(date)} · fabbisogno giornaliero", RIc.Leaf, "Andamento") {
+            Nav.go(Screen.Trend("vitamins"))
         }
+        for ((index, m) in today.withIndex()) {
+            val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
+            ReferenceMetric(m.name, percent, m.fraction,
+                Modifier.testTag("home-nutrient-${m.key}").semantics {
+                    progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
+                },
+                valueModifier = Modifier.testTag("home-nutrient-value-${m.key}")
+            ) { Nav.go(Screen.Trend("vitamins", metric = index)) }
+        }
+        if (today.any { it.unknown > 0 }) Text("Alcuni alimenti senza dato", style = T.Small.copy(fontSize = 11.sp))
     }
     GapH(10.dp)
     EverydayFoodGuide(s, review)

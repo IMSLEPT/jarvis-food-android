@@ -310,8 +310,7 @@ private fun CatKcalGrid(g: com.jarvis.food.engine.RecipeCatGroup, cols: Int = 4)
 @Composable
 private fun CatGroupView(g: com.jarvis.food.engine.RecipeCatGroup) { when (g.id) { "kcal" -> CatKcalGrid(g, 4); "tempo" -> CatKcalGrid(g, 3); else -> CatGroupRow(g) } }
 
-/** Category tabs wrap so every available group is discoverable. */
-@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+/** Keep all category controls on the original horizontal strip. */
 @Composable
 private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>) {
     var selected by rememberSaveable { mutableStateOf("pasto") }
@@ -320,11 +319,14 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
     ASection("Esplora le ricette", top = 8.dp, action = if (showAll) "Vista compatta" else "Mostra tutte") { showAll = !showAll }
     Text("Scegli un gruppo o esplora tutte le categorie.", style = T.Small)
     GapH(12.dp)
-    if (!showAll) androidx.compose.foundation.layout.FlowRow(
-        Modifier.fillMaxWidth().testTag("recipe-group-strip").padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)
+    val stripScroll = rememberScrollState()
+    if (!showAll) Row(
+        Modifier.fillMaxWidth().testTag("recipe-group-strip").horizontalScroll(stripScroll).padding(horizontal = 2.dp, vertical = 7.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        groups.forEach { g -> CategoryChip(g.id, chipLabels[g.id] ?: g.title, selected == g.id) { selected = g.id } }
+        chipLabels.forEach { (id, label) ->
+            if (groups.any { it.id == id }) CategoryChip(id, label, selected == id) { selected = id }
+        }
     }
     (if (showAll) groups else groups.filter { it.id == selected }).forEach { g ->
         if (showAll) {
@@ -362,16 +364,16 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
 /** Immagine 13: icona bicolore, separatore grigio e testo; la voce attiva è navy con barra arancio. */
 @Composable
 private fun CategoryChip(id: String, label: String, active: Boolean, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
-    Box(Modifier.heightIn(min = 48.dp).testTag("recipe-group-$id").refShadow(shape, if (active) 4.dp else 2.dp).clip(shape)
-        .background(if (active) RD.Navy else Color.White).border(1.dp, RD.Ink.copy(alpha = 0.4f), shape)
+    val shape = RoundedCornerShape(15.dp)
+    Box(Modifier.heightIn(min = 54.dp).testTag("recipe-group-$id").refShadow(shape, 4.dp).clip(shape)
+        .background(if (active) RD.Navy else Color.White).border(1.dp, if (active) RD.Navy else Color(0xFFB9C2D2), shape)
         .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
-        Row(Modifier.align(Alignment.Center).padding(horizontal = 8.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.align(Alignment.Center).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
             CategoryIcon(id, active)
-            GapW(5.dp)
-            Box(Modifier.width(1.dp).height(17.dp).background(if (active) Color(0x88FFFFFF) else RD.GreyLine))
-            GapW(5.dp)
-            Text(label, style = T.Title.copy(fontSize = 13.sp, lineHeight = 18.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
+            GapW(10.dp)
+            Box(Modifier.width(1.dp).height(26.dp).background(if (active) Color.White else Color(0xFFAFB9CB)))
+            GapW(10.dp)
+            Text(label, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
         }
         // Barra arancio della voce attiva (riferimento): misurata sulla pillola, non sulla striscia scorrevole.
         if (active) Box(Modifier.matchParentSize(), contentAlignment = Alignment.BottomCenter) {
@@ -383,17 +385,21 @@ private fun CategoryChip(id: String, label: String, active: Boolean, onClick: ()
 @Composable
 private fun CategoryIcon(id: String, active: Boolean) {
     val ink = if (active) Color.White else RD.Ink
-    val size = 20.dp
+    val size = 28.dp
     Box(Modifier.size(size)) {
         when (id) {
             "pasto" -> { AIcon(RIc.Plate, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 3.6), if (active) Color(0xFFE6E8EC) else Color(0xFFE6E8EC), size, fill = true)
                 AIcon(RIc.ForkKnife, ink, size, 1.8f); AIcon(RIc.PlateHandles, RD.Orange, size, 2.4f) }
             "tempo" -> { AIcon(RIc.Stopwatch, ink, size, 2f); AIcon(RIc.StopwatchHand, ink, size, 2.2f); AIcon(RIc.StopwatchTicks, ink, size, 1.3f); AIcon("M10 3h4", RD.Orange, size, 2.6f) }
-            "kcal" -> { AIcon(RIc.FlameInner, RD.Orange, size, fill = true); AIcon(RIc.Flame, ink, size, 2f) }
+            "kcal" -> { AIcon(RIc.Flame, RD.Orange, size, fill = true); AIcon(RIc.FlameInner, Color(0xFFFFD159), size, fill = true) }
             "obiettivo" -> { AIcon(RIc.Target, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 4.8), RD.Orange, size, 2f); AIcon(RIc.TargetCenter, RD.Orange, size, fill = true); AIcon(RIc.TargetArrow, RD.Orange, size, 2f) }
             "dieta" -> { AIcon(RIc.Leaf, ink, size, 2f); AIcon("M5 19l8.5-8.5", RD.Orange, size, 2.2f) }
-            "metodo" -> { AIcon("M3 12h13a0 0 0 0 1 0 0v1a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5zM16 13h5", ink, size, 2f); AIcon("M7 8c-1-1.2 1-2 0-3.5M11 8c-1-1.2 1-2 0-3.5", RD.Orange, size, 2f) }
-            else -> { AIcon(Ic.circ(12.0, 12.0, 8.5) + "M3.5 12h17M12 3.5c-3 3-3 14 0 17M12 3.5c3 3 3 14 0 17", ink, size, 1.8f); AIcon(Ic.circ(12.0, 12.0, 2.0), RD.Orange, size, fill = true) }
+            "metodo" -> { AIcon("M3 12h18M4 12c1 5 4 8 8 8s7-3 8-8", ink, size, 2f); AIcon("M8 9c-1-1.2 1-2 0-4M12 9c-1-1.2 1-2 0-4M16 9c-1-1.2 1-2 0-4", RD.Orange, size, 2f) }
+            "cucina" -> {
+                val cuff = Ic.rr(5.0, 17.0, 14.0, 4.0, 1.2)
+                AIcon(cuff, RD.Orange, size, fill = true)
+                AIcon("M5 17v-3C0 12 2 6 7 6c2-4 8-4 10 0 5 0 7 6 2 8v3M9 15v2M15 15v2" + cuff, ink, size, 2f)
+            }
         }
     }
 }

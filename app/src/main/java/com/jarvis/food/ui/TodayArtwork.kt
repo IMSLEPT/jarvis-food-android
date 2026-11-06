@@ -18,6 +18,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.unit.IntSize
+import kotlin.math.roundToInt
+import com.jarvis.food.R
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -115,40 +121,19 @@ internal fun TodayIconBadge(art: TodayArt, size: Dp = 44.dp) {
     }
 }
 
-/** Only the water moves inside the bottle; cap, outline and highlight stay still. */
+/** Keep the approved illustration and animate only the blue liquid behind its white drop. */
 @Composable
 internal fun TodayWaterBottle(fill: Float, modifier: Modifier = Modifier) {
+    val bottle = ImageBitmap.imageResource(R.drawable.approved_water)
+    val emptyLiquid = ImageBitmap.imageResource(R.drawable.approved_water_empty)
     Canvas(modifier) {
-        scale(size.width / 64f, size.height / 96f, pivot = Offset.Zero) {
-            drawRoundRect(Color(0xFFF0F3F9), Offset(0f, 18f), Size(64f, 76f), CornerRadius(23f))
-            val bottle = Path().apply {
-                moveTo(24f, 17f); lineTo(40f, 17f); lineTo(40f, 25f)
-                cubicTo(49f, 28f, 51f, 33f, 51f, 41f); lineTo(51f, 80f)
-                quadraticTo(51f, 91f, 40f, 91f); lineTo(24f, 91f)
-                quadraticTo(13f, 91f, 13f, 80f); lineTo(13f, 41f)
-                cubicTo(13f, 33f, 15f, 28f, 24f, 25f); close()
+        val destination = IntSize(size.width.roundToInt(), size.height.roundToInt())
+        if (destination.width > 0 && destination.height > 0) {
+            drawImage(bottle, dstSize = destination)
+            val waterline = size.height * (252f - 120f * fill.coerceIn(0f, 1f)) / bottle.height
+            clipRect(bottom = waterline) {
+                drawImage(emptyLiquid, dstSize = destination)
             }
-            drawPath(bottle, Brush.horizontalGradient(listOf(Color(0xFFE2EAF6), Color.White, Color(0xFFD7E3F3)), 13f, 51f))
-            clipPath(bottle) {
-                val top = 89f - 60f * fill.coerceIn(0f, 1f)
-                if (fill > 0f) {
-                    drawRect(Brush.verticalGradient(listOf(Color(0xFF67C4ED), Color(0xFF2586CF)), top, 91f), Offset(13f, top), Size(38f, 91f - top))
-                    val wave = Path().apply {
-                        moveTo(13f, top); cubicTo(23f, top - 2.5f, 37f, top + 2.5f, 51f, top)
-                        lineTo(51f, top + 3f); lineTo(13f, top + 3f); close()
-                    }
-                    drawPath(wave, Color(0xAAACEDFF))
-                }
-                round(Brush.horizontalGradient(listOf(Color(0x80FFFFFF), Color.Transparent)), 19f, 34f, 6f, 46f, 3f)
-            }
-            drawPath(bottle, C.Navy, style = Stroke(3.5f))
-            round(Brush.linearGradient(listOf(Color(0xFF435C89), C.Navy)), 19f, 6f, 26f, 14f, 4f)
-            for (x in listOf(25f, 32f, 39f)) line(Color(0x334F6A96), x, 9f, x, 16f, 1.5f)
-            val drop = Path().apply {
-                moveTo(32f, 49f); cubicTo(31f, 53f, 25f, 58f, 25f, 63f)
-                cubicTo(25f, 72f, 39f, 72f, 39f, 63f); cubicTo(39f, 58f, 33f, 53f, 32f, 49f); close()
-            }
-            drawPath(drop, Color(0xDBFFFFFF))
         }
     }
 }

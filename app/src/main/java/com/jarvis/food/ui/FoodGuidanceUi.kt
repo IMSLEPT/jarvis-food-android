@@ -202,32 +202,30 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     var selected by remember { mutableStateOf<DailyFoodTips.Tip?>(null) }
     var full by remember { mutableStateOf(false) }
     val uri=LocalUriHandler.current
-    ACard(Modifier.fillMaxWidth().testTag("everyday-food-guide"), radius = 22.dp, padding = 8.dp, elevation = 4.dp, glow = Color(0x2009194D)) {
-        ReferenceInsightBody(TodayArt.Calendar) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        AIcon(RIc.Leaf, RD.OrangeText, 15.dp)
-                        GapW(5.dp)
-                        Text("Per te oggi", style = T.Title.copy(fontSize = 16.sp, lineHeight = 20.sp, color = RD.Ink))
-                    }
-                    Text(if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno",
-                        style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
+    ReferenceInsightCard(TodayArt.Calendar, Modifier.testTag("everyday-food-guide")) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    AIcon(RIc.Leaf, RD.OrangeText, 15.dp)
+                    GapW(5.dp)
+                    Text("Per te oggi", style = T.Title.copy(fontSize = 16.sp, lineHeight = 20.sp, color = RD.Ink))
                 }
-                Box(Modifier.heightIn(min = 48.dp).testTag("daily-tips-all")
-                    .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }, contentAlignment = Alignment.Center) {
-                    Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 5.dp),
-                        verticalAlignment = Alignment.CenterVertically) {
-                        Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 13.sp, color = Color.White))
-                        GapW(3.dp)
-                        AIcon(RIc.Right, Color.White, 13.dp, 2.4f)
-                    }
+                Text(if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno",
+                    style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
+            }
+            Box(Modifier.heightIn(min = 48.dp).testTag("daily-tips-all")
+                .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }, contentAlignment = Alignment.Center) {
+                Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 13.sp, color = Color.White))
+                    GapW(3.dp)
+                    AIcon(RIc.Right, Color.White, 13.dp, 2.4f)
                 }
             }
-            shown.forEach { tip ->
-                GapH(5.dp)
-                TipRow(tip, compact = true) { selected = tip }
-            }
+        }
+        shown.forEach { tip ->
+            GapH(5.dp)
+            TipRow(tip, compact = true) { selected = tip }
         }
     }
     if (full) DietCoachDialog(s, date, ctx, review, onOpen = { full = false; selected = it }) { full = false }

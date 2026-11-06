@@ -1,6 +1,7 @@
 package com.jarvis.food
 
 import android.graphics.Bitmap
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -122,7 +123,18 @@ class RedesignNovemberTest {
             shot("20-cucina-top")
             compose.onNodeWithTag("kitchen-inspiration").performScrollTo(); shot("21-cucina-esplora-ispirazione")
             compose.onNodeWithTag("recipe-group-strip").performScrollTo()
-            compose.onNodeWithTag("recipe-group-tempo").performScrollTo().performClick().assertIsSelected(); shot("22-cucina-filtri")
+            val groupIds = listOf("pasto", "tempo", "kcal", "obiettivo", "dieta", "metodo", "cucina")
+            val filterStrip = compose.onNodeWithTag("recipe-group-strip")
+            var stripTop: Float? = null
+            for (id in groupIds) {
+                val button = compose.onNodeWithTag("recipe-group-$id")
+                    .performScrollTo().performClick().assertIsSelected()
+                val top = button.fetchSemanticsNode().boundsInRoot.top - filterStrip.fetchSemanticsNode().boundsInRoot.top
+                stripTop?.let { assertEquals("Filter $id wrapped onto another row", it, top, 1f) }
+                stripTop = top
+                if (id == "pasto") shot("22-cucina-filtri")
+                if (id == "cucina") shot("22b-cucina-filtri-ultimi")
+            }
             compose.onNodeWithTag("kitchen-inspiration").performScrollTo().performClick()
             assertEquals(Screen.WhatNow, Nav.stack.last())
             ui { Nav.back() }; compose.waitForIdle()
@@ -153,4 +165,52 @@ class RedesignNovemberTest {
             assertEquals(Screen.Profile, Nav.stack.last())
         }
     }
+
+    @Test fun watchPercentageAndModesStayInSync() {
+        prepare(withFood = false)
+        ui {
+            Store.update { current ->
+                current.copy(energy = EnergySettings(mode = 2, eatBackPct = 80), health = mapOf(
+                    day.toString() to HealthDay(day.toString(), steps = 4500, activeKcal = 1200.0)
+                ))
+            }
+            Nav.go(Screen.Watch)
+        }
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            shot("30-watch-top")
+            val slider = compose.onNodeWithTag("watch-activity-slider").performScrollTo()
+            val before = Store.current.energy.eatBackPct
+            compose.onNodeWithTag("watch-activity-percentage").assertTextEquals("$before%")
+            val target = Store.energyFor(Store.current, day).targetKcal
+            slider.performTouchInput { swipe(start = Offset(width * .78f, height * .5f), end = Offset(width * .37f, height * .5f)) }
+            val changed = Store.current.energy.eatBackPct
+            assertTrue("Dragging must produce an intermediate percentage: $changed", changed in 25..49)
+            assertNotEquals(target, Store.energyFor(Store.current, day).targetKcal, 0.1)
+            compose.onNodeWithTag("watch-activity-percentage").assertTextEquals("$changed%")
+            val expectedTarget = kcalFmt(Store.energyFor(Store.current, day).targetKcal)
+            compose.onNodeWithTag("watch-calorie-target").assertTextEquals("$expectedTarget kcal")
+            compose.onNodeWithTag("watch-calories").performScrollTo()
+            shot("31-watch-calories")
+            compose.onNodeWithText("Importa il peso da Health Connect").performScrollTo()
+            compose.onNode(hasClickAction() and SemanticsMatcher.keyIsDefined(SemanticsProperties.ToggleableState))
+                .performClick()
+            assertFalse(Store.current.energy.importWeight)
+            ui { Store.saveNow() }
+            scenario.recreate()
+            compose.onNodeWithTag("watch-activity-slider").performScrollTo()
+            compose.onNodeWithTag("watch-activity-percentage").assertTextEquals("$changed%")
+            compose.onNodeWithText("Livello fisso").performScrollTo().performClick().assertIsSelected()
+            assertEquals(0, Store.current.energy.mode)
+            compose.onNodeWithText("Attività a mano").performScrollTo().performClick().assertIsSelected()
+            assertEquals(1, Store.current.energy.mode)
+            compose.onNodeWithText("Come calcolo l'obiettivo di oggi").performScrollTo().performClick()
+            assertEquals(Screen.EnergyInfo, Nav.stack.last())
+            ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
+            compose.waitForIdle()
+            assertEquals(Screen.Watch, Nav.stack.last())
+            compose.onNodeWithTag("watch-open-zepp").performScrollTo().assertIsDisplayed()
+            shot("32-watch-device")
+        }
+    }
+
 }
