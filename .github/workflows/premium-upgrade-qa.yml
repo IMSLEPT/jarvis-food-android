@@ -1,0 +1,56 @@
+name: Jarvis Food signed upgrade check
+on:
+  push:
+    branches: [qa/premium-upgrade-2026-11-06]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Fetch original release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download preview-v1.0.231-redesign --repo IMSLEPT/jarvis-food-android -p 'JarvisFood-v1.0.231.apk' -D baseline
+      - uses: actions/download-artifact@v4
+        with:
+          name: JarvisFood-v1.0.232-signed
+          run-id: '42192875951'
+          github-token: ${{ github.token }}
+          path: candidate
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-options: -no-window -no-snapshot -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            mkdir -p evidence
+            adb shell settings put global device_provisioned 1
+            adb shell settings put secure user_setup_complete 1
+            adb install baseline/JarvisFood-v1.0.231.apk | tee evidence/install-baseline.log
+            adb shell dumpsys package com.jarvis.food | grep versionName=1.0.231
+            adb shell am start -W -n com.jarvis.food/.MainActivity | tee evidence/baseline-launch.log
+            adb install -r candidate/JarvisFood-v1.0.232.apk | tee evidence/install-upgrade.log
+            adb shell dumpsys package com.jarvis.food | grep versionName=1.0.232
+            adb logcat -c
+            adb shell am start -W -n com.jarvis.food/.MainActivity | tee evidence/candidate-launch.log
+            adb shell pidof com.jarvis.food | tee evidence/pid.log
+            adb logcat -d -s AndroidRuntime:E > evidence/runtime.log
+            grep -q Success evidence/install-upgrade.log
+            grep -q 'Status: ok' evidence/candidate-launch.log
+            test -s evidence/pid.log
+            if grep -q 'FATAL EXCEPTION' evidence/runtime.log; then exit 1; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jarvis-food-signed-upgrade
+          path: evidence/
