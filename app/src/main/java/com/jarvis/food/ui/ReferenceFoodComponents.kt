@@ -47,7 +47,7 @@ internal fun ReferenceInsightCard(
     ACard(modifier.fillMaxWidth(), radius = 22.dp, padding = 0.dp, elevation = 4.dp,
         glow = Color(0x2009194D), onClick = onClick) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val panelWidth = (maxWidth * (if (art == TodayArt.Calendar) .225f else .255f)).coerceAtMost(116.dp)
+            val panelWidth = (maxWidth * (if (art == TodayArt.Calendar) .23f else .265f)).coerceAtMost(116.dp)
             val naturalHeight = panelWidth * bitmap.height / bitmap.width
             Box(Modifier.fillMaxWidth().heightIn(min = naturalHeight)) {
                 Canvas(Modifier.matchParentSize().testTag("insight-icon-$art")) {
@@ -80,7 +80,7 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
                 AIcon(icon, RD.OrangeText, 17.dp)
                 GapW(4.dp)
                 Column {
-                    Text(title, style = T.Title2.copy(fontSize = 15.sp, lineHeight = 18.sp, color = RD.Ink))
+                    Text(title, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 19.sp, color = RD.Ink))
                     Text(subtitle, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
                 }
             }
@@ -111,7 +111,7 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
 @Composable
 internal fun ReferenceMetric(label: String, value: String, progress: Float?, modifier: Modifier = Modifier,
     valueModifier: Modifier = Modifier, barModifier: Modifier = Modifier, onClick: () -> Unit) {
-    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 41.dp)
+    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 40.dp)
         .clickable(role = Role.Button, onClick = onClick).padding(vertical = 3.dp), contentAlignment = Alignment.CenterStart) {
         val inline = maxWidth / LocalDensity.current.fontScale >= 203.dp
         Column(Modifier.fillMaxWidth()) {

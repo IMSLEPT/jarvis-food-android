@@ -44,6 +44,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -64,6 +65,7 @@ import com.jarvis.food.health.HealthSync
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WatchScreen() {
     val ctx = LocalContext.current
@@ -216,8 +218,15 @@ fun WatchScreen() {
                             if (newPercentage != current.eatBackPct) Store.setEnergy(current.copy(eatBackPct = newPercentage))
                         },
                         modifier = Modifier.fillMaxWidth().testTag("watch-activity-slider"),
-                        colors = SliderDefaults.colors(thumbColor = RD.Orange, activeTrackColor = RD.Orange,
-                            inactiveTrackColor = Color(0xFFDCE1EA))
+                        thumb = {
+                            Box(Modifier.size(19.dp).background(Color.White, CircleShape)
+                                .border(2.dp, DashboardOrange, CircleShape))
+                        },
+                        track = { slider ->
+                            SliderDefaults.Track(sliderState = slider, colors = SliderDefaults.colors(
+                                activeTrackColor = DashboardOrange, inactiveTrackColor = Color(0xFFDCE1EA)),
+                                thumbTrackGapSize = 0.dp, drawStopIndicator = null)
+                        }
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         listOf(0, 25, 50, 75, 100).forEach { Text("$it%", style = T.Small.copy(color = RD.Ink)) }
@@ -292,7 +301,7 @@ fun WatchScreen() {
             }
 
             // Come arrivano i dati
-            SettingsHeading("Collegamento del dispositivo", "Amazfit → Zepp → Health Connect → Jarvis Food")
+            SettingsHeading("Collegamento del dispositivo", "Amazfit → Zepp → Health Connect → Jarvis Food", warm = true)
             ACard(Modifier.fillMaxWidth().testTag("watch-device-card"), radius = 30.dp, padding = 18.dp, elevation = 8.dp) {
                 Column {
                     BoxWithConstraints(Modifier.fillMaxWidth()) {
@@ -348,8 +357,8 @@ private class WTile(val label: String, val value: String, val unit: String, val 
 @Composable
 private fun WatchTile(t: WTile, modifier: Modifier) {
     val shape = RoundedCornerShape(28.dp)
-    Column(modifier.aShadow(shape, 8.dp, t.glow).clip(shape).background(C.cardSurface(t.bg)).border(1.dp, Color(0xE6FFFFFF), shape).padding(16.dp)) {
-        TonalIcon(t.icon, t.ink, Color(0xD9FFFFFF), box = 40.dp, radius = 15.dp, size = 21.dp)
+    Column(modifier.aShadow(shape, 4.dp, t.glow).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).padding(16.dp)) {
+        TonalIcon(t.icon, t.ink, t.bg, box = 40.dp, radius = 15.dp, size = 21.dp)
         Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.padding(top = 12.dp)) {
             Text(t.value, style = T.H1.copy(fontSize = 26.sp, lineHeight = 28.sp, letterSpacing = (-0.5).sp), maxLines = 1)
             if (t.unit.isNotEmpty()) Text(t.unit, style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(start = 4.dp, bottom = 2.dp))

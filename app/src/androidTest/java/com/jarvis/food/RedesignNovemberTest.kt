@@ -170,7 +170,7 @@ class RedesignNovemberTest {
         prepare(withFood = false)
         ui {
             Store.update { current ->
-                current.copy(energy = EnergySettings(mode = 2, eatBackPct = 80), health = mapOf(
+                current.copy(trainingNutrition = TrainingNutrition(), energy = EnergySettings(mode = 2, eatBackPct = 80), health = mapOf(
                     day.toString() to HealthDay(day.toString(), steps = 4500, activeKcal = 1200.0)
                 ))
             }
