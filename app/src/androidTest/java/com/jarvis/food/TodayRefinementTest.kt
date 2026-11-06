@@ -156,7 +156,9 @@ class TodayRefinementTest {
                 ui { Nav.back() }
             }
             val before = Store.current
-            compose.onNodeWithTag("home-vitamins").performScrollTo().performClick()
+            compose.onNodeWithTag("home-vitamins").performScrollTo()
+            compose.onNode(hasText("Andamento") and hasClickAction() and hasAnyAncestor(hasTestTag("home-vitamins")))
+                .performClick()
             assertEquals(Screen.Trend("vitamins"), Nav.stack.last())
             ui { Nav.back() }
             compose.waitUntil(15000) { compose.onAllNodesWithText("Vitamina C", useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() }

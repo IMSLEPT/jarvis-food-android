@@ -224,7 +224,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
             }
         }
         shown.forEach { tip ->
-            GapH(5.dp)
+            GapH(3.dp)
             TipRow(tip, compact = true) { selected = tip }
         }
     }
@@ -247,7 +247,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 @Composable
 private fun TipRow(tip: DailyFoodTips.Tip, compact: Boolean = false, onClick: () -> Unit) {
     val shape = RoundedCornerShape(10.dp)
-    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
+    Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 45.dp else 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
         .background(InsightTile).border(1.dp, RD.GreyLine, shape)
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = if (compact) 6.dp else 10.dp, vertical = if (compact) 4.dp else 8.dp), verticalAlignment = Alignment.CenterVertically) {
