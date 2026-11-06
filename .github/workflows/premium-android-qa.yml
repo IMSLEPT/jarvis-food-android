@@ -5,7 +5,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: premium-native-qa-${{ github.ref }}
+  group: premium-native-qa-${{ github.run_id }}
   cancel-in-progress: true
 jobs:
   android:
@@ -58,7 +58,8 @@ jobs:
           emulator-options: -no-window -no-snapshot -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
             mkdir -p evidence
-            if [ "${{ matrix.api }}" = 29 ]; then adb root; timeout 60 adb wait-for-device; adb shell setprop dalvik.vm.heapgrowthlimit 256m; adb shell setprop dalvik.vm.heapsize 512m; adb shell stop; adb shell start; timeout 90 bash -c 'until adb shell pm list packages android 2>/dev/null | grep -q package:android; do sleep 1; done'; fi
+            if [ "${{ matrix.api }}" = 29 ]; then adb root; timeout 60 adb wait-for-device; adb shell setprop dalvik.vm.heapgrowthlimit 256m; adb shell setprop dalvik.vm.heapsize 512m; adb shell stop; adb shell start; timeout 90 bash -c 'until adb shell service check settings 2>/dev/null | grep -q '"'"': found'"'"' && adb shell pm list packages android 2>/dev/null | grep -q package:android; do sleep 1; done'; fi
+            adb shell input keyevent 82
             adb shell settings put global device_provisioned 1
             adb shell settings put secure user_setup_complete 1
             adb shell pm disable-user --user 0 com.google.android.googlesdksetup || true
