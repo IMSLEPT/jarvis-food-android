@@ -149,7 +149,13 @@ class RedesignNovemberTest {
             compose.onNodeWithText("Prossimi 3 giorni").performScrollTo().performClick()
             assertTrue(Store.current.shoppingRange.endsWith("|3"))
             shot("23c-spesa")
-            compose.onNodeWithTag("nav-3").performClick(); shot("24-progressi")
+            compose.onNodeWithTag("nav-3").performClick()
+            if (ins.targetContext.resources.configuration.fontScale <= 1.2f) {
+                val weight = compose.onNodeWithTag("progress-weight-summary").fetchSemanticsNode().boundsInRoot
+                val calories = compose.onNodeWithTag("progress-calorie-summary").fetchSemanticsNode().boundsInRoot
+                assertEquals(weight.height, calories.height, 1f)
+            }
+            shot("24-progressi")
             compose.onNodeWithTag("progress-water-detail").performScrollTo()
             shot("24a-progressi-acqua")
             compose.onNodeWithTag("progress-activity-detail").performScrollTo()
@@ -171,7 +177,8 @@ class RedesignNovemberTest {
         ui {
             Store.update { current ->
                 current.copy(trainingNutrition = TrainingNutrition(), energy = EnergySettings(mode = 2, eatBackPct = 80), health = mapOf(
-                    day.toString() to HealthDay(day.toString(), steps = 4500, activeKcal = 1200.0)
+                    day.toString() to HealthDay(day.toString(), steps = 4500, activeKcal = 1200.0, totalKcal = 2720.0,
+                        restingHr = 61.0, sleepMinutes = 405)
                 ))
             }
             Nav.go(Screen.Watch)
@@ -208,7 +215,10 @@ class RedesignNovemberTest {
             ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
             compose.waitForIdle()
             assertEquals(Screen.Watch, Nav.stack.last())
-            compose.onNodeWithText("Oggi dal watch").performScrollTo().assertIsDisplayed()
+            ui { Store.update { it.copy(trainingNutrition = TrainingNutrition(enabled = true, automatic = true)) } }
+            compose.onNodeWithTag("watch-data-tiles").performScrollTo().assertIsDisplayed()
+            compose.onNodeWithText("Obiettivi ON/OFF attivi").assertExists()
+            compose.onNodeWithText("FC a riposo", substring = true).assertExists()
             shot("32a-watch-data")
             compose.onNodeWithTag("watch-open-zepp").performScrollTo().assertIsDisplayed().assertHasClickAction()
             shot("32-watch-device")

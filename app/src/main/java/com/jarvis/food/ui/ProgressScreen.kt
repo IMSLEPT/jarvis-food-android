@@ -207,9 +207,9 @@ fun ProgressScreen() {
             FlowRow(Modifier.fillMaxWidth(), maxItemsInEachRow = if (metricStack) 1 else 2,
                 horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 ProgressMetric("Peso", "${weight.r1()} kg", "Ultimo peso disponibile", "M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2zM8 8a4 4 0 0 1 8 0M12 8l2-2", C.Blue,
-                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-weight-summary")) { Nav.go(Screen.WeightHistory) }
+                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f).fillMaxRowHeight()).testTag("progress-weight-summary")) { Nav.go(Screen.WeightHistory) }
                 ProgressMetric("Calorie", "${avg?.kcal?.let { kcalFmt(it) } ?: "—"} kcal", "Media registrata · Obiettivo ${kcalFmt(goalKcal)}", Ic.Flame, C.Accent,
-                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("progress-calorie-summary")) { Nav.go(Screen.CalorieHistory) }
+                    (if (metricStack) Modifier.fillMaxWidth() else Modifier.weight(1f).fillMaxRowHeight()).testTag("progress-calorie-summary")) { Nav.go(Screen.CalorieHistory) }
             }
             Text("${logged.size} ${if (logged.size == 1) "giorno registrato" else "giorni registrati"} su $period · anche giornate parziali",
                 style = T.Small, modifier = Modifier.testTag("progress-calorie-coverage").padding(top = 8.dp))
@@ -528,8 +528,7 @@ private fun ProgressMetric(title: String, value: String, detail: String, icon: S
             AIcon(Ic.Right, C.AccentDeep, 16.dp)
         }
         GapH(3.dp)
-        // Reserve equal space in the paired cards without shrinking the explanation.
-        Text(detail, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp), minLines = 1)
+        Text(detail, style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
     }
 }
 

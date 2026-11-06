@@ -507,7 +507,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                             Store.setWater(date, (current.water[date.toString()] ?: 0) + current.glassMl)
                         }, contentAlignment = Alignment.Center) {
                         Row(Modifier.heightIn(min = 40.dp).clip(RoundedCornerShape(13.dp))
-                            .background(RD.NavyBrush).padding(horizontal = 11.dp, vertical = 5.dp),
+                            .background(RD.NavyBrush).padding(horizontal = 9.dp, vertical = 5.dp),
                             verticalAlignment = Alignment.CenterVertically) {
                             AIcon(Ic.Plus, Color.White, 17.dp, 2.8f)
                             GapW(5.dp)
@@ -518,20 +518,20 @@ private fun WaterCard(date: LocalDate, s: AppState) {
             }
             Column {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    TodayWaterBottle(fill, Modifier.size(80.dp)
+                    TodayWaterBottle(fill, Modifier.size(78.dp)
                         .testTag("water-bottle").semantics {
                             contentDescription = "$ml ml su $goal ml"
                             progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
                         })
                     GapW(7.dp)
                     Box(Modifier.width(1.dp).height(60.dp).background(RD.GreyLine))
-                    GapW(9.dp)
+                    GapW(7.dp)
                     Column(Modifier.weight(1f)) {
                         Text("Acqua", style = T.Label.copy(color = RD.Ink))
                         Text("${waterLitres(ml)} L", Modifier.testTag("water-amount"),
                             style = T.Title.copy(color = RD.Ink, fontSize = 26.sp, lineHeight = 28.sp))
                         Text("su ${waterLitres(goal)} L", style = T.Small)
-                        Text("Bicchiere da ${s.glassMl} ml", style = T.Small.copy(fontSize = PremiumScale.body, lineHeight = 15.sp))
+                        Text("Bicchiere da ${s.glassMl}\u00A0ml", style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp))
                     }
                     if (inline) {
                         GapW(3.dp)
