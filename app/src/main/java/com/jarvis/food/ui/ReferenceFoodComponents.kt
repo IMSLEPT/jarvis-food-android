@@ -55,7 +55,8 @@ internal fun ReferenceInsightCard(
                 Canvas(Modifier.matchParentSize().testTag("insight-icon-$art")) {
                     val width = panelWidth.roundToPx()
                     val height = size.height.roundToInt()
-                    val edge = bitmap.height / 9
+                    // Only the empty edges can grow without stretching the approved illustration.
+                    val edge = bitmap.height / 24
                     val centre = bitmap.height - 2 * edge
                     val middleHeight = (centre.toFloat() * width / bitmap.width).roundToInt()
                     val topHeight = (height - middleHeight) / 2
