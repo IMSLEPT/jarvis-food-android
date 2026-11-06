@@ -179,18 +179,18 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
     var chooseStyle by remember { mutableStateOf(false) }
     if (chooseStyle) DietStyleDialog(s, date) { chooseStyle = false }
     val large = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 360
-    ACard(Modifier.fillMaxWidth().testTag("plan-summary").animateContentSize(), radius = 24.dp, padding = 12.dp, elevation = 4.dp) {
+    ACard(Modifier.fillMaxWidth().testTag("plan-summary").animateContentSize(), radius = PremiumScale.cardRadius, padding = PremiumScale.inset, elevation = 4.dp) {
         Column(Modifier.fillMaxWidth()) {
-            Row(Modifier.fillMaxWidth().heightIn(min = 64.dp).testTag("plan-summary-toggle")
+            Row(Modifier.fillMaxWidth().heightIn(min = 54.dp).testTag("plan-summary-toggle")
                 .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
                 .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(if (large) 36.dp else 42.dp).clip(RoundedCornerShape(13.dp))
+                Box(Modifier.size(PremiumScale.iconTile).clip(RoundedCornerShape(13.dp))
                     .background(Color(0xFFFFF0DF)).padding(9.dp)) { ReferenceChartIcon(Modifier.fillMaxSize()) }
                 GapW(10.dp)
-                Box(Modifier.width(1.dp).height(38.dp).background(DashboardOrange))
+                Box(Modifier.width(1.dp).height(32.dp).background(DashboardOrange))
                 GapW(10.dp)
                 Column(Modifier.weight(1f)) {
-                    Text("Riepilogo del piano", style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp))
+                    Text("Riepilogo del piano", style = T.Title2.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine))
                     Text("${kcalFmt(tot.kcal)} kcal · $completed di ${meals.size} pasti", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
                 }
                 GapW(6.dp)

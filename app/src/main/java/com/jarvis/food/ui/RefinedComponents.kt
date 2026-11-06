@@ -143,20 +143,20 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
     val r = m.solved
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 380
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(PremiumScale.cardRadius)
     Column(Modifier.fillMaxWidth().testTag("plan-card-${m.diaryMeal}").refShadow(shape, 6.dp).clip(shape).background(Color.White)
         .border(1.dp, Color(0xFFE6E8EE), shape)
         .drawBehindWarm()) {
-        Column(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+        Column(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = PremiumScale.inset, end = PremiumScale.inset, top = PremiumScale.inset)) {
             FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(RD.OrangeBrush), contentAlignment = Alignment.Center) {
-                        AIcon(RIc.BowlSmile, Color.White, 26.dp, 2.4f)
+                    Box(Modifier.size(PremiumScale.iconTile).clip(RoundedCornerShape(12.dp)).background(RD.OrangeBrush), contentAlignment = Alignment.Center) {
+                        AIcon(RIc.BowlSmile, Color.White, PremiumScale.icon, 2.4f)
                     }
                     GapW(10.dp)
                     Box(Modifier.width(1.dp).height(28.dp).background(RD.GreyLine))
                     GapW(10.dp)
-                    Text(m.slotName, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink), modifier = Modifier.weight(1f))
+                    Text(m.slotName, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink), modifier = Modifier.weight(1f))
                 }
                 Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = (if (expanded) Modifier.fillMaxWidth() else Modifier)
                     .clip(RoundedCornerShape(18.dp)).background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB))
@@ -166,13 +166,13 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             GapH(12.dp)
             Text(r.template.name, modifier = Modifier.fillMaxWidth().testTag("plan-recipe-title-${m.diaryMeal}").clickable(role = Role.Button) {
                 Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
-            }, style = T.Title.copy(fontSize = 20.sp, lineHeight = 26.sp, color = RD.Ink))
+            }, style = T.Title.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine, color = RD.Ink))
         }
-        Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 12.dp).testTag("plan-recipe-${m.diaryMeal}")
+        Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).testTag("plan-recipe-${m.diaryMeal}")
             .clip(RoundedCornerShape(24.dp)).clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
                 Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
             }) {
-            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(2f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 24.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)
+            RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().aspectRatio(2.25f).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 24.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)
         }
         // Riquadro informazioni: tempo, calorie e macro con barre colorate.
         val strip = RoundedCornerShape(16.dp)
@@ -180,17 +180,17 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
         val target = Store.energyFor(s, date)
         val time: @Composable () -> Unit = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                AIcon(RIc.Clock, RD.Ink, 28.dp, 2.4f); GapW(8.dp)
+                AIcon(RIc.Clock, RD.Ink, PremiumScale.icon, 2.4f); GapW(8.dp)
                 Column {
-                    Text("${r.template.minutes} min", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink))
+                    Text("${r.template.minutes} min", style = T.Title.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
                     Text(com.jarvis.food.engine.RecipeMeta.DIFFICULTY.getOrElse(r.template.difficulty) { "" }, style = T.Body.copy(fontSize = 14.sp, lineHeight = 18.sp, color = RD.Grey))
                 }
             }
         }
         val kcal: @Composable () -> Unit = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                DuoIcon(RIc.Bowl, RIc.Steam, 28.dp, stroke = 2.4f, ink = RD.OrangeDeep, tone = RD.OrangeDeep); GapW(6.dp)
-                Text("${kcalFmt(r.total.kcal)} kcal", style = T.Title.copy(fontSize = 20.sp, lineHeight = 24.sp, color = RD.Ink))
+                DuoIcon(RIc.Bowl, RIc.Steam, PremiumScale.icon, stroke = 2.4f, ink = RD.OrangeDeep, tone = RD.OrangeDeep); GapW(6.dp)
+                Text("${kcalFmt(r.total.kcal)} kcal", style = T.Title.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine, color = RD.Ink))
             }
         }
         val macros: @Composable () -> Unit = {
@@ -228,17 +228,17 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             verticalArrangement = Arrangement.spacedBy(10.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
             // Riferimento: due pulsanti della stessa altezza, testo su una riga.
             val eatenModifier = (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1.3f)).testTag("plan-eaten-${m.diaryMeal}")
-            if (eaten) RefOutlineButton("Mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 15.sp) { Store.uneatPlanned(date, m.slotIndex) }
-            else RefPrimaryButton("Segna mangiato", eatenModifier, icon = RIc.Check, divider = false, height = 52.dp, singleLine = true, textSize = 15.sp) { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
+            if (eaten) RefOutlineButton("Mangiato", eatenModifier, icon = RIc.Check, divider = false, height = PremiumScale.actionHeight, textSize = 14.sp) { Store.uneatPlanned(date, m.slotIndex) }
+            else RefPrimaryButton("Segna mangiato", eatenModifier, icon = RIc.Check, divider = false, height = PremiumScale.actionHeight, textSize = 14.sp) { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
             RefOutlineButton("Alternative", (if (expanded) Modifier.fillMaxWidth() else Modifier.weight(1f)).testTag("plan-alternatives-${m.diaryMeal}"), icon = RIc.Swap, divider = false,
-                height = 52.dp, singleLine = true, textSize = 15.sp) {
+                height = PremiumScale.actionHeight, textSize = 14.sp) {
                 Nav.go(Screen.Alternatives(date, m.slotIndex))
             }
         }
         Row(Modifier.fillMaxWidth().padding(vertical = 6.dp).heightIn(min = 48.dp).testTag("plan-barcode-${m.diaryMeal}")
             .clickable(role = Role.Button) { Nav.go(Screen.AddFood(date, m.diaryMeal, scanOnOpen = true)) },
             horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            AIcon(RIc.Barcode, RD.OrangeDeep, 26.dp, 2.2f); GapW(10.dp)
+            AIcon(RIc.Barcode, RD.OrangeDeep, PremiumScale.icon, 2.2f); GapW(10.dp)
             Text("Codice a barre", style = T.Title.copy(fontSize = 15.sp, lineHeight = 21.sp, color = RD.OrangeText))
         }
         GapH(6.dp)

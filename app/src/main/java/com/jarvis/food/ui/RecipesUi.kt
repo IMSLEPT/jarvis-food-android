@@ -268,15 +268,15 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 /** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
 @Composable
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(18.dp)
     val (bg, marker) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
-    Column(modifier.testTag("recipe-category").heightIn(min = 112.dp).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
-        .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
+    Column(modifier.testTag("recipe-category").heightIn(min = 94.dp).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
+        .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Box(Modifier.width(24.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).background(marker))
         GapH(6.dp)
-        Text(emoji, fontSize = 34.sp, lineHeight = 40.sp)
-        GapH(8.dp)
+        Text(emoji, fontSize = 28.sp, lineHeight = 34.sp)
+        GapH(5.dp)
         Text(label, style = T.BtnS.copy(color = A.Ink, fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center)
         Text("$count ricette", modifier = Modifier.testTag("category-count-$label"), style = T.Small.copy(color = A.Ink.copy(alpha = 0.72f), fontSize = 12.sp, fontWeight = FontWeight.Medium), maxLines = 1)
@@ -365,15 +365,15 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
 @Composable
 private fun CategoryChip(id: String, label: String, active: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
-    Box(Modifier.heightIn(min = 54.dp).testTag("recipe-group-$id").refShadow(shape, 4.dp).clip(shape)
+    Box(Modifier.heightIn(min = PremiumScale.actionHeight).testTag("recipe-group-$id").refShadow(shape, 4.dp).clip(shape)
         .background(if (active) RD.Navy else Color.White).border(1.dp, if (active) RD.Navy else Color(0xFFB9C2D2), shape)
         .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
-        Row(Modifier.align(Alignment.Center).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.align(Alignment.Center).padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             CategoryIcon(id, active)
             GapW(10.dp)
-            Box(Modifier.width(1.dp).height(26.dp).background(if (active) Color.White else Color(0xFFAFB9CB)))
+            Box(Modifier.width(1.dp).height(22.dp).background(if (active) Color.White else Color(0xFFAFB9CB)))
             GapW(10.dp)
-            Text(label, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
+            Text(label, style = T.Title.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
         }
         // Barra arancio della voce attiva (riferimento): misurata sulla pillola, non sulla striscia scorrevole.
         if (active) Box(Modifier.matchParentSize(), contentAlignment = Alignment.BottomCenter) {
@@ -385,7 +385,7 @@ private fun CategoryChip(id: String, label: String, active: Boolean, onClick: ()
 @Composable
 private fun CategoryIcon(id: String, active: Boolean) {
     val ink = if (active) Color.White else RD.Ink
-    val size = 28.dp
+    val size = 24.dp
     Box(Modifier.size(size)) {
         when (id) {
             "pasto" -> { AIcon(RIc.Plate, ink, size, 2f); AIcon(Ic.circ(12.0, 12.0, 3.6), if (active) Color(0xFFE6E8EC) else Color(0xFFE6E8EC), size, fill = true)
@@ -420,15 +420,15 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
 
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
         val shape = RoundedCornerShape(20.dp)
-        Row(modifier.heightIn(min = 76.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
+        Row(modifier.heightIn(min = 64.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
             .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             // Riferimento: titolo e conteggio su una riga, due schede identiche affiancate.
-            PeachTile(if (large) 40.dp else 36.dp, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, 24.dp, 2.4f) }
+            PeachTile(PremiumScale.iconTile, radius = 12.dp) { AIcon(icon, RD.OrangeDeep, PremiumScale.icon, 2.4f) }
             GapW(6.dp); OrangeDivider(32.dp); GapW(6.dp)
             Column(Modifier.weight(1f)) {
-                Text(label, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Ink))
-                Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Body.copy(fontSize = 13.sp, lineHeight = 18.sp, color = RD.Grey))
+                Text(label, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
+                Text(if (count == 1) "1 ricetta" else "$count ricette", style = T.Body.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine, color = RD.Grey))
             }
             GapW(2.dp)
             AIcon(RIc.Right, RD.Ink, 18.dp, 2.8f)

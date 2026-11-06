@@ -208,7 +208,9 @@ class RedesignNovemberTest {
             ins.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
             compose.waitForIdle()
             assertEquals(Screen.Watch, Nav.stack.last())
-            compose.onNodeWithTag("watch-open-zepp").performScrollTo().assertIsDisplayed()
+            compose.onNodeWithText("Oggi dal watch").performScrollTo().assertIsDisplayed()
+            shot("32a-watch-data")
+            compose.onNodeWithTag("watch-open-zepp").performScrollTo().assertIsDisplayed().assertHasClickAction()
             shot("32-watch-device")
         }
     }

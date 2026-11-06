@@ -17,6 +17,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
@@ -40,57 +43,72 @@ internal fun ReferenceInsightCard(
     content: @Composable ColumnScope.() -> Unit
 ) {
     val resource = when (art) {
-        TodayArt.Vitamins -> R.drawable.approved_vitamins
-        TodayArt.Calendar -> R.drawable.approved_daily_tips
-        TodayArt.Activity -> R.drawable.approved_activity
+        TodayArt.Vitamins -> R.drawable.insight_vitamins
+        TodayArt.Calendar -> R.drawable.insight_daily_tips
+        TodayArt.Activity -> R.drawable.insight_activity
         else -> error("Unsupported insight artwork: $art")
     }
     val bitmap = ImageBitmap.imageResource(resource)
-    ACard(modifier.fillMaxWidth(), radius = 22.dp, padding = 0.dp, elevation = 4.dp,
+    ACard(modifier.fillMaxWidth(), radius = PremiumScale.cardRadius, padding = 0.dp, elevation = 4.dp,
         glow = Color(0x2009194D), onClick = onClick) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val panelWidth = (maxWidth * (if (art == TodayArt.Calendar) .23f else .265f)).coerceAtMost(116.dp)
-            val naturalHeight = panelWidth * bitmap.height / bitmap.width
-            Box(Modifier.fillMaxWidth().heightIn(min = naturalHeight)) {
+            val panelWidth = (maxWidth * (if (art == TodayArt.Calendar) .23f else .255f)).coerceAtMost(104.dp)
+            Box(Modifier.fillMaxWidth()) {
                 Canvas(Modifier.matchParentSize().testTag("insight-icon-$art")) {
-                    val width = panelWidth.roundToPx()
-                    val height = size.height.roundToInt()
-                    // Only the empty edges can grow without stretching the approved illustration.
-                    val edge = bitmap.height / 24
-                    val centre = bitmap.height - 2 * edge
-                    val middleHeight = (centre.toFloat() * width / bitmap.width).roundToInt()
-                    val topHeight = (height - middleHeight) / 2
-                    // Keep the illustration at its original aspect ratio. Only the ends of the panel
-                    // extend to match the space required by dynamic text and accessibility settings.
-                    drawImage(bitmap, srcSize = IntSize(bitmap.width, edge), dstSize = IntSize(width, topHeight))
-                    drawImage(bitmap, srcOffset = IntOffset(0, edge), srcSize = IntSize(bitmap.width, centre),
-                        dstOffset = IntOffset(0, topHeight), dstSize = IntSize(width, middleHeight))
-                    drawImage(bitmap, srcOffset = IntOffset(0, bitmap.height - edge), srcSize = IntSize(bitmap.width, edge),
-                        dstOffset = IntOffset(0, topHeight + middleHeight),
-                        dstSize = IntSize(width, height - topHeight - middleHeight))
+                    val width = panelWidth.toPx()
+                    val height = size.height
+                    fun Path.traceEdge() {
+                        moveTo(width * .78f, 0f)
+                        cubicTo(width * 1.06f, height * .28f, width * 1.06f, height * .72f, width * .78f, height)
+                    }
+                    val edge = Path().apply { traceEdge() }
+                    val panel = Path().apply {
+                        traceEdge()
+                        lineTo(0f, height)
+                        lineTo(0f, 0f)
+                        close()
+                    }
+                    clipPath(panel) {
+                        drawRect(
+                            Brush.radialGradient(
+                                listOf(Color(0xFF155185), Color(0xFF0B2D53), Color(0xFF051830)),
+                                center = Offset(width * .40f, height * .47f),
+                                radius = maxOf(width, height * .62f)
+                            ),
+                            size = androidx.compose.ui.geometry.Size(width, height)
+                        )
+                        val scale = minOf(width * .92f / bitmap.width, height * .94f / bitmap.height)
+                        val artWidth = (bitmap.width * scale).roundToInt().coerceAtLeast(1)
+                        val artHeight = (bitmap.height * scale).roundToInt().coerceAtLeast(1)
+                        drawImage(bitmap, dstOffset = IntOffset(((width - artWidth) * .30f).roundToInt(),
+                            ((height - artHeight) / 2f).roundToInt()), dstSize = IntSize(artWidth, artHeight))
+                    }
+                    drawPath(edge, Brush.verticalGradient(listOf(Color(0xFFFFAB37), DashboardOrange, Color(0xFFFF9B1F)),
+                        startY = 0f, endY = height), style = Stroke(2.5.dp.toPx()))
                 }
-                Column(Modifier.fillMaxWidth().padding(start = panelWidth + 4.dp, end = 9.dp, top = 7.dp, bottom = 9.dp), content = content)
+                Column(Modifier.fillMaxWidth().padding(start = panelWidth + 4.dp, end = PremiumScale.gap,
+                    top = 5.dp, bottom = 6.dp), content = content)
             }
         }
     }
 }
 
 @Composable
-internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: String, action: String, onAction: () -> Unit) {
+internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: String, action: String, actionModifier: Modifier = Modifier, onAction: () -> Unit) {
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         val heading: @Composable (Modifier) -> Unit = { modifier ->
             Row(modifier, verticalAlignment = Alignment.Top) {
-                AIcon(icon, RD.OrangeText, 17.dp)
+                AIcon(icon, RD.OrangeText, 15.dp)
                 GapW(4.dp)
                 Column {
-                    Text(title, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 19.sp, color = RD.Ink))
+                    Text(title, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
                     Text(subtitle, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
                 }
             }
         }
         val button: @Composable () -> Unit = {
-            Box(Modifier.heightIn(min = 42.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
-                Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 6.dp),
+            Box(actionModifier.heightIn(min = 36.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
+                Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically) {
                     Text(action, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = Color.White))
                     GapW(3.dp)
@@ -114,8 +132,8 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
 @Composable
 internal fun ReferenceMetric(label: String, value: String, progress: Float?, modifier: Modifier = Modifier,
     valueModifier: Modifier = Modifier, barModifier: Modifier = Modifier, onClick: () -> Unit) {
-    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 40.dp)
-        .clickable(role = Role.Button, onClick = onClick).padding(vertical = 3.dp), contentAlignment = Alignment.CenterStart) {
+    BoxWithConstraints(modifier.fillMaxWidth().heightIn(min = 30.dp)
+        .clickable(role = Role.Button, onClick = onClick).padding(vertical = 2.dp), contentAlignment = Alignment.CenterStart) {
         val style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink)
         val density = LocalDensity.current
         val measurer = rememberTextMeasurer()
@@ -123,17 +141,17 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
         val labels = if (percentage) listOf("Vitamina B12") else listOf("Calorie attive", "Allenamento")
         val labelWidth = with(density) {
             labels.maxOf { measurer.measure(it, style).size.width }.toDp() + 5.dp
-        }.coerceAtLeast(88.dp)
+        }.coerceAtLeast(76.dp)
         val valueWidth = with(density) {
             val example = if (percentage) "100%" else "9999 kcal"
             maxOf(measurer.measure(example, style).size.width, measurer.measure(value, style).size.width).toDp() + 2.dp
         }
-        val inline = maxWidth >= labelWidth + valueWidth + 54.dp
+        val inline = maxWidth >= labelWidth + valueWidth + 42.dp
         Column(Modifier.fillMaxWidth()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(label, style = style, modifier = if (inline) Modifier.width(labelWidth) else Modifier.weight(1f))
                 if (inline) {
-                    ProgressLine(progress ?: 0f, RD.Navy, barModifier.weight(1f), height = 6.dp)
+                    ProgressLine(progress ?: 0f, RD.Navy, barModifier.weight(1f), height = 5.dp)
                     GapW(6.dp)
                 }
                 Text(value, modifier = valueModifier.then(if (inline) Modifier.width(valueWidth) else Modifier),
@@ -141,7 +159,7 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
                 GapW(3.dp)
                 AIcon(RIc.Right, RD.Ink, 12.dp, 2.4f)
             }
-            if (!inline) ProgressLine(progress ?: 0f, RD.Navy, barModifier.fillMaxWidth().padding(top = 4.dp), height = 6.dp)
+            if (!inline) ProgressLine(progress ?: 0f, RD.Navy, barModifier.fillMaxWidth().padding(top = 4.dp), height = 5.dp)
         }
     }
 }

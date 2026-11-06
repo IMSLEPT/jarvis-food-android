@@ -203,26 +203,9 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
     var full by remember { mutableStateOf(false) }
     val uri=LocalUriHandler.current
     ReferenceInsightCard(TodayArt.Calendar, Modifier.testTag("everyday-food-guide")) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    AIcon(RIc.Leaf, RD.OrangeText, 15.dp)
-                    GapW(5.dp)
-                    Text("Per te oggi", style = T.Title.copy(fontSize = 16.sp, lineHeight = 20.sp, color = RD.Ink))
-                }
-                Text(if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno",
-                    style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
-            }
-            Box(Modifier.heightIn(min = 48.dp).testTag("daily-tips-all")
-                .clickable(role = androidx.compose.ui.semantics.Role.Button) { full = true }, contentAlignment = Alignment.Center) {
-                Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 5.dp),
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text("${shown.size}/${all.size}", style = T.Title2.copy(fontSize = 13.sp, color = Color.White))
-                    GapW(3.dp)
-                    AIcon(RIc.Right, Color.White, 13.dp, 2.4f)
-                }
-            }
-        }
+        ReferenceInsightHeading("Per te oggi",
+            if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno",
+            RIc.Leaf, "${shown.size}/${all.size}", Modifier.testTag("daily-tips-all")) { full = true }
         shown.forEach { tip ->
             GapH(3.dp)
             TipRow(tip, compact = true) { selected = tip }
@@ -247,13 +230,13 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 @Composable
 private fun TipRow(tip: DailyFoodTips.Tip, compact: Boolean = false, onClick: () -> Unit) {
     val shape = RoundedCornerShape(10.dp)
-    Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 45.dp else 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
+    Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 34.dp else 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
         .background(InsightTile).border(1.dp, RD.GreyLine, shape)
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = if (compact) 6.dp else 10.dp, vertical = if (compact) 4.dp else 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        TipIcon(tip.id, if (compact) 20.dp else 30.dp)
+        TipIcon(tip.id, if (compact) 17.dp else 30.dp)
         GapW(if (compact) 6.dp else 12.dp)
-        Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = if (compact) 13.sp else 15.sp,
+        Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = if (compact) PremiumScale.body else PremiumScale.label,
             lineHeight = if (compact) 17.sp else 20.sp), modifier = Modifier.weight(1f))
         GapW(4.dp)
         AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)

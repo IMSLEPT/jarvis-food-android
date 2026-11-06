@@ -195,16 +195,16 @@ private fun ChatDaySeparator(day: LocalDate) {
 @Composable
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = ready && input.isNotBlank() && !busy
-    val shape = RoundedCornerShape(30.dp)
+    val shape = RoundedCornerShape(PremiumScale.cardRadius)
     Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
             value = input, onValueChange = onInput,
-            modifier = Modifier.weight(1f).heightIn(min = 56.dp).then(if (active) Modifier.aShadow(shape, 9.dp, Color(0x2617286B)) else Modifier).testTag("chat-input"), enabled = ready,
-            placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = if (active) T.Read.copy(color = C.Muted) else T.Muted, maxLines = 1) },
-            textStyle = T.Read, shape = shape, maxLines = 4,
+            modifier = Modifier.weight(1f).heightIn(min = 56.dp).then(if (active) Modifier.refShadow(shape, 4.dp) else Modifier).testTag("chat-input"), enabled = ready,
+            placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = T.Read.copy(color = C.Muted, fontSize = 14.sp, lineHeight = 19.sp), maxLines = 2) },
+            textStyle = T.Read.copy(fontSize = 14.sp, lineHeight = 19.sp), shape = shape, maxLines = 4,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send), keyboardActions = KeyboardActions(onSend = { onSend() }),
-            trailingIcon = { Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, 48.dp, onSend, onStop) } },
+            trailingIcon = { Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, PremiumScale.actionHeight, onSend, onStop) } },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = C.Navy, unfocusedBorderColor = C.Line, cursorColor = C.Accent,
                 focusedContainerColor = C.Surface, unfocusedContainerColor = C.Surface, disabledContainerColor = C.SurfaceAlt, disabledBorderColor = C.Line
@@ -249,9 +249,9 @@ private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
                 .clip(RoundedCornerShape(2.dp)).background(C.Accent))
             GapW(9.dp)
             Column(Modifier.weight(1f)) {
-                Text("Come posso aiutarti?", style = T.Title.copy(fontSize = 24.sp, lineHeight = 29.sp, color = RD.Ink))
+                Text("Come posso aiutarti?", style = T.Title.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine, color = RD.Ink))
                 Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
-                    style = T.Muted.copy(fontSize = 14.sp, lineHeight = 20.sp), modifier = Modifier.padding(top = 4.dp, bottom = 6.dp))
+                    style = T.Muted.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine), modifier = Modifier.padding(top = 4.dp, bottom = 6.dp))
             }
         }
         if (ready) {
@@ -266,7 +266,7 @@ private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
                             "Diario" -> Ic.Bowl; "Ricette" -> Ic.Receipt; "Piano" -> Ic.Calendar
                             "Spesa e dispensa" -> Ic.Cart; "Obiettivi" -> Ic.Chart; else -> Ic.Timer
                         }
-                        Row(Modifier.weight(1f).heightIn(min = if (narrow) 64.dp else 92.dp)
+                        Row(Modifier.weight(1f).heightIn(min = if (narrow) 56.dp else 72.dp)
                             .refShadow(tile, 4.dp).clip(tile).background(Color.White).border(1.dp, C.Line, tile)
                             .clickable(role = Role.Button) { onPick(example) }.padding(10.dp),
                             verticalAlignment = Alignment.Top) {

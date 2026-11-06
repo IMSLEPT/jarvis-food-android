@@ -483,13 +483,13 @@ private fun WaterCard(date: LocalDate, s: AppState) {
     val ml = s.water[date.toString()] ?: 0
     val goal = s.goals.waterMl.coerceAtLeast(1)
     val fill by animateFloatAsState((ml.toFloat() / goal).coerceIn(0f, 1f), tween(900), label = "water")
-    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = 24.dp, padding = 10.dp,
+    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = PremiumScale.cardRadius, padding = 10.dp,
         elevation = 4.dp, glow = Color(0x2009194D)) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val inline = maxWidth / LocalDensity.current.fontScale >= 292.dp
+            val inline = maxWidth / LocalDensity.current.fontScale >= 316.dp
             val controls: @Composable () -> Unit = {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Box(Modifier.size(48.dp).testTag("water-minus").clip(RoundedCornerShape(14.dp))
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    Box(Modifier.size(PremiumScale.actionHeight).testTag("water-minus").clip(RoundedCornerShape(14.dp))
                         .semantics { contentDescription = "Rimuovi un bicchiere" }
                         .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) {
                             val current = Store.current
@@ -500,34 +500,38 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                             AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.4f)
                         }
                     }
-                    Row(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(14.dp))
-                        .background(RD.NavyBrush).semantics { contentDescription = "Aggiungi un bicchiere" }
+                    Box(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(14.dp))
+                        .semantics { contentDescription = "Aggiungi un bicchiere" }
                         .clickable(role = androidx.compose.ui.semantics.Role.Button) {
                             val current = Store.current
                             Store.setWater(date, (current.water[date.toString()] ?: 0) + current.glassMl)
-                        }.padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        AIcon(Ic.Plus, Color.White, 15.dp, 2.8f)
-                        GapW(4.dp)
-                        Text("Bicchiere", style = T.BtnS.copy(color = Color.White, fontSize = 12.sp))
+                        }, contentAlignment = Alignment.Center) {
+                        Row(Modifier.heightIn(min = 40.dp).clip(RoundedCornerShape(13.dp))
+                            .background(RD.NavyBrush).padding(horizontal = 11.dp, vertical = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
+                            AIcon(Ic.Plus, Color.White, 17.dp, 2.8f)
+                            GapW(5.dp)
+                            Text("Bicchiere", style = T.BtnS.copy(color = Color.White, fontSize = 13.sp))
+                        }
                     }
                 }
             }
             Column {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    TodayWaterBottle(fill, Modifier.size(if (inline) 74.dp else 80.dp)
+                    TodayWaterBottle(fill, Modifier.size(80.dp)
                         .testTag("water-bottle").semantics {
                             contentDescription = "$ml ml su $goal ml"
                             progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
                         })
-                    GapW(6.dp)
-                    Box(Modifier.width(1.dp).height(68.dp).background(RD.GreyLine))
+                    GapW(7.dp)
+                    Box(Modifier.width(1.dp).height(60.dp).background(RD.GreyLine))
                     GapW(9.dp)
                     Column(Modifier.weight(1f)) {
                         Text("Acqua", style = T.Label.copy(color = RD.Ink))
                         Text("${waterLitres(ml)} L", Modifier.testTag("water-amount"),
-                            style = T.Title.copy(color = RD.Ink, fontSize = 27.sp, lineHeight = 31.sp))
+                            style = T.Title.copy(color = RD.Ink, fontSize = 26.sp, lineHeight = 28.sp))
                         Text("su ${waterLitres(goal)} L", style = T.Small)
-                        Text("Bicchiere da ${s.glassMl} ml", style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp))
+                        Text("Bicchiere da ${s.glassMl} ml", style = T.Small.copy(fontSize = PremiumScale.body, lineHeight = 15.sp))
                     }
                     if (inline) {
                         GapW(3.dp)
