@@ -12,3 +12,4 @@ footage-src
 # Take intermedi della voce (rigenerabili con voiceover/generate_vo.py)
 voiceover/takes
 public/music45.wav
+__pycache__/
