@@ -6,7 +6,7 @@ import { BEAT, C } from "../theme";
  * Sfondo continuo sotto tutte le scene: gradiente navy, "aurora" di luci morbide in movimento,
  * griglia prospettica e un respiro di luce sincronizzato con la cassa (dal drop a 4 s).
  */
-export const Background: React.FC = () => {
+export const Background: React.FC<{ pulse?: number; saturation?: number }> = ({ pulse: pulseIn, saturation = 1 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -14,7 +14,7 @@ export const Background: React.FC = () => {
   // Impulso sul beat: picco sul colpo, decadimento in ~0,4 s. Attivo tra 4 s e 26 s.
   const beatPhase = (frame % BEAT) / BEAT;
   const groove = frame >= 4 * fps && frame < 26 * fps ? 1 : 0;
-  const pulse = groove * Math.pow(1 - beatPhase, 3);
+  const pulse = pulseIn ?? groove * Math.pow(1 - beatPhase, 3);
 
   const blob = (
     color: string,
@@ -45,6 +45,7 @@ export const Background: React.FC = () => {
       style={{
         background: `radial-gradient(120% 80% at 50% 30%, ${C.navyBright} 0%, ${C.navyDeep} 45%, ${C.bgDeep} 100%)`,
         overflow: "hidden",
+        filter: saturation < 1 ? `saturate(${saturation}) brightness(${0.7 + 0.3 * saturation})` : undefined,
       }}
     >
       {blob(C.orange, 1300, 900, 300, 0.35, 0, 0.42 + pulse * 0.18)}

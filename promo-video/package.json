@@ -1,7 +1,7 @@
 {
   "name": "jarvis-food-promo",
   "version": "1.0.0",
-  "description": "Video promozionale Jarvis Food (Remotion, 1080x1920, 60 fps, 30 s)",
+  "description": "Video promozionali Jarvis Food (Remotion, 1080x1920, 60 fps): versione 45 s con voce e versione 30 s",
   "repository": {},
   "license": "UNLICENSED",
   "engines": {
@@ -34,7 +34,9 @@
     "lint": "eslint src && tsc",
     "music": "python3 scripts/make_music.py",
     "stills": "node scripts/stills.mjs out/stills",
-    "render": "remotion render JarvisPromo out/jarvis-food-promo.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=320k --pixel-format=yuv420p"
+    "render": "remotion render JarvisPromo45 out/jarvis-food-promo-45s.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=320k --pixel-format=yuv420p",
+    "render:30": "remotion render JarvisPromo out/jarvis-food-promo.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=320k --pixel-format=yuv420p",
+    "audio": "python3 scripts/build_audio.py"
   },
   "allowScripts": {
     "esbuild": false

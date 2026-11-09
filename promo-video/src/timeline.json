@@ -1,0 +1,1210 @@
+{
+ "fps": 60,
+ "durationInFrames": 2700,
+ "sections": [
+  {
+   "name": "ieri",
+   "bpm": 104,
+   "start": 0,
+   "end": 415
+  },
+  {
+   "name": "oggi",
+   "bpm": 116,
+   "start": 415,
+   "end": 912
+  },
+  {
+   "name": "costruzione",
+   "bpm": 120,
+   "start": 912,
+   "end": 1872
+  },
+  {
+   "name": "corsa",
+   "bpm": 128,
+   "start": 1872,
+   "end": 2209
+  },
+  {
+   "name": "finale",
+   "bpm": 128,
+   "start": 2209,
+   "end": 2659
+  }
+ ],
+ "beats": [
+  {
+   "f": 0,
+   "section": "ieri",
+   "bar": 0,
+   "beat": 0
+  },
+  {
+   "f": 35,
+   "section": "ieri",
+   "bar": 0,
+   "beat": 1
+  },
+  {
+   "f": 69,
+   "section": "ieri",
+   "bar": 0,
+   "beat": 2
+  },
+  {
+   "f": 104,
+   "section": "ieri",
+   "bar": 0,
+   "beat": 3
+  },
+  {
+   "f": 138,
+   "section": "ieri",
+   "bar": 1,
+   "beat": 0
+  },
+  {
+   "f": 173,
+   "section": "ieri",
+   "bar": 1,
+   "beat": 1
+  },
+  {
+   "f": 208,
+   "section": "ieri",
+   "bar": 1,
+   "beat": 2
+  },
+  {
+   "f": 242,
+   "section": "ieri",
+   "bar": 1,
+   "beat": 3
+  },
+  {
+   "f": 277,
+   "section": "ieri",
+   "bar": 2,
+   "beat": 0
+  },
+  {
+   "f": 312,
+   "section": "ieri",
+   "bar": 2,
+   "beat": 1
+  },
+  {
+   "f": 346,
+   "section": "ieri",
+   "bar": 2,
+   "beat": 2
+  },
+  {
+   "f": 381,
+   "section": "ieri",
+   "bar": 2,
+   "beat": 3
+  },
+  {
+   "f": 415,
+   "section": "oggi",
+   "bar": 0,
+   "beat": 0
+  },
+  {
+   "f": 446,
+   "section": "oggi",
+   "bar": 0,
+   "beat": 1
+  },
+  {
+   "f": 477,
+   "section": "oggi",
+   "bar": 0,
+   "beat": 2
+  },
+  {
+   "f": 508,
+   "section": "oggi",
+   "bar": 0,
+   "beat": 3
+  },
+  {
+   "f": 540,
+   "section": "oggi",
+   "bar": 1,
+   "beat": 0
+  },
+  {
+   "f": 571,
+   "section": "oggi",
+   "bar": 1,
+   "beat": 1
+  },
+  {
+   "f": 602,
+   "section": "oggi",
+   "bar": 1,
+   "beat": 2
+  },
+  {
+   "f": 633,
+   "section": "oggi",
+   "bar": 1,
+   "beat": 3
+  },
+  {
+   "f": 664,
+   "section": "oggi",
+   "bar": 2,
+   "beat": 0
+  },
+  {
+   "f": 695,
+   "section": "oggi",
+   "bar": 2,
+   "beat": 1
+  },
+  {
+   "f": 726,
+   "section": "oggi",
+   "bar": 2,
+   "beat": 2
+  },
+  {
+   "f": 757,
+   "section": "oggi",
+   "bar": 2,
+   "beat": 3
+  },
+  {
+   "f": 788,
+   "section": "oggi",
+   "bar": 3,
+   "beat": 0
+  },
+  {
+   "f": 819,
+   "section": "oggi",
+   "bar": 3,
+   "beat": 1
+  },
+  {
+   "f": 850,
+   "section": "oggi",
+   "bar": 3,
+   "beat": 2
+  },
+  {
+   "f": 881,
+   "section": "oggi",
+   "bar": 3,
+   "beat": 3
+  },
+  {
+   "f": 912,
+   "section": "costruzione",
+   "bar": 0,
+   "beat": 0
+  },
+  {
+   "f": 942,
+   "section": "costruzione",
+   "bar": 0,
+   "beat": 1
+  },
+  {
+   "f": 972,
+   "section": "costruzione",
+   "bar": 0,
+   "beat": 2
+  },
+  {
+   "f": 1002,
+   "section": "costruzione",
+   "bar": 0,
+   "beat": 3
+  },
+  {
+   "f": 1032,
+   "section": "costruzione",
+   "bar": 1,
+   "beat": 0
+  },
+  {
+   "f": 1062,
+   "section": "costruzione",
+   "bar": 1,
+   "beat": 1
+  },
+  {
+   "f": 1092,
+   "section": "costruzione",
+   "bar": 1,
+   "beat": 2
+  },
+  {
+   "f": 1122,
+   "section": "costruzione",
+   "bar": 1,
+   "beat": 3
+  },
+  {
+   "f": 1152,
+   "section": "costruzione",
+   "bar": 2,
+   "beat": 0
+  },
+  {
+   "f": 1182,
+   "section": "costruzione",
+   "bar": 2,
+   "beat": 1
+  },
+  {
+   "f": 1212,
+   "section": "costruzione",
+   "bar": 2,
+   "beat": 2
+  },
+  {
+   "f": 1242,
+   "section": "costruzione",
+   "bar": 2,
+   "beat": 3
+  },
+  {
+   "f": 1272,
+   "section": "costruzione",
+   "bar": 3,
+   "beat": 0
+  },
+  {
+   "f": 1302,
+   "section": "costruzione",
+   "bar": 3,
+   "beat": 1
+  },
+  {
+   "f": 1332,
+   "section": "costruzione",
+   "bar": 3,
+   "beat": 2
+  },
+  {
+   "f": 1362,
+   "section": "costruzione",
+   "bar": 3,
+   "beat": 3
+  },
+  {
+   "f": 1392,
+   "section": "costruzione",
+   "bar": 4,
+   "beat": 0
+  },
+  {
+   "f": 1422,
+   "section": "costruzione",
+   "bar": 4,
+   "beat": 1
+  },
+  {
+   "f": 1452,
+   "section": "costruzione",
+   "bar": 4,
+   "beat": 2
+  },
+  {
+   "f": 1482,
+   "section": "costruzione",
+   "bar": 4,
+   "beat": 3
+  },
+  {
+   "f": 1512,
+   "section": "costruzione",
+   "bar": 5,
+   "beat": 0
+  },
+  {
+   "f": 1542,
+   "section": "costruzione",
+   "bar": 5,
+   "beat": 1
+  },
+  {
+   "f": 1572,
+   "section": "costruzione",
+   "bar": 5,
+   "beat": 2
+  },
+  {
+   "f": 1602,
+   "section": "costruzione",
+   "bar": 5,
+   "beat": 3
+  },
+  {
+   "f": 1632,
+   "section": "costruzione",
+   "bar": 6,
+   "beat": 0
+  },
+  {
+   "f": 1662,
+   "section": "costruzione",
+   "bar": 6,
+   "beat": 1
+  },
+  {
+   "f": 1692,
+   "section": "costruzione",
+   "bar": 6,
+   "beat": 2
+  },
+  {
+   "f": 1722,
+   "section": "costruzione",
+   "bar": 6,
+   "beat": 3
+  },
+  {
+   "f": 1752,
+   "section": "costruzione",
+   "bar": 7,
+   "beat": 0
+  },
+  {
+   "f": 1782,
+   "section": "costruzione",
+   "bar": 7,
+   "beat": 1
+  },
+  {
+   "f": 1812,
+   "section": "costruzione",
+   "bar": 7,
+   "beat": 2
+  },
+  {
+   "f": 1842,
+   "section": "costruzione",
+   "bar": 7,
+   "beat": 3
+  },
+  {
+   "f": 1872,
+   "section": "corsa",
+   "bar": 0,
+   "beat": 0
+  },
+  {
+   "f": 1900,
+   "section": "corsa",
+   "bar": 0,
+   "beat": 1
+  },
+  {
+   "f": 1928,
+   "section": "corsa",
+   "bar": 0,
+   "beat": 2
+  },
+  {
+   "f": 1956,
+   "section": "corsa",
+   "bar": 0,
+   "beat": 3
+  },
+  {
+   "f": 1984,
+   "section": "corsa",
+   "bar": 1,
+   "beat": 0
+  },
+  {
+   "f": 2013,
+   "section": "corsa",
+   "bar": 1,
+   "beat": 1
+  },
+  {
+   "f": 2041,
+   "section": "corsa",
+   "bar": 1,
+   "beat": 2
+  },
+  {
+   "f": 2069,
+   "section": "corsa",
+   "bar": 1,
+   "beat": 3
+  },
+  {
+   "f": 2097,
+   "section": "corsa",
+   "bar": 2,
+   "beat": 0
+  },
+  {
+   "f": 2125,
+   "section": "corsa",
+   "bar": 2,
+   "beat": 1
+  },
+  {
+   "f": 2153,
+   "section": "corsa",
+   "bar": 2,
+   "beat": 2
+  },
+  {
+   "f": 2181,
+   "section": "corsa",
+   "bar": 2,
+   "beat": 3
+  },
+  {
+   "f": 2209,
+   "section": "finale",
+   "bar": 0,
+   "beat": 0
+  },
+  {
+   "f": 2238,
+   "section": "finale",
+   "bar": 0,
+   "beat": 1
+  },
+  {
+   "f": 2266,
+   "section": "finale",
+   "bar": 0,
+   "beat": 2
+  },
+  {
+   "f": 2294,
+   "section": "finale",
+   "bar": 0,
+   "beat": 3
+  },
+  {
+   "f": 2322,
+   "section": "finale",
+   "bar": 1,
+   "beat": 0
+  },
+  {
+   "f": 2350,
+   "section": "finale",
+   "bar": 1,
+   "beat": 1
+  },
+  {
+   "f": 2378,
+   "section": "finale",
+   "bar": 1,
+   "beat": 2
+  },
+  {
+   "f": 2406,
+   "section": "finale",
+   "bar": 1,
+   "beat": 3
+  },
+  {
+   "f": 2434,
+   "section": "finale",
+   "bar": 2,
+   "beat": 0
+  },
+  {
+   "f": 2463,
+   "section": "finale",
+   "bar": 2,
+   "beat": 1
+  },
+  {
+   "f": 2491,
+   "section": "finale",
+   "bar": 2,
+   "beat": 2
+  },
+  {
+   "f": 2519,
+   "section": "finale",
+   "bar": 2,
+   "beat": 3
+  },
+  {
+   "f": 2547,
+   "section": "finale",
+   "bar": 3,
+   "beat": 0
+  },
+  {
+   "f": 2575,
+   "section": "finale",
+   "bar": 3,
+   "beat": 1
+  },
+  {
+   "f": 2603,
+   "section": "finale",
+   "bar": 3,
+   "beat": 2
+  },
+  {
+   "f": 2631,
+   "section": "finale",
+   "bar": 3,
+   "beat": 3
+  }
+ ],
+ "scenes": [
+  {
+   "id": "Yesterday",
+   "start": 0,
+   "end": 415,
+   "section": "ieri"
+  },
+  {
+   "id": "Today",
+   "start": 415,
+   "end": 540,
+   "section": "oggi"
+  },
+  {
+   "id": "OnePerson",
+   "start": 540,
+   "end": 664,
+   "section": "oggi"
+  },
+  {
+   "id": "OneWeek",
+   "start": 664,
+   "end": 788,
+   "section": "oggi"
+  },
+  {
+   "id": "ZeroCost",
+   "start": 788,
+   "end": 912,
+   "section": "oggi"
+  },
+  {
+   "id": "Reveal",
+   "start": 912,
+   "end": 1032,
+   "section": "costruzione"
+  },
+  {
+   "id": "Diary",
+   "start": 1032,
+   "end": 1392,
+   "section": "costruzione"
+  },
+  {
+   "id": "AiPhoto",
+   "start": 1392,
+   "end": 1572,
+   "section": "costruzione"
+  },
+  {
+   "id": "Fasting",
+   "start": 1572,
+   "end": 1872,
+   "section": "costruzione"
+  },
+  {
+   "id": "Montage",
+   "start": 1872,
+   "end": 2097,
+   "section": "corsa"
+  },
+  {
+   "id": "AllInOne",
+   "start": 2097,
+   "end": 2209,
+   "section": "corsa"
+  },
+  {
+   "id": "Future",
+   "start": 2209,
+   "end": 2434,
+   "section": "finale"
+  },
+  {
+   "id": "Outro",
+   "start": 2434,
+   "end": 2700,
+   "section": "finale"
+  }
+ ],
+ "lines": [
+  {
+   "id": "L01",
+   "text": "Una volta, per creare un'app servivano un team intero, mesi di lavoro... e budget da capogiro.",
+   "start": 17,
+   "end": 380,
+   "words": [
+    {
+     "w": "Una",
+     "start": 17,
+     "end": 32
+    },
+    {
+     "w": "volta,",
+     "start": 32,
+     "end": 50
+    },
+    {
+     "w": "per",
+     "start": 50,
+     "end": 69
+    },
+    {
+     "w": "creare",
+     "start": 69,
+     "end": 92
+    },
+    {
+     "w": "un'app",
+     "start": 92,
+     "end": 115
+    },
+    {
+     "w": "servivano",
+     "start": 128,
+     "end": 170
+    },
+    {
+     "w": "un",
+     "start": 170,
+     "end": 177
+    },
+    {
+     "w": "team",
+     "start": 177,
+     "end": 190
+    },
+    {
+     "w": "intero,",
+     "start": 190,
+     "end": 227
+    },
+    {
+     "w": "mesi",
+     "start": 233,
+     "end": 250
+    },
+    {
+     "w": "di",
+     "start": 250,
+     "end": 254
+    },
+    {
+     "w": "lavoro...",
+     "start": 254,
+     "end": 273
+    },
+    {
+     "w": "e",
+     "start": 273,
+     "end": 292
+    },
+    {
+     "w": "budget",
+     "start": 292,
+     "end": 320
+    },
+    {
+     "w": "da",
+     "start": 320,
+     "end": 334
+    },
+    {
+     "w": "capogiro.",
+     "start": 334,
+     "end": 369
+    }
+   ]
+  },
+  {
+   "id": "L02",
+   "text": "Oggi, no.",
+   "start": 415,
+   "end": 465,
+   "words": [
+    {
+     "w": "Oggi,",
+     "start": 415,
+     "end": 438
+    },
+    {
+     "w": "no.",
+     "start": 438,
+     "end": 457
+    }
+   ]
+  },
+  {
+   "id": "L03",
+   "text": "Oggi basta una persona.",
+   "start": 540,
+   "end": 655,
+   "words": [
+    {
+     "w": "Oggi",
+     "start": 540,
+     "end": 558
+    },
+    {
+     "w": "basta",
+     "start": 558,
+     "end": 582
+    },
+    {
+     "w": "una",
+     "start": 582,
+     "end": 608
+    },
+    {
+     "w": "persona.",
+     "start": 608,
+     "end": 632
+    }
+   ]
+  },
+  {
+   "id": "L04",
+   "text": "Una settimana.",
+   "start": 664,
+   "end": 728,
+   "words": [
+    {
+     "w": "Una",
+     "start": 664,
+     "end": 679
+    },
+    {
+     "w": "settimana.",
+     "start": 679,
+     "end": 716
+    }
+   ]
+  },
+  {
+   "id": "L05",
+   "text": "E un costo quasi pari a zero.",
+   "start": 788,
+   "end": 902,
+   "words": [
+    {
+     "w": "E",
+     "start": 788,
+     "end": 796
+    },
+    {
+     "w": "un",
+     "start": 796,
+     "end": 803
+    },
+    {
+     "w": "costo",
+     "start": 803,
+     "end": 831
+    },
+    {
+     "w": "quasi",
+     "start": 831,
+     "end": 841
+    },
+    {
+     "w": "pari",
+     "start": 841,
+     "end": 867
+    },
+    {
+     "w": "a",
+     "start": 867,
+     "end": 872
+    },
+    {
+     "w": "zero.",
+     "start": 872,
+     "end": 887
+    }
+   ]
+  },
+  {
+   "id": "L06",
+   "text": "Jarvis Food è nata così.",
+   "start": 912,
+   "end": 1028,
+   "words": [
+    {
+     "w": "Jarvis",
+     "start": 912,
+     "end": 940
+    },
+    {
+     "w": "Food",
+     "start": 940,
+     "end": 960
+    },
+    {
+     "w": "è",
+     "start": 960,
+     "end": 983
+    },
+    {
+     "w": "nata",
+     "start": 983,
+     "end": 1003
+    },
+    {
+     "w": "così.",
+     "start": 1003,
+     "end": 1025
+    }
+   ]
+  },
+  {
+   "id": "L07",
+   "text": "Un diario alimentare che ti capisce.",
+   "start": 1062,
+   "end": 1181,
+   "words": [
+    {
+     "w": "Un",
+     "start": 1062,
+     "end": 1070
+    },
+    {
+     "w": "diario",
+     "start": 1070,
+     "end": 1088
+    },
+    {
+     "w": "alimentare",
+     "start": 1088,
+     "end": 1129
+    },
+    {
+     "w": "che",
+     "start": 1129,
+     "end": 1138
+    },
+    {
+     "w": "ti",
+     "start": 1138,
+     "end": 1145
+    },
+    {
+     "w": "capisce.",
+     "start": 1145,
+     "end": 1177
+    }
+   ]
+  },
+  {
+   "id": "L07B",
+   "text": "Calorie. Macro. Ogni pasto. In un tocco.",
+   "start": 1212,
+   "end": 1375,
+   "words": [
+    {
+     "w": "Calorie.",
+     "start": 1212,
+     "end": 1237
+    },
+    {
+     "w": "Macro.",
+     "start": 1249,
+     "end": 1273
+    },
+    {
+     "w": "Ogni",
+     "start": 1285,
+     "end": 1294
+    },
+    {
+     "w": "pasto.",
+     "start": 1294,
+     "end": 1324
+    },
+    {
+     "w": "In",
+     "start": 1324,
+     "end": 1332
+    },
+    {
+     "w": "un",
+     "start": 1332,
+     "end": 1339
+    },
+    {
+     "w": "tocco.",
+     "start": 1339,
+     "end": 1368
+    }
+   ]
+  },
+  {
+   "id": "L08",
+   "text": "Scatta una foto: Jarvis riconosce il piatto.",
+   "start": 1392,
+   "end": 1571,
+   "words": [
+    {
+     "w": "Scatta",
+     "start": 1392,
+     "end": 1409
+    },
+    {
+     "w": "una",
+     "start": 1409,
+     "end": 1420
+    },
+    {
+     "w": "foto:",
+     "start": 1420,
+     "end": 1439
+    },
+    {
+     "w": "Jarvis",
+     "start": 1460,
+     "end": 1489
+    },
+    {
+     "w": "riconosce",
+     "start": 1489,
+     "end": 1529
+    },
+    {
+     "w": "il",
+     "start": 1529,
+     "end": 1534
+    },
+    {
+     "w": "piatto.",
+     "start": 1534,
+     "end": 1559
+    }
+   ]
+  },
+  {
+   "id": "L09",
+   "text": "Il digiuno? Ti guida, fase dopo fase.",
+   "start": 1602,
+   "end": 1773,
+   "words": [
+    {
+     "w": "Il",
+     "start": 1602,
+     "end": 1610
+    },
+    {
+     "w": "digiuno?",
+     "start": 1610,
+     "end": 1642
+    },
+    {
+     "w": "Ti",
+     "start": 1658,
+     "end": 1666
+    },
+    {
+     "w": "guida,",
+     "start": 1666,
+     "end": 1687
+    },
+    {
+     "w": "fase",
+     "start": 1687,
+     "end": 1717
+    },
+    {
+     "w": "dopo",
+     "start": 1717,
+     "end": 1736
+    },
+    {
+     "w": "fase.",
+     "start": 1736,
+     "end": 1760
+    }
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Piano pasti. Ricette. Spesa. Progressi.",
+   "start": 1872,
+   "end": 2072,
+   "words": [
+    {
+     "w": "Piano",
+     "start": 1872,
+     "end": 1885
+    },
+    {
+     "w": "pasti.",
+     "start": 1885,
+     "end": 1925
+    },
+    {
+     "w": "Ricette.",
+     "start": 1931,
+     "end": 1979
+    },
+    {
+     "w": "Spesa.",
+     "start": 1990,
+     "end": 2018
+    },
+    {
+     "w": "Progressi.",
+     "start": 2026,
+     "end": 2068
+    }
+   ]
+  },
+  {
+   "id": "L11",
+   "text": "Tutto, in un'unica app.",
+   "start": 2083,
+   "end": 2186,
+   "words": [
+    {
+     "w": "Tutto,",
+     "start": 2083,
+     "end": 2101
+    },
+    {
+     "w": "in",
+     "start": 2101,
+     "end": 2121
+    },
+    {
+     "w": "un'unica",
+     "start": 2121,
+     "end": 2156
+    },
+    {
+     "w": "app.",
+     "start": 2156,
+     "end": 2178
+    }
+   ]
+  },
+  {
+   "id": "L12",
+   "text": "Il futuro delle app è già qui. Ed è nel tuo telefono.",
+   "start": 2209,
+   "end": 2441,
+   "words": [
+    {
+     "w": "Il",
+     "start": 2209,
+     "end": 2220
+    },
+    {
+     "w": "futuro",
+     "start": 2220,
+     "end": 2242
+    },
+    {
+     "w": "delle",
+     "start": 2242,
+     "end": 2257
+    },
+    {
+     "w": "app",
+     "start": 2257,
+     "end": 2279
+    },
+    {
+     "w": "è",
+     "start": 2279,
+     "end": 2299
+    },
+    {
+     "w": "già",
+     "start": 2299,
+     "end": 2309
+    },
+    {
+     "w": "qui.",
+     "start": 2309,
+     "end": 2325
+    },
+    {
+     "w": "Ed",
+     "start": 2325,
+     "end": 2359
+    },
+    {
+     "w": "è",
+     "start": 2359,
+     "end": 2367
+    },
+    {
+     "w": "nel",
+     "start": 2367,
+     "end": 2376
+    },
+    {
+     "w": "tuo",
+     "start": 2376,
+     "end": 2387
+    },
+    {
+     "w": "telefono.",
+     "start": 2387,
+     "end": 2423
+    }
+   ]
+  },
+  {
+   "id": "L13",
+   "text": "Jarvis Food. Mangia meglio, ogni giorno.",
+   "start": 2463,
+   "end": 2634,
+   "words": [
+    {
+     "w": "Jarvis",
+     "start": 2463,
+     "end": 2490
+    },
+    {
+     "w": "Food.",
+     "start": 2490,
+     "end": 2509
+    },
+    {
+     "w": "Mangia",
+     "start": 2525,
+     "end": 2562
+    },
+    {
+     "w": "meglio,",
+     "start": 2562,
+     "end": 2580
+    },
+    {
+     "w": "ogni",
+     "start": 2580,
+     "end": 2599
+    },
+    {
+     "w": "giorno.",
+     "start": 2599,
+     "end": 2617
+    }
+   ]
+  }
+ ]
+}

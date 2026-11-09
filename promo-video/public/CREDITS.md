@@ -21,3 +21,12 @@ Foto delle ricette riusate dagli asset dell'app (`app/src/main/assets/recipes`).
 
 Logo e font (Bricolage Grotesque, DM Sans) provengono dalle risorse dell'app (`app/src/main/res`).
 La musica `music.wav` è sintetizzata da `scripts/make_music.py`: nessun campione di terzi.
+
+## Voce fuori campo (versione 45 s)
+
+- Sintesi: Chatterbox Multilingual di Resemble AI, licenza MIT (https://github.com/resemble-ai/chatterbox).
+- Voce di riferimento: prompt italiano maschile `it_m1.flac` pubblicato da Resemble AI per la demo
+  multilingue (https://huggingface.co/spaces/ResembleAI/Chatterbox-Multilingual-TTS). La pagina non
+  indica una licenza specifica per i file di esempio: per un uso commerciale ampio conviene verificarla
+  o sostituirla con una registrazione propria (basta rigenerare con `--ref`).
+- Watermark Perth incorporato dalla libreria: identifica l'audio come generato da AI.

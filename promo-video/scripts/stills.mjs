@@ -16,7 +16,7 @@ fs.mkdirSync(out, { recursive: true });
 
 const browserExecutable = process.env.REMOTION_BROWSER || null;
 const serveUrl = await bundle({ entryPoint: path.resolve("src/index.ts") });
-const composition = await selectComposition({ serveUrl, id: "JarvisPromo", browserExecutable });
+const composition = await selectComposition({ serveUrl, id: process.env.COMP || "JarvisPromo45", browserExecutable });
 for (const frame of frames) {
   const output = path.join(out, `f${String(frame).padStart(4, "0")}.png`);
   await renderStill({ composition, serveUrl, frame, output, browserExecutable, scale: 0.5 });

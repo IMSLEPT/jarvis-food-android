@@ -10,6 +10,7 @@ import { Hook } from "./scenes/Hook";
 import { Intro } from "./scenes/Intro";
 import { Outro } from "./scenes/Outro";
 import { Background } from "./components/Background";
+import { Promo45 } from "./v2/Promo45";
 
 // I font vengono caricati prima del primo frame (delayRender gestito da @remotion/fonts).
 void fontsReady;
@@ -28,6 +29,14 @@ const withBg = (Scene: React.FC): React.FC => {
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="JarvisPromo45"
+        component={Promo45}
+        durationInFrames={2700}
+        fps={60}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="JarvisPromo"
         component={JarvisPromo}

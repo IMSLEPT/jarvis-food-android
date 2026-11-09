@@ -1,0 +1,555 @@
+{
+ "L02": {
+  "best": 0,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L02_0.wav",
+    "wer": 0.0,
+    "dur": 0.82,
+    "text": "oggi no."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L02_1.wav",
+    "wer": 1.0,
+    "dur": 0.48,
+    "text": "Oggino."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L02_2.wav",
+    "wer": 0.0,
+    "dur": 1.01,
+    "text": "Oggi, no."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L02_3.wav",
+    "wer": 0.0,
+    "dur": 0.94,
+    "text": "oggi no."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L02_4.wav",
+    "wer": 1.0,
+    "dur": 0.55,
+    "text": "Oggino."
+   }
+  ]
+ },
+ "L07": {
+  "best": 2,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L07_0.wav",
+    "wer": 0.0,
+    "dur": 1.99,
+    "text": "un diario alimentare che ti capisce."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L07_1.wav",
+    "wer": 0.333,
+    "dur": 3.16,
+    "text": "un viario alimentare che ti capisce지막i."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L07_2.wav",
+    "wer": 0.0,
+    "dur": 2.05,
+    "text": "un diario alimentare che ti capisce."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L07_3.wav",
+    "wer": 0.167,
+    "dur": 2.12,
+    "text": "un diario alimentare che ti capisci."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L07_4.wav",
+    "wer": 0.167,
+    "dur": 3.4,
+    "text": "un ghiario alimentare che ti capisce."
+   },
+   {
+    "take": 5,
+    "path": "voiceover/takes/L07_5.wav",
+    "wer": 0.167,
+    "dur": 2.1,
+    "text": "un diario alimentare che ti capisce specia"
+   }
+  ]
+ },
+ "L01": {
+  "best": 1,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L01_0.wav",
+    "wer": 0.0,
+    "dur": 5.44,
+    "text": "Una volta per creare un app servivano un team intero mesi di lavoro e budget da capogiro."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L01_1.wav",
+    "wer": 0.0,
+    "dur": 6.04,
+    "text": "Una volta per creare un app, servivano un team intero, mesi di lavoro e budget da capogiro."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L01_2.wav",
+    "wer": 0.0,
+    "dur": 6.12,
+    "text": "Una volta per creare un app servivano un team intero, mesi di lavoro e budget da capogiro."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L01_3.wav",
+    "wer": 0.0,
+    "dur": 6.38,
+    "text": "una volta per creare un app servivano un team intero mesi di lavoro e budget da capogiro."
+   }
+  ]
+ },
+ "L03": {
+  "best": 0,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L03_0.wav",
+    "wer": 0.0,
+    "dur": 1.92,
+    "text": "oggi basta una persona."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L03_1.wav",
+    "wer": 0.0,
+    "dur": 2.91,
+    "text": "Oggi basta una persona."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L03_2.wav",
+    "wer": 0.0,
+    "dur": 1.55,
+    "text": "Oggi basta una persona."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L03_3.wav",
+    "wer": 0.0,
+    "dur": 1.44,
+    "text": "Oggi basta una persona."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L03_4.wav",
+    "wer": 0.0,
+    "dur": 2.83,
+    "text": "Oggi basta una persona."
+   }
+  ]
+ },
+ "L04": {
+  "best": 0,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L04_0.wav",
+    "wer": 0.0,
+    "dur": 1.07,
+    "text": "una settimana."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L04_1.wav",
+    "wer": 0.0,
+    "dur": 1.79,
+    "text": "una settimana."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L04_2.wav",
+    "wer": 0.0,
+    "dur": 1.16,
+    "text": "una settimana."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L04_3.wav",
+    "wer": 0.0,
+    "dur": 0.99,
+    "text": "una settimana."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L04_4.wav",
+    "wer": 0.0,
+    "dur": 0.96,
+    "text": "una settimana."
+   }
+  ]
+ },
+ "L05": {
+  "best": 4,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L05_0.wav",
+    "wer": 0.0,
+    "dur": 2.07,
+    "text": "e un costo quasi pari a zero."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L05_1.wav",
+    "wer": 0.0,
+    "dur": 3.01,
+    "text": "e un costo quasi pari a zero."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L05_2.wav",
+    "wer": 0.0,
+    "dur": 1.64,
+    "text": "e un costo quasi pari a zero."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L05_3.wav",
+    "wer": 0.0,
+    "dur": 1.78,
+    "text": "e un costo quasi pari a zero."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L05_4.wav",
+    "wer": 0.0,
+    "dur": 1.9,
+    "text": "e un costo quasi pari a zero."
+   }
+  ]
+ },
+ "L06": {
+  "best": 3,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L06_0.wav",
+    "wer": 0.8,
+    "dur": 4.47,
+    "text": "Jarbysfood è nata così. Mentre è"
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L06_1.wav",
+    "wer": 0.2,
+    "dur": 2.62,
+    "text": "Jarbis food e nata così."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L06_2.wav",
+    "wer": 0.6,
+    "dur": 2.26,
+    "text": "YARBIS FOOD EN NATA KOZI"
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L06_3.wav",
+    "wer": 0.0,
+    "dur": 1.94,
+    "text": "Jarvis Food e Nata Così."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L06_4.wav",
+    "wer": 0.0,
+    "dur": 1.62,
+    "text": "Jarvis Food è nata così."
+   }
+  ]
+ },
+ "L08": {
+  "best": 0,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L08_0.wav",
+    "wer": 0.0,
+    "dur": 2.98,
+    "text": "Scatta una foto. Jarvis riconosce il piatto."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L08_1.wav",
+    "wer": 0.143,
+    "dur": 4.05,
+    "text": "Scatto una foto, Jarvis riconosce il piatto."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L08_2.wav",
+    "wer": 0.143,
+    "dur": 3.11,
+    "text": "Catta una foto, Jarvis riconosce il piatto."
+   }
+  ]
+ },
+ "L09": {
+  "best": 4,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L09_0.wav",
+    "wer": 0.0,
+    "dur": 2.88,
+    "text": "Il digiuno ti guida fase dopo fase."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L09_1.wav",
+    "wer": 0.286,
+    "dur": 2.59,
+    "text": "Il digiuno ti guida, face dopo face."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L09_2.wav",
+    "wer": 0.0,
+    "dur": 2.23,
+    "text": "Il digiuno ti guida fase dopo fase."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L09_3.wav",
+    "wer": 0.0,
+    "dur": 3.43,
+    "text": "il digiuno, ti guida fase dopo fase."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L09_4.wav",
+    "wer": 0.0,
+    "dur": 2.85,
+    "text": "il digiuno, ti guida fase dopo fase"
+   }
+  ]
+ },
+ "L10": {
+  "best": 2,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L10_0.wav",
+    "wer": 0.0,
+    "dur": 3.73,
+    "text": "piano, pasti, ricette, spesa, progressi."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L10_1.wav",
+    "wer": 0.2,
+    "dur": 3.12,
+    "text": "Piano pasti, ricette, spisa, progressi."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L10_2.wav",
+    "wer": 0.0,
+    "dur": 3.34,
+    "text": "Piano pasti, ricette, spesa, progressi."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L10_3.wav",
+    "wer": 0.2,
+    "dur": 3.14,
+    "text": "Piano basti, ricette, spesa, progressi."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L10_4.wav",
+    "wer": 0.0,
+    "dur": 2.87,
+    "text": "Piano pasti, ricette, spesa, progressi"
+   }
+  ]
+ },
+ "L11": {
+  "best": 3,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L11_0.wav",
+    "wer": 0.0,
+    "dur": 1.9,
+    "text": "tutto in un 'unica app"
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L11_1.wav",
+    "wer": 0.2,
+    "dur": 1.61,
+    "text": "tutto in un 'unica appa."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L11_2.wav",
+    "wer": 0.0,
+    "dur": 1.48,
+    "text": "tutto in un 'unica app."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L11_3.wav",
+    "wer": 0.0,
+    "dur": 1.82,
+    "text": "tutto in un 'unica app."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L11_4.wav",
+    "wer": 0.0,
+    "dur": 1.93,
+    "text": "tutto in un 'unica app."
+   }
+  ]
+ },
+ "L12": {
+  "best": 1,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L12_0.wav",
+    "wer": 0.0,
+    "dur": 4.35,
+    "text": "Il futuro delle app è già qui ed è nel tuo telefono."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L12_1.wav",
+    "wer": 0.0,
+    "dur": 4.23,
+    "text": "Il futuro delle app è già qui ed è nel tuo telefono."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L12_2.wav",
+    "wer": 0.0,
+    "dur": 4.06,
+    "text": "Il futuro delle app è già qui, ed è nel tuo telefono."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L12_3.wav",
+    "wer": 0.0,
+    "dur": 3.14,
+    "text": "Il futuro delle app è già qui ed è nel tuo telefono."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L12_4.wav",
+    "wer": 0.0,
+    "dur": 4.46,
+    "text": "Il futuro delle app è già qui ed è nel tuo telefono."
+   }
+  ]
+ },
+ "L13": {
+  "best": 3,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L13_0.wav",
+    "wer": 0.0,
+    "dur": 3.05,
+    "text": "Jarvis Food. Mangia meglio ogni giorno."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L13_1.wav",
+    "wer": 0.167,
+    "dur": 2.53,
+    "text": "Jarvis Food. Mangia meglio un giorno."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L13_2.wav",
+    "wer": 0.0,
+    "dur": 3.57,
+    "text": "Jarvis Food. Mangia meglio ogni giorno."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L13_3.wav",
+    "wer": 0.0,
+    "dur": 2.86,
+    "text": "Jarvis Food. Mangia meglio ogni giorno."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L13_4.wav",
+    "wer": 0.333,
+    "dur": 2.85,
+    "text": "i Harvest Food. Mangia meglio ogni giorno."
+   }
+  ]
+ },
+ "L07B": {
+  "best": 0,
+  "takes": [
+   {
+    "take": 0,
+    "path": "voiceover/takes/L07B_0.wav",
+    "wer": 0.429,
+    "dur": 3.38,
+    "text": "calorie, macro, ogni pasto in un tocco, in un tocco."
+   },
+   {
+    "take": 1,
+    "path": "voiceover/takes/L07B_1.wav",
+    "wer": 0.429,
+    "dur": 4.14,
+    "text": "calorie, macro, ogni pasto in un tocco, in un tocco."
+   },
+   {
+    "take": 2,
+    "path": "voiceover/takes/L07B_2.wav",
+    "wer": 0.714,
+    "dur": 3.46,
+    "text": "allora è macro ogni pasto in un tocco, in un tocco."
+   },
+   {
+    "take": 3,
+    "path": "voiceover/takes/L07B_3.wav",
+    "wer": 0.429,
+    "dur": 4.1,
+    "text": "calorie, macro, ogni pasto in un tocco, in un tocco."
+   },
+   {
+    "take": 4,
+    "path": "voiceover/takes/L07B_4.wav",
+    "wer": 0.571,
+    "dur": 3.02,
+    "text": "macro ogni pasto, in un tocco, in un tocco."
+   },
+   {
+    "take": 5,
+    "path": "voiceover/takes/L07B_5.wav",
+    "wer": 0.571,
+    "dur": 3.76,
+    "text": "colorie macro ogni pasto in un tocco, in un tocco"
+   }
+  ]
+ }
+}
