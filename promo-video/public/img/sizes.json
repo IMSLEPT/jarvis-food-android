@@ -1,0 +1,238 @@
+{
+ "header.png": [
+  941,
+  160
+ ],
+ "nav_oggi.png": [
+  941,
+  160
+ ],
+ "ph_colazione.jpg": [
+  176,
+  76
+ ],
+ "ph_spuntino.jpg": [
+  176,
+  76
+ ],
+ "ph_pranzo.jpg": [
+  176,
+  78
+ ],
+ "ph_cena.jpg": [
+  176,
+  82
+ ],
+ "ic_aggiungi.png": [
+  78,
+  76
+ ],
+ "ic_foto.png": [
+  78,
+  70
+ ],
+ "ic_frigo.png": [
+  66,
+  76
+ ],
+ "ic_digiuno.png": [
+  72,
+  78
+ ],
+ "ic_idra.png": [
+  56,
+  68
+ ],
+ "ic_vit.png": [
+  64,
+  66
+ ],
+ "ic_att.png": [
+  68,
+  72
+ ],
+ "nav_piano.png": [
+  941,
+  160
+ ],
+ "li_banane.png": [
+  102,
+  67
+ ],
+ "li_salmone.png": [
+  114,
+  56
+ ],
+ "li_pomodorini.png": [
+  97,
+  64
+ ],
+ "li_zucchine.png": [
+  105,
+  62
+ ],
+ "li_uova.png": [
+  94,
+  58
+ ],
+ "li_yogurt.png": [
+  90,
+  62
+ ],
+ "ic_cart.png": [
+  70,
+  60
+ ],
+ "ic_target.png": [
+  56,
+  56
+ ],
+ "play_badge.png": [
+  605,
+  195
+ ],
+ "nav_cucina.png": [
+  941,
+  160
+ ],
+ "ph_hero.jpg": [
+  874,
+  303
+ ],
+ "ph_bowl.jpg": [
+  241,
+  117
+ ],
+ "ph_toast.jpg": [
+  241,
+  116
+ ],
+ "ph_insalata.jpg": [
+  241,
+  117
+ ],
+ "nav_progressi.png": [
+  941,
+  144
+ ],
+ "ic_peso.png": [
+  68,
+  54
+ ],
+ "ic_grasso.png": [
+  58,
+  60
+ ],
+ "ic_muscolo.png": [
+  70,
+  60
+ ],
+ "ic_acqua.png": [
+  60,
+  60
+ ],
+ "nav_jarvis.png": [
+  941,
+  144
+ ],
+ "avatar.png": [
+  80,
+  80
+ ],
+ "ph_chat.jpg": [
+  199,
+  84
+ ],
+ "ph_hero_big.jpg": [
+  663,
+  318
+ ],
+ "robot.png": [
+  540,
+  802
+ ],
+ "f_avocado.png": [
+  131,
+  144
+ ],
+ "f_tomatoes.png": [
+  263,
+  231
+ ],
+ "f_oats.png": [
+  173,
+  258
+ ],
+ "f_basil.png": [
+  227,
+  210
+ ],
+ "f_dumbbell.png": [
+  257,
+  345
+ ],
+ "f_salmon.png": [
+  183,
+  196
+ ],
+ "f_zucchini.png": [
+  133,
+  140
+ ],
+ "f_basil2.png": [
+  243,
+  199
+ ],
+ "f_tomato2.png": [
+  292,
+  234
+ ],
+ "t_dumbbell.png": [
+  235,
+  192
+ ],
+ "t_leaf.png": [
+  220,
+  195
+ ],
+ "t_fork.png": [
+  211,
+  198
+ ],
+ "t_heart.png": [
+  211,
+  184
+ ],
+ "t_chart.png": [
+  220,
+  202
+ ],
+ "robot_small.png": [
+  141,
+  130
+ ],
+ "logo_hat.png": [
+  533,
+  378
+ ],
+ "logo_jarvis.png": [
+  890,
+  303
+ ],
+ "logo_food.png": [
+  641,
+  257
+ ],
+ "logo_smile.png": [
+  451,
+  146
+ ],
+ "logo_sparks.png": [
+  171,
+  172
+ ],
+ "logo_full.png": [
+  1030,
+  920
+ ]
+}
