@@ -1,0 +1,44 @@
+{
+  "name": "jarvis-food-promo",
+  "version": "1.0.0",
+  "description": "Video promozionali Jarvis Food (Remotion, 1080x1920, 60 fps): versione 45 s con voce e versione 30 s",
+  "repository": {},
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "private": true,
+  "dependencies": {
+    "@remotion/bundler": "4.0.542",
+    "@remotion/cli": "4.0.542",
+    "@remotion/fonts": "4.0.542",
+    "@remotion/media": "4.0.542",
+    "@remotion/renderer": "4.0.542",
+    "@remotion/transitions": "4.0.542",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.542"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.542",
+    "@types/react": "19.3.0",
+    "@types/web": "0.0.166",
+    "eslint": "10.12.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc",
+    "music": "python3 scripts/make_music.py",
+    "stills": "node scripts/stills.mjs out/stills",
+    "render": "remotion render JarvisPromo45 out/jarvis-food-promo-45s.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=320k --pixel-format=yuv420p",
+    "render:30": "remotion render JarvisPromo out/jarvis-food-promo.mp4 --codec=h264 --crf=17 --audio-codec=aac --audio-bitrate=320k --pixel-format=yuv420p",
+    "audio": "python3 scripts/build_audio.py"
+  },
+  "allowScripts": {
+    "esbuild": false
+  }
+}

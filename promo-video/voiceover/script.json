@@ -1,0 +1,75 @@
+{
+  "_nota": "Testo della voce fuori campo (italiano). Ogni riga è sintetizzata separatamente per controllare pause e posizionamento. 'say' è il testo pronunciato, 'show' quello a schermo se diverso.",
+  "lines": [
+    {
+      "id": "L01",
+      "say": "Una volta, per creare un'app servivano un team intero, mesi di lavoro... e budget da capogiro.",
+      "tone": "calmo"
+    },
+    {
+      "id": "L02",
+      "say": "Oggi, no.",
+      "tone": "deciso"
+    },
+    {
+      "id": "L03",
+      "say": "Oggi basta una persona.",
+      "tone": "deciso"
+    },
+    {
+      "id": "L04",
+      "say": "Una settimana.",
+      "tone": "deciso"
+    },
+    {
+      "id": "L05",
+      "say": "E un costo quasi pari a zero.",
+      "tone": "deciso"
+    },
+    {
+      "id": "L06",
+      "say": "Jarvis Food è nata così.",
+      "tone": "caldo"
+    },
+    {
+      "id": "L07",
+      "say": "Un diario alimentare che ti capisce.",
+      "tone": "energico"
+    },
+    {
+      "id": "L07B",
+      "say": "Calorie. Macro. Ogni pasto. In un tocco.",
+      "tone": "incalzante"
+    },
+    {
+      "id": "L08",
+      "say": "Scatta una foto: Jarvis riconosce il piatto.",
+      "tone": "energico"
+    },
+    {
+      "id": "L09",
+      "say": "Il digiuno? Ti guida, fase dopo fase.",
+      "tone": "energico"
+    },
+    {
+      "id": "L10",
+      "say": "Piano pasti. Ricette. Spesa. Progressi.",
+      "tone": "incalzante"
+    },
+    {
+      "id": "L11",
+      "say": "Tutto, in un'unica app.",
+      "tone": "incalzante"
+    },
+    {
+      "id": "L12",
+      "say": "Il futuro delle app è già qui. Ed è nel tuo telefono.",
+      "tone": "ispirato"
+    },
+    {
+      "id": "L13",
+      "say": "Jarvis Food. Mangia meglio, ogni giorno.",
+      "tone": "firma"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+name: Render promo video
+
+# Esporta i promo Remotion (1080×1920, 60 fps: versione 45 s con voce e versione 30 s) come artifact.
+# Avvio manuale da Actions → "Render promo video" → Run workflow,
+# oppure automatico a ogni push che modifica promo-video/.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "promo-video/**"
+      - ".github/workflows/promo-video.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: promo-video
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: promo-video/package-lock.json
+
+      - name: Dipendenze di sistema per Chrome headless e font emoji
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 \
+            libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2t64 \
+            libpango-1.0-0 libcairo2 fonts-noto-color-emoji
+
+      - run: npm ci
+
+      - name: Rigenera musica e mix (deterministici, dalla voce già generata in public/vo)
+        run: |
+          pip install numpy
+          npm run music
+          npm run audio
+
+      - name: Scarica Chrome Headless Shell
+        run: npx remotion browser ensure
+
+      - name: Controlli (ESLint + TypeScript)
+        run: npm run lint
+
+      - name: Render MP4 (45 s con voce)
+        run: npm run render -- --concurrency=100%
+
+      - name: Render MP4 (30 s)
+        run: npm run render:30 -- --concurrency=100%
+
+      - name: Verifica formato
+        run: |
+          for f in out/*.mp4; do
+            echo "== $f"
+            ffprobe -v error -show_entries stream=codec_name,width,height,r_frame_rate:format=duration -of default=nw=1 "$f"
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jarvis-food-promo
+          path: promo-video/out/*.mp4
+          retention-days: 30
