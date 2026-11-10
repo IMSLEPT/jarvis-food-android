@@ -1,369 +1,336 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
-import { C, FONT_BODY, FONT_TITLE } from "../../theme";
-import { Words } from "../Kinetic";
-import { useSceneStart, useWords } from "../tl";
+import { FONT_BODY, FONT_TITLE } from "../../theme";
+import { P, Pill, Pop, Stage, Words } from "../Kinetic";
+import { useWords } from "../tl";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-const SLATE = "#9AA3C7";
+const OUT = Easing.bezier(0.16, 1, 0.3, 1);
 
-export const Person: React.FC<{ size: number; color: string; glow?: boolean }> = ({ size, color, glow }) => (
-  <svg width={size} height={size * 1.15} viewBox="0 0 100 115" style={glow ? { filter: `drop-shadow(0 0 30px ${color})` } : undefined}>
+export const Person: React.FC<{ size: number; color: string }> = ({ size, color }) => (
+  <svg width={size} height={size * 1.15} viewBox="0 0 100 115">
     <circle cx="50" cy="30" r="24" fill={color} />
     <path d="M8 112 C8 74 28 62 50 62 C72 62 92 74 92 112 Z" fill={color} />
   </svg>
 );
 
-/** Posizioni della griglia del "team" (4×3), condivise con la scena "una persona". */
-export const TEAM = new Array(12).fill(0).map((_, i) => ({ x: (i % 4) * 200 - 300, y: Math.floor(i / 4) * 230 - 230 }));
+const MONTHS = ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
 
 // ─────────────────────────────────────────────────────────────────────────────
-/** "Una volta, per creare un'app servivano un team intero, mesi di lavoro... e budget da capogiro." */
+/**
+ * "Una volta, per creare un'app servivano un team intero, mesi di lavoro... e budget da capogiro."
+ * Fondo scuro e spento: le tre voci di costo si accumulano una sotto l'altra, a peso crescente.
+ */
 export const Yesterday: React.FC = () => {
   const frame = useCurrentFrame();
-  const s0 = useSceneStart();
   const w = useWords("L01");
   const tTeam = w[6].start;
   const tMesi = w[9].start;
   const tBudget = w[12].start;
-  const seg = (a: number, b: number) =>
-    interpolate(frame, [a - 4, a + 4, b - 4, b + 2], [0, 1, 1, 0], clamp);
-  const segLast = (a: number) => interpolate(frame, [a - 4, a + 4], [0, 1], clamp);
-  void s0;
+  const tEnd = w[15].end;
+  // alla fine tutto il blocco "cede" verso il basso, prima del taglio a vuoto
+  const sink = interpolate(frame, [tEnd + 4, tEnd + 30], [0, 1], { ...clamp, easing: Easing.bezier(0.5, 0, 0.9, 0.4) });
+  const row = (y: number): React.CSSProperties => ({ position: "absolute", left: 90, top: y, width: 900 });
 
   return (
-    <AbsoluteFill
-      style={{
-        alignItems: "center",
-        // lenta spinta di camera
-        scale: `${interpolate(frame, [0, 480], [1, 1.06])}`,
-      }}
-    >
-      <div style={{ position: "absolute", top: 210 }}>
-        <Words line="L01" to={6} size={74} color={SLATE} variant="rise" accent={{ 0: "#FFFFFF", 1: "#FFFFFF" }} />
-      </div>
+    <AbsoluteFill style={{ background: `radial-gradient(120% 80% at 50% 20%, #23252F 0%, ${P.coal} 60%, #0B0C10 100%)` }}>
+      <AbsoluteFill
+        style={{
+          scale: `${interpolate(frame, [0, 415], [1, 1.05])}`,
+          translate: `0px ${sink * 90}px`,
+          rotate: `${sink * 1.5}deg`,
+          opacity: 1 - sink * 0.6,
+        }}
+      >
+        <div style={{ ...row(200) }}>
+          <Words line="L01" to={6} size={78} color={P.ash} accent={{ 0: "#FFFFFF", 1: "#FFFFFF" }} align="left" width={900} />
+        </div>
 
-      {/* 1 · un team intero */}
-      <AbsoluteFill style={{ alignItems: "center", opacity: seg(tTeam, tMesi) }}>
-        <div style={{ position: "absolute", top: 560 }}>
-          <Words line="L01" from={6} to={9} size={112} />
+        {/* 1 · un team intero */}
+        <div style={row(560)}>
+          <Words line="L01" from={6} to={9} size={112} align="left" width={900} />
+          <div style={{ display: "flex", gap: 13, marginTop: 34 }}>
+            {new Array(12).fill(0).map((_, i) => {
+              const s = tTeam + 6 + i * 2;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    opacity: interpolate(frame, [s, s + 4], [0, 1], clamp),
+                    scale: `${interpolate(frame, [s, s + 14], [0.2, 1], { ...clamp, easing: Easing.spring({ damping: 10 }) })}`,
+                  }}
+                >
+                  <Person size={62} color={i % 4 === 0 ? "#8C93B8" : "#5B6289"} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 2 · mesi di lavoro */}
+        <div style={row(900)}>
+          <Words line="L01" from={9} to={12} size={112} align="left" width={900} />
+          <div style={{ display: "flex", gap: 8, marginTop: 34, opacity: interpolate(frame, [tMesi - 2, tMesi + 6], [0, 1], clamp) }}>
+            {MONTHS.map((m, i) => {
+              const s = tMesi + 4 + i * 3;
+              const on = interpolate(frame, [s, s + 4], [0, 1], clamp);
+              return (
+                <div
+                  key={m}
+                  style={{
+                    width: 67,
+                    height: 76,
+                    borderRadius: 14,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: FONT_BODY,
+                    fontWeight: 600,
+                    fontSize: 22,
+                    color: on > 0.5 ? "#15161D" : "#6A6F85",
+                    background: on > 0.5 ? "#C9CEE3" : "rgba(255,255,255,0.07)",
+                    scale: `${1 + Math.exp(-Math.max(0, frame - s) / 3) * 0.18 * on}`,
+                  }}
+                >
+                  {m}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 3 · budget da capogiro */}
+        <div style={row(1240)}>
+          <Words line="L01" from={12} size={112} align="left" width={900} accent={{ 13: "#FF6B6B", 15: "#FF6B6B" }} />
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 16, marginTop: 34, height: 190, opacity: interpolate(frame, [tBudget + 6, tBudget + 12], [0, 1], clamp) }}>
+            {[0.22, 0.34, 0.48, 0.64, 0.82, 1].map((h, i) => {
+              const s = tBudget + 8 + i * 5;
+              const p = interpolate(frame, [s, s + 24], [0, h], { ...clamp, easing: OUT });
+              return (
+                <div
+                  key={i}
+                  style={{
+                    width: 136,
+                    height: 190 * p,
+                    borderRadius: 16,
+                    background: "linear-gradient(180deg, #FF6B6B, #7A2740)",
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingTop: 8,
+                    fontFamily: FONT_TITLE,
+                    fontWeight: 800,
+                    fontSize: 34,
+                    color: "rgba(255,255,255,0.9)",
+                    overflow: "hidden",
+                  }}
+                >
+                  €
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+/** "Oggi, no." — il drop: tutto lo schermo diventa arancione. */
+export const Today: React.FC = () => {
+  const frame = useCurrentFrame();
+  const w = useWords("L02");
+  const shake = Math.exp(-frame / 5) * 16;
+  return (
+    <Stage
+      bg={P.orange}
+      shapes={[
+        { color: P.orangeLight, size: 1500, x: 540, y: 960 },
+        { color: "#FF9D3D", size: 900, x: 540, y: 960 },
+      ]}
+    >
+      <AbsoluteFill
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          translate: `${Math.sin(frame * 2.1) * shake}px ${Math.cos(frame * 1.7) * shake}px`,
+        }}
+      >
+        <Words line="L02" to={1} size={300} variant="slam" width={1000} lineHeight={0.95} />
+        <Words line="L02" from={1} size={340} variant="slam" color={P.ink} width={1000} lineHeight={0.95} />
+        <Pop at={w[1].end + 4} style={{ marginTop: 70 }}>
+          <Pill bg="#FFFFFF" color={P.ink} size={50}>
+            Le regole sono cambiate
+          </Pill>
+        </Pop>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+/** "Oggi basta una persona." — dodici figure si fondono in una sola. */
+export const OnePerson: React.FC = () => {
+  const frame = useCurrentFrame();
+  const w = useWords("L03");
+  const tP = w[3].start;
+  const merge = interpolate(frame, [8, tP], [0, 1], { ...clamp, easing: Easing.bezier(0.65, 0, 0.35, 1) });
+  const grid = new Array(12).fill(0).map((_, i) => ({ x: (i % 4) * 190 - 285, y: Math.floor(i / 4) * 200 - 200 }));
+  return (
+    <Stage
+      bg={P.paper}
+      shapes={[
+        { color: P.softOrange, size: 980, x: 540, y: 1180 },
+        { color: P.softNavy, size: 420, x: 120, y: 1700, kind: "ring" },
+      ]}
+    >
+      <AbsoluteFill style={{ alignItems: "center" }}>
+        <div style={{ position: "absolute", top: 250 }}>
+          <Words line="L03" size={136} color={P.ink} accent={{ 2: P.orange, 3: P.orange }} />
         </div>
         <div style={{ position: "absolute", top: 1180, left: 540 }}>
-          {TEAM.map((p, i) => {
-            const s = tTeam + 4 + i * 2;
+          {grid.map((p, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                left: p.x * (1 - merge) - 65,
+                top: p.y * (1 - merge) - 75,
+                opacity: 1 - merge,
+                scale: `${1 - merge * 0.5}`,
+              }}
+            >
+              <Person size={130} color="#B4BDDC" />
+            </div>
+          ))}
+          <div
+            style={{
+              position: "absolute",
+              left: -200,
+              top: -260,
+              opacity: interpolate(frame, [tP - 8, tP], [0, 1], clamp),
+              scale: `${interpolate(frame, [tP - 8, tP + 18], [0.3, 1], { ...clamp, easing: Easing.spring({ damping: 9 }) })}`,
+            }}
+          >
+            <Person size={400} color={P.orange} />
+          </div>
+        </div>
+        <Pop at={tP + 8} style={{ position: "absolute", top: 1500 }}>
+          <Pill bg={P.ink} size={58}>
+            1 persona
+          </Pill>
+        </Pop>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+/** "Una settimana." — sette giorni che si accendono in fila. */
+export const OneWeek: React.FC = () => {
+  const frame = useCurrentFrame();
+  const w = useWords("L04");
+  const t0 = w[1].start;
+  const days = ["L", "M", "M", "G", "V", "S", "D"];
+  return (
+    <Stage
+      bg={P.ink}
+      shapes={[
+        { color: "#22368A", size: 1300, x: 900, y: 500 },
+        { color: P.orange, size: 300, x: 150, y: 1650, kind: "ring" },
+      ]}
+    >
+      <AbsoluteFill style={{ alignItems: "center" }}>
+        <div style={{ position: "absolute", top: 380 }}>
+          <Words line="L04" size={170} variant="slam" accent={{ 1: P.orangeLight }} width={1000} />
+        </div>
+        <div style={{ position: "absolute", top: 900, display: "flex", gap: 20 }}>
+          {days.map((d, i) => {
+            const s = t0 + 6 + i * 5;
+            const on = interpolate(frame, [s, s + 3], [0, 1], clamp);
             return (
               <div
                 key={i}
                 style={{
-                  position: "absolute",
-                  left: p.x - 70,
-                  top: p.y - 80,
-                  opacity: interpolate(frame, [s, s + 5], [0, 1], clamp),
-                  scale: `${interpolate(frame, [s, s + 12], [0.3, 1], { ...clamp, easing: Easing.spring({ damping: 10 }) })}`,
-                }}
-              >
-                <Person size={140} color={i % 3 === 0 ? "#6B74A0" : "#4B5585"} />
-              </div>
-            );
-          })}
-        </div>
-      </AbsoluteFill>
-
-      {/* 2 · mesi di lavoro: calendario che sfoglia i mesi */}
-      <AbsoluteFill style={{ alignItems: "center", opacity: seg(tMesi, tBudget) }}>
-        <div style={{ position: "absolute", top: 560 }}>
-          <Words line="L01" from={9} to={12} size={112} />
-        </div>
-        {(() => {
-          const months = ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
-          const k = Math.max(0, Math.min(11, Math.floor((frame - tMesi) / 4)));
-          const flip = ((frame - tMesi) % 4) / 4;
-          return (
-            <div
-              style={{
-                position: "absolute",
-                top: 860,
-                width: 520,
-                height: 560,
-                borderRadius: 48,
-                background: "#E8EBF5",
-                overflow: "hidden",
-                boxShadow: "0 40px 100px rgba(0,0,0,0.5)",
-                perspective: 900,
-              }}
-            >
-              <div style={{ height: 130, background: "#5B6492", display: "flex", justifyContent: "center", gap: 120, alignItems: "center" }}>
-                {[0, 1].map((r) => (
-                  <div key={r} style={{ width: 26, height: 70, borderRadius: 13, background: "#C9CEE3", marginTop: -60 }} />
-                ))}
-              </div>
-              <div
-                style={{
-                  height: 430,
+                  width: 120,
+                  height: 200,
+                  borderRadius: 36,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontFamily: FONT_TITLE,
                   fontWeight: 800,
-                  fontSize: 190,
-                  color: "#2A3160",
-                  transform: k < 11 ? `rotateX(${flip * 70}deg)` : undefined,
-                  transformOrigin: "50% 0%",
+                  fontSize: 68,
+                  color: on > 0.5 ? "#FFFFFF" : "rgba(255,255,255,0.35)",
+                  background: on > 0.5 ? `linear-gradient(180deg, ${P.orangeLight}, ${P.orange})` : "rgba(255,255,255,0.08)",
+                  scale: `${1 + Math.exp(-Math.max(0, frame - s) / 4) * 0.2 * on}`,
+                  translate: `0px ${-Math.exp(-Math.max(0, frame - s) / 5) * 26 * on}px`,
                 }}
               >
-                {months[k]}
-              </div>
-            </div>
-          );
-        })()}
-      </AbsoluteFill>
-
-      {/* 3 · budget da capogiro: colonne di € che salgono */}
-      <AbsoluteFill style={{ alignItems: "center", opacity: segLast(tBudget) }}>
-        <div style={{ position: "absolute", top: 560 }}>
-          <Words line="L01" from={12} size={112} accent={{ 13: "#FF6B6B", 15: "#FF6B6B" }} />
-        </div>
-        <div style={{ position: "absolute", top: 900, height: 620, display: "flex", alignItems: "flex-end", gap: 34 }}>
-          {[0.35, 0.55, 0.72, 0.88, 1].map((h, i) => {
-            const s = tBudget + 6 + i * 4;
-            const p = interpolate(frame, [s, s + 26], [0, h], { ...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1) });
-            return (
-              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div
-                  style={{
-                    fontFamily: FONT_TITLE,
-                    fontWeight: 800,
-                    fontSize: 70,
-                    color: "#FF8A8A",
-                    opacity: interpolate(frame, [s + 10, s + 16], [0, 1], clamp),
-                  }}
-                >
-                  €
-                </div>
-                <div
-                  style={{
-                    width: 130,
-                    height: 540 * p,
-                    borderRadius: 24,
-                    background: "linear-gradient(180deg, #FF6B6B, #8B2E4A)",
-                    boxShadow: "0 0 40px rgba(255,90,90,0.35)",
-                  }}
-                />
+                {d}
               </div>
             );
           })}
         </div>
-      </AbsoluteFill>
-    </AbsoluteFill>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-/** "Oggi, no." — il drop. */
-export const Today: React.FC = () => {
-  const frame = useCurrentFrame();
-  const w = useWords("L02");
-  const shake = Math.exp(-frame / 6) * 18;
-  return (
-    <AbsoluteFill
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        translate: `${Math.sin(frame * 2.1) * shake}px ${Math.cos(frame * 1.7) * shake}px`,
-      }}
-    >
-      {[0, 1, 2].map((i) => {
-        const p = interpolate(frame, [i * 5, 50 + i * 5], [0, 1], { ...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1) });
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              width: 700,
-              height: 700,
-              borderRadius: "50%",
-              border: `${10 - i * 3}px solid ${i === 1 ? C.gold : C.orange}`,
-              scale: `${0.3 + p * 2}`,
-              opacity: (1 - p) * 0.9,
-            }}
-          />
-        );
-      })}
-      <Words line="L02" size={250} variant="slam" accent={{ 1: C.orangeLight }} lineHeight={0.95} width={1000} />
-      <div
-        style={{
-          position: "absolute",
-          top: 1330,
-          fontFamily: FONT_BODY,
-          fontWeight: 600,
-          fontSize: 46,
-          letterSpacing: 8,
-          color: "rgba(255,255,255,0.75)",
-          opacity: interpolate(frame, [w[1].end, w[1].end + 10], [0, 1], clamp),
-        }}
-      >
-        LE REGOLE SONO CAMBIATE
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-/** "Oggi basta una persona." — il team collassa in una sola persona. */
-export const OnePerson: React.FC = () => {
-  const frame = useCurrentFrame();
-  const w = useWords("L03");
-  const tP = w[3].start; // "persona."
-  const merge = interpolate(frame, [0, tP], [0, 1], { ...clamp, easing: Easing.bezier(0.65, 0, 0.35, 1) });
-  return (
-    <AbsoluteFill style={{ alignItems: "center" }}>
-      <div style={{ position: "absolute", top: 230 }}>
-        <Words line="L03" size={118} accent={{ 2: C.orangeLight, 3: C.orangeLight }} />
-      </div>
-      <div style={{ position: "absolute", top: 1130, left: 540 }}>
-        {TEAM.map((p, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: p.x * (1 - merge) - 70,
-              top: p.y * (1 - merge) - 80,
-              opacity: 1 - merge * 0.95,
-              scale: `${1 - merge * 0.4}`,
-            }}
-          >
-            <Person size={140} color="#4B5585" />
+        <Pop at={t0 + 44} style={{ position: "absolute", top: 1200 }}>
+          <div style={{ fontFamily: FONT_TITLE, fontWeight: 800, fontSize: 260, lineHeight: 1, color: "#FFFFFF" }}>
+            7<span style={{ fontSize: 100, color: P.orangeLight }}> giorni</span>
           </div>
-        ))}
-        <div
-          style={{
-            position: "absolute",
-            left: -160,
-            top: -230,
-            opacity: interpolate(frame, [tP - 6, tP + 2], [0, 1], clamp),
-            scale: `${interpolate(frame, [tP - 6, tP + 18], [0.4, 1], { ...clamp, easing: Easing.spring({ damping: 9 }) })}`,
-          }}
-        >
-          <Person size={320} color={C.orange} glow />
-        </div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1560,
-          fontFamily: FONT_TITLE,
-          fontWeight: 800,
-          fontSize: 64,
-          color: "#FFFFFF",
-          opacity: interpolate(frame, [tP + 6, tP + 14], [0, 1], clamp),
-        }}
-      >
-        1 persona
-      </div>
-    </AbsoluteFill>
+        </Pop>
+      </AbsoluteFill>
+    </Stage>
   );
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-/** "Una settimana." — sette giorni che si accendono uno dopo l'altro. */
-export const OneWeek: React.FC = () => {
-  const frame = useCurrentFrame();
-  const days = ["L", "M", "M", "G", "V", "S", "D"];
-  return (
-    <AbsoluteFill style={{ alignItems: "center" }}>
-      <div style={{ position: "absolute", top: 380 }}>
-        <Words line="L04" size={150} variant="slam" accent={{ 1: C.orangeLight }} />
-      </div>
-      <div style={{ position: "absolute", top: 860, display: "flex", gap: 22 }}>
-        {days.map((d, i) => {
-          const s = 8 + i * 6;
-          const on = interpolate(frame, [s, s + 4], [0, 1], clamp);
-          return (
-            <div
-              key={i}
-              style={{
-                width: 116,
-                height: 190,
-                borderRadius: 34,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: FONT_TITLE,
-                fontWeight: 800,
-                fontSize: 64,
-                color: on > 0.5 ? "#FFFFFF" : "rgba(255,255,255,0.4)",
-                background: on > 0.5 ? `linear-gradient(180deg, ${C.orangeLight}, ${C.orange})` : "rgba(255,255,255,0.08)",
-                boxShadow: on > 0.5 ? `0 0 40px ${C.orange}99` : "none",
-                scale: `${1 + (1 - on) * 0 + Math.exp(-Math.max(0, frame - s) / 4) * 0.15 * on}`,
-                border: "2px solid rgba(255,255,255,0.15)",
-              }}
-            >
-              {d}
-            </div>
-          );
-        })}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1160,
-          fontFamily: FONT_TITLE,
-          fontWeight: 800,
-          fontSize: 230,
-          color: "#FFFFFF",
-          lineHeight: 1,
-          opacity: interpolate(frame, [50, 58], [0, 1], clamp),
-          scale: `${interpolate(frame, [50, 66], [1.5, 1], { ...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1) })}`,
-        }}
-      >
-        7<span style={{ fontSize: 90, color: C.orangeLight }}> giorni</span>
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-/** "E un costo quasi pari a zero." — contatore che crolla a zero. */
+/** "E un costo quasi pari a zero." — il contatore precipita fino a zero. */
 export const ZeroCost: React.FC = () => {
   const frame = useCurrentFrame();
   const w = useWords("L05");
-  const tZero = w[w.length - 1].start;
-  const v = interpolate(frame, [4, tZero + 4], [100000, 0], { ...clamp, easing: Easing.bezier(0.7, 0, 0.84, 0) });
-  const done = frame >= tZero + 4;
+  const tZero = w[6].start;
+  const v = interpolate(frame, [6, tZero], [100000, 0], { ...clamp, easing: Easing.bezier(0.6, 0, 0.9, 0.3) });
+  const done = frame >= tZero;
+  const tags = ["strumenti gratuiti", "open source", "AI"];
   return (
-    <AbsoluteFill style={{ alignItems: "center" }}>
-      <div style={{ position: "absolute", top: 280 }}>
-        <Words line="L05" size={112} accent={{ 4: C.orangeLight, 5: C.orangeLight, 6: C.orangeLight }} />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 820,
-          fontFamily: FONT_TITLE,
-          fontWeight: 800,
-          fontSize: done ? 330 : 190,
-          lineHeight: 1,
-          color: done ? C.orangeLight : "rgba(255,255,255,0.85)",
-          fontVariantNumeric: "tabular-nums",
-          textShadow: done ? `0 0 80px ${C.orange}` : "none",
-          scale: `${done ? interpolate(frame, [tZero + 4, tZero + 18], [1.4, 1], { ...clamp, easing: Easing.spring({ damping: 9 }) }) : 1}`,
-        }}
-      >
-        {done ? "≈ 0 €" : `${Math.round(v).toLocaleString("it-IT")} €`}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1260,
-          fontFamily: FONT_BODY,
-          fontWeight: 600,
-          fontSize: 48,
-          color: "rgba(255,255,255,0.7)",
-          opacity: interpolate(frame, [tZero + 10, tZero + 20], [0, 1], clamp),
-        }}
-      >
-        strumenti gratuiti · open source · AI
-      </div>
-    </AbsoluteFill>
+    <Stage
+      bg={P.paper}
+      shapes={[
+        { color: P.softNavy, size: 1100, x: 200, y: 1500 },
+        { color: P.softOrange, size: 560, x: 930, y: 420 },
+      ]}
+    >
+      <AbsoluteFill style={{ alignItems: "center" }}>
+        <div style={{ position: "absolute", top: 260 }}>
+          <Words line="L05" size={118} color={P.ink} accent={{ 4: P.orange, 5: P.orange, 6: P.orange }} />
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            top: done ? 720 : 840,
+            fontFamily: FONT_TITLE,
+            fontWeight: 800,
+            fontSize: done ? 440 : 170,
+            lineHeight: 1,
+            letterSpacing: done ? -10 : -2,
+            color: done ? P.orange : P.ink,
+            fontVariantNumeric: "tabular-nums",
+            whiteSpace: "nowrap",
+            scale: `${done ? interpolate(frame, [tZero, tZero + 16], [1.5, 1], { ...clamp, easing: Easing.spring({ damping: 9 }) }) : 1}`,
+          }}
+        >
+          {done ? "0 €" : `${Math.round(v).toLocaleString("it-IT")} €`}
+        </div>
+        <div style={{ position: "absolute", top: 1330, display: "flex", flexDirection: "column", gap: 22, alignItems: "center" }}>
+          {tags.map((t, i) => (
+            <Pop key={t} at={tZero + 10 + i * 5}>
+              <Pill bg={i === 2 ? P.orange : P.ink} size={46}>
+                {t}
+              </Pill>
+            </Pop>
+          ))}
+        </div>
+      </AbsoluteFill>
+    </Stage>
   );
 };

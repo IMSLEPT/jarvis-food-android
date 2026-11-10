@@ -29,6 +29,7 @@ FPS = 60
 TOTAL_S = 45.0
 N = int(SR * TOTAL_S)
 rng = np.random.default_rng(11)
+VO_TARGET_DB = -19.0  # RMS del parlato per ogni frase
 
 # ─────────────────────────────── REGIA ────────────────────────────────────────
 # Ogni sezione: BPM, battute (4/4), frasi (id, battuta, beat) e scene visive (id, battuta, beat).
@@ -44,7 +45,7 @@ SECTIONS = [
          scenes=[("Reveal", 0, 0), ("Diary", 1, 0), ("AiPhoto", 4, 0), ("Fasting", 5, 2)]),
     dict(name="corsa", bpm=128, bars=3,
          lines=[("L10", 0, 0), ("L11", 1, 3.5)],
-         scenes=[("Montage", 0, 0), ("AllInOne", 2, 0)]),
+         scenes=[("Montage", 0, 0), ("AllInOne", 1, 3.5)]),
     dict(name="finale", bpm=128, bars=4,
          lines=[("L12", 0, 0), ("L13", 2, 1)],
          scenes=[("Future", 0, 0), ("Outro", 2, 0)]),
@@ -373,7 +374,17 @@ def process_vo(path: Path) -> np.ndarray:
               "alimiter=limit=0.89")
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(path), "-af", af, "-ac", "1", "-ar", str(SR),
                         "-f", "f32le", tmp.name], check=True)
-        return np.fromfile(tmp.name, dtype=np.float32).astype(np.float64)
+        sig = np.fromfile(tmp.name, dtype=np.float32).astype(np.float64)
+    # Livella ogni frase allo stesso volume percepito (RMS delle sole parti parlate),
+    # altrimenti le battute brevi risultano più deboli delle lunghe.
+    win = int(0.02 * SR)
+    fr = sig[: len(sig) // win * win].reshape(-1, win)
+    rms = np.sqrt(np.mean(fr ** 2, axis=1) + 1e-12)
+    active = rms[rms > 10 ** (-40 / 20)]
+    if len(active):
+        level = np.sqrt(np.mean(active ** 2))
+        sig = sig * (10 ** (VO_TARGET_DB / 20) / level)
+    return np.clip(sig, -0.98, 0.98)
 
 
 def write_wav(path: Path, l: np.ndarray, r: np.ndarray):
