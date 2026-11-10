@@ -134,7 +134,7 @@ export const Progressi: React.FC<{ f: number }> = ({ f }) => {
       </div>
       {/* statistiche */}
       {STATS.map((s, i) => {
-        const r = rise(f, 1238 + i * 6, 30);
+        const r = rise(f, 1218 + i * 5, 28);
         const c = ip(f, [PROG_T.stats + i * 6, PROG_T.stats + 46 + i * 6], [0, 1], EZ.out);
         return (
           <div key={s.label} style={{ position: "absolute", left: s.x, top: 762, width: s.w, height: 170, ...cardStyle, transform: `translateY(${(1 - r) * 80}px) scale(${0.9 + 0.1 * r})`, opacity: r }}>
@@ -149,8 +149,8 @@ export const Progressi: React.FC<{ f: number }> = ({ f }) => {
         );
       })}
       {/* aderenza calorica */}
-      <div style={{ position: "absolute", left: 35, top: 958, width: 872, height: 355, ...cardStyle, borderRadius: 30, opacity: rise(f, 1250, 30), transform: `translateY(${(1 - rise(f, 1250, 30)) * 80}px)` }} />
-      <div style={{ opacity: rise(f, 1262, 30) }}>
+      <div style={{ position: "absolute", left: 35, top: 958, width: 872, height: 355, ...cardStyle, borderRadius: 30, opacity: rise(f, 1228, 28), transform: `translateY(${(1 - rise(f, 1228, 28)) * 80}px)` }} />
+      <div style={{ opacity: rise(f, 1238, 28) }}>
         <T x={63} y={972} size={33} weight={700} italic>
           Aderenza calorica
         </T>
@@ -206,7 +206,7 @@ export const Progressi: React.FC<{ f: number }> = ({ f }) => {
         </T>
       </div>
       {/* obiettivo */}
-      <div style={{ position: "absolute", left: 35, top: 1336, width: 872, height: 176, ...cardStyle, borderRadius: 30, opacity: rise(f, 1262, 30) }}>
+      <div style={{ position: "absolute", left: 35, top: 1336, width: 872, height: 176, ...cardStyle, borderRadius: 30, opacity: rise(f, 1238, 28) }}>
         <Ring cx={122} cy={88} r={64} stroke={15} progress={0.76 * goal} id="ringGoal" />
         <T x={122} y={66} w={160} size={42} weight={800} italic align="center">
           {Math.round(76 * goal)} %
