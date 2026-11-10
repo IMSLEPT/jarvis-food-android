@@ -412,7 +412,7 @@ for k in range(14):
     fx(tick(0.5, 2600 + k * 60), 486 + k * 4, 0.3, -0.2)                            # contatore calorie
 fx(bell(88, 0.8), 540, 0.6, -0.1, 0.6)                                                # anello completo
 fx(whoosh(0.5, 2500, 500), 545, 0.4, 0, 0.3)
-for k, fr in enumerate((555, 570, 585, 600)):
+for k, fr in enumerate((495, 510, 525, 540)):
     fx(pop(540 + k * 60), fr, 0.6, -0.5 + k * 0.33, 0.3)                             # azioni rapide
 fx(tap(1.2), 640, 0.9, -0.4, 0.3); fx(bell(91, 0.5), 642, 0.3, -0.4, 0.5)            # tap su "Aggiungi"
 fx(whoosh(0.7, 300, 6000), 720, 1.0, 0.0, 0.4, lead=0.45)                            # T3: giro del telefono
@@ -431,7 +431,7 @@ fx(whoosh(0.7, 250, 7000), 960, 1.0, 0.0, 0.4, lead=0.5)                        
 fx(tap(1.3), 978, 0.8, 0, 0.3)
 for k, fr in enumerate((968, 974, 980, 986)):
     fx(pop(700 + k * 90, 0.7), fr, 0.4, (-1) ** k * 0.6, 0.4)                        # ingredienti
-for k, fr in enumerate((990, 998, 1006, 1014, 1022)):
+for k, fr in enumerate((970, 978, 986, 994, 1002)):
     fx(tick(0.8, 2800), fr, 0.5, -0.5 + k * 0.25)                                    # filtri
 fx(pop(900, 1.2), 1050, 0.9, 0.5, 0.5); fx(shimmer(0.6), 1052, 0.8, 0.5, 0.7)        # cuore
 fx(whoosh(0.35, 800, 3000), 1085, 0.4, 0, 0.3)                                        # scorrimento lista
@@ -452,9 +452,9 @@ fx(whoosh(0.7, 300, 6500), 1440, 1.0, 0.3, 0.4, lead=0.5)                       
 # S7 - Jarvis
 fx(boing(1.2), 1446, 0.9, -0.2, 0.4); fx(shimmer(0.8), 1450, 0.8, 0, 0.7)
 for k in range(3):
-    fx(tick(0.9, 1800 + k * 300), 1474 + k * 6, 0.6, 0.2)                            # puntini "sta scrivendo"
-fx(pop(560, 1.2), 1500, 0.85, 0.3, 0.4); fx(zap(0.6), 1498, 0.4, 0.3, 0.3)           # fumetto
-for k, fr in enumerate((1530, 1545, 1560, 1575)):
+    fx(tick(0.9, 1800 + k * 300), 1464 + k * 6, 0.6, 0.2)                            # puntini "sta scrivendo"
+fx(pop(560, 1.2), 1485, 0.85, 0.3, 0.4); fx(zap(0.6), 1483, 0.4, 0.3, 0.3)           # fumetto
+for k, fr in enumerate((1515, 1530, 1545, 1560)):
     fx(pop(520 + k * 60, 0.9), fr, 0.55, 0.4, 0.3); fx(bell(79 + [0, 4, 7, 12][k], 0.7), fr + 4, 0.5, 0.4, 0.6)   # spunte
 fx(whoosh(0.9, 250, 7000), 1680, 1.0, 0.0, 0.5, lead=0.7)                            # T7: verso il logo
 fx(zap(1.1), 1660, 0.6, 0.0, 0.4)

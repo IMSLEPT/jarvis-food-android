@@ -135,17 +135,26 @@ m_food = m_main & (yy >= split) & ~m_smile & (yy < 900)
 m_sparks = poly([(755, 70), (920, 70), (920, 235), (790, 235)])
 MASKS = {'hat': m_hat, 'jarvis': m_jarvis, 'food': m_food, 'smile': m_smile, 'sparks': m_sparks}
 allm = np.zeros((1254, 1254), bool)
+clean = np.zeros((1254, 1254), np.float32)
 for nme, m in MASKS.items():
     allm |= m
-    a2 = rgba.copy(); a2[..., 3] = (alpha * m * 255).astype(np.uint8)
+    pa = alpha * m
+    pl_, pn_ = ndi.label(pa > 0.25)                      # via i frammenti isolati (residui di anello)
+    if pn_ > 1:
+        sz = ndi.sum(pa > 0.25, pl_, range(1, pn_ + 1))
+        thr = 250 if nme == 'sparks' else max(1800, 0.02 * sz.max())
+        good = np.isin(pl_, [i + 1 for i, v in enumerate(sz) if v >= thr])
+        pa = pa * ndi.gaussian_filter(ndi.binary_dilation(good, iterations=3).astype(np.float32), 1.0)
+    clean[m] = pa[m]
+    a2 = rgba.copy(); a2[..., 3] = (pa * 255).astype(np.uint8)
     im = Image.fromarray(a2); bb = im.getchannel('A').point(lambda v: 255 if v > 30 else 0).getbbox()
     save(im.crop(bb), f'logo_{nme}.png')
     logo_meta['pieces'][nme] = [bb[0] - LOGO_BOX[0], bb[1] - LOGO_BOX[1], bb[2] - bb[0], bb[3] - bb[1]]
-rgba[..., 3] = (alpha * allm * 255).astype(np.uint8)
+rgba[..., 3] = (clean * 255).astype(np.uint8)
 json.dump(logo_meta, open(os.path.join(OUT, '..', '..', 'src', 'logoMeta.json'), 'w'))
 logo_meta0 = {'box': [LOGO_BOX[2] - LOGO_BOX[0], LOGO_BOX[3] - LOGO_BOX[1]], 'pieces': {}}
 full = Image.fromarray(rgba)
-save(full.crop(LOGO_BOX), 'logo_full.png')
+save(Image.fromarray(rgba).crop(LOGO_BOX), 'logo_full.png')
 Image.fromarray(rgba).save('/tmp/logo_dbg.png')
 json.dump(meta, open(os.path.join(OUT, 'sizes.json'), 'w'), indent=1)
 print(n, 'components')

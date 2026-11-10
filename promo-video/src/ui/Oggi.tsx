@@ -2,10 +2,10 @@ import React from "react";
 import { Img } from "remotion";
 import { C } from "../theme";
 import { EZ, ip, itNum, pulse } from "../anim";
-import { Abs, MacroBar, MealRow, Ring, Shell, T, cardStyle, img, pop, rise } from "./kit";
+import { MacroBar, MealRow, Ring, Shell, T, cardStyle, img, pop, rise } from "./kit";
 
 /** Tempi (frame assoluti) della schermata Oggi */
-export const OGGI_T = { ring: 486, ringEnd: 540, bars: 500, actions: [555, 570, 585, 600], tap: 640, rows: 566 };
+export const OGGI_T = { ring: 486, ringEnd: 540, bars: 500, actions: [495, 510, 525, 540], tap: 640, rows: 486 };
 
 const ACTIONS = [
   { x: 45, w: 205, icon: "ic_aggiungi.png", label: "Aggiungi", iw: 78 },

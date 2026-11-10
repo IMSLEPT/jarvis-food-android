@@ -28,7 +28,7 @@ export const Trail: React.FC<Props> = ({ d, head, len = 0.3, width = 16, tone = 
   if (opacity <= 0.001 || head <= 0 || head - len >= 1) return null;
   const col = TONES[tone];
   const h = Math.min(1, head);
-  const pt = getPointAtLength(d, h * total);
+  const pt = getPointAtLength(d, h * total) ?? { x: 0, y: 0 };
   const id = `tc-${tone}-${Math.round(clip?.x ?? -1)}-${Math.round(clip?.y ?? -1)}`;
   const segs = new Array(SEG).fill(0).map((_, i) => {
     const k = (i + 1) / SEG; // 1 = coda intera e sottile ... testa corta e spessa
