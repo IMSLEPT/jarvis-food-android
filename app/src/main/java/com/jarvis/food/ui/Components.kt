@@ -103,8 +103,8 @@ fun JCard(
 ) {
     val shape = RoundedCornerShape(16.dp)
     val base = modifier.fillMaxWidth()
-        .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
         .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)) }
+        .border(1.dp, A.Hair, shape)
     Column(modifier = (if (onClick != null) base.clickable(onClick = onClick) else base).padding(padding), content = content)
 }
 
@@ -126,7 +126,7 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
                 Spacer(Modifier.width(8.dp))
             } else Spacer(Modifier.width(6.dp))
             Text(title, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp, color = Color.White), modifier = Modifier.weight(1f), maxLines = 3, overflow = TextOverflow.Ellipsis)
-            Row(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White.copy(alpha = 0.0f)), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.clip(RoundedCornerShape(14.dp)).background(C.Surface.copy(alpha = 0.0f)), verticalAlignment = Alignment.CenterVertically) {
                 CompositionLocalProvider(LocalContentColor provides Color.White) { actions() }
             }
         }
@@ -146,7 +146,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
         else -> if (color == null) Modifier.clip(shape).background(C.OrangeBrush, shape) else if (color == C.Navy) Modifier.clip(shape).background(C.NavyBrush, shape) else Modifier.clip(shape).background(color, shape)
     }
     Box(
-        modifier.heightIn(min = 52.dp).then(fill)
+        modifier.heightIn(min = 52.dp).let { if (enabled && (orange || color == null)) it.orangeGlow(shape, 10.dp) else it }.then(fill)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else if (orange) C.OnOrange else C.OnAccent), textAlign = TextAlign.Center) }
@@ -155,7 +155,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
 @Composable
 fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Text, onClick: () -> Unit) {
     Box(
-        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xFFE8EAF0))
+        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xFF13244C))
             .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(color = color), textAlign = TextAlign.Center) }
@@ -165,7 +165,7 @@ fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Te
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
         Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(12.dp)).background(if (selected) (if (color == C.Ink) C.NavyBrush else Brush.linearGradient(listOf(color, color))) else Brush.linearGradient(listOf(C.Surface, C.Surface)))
-            .border(1.dp, if (selected) Color.Transparent else Color(0xFFDDE2EB), RoundedCornerShape(12.dp))
+            .border(1.dp, if (selected) Color.Transparent else Color(0xFF13244C), RoundedCornerShape(12.dp))
             .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), textAlign = TextAlign.Center) }
 }
@@ -314,7 +314,7 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
     if (b != null) {
         Image(b.asImageBitmap(), contentDescription = null, contentScale = contentScale, modifier = modifier.clip(shape))
     } else {
-        Box(modifier.clip(shape).background(Brush.linearGradient(listOf(Color(0xFFFFF4EA), Color(0xFFFFE3CF)))), contentAlignment = Alignment.Center) {
+        Box(modifier.clip(shape).background(Brush.linearGradient(listOf(Color(0xFF13244C), Color(0x33FF7A1A)))), contentAlignment = Alignment.Center) {
             Text(emoji, style = T.Big)
         }
     }
@@ -354,7 +354,7 @@ fun MacroBar(label: String, value: Double, goal: Double, color: Color, modifier:
     Column(modifier) {
         Text(label, style = T.Small.copy(color = if (onDark) Color.White.copy(alpha = 0.72f) else C.Muted))
         Spacer(Modifier.height(5.dp))
-        Box(Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(14.dp)).background(if (onDark) Color.White.copy(alpha = 0.16f) else C.SurfaceAlt)) {
+        Box(Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(14.dp)).background(if (onDark) C.Surface.copy(alpha = 0.16f) else C.SurfaceAlt)) {
             Box(Modifier.fillMaxWidth(p).height(8.dp).clip(RoundedCornerShape(14.dp)).background(if (value > goal * 1.1) C.Danger else color))
         }
         Spacer(Modifier.height(5.dp))

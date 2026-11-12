@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.Shapes
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -31,50 +31,51 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF2F3F7)
-    val Surface = Color(0xFFFFFFFF)
-    val SurfaceAlt = Color(0xFFEBEAE7)
-    val SurfaceHi = Color(0xFFE4E8EF)
-    val Line = Color(0xFFE4E8EF)
-    val ProfileBorder = Color(0xFFE4E8EF)
-    val Text = Color(0xFF09194D)
-    val Muted = Color(0xFF5E6678)
-    val Faint = Color(0xFF6B7280)
-    val Accent = Color(0xFFEA7138)
-    // Brand orange stays on icons; white button labels need the darker variant.
-    val ButtonOrange = Color(0xFFD35508)
-    val ButtonOrangeEnd = Color(0xFFBD4300)
-    val AccentSoft = Color(0xFFFFF2EA)
-    val AccentDeep = Color(0xFFB94C1C)
+    // Tela blu profondo, superfici vetro scuro, testo quasi bianco, arancio luminoso come unico accento.
+    val Bg = Color(0xFF050D24)
+    val Surface = Color(0xFF0C1A3D)
+    val SurfaceAlt = Color(0xFF13244C)
+    val SurfaceHi = Color(0xFF1A2F5E)
+    val Line = Color(0xFF1E3263)
+    val ProfileBorder = Color(0xFF1E3263)
+    val Text = Color(0xFFF3F6FF)
+    val Muted = Color(0xFFA3B1D1)
+    val Faint = Color(0xFF8091B8)
+    val Accent = Color(0xFFFF7A1A)
+    val ButtonOrange = Color(0xFFFF6A10)
+    val ButtonOrangeEnd = Color(0xFFFF5A0A)
+    val AccentSoft = Color(0x26FF7A1A)
+    val AccentDeep = Color(0xFFFF9A55)
     val OnAccent = Color(0xFFFFFFFF)
-    val Navy = Color(0xFF09194D)
-    val NavySoft = Color(0xFFECF2FE)
-    val NavyDeep = Color(0xFF14234B)
+    /** Inchiostro chiaro: testo e icone su fondo scuro (ex navy). */
+    val Navy = Color(0xFFF3F6FF)
+    val NavySoft = Color(0x1F5C8DFF)
+    val NavyDeep = Color(0xFF0B1B4A)
+    /** Blu elettrico pieno per riempimenti selezionati. */
+    val Royal = Color(0xFF1F5BE6)
     val Ink = Navy
     val OnOrange = Color.White
-    val ProfileSurface = Color(0xFFFEFEFE)
-    val ProfileMuted = C.Muted
-    val ProfileOrange = Color(0xFFDC6F2C)
-    val Green = Color(0xFF10B981)
-    val GreenSoft = Color(0xFFD9F6EA)
-    val Blue = Color(0xFF3B82F6)
-    val BlueSoft = Color(0xFFE3EEFF)
-    val Gold = Color(0xFFF59E0B)
-    val GoldSoft = Color(0xFFFFF1D2)
+    val ProfileSurface = Surface
+    val ProfileMuted = Muted
+    val ProfileOrange = Color(0xFFFF8A3D)
+    val Green = Color(0xFF34D399)
+    val GreenSoft = Color(0x2634D399)
+    val Blue = Color(0xFF5C93FF)
+    val BlueSoft = Color(0x265C93FF)
+    val Gold = Color(0xFFFFB83D)
+    val GoldSoft = Color(0x26FFB83D)
     val Carbs = Blue
-    val Protein = Color(0xFFF43F6E)
+    val Protein = Color(0xFFFF6B8E)
     val Fat = Gold
-    val Water = Color(0xFF5CD6EA)
-    val Fasting = Navy
-    val Danger = Color(0xFFE5484D)
-    val DangerSoft = Color(0xFFFDE3E4)
+    val Water = Color(0xFF4FD1F5)
+    val Fasting = Blue
+    val Danger = Color(0xFFFF6B6F)
+    val DangerSoft = Color(0x26FF6B6F)
 
-    /** Arancione del + Aggiungi; scritte bianche come richiesto. */
-    val OrangeBrush = Brush.verticalGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
-    /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
-    val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
-    /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
+    val OrangeBrush = Brush.linearGradient(listOf(Color(0xFFFF8A2A), Color(0xFFFF5A0A)))
+    /** Blu elettrico lucido della scheda principale. */
+    val NavyBrush = Brush.verticalGradient(listOf(Color(0xFF0E34A0), Color(0xFF1B52D6)))
+    val OrangeArc = listOf(Color(0xFFFF7A1A), Color(0xFFFF9A3C), Color(0xFFFFB866))
     fun cardSurface(tone: Color): Color =
         if (tone.alpha > 0.5f && tone.luminance() > 0.60f) Surface else tone
 }
@@ -122,8 +123,8 @@ object T {
 @Composable
 fun JarvisTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = lightColorScheme(
-            primary = C.Navy, onPrimary = C.OnAccent, secondary = C.AccentDeep, background = C.Bg, onBackground = C.Text,
+        colorScheme = darkColorScheme(
+            primary = C.Accent, onPrimary = C.OnAccent, secondary = C.AccentDeep, background = C.Bg, onBackground = C.Text,
             surface = C.Surface, onSurface = C.Text, surfaceVariant = C.SurfaceAlt, onSurfaceVariant = C.Muted,
             outline = C.Line, error = C.Danger, surfaceContainer = C.Surface, surfaceContainerHigh = C.Surface,
             surfaceContainerLow = C.Surface, surfaceContainerHighest = C.SurfaceAlt
@@ -140,15 +141,15 @@ fun JarvisTheme(content: @Composable () -> Unit) {
     }
 }
 
-/** Sfondo caldo chiaro con un alone avorio in alto. */
+/** Tela blu profondo con alone blu in alto e brace arancione sul fondo. */
 @Composable
 fun AppBackground(content: @Composable BoxScope.() -> Unit) {
     Box(
         Modifier.fillMaxSize()
             .background(C.Bg)
             .drawBehind {
-                drawRect(Brush.radialGradient(listOf(Color(0x33FF9A4A), Color.Transparent), center = Offset(size.width * 1.05f, -40.dp.toPx()), radius = 420.dp.toPx()))
-                drawRect(Brush.radialGradient(listOf(Color(0x221B58B3), Color.Transparent), center = Offset(-20.dp.toPx(), size.height * 0.55f), radius = 380.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0x662B6BFF), Color.Transparent), center = Offset(size.width * 0.15f, -60.dp.toPx()), radius = 460.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0x26FF7A1A), Color.Transparent), center = Offset(size.width * 1.1f, size.height * 0.92f), radius = 420.dp.toPx()))
             },
         content = content
     )

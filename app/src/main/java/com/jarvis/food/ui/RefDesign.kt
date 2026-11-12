@@ -54,27 +54,27 @@ import com.jarvis.food.data.Store
  * ruolo abbiano ovunque la stessa grafica.
  */
 object RD {
-    val Navy = Color(0xFF0A1F4E)
-    val NavyDeep = Color(0xFF061844)
-    val NavyHi = Color(0xFF0B3373)
-    val Ink = Color(0xFF0B1B4A)
-    val Orange = Color(0xFFF7892F)
-    val OrangeDeep = Color(0xFFEE6A17)
+    val Navy = Color(0xFFF3F6FF)
+    val NavyDeep = Color(0xFFF3F6FF)
+    val NavyHi = Color(0xFF8FB4FF)
+    val Ink = Color(0xFFF3F6FF)
+    val Orange = Color(0xFFFF8A2A)
+    val OrangeDeep = Color(0xFFFF6A10)
     val OrangeText = C.AccentDeep
-    val OrangeLine = Color(0xFFF28A36)
-    val Peach = Color(0xFFF1F3F8)
-    val PeachDeep = Color(0xFFE6EAF2)
-    val PeachTile = Color(0xFFF1F3F8)
-    val Grey = Color(0xFF6B7387)
-    val GreyLine = Color(0xFFD9DDE6)
-    val GreyFill = Color(0xFFF0F1F4)
-    val Strip = Color(0xFFF6F5F3)
+    val OrangeLine = Color(0xFFFF8A2A)
+    val Peach = Color(0xFF13244C)
+    val PeachDeep = Color(0xFF1A2F5E)
+    val PeachTile = Color(0xFF13244C)
+    val Grey = Color(0xFF8E9CBF)
+    val GreyLine = Color(0xFF1E3263)
+    val GreyFill = Color(0xFF13244C)
+    val Strip = Color(0xFF0C1A3D)
     val Green = Color(0xFF6E9F62)
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
-    val ButtonBrush = Brush.linearGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
-    val OrangeBrush = Brush.linearGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
-    val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFF1F3F8), Color(0xFFF1F3F8)))
-    val WarmBrush = Brush.linearGradient(listOf(Color.White, Color.White))
+    val NavyBrush = C.NavyBrush
+    val ButtonBrush = C.OrangeBrush
+    val OrangeBrush = C.OrangeBrush
+    val PeachBrush = Brush.verticalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C)))
+    val WarmBrush = Brush.linearGradient(listOf(C.Surface, C.Surface))
 
     /** Banner pages share the same proportions. */
     @Composable fun bannerTitleHeight() = 64.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)
@@ -218,7 +218,7 @@ fun Modifier.refShadow(shape: Shape, elevation: Dp = 8.dp): Modifier =
 @Composable
 fun RefProfileButton(size: Dp = 56.dp, onClick: () -> Unit = { Nav.go(Screen.Profile) }) {
     val s by Store.state.collectAsState()
-    Box(Modifier.size(size).refShadow(CircleShape, 4.dp).clip(CircleShape).background(Color.White)
+    Box(Modifier.size(size).refShadow(CircleShape, 4.dp).clip(CircleShape).background(C.Surface)
         .border(3.dp, Color.White, CircleShape).testTag("header-profile")
         .semantics { contentDescription = "Apri profilo" }.clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center) {
@@ -231,7 +231,7 @@ fun RefProfileButton(size: Dp = 56.dp, onClick: () -> Unit = { Nav.go(Screen.Pro
 fun ProfileGearIcon(size: Dp) {
     Box(Modifier.size(size)) {
         Icon(Icons.Outlined.Person, null, tint = RD.Ink, modifier = Modifier.fillMaxSize().padding(end = size * 0.14f, bottom = size * 0.08f))
-        Icon(Icons.Default.Settings, null, tint = RD.OrangeDeep, modifier = Modifier.align(Alignment.BottomEnd).size(size * 0.48f).background(Color.White, CircleShape))
+        Icon(Icons.Default.Settings, null, tint = RD.OrangeDeep, modifier = Modifier.align(Alignment.BottomEnd).size(size * 0.48f).background(C.Surface, CircleShape))
     }
 }
 
@@ -239,7 +239,7 @@ fun ProfileGearIcon(size: Dp) {
 @Composable
 fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(size * 0.32f)
-    Box(Modifier.size(size).refShadow(shape, 4.dp).clip(shape).background(Color.White).testTag("header-calendar")
+    Box(Modifier.size(size).refShadow(shape, 4.dp).clip(shape).background(C.Surface).testTag("header-calendar")
         .semantics { contentDescription = "Calendario" }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(RIc.Calendar + RIc.CalendarBand, RD.Ink, size * 0.55f, 2.2f, modifier = Modifier.testTag("header-icon-Calendario"))
     }
@@ -315,11 +315,11 @@ private fun BannerTabIcon(icon: String, size: Dp) {
 /** Campo di ricerca bianco a pillola, con conteggio opzionale (immagini 9-12). */
 @Composable
 fun RefSearchShell(modifier: Modifier = Modifier, count: String? = null, content: @Composable RowScope.() -> Unit) {
-    Row(modifier.fillMaxWidth().heightIn(min = 44.dp).clip(RoundedCornerShape(16.dp)).background(Color.White)
+    Row(modifier.fillMaxWidth().heightIn(min = 44.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface)
         .padding(start = 14.dp, end = 6.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-        AIcon(RIc.Search, Color(0xFF59627A), 20.dp, 2.1f); GapW(10.dp)
+        AIcon(RIc.Search, Color(0xFFA3B1D1), 20.dp, 2.1f); GapW(10.dp)
         content()
-        if (count != null) Box(Modifier.padding(start = 6.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFFEDEEF1)).padding(horizontal = 10.dp, vertical = 5.dp)) {
+        if (count != null) Box(Modifier.padding(start = 6.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFF13244C)).padding(horizontal = 10.dp, vertical = 5.dp)) {
             Text(count, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp, color = RD.Ink), maxLines = 1)
         }
     }
@@ -336,9 +336,9 @@ fun ChefHatLogo(size: Dp = 44.dp) {
         drawCircle(Color.White, 6.2f * u, Offset(12f * u, 7f * u))
         drawCircle(Color.White, 5.2f * u, Offset(17f * u, 9f * u))
         drawRoundRect(Color.White, Offset(5f * u, 9f * u), Size(14f * u, 6.5f * u), CornerRadius(1.2f * u))
-        drawRoundRect(Color(0xFF0A1F4E), Offset(8.3f * u, 12f * u), Size(1.4f * u, 3.6f * u), CornerRadius(.7f * u))
-        drawRoundRect(Color(0xFF0A1F4E), Offset(11.3f * u, 12f * u), Size(1.4f * u, 3.6f * u), CornerRadius(.7f * u))
-        drawRoundRect(Color(0xFF0A1F4E), Offset(14.3f * u, 12f * u), Size(1.4f * u, 3.6f * u), CornerRadius(.7f * u))
+        drawRoundRect(Color(0xFFF3F6FF), Offset(8.3f * u, 12f * u), Size(1.4f * u, 3.6f * u), CornerRadius(.7f * u))
+        drawRoundRect(Color(0xFFF3F6FF), Offset(11.3f * u, 12f * u), Size(1.4f * u, 3.6f * u), CornerRadius(.7f * u))
+        drawRoundRect(Color(0xFFF3F6FF), Offset(14.3f * u, 12f * u), Size(1.4f * u, 3.6f * u), CornerRadius(.7f * u))
         drawRoundRect(Brush.verticalGradient(listOf(Color(0xFFFF9B3D), Color(0xFFF26A1B)), startY = 16f * u, endY = 21f * u),
             Offset(5f * u, 16.4f * u), Size(14f * u, 4.4f * u), CornerRadius(1.4f * u))
     }
@@ -391,11 +391,11 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
     val shape = RoundedCornerShape(16.dp)
     val navy = isSelected && selectedStyle == OptionStyle.Navy
     val peach = isSelected && selectedStyle == OptionStyle.Peach
-    val bg = when { navy -> RD.ButtonBrush; peach -> Brush.horizontalGradient(listOf(Color(0xFFF1F3F8), Color(0xFFF1F3F8))); else -> Brush.horizontalGradient(listOf(Color.White, Color.White)) }
+    val bg = when { navy -> RD.ButtonBrush; peach -> Brush.horizontalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C))); else -> Brush.horizontalGradient(listOf(Color.White, Color.White)) }
     Row(modifier.heightIn(min = minHeight).then(if (tag != null) Modifier.testTag(tag) else Modifier)
         .semantics { selected = isSelected }
         .then(if (navy) Modifier.refShadow(shape, 3.dp) else Modifier).clip(shape).background(bg)
-        .border(if (peach) 1.5.dp else 1.dp, when { peach -> RD.Navy; navy -> RD.Navy; else -> RD.Ink.copy(alpha = if (enabled) 0.35f else 0.15f) }, shape)
+        .border(if (peach) 1.5.dp else 1.dp, when { peach -> C.Royal; navy -> C.Royal; else -> C.Royal.copy(alpha = if (enabled) 0.35f else 0.15f) }, shape)
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
         .padding(horizontal = if (compactPeriod) 10.dp else 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (centered) Arrangement.Center else Arrangement.Start) {
@@ -408,7 +408,7 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
             // Le scelte affiancate (periodi) restano su una riga.
             val labelModifier = if (tag != null) Modifier.testTag("$tag-label") else Modifier
             if (centered) AutoFitText(label, labelStyle, modifier = labelModifier, minScale = 0.75f) else Text(label, modifier = labelModifier, style = labelStyle)
-            if (subtitle != null) Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 17.sp, color = if (navy) Color(0xFFDDE4F2) else Color(0xFF3F4760)))
+            if (subtitle != null) Text(subtitle, style = T.Small.copy(fontSize = 13.sp, lineHeight = 17.sp, color = if (navy) Color(0xFFDDE4F2) else Color(0xFFA3B1D1)))
         }
         if (trailing != null) { GapW(8.dp); trailing() }
         else if (isSelected) {
@@ -442,8 +442,8 @@ fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? 
 fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
     height: Dp = 50.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(16.dp)
-    Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(Color.White)
-        .border(1.5.dp, Color(0xFF0B3373).copy(alpha = 0.55f), shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
+    Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(C.Surface)
+        .border(1.5.dp, Color(0xFF1B4FD6).copy(alpha = 0.55f), shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         if (icon != null) {
             AIcon(icon, RD.Ink, if (divider) 24.dp else 20.dp, 2.4f)

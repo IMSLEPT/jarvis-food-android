@@ -178,7 +178,7 @@ private fun StepRow(label: String, value: String, unit: String, divider: Boolean
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { HoldStep(false, onMinus); HoldStep(true, onPlus) }
     }
-    if (divider) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+    if (divider) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF13244C)))
 }
 
 @Composable
@@ -237,11 +237,11 @@ fun QContent(step: QStep, d: QDraft) {
             Text("Jarvis Food", style = T.H1.copy(fontSize = 38.sp, lineHeight = 41.sp, letterSpacing = (-1.1).sp,
                 brush = Brush.horizontalGradient(listOf(Color(0xFF34457A), Color(0xFF6B5A8E), Color(0xFFD2793F)))))
             Text("Il tuo diario alimentare, il piano dei pasti e le ricette in un posto solo. Rispondo ad alcune domande per calcolare le tue calorie in modo preciso e onesto: ti servono due minuti.",
-                style = T.Body.copy(fontSize = 16.sp, lineHeight = 24.sp, color = Color(0xFF4B4A6A)), modifier = Modifier.padding(top = 12.dp))
+                style = T.Body.copy(fontSize = 16.sp, lineHeight = 24.sp, color = Color(0xFFA3B1D1)), modifier = Modifier.padding(top = 12.dp))
             Row(Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                AIcon(PIc2.Shield, Color(0xFF047857), 18.dp, 2.2f)
+                AIcon(PIc2.Shield, Color(0xFF4ADE9B), 18.dp, 2.2f)
                 GapW(10.dp)
-                Text("Nessun account: i dati restano sul tuo telefono.", style = T.Body.copy(fontSize = 13.sp, color = Color(0xFF4B4A6A)))
+                Text("Nessun account: i dati restano sul tuo telefono.", style = T.Body.copy(fontSize = 13.sp, color = Color(0xFFA3B1D1)))
             }
             ACard(Modifier.padding(top = 18.dp).fillMaxWidth(), radius = 28.dp, padding = 16.dp, elevation = 8.dp) {
                 Column {
@@ -272,7 +272,7 @@ fun QContent(step: QStep, d: QDraft) {
                         }.show()
                     }
                 }
-                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF13244C)))
                 val h = parseNum(d.height)
                 StepRow("Altezza", h?.r0() ?: "—", "cm", false,
                     { d.height = ((h ?: 171.0) - 1).coerceIn(120.0, 230.0).r0() }, { d.height = ((h ?: 169.0) + 1).coerceIn(120.0, 230.0).r0() })
@@ -372,7 +372,7 @@ private object PIc2 {
 
 @Composable
 private fun WelcomeChip(text: String, dot: Color, modifier: Modifier) {
-    Row(modifier.clip(RoundedCornerShape(16.dp)).background(Color(0xE6FFFFFF)).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier.clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(10.dp).clip(CircleShape).background(dot))
         GapW(8.dp)
         Text(text, style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
@@ -394,13 +394,13 @@ fun PlanPreview(d: QDraft) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFF10B981)), contentAlignment = Alignment.Center) { AIcon(Ic.Check, Color.White, 24.dp, 3f) }
         GapW(12.dp)
-        Text("CALCOLO COMPLETATO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF047857), letterSpacing = 0.5.sp))
+        Text("CALCOLO COMPLETATO", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4ADE9B), letterSpacing = 0.5.sp))
     }
     Text("Il tuo piano\nè pronto", style = T.H1.copy(fontSize = 38.sp, lineHeight = 41.sp, letterSpacing = (-1.1).sp), modifier = Modifier.padding(top = 12.dp))
 
     Row(
         Modifier.padding(top = 18.dp).fillMaxWidth().aShadow(shape34, 14.dp, Color(0x99E88C60)).clip(shape34)
-            .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), shape34).padding(20.dp),
+            .background(C.Surface).border(1.dp, A.Hair, shape34).padding(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(Modifier.size(164.dp), contentAlignment = Alignment.Center) {
@@ -438,22 +438,22 @@ fun PlanPreview(d: QDraft) {
 
     Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         Column(Modifier.weight(1f).aShadow(shape30, 10.dp, Color(0x803B82F6)).clip(shape30).background(C.Surface).padding(16.dp)) {
-            TonalIcon(Ic.Drop, Color(0xFF2563EB), Color.White, box = 40.dp, radius = 15.dp, size = 21.dp)
+            TonalIcon(Ic.Drop, Color(0xFF7FB0FF), Color.White, box = 40.dp, radius = 15.dp, size = 21.dp)
             Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.Bottom) {
                 Text(g.waterMl.thousands(), style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = (-0.4).sp), maxLines = 1)
                 Text(" ml", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 3.dp))
             }
-            Text("Acqua al giorno", style = T.Body.copy(fontSize = 12.5.sp, color = Color(0xFF4B4A6A)))
+            Text("Acqua al giorno", style = T.Body.copy(fontSize = 12.5.sp, color = Color(0xFFA3B1D1)))
         }
         val delta = Nutrition.safeDelta(p, tdee)
         val pace = when { p.special == 1 || p.goal == 0 -> "stabile"; p.goal == -1 -> "−${p.weeklyRate.toString().replace('.', ',').removeSuffix(",0")}"; else -> "+${p.weeklyRate.toString().replace('.', ',').removeSuffix(",0")}" }
         Column(Modifier.weight(1f).aShadow(shape30, 10.dp, Color(0x80F59E0B)).clip(shape30).background(C.Surface).padding(16.dp)) {
-            TonalIcon("M4 7l6 6 4-4 6 6M20 15v-4M20 15h-4", Color(0xFF047857), Color.White, box = 40.dp, radius = 15.dp, size = 21.dp)
+            TonalIcon("M4 7l6 6 4-4 6 6M20 15v-4M20 15h-4", Color(0xFF4ADE9B), Color.White, box = 40.dp, radius = 15.dp, size = 21.dp)
             Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.Bottom) {
                 Text(pace, style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = (-0.4).sp), maxLines = 1)
                 if (pace != "stabile") Text(" kg/sett", style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = A.Muted), modifier = Modifier.padding(bottom = 3.dp))
             }
-            Text(if (delta == 0.0) "Ritmo previsto" else "Ritmo previsto · ${if (delta > 0) "+" else "−"}${kotlin.math.abs(delta).r0()} kcal", style = T.Body.copy(fontSize = 12.5.sp, color = Color(0xFF4B4A6A)))
+            Text(if (delta == 0.0) "Ritmo previsto" else "Ritmo previsto · ${if (delta > 0) "+" else "−"}${kotlin.math.abs(delta).r0()} kcal", style = T.Body.copy(fontSize = 12.5.sp, color = Color(0xFFA3B1D1)))
         }
     }
 
@@ -479,7 +479,7 @@ fun PlanPreview(d: QDraft) {
     ACard(Modifier.padding(top = 12.dp).fillMaxWidth(), radius = 30.dp, padding = 16.dp, elevation = 8.dp) {
         Column {
             Text("Come ci siamo arrivati", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-            val line = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = Color(0xFF4B4A6A))
+            val line = T.Body.copy(fontSize = 13.5.sp, lineHeight = 20.sp, color = Color(0xFFA3B1D1))
             Column(Modifier.padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text("• Metabolismo basale: ${bmr.r0()} kcal ($method)", style = line)
                 Text("• Movimento quotidiano: +${(bmr * (Nutrition.neatFactor(p) - 1)).r0()} kcal", style = line)
@@ -527,7 +527,7 @@ fun QuestionnaireFlow(d: QDraft, steps: List<QStep>, finishLabel: String, onBack
                 Modifier.fillMaxWidth(), enabled = d.valid(step)
             ) { if (!last) i++ else onFinish() }
             if (last && i > 0) Box(Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable { i-- }, contentAlignment = Alignment.Center) {
-                Text("Modifica le risposte", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF4B4A6A)))
+                Text("Modifica le risposte", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFA3B1D1)))
             }
         }
     }

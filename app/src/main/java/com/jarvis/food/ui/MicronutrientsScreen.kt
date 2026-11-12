@@ -71,7 +71,7 @@ fun MicroSummaryCard(s: AppState) {
             androidx.compose.foundation.Canvas(Modifier.fillMaxSize()) {
                 val sw = 8.dp.toPx(); val inset = sw / 2
                 val sz = androidx.compose.ui.geometry.Size(size.width - sw, size.height - sw)
-                drawArc(Color(0xE6FFFFFF), 0f, 360f, false, androidx.compose.ui.geometry.Offset(inset, inset), sz, style = androidx.compose.ui.graphics.drawscope.Stroke(sw))
+                drawArc(Color(0x26FFFFFF), 0f, 360f, false, androidx.compose.ui.geometry.Offset(inset, inset), sz, style = androidx.compose.ui.graphics.drawscope.Stroke(sw))
                 if (rep.loggedDays > 0) drawArc(Color(0xFF10B981), -90f, 360f * ok / tot, false, androidx.compose.ui.geometry.Offset(inset, inset), sz,
                     style = androidx.compose.ui.graphics.drawscope.Stroke(sw, cap = androidx.compose.ui.graphics.StrokeCap.Round))
             }
@@ -81,17 +81,17 @@ fun MicroSummaryCard(s: AppState) {
         Column(Modifier.weight(1f)) {
             Text("Analisi completa", style = T.Body.copy(fontSize = 15.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
             Text(if (rep.loggedDays == 0) "registra almeno un giorno completo per l'analisi" else "nutrienti al riferimento nella media degli ultimi ${rep.loggedDays} giorni registrati",
-                style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFF4B5B6E)))
+                style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xFFA3B1D1)))
         }
         AIcon(Ic.Right, A.Ink, 20.dp, 2.4f)
     }
 }
 
 private val VIT_KEYS = setOf("vitA", "vitC", "vitD", "vitE", "vitK", "thiamin", "riboflavin", "niacin", "vitB6", "folate", "vitB12")
-private val MARKER = Color(0xFF17286B)
+private val MARKER = Color(0xFFF3F6FF)
 
 private fun microFill(pct: Double): Color = if (pct >= 90) Color(0xFF10B981) else if (pct >= 50) Color(0xFFF59E0B) else Color(0xFFF43F6E)
-private fun microInk(pct: Double): Color = if (pct >= 90) Color(0xFF047857) else if (pct >= 50) Color(0xFFB45309) else Color(0xFFC41F4C)
+private fun microInk(pct: Double): Color = if (pct >= 90) Color(0xFF4ADE9B) else if (pct >= 50) Color(0xFFFFB066) else Color(0xFFFF7A9C)
 
 /** Barra con la linea verticale del 100% (a 2/3 della lunghezza: la scala arriva al 150%). */
 @Composable
@@ -139,14 +139,14 @@ fun MicronutrientsScreen() {
             // Hero
             Row(
                 Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x8C10B981)).clip(heroShape)
-                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp),
+                    .background(C.Surface).border(1.dp, A.Hair, heroShape).padding(20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(Modifier.size(112.dp), contentAlignment = Alignment.Center) {
                     Canvas(Modifier.fillMaxSize()) {
                         val sw = 12.dp.toPx()
                         val sz = Size(size.width - sw, size.height - sw)
-                        drawArc(Color(0xE6FFFFFF), 0f, 360f, false, Offset(sw / 2, sw / 2), sz, style = Stroke(sw))
+                        drawArc(Color(0x26FFFFFF), 0f, 360f, false, Offset(sw / 2, sw / 2), sz, style = Stroke(sw))
                         drawArc(Brush.linearGradient(listOf(Color(0xFF10B981), Color(0xFF5CD6EA))), -90f, 360f * ok / tot, false, Offset(sw / 2, sw / 2), sz, style = Stroke(sw, cap = StrokeCap.Round))
                     }
                     Row(verticalAlignment = Alignment.Bottom) {
@@ -158,7 +158,7 @@ fun MicronutrientsScreen() {
                 Column(Modifier.weight(1f)) {
                     Text("$ok su $tot nutrienti al riferimento", style = T.H1.copy(fontSize = 20.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.3).sp))
                     Text("Media degli ultimi ${rep.loggedDays} giorni registrati, sul riferimento EFSA per adulti. Il 100% è la linea sulla barra.",
-                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF3F5A52)), modifier = Modifier.padding(top = 6.dp))
+                        style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF9FD6C0)), modifier = Modifier.padding(top = 6.dp))
                 }
             }
 
@@ -174,9 +174,9 @@ fun MicronutrientsScreen() {
                                 Text("${st.pct.r0()}%", style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = microInk(st.pct)))
                             }
                             Spacer(Modifier.height(4.dp))
-                            NBar(st.pct, 12.dp, SolidColor(microFill(st.pct)), Color(0xFFEBEFF3))
+                            NBar(st.pct, 12.dp, SolidColor(microFill(st.pct)), Color(0xFF1A2F5E))
                         }
-                        if (i < low.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                        if (i < low.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF13244C)))
                     }
                 }
 
@@ -198,7 +198,7 @@ fun MicronutrientsScreen() {
                                     }
                                     GapW(10.dp)
                                     Box(
-                                        Modifier.size(48.dp).clip(CircleShape).background(if (inList != null) Color(0xFF10B981) else A.Ink)
+                                        Modifier.size(48.dp).clip(CircleShape).background(if (inList != null) Color(0xFF10B981) else C.Royal)
                                             .clickable { if (inList != null) Store.removeShopping(inList.id) else Store.addShoppingManual(t.food.name) },
                                         contentAlignment = Alignment.Center
                                     ) { AIcon(if (inList != null) Ic.Check else "M12 5v14M5 12h14", if (inList != null) Color.White else C.Accent, 22.dp, 2.6f) }
@@ -218,11 +218,11 @@ fun MicronutrientsScreen() {
                         Column(Modifier.padding(top = 14.dp, bottom = 10.dp)) {
                             Row(verticalAlignment = Alignment.Bottom) {
                                 Text(st.def.name, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                                Text("${st.pct.r0()}% del limite", style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = Color(0xFFB42318)))
+                                Text("${st.pct.r0()}% del limite", style = T.H1.copy(fontSize = 17.sp, lineHeight = 22.sp, letterSpacing = 0.sp, color = Color(0xFFFF8A80)))
                             }
                             Text("${Micros.fmt(st.avg, st.def.unit)} al giorno · limite ${Micros.fmt(st.ref, st.def.unit)}", style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
                             Spacer(Modifier.height(4.dp))
-                            NBar(st.pct, 12.dp, Brush.horizontalGradient(listOf(Color(0xFFFF8A2B), Color(0xFFE5484D))), Color(0xFFFFE0D3))
+                            NBar(st.pct, 12.dp, Brush.horizontalGradient(listOf(Color(0xFFFF8A2B), Color(0xFFE5484D))), Color(0xFF1A2F5E))
                         }
                         if (i < rep.high.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x24E88C60)))
                     }
@@ -236,11 +236,11 @@ fun MicronutrientsScreen() {
                     val d = g.daysSince
                     val shown = d ?: 10
                     val col = if (shown >= 7) Color(0xFFF43F6E) else if (shown >= 4) Color(0xFFF59E0B) else Color(0xFF10B981)
-                    val ink = if (shown >= 7) Color(0xFFC41F4C) else if (shown >= 4) Color(0xFFB45309) else Color(0xFF047857)
+                    val ink = if (shown >= 7) Color(0xFFFF7A9C) else if (shown >= 4) Color(0xFFFFB066) else Color(0xFF4ADE9B)
                     Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             Text(g.label, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
-                            ABar((shown / 10f).coerceIn(0f, 1f), SolidColor(col), Color(0xFFEBEFF3), 8.dp, Modifier.padding(top = 8.dp))
+                            ABar((shown / 10f).coerceIn(0f, 1f), SolidColor(col), Color(0xFF1A2F5E), 8.dp, Modifier.padding(top = 8.dp))
                         }
                         GapW(14.dp)
                         Column(Modifier.width(64.dp), horizontalAlignment = Alignment.End) {
@@ -248,7 +248,7 @@ fun MicronutrientsScreen() {
                             Text(if (d == 1) "giorno" else "giorni", style = T.Small.copy(fontSize = 12.sp, color = A.Muted))
                         }
                     }
-                    if (i < rep.groups.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                    if (i < rep.groups.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF13244C)))
                 }
             }
 
@@ -261,16 +261,16 @@ fun MicronutrientsScreen() {
                     list.forEachIndexed { i, st ->
                         val lim = st.def.kind == "LIM"
                         val c = if (lim) (if (st.level == "alto") Color(0xFFF43F6E) else Color(0xFF10B981)) else microFill(st.pct)
-                        val ink = if (lim) (if (st.level == "alto") Color(0xFFC41F4C) else Color(0xFF047857)) else microInk(st.pct)
+                        val ink = if (lim) (if (st.level == "alto") Color(0xFFFF7A9C) else Color(0xFF4ADE9B)) else microInk(st.pct)
                         Column(Modifier.padding(top = 12.dp, bottom = 8.dp)) {
                             Row(verticalAlignment = Alignment.Bottom) {
                                 Text(st.def.name, style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.Medium, color = A.Ink), modifier = Modifier.weight(1f))
                                 Text("${st.pct.r0()}%", style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.Bold, color = ink))
                             }
                             Spacer(Modifier.height(5.dp))
-                            NBar(st.pct, 8.dp, SolidColor(c), Color(0xFFEBEFF3), markerExtra = 6.dp)
+                            NBar(st.pct, 8.dp, SolidColor(c), Color(0xFF1A2F5E), markerExtra = 6.dp)
                         }
-                        if (i < list.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                        if (i < list.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF13244C)))
                     }
                 }
             }

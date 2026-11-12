@@ -63,7 +63,7 @@ internal object DashboardIcon {
 internal fun DashboardRobot(selected: Boolean, idle: Color = C.Navy) {
     Box(Modifier.size(22.dp)) {
         AIcon(DashboardIcon.Robot, if (selected) Color.White else idle, 22.dp)
-        Box(Modifier.align(Alignment.TopCenter).size(4.dp).clip(CircleShape).background(if (selected) Color.White else DashboardOrange))
+        Box(Modifier.align(Alignment.TopCenter).size(4.dp).clip(CircleShape).background(if (selected) C.Surface else DashboardOrange))
     }
 }
 
@@ -97,7 +97,7 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                 }
             }) { change, delta -> change.consume(); distance += delta }
         }.clip(shape)
-            .background(Color.White).padding(horizontal = 2.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+            .background(C.Surface).padding(horizontal = 2.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
             CalendarArrow(false, pager.currentPage > 0) { scope.launch { pager.animateScrollToPage((pager.currentPage - 1).coerceAtLeast(0)) } }
             HorizontalPager(pager, Modifier.weight(1f).fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) { page ->
                 val days = CalendarWindow.days(today, page - origin)
@@ -111,7 +111,7 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                 val logged = Store.entriesFor(s, day).isNotEmpty()
                                 val tile = RoundedCornerShape(10.dp)
                                 Column(Modifier.weight(1f).then(if (active) Modifier.testTag("week-day-$i") else Modifier)
-                                    .clip(tile).background(if (selected) Brush.verticalGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
+                                    .clip(tile).background(if (selected) Brush.verticalGradient(listOf(Color(0xFF1B4FD6), Color(0xFF1B4FD6))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
                                     
                                     .semantics { contentDescription = day.toString() }
                                     .selectableCalendar(selected) { pick(day) }.padding(top = 4.dp, bottom = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -120,9 +120,9 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                         style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, color = if (selected) Color.White else C.Navy, fontWeight = FontWeight.SemiBold), maxLines = 1, softWrap = false)
                                     Text(day.dayOfMonth.toString(), style = T.Num.copy(fontSize = 21.sp, lineHeight = 26.sp, color = if (selected) Color.White else C.Navy))
                                     GapH(3.dp)
-                                    Box(Modifier.width(if (selected) 16.dp else 4.dp).height(3.dp).clip(CircleShape).background(if (selected) Color.White else if (logged) DashboardOrange else Color(0xFFC3C8DA)))
+                                    Box(Modifier.width(if (selected) 16.dp else 4.dp).height(3.dp).clip(CircleShape).background(if (selected) C.Surface else if (logged) DashboardOrange else Color(0xFFC3C8DA)))
                                 }
-                                if (n < group.lastIndex) Box(Modifier.width(1.dp).height(39.dp).background(if (selected || days[group[n + 1]] == date) Color.Transparent else Color(0xFFDDE2EA)))
+                                if (n < group.lastIndex) Box(Modifier.width(1.dp).height(39.dp).background(if (selected || days[group[n + 1]] == date) Color.Transparent else Color(0xFF13244C)))
                             }
                         }
                     }
@@ -141,7 +141,7 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
     Box(Modifier.width(40.dp).fillMaxHeight().testTag(if (next) "week-next" else "week-previous")
         .semantics { contentDescription = if (next) "Settimana successiva" else "Settimana precedente" }
         .clickable(enabled = enabled, role = Role.Button, onClick = action), contentAlignment = Alignment.Center) {
-        Box(Modifier.size(34.dp).clip(CircleShape).background(RD.Navy), contentAlignment = Alignment.Center) {
+        Box(Modifier.size(34.dp).clip(CircleShape).background(C.Royal), contentAlignment = Alignment.Center) {
             AIcon(if (next) RIc.Right else RIc.Left, Color.White, 20.dp, 2.6f)
         }
     }
@@ -151,6 +151,10 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
 internal fun TodayHero(s: AppState, date: LocalDate, hello: String, eaten: Double, target: Double, burned: Int, onPick: (LocalDate) -> Unit, onOpen: () -> Unit) {
     val shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
     Column(Modifier.fillMaxWidth().testTag("today-hero").clip(shape).background(RD.NavyBrush)
+        .drawBehind {
+            drawRect(Brush.radialGradient(listOf(Color(0x40FF7A1A), Color.Transparent), center = Offset(size.width * 1.05f, size.height * 0.95f), radius = size.width * 0.75f))
+            drawRect(Brush.radialGradient(listOf(Color(0x302B6BFF), Color.Transparent), center = Offset(size.width * 0.1f, 0f), radius = size.width * 0.8f))
+        }
         .statusBarsPadding().padding(start = 14.dp, end = 14.dp, top = 8.dp, bottom = 18.dp)) {
         CalendarHeaderContent(s, "Oggi", date, "$hello,", onPick)
         GapH(14.dp)
@@ -263,7 +267,7 @@ private fun CalorieStat(label: String, value: Double, icon: String, tint: Color,
 }
 
 @Composable
-private fun DashboardDivider(height: androidx.compose.ui.unit.Dp = 54.dp, color: Color = Color(0xFFDCE2EC)) {
+private fun DashboardDivider(height: androidx.compose.ui.unit.Dp = 54.dp, color: Color = Color(0x26FFFFFF)) {
     Box(Modifier.width(1.dp).height(height).background(color))
 }
 
@@ -289,7 +293,7 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
     val fraction = TodayProgress.ratio(value, goal).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(600), label = "macro-$label")
     val shape = RoundedCornerShape(16.dp)
-    Column(modifier.clip(shape).background(Color.White).border(1.dp, Color(0xFFE6E9F0), shape)
+    Column(modifier.clip(shape).background(C.Surface).border(1.dp, Color(0xFF13244C), shape)
         .clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(ringSize).testTag("macro-ring-$label").semantics {
@@ -299,11 +303,11 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
                 val stroke = 5.dp.toPx()
                 val inset = stroke / 2
                 val bounds = Size(size.width - stroke, size.height - stroke)
-                drawArc(Color(0xFFE6EAF2), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
-                if (progress > 0) drawArc(Color(0xFF0B1F44), -90f, progress * 360f, false, Offset(inset, inset), bounds,
+                drawArc(Color(0x26FFFFFF), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
+                if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), bounds,
                     style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            AIcon(icon, Color(0xFF0B1F44), ringSize * .42f, 1.8f)
+            AIcon(icon, ink, ringSize * .42f, 1.8f)
         }
         GapH(6.dp)
         Text(label, style = T.Label.copy(fontSize = 12.5.sp, lineHeight = 16.sp, color = RD.Grey), maxLines = 1)

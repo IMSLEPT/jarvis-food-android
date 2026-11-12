@@ -114,7 +114,7 @@ private fun ActionChip(icon: String, label: String, active: Boolean = false, onC
 
 @Composable
 private fun InfoChip(text: String) {
-    Box(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(15.dp)).padding(horizontal = 12.dp), contentAlignment = Alignment.Center) {
+    Box(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(15.dp)).padding(horizontal = 12.dp), contentAlignment = Alignment.Center) {
         Text(text, style = T.Chip.copy(fontSize = 12.sp), maxLines = 1)
     }
 }
@@ -224,7 +224,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             Box(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 14.dp), contentAlignment = Alignment.Center) {
                                 Text(RecipeMeta.label(RecipeMeta.MEALS, tpl.meal), style = T.Chip.copy(color = A.GreenInk))
                             }
-                            Row(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(15.dp)).padding(horizontal = 14.dp),
+                            Row(Modifier.height(30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(15.dp)).padding(horizontal = 14.dp),
                                 verticalAlignment = Alignment.CenterVertically) {
                                 AIcon(Ic.Clock, A.Ink, 14.dp, 2.2f); GapW(6.dp); Text("${tpl.minutes} min", style = T.Chip)
                             }
@@ -265,7 +265,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 GapH(12.dp)
                                 MacroChips(r.total.protein, r.total.carbs, r.total.fat)
                                 GapH(14.dp)
-                                Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xB3FFFFFF)).padding(horizontal = 14.dp, vertical = 10.dp)) {
+                                Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt).padding(horizontal = 14.dp, vertical = 10.dp)) {
                                     Text((if (adapted) "Adattata a: " else "Ricetta base. Il tuo pasto: ") + "${target.kcal.r0()} kcal · P ${target.protein.r0()} · C ${target.carbs.r0()} · G ${target.fat.r0()}" +
                                         (if (r.micro("fiber") > 0.5) " · fibre ${r.micro("fiber").r0()} g" else ""),
                                         style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
@@ -336,7 +336,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                             Text("Valuto se l'adattamento è sensato…", style = T.Small.copy(color = A.Muted))
                                         } else {
                                             val lvl = if (sideNow != null) Practical.level(adaptedR ?: ad.practical) else ad.level
-                                            val tone = when (lvl) { Practical.Level.GOOD -> A.GreenSoft to A.GreenInk; Practical.Level.LIMITED -> Color(0xFFFFF0C4) to Color(0xFF8A5A00); else -> Color(0xFFFFE0DC) to Color(0xFFB3261E) }
+                                            val tone = when (lvl) { Practical.Level.GOOD -> A.GreenSoft to A.GreenInk; Practical.Level.LIMITED -> Color(0x26FFB83D) to Color(0xFFFFC24D); else -> Color(0xFFFFE0DC) to Color(0xFFFF8A80) }
                                             Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.cardSurface(tone.first)).padding(14.dp)) {
                                                 Text(if (sideNow != null && lvl == Practical.Level.GOOD) "Con il contorno l'obiettivo è centrato." else ad.headline, style = T.Label.copy(color = tone.second, fontWeight = FontWeight.Bold))
                                                 if (errPct > 5) Text("Scarto sulle calorie: ${if (a.kcal > target.kcal) "+" else "−"}${abs(a.kcal - target.kcal).r0()} kcal (${errPct.r0()}%).", style = T.Small.copy(color = tone.second))
@@ -345,7 +345,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                             }
                                             ad.side?.let { sd ->
                                                 GapH(10.dp)
-                                                Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(14.dp)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                                                Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(14.dp)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                                                     Column(Modifier.weight(1f)) {
                                                         Text("Completa con ${sd.label}", style = T.Label.copy(fontWeight = FontWeight.Bold))
                                                         Text("+${sd.macro.kcal.r0()} kcal · P ${sd.macro.protein.r0()} · C ${sd.macro.carbs.r0()} · G ${sd.macro.fat.r0()}", style = T.Small)
@@ -360,7 +360,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                                 ad.alternatives.forEach { alt ->
                                                     GapH(8.dp)
                                                     val at = alt.solved.template
-                                                    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(14.dp))
+                                                    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(14.dp))
                                                         .clickable { Nav.go(Screen.RecipeView(at.id, target, sc.date, null, meal)) }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                                                         RecipeImage(at.id, at.image, s.recipePhotos[at.id], Modifier.size(56.dp), recEmoji(at.meal), 14.dp)
                                                         GapW(10.dp)
@@ -391,11 +391,11 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         // Ingredienti
                         Text("Ingredienti", style = T.H2, modifier = Modifier.padding(top = 24.dp, bottom = 12.dp))
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
-                            Box(Modifier.size(48.dp).clip(CircleShape).background(Color.White).border(1.dp, A.Hair, CircleShape).clickable(enabled = servings > 1) { servings-- }, contentAlignment = Alignment.Center) {
+                            Box(Modifier.size(48.dp).clip(CircleShape).background(C.Surface).border(1.dp, A.Hair, CircleShape).clickable(enabled = servings > 1) { servings-- }, contentAlignment = Alignment.Center) {
                                 AIcon(Ic.Minus, if (servings > 1) A.Ink else A.Muted, 16.dp, 2.6f)
                             }
                             Text(if (servings == 1) "1 porzione" else "$servings porzioni", style = T.Label, modifier = Modifier.padding(horizontal = 10.dp))
-                            Box(Modifier.size(48.dp).clip(CircleShape).background(C.Navy).clickable(enabled = servings < 12) { servings++ }, contentAlignment = Alignment.Center) {
+                            Box(Modifier.size(48.dp).clip(CircleShape).background(C.Royal).clickable(enabled = servings < 12) { servings++ }, contentAlignment = Alignment.Center) {
                                 AIcon(Ic.Plus, Color.White, 16.dp, 2.6f)
                             }
                         }
@@ -416,7 +416,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                         }
                                         Text(it.amountLabel(), style = T.Num.copy(fontSize = 18.sp))
                                     }
-                                    if (i < rs.items.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEBEFF3)))
+                                    if (i < rs.items.lastIndex) Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF13244C)))
                                 }
                             }
                         }
@@ -425,10 +425,10 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                         // Preparazione
                         Row(Modifier.fillMaxWidth().padding(top = 30.dp), verticalAlignment = Alignment.Bottom) {
                             Text("Preparazione", style = T.H2, modifier = Modifier.weight(1f))
-                            Text("${done.size} di ${steps.size}", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF047857)), modifier = Modifier.padding(bottom = 3.dp))
+                            Text("${done.size} di ${steps.size}", style = T.Chip.copy(fontSize = 13.sp, color = Color(0xFF4ADE9B)), modifier = Modifier.padding(bottom = 3.dp))
                         }
                         GapH(10.dp)
-                        ABar(if (steps.isEmpty()) 0f else done.size / steps.size.toFloat(), Brush.horizontalGradient(listOf(Color(0xFF10B981), Color(0xFF5AD7AF))), Color(0xFFD9F6EA), 8.dp)
+                        ABar(if (steps.isEmpty()) 0f else done.size / steps.size.toFloat(), Brush.horizontalGradient(listOf(Color(0xFF10B981), Color(0xFF5AD7AF))), Color(0xFF1A2F5E), 8.dp)
                         GapH(14.dp)
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             steps.forEachIndexed { i, st ->
@@ -444,7 +444,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                         RecipeImage("${tpl.id}_s$i", img, null, Modifier.size(88.dp).testTag("recipe-step-photo-$i"), "🍳", 18.dp)
                                     } else {
                                         Box(Modifier.size(40.dp).clip(CircleShape).background(if (d) C.Green else C.Surface), contentAlignment = Alignment.Center) {
-                                            Text("${i + 1}", style = T.H2.copy(fontSize = 18.sp, color = if (d) Color.White else Color(0xFF8F2A14)))
+                                            Text("${i + 1}", style = T.H2.copy(fontSize = 18.sp, color = if (d) Color.White else Color(0xFFFF9A7A)))
                                         }
                                     }
                                     GapW(14.dp)
@@ -543,7 +543,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                 Box(Modifier.weight(1f).padding(horizontal = 16.dp)) {
                     if (solidToolbar) Text("Ricetta", style = T.Title2)
                 }
-                if (sc.adHoc == null) Box(Modifier.size(48.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(Color.White).clickable { Store.toggleRecipeFav(tpl.id) }, contentAlignment = Alignment.Center) {
+                if (sc.adHoc == null) Box(Modifier.size(48.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(C.Surface).clickable { Store.toggleRecipeFav(tpl.id) }, contentAlignment = Alignment.Center) {
                     AIcon(Ic.Heart, if (fav) C.Protein else A.Ink, 22.dp, 2.2f, fill = fav)
                 }
             }
@@ -553,11 +553,11 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
         val barShape = RoundedCornerShape(32.dp)
         Column(
             Modifier.navigationBarsPadding().padding(start = 12.dp, end = 12.dp, bottom = 8.dp).fillMaxWidth()
-                .aShadow(barShape, 16.dp, Color(0x611D1B3A)).clip(barShape).background(Color.White).border(1.dp, C.Line, barShape).padding(10.dp)
+                .aShadow(barShape, 16.dp, Color(0x611D1B3A)).clip(barShape).background(C.Surface).border(1.dp, C.Line, barShape).padding(10.dp)
         ) {
             if (planned) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    AInk("Alternativa", Modifier.weight(1f), height = 56.dp, bg = Color(0xFFF6F1EA), fg = A.Ink) { Nav.go(Screen.Alternatives(sc.date, sc.slot!!)) }
+                    AInk("Alternativa", Modifier.weight(1f), height = 56.dp, bg = C.SurfaceHi, fg = A.Ink) { Nav.go(Screen.Alternatives(sc.date, sc.slot!!)) }
                     APrimary(if (eaten) "✓ Mangiato" else "Segna mangiato", Modifier.weight(1f), height = 56.dp) {
                         val pm = Store.plannedMeals(Store.current, sc.date).firstOrNull { it.slotIndex == sc.slot }
                         if (eaten) Store.uneatPlanned(sc.date, sc.slot!!)

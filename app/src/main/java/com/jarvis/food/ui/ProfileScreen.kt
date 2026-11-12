@@ -107,7 +107,7 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
     Column(Modifier.fillMaxWidth().background(C.ProfileSurface)) {
         Row(Modifier.fillMaxWidth().then(tag).heightIn(min = 68.dp).clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(if (warm) Brush.verticalGradient(listOf(Color(0xFFFFE4D0), Color(0xFFFFF2EA))) else Brush.verticalGradient(listOf(Color(0xFFDDE7FA), Color(0xFFECF2FE)))), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(if (warm) Brush.verticalGradient(listOf(Color(0x33FF7A1A), Color(0xFF13244C))) else Brush.verticalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C)))), contentAlignment = Alignment.Center) {
                 AIcon(icon, if (warm) C.ProfileOrange else C.Navy, 22.dp)
             }
             GapW(12.dp)
@@ -118,7 +118,7 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
             GapW(8.dp)
             AIcon(Ic.Right, C.ProfileMuted, 16.dp, 2f)
         }
-        if (divider) HorizontalDivider(Modifier.padding(start = 66.dp, end = 14.dp), color = Color(0xFFEEF1F7))
+        if (divider) HorizontalDivider(Modifier.padding(start = 66.dp, end = 14.dp), color = Color(0xFF1E3263))
     }
 }
 
@@ -148,7 +148,7 @@ private fun ProfileSummaryStat(label: String, value: String, icon: String, modif
 
 @Composable
 private fun ProfStat(value: String, label: String, modifier: Modifier, big: Boolean = false) {
-    Column(modifier.clip(RoundedCornerShape(14.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier.clip(RoundedCornerShape(14.dp)).background(C.SurfaceAlt).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(value, style = T.H1.copy(fontSize = if (big) 19.sp else 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
         Text(label, style = T.Small.copy(fontSize = 12.sp, color = A.Muted), textAlign = TextAlign.Center)
     }
@@ -224,21 +224,21 @@ fun ProfileScreen() {
             }
 
             ProfileSectionTitle("Dati e obiettivi")
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(16.dp))) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFF13244C), RoundedCornerShape(16.dp))) {
             ProfRow(Ic.User, C.NavySoft, C.Navy, "Profilo e obiettivo", "Dati personali e ritmo", key = "profile") { Nav.go(Screen.ProfileEdit) }
             ProfRow(PIc.Scale, C.AccentSoft, C.AccentDeep, "Peso", "Ultima registrazione: ${w.r1()} kg", key = "weight") { Nav.go(Screen.Weight) }
             ProfRow(PIc.Ruler, C.NavySoft, C.Navy, "Misure corporee", "Vita, fianchi, petto e altre misure", divider = false, key = "measurements") { Nav.go(Screen.Measurements) }
             }
 
             ProfileSectionTitle("Alimentazione")
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(16.dp))) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFF13244C), RoundedCornerShape(16.dp))) {
             ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Calorie e macronutrienti", if (s.trainingNutrition.active) "Obiettivi ON/OFF attivi" else "${s.goals.carbsPct}% carboidrati · ${s.goals.proteinPct}% proteine · ${s.goals.fatPct}% grassi", key = "goals") { Nav.go(Screen.Goals) }
             ProfRow(Ic.Calendar, C.NavySoft, C.Navy, "Giorni ON e OFF", if (s.trainingNutrition.active) "Allenamento e riposo · attivi" else "Imposta calorie e macro per tipo di giornata", key = "training-goals") { Nav.go(Screen.TrainingGoals) }
             ProfRow(PIc.Leaf, C.AccentSoft, C.AccentDeep, "Preferenze della dieta", "Alimenti esclusi, pasti e tempi", divider = false, key = "diet") { Nav.go(Screen.DietSettings) }
             }
 
             ProfileSectionTitle("Strumenti")
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(16.dp))) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFF13244C), RoundedCornerShape(16.dp))) {
             ProfRow(PIc.Chat, C.NavySoft, C.Navy, "Chat con Jarvis", "Il tuo assistente alimentare", key = "chat") { Nav.go(Screen.Chat) }
             ProfRow(PIc.Watch, C.AccentSoft, C.AccentDeep, "Smartwatch e attività", "Collegamenti e livello di attività", key = "watch") { Nav.go(Screen.Watch) }
             ProfRow(PIc.Sparks, C.NavySoft, C.Navy, "Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", key = "ai") { Nav.go(Screen.AiSettings) }
@@ -251,7 +251,7 @@ fun ProfileScreen() {
 
             // Privacy
             Column(
-                Modifier.padding(top = 20.dp).fillMaxWidth().clip(shape30).border(1.dp, Color(0xFFE6E9F0), shape30)
+                Modifier.padding(top = 20.dp).fillMaxWidth().clip(shape30).border(1.dp, Color(0xFF13244C), shape30)
                     .background(C.Surface).padding(18.dp)
             ) {
                 Row(verticalAlignment = Alignment.Top) {
@@ -260,13 +260,13 @@ fun ProfileScreen() {
                     Column {
                         Text("I tuoi dati restano sul telefono", style = T.H1.copy(fontSize = 18.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.2).sp))
                         Text("Nessun account, nessun server. Esporta un backup ogni tanto e salvalo su Google Drive: puoi sceglierlo direttamente nella finestra di salvataggio.",
-                            style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF3F5A52)), modifier = Modifier.padding(top = 4.dp))
+                            style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFF9FD6C0)), modifier = Modifier.padding(top = 4.dp))
                     }
                 }
                 AInk("Esporta backup", Modifier.padding(top = 14.dp).fillMaxWidth(), height = 50.dp) { export.launch("jarvis-food-backup-${LocalDate.now()}.json") }
             }
             Box(Modifier.padding(top = 6.dp).fillMaxWidth().heightIn(min = 48.dp).clickable { confirmReset = true }, contentAlignment = Alignment.Center) {
-                Text("Cancella tutti i dati", style = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFB42318)))
+                Text("Cancella tutti i dati", style = T.Body.copy(fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFFF8A80)))
             }
         }
     }

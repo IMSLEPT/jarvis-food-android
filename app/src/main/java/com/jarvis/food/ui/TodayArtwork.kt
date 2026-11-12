@@ -35,8 +35,8 @@ internal enum class TodayArt { Add, Camera, Fridge, Timer, Vitamins, Calendar, A
 internal fun TodayArtwork(art: TodayArt, modifier: Modifier = Modifier) {
     Canvas(modifier) {
         scale(size.width / 64f, size.height / 64f, pivot = Offset.Zero) {
-            val navy = Brush.linearGradient(listOf(Color(0xFF425783), C.Navy), Offset(10f, 4f), Offset(50f, 58f))
-            val paper = Brush.verticalGradient(listOf(Color.White, Color(0xFFDCE4F2)), 10f, 56f)
+            val navy = Brush.linearGradient(listOf(Color(0xFF425783), C.Royal), Offset(10f, 4f), Offset(50f, 58f))
+            val paper = Brush.verticalGradient(listOf(Color.White, Color(0xFF13244C)), 10f, 56f)
             val orange = Brush.verticalGradient(listOf(Color(0xFFFFB24F), C.Accent), 10f, 45f)
             when (art) {
                 TodayArt.Add -> {
@@ -116,7 +116,7 @@ internal fun TodayArtwork(art: TodayArt, modifier: Modifier = Modifier) {
 
 @Composable
 internal fun TodayIconBadge(art: TodayArt, size: Dp = 44.dp) {
-    Box(Modifier.size(size).clip(RoundedCornerShape(size * 0.3f)).background(Color(0xFFF0F3F9))) {
+    Box(Modifier.size(size).clip(RoundedCornerShape(size * 0.3f)).background(Color(0xFF13244C))) {
         TodayArtwork(art, Modifier.size(size))
     }
 }

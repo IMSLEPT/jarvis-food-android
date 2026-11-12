@@ -105,7 +105,7 @@ fun FastingScreen() {
             FastingPlans.plans.forEach { p ->
                 val sel = f.planId == p.id
                 val shape = RoundedCornerShape(16.dp)
-                Box(Modifier.width(68.dp).height(44.dp).clip(shape).background(if (sel) C.Navy else Color.White).border(1.dp, if (sel) C.Navy else A.Hair, shape)
+                Box(Modifier.width(68.dp).height(44.dp).clip(shape).background(if (sel) C.Royal else C.Surface).border(1.dp, if (sel) C.Royal else A.Hair, shape)
                     .clickable { Store.update { it.copy(fasting = it.fasting.copy(planId = p.id, targetHours = p.fastHours)) }; Reminders.rescheduleAll(ctx) },
                     contentAlignment = Alignment.Center) { Text(p.title.removePrefix("OMAD ").removeSuffix(" ore").let { if (p.id == "36") "36 h" else it }, style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1) }
             }
@@ -115,7 +115,7 @@ fun FastingScreen() {
         // Timer
         val cardShape = RoundedCornerShape(36.dp)
         Column(Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(cardShape, 14.dp, Color(0xA68B5CF6)).clip(cardShape)
-            .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), cardShape)
+            .background(C.Surface).border(1.dp, A.Hair, cardShape)
             .padding(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 18.dp)) {
             Box(Modifier.size(260.dp).align(Alignment.CenterHorizontally), contentAlignment = Alignment.Center) {
                 Canvas(Modifier.fillMaxSize()) {
@@ -148,7 +148,7 @@ fun FastingScreen() {
             }
             if (active) {
                 val ph = curIdx.coerceAtLeast(0)
-                Row(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xCCFFFFFF)).padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt).padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     TonalIcon(FAST_ICON[ph % 5], FAST_INK[ph % 5], FAST_TINT[ph % 5], 40.dp, 14.dp, 22.dp)
                     GapW(10.dp)
                     Column {
@@ -158,19 +158,19 @@ fun FastingScreen() {
                 }
                 Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf("Inizio −30 min" to -30L, "Inizio +30 min" to 30L).forEach { (l, d) ->
-                        Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xD9FFFFFF)).clickable {
+                        Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt).clickable {
                             Store.startFast(f.planId, f.targetHours, minOf(System.currentTimeMillis(), f.activeStart!! + d * 60_000L)); Reminders.rescheduleAll(ctx)
                         }, contentAlignment = Alignment.Center) { Text(l, style = T.BtnS.copy(fontSize = 13.5.sp)) }
                     }
                 }
-                if (!confirmStop) Row(Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-stop").clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable {
+                if (!confirmStop) Row(Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-stop").clip(RoundedCornerShape(16.dp)).background(C.Royal).clickable {
                     if (progress >= 1f) { Store.stopFast(true); Reminders.rescheduleAll(ctx) } else confirmStop = true
                 }, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Stop, Color.White, 18.dp, fill = true); GapW(10.dp)
                     Text("Termina digiuno", style = T.BtnL.copy(color = Color.White), modifier = Modifier.padding(vertical = 14.dp))
                 } else Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf(Triple("Continua", A.Ink, 0), Triple("Salva e termina", C.Navy, 1), Triple("Annulla", C.Danger, 2)).forEach { (l, col, k) ->
-                        Box(Modifier.weight(1f).height(52.dp).clip(RoundedCornerShape(16.dp)).background(if (k == 1) C.Navy else Color(0xD9FFFFFF)).clickable {
+                        Box(Modifier.weight(1f).height(52.dp).clip(RoundedCornerShape(16.dp)).background(if (k == 1) C.Royal else C.SurfaceAlt).clickable {
                             when (k) { 0 -> confirmStop = false; 1 -> { Store.stopFast(true); confirmStop = false; Reminders.rescheduleAll(ctx) }; else -> { Store.stopFast(false); confirmStop = false; Reminders.rescheduleAll(ctx) } }
                         }, contentAlignment = Alignment.Center) { Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (k == 1) Color.White else col), maxLines = 1) }
                     }
@@ -180,12 +180,12 @@ fun FastingScreen() {
                 Text("Iniziato $dayWord alle ${fmtTime(f.activeStart!!)} · puoi ancora regolare l'inizio", style = T.Small.copy(fontSize = 12.5.sp, color = C.Muted),
                     textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 12.dp))
             } else {
-                Row(Modifier.padding(top = 16.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-start").clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { now = System.currentTimeMillis(); Store.startFast(f.planId, f.targetHours, now); Reminders.rescheduleAll(ctx) },
+                Row(Modifier.padding(top = 16.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-start").clip(RoundedCornerShape(16.dp)).background(C.Royal).clickable { now = System.currentTimeMillis(); Store.startFast(f.planId, f.targetHours, now); Reminders.rescheduleAll(ctx) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Bolt, C.Accent, 20.dp, 2f); GapW(10.dp)
                     Text("Inizia digiuno ora", style = T.BtnL.copy(color = Color.White), modifier = Modifier.padding(vertical = 14.dp))
                 }
-                Box(Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xD9FFFFFF)).clickable {
+                Box(Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt).clickable {
                     val start = java.time.LocalDate.now().minusDays(1).atTime(21, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                     Store.startFast(f.planId, f.targetHours, start); Reminders.rescheduleAll(ctx)
                 }, contentAlignment = Alignment.Center) { Text("Ho iniziato dopo cena (ieri alle 21:00)", style = T.BtnS.copy(fontSize = 13.5.sp)) }
@@ -206,7 +206,7 @@ fun FastingScreen() {
                     }
                     GapW(12.dp)
                     val cs = RoundedCornerShape(16.dp)
-                    Column(Modifier.weight(1f).let { if (cur) it.aShadow(cs, 6.dp, Color(0x661D1B3A)) else it }.clip(cs).background(if (cur) Color.White else Color(0xB3F6F8FB)).border(1.dp, A.Hair, cs).padding(horizontal = 14.dp, vertical = 12.dp)) {
+                    Column(Modifier.weight(1f).let { if (cur) it.aShadow(cs, 6.dp, Color(0x661D1B3A)) else it }.clip(cs).background(if (cur) C.Surface else Color(0xB3F6F8FB)).border(1.dp, A.Hair, cs).padding(horizontal = 14.dp, vertical = 12.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(ph.title, style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold), modifier = Modifier.weight(1f))
                             Text(status, style = T.Chip.copy(fontSize = 12.5.sp, fontWeight = FontWeight.Bold, color = if (cur) Violet else A.Muted))
@@ -227,7 +227,7 @@ fun FastingScreen() {
         }
         val last7 = f.history.take(7).reversed()
         val hs = RoundedCornerShape(16.dp)
-        Column(Modifier.fillMaxWidth().aShadow(hs, 10.dp, Color(0x668B5CF6)).clip(hs).background(Color.White).border(1.dp, A.Hair, hs).padding(16.dp)) {
+        Column(Modifier.fillMaxWidth().aShadow(hs, 10.dp, Color(0x668B5CF6)).clip(hs).background(C.Surface).border(1.dp, A.Hair, hs).padding(16.dp)) {
             if (last7.isEmpty()) Text("Nessun digiuno completato ancora.", style = T.Muted)
             else {
                 val maxH = maxOf(f.targetHours.toDouble(), last7.maxOf { (it.end - it.start) / 3_600_000.0 }) * 1.05

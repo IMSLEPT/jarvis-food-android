@@ -161,7 +161,7 @@ fun ProgressScreen() {
 
         // Intervallo
         val seg = RoundedCornerShape(16.dp)
-        Row(Modifier.padding(top = 10.dp).fillMaxWidth().clip(seg).background(Color(0xD9FFFFFF)).border(1.dp, A.Hair, seg).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.padding(top = 10.dp).fillMaxWidth().clip(seg).background(C.SurfaceAlt).border(1.dp, A.Hair, seg).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(7 to "7 giorni", 30 to "30 giorni").forEach { (d, l) ->
                 val sel = period == d
                 val choice = RoundedCornerShape(16.dp)
@@ -178,9 +178,9 @@ fun ProgressScreen() {
         // Serie
         val streakDays = streak(s)
         Column(Modifier.padding(top = 10.dp).fillMaxWidth().refShadow(shape30, 4.dp).clip(shape30)
-            .background(Color.White).border(1.dp, A.Hair, shape30).padding(10.dp)) {
+            .background(C.Surface).border(1.dp, A.Hair, shape30).padding(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(32.dp).clip(RoundedCornerShape(12.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 26.dp, fill = true) }
+                Box(Modifier.size(32.dp).clip(RoundedCornerShape(12.dp)).background(C.Surface), contentAlignment = Alignment.Center) { AIcon(Ic.Flame, C.Accent, 26.dp, fill = true) }
                 GapW(10.dp)
                 Column(Modifier.weight(1f)) {
                     Text("Giorni di fila", style = T.H1.copy(fontSize = 17.sp, lineHeight = 21.sp))
@@ -193,7 +193,7 @@ fun ProgressScreen() {
                 (6 downTo 0).map { today.minusDays(it.toLong()) }.forEach { d ->
                     val isToday = d == today
                     val did = d.toString() in loggedDays
-                    Box(Modifier.weight(1f).heightIn(min = 24.dp).clip(RoundedCornerShape(12.dp)).background(if (isToday) C.Navy else if (did) Color.White else Color(0x80FFFFFF)), contentAlignment = Alignment.Center) {
+                    Box(Modifier.weight(1f).heightIn(min = 24.dp).clip(RoundedCornerShape(12.dp)).background(if (isToday) C.Royal else if (did) C.Surface else C.SurfaceAlt), contentAlignment = Alignment.Center) {
                         Text(letter(d), style = T.Chip.copy(fontSize = 12.sp, color = if (isToday) Color.White else A.Ink))
                     }
                 }
@@ -220,7 +220,7 @@ fun ProgressScreen() {
         val from = today.minusDays((period - 1).toLong())
         val ws = s.weights.filter { !LocalDate.parse(it.date).isBefore(from) }.sortedBy { it.date }
         val wd = if (ws.size >= 2) ws.last().kg - ws.first().kg else 0.0
-        Column(Modifier.fillMaxWidth().refShadow(shape30, 4.dp).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30)
+        Column(Modifier.fillMaxWidth().refShadow(shape30, 4.dp).clip(shape30).background(C.Surface).border(1.dp, A.Hair, shape30)
             .clickable { Nav.go(Screen.WeightHistory) }.padding(PremiumScale.inset)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 ProgressCardHeading("Peso", ProgressScaleIcon, C.Blue, A.CarbSoft, modifier = Modifier.weight(1f))
@@ -239,7 +239,7 @@ fun ProgressScreen() {
                 }
                 if (ws.size >= 2) {
                     val down = wd <= 0
-                    val ink = if (down) Color(0xFF065F46) else A.FatInk
+                    val ink = if (down) Color(0xFF4ADE9B) else A.FatInk
                     Row(Modifier.padding(bottom = 6.dp).heightIn(min = 30.dp).clip(RoundedCornerShape(15.dp)).background(C.Surface).padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                         AIcon(if (down) "M12 5v14M6 13l6 6 6-6" else "M12 19V5M6 11l6-6 6 6", ink, 14.dp, 2.6f)
                         GapW(4.dp)
@@ -278,7 +278,7 @@ fun ProgressScreen() {
         GapH(12.dp)
         val maxK = maxOf((dailyGoals.maxOrNull() ?: goalKcal) * 1.27, (daily.maxOfOrNull { it.kcal } ?: 0.0) * 1.05)
         val dName = DateTimeFormatter.ofPattern("EEE d", IT)
-        Column(Modifier.fillMaxWidth().refShadow(shape30, 4.dp).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).padding(16.dp)) {
+        Column(Modifier.fillMaxWidth().refShadow(shape30, 4.dp).clip(shape30).background(C.Surface).border(1.dp, A.Hair, shape30).padding(16.dp)) {
             Text(avg?.kcal?.let { kcalFmt(it) } ?: "—", style = T.H1.copy(fontSize = 30.sp, lineHeight = 34.sp))
             Text("kcal in media · obiettivo medio ${kcalFmt(goalKcal)}", style = T.Small)
             Text("${logged.size} ${if (logged.size == 1) "giorno registrato" else "giorni registrati"} su $period · anche giornate parziali", style = T.Small, modifier = Modifier.testTag("calorie-sample-size").padding(top = 4.dp))
@@ -315,7 +315,7 @@ fun ProgressScreen() {
         if ((section == 0 || query.isNotBlank()) && matches("macro", "proteine", "carboidrati", "grassi", "fibre", "zuccheri", "sale")) {
         // Macro
         GapH(10.dp)
-        Column(Modifier.fillMaxWidth().testTag("progress-macro-detail").refShadow(shape30, 4.dp).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("macro", period)) }.padding(10.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-macro-detail").refShadow(shape30, 4.dp).clip(shape30).background(C.Surface).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("macro", period)) }.padding(10.dp)) {
             ProgressCardHeading("Macronutrienti (media)", RIc.Pie, C.Blue, A.CarbSoft)
             GapH(8.dp)
             if (avg == null) Text("Registra qualche pasto per vedere le medie.", style = T.Muted)
@@ -356,7 +356,7 @@ fun ProgressScreen() {
         // Acqua
         GapH(10.dp)
         val water = days.map { (s.water[it.toString()] ?: 0) / 1000.0 }
-        Column(Modifier.fillMaxWidth().testTag("progress-water-detail").refShadow(shape30, 4.dp).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("water", period)) }.padding(12.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-water-detail").refShadow(shape30, 4.dp).clip(shape30).background(C.Surface).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("water", period)) }.padding(12.dp)) {
             ProgressCardHeading("Acqua", Ic.Drop, C.Blue, A.CarbSoft, chevron = true)
             GapH(8.dp)
             OverviewChart(water, maxOf(water.maxOrNull() ?: 0.0, 1.5), period, days.map(letter), waterChart = true, present = days.map { s.water.containsKey(it.toString()) })
@@ -369,7 +369,7 @@ fun ProgressScreen() {
         // Passi e attività
         GapH(10.dp)
         val burned = days.map { Store.burnedFor(s, it).toDouble() }
-        Column(Modifier.fillMaxWidth().testTag("progress-activity-detail").refShadow(shape30, 4.dp).clip(shape30).background(Color.White).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("activity", period)) }.padding(12.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("progress-activity-detail").refShadow(shape30, 4.dp).clip(shape30).background(C.Surface).border(1.dp, A.Hair, shape30).clickable { Nav.go(Screen.Trend("activity", period)) }.padding(12.dp)) {
             ProgressCardHeading("Passi e attività", Ic.Bolt, A.GreenInk, A.GreenSoft, chevron = true)
             GapH(8.dp)
             val steps = days.map { Store.stepsFor(s, it).toDouble() }

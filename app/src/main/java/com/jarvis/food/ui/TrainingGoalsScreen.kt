@@ -99,7 +99,7 @@ fun TrainingGoalsScreen() {
                             val isOn = i + 1 in days
                             val shape = RoundedCornerShape(14.dp)
                             Column(Modifier.weight(1f).testTag("training-weekday-${i + 1}").heightIn(min = 58.dp).clip(shape)
-                                .background(if (isOn) C.Navy else C.Bg).border(1.dp, if (isOn) C.Navy else C.Line, shape)
+                                .background(if (isOn) C.Royal else C.Bg).border(1.dp, if (isOn) C.Royal else C.Line, shape)
                                 .semantics { selected = isOn; stateDescription = if (isOn) "Allenamento ON" else "Riposo OFF" }
                                 .clickable(role = Role.Button) { days = if (isOn) days - (i + 1) else days + (i + 1) }.padding(vertical = 9.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(labels[i], style = T.Label.copy(color = if (isOn) C.Surface else C.Navy))
@@ -203,8 +203,8 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
         val shape = RoundedCornerShape(14.dp)
         val large = LocalDensity.current.fontScale > 1.2f
         Box(Modifier.fillMaxWidth().testTag("today-day-type-bar")) {
-        Row(Modifier.fillMaxWidth().testTag("day-type-label").refShadow(shape, 5.dp).clip(shape).background(androidx.compose.ui.graphics.Color.White)
-            .border(1.dp, androidx.compose.ui.graphics.Color(0xFFE3E5EC), shape)
+        Row(Modifier.fillMaxWidth().testTag("day-type-label").refShadow(shape, 5.dp).clip(shape).background(C.Surface)
+            .border(1.dp, androidx.compose.ui.graphics.Color(0xFF13244C), shape)
             .clickable(role = Role.Button) { dialog = true }.padding(horizontal = 14.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically) {
             PeachTile(40.dp, radius = 12.dp) {

@@ -274,14 +274,14 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
 
             Row(Modifier.padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(
-                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { controller.stop(); camera.launch(photoUri) },
+                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(16.dp)).background(C.Royal).clickable { controller.stop(); camera.launch(photoUri) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     AIcon(Ic.Camera, C.Accent, 22.dp, 2f); GapW(10.dp)
                     Text("Scatta", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color.White))
                 }
                 Row(
-                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(16.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(16.dp))
+                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(16.dp))
                         .clickable { controller.stop(); gallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -292,11 +292,11 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
 
             // Modalità: l'analisi parte da sola dopo la foto; toccando si può rifare con l'altro metodo
             Row(
-                Modifier.padding(top = 12.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(16.dp)).padding(5.dp),
+                Modifier.padding(top = 12.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(16.dp)).padding(5.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Row(
-                    Modifier.weight(1.4f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(if (online) C.Navy else Color.Transparent)
+                    Modifier.weight(1.4f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(if (online) C.Royal else Color.Transparent)
                         .testTag("photo-mode-online").semantics { selected = online }
                         .clickable(role = Role.RadioButton) { runOnline() },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
@@ -305,7 +305,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
                     Text("AI online", style = T.Body.copy(fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, color = if (online) Color.White else A.Ink), maxLines = 1)
                 }
                 Box(
-                    Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(if (!online) C.Navy else Color.Transparent)
+                    Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(if (!online) C.Royal else Color.Transparent)
                         .testTag("photo-mode-offline").semantics { selected = !online }
                         .clickable(role = Role.RadioButton) { runOffline() },
                     contentAlignment = Alignment.Center
@@ -326,7 +326,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
                 JField(hint, { hint = it }, "Dettagli utili (facoltativo, es. \"pasta 100 g cruda\")")
             }
             if (b != null && analyzed && !busy) Row(
-                Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(16.dp)).background(Color.White).border(1.dp, A.Hair, RoundedCornerShape(16.dp))
+                Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).border(1.dp, A.Hair, RoundedCornerShape(16.dp))
                     .clickable { controller.retry(hint) },
                 horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
             ) {
@@ -359,7 +359,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
                 val heroShape = RoundedCornerShape(16.dp)
                 Column(
                     Modifier.padding(top = 14.dp).fillMaxWidth().aShadow(heroShape, 14.dp, Color(0x99E88C60)).clip(heroShape)
-                        .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), heroShape).padding(20.dp)
+                        .background(C.Surface).border(1.dp, A.Hair, heroShape).padding(20.dp)
                 ) {
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text(kcalFmt(kcal), style = T.H1.copy(fontSize = 56.sp, lineHeight = 60.sp, letterSpacing = (-1.7).sp))
@@ -440,7 +440,7 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
         if (sel.isNotEmpty()) {
             val barShape = RoundedCornerShape(16.dp)
             Row(
-                Modifier.padding(16.dp).fillMaxWidth().aShadow(barShape, 14.dp, Color(0x8017286B)).clip(barShape).background(C.Navy).padding(start = 22.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
+                Modifier.padding(16.dp).fillMaxWidth().aShadow(barShape, 14.dp, Color(0x8017286B)).clip(barShape).background(C.Royal).padding(start = 22.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(Modifier.weight(1f)) {
