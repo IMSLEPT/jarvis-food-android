@@ -263,12 +263,28 @@ private val CAT_BASE = listOf(
 )
 /** Stesse tinte di prima, ma più tenui (meno sature): sfondo schiarito del 38%, macchia molto vicina allo sfondo, così le scritte restano ben leggibili. */
 private val CAT_COLORS = CAT_BASE
+/** Copertine delle categorie di pasto: foto già presenti nell'app (nessun peso in più). */
+private val MEAL_COVERS = mapOf("Colazione" to "porridge_banana", "Pranzo" to "pasta_pollo_zucchine", "Cena" to "salmone_patate",
+    "Spuntino" to "greco_mela", "Dessert" to "banana_con_cioccolato_fondente")
 private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "dieta" to 5, "metodo" to 2, "cucina" to 6, "tempo" to 4)
 
 /** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
 @Composable
-private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
+private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, photoId: String? = null, onClick: () -> Unit) {
     val shape = RoundedCornerShape(18.dp)
+    if (photoId != null) {
+        // Variante con foto: copertina a tutta tessera, velo scuro in basso per la leggibilità.
+        Box(modifier.testTag("recipe-category").heightIn(min = 112.dp).aspectRatio(0.92f).aShadow(shape, 6.dp, Color(0x401D1B3A)).clip(shape)
+            .clickable(onClick = onClick)) {
+            RecipeImage(photoId, null, null, Modifier.matchParentSize(), emoji, 0.dp)
+            Box(Modifier.matchParentSize().background(Brush.verticalGradient(0.3f to Color.Transparent, 1f to Color(0xE60B1B45))))
+            Column(Modifier.align(Alignment.BottomStart).padding(horizontal = 10.dp, vertical = 9.dp)) {
+                Text(label, style = T.BtnS.copy(color = Color.White, fontSize = 14.sp, lineHeight = 17.sp, fontWeight = FontWeight.Bold), maxLines = 1)
+                Text("$count ricette", modifier = Modifier.testTag("category-count-$label"), style = T.Small.copy(color = Color.White.copy(alpha = 0.82f), fontSize = 11.sp, fontWeight = FontWeight.Medium), maxLines = 1)
+            }
+        }
+        return
+    }
     val (bg, marker) = CAT_COLORS[Math.floorMod(colorIdx, CAT_COLORS.size)]
     Column(modifier.testTag("recipe-category").heightIn(min = 94.dp).clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
         .clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 8.dp),
@@ -352,8 +368,8 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
                 repeat(columns) { offset ->
                     val index = start + offset
                     val cat = g.cats.getOrNull(index)
-                    if (cat != null) CatTile(cat.emoji, cat.label, cat.count, (CAT_OFFSET[g.id] ?: 0) + index, Modifier.weight(1f)) { Nav.go(Screen.RecipeList(cat.filter, cat.listTitle)) }
-                    else if (index < count) CatTile("🔎", "Tutte le ricette", Db.db.recipes.size, 1, Modifier.weight(1f)) { Nav.go(Screen.RecipeList()) }
+                    if (cat != null) CatTile(cat.emoji, cat.label, cat.count, (CAT_OFFSET[g.id] ?: 0) + index, Modifier.weight(1f), photoId = if (g.id == "pasto") MEAL_COVERS[cat.label] else null) { Nav.go(Screen.RecipeList(cat.filter, cat.listTitle)) }
+                    else if (index < count) CatTile("🔎", "Tutte le ricette", Db.db.recipes.size, 1, Modifier.weight(1f).then(if (g.id == "pasto") Modifier.aspectRatio(0.92f) else Modifier)) { Nav.go(Screen.RecipeList()) }
                     else Box(Modifier.weight(1f))
                 }
             }

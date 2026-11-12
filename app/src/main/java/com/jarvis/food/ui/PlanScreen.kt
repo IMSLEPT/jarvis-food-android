@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -111,6 +112,13 @@ fun PlanScreen() {
             Spacer(Modifier.height(18.dp))
             ACard(radius = 34.dp, color = C.Surface, glow = Color(0x99FF963C), padding = 20.dp) {
                 Column {
+                    // Striscia di piatti: dà subito l'idea del risultato invece di un riquadro vuoto.
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        listOf("porridge_banana", "pasta_pollo_zucchine", "salmone_patate", "greco_mela").forEach { id ->
+                            RecipeImage(id, null, null, Modifier.weight(1f).aspectRatio(0.85f), "🍽️", 18.dp)
+                        }
+                    }
+                    Spacer(Modifier.height(16.dp))
                     Text("Crea la tua dieta personalizzata", style = T.Title)
                     Spacer(Modifier.height(6.dp))
                     Text("Jarvis sceglie piatti vari per ogni pasto e calcola le grammature di ogni ingrediente per rispettare " +
@@ -355,7 +363,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val dot = MEAL_DOT[m.diaryMeal] ?: C.Accent
     val shape = RoundedCornerShape(34.dp)
     Column(Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x731D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
-        Box(Modifier.fillMaxWidth().height(230.dp).clickable { openRecipe(date, m) }) {
+        Box(Modifier.fillMaxWidth().height(if (s.recipePhotos[r.template.id] != null || EditorialPhotos.asset(r.template.id, r.template.image) != null) 230.dp else 96.dp).clickable { openRecipe(date, m) }) {
             RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxSize(), mealEmoji(r.template.meal), 0.dp)
             Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0x8C181430))))
             Row(Modifier.padding(14.dp).height(32.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
