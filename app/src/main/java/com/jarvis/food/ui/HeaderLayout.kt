@@ -128,7 +128,7 @@ fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDat
                     Text(s.profile.name, Modifier.testTag("home-name"), style = T.Title.copy(fontSize = 30.sp, lineHeight = 35.sp, color = Color.White), maxLines = 2)
                     Text(fullDay(date), style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFFB9C8EC)))
                 }
-                androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.jarvis_logo), null, Modifier.size(108.dp))
+                MascotOggi(132.dp, Modifier.offset(x = 10.dp, y = 4.dp))
             }
         }
         GapH(6.dp)

@@ -64,21 +64,22 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         val heading: @Composable (Modifier) -> Unit = { modifier ->
             Row(modifier, verticalAlignment = Alignment.Top) {
-                AIcon(icon, Color(0xFF0B1F44), 16.dp, 1.8f)
-                GapW(4.dp)
+                val tone = when (icon) { RIc.Leaf -> Tone.Green; RIc.Bulb -> Tone.Gold; RIc.DumbbellBold -> Tone.Blue; else -> Tone.Orange }
+                GlowIcon(icon, tone.first, tone.second, 40.dp, 13.dp, glyph = 23.dp)
+                GapW(10.dp)
                 Column {
-                    Text(title, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
-                    Text(subtitle, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey))
+                    Text(title, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Ink))
+                    Text(subtitle, style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, color = RD.Grey))
                 }
             }
         }
         val button: @Composable () -> Unit = {
             Box(actionModifier.heightIn(min = 36.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
-                Row(Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
+                Row(Modifier.clip(RoundedCornerShape(12.dp)).background(Color(0xFFEAF1FF)).padding(horizontal = 10.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically) {
-                    Text(action, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = Color(0xFF0B1F44)))
+                    Text(action, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = Color(0xFF1B4FD6)))
                     GapW(3.dp)
-                    AIcon(RIc.Right, Color(0xFF0B1F44), 13.dp, 2.2f)
+                    AIcon(RIc.Right, Color(0xFF1B4FD6), 13.dp, 2.4f)
                 }
             }
         }
@@ -171,7 +172,7 @@ internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: 
     modifier: Modifier = Modifier, valueModifier: Modifier = Modifier, onClick: () -> Unit) {
     val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
         androidx.compose.animation.core.tween(800), label = "ring")
-    Column(modifier.clip(RoundedCornerShape(14.dp)).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(14.dp)).background(Color.White)
+    Column(modifier.clip(RoundedCornerShape(16.dp)).background(Color(0xFFF6F8FC))
         .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(60.dp), contentAlignment = Alignment.Center) {
@@ -179,8 +180,8 @@ internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: 
                 val st = 5.dp.toPx()
                 val tl = Offset(st / 2, st / 2)
                 val sz = androidx.compose.ui.geometry.Size(size.width - st, size.height - st)
-                drawArc(Color(0xFFE6EAF2), 0f, 360f, false, tl, sz, style = Stroke(st))
-                if (a > 0f) drawArc(Color(0xFF0B1F44), -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+                drawArc(tone.copy(alpha = 0.16f), 0f, 360f, false, tl, sz, style = Stroke(st))
+                if (a > 0f) drawArc(tone, -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
             }
             Text(percent, valueModifier, style = T.Label.copy(fontSize = 14.sp, lineHeight = 17.sp, color = RD.Ink, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
         }
@@ -197,10 +198,10 @@ internal fun SoftBar(fraction: Float, modifier: Modifier = Modifier, height: and
         androidx.compose.animation.core.tween(700), label = "softbar")
     Canvas(modifier.height(height)) {
         val r = androidx.compose.ui.geometry.CornerRadius(size.height / 2.5f)
-        drawRoundRect(Color(0xFFE6EAF2), cornerRadius = r)
+        drawRoundRect(Color(0xFFE3EEFA), cornerRadius = r)
         if (a > 0f) {
             val w = (size.width * a).coerceAtLeast(size.height)
-            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)), 0f, w),
+            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF52C8F5), Color(0xFF1E6FE0)), 0f, w),
                 size = androidx.compose.ui.geometry.Size(w, size.height), cornerRadius = r)
         }
     }

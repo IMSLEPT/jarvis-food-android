@@ -129,7 +129,7 @@ fun ChatScreen() {
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
     Column(Modifier.fillMaxSize().background(C.Bg).imePadding()) {
-        ChatHeader(active, showSetup, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup })
+        ChatHeader(active, showSetup, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup }, hero = !active && ready)
         if (showSetup || (!ready && !active)) {
             // Keep the motor settings scrollable without squeezing the composer.
             Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
@@ -156,7 +156,7 @@ private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit) {
+private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit, hero: Boolean = false) {
     // Con la tastiera aperta il banner si riduce a una riga: più spazio ai messaggi.
     val typing = androidx.compose.foundation.layout.WindowInsets.isImeVisible
     Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
@@ -179,6 +179,7 @@ private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSet
                 descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
                 accounts = true, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
                 actions = true)
+            if (hero && !setup) ChatHero()
         }
     }
 }
@@ -216,40 +217,35 @@ private fun ChatDaySeparator(day: LocalDate) {
 @Composable
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
     val canSend = input.isNotBlank() && !busy
-    val shape = RoundedCornerShape(PremiumScale.cardRadius)
+    val shape = RoundedCornerShape(28.dp)
     Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
-        .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
+        .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 4.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
             value = input, onValueChange = onInput,
-            modifier = Modifier.weight(1f).heightIn(min = 56.dp).then(if (active) Modifier.refShadow(shape, 4.dp) else Modifier).testTag("chat-input"),
+            modifier = Modifier.weight(1f).heightIn(min = 56.dp).lightShadow(10.dp, 28.dp).testTag("chat-input"),
             placeholder = { Text("Scrivi a Jarvis…", style = T.Read.copy(color = C.Muted, fontSize = 14.sp, lineHeight = 19.sp), maxLines = 2) },
             textStyle = T.Read.copy(fontSize = 14.sp, lineHeight = 19.sp), shape = shape, maxLines = 4,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send), keyboardActions = KeyboardActions(onSend = { onSend() }),
-            trailingIcon = { Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, PremiumScale.actionHeight, onSend, onStop) } },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = C.Navy, unfocusedBorderColor = C.Line, cursorColor = C.Accent,
+                focusedBorderColor = Color(0xFFBFD0F5), unfocusedBorderColor = Color(0xFFE3E8F2), cursorColor = C.Accent,
                 focusedContainerColor = C.Surface, unfocusedContainerColor = C.Surface, disabledContainerColor = C.SurfaceAlt, disabledBorderColor = C.Line
             )
         )
+        GapW(10.dp)
+        ChatSendControl(canSend, busy, 52.dp, onSend, onStop)
     }
 }
 
 @Composable
 private fun ChatSendControl(canSend: Boolean, busy: Boolean, size: Dp, onSend: () -> Unit, onStop: () -> Unit) {
-    Box(Modifier.size(size).clip(CircleShape)
+    Box(Modifier.size(size).orangeGlow(CircleShape, 8.dp).clip(CircleShape)
         .background(C.OrangeBrush)
         .semantics { contentDescription = if (busy) "Interrompi risposta" else "Invia messaggio" }
         .clickable(enabled = canSend || busy, role = Role.Button) { if (busy) onStop() else onSend() }, contentAlignment = Alignment.Center) {
-        Canvas(Modifier.size(22.dp)) {
+        if (busy) Canvas(Modifier.size(22.dp)) {
             val w = this.size.width; val h = this.size.height
-            if (busy) drawRoundRect(Color.White, Offset(w * 0.25f, h * 0.25f), androidx.compose.ui.geometry.Size(w * 0.5f, h * 0.5f), androidx.compose.ui.geometry.CornerRadius(4f, 4f))
-            else {
-                val stroke = 2.4.dp.toPx(); val ink = if (canSend) Color.White else Color.White.copy(alpha = .65f)
-                drawLine(ink, Offset(w / 2, h * 0.88f), Offset(w / 2, h * 0.14f), stroke, StrokeCap.Round)
-                drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.18f, h * 0.45f), stroke, StrokeCap.Round)
-                drawLine(ink, Offset(w / 2, h * 0.12f), Offset(w * 0.82f, h * 0.45f), stroke, StrokeCap.Round)
-            }
-        }
+            drawRoundRect(Color.White, Offset(w * 0.25f, h * 0.25f), androidx.compose.ui.geometry.Size(w * 0.5f, h * 0.5f), androidx.compose.ui.geometry.CornerRadius(4f, 4f))
+        } else AIcon(Ic.Plane, if (canSend) Color.White else Color.White.copy(alpha = .7f), 24.dp, 2.2f)
     }
 }
 
@@ -262,44 +258,44 @@ private val CAPABILITIES = listOf(
     Triple("⏱️", "Digiuno", "Avvia il digiuno 16:8")
 )
 
+/** Fascia blu che sfuma nella pagina, con la mascotte che saluta e il suo alone. */
+@Composable
+private fun ChatHero() {
+    Box(Modifier.fillMaxWidth().height(176.dp).testTag("chat-hero")
+        .background(Brush.verticalGradient(listOf(Color(0xFF0E2A78), C.Bg))), contentAlignment = Alignment.BottomCenter) {
+        MascotChat(164.dp)
+        Box(Modifier.fillMaxWidth().height(26.dp).align(Alignment.BottomCenter).background(Brush.verticalGradient(listOf(Color.Transparent, C.Bg))))
+    }
+}
+
 @Composable
 private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
-    Column(Modifier.fillMaxWidth().padding(top = 8.dp)) {
-        Row(verticalAlignment = Alignment.Top) {
-            Box(Modifier.padding(top = 3.dp).size(width = 4.dp, height = 24.dp)
-                .clip(RoundedCornerShape(2.dp)).background(C.Accent))
-            GapW(9.dp)
-            Column(Modifier.weight(1f)) {
-                Text("Come posso aiutarti?", style = T.Title.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine, color = RD.Ink))
-                Text("Pasti, ricette, piano e spesa. Chiedimi qui.",
-                    style = T.Muted.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine), modifier = Modifier.padding(top = 4.dp, bottom = 6.dp))
-            }
+    Column(Modifier.fillMaxWidth().padding(top = 0.dp)) {
+        val card = RoundedCornerShape(22.dp)
+        Column(Modifier.fillMaxWidth().lightShadow(14.dp, 22.dp).clip(card).background(Color.White).padding(horizontal = 18.dp, vertical = 16.dp)) {
+            Text("Ciao! Sono Jarvis 👋", style = T.Title.copy(fontSize = 22.sp, lineHeight = 28.sp, color = RD.Ink))
+            Text("Il tuo assistente per pasti, ricette, piano e spesa. Chiedimi qui.",
+                style = T.Muted.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine), modifier = Modifier.padding(top = 4.dp))
         }
         if (ready) {
-            Spacer(Modifier.height(8.dp))
-            val narrow = LocalDensity.current.fontScale > 1.3f || LocalConfiguration.current.screenWidthDp < 330
-            val groups = CAPABILITIES.chunked(if (narrow) 1 else 2)
-            val tile = RoundedCornerShape(14.dp)
-            groups.forEachIndexed { rowIndex, row ->
-                Row(Modifier.fillMaxWidth().then(if (rowIndex == groups.lastIndex) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    row.forEach { (_, title, example) ->
-                        val icon = when (title) {
-                            "Diario" -> Ic.Bowl; "Ricette" -> Ic.Receipt; "Piano" -> Ic.Calendar
-                            "Spesa e dispensa" -> Ic.Cart; "Obiettivi" -> Ic.Chart; else -> Ic.Timer
-                        }
-                        Row(Modifier.weight(1f).heightIn(min = if (narrow) 56.dp else 72.dp)
-                            .refShadow(tile, 4.dp).clip(tile).background(Color.White).border(1.dp, C.Line, tile)
-                            .clickable(role = Role.Button) { onPick(example) }.padding(10.dp),
-                            verticalAlignment = Alignment.Top) {
-                            PeachTile(32.dp) { AIcon(icon, C.AccentDeep, 19.dp, 2.1f) }
-                            GapW(7.dp)
-                            Column(Modifier.weight(1f)) {
-                                Text(title, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, color = RD.Ink))
-                                GapH(3.dp)
-                                Text("“$example”", style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp))
-                            }
-                        }
+            Spacer(Modifier.height(12.dp))
+            val tile = RoundedCornerShape(18.dp)
+            CAPABILITIES.forEachIndexed { index, (_, title, example) ->
+                val (icon, tone) = when (title) {
+                    "Diario" -> Ic.Bowl to Tone.Orange; "Ricette" -> Ic.Receipt to Tone.Pink; "Piano" -> Ic.Calendar to Tone.Blue
+                    "Spesa e dispensa" -> Ic.Cart to Tone.Teal; "Obiettivi" -> RIc.Target to Tone.Purple; else -> Ic.Timer to Tone.Indigo
+                }
+                Row(Modifier.fillMaxWidth().padding(vertical = 4.dp).then(if (index == CAPABILITIES.lastIndex) Modifier.testTag("chat-capabilities-last-row") else Modifier)
+                    .heightIn(min = 64.dp).lightShadow(8.dp, 18.dp).clip(tile).background(Color.White)
+                    .clickable(role = Role.Button) { onPick(example) }.padding(horizontal = 12.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    GlowIcon(icon, tone.first, tone.second, 40.dp, 13.dp)
+                    GapW(12.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text(title, style = T.Label.copy(fontSize = 14.5.sp, lineHeight = 18.sp, color = RD.Ink, fontWeight = FontWeight.Bold))
+                        Text("“$example”", style = T.Small.copy(fontSize = 12.5.sp, lineHeight = 17.sp))
                     }
+                    AIcon(Ic.Right, C.Muted, 18.dp, 2.2f)
                 }
             }
             Spacer(Modifier.fillMaxWidth().height(24.dp).testTag("chat-intro-bottom"))

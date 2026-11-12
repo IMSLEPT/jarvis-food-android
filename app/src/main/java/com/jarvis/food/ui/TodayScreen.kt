@@ -157,15 +157,19 @@ fun TodayScreen() {
 
         if (!s.profile.detailed) {
             Spacer(Modifier.height(12.dp))
-            ACard(color = Color.White, radius = 22.dp, padding = 14.dp, elevation = 4.dp, onClick = { Nav.go(Screen.Questionnaire(null)) }) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    TonalIcon(Ic.Receipt, A.TonalInk, A.Tonal, box = 40.dp, radius = 14.dp)
-                    GapW(12.dp)
-                    Column(Modifier.weight(1f)) {
-                        Text("Rendi il calcolo più preciso", style = T.Label)
-                        Text("Completa il tuo profilo", style = T.Small)
-                    }
-                    AIcon(Ic.Right, C.Muted, 18.dp)
+            val promptShape = RoundedCornerShape(20.dp)
+            Row(Modifier.fillMaxWidth().lightShadow(12.dp, 20.dp).clip(promptShape)
+                .background(Brush.horizontalGradient(listOf(Color(0xFFFFEFE0), Color(0xFFFFFFFF))))
+                .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.Questionnaire(null)) }.padding(14.dp),
+                verticalAlignment = Alignment.CenterVertically) {
+                GlowIcon(Ic.Spark, Tone.Orange.first, Tone.Orange.second, 46.dp, 15.dp)
+                GapW(12.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("Rendi il calcolo più preciso", style = T.Title2.copy(fontSize = 15.5.sp, lineHeight = 20.sp, color = RD.Ink))
+                    Text("Completa il tuo profilo", style = T.Small.copy(fontSize = 13.sp))
+                }
+                Box(Modifier.size(32.dp).clip(CircleShape).background(C.OrangeBrush), contentAlignment = Alignment.Center) {
+                    AIcon(Ic.Right, Color.White, 18.dp, 2.6f)
                 }
             }
         }
@@ -296,7 +300,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
     val t = Nutrition.sum(entries)
     var open by rememberSaveable(meal, date.toString()) { mutableStateOf(false) }
     val planned = remember(s.plan, s.dietPrefs, s.trainingNutrition, s.weights, s.profile, s.goals, s.energy, date) { Store.plannedMeals(s, date).firstOrNull { it.diaryMeal == meal } }
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(20.dp)
     val chevron by animateFloatAsState(if (open) 180f else 0f, tween(250), label = "chev")
     val kcal = if (entries.isNotEmpty()) t.kcal else planned?.solved?.total?.kcal
     val subtitle = when {
@@ -304,39 +308,38 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
         entries.isNotEmpty() -> "P ${t.protein.r0()} · C ${t.carbs.r0()} · G ${t.fat.r0()} g"
         else -> "Nessun alimento"
     }
-    val art = when (meal) {
-        0 -> R.drawable.approved_meal_0
-        1 -> R.drawable.approved_meal_1
-        2 -> R.drawable.approved_meal_2
-        3 -> R.drawable.approved_meal_3
-        4 -> R.drawable.approved_meal_4
-        else -> R.drawable.approved_meal_5
+    val (mealIcon, mealTone) = when (meal) {
+        0 -> Ic.MealBreakfast to Tone.Gold
+        4 -> Ic.MealSnack to Tone.Green
+        1 -> Ic.MealLunch to Tone.Orange
+        3 -> Ic.Cookie to Tone.Pink
+        2 -> Ic.MealDinner to Tone.Indigo
+        else -> Ic.Spark to Tone.Purple
     }
-    Column(Modifier.fillMaxWidth().testTag("diary-meal-$meal").clip(shape).background(Color.White).border(1.dp, Color(0xFFE6E9F0), shape)
+    Column(Modifier.fillMaxWidth().testTag("diary-meal-$meal").lightShadow(12.dp, 20.dp).clip(shape).background(Color.White)
         .animateContentSize(tween(260))) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
         val large = maxWidth / LocalDensity.current.fontScale < 285.dp
         val photo: @Composable () -> Unit = {
-            Image(painterResource(art), null, Modifier.size(42.dp).clip(RoundedCornerShape(10.dp)),
-                contentScale = androidx.compose.ui.layout.ContentScale.Crop)
-            GapW(6.dp)
-            OrangeDivider(33.dp)
+            GlowIcon(mealIcon, mealTone.first, mealTone.second, 46.dp, 15.dp)
         }
         val pill: @Composable () -> Unit = {
-            if (kcal != null) Row(Modifier.testTag("diary-kcal-$meal").clip(RoundedCornerShape(10.dp)).background(Color(0xFFF1F3F8))
-                .padding(horizontal = 8.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (kcal != null) Row(Modifier.testTag("diary-kcal-$meal").clip(RoundedCornerShape(12.dp)).background(Color(0xFFFFF1E6))
+                .padding(horizontal = 9.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(RIc.Flame, RD.Orange, 13.dp, fill = true); GapW(4.dp)
-                Text("${kcalFmt(kcal)} kcal", style = T.Title2.copy(fontSize = 12.sp, lineHeight = 16.sp, color = Color(0xFF0B1F44)), maxLines = 1, softWrap = false)
+                Text("${kcalFmt(kcal)} kcal", style = T.Title2.copy(fontSize = 12.sp, lineHeight = 16.sp, color = Color(0xFFB8470A)), maxLines = 1, softWrap = false)
             }
         }
         val controls: @Composable () -> Unit = {
-            Box(Modifier.size(19.dp).rotate(chevron), contentAlignment = Alignment.Center) { AIcon(RIc.Chevron, RD.Ink, 17.dp, 2.5f) }
-            GapW(3.dp)
+            Box(Modifier.size(28.dp).clip(CircleShape).background(Color(0xFFF1F3F9)), contentAlignment = Alignment.Center) {
+                Box(Modifier.rotate(chevron)) { AIcon(RIc.Chevron, RD.Ink, 16.dp, 2.5f) }
+            }
+            GapW(4.dp)
             Box(Modifier.size(48.dp)
                 .semantics { contentDescription = "Aggiungi a ${MEAL_LABEL.getValue(meal)}" }
                 .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.AddFood(date, meal)) }, contentAlignment = Alignment.Center) {
-                Box(Modifier.size(38.dp).clip(RoundedCornerShape(10.dp)).background(RD.ButtonBrush), contentAlignment = Alignment.Center) {
-                    AIcon(RIc.Plus, Color.White, 23.dp, 3f)
+                Box(Modifier.size(38.dp).orangeGlow(RoundedCornerShape(13.dp), 6.dp).clip(RoundedCornerShape(13.dp)).background(RD.ButtonBrush), contentAlignment = Alignment.Center) {
+                    AIcon(RIc.Plus, Color.White, 22.dp, 3f)
                 }
             }
         }
@@ -379,15 +382,15 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
                 ) { Text("Nessun alimento registrato", style = T.Small.copy(fontSize = 13.sp)) }
             } else entries.forEachIndexed { index, en ->
                 val et = Nutrition.of(en.food, en.grams)
-                val itemShape = RoundedCornerShape(17.dp)
+                val itemShape = RoundedCornerShape(16.dp)
                 if (index > 0) Spacer(Modifier.height(8.dp))
                 Row(
-                    Modifier.fillMaxWidth().testTag("diary-entry-${en.id}").clip(itemShape).background(Color.White)
-                        .border(1.dp, RD.GreyLine, itemShape).clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }
+                    Modifier.fillMaxWidth().testTag("diary-entry-${en.id}").clip(itemShape).background(Color(0xFFF6F8FC))
+                        .clickable { Nav.go(Screen.FoodDetail(en.food, date, meal, en.grams, en)) }
                         .height(IntrinsicSize.Min).padding(start = 11.dp, end = 4.dp, top = 7.dp, bottom = 7.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box(Modifier.padding(vertical = 5.dp).fillMaxHeight().width(2.dp).clip(CircleShape).background(RD.Orange))
+                    Box(Modifier.padding(vertical = 5.dp).fillMaxHeight().width(3.dp).clip(CircleShape).background(Brush.verticalGradient(listOf(mealTone.first, mealTone.second))))
                     GapW(9.dp)
                     Column(Modifier.weight(1f).padding(end = 6.dp)) {
                         Text(en.food.name, style = T.Label.copy(fontSize = 15.sp, lineHeight = 19.sp, color = RD.Ink))
@@ -412,12 +415,12 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
             var moreOpen by remember { mutableStateOf(false) }
             Row(Modifier.padding(top = 12.dp).fillMaxWidth().height(IntrinsicSize.Min).testTag("diary-actions-$meal"),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                MealAction("Foto AI", Ic.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, meal)) }
-                MealAction("Codice a barre", RIc.Barcode, Modifier.weight(1f).testTag("meal-barcode-$meal")) {
+                MealAction("Foto AI", Ic.Camera, Tone.Orange, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, meal)) }
+                MealAction("Codice a barre", RIc.Barcode, Tone.Blue, Modifier.weight(1f).testTag("meal-barcode-$meal")) {
                     Nav.go(Screen.AddFood(date, meal, scanOnOpen = true))
                 }
                 Box(Modifier.weight(1f).fillMaxHeight()) {
-                    MealAction("Altre azioni", Ic.circ(12.0, 12.0, 9.0) + "M8 12h.1M12 12h.1M16 12h.1", Modifier.fillMaxWidth()) { moreOpen = true }
+                    MealAction("Altre azioni", Ic.circ(12.0, 12.0, 9.0) + "M8 12h.1M12 12h.1M16 12h.1", Tone.Purple, Modifier.fillMaxWidth()) { moreOpen = true }
                     DropdownMenu(expanded = moreOpen, onDismissRequest = { moreOpen = false }) {
                         DropdownMenuItem(text = { Text("Copia da ieri") }, onClick = { moreOpen = false; Store.copyMeal(date.minusDays(1), meal, date, meal) })
                         DropdownMenuItem(text = { Text("Copia su domani") }, onClick = { moreOpen = false; Store.copyMeal(date, meal, date.plusDays(1), meal) })
@@ -430,15 +433,16 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
 }
 
 @Composable
-private fun MealAction(label: String, icon: String, modifier: Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(13.dp)
-    Column(modifier.fillMaxHeight().heightIn(min = 68.dp).clip(shape).background(Color.White).border(1.dp, RD.GreyLine, shape)
+private fun MealAction(label: String, icon: String, tone: Pair<Color, Color>, modifier: Modifier, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
+    Column(modifier.fillMaxHeight().heightIn(min = 72.dp).lightShadow(8.dp, 16.dp).clip(shape)
+        .background(Brush.verticalGradient(listOf(tone.first, tone.second)))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = 4.dp, vertical = 9.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        AIcon(icon, RD.OrangeText, 25.dp, 2f)
+        AIcon(icon, Color.White, 26.dp, 1.9f, duo = true)
         GapH(5.dp)
-        Text(label, textAlign = TextAlign.Center, style = T.Chip.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Ink))
+        Text(label, textAlign = TextAlign.Center, style = T.Chip.copy(fontSize = 12.sp, lineHeight = 15.sp, color = Color.White, fontWeight = FontWeight.Bold))
     }
 }
 
@@ -480,12 +484,11 @@ private fun WaterCard(date: LocalDate, s: AppState) {
     val glass = s.glassMl.coerceAtLeast(1)
     val fill = (ml.toFloat() / goal).coerceIn(0f, 1f)
     val segments = kotlin.math.ceil(goal.toDouble() / glass).toInt().coerceIn(1, 16)
-    val drops = Brush.horizontalGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
+    val drops = Brush.horizontalGradient(listOf(Color(0xFF52C8F5), Color(0xFF1E6FE0)))
     ACard(Modifier.fillMaxWidth().testTag("home-water"), padding = 16.dp) {
         Column(Modifier.fillMaxWidth()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(40.dp).clip(RoundedCornerShape(10.dp)).background(Color(0xFFF1F3F8)),
-                    contentAlignment = Alignment.Center) { AIcon(Ic.Drop, Color(0xFF0B1F44), 22.dp, 1.8f) }
+                GlowIcon(Ic.Drop, Tone.Sky.first, Tone.Sky.second, 48.dp, 16.dp, glyph = 28.dp, solid = true, accent = "M9.3 13.6a3 3 0 0 0 2.2 2.8")
                 GapW(12.dp)
                 Column(Modifier.weight(1f)) {
                     Text("Acqua", style = T.Label.copy(color = RD.Ink))
@@ -495,7 +498,9 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                         Text("  su ${waterLitres(goal)} L", Modifier.padding(bottom = 3.dp), style = T.Small)
                     }
                 }
-                Text("${(fill * 100).toInt()}%", style = T.Label.copy(color = RD.Grey, fontWeight = FontWeight.Bold))
+                Box(Modifier.clip(RoundedCornerShape(12.dp)).background(Color(0xFFE6F3FF)).padding(horizontal = 10.dp, vertical = 5.dp)) {
+                    Text("${(fill * 100).toInt()}%", style = T.Label.copy(color = Color(0xFF1B6FD0), fontWeight = FontWeight.Bold))
+                }
             }
             GapH(14.dp)
             Row(Modifier.fillMaxWidth().testTag("water-bottle").semantics {
@@ -504,14 +509,14 @@ private fun WaterCard(date: LocalDate, s: AppState) {
             }, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 for (i in 0 until segments) {
                     val part = (ml.toFloat() / glass - i).coerceIn(0f, 1f)
-                    Box(Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(3.dp)).background(Color(0xFFE6EAF2))) {
-                        if (part > 0f) Box(Modifier.fillMaxWidth(part).fillMaxHeight().clip(RoundedCornerShape(3.dp)).background(drops))
+                    Box(Modifier.weight(1f).height(8.dp).clip(RoundedCornerShape(4.dp)).background(Color(0xFFE3EEFA))) {
+                        if (part > 0f) Box(Modifier.fillMaxWidth(part).fillMaxHeight().clip(RoundedCornerShape(4.dp)).background(drops))
                     }
                 }
             }
             GapH(14.dp)
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(48.dp).testTag("water-minus").clip(RoundedCornerShape(12.dp)).border(1.dp, Color(0xFFDDE2EB), RoundedCornerShape(12.dp)).background(Color.White)
+                Box(Modifier.size(48.dp).testTag("water-minus").clip(RoundedCornerShape(14.dp)).border(1.dp, Color(0xFFDDE2EB), RoundedCornerShape(14.dp)).background(Color.White)
                     .semantics { contentDescription = "Rimuovi un bicchiere" }
                     .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) {
                         val current = Store.current
@@ -520,7 +525,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                     AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.35f), 18.dp, 2.4f)
                 }
                 GapW(10.dp)
-                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").clip(RoundedCornerShape(12.dp)).background(C.OrangeBrush)
+                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").orangeGlow(RoundedCornerShape(14.dp), 6.dp).clip(RoundedCornerShape(14.dp)).background(C.OrangeBrush)
                     .semantics { contentDescription = "Aggiungi un bicchiere" }
                     .clickable(role = androidx.compose.ui.semantics.Role.Button) {
                         val current = Store.current
@@ -560,7 +565,7 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
     val p by animateFloatAsState(fr, tween(1100), label = "steps")
     Column(Modifier.testTag("home-activity")) {
         ReferenceInsightCard(TodayArt.Activity) {
-            ReferenceInsightHeading("Attività", "${dayLabel(date)} · movimento giornaliero", DashboardIcon.Runner, "Andamento") {
+            ReferenceInsightHeading("Attività", "${dayLabel(date)} · movimento giornaliero", RIc.DumbbellBold, "Andamento") {
                 Nav.go(Screen.Trend("activity"))
             }
             val minutes = list.sumOf { it.minutes.toLong() } +
@@ -624,8 +629,8 @@ private fun waterLitres(ml: Int): String = java.text.NumberFormat.getNumberInsta
 
 @Composable
 private fun LinkPill(text: String, onClick: () -> Unit) {
-    Box(Modifier.padding(vertical = 6.dp).heightIn(min = 40.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, Color(0xFFDDE2EB), RoundedCornerShape(12.dp)).background(Color.White)
+    Box(Modifier.padding(vertical = 6.dp).heightIn(min = 40.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xFFEAF1FF))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.Center) {
-        Text(text, style = T.Link.copy(color = Color(0xFF0B1F44)))
+        Text(text, style = T.Link.copy(color = Color(0xFF1B4FD6)))
     }
 }

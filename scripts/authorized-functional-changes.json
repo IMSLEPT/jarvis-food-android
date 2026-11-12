@@ -4,48 +4,48 @@
     "reason": "Richiesta nei due video del 2 novembre 2026: correzioni analisi foto e cronologia persistente delle conversazioni."
   },
   "app/src/main/res/drawable-nodpi/jarvis_logo.png": {
-    "sha256": "1ecc85772bbc52613f4a201050df96346528eac5a0f730874a377f67df90042e",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "deleted": true,
+    "reason": "User-requested mascot redesign: replaced by jarvis_logo.webp (same resource name, new friendlier head-crop logo)."
   },
   "app/src/main/res/mipmap-hdpi/ic_launcher_bg.png": {
-    "sha256": "afa00f0b0519fab7827c344bd4c4a7f55026d6df735d619e2f763ff2717785f5",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "03ef9138fa186a8cf6469327725ebbeca56ad976351f843c7cc7b8d77ab44dbe",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-hdpi/ic_launcher_fg.png": {
-    "sha256": "497b99fc494327e1e6c9af5965d774dd2a9fe257b88838fe370aa7d59113c30e",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "a2cb64eb02ca33da6cf03713f4c9121afc652a50d9caec19e3b983c6a6cdd4ec",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-mdpi/ic_launcher_bg.png": {
-    "sha256": "01d6148e141222efa49e496070830a6404998177c40130163bb7524098512a43",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "e06c7b94c35a3bd8a84b9f63f57053f50e267fa19918704fcf373e47f48c4682",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-mdpi/ic_launcher_fg.png": {
-    "sha256": "787f69dc651c7e466c1e8b0d20268d0ac79b650e5f657988b4e3da3824a19db2",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "76f35e98d46884245cbd6fa082a3a549c86eac7b98fd3d95146532b104ad35de",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-xhdpi/ic_launcher_bg.png": {
-    "sha256": "36984711fd0d929e517e2b42fbf1dc47a0702e1921f396ebbebb769a7eec32f1",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "3deaa7cd121aa1c47639e43c68580f08ba4a2c9b6fe68676b81110922d679c7c",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-xhdpi/ic_launcher_fg.png": {
-    "sha256": "1f7161d638daf0988f6ed45c56a6388b3b849c3dcbd85b368258508b544ea89e",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "146cd182fe3c51bb98fdc3fe9dbe2d1544cc9b1e354894ab2e3a1a6ad6afac8f",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-xxhdpi/ic_launcher_bg.png": {
-    "sha256": "aa9655175ab492cf6718b0c0e4333425de562e62bc2e5e7a8f8068d9e1cdfc56",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "49cbffae298702e854793b22a80432e4da2946aa327ca9a63aa2d79f07fd149e",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-xxhdpi/ic_launcher_fg.png": {
-    "sha256": "c6018a96503cd392e7169c3bb05d270e0dce88cf4abf56045a135e151e7b5751",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "36de689ff24829b83581f50f2073dea384e66e8084d8741b86cd6f8503159018",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-xxxhdpi/ic_launcher_bg.png": {
-    "sha256": "a4073a3ce6134d067395b346310d0e41381aaf6a62270a100dfcfcf26130c866",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "5882b9dae94ea4f69f95ea43839730a3fefbc6931f15027a7185481380e2aee7",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/mipmap-xxxhdpi/ic_launcher_fg.png": {
-    "sha256": "e4fa8075f907ab959120db5b56eb283c2b7b953ee0b44c57586916b93786c511",
-    "reason": "Grafica e robot chef approvati da Alessandro il 26 ottobre 2026; pubblicazione e compilazione autorizzate il 27 ottobre 2026."
+    "sha256": "87a5541a867be1e67994242c52100ca8ee2f3cbc1f76d6cc7709a5e4db5b0b24",
+    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
   },
   "app/src/main/res/values/colors.xml": {
     "sha256": "9e0fd8642a931afc73bd305173dd27ae8550e29ac13d7500dadc29ef957fb140",

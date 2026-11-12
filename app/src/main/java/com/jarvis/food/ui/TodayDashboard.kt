@@ -276,12 +276,12 @@ internal fun TodayMacroCard(protein: Double, proteinGoal: Double, carbs: Double,
     BoxWithConstraints(Modifier.fillMaxWidth().testTag("today-macros")) {
         val stacked = maxWidth / LocalDensity.current.fontScale < 300.dp
         if (stacked) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            MacroDial("Proteine", protein, proteinGoal, Color(0xFF8B5CF6), A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, 44.dp, Modifier.fillMaxWidth())
-            MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFFFF8A3D), A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, 44.dp, Modifier.fillMaxWidth())
+            MacroDial("Proteine", protein, proteinGoal, Color(0xFF8B5CF6), A.ProteinSoft, A.ProteinInk, Ic.Protein, 44.dp, Modifier.fillMaxWidth())
+            MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFFFF8A3D), A.CarbSoft, A.CarbInk, Ic.Wheat, 44.dp, Modifier.fillMaxWidth())
             MacroDial("Grassi", fat, fatGoal, Color(0xFFFFB820), A.FatSoft, A.FatInk, Ic.Drop, 44.dp, Modifier.fillMaxWidth())
         } else Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            MacroDial("Proteine", protein, proteinGoal, Color(0xFF8B5CF6), A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, 52.dp, Modifier.weight(1f))
-            MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFFFF8A3D), A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, 52.dp, Modifier.weight(1f))
+            MacroDial("Proteine", protein, proteinGoal, Color(0xFF8B5CF6), A.ProteinSoft, A.ProteinInk, Ic.Protein, 52.dp, Modifier.weight(1f))
+            MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFFFF8A3D), A.CarbSoft, A.CarbInk, Ic.Wheat, 52.dp, Modifier.weight(1f))
             MacroDial("Grassi", fat, fatGoal, Color(0xFFFFB820), A.FatSoft, A.FatInk, Ic.Drop, 52.dp, Modifier.weight(1f))
         }
     }
@@ -300,14 +300,16 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
             progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f)
         }, contentAlignment = Alignment.Center) {
             Canvas(Modifier.fillMaxSize().padding(1.dp)) {
-                val stroke = 5.dp.toPx()
+                val stroke = 5.5.dp.toPx()
                 val inset = stroke / 2
                 val bounds = Size(size.width - stroke, size.height - stroke)
-                drawArc(Color(0xFFE6EAF2), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
-                if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), bounds,
+                drawArc(color.copy(alpha = 0.14f), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
+                if (progress > 0) drawArc(Brush.sweepGradient(listOf(color.copy(alpha = 0.55f), color, color.copy(alpha = 0.55f))), -90f, progress * 360f, false, Offset(inset, inset), bounds,
                     style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            AIcon(icon, color, ringSize * .42f, 1.8f)
+            Box(Modifier.size(ringSize * .62f).clip(CircleShape).background(color.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
+                AIcon(icon, color, ringSize * .36f, 1.8f, duo = true)
+            }
         }
         GapH(6.dp)
         Text(label, style = T.Label.copy(fontSize = 12.5.sp, lineHeight = 16.sp, color = RD.Grey), maxLines = 1)
