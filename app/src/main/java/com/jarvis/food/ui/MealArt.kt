@@ -166,8 +166,8 @@ fun MealChips(selected: Int, modifier: Modifier = Modifier, onSelect: (Int) -> U
         MEAL_ORDER.filter { it == selected || it in MealSchedule.selected(state.dietPrefs) }.forEach { m ->
             val sel = m == selected
             Box(
-                Modifier.height(44.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.White)
-                    .border(1.dp, if (sel) C.Navy else A.Hair, RoundedCornerShape(22.dp)).clickable { onSelect(m) }.padding(horizontal = 16.dp),
+                Modifier.height(44.dp).clip(RoundedCornerShape(16.dp)).background(if (sel) C.Navy else Color.White)
+                    .border(1.dp, if (sel) C.Navy else A.Hair, RoundedCornerShape(16.dp)).clickable { onSelect(m) }.padding(horizontal = 16.dp),
                 contentAlignment = Alignment.Center
             ) { Text(MEAL_LABEL.getValue(m), style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1, softWrap = false) }
         }

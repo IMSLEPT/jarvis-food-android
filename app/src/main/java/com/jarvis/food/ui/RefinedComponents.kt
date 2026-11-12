@@ -111,7 +111,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
         meals.forEach { meal ->
             val selected = meal.slotIndex == activeSlot
             // Immagine 4: pillola con tessera pesca, separatore arancio, nome e freccia nel cerchio.
-            val shape = RoundedCornerShape(18.dp)
+            val shape = RoundedCornerShape(14.dp)
             Row(Modifier.heightIn(min = 56.dp).testTag("plan-slot-${meal.diaryMeal}")
                 .refShadow(shape, if (selected) 5.dp else 2.dp).clip(shape)
                 .background(RD.NavyBrush)
@@ -159,7 +159,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
                     Text(m.slotName, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink), modifier = Modifier.weight(1f))
                 }
                 Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = (if (expanded) Modifier.fillMaxWidth() else Modifier)
-                    .clip(RoundedCornerShape(18.dp)).background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB))
+                    .clip(RoundedCornerShape(14.dp)).background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB))
                     .padding(horizontal = 10.dp, vertical = 8.dp),
                     style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp, color = if (eaten) A.GreenInk else RD.Ink))
             }
@@ -169,7 +169,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
             }, style = T.Title.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine, color = RD.Ink))
         }
         Box(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).testTag("plan-recipe-${m.diaryMeal}")
-            .clip(RoundedCornerShape(24.dp)).clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
+            .clip(RoundedCornerShape(16.dp)).clickable(role = Role.Button, onClickLabel = "Apri ricetta") {
                 Nav.go(Screen.RecipeView(r.template.id, r.target, date, m.slotIndex, m.diaryMeal))
             }) {
             RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxWidth().then(if (s.recipePhotos[r.template.id] != null || EditorialPhotos.asset(r.template.id, r.template.image) != null) Modifier.aspectRatio(2.25f) else Modifier.height(64.dp)).testTag("plan-photo-${m.diaryMeal}"), recEmoji(r.template.meal), 24.dp, contentScale = androidx.compose.ui.layout.ContentScale.Crop)

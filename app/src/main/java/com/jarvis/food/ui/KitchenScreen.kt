@@ -169,7 +169,7 @@ private fun CookTodayBlock(s: AppState) {
         GapW(8.dp)
         Text("Cosa cucino oggi", style = T.Title2)
     }
-    val cs = RoundedCornerShape(22.dp)
+    val cs = RoundedCornerShape(16.dp)
     Column(Modifier.fillMaxWidth().refShadow(cs, 4.dp).clip(cs)
         .background(Color.White).border(1.dp, A.Hair, cs).padding(14.dp)) {
         Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
@@ -178,7 +178,7 @@ private fun CookTodayBlock(s: AppState) {
             horizontalArrangement = Arrangement.spacedBy(5.dp)) {
             listOf("pranzo" to "Pranzo", "cena" to "Cena", "colazione" to "Colazione", "spuntino" to "Spuntino").forEach { (k, l) ->
                 val sel = meal == k
-                val chip = RoundedCornerShape(24.dp)
+                val chip = RoundedCornerShape(16.dp)
                 Box((if (compact) Modifier.weight(if (l.length > 6) 1.18f else 0.82f) else Modifier).heightIn(min = 48.dp)
                     .clip(chip).background(if (sel) C.Navy else Color.White)
                     .border(if (sel) 1.5.dp else 1.dp, if (sel) RD.OrangeLine else A.Hair, chip)
@@ -189,7 +189,7 @@ private fun CookTodayBlock(s: AppState) {
             }
         }
         GapH(14.dp)
-        val bs = RoundedCornerShape(28.dp)
+        val bs = RoundedCornerShape(16.dp)
         val enabled = !busy && s.pantry.any { it.foodId != null }
         Row(Modifier.fillMaxWidth().heightIn(min = 50.dp).clip(bs)
             .background(if (enabled) RD.OrangeBrush else RD.PeachBrush).clickable(enabled = enabled, role = Role.Button) {
@@ -213,7 +213,7 @@ private fun CookTodayBlock(s: AppState) {
     }
     GapH(14.dp)
     if (s.pantry.isEmpty()) {
-        val hintShape = RoundedCornerShape(18.dp)
+        val hintShape = RoundedCornerShape(14.dp)
         Row(Modifier.fillMaxWidth().clip(hintShape).background(C.Surface).border(1.dp, A.Hair, hintShape)
             .padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             AIcon("M12 7v.2M12 10v6" + Ic.circ(12.0, 12.0, 9.0), C.Navy, 17.dp)
@@ -222,7 +222,7 @@ private fun CookTodayBlock(s: AppState) {
         }
     }
     ideas.take(4).forEach { sg ->
-        val rs = RoundedCornerShape(30.dp)
+        val rs = RoundedCornerShape(16.dp)
         Column(Modifier.fillMaxWidth().padding(bottom = 12.dp).aShadow(rs, 8.dp, Color(0x661D1B3A)).clip(rs).background(Color.White).border(1.dp, A.Hair, rs)
             .clickable { Nav.go(Screen.RecipeView(sg.solved.template.id, target, today, null, diaryMeal)) }.padding(14.dp)) {
             Row {
@@ -258,7 +258,7 @@ private fun PantryTab(s: AppState) {
     ASection("In dispensa", top = 18.dp)
     GapH(12.dp)
     // Aggiunta a mano
-    val fs = RoundedCornerShape(30.dp)
+    val fs = RoundedCornerShape(16.dp)
     Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = C.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -277,7 +277,7 @@ private fun PantryTab(s: AppState) {
     if (s.pantry.isEmpty()) EmptyState("🧺", "Dispensa vuota", "Fotografa il frigo, la dispensa o lo scontrino: Jarvis riconosce i prodotti e ti propone ricette con ciò che hai.")
     val byShop = s.pantry.groupBy { it.foodId?.let { id -> Db.db.food(id)?.shop } ?: "Altro" }
     Shopping.SHOP_ORDER.filter { byShop.containsKey(it) }.forEach { shop ->
-        val cardShape = RoundedCornerShape(28.dp)
+        val cardShape = RoundedCornerShape(16.dp)
         Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
@@ -313,7 +313,7 @@ private fun PantryTab(s: AppState) {
 /** Scheda larga e comoda da toccare: icona grande a sinistra, titolo e spiegazione, freccia a destra. */
 @Composable
 private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(20.dp)
+    val shape = RoundedCornerShape(14.dp)
     Row(Modifier.fillMaxWidth().refShadow(shape, 4.dp).clip(shape).background(Color.White)
         .border(1.dp, C.Line, shape).clickable(role = Role.Button, onClick = onClick)
         .padding(horizontal = 12.dp, vertical = 13.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -343,7 +343,7 @@ private fun ShoppingTab(s: AppState) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf(3, 7).forEach { d ->
             val selected = range?.get(1)?.toIntOrNull() == d
-            val shape = RoundedCornerShape(24.dp)
+            val shape = RoundedCornerShape(16.dp)
             Row(Modifier.weight(1f).heightIn(min = 48.dp).clip(shape)
                 .background(if (selected) RD.Peach else Color.White)
                 .border(1.dp, if (selected) RD.OrangeLine else C.Line, shape)
@@ -367,7 +367,7 @@ private fun ShoppingTab(s: AppState) {
         AInk("Spuntati → dispensa", height = 48.dp, bg = A.GreenInk) { Store.moveCheckedToPantry() }
     }
     GapH(12.dp)
-    val fs = RoundedCornerShape(30.dp)
+    val fs = RoundedCornerShape(16.dp)
     Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = C.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -380,7 +380,7 @@ private fun ShoppingTab(s: AppState) {
     if (s.shopping.isEmpty()) EmptyState("🛒", "Lista vuota", "Crea il piano nella scheda Piano, poi genera la lista per i prossimi giorni.")
     val groups = s.shopping.groupBy { it.shop }
     Shopping.SHOP_ORDER.filter { groups.containsKey(it) }.forEach { shop ->
-        val cardShape = RoundedCornerShape(28.dp)
+        val cardShape = RoundedCornerShape(16.dp)
         Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(shoppingCategoryIcon(shop), shopDot(shop), 20.dp, 2.2f)
@@ -475,7 +475,7 @@ fun PantryScanScreen(mode: String) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             val b = bitmap
             if (b == null) {
-                val shape = RoundedCornerShape(22.dp)
+                val shape = RoundedCornerShape(16.dp)
                 Column(Modifier.fillMaxWidth().refShadow(shape, 5.dp).clip(shape)
                     .background(Brush.linearGradient(listOf(Color.White, Color.White, RD.Peach)))
                     .border(1.dp, A.Hair, shape).padding(16.dp)) {
@@ -489,7 +489,7 @@ fun PantryScanScreen(mode: String) {
                     else "L'AI riconosce i prodotti visibili e stima le quantità. Potrai correggere tutto prima di salvare.",
                         style = T.Read.copy(color = C.Muted))
                 }
-            } else Image(b.asImageBitmap(), null, Modifier.fillMaxWidth().height(220.dp).clip(RoundedCornerShape(20.dp)), contentScale = ContentScale.Crop)
+            } else Image(b.asImageBitmap(), null, Modifier.fillMaxWidth().height(220.dp).clip(RoundedCornerShape(14.dp)), contentScale = ContentScale.Crop)
             Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 RefPrimaryButton("Scatta foto", Modifier.weight(1f), divider = false, enabled = !busy) {

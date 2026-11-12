@@ -60,8 +60,7 @@ fun VitaminOverview(s: AppState) {
     val date = Nav.diaryDate
     val today = remember(s.diary, s.profile, date) { dailyMicros(s, date) }
     GapH(18.dp)
-    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 26.dp, padding = 16.dp, elevation = 8.dp,
-        glow = Color(0x2009194D), onClick = { Nav.go(Screen.Trend("vitamins")) }) {
+    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), padding = 16.dp, onClick = { Nav.go(Screen.Trend("vitamins")) }) {
         Column(Modifier.fillMaxWidth()) {
             ReferenceInsightHeading("Vitamine e minerali", "${dayLabel(date)} · fabbisogno giornaliero", RIc.Leaf, "Andamento") {
                 Nav.go(Screen.Trend("vitamins"))
@@ -224,7 +223,7 @@ private fun FoodSources(review: NutritionReview, s: AppState) {
         suggestions.forEach { food ->
             val portion = NutritionScience.standardPortion(food.toFood()) ?: MicroAnalysis.typicalPortion(food)
             val amount = (food.micro[key] ?: 0.0) * portion / 100
-            Column(Modifier.width(108.dp).clip(RoundedCornerShape(18.dp)).clickable { Nav.go(Screen.FoodDetail(food.toFood(), LocalDate.now(), defaultMeal(), portion)) }.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(Modifier.width(108.dp).clip(RoundedCornerShape(14.dp)).clickable { Nav.go(Screen.FoodDetail(food.toFood(), LocalDate.now(), defaultMeal(), portion)) }.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 FoodIllustration(food.name, food.group, 76.dp)
                 GapH(6.dp)
                 Text(food.name, style = T.Label)
@@ -263,7 +262,7 @@ private fun BreakfastAlternatives(s: AppState) {
     }
     alternatives.forEach { candidate ->
         GapH(10.dp)
-        Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Bg).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Bg).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             FoodIllustration(candidate.template.name, size = 62.dp)
             GapW(10.dp)
             Column(Modifier.weight(1f)) {

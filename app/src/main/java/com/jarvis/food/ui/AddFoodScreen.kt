@@ -164,7 +164,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                     Text("Cerca l'alimento in italiano e conferma il peso. Per un piatto composto aggiungi anche gli altri ingredienti e i condimenti.", style = T.Small)
                 }
                 // Ricerca
-                val sb = RoundedCornerShape(30.dp)
+                val sb = RoundedCornerShape(16.dp)
                 Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(60.dp).aShadow(sb, 10.dp, Color(0x801D1B3A)).clip(sb).background(Color.White).border(1.dp, Color(0x141D1B3A), sb)
                     .padding(start = 18.dp, end = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     AIcon(Ic.Search, A.Muted, 22.dp, 2.2f)
@@ -188,7 +188,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                         freq.forEach { (f, g) ->
                             val on = f.id in added
                             val (tint, ink) = tileColors(f.name)
-                            val cs = RoundedCornerShape(22.dp)
+                            val cs = RoundedCornerShape(16.dp)
                             Row(Modifier.heightIn(min = 48.dp).aShadow(cs, 5.dp, Color(0x801D1B3A)).clip(cs).background(if (on) C.Surface else Color.White).clickable { toggle(f, g) }
                                 .padding(start = 8.dp, end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Box(Modifier.size(30.dp).clip(CircleShape).background(C.cardSurface(tint)), contentAlignment = Alignment.Center) {
@@ -201,11 +201,11 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                     }
                 }
                 if (query.isBlank()) {
-                    val ts = RoundedCornerShape(28.dp)
+                    val ts = RoundedCornerShape(16.dp)
                     Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(ts).background(Color(0xE6FFFFFF)).border(1.dp, A.Hair, ts).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         listOf("Recenti", "Preferiti", "I miei", "Ricette").forEachIndexed { i, l ->
                             val sel = tab == i
-                            Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(22.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { tab = i }, contentAlignment = Alignment.Center) {
+                            Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(RoundedCornerShape(16.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { tab = i }, contentAlignment = Alignment.Center) {
                                 Text(l, style = T.Chip.copy(color = if (sel) Color.White else A.Ink), maxLines = 1)
                             }
                         }
@@ -246,7 +246,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                 val target = com.jarvis.food.engine.Planner.slotTargets(Store.energyFor(s, date).macro, s.dietPrefs)[slotIdx]
                 val mealKey = s.dietPrefs.slots.getOrNull(slotIdx)?.meal ?: "pranzo"
                 items(Db.db.recipes.filter { it.meal == mealKey }, key = { "db" + it.id }) { tpl ->
-                    val rs = RoundedCornerShape(26.dp)
+                    val rs = RoundedCornerShape(16.dp)
                     Row(Modifier.fillMaxWidth().padding(bottom = 8.dp).aShadow(rs, 6.dp, Color(0x801D1B3A)).clip(rs).background(Color.White).border(1.dp, A.Hair, rs)
                         .clickable { Nav.go(Screen.RecipeView(tpl.id, target, date, null, mealSel)) }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.size(52.dp), "🍽️", 19.dp)
@@ -267,7 +267,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                     if (loading) { GapW(8.dp); CircularProgressIndicator(Modifier.size(14.dp), color = C.Accent, strokeWidth = 2.dp) }
                 }
                 if (query.trim().length < 3) {
-                    val ps = RoundedCornerShape(28.dp)
+                    val ps = RoundedCornerShape(16.dp)
                     Column(Modifier.fillMaxWidth().clip(ps).background(C.Surface).padding(14.dp)) {
                         Row(verticalAlignment = Alignment.Top) {
                             Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(Color.White), contentAlignment = Alignment.Center) { AIcon(Ic.Barcode, C.Navy, 22.dp, 2.2f) }
@@ -275,7 +275,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                             Text("Scrivi almeno 3 lettere o scansiona il codice a barre: cerco il prodotto online, poi puoi correggere i valori.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = C.Muted))
                         }
                         GapH(12.dp)
-                        Row(Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).clickable { Nav.go(Screen.CustomFood(date, mealSel)) },
+                        Row(Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(16.dp)).background(Color.White).clickable { Nav.go(Screen.CustomFood(date, mealSel)) },
                             horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                             AIcon(Ic.Plus, A.Ink, 18.dp, 2.4f); GapW(8.dp)
                             Text("Crea un alimento tuo", style = T.BtnS.copy(fontWeight = FontWeight.Bold))
@@ -293,7 +293,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
 
             // Aggiunta rapida
             item {
-                val qs = RoundedCornerShape(28.dp)
+                val qs = RoundedCornerShape(16.dp)
                 Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(qs).background(C.Surface).clickable { quickAdd = true }.padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
@@ -301,7 +301,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                         Text("Scrivi solo le calorie, senza cercare l'alimento.", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted))
                     }
                     GapW(10.dp)
-                    Row(Modifier.height(48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White).padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.height(48.dp).clip(RoundedCornerShape(16.dp)).background(Color.White).padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text("kcal", style = T.Num.copy(fontSize = 17.sp))
                     }
                 }
@@ -309,7 +309,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
         }
 
         // Barra "alimenti aggiunti"
-        val bs = RoundedCornerShape(30.dp)
+        val bs = RoundedCornerShape(16.dp)
         Row(Modifier.navigationBarsPadding().padding(start = 16.dp, end = 16.dp, bottom = 14.dp).fillMaxWidth()
             .aShadow(bs, 14.dp, Color(0x8C17286B)).clip(bs).background(C.NavyBrush).padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
@@ -317,7 +317,7 @@ fun AddFoodScreen(date: LocalDate, meal: Int, initialQuery: String = "", offline
                 Text(when (added.size) { 0 -> "Nessun alimento aggiunto"; 1 -> "1 alimento aggiunto"; else -> "${added.size} alimenti aggiunti" }, style = T.Small.copy(fontSize = 12.5.sp, color = Color(0xCCFFFFFF)))
                 Text("${kcalFmt(addedKcal)} kcal", style = T.H1.copy(fontSize = 22.sp, lineHeight = 26.sp, color = Color.White))
             }
-            val fs = RoundedCornerShape(26.dp)
+            val fs = RoundedCornerShape(16.dp)
             Row(Modifier.height(52.dp).aShadow(fs, 8.dp, Color(0x73F25E00)).clip(fs).background(C.OrangeBrush).clickable { Nav.back() }.padding(horizontal = 24.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                 Text("Fatto", style = T.BtnM.copy(color = C.OnOrange)); GapW(6.dp); AIcon(Ic.Check, C.OnOrange, 18.dp, 2.6f)
@@ -337,7 +337,7 @@ fun FoodRow(food: Food, grams: Double?, date: LocalDate, meal: Int, emoji: Strin
     val g = grams ?: food.servingGrams ?: 100.0
     val unit = if (food.liquid) "ml" else "g"
     val t = Nutrition.of(food, g)
-    val shape = RoundedCornerShape(26.dp)
+    val shape = RoundedCornerShape(16.dp)
     val (tint, ink) = tileColors(food.name)
     Row(
         Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x801D1B3A)).clip(shape).background(if (added) C.Surface else Color.White)

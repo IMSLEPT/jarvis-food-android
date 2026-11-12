@@ -174,7 +174,7 @@ private fun TileMeta(kcal: String, minutes: Int) {
 
 @Composable
 private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modifier: Modifier = Modifier, badge: String? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(16.dp)
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         Box {
             RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().aspectRatio(1.4f), recEmoji(tpl.meal), 0.dp)
@@ -195,7 +195,7 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
 
 @Composable
 private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(16.dp)
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
     Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
@@ -210,7 +210,7 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
 @Composable
 private fun RecipeRow(hit: RecipeHit, s: AppState, onClick: () -> Unit) {
     val t = hit.tpl; val i = hit.info
-    val shape = RoundedCornerShape(26.dp)
+    val shape = RoundedCornerShape(16.dp)
     Row(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x661D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick).padding(10.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Box {
@@ -234,7 +234,7 @@ private fun RecipeRow(hit: RecipeHit, s: AppState, onClick: () -> Unit) {
 private fun FrequentRecipeRow(t: RecipeTemplate, count: Int, s: AppState, onClick: () -> Unit) {
     val info = RecipeMeta.info(Db.db, t)
     val large = LocalDensity.current.fontScale > 1.2f
-    val shape = RoundedCornerShape(20.dp)
+    val shape = RoundedCornerShape(14.dp)
     Row(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, C.Line, shape).clickable(onClick = onClick), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.width(if (large) 92.dp else 142.dp).height(96.dp)) {
             RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.fillMaxSize(), recEmoji(t.meal), 0.dp)
@@ -271,7 +271,7 @@ private val CAT_OFFSET = mapOf("pasto" to 0, "kcal" to 1, "obiettivo" to 3, "die
 /** Tessera di categoria in stile Yazio: sfondo pieno colorato con macchie decorative, emoji grande, etichetta in grassetto e numero di ricette. */
 @Composable
 private fun CatTile(emoji: String, label: String, count: Int, colorIdx: Int, modifier: Modifier = Modifier, photoId: String? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
+    val shape = RoundedCornerShape(14.dp)
     if (photoId != null) {
         // Variante con foto: copertina a tutta tessera, velo scuro in basso per la leggibilità.
         Box(modifier.testTag("recipe-category").heightIn(min = 112.dp).aspectRatio(0.92f).aShadow(shape, 6.dp, Color(0x401D1B3A)).clip(shape)
@@ -435,7 +435,7 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
     // Immagine 15: tessera pesca con icona arancio, separatore, titolo e conteggio, freccia navy.
 
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
-        val shape = RoundedCornerShape(20.dp)
+        val shape = RoundedCornerShape(14.dp)
         Row(modifier.heightIn(min = 64.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
             .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
@@ -462,7 +462,7 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
 /** Immagine 14: lampadina su tessera pesca, testi, piatto con onda pesca e freccia nel cerchio. */
 @Composable
 private fun InspirationBanner() {
-    val shape = RoundedCornerShape(28.dp)
+    val shape = RoundedCornerShape(16.dp)
     val large = LocalDensity.current.fontScale > 1.2f
     Row(Modifier.fillMaxWidth().heightIn(min = 104.dp).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(Color.White)
         .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.WhatNow) }, verticalAlignment = Alignment.CenterVertically) {
@@ -485,7 +485,7 @@ private fun InspirationBanner() {
 /** Scheda "Ricette": home con sezioni orizzontali, ricetta del giorno, categorie reali e "Cosa mangio adesso?". */
 @Composable
 fun RecipeSearchBar() {
-    RefSearchShell(Modifier.testTag("kitchen-search").clip(RoundedCornerShape(28.dp)).clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) },
+    RefSearchShell(Modifier.testTag("kitchen-search").clip(RoundedCornerShape(16.dp)).clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) },
         count = Db.db.recipes.size.thousands()) {
         Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 17.sp, lineHeight = 22.sp, color = Color(0xFF59627A)),
             maxLines = if (LocalDensity.current.fontScale > 1.5f) 2 else 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(end = 8.dp))
@@ -725,7 +725,7 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
                 if (mine.isEmpty()) item { EmptyState("🧑‍🍳", "Nessuna ricetta tua", "Crea una ricetta: i valori si calcolano dagli ingredienti.") }
                 items(mine, key = { it.id }) { r ->
                     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
-                    Row(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 6.dp, Color(0x661D1B3A)).clip(RoundedCornerShape(26.dp)).background(Color.White)
+                    Row(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(16.dp), 6.dp, Color(0x661D1B3A)).clip(RoundedCornerShape(16.dp)).background(Color.White)
                         .clickable { Nav.go(Screen.UserRecipeDetail(r)) }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         RecipeImage(r.id, null, r.photo, Modifier.size(88.dp), r.emoji, 18.dp)
                         GapW(12.dp)
@@ -819,7 +819,7 @@ fun WhatNowScreen() {
 private fun SuggestionCard(sg: NowSuggestion, s: AppState, best: Boolean, onAdd: () -> Unit) {
     val t = sg.solved.template
     val a = sg.solved.total
-    val shape = RoundedCornerShape(28.dp)
+    val shape = RoundedCornerShape(16.dp)
     Column(Modifier.fillMaxWidth().aShadow(shape, 10.dp, Color(0x661D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
         Box(Modifier.clickable { Nav.go(Screen.RecipeView(t.id, sg.solved.target, LocalDate.now(), null, WhatNow.diaryMealForKey(t.meal.let { if (it == "dessert") "spuntino" else it }))) }) {
             RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.fillMaxWidth().height(150.dp), recEmoji(t.meal), 0.dp)

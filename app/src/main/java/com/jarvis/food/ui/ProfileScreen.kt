@@ -148,7 +148,7 @@ private fun ProfileSummaryStat(label: String, value: String, icon: String, modif
 
 @Composable
 private fun ProfStat(value: String, label: String, modifier: Modifier, big: Boolean = false) {
-    Column(modifier.clip(RoundedCornerShape(20.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier.clip(RoundedCornerShape(14.dp)).background(Color(0xD1FFFFFF)).padding(horizontal = if (big) 8.dp else 10.dp, vertical = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(value, style = T.H1.copy(fontSize = if (big) 19.sp else 17.sp, lineHeight = 22.sp, letterSpacing = (-0.3).sp), maxLines = 1)
         Text(label, style = T.Small.copy(fontSize = 12.sp, color = A.Muted), textAlign = TextAlign.Center)
     }
@@ -167,14 +167,14 @@ fun ProfileScreen() {
             .onFailure { Toast.makeText(ctx, "Errore: ${it.message}", Toast.LENGTH_LONG).show() }
     }
     val kcal = Store.energyFor(s, LocalDate.now()).baseKcal
-    val shape30 = RoundedCornerShape(20.dp)
+    val shape30 = RoundedCornerShape(16.dp)
 
     Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding().navigationBarsPadding()) {
         Column(Modifier.weight(1f).testTag("profile-scroll").verticalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp)) {
-            val heroShape = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp, bottomStart = 34.dp, bottomEnd = 34.dp)
+            val heroShape = RoundedCornerShape(16.dp)
             val goal = when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }
             val weight = "${s.profile.targetWeight.r1().removeSuffix(",0")} kg"
-            Column(Modifier.fillMaxWidth().aShadow(heroShape, 14.dp).clip(heroShape).background(RD.NavyBrush)
+            Column(Modifier.fillMaxWidth().clip(heroShape).background(RD.NavyBrush)
                 .drawBehind {
                 }.padding(horizontal = 16.dp, vertical = 12.dp)) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -203,7 +203,7 @@ fun ProfileScreen() {
                 BoxWithConstraints(Modifier.fillMaxWidth()) {
                     val stacked = maxWidth / LocalDensity.current.fontScale < 280.dp
                     val chip: @Composable (String, String, String, Modifier) -> Unit = { label, value, icon, mod ->
-                        Column(mod.clip(RoundedCornerShape(18.dp)).background(Color(0x26FFFFFF)).padding(horizontal = 10.dp, vertical = 9.dp)) {
+                        Column(mod.clip(RoundedCornerShape(14.dp)).background(Color(0x26FFFFFF)).padding(horizontal = 10.dp, vertical = 9.dp)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 AIcon(icon, Color(0xFFFFB36E), 14.dp); GapW(5.dp)
                                 Text(label, style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 14.sp, color = Color(0xFFDCE5F5)), maxLines = 1)
@@ -224,21 +224,21 @@ fun ProfileScreen() {
             }
 
             ProfileSectionTitle("Dati e obiettivi")
-            Column(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 8.dp).clip(RoundedCornerShape(26.dp)).background(C.ProfileSurface)) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(16.dp))) {
             ProfRow(Ic.User, C.NavySoft, C.Navy, "Profilo e obiettivo", "Dati personali e ritmo", key = "profile") { Nav.go(Screen.ProfileEdit) }
             ProfRow(PIc.Scale, C.AccentSoft, C.AccentDeep, "Peso", "Ultima registrazione: ${w.r1()} kg", key = "weight") { Nav.go(Screen.Weight) }
             ProfRow(PIc.Ruler, C.NavySoft, C.Navy, "Misure corporee", "Vita, fianchi, petto e altre misure", divider = false, key = "measurements") { Nav.go(Screen.Measurements) }
             }
 
             ProfileSectionTitle("Alimentazione")
-            Column(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 8.dp).clip(RoundedCornerShape(26.dp)).background(C.ProfileSurface)) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(16.dp))) {
             ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Calorie e macronutrienti", if (s.trainingNutrition.active) "Obiettivi ON/OFF attivi" else "${s.goals.carbsPct}% carboidrati · ${s.goals.proteinPct}% proteine · ${s.goals.fatPct}% grassi", key = "goals") { Nav.go(Screen.Goals) }
             ProfRow(Ic.Calendar, C.NavySoft, C.Navy, "Giorni ON e OFF", if (s.trainingNutrition.active) "Allenamento e riposo · attivi" else "Imposta calorie e macro per tipo di giornata", key = "training-goals") { Nav.go(Screen.TrainingGoals) }
             ProfRow(PIc.Leaf, C.AccentSoft, C.AccentDeep, "Preferenze della dieta", "Alimenti esclusi, pasti e tempi", divider = false, key = "diet") { Nav.go(Screen.DietSettings) }
             }
 
             ProfileSectionTitle("Strumenti")
-            Column(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 8.dp).clip(RoundedCornerShape(26.dp)).background(C.ProfileSurface)) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.ProfileSurface).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(16.dp))) {
             ProfRow(PIc.Chat, C.NavySoft, C.Navy, "Chat con Jarvis", "Il tuo assistente alimentare", key = "chat") { Nav.go(Screen.Chat) }
             ProfRow(PIc.Watch, C.AccentSoft, C.AccentDeep, "Smartwatch e attività", "Collegamenti e livello di attività", key = "watch") { Nav.go(Screen.Watch) }
             ProfRow(PIc.Sparks, C.NavySoft, C.Navy, "Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", key = "ai") { Nav.go(Screen.AiSettings) }
@@ -251,7 +251,7 @@ fun ProfileScreen() {
 
             // Privacy
             Column(
-                Modifier.padding(top = 20.dp).fillMaxWidth().aShadow(shape30, 12.dp, Color(0x9910B981)).clip(shape30)
+                Modifier.padding(top = 20.dp).fillMaxWidth().clip(shape30).border(1.dp, Color(0xFFE6E9F0), shape30)
                     .background(C.Surface).padding(18.dp)
             ) {
                 Row(verticalAlignment = Alignment.Top) {
@@ -302,7 +302,7 @@ fun ProfileEditScreen() {
             SettingsCard(title = "Identità", subtitle = "La foto e il nome che vedi nell’app") {
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp, shape = RoundedCornerShape(30.dp)) }
+                        Box(Modifier.clickable { picker.launch("image/*") }) { Avatar(p.name, p.photo, 84.dp, shape = RoundedCornerShape(16.dp)) }
                         Column(Modifier.padding(start = 16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                             AInk(if (p.photo == null) "Aggiungi foto" else "Cambia foto", height = 44.dp, bg = C.AccentSoft, fg = C.AccentDeep) { picker.launch("image/*") }
                             if (p.photo != null) Text("Rimuovi", style = T.Label.copy(color = C.Danger),
@@ -756,7 +756,7 @@ fun DayNutrientsScreen(date: LocalDate) {
     Column(Modifier.fillMaxSize()) {
         TopBar("Nutrienti · ${dayLabel(date)}", onBack = { Nav.back() })
         Column(Modifier.weight(1f).navigationBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 12.dp)) {
-            BoxWithConstraints(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(RD.NavyBrush).padding(10.dp)) {
+            BoxWithConstraints(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(RD.NavyBrush).padding(10.dp)) {
                 val compact = maxWidth / androidx.compose.ui.platform.LocalDensity.current.fontScale < 305.dp
                 val target: @Composable () -> Unit = {
                     val shape = RoundedCornerShape(10.dp)

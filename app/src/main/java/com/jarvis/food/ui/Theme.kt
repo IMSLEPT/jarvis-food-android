@@ -31,7 +31,7 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF5F7FB)
+    val Bg = Color(0xFFF6F7F9)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
     val SurfaceHi = Color(0xFFE4E8EF)
@@ -70,9 +70,9 @@ object C {
     val DangerSoft = Color(0xFFFDE3E4)
 
     /** Arancione del + Aggiungi; scritte bianche come richiesto. */
-    val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
+    val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrange))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
     val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
     /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
     fun cardSurface(tone: Color): Color =
@@ -133,7 +133,7 @@ fun JarvisTheme(content: @Composable () -> Unit) {
             bodyLarge = T.Read, bodyMedium = T.Body, bodySmall = T.Small,
             labelLarge = T.BtnM.copy(color = Color.Unspecified), labelMedium = T.Label, labelSmall = T.Small
         ),
-        shapes = Shapes(small = RoundedCornerShape(12.dp), medium = RoundedCornerShape(16.dp), large = RoundedCornerShape(20.dp), extraLarge = RoundedCornerShape(24.dp))
+        shapes = Shapes(small = RoundedCornerShape(12.dp), medium = RoundedCornerShape(16.dp), large = RoundedCornerShape(14.dp), extraLarge = RoundedCornerShape(16.dp))
     ) {
         CompositionLocalProvider(LocalTextStyle provides T.Body) { content() }
     }

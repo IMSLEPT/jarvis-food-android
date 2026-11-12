@@ -54,16 +54,8 @@ internal fun ReferenceInsightCard(
         TodayArt.Calendar -> listOf(Color(0xFFDDE7FA), Color(0xFFF0F5FF))
         else -> listOf(Color(0xFFD5F2E6), Color(0xFFEFFAF5))
     }
-    ACard(modifier.fillMaxWidth(), radius = 26.dp, padding = 14.dp, elevation = 8.dp,
-        glow = Color(0x2009194D), onClick = onClick) {
-        Row(Modifier.fillMaxWidth()) {
-            Box(Modifier.size(64.dp).testTag("insight-icon-$art").clip(RoundedCornerShape(20.dp))
-                .background(Brush.verticalGradient(tint)), contentAlignment = Alignment.Center) {
-                Image(painterResource(resource), null, Modifier.size(54.dp), contentScale = ContentScale.Fit)
-            }
-            GapW(12.dp)
-            Column(Modifier.weight(1f), content = content)
-        }
+    ACard(modifier.fillMaxWidth(), padding = 16.dp, onClick = onClick) {
+        Column(Modifier.fillMaxWidth().testTag("insight-icon-$art"), content = content)
     }
 }
 
@@ -72,7 +64,7 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         val heading: @Composable (Modifier) -> Unit = { modifier ->
             Row(modifier, verticalAlignment = Alignment.Top) {
-                AIcon(icon, RD.OrangeText, 15.dp)
+                AIcon(icon, Color(0xFF0B1F44), 16.dp, 1.8f)
                 GapW(4.dp)
                 Column {
                     Text(title, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
@@ -82,11 +74,11 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
         }
         val button: @Composable () -> Unit = {
             Box(actionModifier.heightIn(min = 36.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
-                Row(Modifier.clip(CircleShape).background(RD.OrangeBrush).padding(horizontal = 8.dp, vertical = 4.dp),
+                Row(Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically) {
-                    Text(action, style = T.Label.copy(fontSize = 11.sp, lineHeight = 14.sp, color = Color.White))
+                    Text(action, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = Color(0xFF0B1F44)))
                     GapW(3.dp)
-                    AIcon(RIc.Right, Color.White, 11.dp, 2.4f)
+                    AIcon(RIc.Right, Color(0xFF0B1F44), 13.dp, 2.2f)
                 }
             }
         }
@@ -141,8 +133,8 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
 @Composable
 internal fun JarvisChefBanner() {
     val large = LocalDensity.current.fontScale > 1.2f
-    val shape = RoundedCornerShape(24.dp)
-    Row(Modifier.fillMaxWidth().testTag("jarvis-chef-banner").aShadow(shape, 4.dp, Color(0x2609194D))
+    val shape = RoundedCornerShape(16.dp)
+    Row(Modifier.fillMaxWidth().testTag("jarvis-chef-banner")
         .clip(shape).background(RD.NavyBrush)
         .clickable(role = Role.Button) { Nav.go(Screen.WhatNow) }
         .padding(start = 6.dp, end = 12.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -200,16 +192,16 @@ internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: 
     modifier: Modifier = Modifier, valueModifier: Modifier = Modifier, onClick: () -> Unit) {
     val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
         androidx.compose.animation.core.tween(800), label = "ring")
-    Column(modifier.clip(RoundedCornerShape(22.dp)).background(Brush.verticalGradient(listOf(tone.copy(alpha = .12f), Color.White)))
+    Column(modifier.clip(RoundedCornerShape(14.dp)).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(14.dp)).background(Color.White)
         .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(60.dp), contentAlignment = Alignment.Center) {
             Canvas(Modifier.fillMaxSize()) {
-                val st = 7.dp.toPx()
+                val st = 5.dp.toPx()
                 val tl = Offset(st / 2, st / 2)
                 val sz = androidx.compose.ui.geometry.Size(size.width - st, size.height - st)
-                drawArc(tone.copy(alpha = .18f), 0f, 360f, false, tl, sz, style = Stroke(st))
-                if (a > 0f) drawArc(tone, -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+                drawArc(Color(0xFFE6EAF2), 0f, 360f, false, tl, sz, style = Stroke(st))
+                if (a > 0f) drawArc(Color(0xFF0B1F44), -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
             }
             Text(percent, valueModifier, style = T.Label.copy(fontSize = 14.sp, lineHeight = 17.sp, color = RD.Ink, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
         }
@@ -225,13 +217,12 @@ internal fun SoftBar(fraction: Float, modifier: Modifier = Modifier, height: and
     val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
         androidx.compose.animation.core.tween(700), label = "softbar")
     Canvas(modifier.height(height)) {
-        val r = androidx.compose.ui.geometry.CornerRadius(size.height / 2)
-        drawRoundRect(Color(0xFFE3EBF7), cornerRadius = r)
+        val r = androidx.compose.ui.geometry.CornerRadius(size.height / 2.5f)
+        drawRoundRect(Color(0xFFE6EAF2), cornerRadius = r)
         if (a > 0f) {
             val w = (size.width * a).coerceAtLeast(size.height)
-            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF1B58B3), Color(0xFF5AA9FF)), 0f, w),
+            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)), 0f, w),
                 size = androidx.compose.ui.geometry.Size(w, size.height), cornerRadius = r)
-            drawCircle(Color.White, size.height * .2f, Offset(w - size.height / 2, size.height / 2))
         }
     }
 }

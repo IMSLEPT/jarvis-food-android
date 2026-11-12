@@ -140,7 +140,7 @@ fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Bo
 /** Shared white/navy header controls, matching the Jarvis app identity. */
 @Composable
 fun HeaderControl(label: String, selected: Boolean = false, onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
+    val shape = RoundedCornerShape(14.dp)
     Box(Modifier.size(48.dp).aShadow(shape, 6.dp).clip(shape)
         .background(if (selected) C.Navy else C.Surface)
         .border(1.dp, if (selected) C.Navy else C.Navy.copy(alpha = 0.12f), shape)
@@ -167,7 +167,7 @@ fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 1
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
 fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
-    this.shadow(elevation * 0.55f, shape, ambientColor = Color(0xFF0B3373).copy(alpha = 0.10f), spotColor = Color(0xFF0B3373).copy(alpha = 0.22f))
+    this.shadow(elevation * 0.15f, shape, ambientColor = Color(0xFF0B1F44).copy(alpha = 0.04f), spotColor = Color(0xFF0B1F44).copy(alpha = 0.10f))
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
@@ -176,10 +176,10 @@ fun ACard(
     padding: Dp = 16.dp, elevation: Dp = 10.dp, glow: Color = Color(0x4D1D1B3A), bordered: Boolean = false,
     onClick: (() -> Unit)? = null, content: @Composable () -> Unit
 ) {
-    val shape = RoundedCornerShape(radius.coerceAtLeast(24.dp).coerceAtMost(28.dp))
+    val shape = RoundedCornerShape(16.dp)
     var m = modifier.aShadow(shape, elevation, glow).clip(shape)
     m = if (brush != null) m.background(brush) else m.background(C.cardSurface(color))
-    if (bordered) m = m.border(1.dp, A.Hair, shape)
+    m = m.border(1.dp, Color(0xFFE6E9F0), shape)
     if (onClick != null) m = m.clickable(onClick = onClick)
     Box(m.padding(padding)) { content() }
 }
@@ -221,9 +221,9 @@ fun MacroChips(p: Double, c: Double, f: Double) {
 /** Pulsante principale arancione a pillola (58 px nel design). */
 @Composable
 fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(22.dp)
+    val shape = RoundedCornerShape(14.dp)
     Box(
-        modifier.heightIn(min = height).aShadow(shape, 12.dp, Color(0x73F25E00)).clip(shape)
+        modifier.heightIn(min = height).clip(shape)
             .background(if (enabled) C.NavyBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
@@ -233,7 +233,7 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, en
 /** Pulsante "inchiostro" navy (52 px) e variante tonale. */
 @Composable
 fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(22.dp)
+    val shape = RoundedCornerShape(14.dp)
     Box(modifier.heightIn(min = height).clip(shape).background(C.cardSurface(bg)).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
         Text(text, style = T.BtnM.copy(color = fg), textAlign = TextAlign.Center)
     }
@@ -242,7 +242,7 @@ fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Co
 /** Cerchio navy con "+" (44 px), usato accanto ai pasti. */
 @Composable
 fun PlusButton(desc: String, size: Dp = 48.dp, onClick: () -> Unit) {
-    Box(Modifier.size(size).clip(CircleShape).background(Brush.verticalGradient(listOf(Color(0xFFFFA25C), Color(0xFFF26A1B)))).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(size).clip(CircleShape).background(Color(0xFF0B1F44)).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(Ic.Plus, Color.White, size * 0.41f, 2.6f)
     }
 }
@@ -260,10 +260,10 @@ fun BackCircle(onBack: () -> Unit) {
 /** Selettore a pillole (pasti, piani digiuno...). [sel] = navy con testo bianco. */
 @Composable
 fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(12.dp)
     Box(
         modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.NavyBrush else Brush.linearGradient(listOf(Color.White, Color.White)))
-            .border(1.dp, if (selected) Color.Transparent else Color(0x1A0B3373), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
+            .border(1.dp, if (selected) Color.Transparent else Color(0xFFDDE2EB), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
         contentAlignment = Alignment.Center
     ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center) }
 }
