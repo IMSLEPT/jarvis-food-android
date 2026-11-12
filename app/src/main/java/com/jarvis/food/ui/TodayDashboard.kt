@@ -150,7 +150,7 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
 @Composable
 internal fun TodayHero(s: AppState, date: LocalDate, hello: String, eaten: Double, target: Double, burned: Int, onPick: (LocalDate) -> Unit, onOpen: () -> Unit) {
     val shape = RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp)
-    Column(Modifier.fillMaxWidth().testTag("today-hero").aShadow(shape, 14.dp).clip(shape).background(RD.NavyBrush)
+    Column(Modifier.fillMaxWidth().testTag("today-hero").aShadow(shape, 14.dp).clip(shape).background(RD.NavyBrush).heroGlow()
         .statusBarsPadding().padding(start = 14.dp, end = 14.dp, top = 8.dp, bottom = 18.dp)) {
         CalendarHeaderContent(s, "Oggi", date, "$hello,", onPick)
         GapH(14.dp)

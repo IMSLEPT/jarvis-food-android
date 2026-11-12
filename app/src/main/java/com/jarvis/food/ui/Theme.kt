@@ -31,7 +31,7 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF5F7FB)
+    val Bg = Color(0xFF081533)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
     val SurfaceHi = Color(0xFFE4E8EF)
@@ -42,8 +42,8 @@ object C {
     val Faint = Color(0xFF6B7280)
     val Accent = Color(0xFFEA7138)
     // Brand orange stays on icons; white button labels need the darker variant.
-    val ButtonOrange = Color(0xFFD35508)
-    val ButtonOrangeEnd = Color(0xFFBD4300)
+    val ButtonOrange = Color(0xFFFF7A1A)
+    val ButtonOrangeEnd = Color(0xFFFF5A0A)
     val AccentSoft = Color(0xFFFFF2EA)
     val AccentDeep = Color(0xFFB94C1C)
     val OnAccent = Color(0xFFFFFFFF)
@@ -72,7 +72,7 @@ object C {
     /** Arancione del + Aggiungi; scritte bianche come richiesto. */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0C2A7A), Color(0xFF1349BF), Color(0xFF2A7BF0)))
     val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
     /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
     fun cardSurface(tone: Color): Color =
@@ -96,7 +96,7 @@ object T {
     private val tight = (-0.6).sp
     val Display = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 25.sp, lineHeight = 30.sp, letterSpacing = tight, color = C.Text)
     val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 24.sp, lineHeight = 29.sp, letterSpacing = (-0.8).sp, color = C.Text)
-    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 18.sp, lineHeight = 24.sp, letterSpacing = (-0.4).sp, color = C.Text)
+    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 18.sp, lineHeight = 24.sp, letterSpacing = (-0.4).sp, color = Color.White)
     val Title = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 21.sp, lineHeight = 27.sp, letterSpacing = (-0.4).sp, color = C.Text)
     val Title2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 17.sp, lineHeight = 22.sp, color = C.Text)
     val Dish = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 19.sp, lineHeight = 24.sp, letterSpacing = (-0.2).sp, color = C.Text)
@@ -111,7 +111,7 @@ object T {
     val BtnM = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 14.5.sp, lineHeight = 20.sp, color = C.OnAccent)
     val BtnS = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = C.Text)
     val Chip = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 12.5.sp, color = C.Text)
-    val Link = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, color = C.AccentDeep)
+    val Link = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, color = Color(0xFFFF9A4D))
     val Eyebrow = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 0.5.sp, color = C.Muted)
     val Num = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 20.sp, lineHeight = 24.sp, color = C.Text)
     val Big = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 34.sp, lineHeight = 38.sp, letterSpacing = (-1).sp, color = C.Text)
@@ -146,8 +146,9 @@ fun AppBackground(content: @Composable BoxScope.() -> Unit) {
         Modifier.fillMaxSize()
             .background(C.Bg)
             .drawBehind {
-                drawRect(Brush.radialGradient(listOf(Color(0x33FF9A4A), Color.Transparent), center = Offset(size.width * 1.05f, -40.dp.toPx()), radius = 420.dp.toPx()))
-                drawRect(Brush.radialGradient(listOf(Color(0x221B58B3), Color.Transparent), center = Offset(-20.dp.toPx(), size.height * 0.55f), radius = 380.dp.toPx()))
+                drawRect(Brush.verticalGradient(listOf(Color(0xFF081533), Color(0xFF0A1F52), Color(0xFF081533))))
+                drawRect(Brush.radialGradient(listOf(Color(0x661F7BFF), Color.Transparent), center = Offset(size.width * 0.95f, -20.dp.toPx()), radius = 520.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0x33FF6A00), Color.Transparent), center = Offset(size.width * 1.05f, size.height * 0.92f), radius = 460.dp.toPx()))
             },
         content = content
     )

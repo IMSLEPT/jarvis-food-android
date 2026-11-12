@@ -70,8 +70,8 @@ object RD {
     val GreyFill = Color(0xFFF0F1F4)
     val Strip = Color(0xFFF6F5F3)
     val Green = Color(0xFF6E9F62)
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3)), start = Offset(0f, Float.POSITIVE_INFINITY), end = Offset(Float.POSITIVE_INFINITY, 0f))
-    val ButtonBrush = Brush.linearGradient(listOf(Color(0xFF0B3373), Color(0xFF1B58B3)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0C2A7A), Color(0xFF1349BF), Color(0xFF2A7BF0)), start = Offset(0f, Float.POSITIVE_INFINITY), end = Offset(Float.POSITIVE_INFINITY, 0f))
+    val ButtonBrush = Brush.verticalGradient(listOf(Color(0xFFFF8A2B), Color(0xFFFF5A0A)))
     val OrangeBrush = C.OrangeBrush
     val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFFFE6D3), Color(0xFFFFF4EB)))
     val WarmBrush = Brush.linearGradient(listOf(Color(0xFFFBF7F4), Color(0xFFF7EEE8)))
@@ -210,7 +210,7 @@ fun ChevronCircle(size: Dp = 36.dp, bg: Color = RD.GreyFill, ink: Color = RD.Ink
 
 /** Ombra morbida delle schede di riferimento. */
 fun Modifier.refShadow(shape: Shape, elevation: Dp = 8.dp): Modifier =
-    this.shadow(elevation.coerceAtMost(6.dp), shape, ambientColor = Color(0x1A0B3373), spotColor = Color(0x330B3373))
+    this.shadow(elevation.coerceAtMost(8.dp), shape, ambientColor = Color(0x331F7BFF), spotColor = Color(0x881F7BFF))
 
 // ------------------------------------------------------------------------------- Profilo e calendario
 
@@ -254,6 +254,7 @@ fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
     Box(Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
         Column(Modifier.fillMaxWidth().testTag("top-header-frame").refShadow(shape, if (navy) 6.dp else 4.dp).clip(shape)
             .background(if (navy) RD.NavyBrush else RD.WarmBrush)
+            .then(if (navy) Modifier.heroGlow() else Modifier)
             .drawBehind {
                 // Riflesso curvo in alto a destra, come nei riferimenti.
                 val r = size.width * 0.62f
@@ -477,4 +478,13 @@ fun SharedFitText(text: String, style: androidx.compose.ui.text.TextStyle, scale
         lineHeight = if (style.lineHeight.isSpecified) style.lineHeight * k else style.lineHeight), maxLines = 1, softWrap = false,
         overflow = if (k <= minScale) TextOverflow.Ellipsis else TextOverflow.Clip,
         onTextLayout = { if (it.hasVisualOverflow && scale.floatValue > minScale) scale.floatValue = (scale.floatValue - 0.04f).coerceAtLeast(minScale) })
+}
+
+
+/** Alone arancio e anello luminoso dietro i banner blu, come nelle immagini di riferimento. */
+fun Modifier.heroGlow(): Modifier = this.drawBehind {
+    drawRect(Brush.radialGradient(listOf(Color(0x66FF7A1A), Color.Transparent),
+        center = Offset(size.width * 1.02f, size.height * 1.05f), radius = size.width * 0.75f))
+    drawRect(Brush.radialGradient(listOf(Color(0x552F9BFF), Color.Transparent),
+        center = Offset(size.width * 0.15f, -size.height * 0.15f), radius = size.width * 0.7f))
 }

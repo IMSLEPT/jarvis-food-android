@@ -117,7 +117,7 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = 
 fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.() -> Unit = {}) {
     val shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomStart = 28.dp, bottomEnd = 28.dp)
     Box(Modifier.fillMaxWidth().zIndex(2f).background(C.Bg).statusBarsPadding().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
-        Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp).clip(shape).background(RD.NavyBrush)
+        Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp).clip(shape).background(RD.NavyBrush).heroGlow()
             .padding(start = 10.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) {
                 Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack), contentAlignment = Alignment.Center) {
@@ -143,13 +143,13 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
     val fill: Modifier = when {
         !enabled -> Modifier.background(C.SurfaceHi, shape)
         orange -> Modifier.aShadow(shape, 8.dp, Color(0x66F25E00)).clip(shape).background(C.OrangeBrush, shape)
-        else -> if (color == null || color == C.Navy) Modifier.aShadow(shape, 8.dp).clip(shape).background(C.NavyBrush, shape) else Modifier.clip(shape).background(color, shape)
+        else -> if (color == null) Modifier.aShadow(shape, 10.dp, Color(0xCCFF6A00)).clip(shape).background(C.OrangeBrush, shape) else if (color == C.Navy) Modifier.aShadow(shape, 8.dp).clip(shape).background(C.NavyBrush, shape) else Modifier.clip(shape).background(color, shape)
     }
     Box(
         modifier.heightIn(min = 52.dp).then(fill)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else if (orange) C.OnOrange else C.OnAccent), textAlign = TextAlign.Center) }
+    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else if (orange || color == null) C.OnOrange else C.OnAccent), textAlign = TextAlign.Center) }
 }
 
 @Composable

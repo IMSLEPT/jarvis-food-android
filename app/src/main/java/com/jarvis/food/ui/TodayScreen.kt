@@ -265,12 +265,24 @@ private fun WeekPage(s: AppState, date: LocalDate, days: List<LocalDate>, active
 
 @Composable
 private fun QuickTile(label: String, art: TodayArt, tint: Color, modifier: Modifier, onClick: () -> Unit) {
-    Column(modifier.heightIn(min = 84.dp).clip(RoundedCornerShape(24.dp)).background(Brush.verticalGradient(listOf(tint, Color.White)))
-        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        TodayArtwork(art, Modifier.size(46.dp).testTag("quick-icon-$label"))
+    val (top, bottom, icon) = when (art) {
+        TodayArt.Add -> Triple(Color(0xFFFFA033), Color(0xFFFF5A0A), Ic.Plus)
+        TodayArt.Camera -> Triple(Color(0xFFFF6BA8), Color(0xFFE0309A), Ic.Camera)
+        TodayArt.Fridge -> Triple(Color(0xFF3CC8FF), Color(0xFF1F6FFF), Ic.Fridge)
+        else -> Triple(Color(0xFFB36BFF), Color(0xFF7C3AED), Ic.Timer)
+    }
+    val shape = RoundedCornerShape(22.dp)
+    Column(modifier.clip(RoundedCornerShape(24.dp))
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(vertical = 4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.size(62.dp).testTag("quick-icon-$label").aShadow(shape, 8.dp, Color(0x881F7BFF)).clip(shape)
+            .background(Brush.verticalGradient(listOf(top, bottom)))
+            .drawBehind { drawRoundRect(Brush.verticalGradient(listOf(Color(0x55FFFFFF), Color.Transparent), endY = size.height * 0.5f), cornerRadius = androidx.compose.ui.geometry.CornerRadius(22.dp.toPx())) },
+            contentAlignment = Alignment.Center) {
+            AIcon(icon, Color.White, 30.dp, 2.2f)
+        }
         Spacer(Modifier.height(8.dp))
-        Text(label, style = T.Small.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.SemiBold, color = C.Navy), textAlign = TextAlign.Center)
+        Text(label, style = T.Small.copy(fontSize = 13.sp, lineHeight = 17.sp, fontWeight = FontWeight.SemiBold, color = Color.White), textAlign = TextAlign.Center)
     }
 }
 
@@ -513,7 +525,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                     AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.35f), 18.dp, 2.4f)
                 }
                 GapW(10.dp)
-                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").clip(RoundedCornerShape(24.dp)).background(RD.NavyBrush)
+                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").clip(RoundedCornerShape(24.dp)).background(RD.ButtonBrush)
                     .semantics { contentDescription = "Aggiungi un bicchiere" }
                     .clickable(role = androidx.compose.ui.semantics.Role.Button) {
                         val current = Store.current

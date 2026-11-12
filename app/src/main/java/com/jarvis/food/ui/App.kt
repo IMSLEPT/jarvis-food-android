@@ -10,6 +10,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -144,7 +146,7 @@ fun App() {
     androidx.compose.runtime.SideEffect {
         val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
             .filterIsInstance<android.app.Activity>().firstOrNull()
-        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !state.onboarded || (top != Screen.Watch && !(top == null && Nav.tab == 0)) }
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = false }
     }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
@@ -229,6 +231,8 @@ private fun Tabs() {
                 4 -> ProfileScreen()
                 else -> ChatScreen()
             }
+            Box(Modifier.align(Alignment.TopCenter).fillMaxWidth().height(WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 6.dp)
+                .background(Brush.verticalGradient(listOf(Color(0xB3081533), Color.Transparent))))
             // Dissolvenza morbida sopra la barra: i contenuti non si tagliano di netto.
             if (showBottomBar) Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(18.dp)
                 .background(androidx.compose.ui.graphics.Brush.verticalGradient(listOf(androidx.compose.ui.graphics.Color.Transparent, C.Bg.copy(alpha = 0.9f)))))
@@ -244,8 +248,8 @@ private fun BottomBar() {
     val expanded = LocalDensity.current.fontScale > 1.5f
     val shape = RoundedCornerShape(30.dp)
     Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 14.dp, end = 14.dp, top = 4.dp, bottom = 10.dp)) {
-        Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().shadow(14.dp, shape, ambientColor = Color(0x550B3373), spotColor = Color(0x880B3373)).clip(shape)
-            .background(Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF0B3373)))).padding(5.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().shadow(16.dp, shape, ambientColor = Color(0x661F7BFF), spotColor = Color(0xAA1F7BFF)).clip(shape)
+            .background(Brush.linearGradient(listOf(Color(0xFF0F2E86), Color(0xFF0C2466)))).border(1.dp, Color(0x33FFFFFF), shape).padding(5.dp)) {
             items.chunked(if (expanded) 3 else 5).forEach { group ->
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     group.forEach { (tab, icon, label) -> BottomTabItem(tab, icon, label) }

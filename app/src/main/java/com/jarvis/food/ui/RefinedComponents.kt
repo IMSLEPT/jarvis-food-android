@@ -105,7 +105,7 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
     val requesters = androidx.compose.runtime.remember(date, meals.map { it.slotIndex }) {
         meals.associate { it.slotIndex to androidx.compose.foundation.relocation.BringIntoViewRequester() }
     }
-    Text("I pasti di oggi", style = T.Title.copy(fontSize = 23.sp))
+    Text("I pasti di oggi", style = T.Title.copy(fontSize = 23.sp, color = Color.White))
     GapH(14.dp)
     Row(Modifier.fillMaxWidth().testTag("plan-slot-strip").horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         meals.forEach { meal ->

@@ -174,7 +174,7 @@ fun ProfileScreen() {
             val heroShape = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp, bottomStart = 34.dp, bottomEnd = 34.dp)
             val goal = when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }
             val weight = "${s.profile.targetWeight.r1().removeSuffix(",0")} kg"
-            Column(Modifier.fillMaxWidth().aShadow(heroShape, 14.dp).clip(heroShape).background(RD.NavyBrush)
+            Column(Modifier.fillMaxWidth().aShadow(heroShape, 14.dp).clip(heroShape).background(RD.NavyBrush).heroGlow()
                 .drawBehind {
                 }.padding(horizontal = 16.dp, vertical = 12.dp)) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {

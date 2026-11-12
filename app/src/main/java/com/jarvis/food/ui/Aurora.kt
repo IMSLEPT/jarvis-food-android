@@ -167,7 +167,12 @@ fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 1
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
 fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
-    this.shadow(elevation * 0.55f, shape, ambientColor = Color(0xFF0B3373).copy(alpha = 0.10f), spotColor = Color(0xFF0B3373).copy(alpha = 0.22f))
+    run {
+        val orange = color.red > 0.9f && color.blue < 0.1f
+        this.shadow(elevation * 0.55f, shape,
+            ambientColor = if (orange) color.copy(alpha = color.alpha * 0.45f) else Color(0x331F7BFF),
+            spotColor = if (orange) color else Color(0x771F7BFF))
+    }
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
@@ -223,8 +228,8 @@ fun MacroChips(p: Double, c: Double, f: Double) {
 fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
     val shape = RoundedCornerShape(22.dp)
     Box(
-        modifier.heightIn(min = height).aShadow(shape, 12.dp, Color(0x73F25E00)).clip(shape)
-            .background(if (enabled) C.NavyBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
+        modifier.heightIn(min = height).aShadow(shape, 12.dp, Color(0xCCFF6A00)).clip(shape)
+            .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center) }
