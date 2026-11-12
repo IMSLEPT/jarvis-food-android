@@ -60,20 +60,28 @@ fun VitaminOverview(s: AppState) {
     val date = Nav.diaryDate
     val today = remember(s.diary, s.profile, date) { dailyMicros(s, date) }
     GapH(18.dp)
-    ReferenceInsightCard(TodayArt.Vitamins, Modifier.testTag("home-vitamins"), onClick = { Nav.go(Screen.Trend("vitamins")) }) {
-        ReferenceInsightHeading("Vitamine e minerali", "${dayLabel(date)} · fabbisogno giornaliero", RIc.Leaf, "Andamento") {
-            Nav.go(Screen.Trend("vitamins"))
+    ACard(Modifier.fillMaxWidth().testTag("home-vitamins"), radius = 26.dp, padding = 16.dp, elevation = 8.dp,
+        glow = Color(0x2009194D), onClick = { Nav.go(Screen.Trend("vitamins")) }) {
+        Column(Modifier.fillMaxWidth()) {
+            ReferenceInsightHeading("Vitamine e minerali", "${dayLabel(date)} · fabbisogno giornaliero", RIc.Leaf, "Andamento") {
+                Nav.go(Screen.Trend("vitamins"))
+            }
+            GapH(12.dp)
+            val tones = listOf(Color(0xFFF26A1B), Color(0xFF2F6FE4), Color(0xFF14A38B))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                for ((index, m) in today.withIndex()) {
+                    val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
+                    NutrientRing(m.name.replace("Vitamina ", "Vit. "), percent, m.fraction, tones[index % tones.size],
+                        if (m.reference != null) "${microFmt(m.amount)} / ${microFmt(m.reference)} ${m.unit}" else "${microFmt(m.amount)} ${m.unit}",
+                        Modifier.weight(1f).testTag("home-nutrient-${m.key}").semantics {
+                            progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
+                        },
+                        valueModifier = Modifier.testTag("home-nutrient-value-${m.key}")
+                    ) { Nav.go(Screen.Trend("vitamins", metric = index)) }
+                }
+            }
+            if (today.any { it.unknown > 0 }) Text("Alcuni alimenti senza dato", Modifier.padding(top = 8.dp), style = T.Small.copy(fontSize = 11.sp))
         }
-        for ((index, m) in today.withIndex()) {
-            val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"
-            ReferenceMetric(m.name, percent, m.fraction,
-                Modifier.testTag("home-nutrient-${m.key}").semantics {
-                    progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(m.fraction, 0f..1f)
-                },
-                valueModifier = Modifier.testTag("home-nutrient-value-${m.key}")
-            ) { Nav.go(Screen.Trend("vitamins", metric = index)) }
-        }
-        if (today.any { it.unknown > 0 }) Text("Alcuni alimenti senza dato", style = T.Small.copy(fontSize = 11.sp))
     }
     GapH(10.dp)
     EverydayFoodGuide(s, review)

@@ -123,17 +123,13 @@ fun TodayScreen() {
     val burned = Store.burnedFor(s, date)
 
     val hello = when (LocalTime.now().hour) { in 5..11 -> "Buongiorno"; in 12..17 -> "Buon pomeriggio"; else -> "Buonasera" }
-    MainPage(fullDay(date), "$hello,", homeName = s.profile.name, header = {
-        CalendarPageHeader(s, "Oggi", date, "$hello,", onPick = { Nav.diaryDate = it })
+    MainPage(fullDay(date), "$hello,", homeName = s.profile.name, header = { }, top = {
+        TodayHero(s, date, hello, totals.kcal, e.targetKcal, burned, onPick = { Nav.diaryDate = it }) { Nav.go(Screen.DayNutrients(date)) }
     }) {
         DayTypeControl(s, date)
 
-        // ---- Hero calorie
-        Spacer(Modifier.height(16.dp))
-        TodayCalorieCard(totals.kcal, e.targetKcal, burned) { Nav.go(Screen.DayNutrients(date)) }
-
         // ---- Macro
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(4.dp))
         TodayMacroCard(totals.protein, e.protein, totals.carbs, e.carbs, totals.fat, e.fat)
 
         Spacer(Modifier.height(20.dp))
@@ -473,64 +469,61 @@ private fun FastingMini(s: AppState) {
 private fun WaterCard(date: LocalDate, s: AppState) {
     val ml = s.water[date.toString()] ?: 0
     val goal = s.goals.waterMl.coerceAtLeast(1)
-    val fill by animateFloatAsState((ml.toFloat() / goal).coerceIn(0f, 1f), tween(900), label = "water")
-    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = 26.dp, padding = 14.dp, brush = Brush.verticalGradient(listOf(Color(0xFFD9F4FA), Color.White)),
-        elevation = 8.dp, glow = Color(0x2009194D)) {
-        BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val inline = maxWidth / LocalDensity.current.fontScale >= 316.dp
-            val controls: @Composable () -> Unit = {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Box(Modifier.size(PremiumScale.actionHeight).testTag("water-minus").clip(RoundedCornerShape(14.dp))
-                        .semantics { contentDescription = "Rimuovi un bicchiere" }
-                        .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) {
-                            val current = Store.current
-                            Store.setWater(date, ((current.water[date.toString()] ?: 0) - current.glassMl).coerceAtLeast(0))
-                        }, contentAlignment = Alignment.Center) {
-                        Box(Modifier.size(38.dp).clip(CircleShape).background(Color.White),
-                            contentAlignment = Alignment.Center) {
-                            AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.4f)
-                        }
+    val glass = s.glassMl.coerceAtLeast(1)
+    val fill = (ml.toFloat() / goal).coerceIn(0f, 1f)
+    val segments = kotlin.math.ceil(goal.toDouble() / glass).toInt().coerceIn(1, 16)
+    val drops = Brush.horizontalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF2F6FE4)))
+    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = 26.dp, padding = 16.dp, elevation = 8.dp, glow = Color(0x2009194D)) {
+        Column(Modifier.fillMaxWidth()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(46.dp).clip(CircleShape).background(Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF2F6FE4)))),
+                    contentAlignment = Alignment.Center) { AIcon(Ic.Drop, Color.White, 24.dp, 2f, fill = true) }
+                GapW(12.dp)
+                Column(Modifier.weight(1f)) {
+                    Text("Acqua", style = T.Label.copy(color = RD.Ink))
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Text("${waterLitres(ml)} L", Modifier.testTag("water-amount"),
+                            style = T.Title.copy(color = A.WaterInk, fontSize = 26.sp, lineHeight = 30.sp))
+                        Text("  su ${waterLitres(goal)} L", Modifier.padding(bottom = 3.dp), style = T.Small)
                     }
-                    Box(Modifier.heightIn(min = 52.dp).testTag("water-plus").clip(RoundedCornerShape(14.dp))
-                        .semantics { contentDescription = "Aggiungi un bicchiere" }
-                        .clickable(role = androidx.compose.ui.semantics.Role.Button) {
-                            val current = Store.current
-                            Store.setWater(date, (current.water[date.toString()] ?: 0) + current.glassMl)
-                        }, contentAlignment = Alignment.Center) {
-                        Row(Modifier.heightIn(min = 40.dp).clip(RoundedCornerShape(20.dp))
-                            .background(RD.NavyBrush).padding(horizontal = 11.dp, vertical = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically) {
-                            AIcon(Ic.Plus, Color.White, 17.dp, 2.8f)
-                            GapW(5.dp)
-                            Text("Bicchiere", style = T.BtnS.copy(color = Color.White, fontSize = 13.sp))
-                        }
+                }
+                Text("${(fill * 100).toInt()}%", Modifier.clip(CircleShape).background(A.WaterSoft).padding(horizontal = 12.dp, vertical = 6.dp),
+                    style = T.Label.copy(color = A.WaterInk, fontWeight = FontWeight.Bold))
+            }
+            GapH(14.dp)
+            Row(Modifier.fillMaxWidth().testTag("water-bottle").semantics {
+                contentDescription = "$ml ml su $goal ml"
+                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
+            }, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                for (i in 0 until segments) {
+                    val part = (ml.toFloat() / glass - i).coerceIn(0f, 1f)
+                    Box(Modifier.weight(1f).height(12.dp).clip(CircleShape).background(Color(0xFFE4F1FA))) {
+                        if (part > 0f) Box(Modifier.fillMaxWidth(part).fillMaxHeight().clip(CircleShape).background(drops))
                     }
                 }
             }
-            Column {
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    TodayWaterBottle(fill, Modifier.size(80.dp).clip(RoundedCornerShape(22.dp)).background(Color.White)
-                        .testTag("water-bottle").semantics {
-                            contentDescription = "$ml ml su $goal ml"
-                            progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
-                        })
-                    GapW(12.dp)
-                    Column(Modifier.weight(1f)) {
-                        Text("Acqua", style = T.Label.copy(color = RD.Ink))
-                        Text("${waterLitres(ml)} L", Modifier.testTag("water-amount"),
-                            style = T.Title.copy(color = A.WaterInk, fontSize = 30.sp, lineHeight = 33.sp))
-                        Text("su ${waterLitres(goal)} L", style = T.Small)
-                        Text("Bicchiere da ${s.glassMl} ml", style = T.Small.copy(fontSize = PremiumScale.body, lineHeight = 15.sp))
-                    }
-                    if (inline) {
-                        GapW(3.dp)
-                        controls()
-                    }
+            GapH(14.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(48.dp).testTag("water-minus").clip(CircleShape).background(Color(0xFFEEF3FA))
+                    .semantics { contentDescription = "Rimuovi un bicchiere" }
+                    .clickable(enabled = ml > 0, role = androidx.compose.ui.semantics.Role.Button) {
+                        val current = Store.current
+                        Store.setWater(date, ((current.water[date.toString()] ?: 0) - current.glassMl).coerceAtLeast(0))
+                    }, contentAlignment = Alignment.Center) {
+                    AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.35f), 18.dp, 2.4f)
                 }
-                if (!inline) Box(Modifier.fillMaxWidth().padding(top = 5.dp), contentAlignment = Alignment.CenterEnd) {
-                    controls()
+                GapW(10.dp)
+                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").clip(RoundedCornerShape(24.dp)).background(RD.NavyBrush)
+                    .semantics { contentDescription = "Aggiungi un bicchiere" }
+                    .clickable(role = androidx.compose.ui.semantics.Role.Button) {
+                        val current = Store.current
+                        Store.setWater(date, (current.water[date.toString()] ?: 0) + current.glassMl)
+                    }.padding(horizontal = 14.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    AIcon(Ic.Plus, Color.White, 18.dp, 2.8f)
+                    GapW(6.dp)
+                    Text("Bicchiere · ${s.glassMl} ml", style = T.BtnS.copy(color = Color.White, fontSize = 14.sp))
                 }
-                ABar(fill, A.WaterFill, Color.White, 8.dp, Modifier.padding(top = 10.dp))
             }
         }
     }

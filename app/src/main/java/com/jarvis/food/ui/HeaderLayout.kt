@@ -55,9 +55,15 @@ fun showDatePicker(context: android.content.Context, date: LocalDate, onPick: (L
 @Composable
 fun CalendarPageHeader(s: AppState, title: String, date: LocalDate, greeting: String? = null,
     onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date") {
+    RefBannerFrame(navy = true) { CalendarHeaderContent(s, title, date, greeting, onPick, onDateClick, dateTag) }
+}
+
+@Composable
+fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDate, greeting: String? = null,
+    onPick: (LocalDate) -> Unit, onDateClick: (() -> Unit)? = null, dateTag: String = "calendar-date") {
     val large = LocalDensity.current.fontScale > 1.5f
     val context = LocalContext.current
-    RefBannerFrame(navy = true) {
+    run {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val density = LocalDensity.current
             val measurer = rememberTextMeasurer()

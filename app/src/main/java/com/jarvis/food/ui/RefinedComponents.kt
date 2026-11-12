@@ -266,15 +266,17 @@ private fun MacroBar(letter: String, grams: Double, target: Double, ink: Color, 
 
 /** The header and bottom navigation stay in place while app-owned content scrolls. */
 @Composable
-fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, homeName: String? = null, header: (@Composable () -> Unit)? = null, content: @Composable ColumnScope.() -> Unit) {
+fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, homeName: String? = null, header: (@Composable () -> Unit)? = null, top: (@Composable ColumnScope.() -> Unit)? = null, content: @Composable ColumnScope.() -> Unit) {
     val scroll = androidx.compose.foundation.rememberScrollState()
     val threshold = with(LocalDensity.current) { 64.dp.roundToPx() }
     val compact by androidx.compose.runtime.remember(scroll, threshold) { derivedStateOf { scroll.value > threshold } }
     androidx.compose.runtime.LaunchedEffect(resetKey) { scroll.scrollTo(0) }
-    Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding()) {
+    Column(Modifier.fillMaxSize().background(C.Bg).then(if (top == null) Modifier.statusBarsPadding() else Modifier)) {
         val expanded = LocalDensity.current.fontScale > 1.5f
         if (header != null) header() else Box(Modifier.padding(start = 20.dp, end = 20.dp, top = 8.dp)) { MainHeader(if (expanded && homeName != null) "Oggi" else title, if (expanded) null else eyebrow, if (expanded) null else homeName, compact) }
-        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll).padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 24.dp)) {
+        Column(Modifier.weight(1f).fillMaxWidth().background(C.Bg).testTag("main-scroll").verticalScroll(scroll)) {
+            top?.invoke(this)
+            Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = if (top != null) 16.dp else 4.dp, bottom = 24.dp)) {
             if (expanded && homeName != null) {
                 if (eyebrow != null) HeaderGreeting(eyebrow)
                 Text(homeName, modifier = Modifier.testTag("home-name"), style = T.Display.copy(fontSize = 30.sp, lineHeight = 34.sp))
@@ -282,6 +284,7 @@ fun MainPage(title: String, eyebrow: String? = null, resetKey: Any? = null, home
                 GapH(12.dp)
             }
             content()
+            }
         }
     }
 }

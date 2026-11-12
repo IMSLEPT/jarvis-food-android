@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -124,7 +125,7 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(label, style = style, modifier = if (inline) Modifier.width(labelWidth) else Modifier.weight(1f))
                 if (inline) {
-                    ProgressLine(progress ?: 0f, RD.Navy, barModifier.weight(1f), height = 5.dp)
+                    SoftBar(progress ?: 0f, barModifier.weight(1f))
                     GapW(6.dp)
                 }
                 Text(value, modifier = valueModifier.then(if (inline) Modifier.width(valueWidth) else Modifier),
@@ -132,7 +133,7 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
                 GapW(3.dp)
                 AIcon(RIc.Right, RD.Ink, 12.dp, 2.4f)
             }
-            if (!inline) ProgressLine(progress ?: 0f, RD.Navy, barModifier.fillMaxWidth().padding(top = 4.dp), height = 5.dp)
+            if (!inline) SoftBar(progress ?: 0f, barModifier.fillMaxWidth().padding(top = 4.dp))
         }
     }
 }
@@ -192,3 +193,45 @@ internal fun ReferenceChartIcon(modifier: Modifier = Modifier) {
 }
 
 internal const val ReferenceCutlery = "M4 3v6c0 4 7 4 7 0V3M7.5 3v18M19 3c-4 0-4 9 0 9h1V3zM20 12v9"
+
+/** Tessera micronutriente: anello colorato con la percentuale al centro, nome e apporto sotto. */
+@Composable
+internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: Color, sub: String,
+    modifier: Modifier = Modifier, valueModifier: Modifier = Modifier, onClick: () -> Unit) {
+    val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
+        androidx.compose.animation.core.tween(800), label = "ring")
+    Column(modifier.clip(RoundedCornerShape(22.dp)).background(Brush.verticalGradient(listOf(tone.copy(alpha = .12f), Color.White)))
+        .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.size(60.dp), contentAlignment = Alignment.Center) {
+            Canvas(Modifier.fillMaxSize()) {
+                val st = 7.dp.toPx()
+                val tl = Offset(st / 2, st / 2)
+                val sz = androidx.compose.ui.geometry.Size(size.width - st, size.height - st)
+                drawArc(tone.copy(alpha = .18f), 0f, 360f, false, tl, sz, style = Stroke(st))
+                if (a > 0f) drawArc(tone, -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+            }
+            Text(percent, valueModifier, style = T.Label.copy(fontSize = 14.sp, lineHeight = 17.sp, color = RD.Ink, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
+        }
+        GapH(8.dp)
+        Text(name, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = RD.Ink), maxLines = 1, textAlign = TextAlign.Center)
+        Text(sub, style = T.Small.copy(fontSize = 11.sp, lineHeight = 14.sp, color = RD.Grey), maxLines = 1, textAlign = TextAlign.Center)
+    }
+}
+
+/** Barra a pillola: binario azzurro chiaro, riempimento sfumato blu, pallino bianco sulla punta. */
+@Composable
+internal fun SoftBar(fraction: Float, modifier: Modifier = Modifier, height: androidx.compose.ui.unit.Dp = 9.dp) {
+    val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
+        androidx.compose.animation.core.tween(700), label = "softbar")
+    Canvas(modifier.height(height)) {
+        val r = androidx.compose.ui.geometry.CornerRadius(size.height / 2)
+        drawRoundRect(Color(0xFFE3EBF7), cornerRadius = r)
+        if (a > 0f) {
+            val w = (size.width * a).coerceAtLeast(size.height)
+            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF1B58B3), Color(0xFF5AA9FF)), 0f, w),
+                size = androidx.compose.ui.geometry.Size(w, size.height), cornerRadius = r)
+            drawCircle(Color.White, size.height * .2f, Offset(w - size.height / 2, size.height / 2))
+        }
+    }
+}

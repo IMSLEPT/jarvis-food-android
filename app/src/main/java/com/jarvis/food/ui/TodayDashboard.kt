@@ -148,12 +148,31 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
 }
 
 @Composable
+internal fun TodayHero(s: AppState, date: LocalDate, hello: String, eaten: Double, target: Double, burned: Int, onPick: (LocalDate) -> Unit, onOpen: () -> Unit) {
+    val shape = RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp)
+    Column(Modifier.fillMaxWidth().testTag("today-hero").aShadow(shape, 14.dp).clip(shape).background(RD.NavyBrush)
+        .statusBarsPadding().padding(start = 14.dp, end = 14.dp, top = 8.dp, bottom = 18.dp)) {
+        CalendarHeaderContent(s, "Oggi", date, "$hello,", onPick)
+        GapH(14.dp)
+        Column(Modifier.fillMaxWidth().testTag("today-calories").clip(RoundedCornerShape(24.dp)).clickable(onClick = onOpen).padding(horizontal = 4.dp)) {
+            CalorieContent(eaten, target, burned)
+        }
+    }
+}
+
+@Composable
 internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClick: () -> Unit) {
+    ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 28.dp, brush = RD.NavyBrush, padding = 16.dp, bordered = false, elevation = 16.dp, onClick = onClick) {
+        CalorieContent(eaten, target, burned)
+    }
+}
+
+@Composable
+private fun CalorieContent(eaten: Double, target: Double, burned: Int) {
     val remaining = TodayProgress.remaining(eaten, target)
     // Video 4 novembre: la percentuale e la barra partono da 0 e crescono verso l'obiettivo.
     val fraction = TodayProgress.ratio(eaten, target).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(650), label = "calorie-progress")
-    ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 28.dp, brush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3))), padding = 16.dp, bordered = false, elevation = 16.dp, onClick = onClick) {
       Column {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val roomy = maxWidth / LocalDensity.current.fontScale >= 220.dp
@@ -207,7 +226,6 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
             } else Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color(0x26FFFFFF)).padding(vertical = 8.dp, horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically, content = stats)
         }
       }
-    }
 }
 
 @Composable
