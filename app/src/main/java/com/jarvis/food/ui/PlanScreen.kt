@@ -208,7 +208,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
             }
             androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
                 Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 10.dp)) {
-                    val shape = RoundedCornerShape(18.dp)
+                    val shape = RoundedCornerShape(14.dp)
                     Row(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, C.Line, shape)
                         .clickable(role = Role.Button) { expanded = !expanded }.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
@@ -246,7 +246,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     GapH(10.dp)
                     PlanStyleControls(s, date, large) { chooseStyle = true }
                     GapH(12.dp)
-                    Row(Modifier.fillMaxWidth().testTag("plan-nutrition-details").clip(RoundedCornerShape(22.dp)).background(C.Navy)
+                    Row(Modifier.fillMaxWidth().testTag("plan-nutrition-details").clip(RoundedCornerShape(16.dp)).background(C.Navy)
                         .clickable(role = Role.Button) { expanded = !expanded }.padding(horizontal = 14.dp, vertical = 14.dp),
                         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                         ReferenceChartIcon(Modifier.size(22.dp)); GapW(10.dp)
@@ -340,7 +340,7 @@ private fun PlanStyleControls(s: AppState, date: LocalDate, stacked: Boolean, on
 
 @Composable
 private fun TotalCol(label: String, v: Double, goal: Double, color: Color, soft: Color, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(18.dp)).background(soft.copy(alpha = .55f)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)) {
+    Column(modifier.clip(RoundedCornerShape(14.dp)).background(soft.copy(alpha = .55f)).padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)) {
         Row(verticalAlignment = Alignment.Bottom) {
             Text(v.r0(), style = T.Num.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.ExtraBold))
             Text(" g", style = T.Small.copy(fontSize = 12.sp), modifier = Modifier.padding(bottom = 3.dp))
@@ -361,8 +361,8 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val alts = remember(r.template.id, r.target, Store.prefsFor(s, date)) { Planner.alternatives(db, r.template.meal, r.target, Store.prefsFor(s, date), emptySet()) }
     val idx = alts.indexOfFirst { it.template.id == r.template.id }
     val dot = MEAL_DOT[m.diaryMeal] ?: C.Accent
-    val shape = RoundedCornerShape(34.dp)
-    Column(Modifier.fillMaxWidth().aShadow(shape, 12.dp, Color(0x731D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
+    val shape = RoundedCornerShape(16.dp)
+    Column(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
         Box(Modifier.fillMaxWidth().height(if (s.recipePhotos[r.template.id] != null || EditorialPhotos.asset(r.template.id, r.template.image) != null) 230.dp else 96.dp).clickable { openRecipe(date, m) }) {
             RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxSize(), mealEmoji(r.template.meal), 0.dp)
             Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0x8C181430))))
@@ -370,7 +370,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                 Box(Modifier.size(9.dp).clip(CircleShape).background(dot))
                 Text("  ${MEAL_LABEL[m.diaryMeal] ?: m.slotName} · ${if (idx <= 0) "Proposto" else "Alternativa $idx"}", style = T.Chip.copy(color = A.Ink), maxLines = 1)
             }
-            Row(Modifier.align(Alignment.BottomEnd).padding(14.dp).height(36.dp).clip(RoundedCornerShape(18.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.align(Alignment.BottomEnd).padding(14.dp).height(36.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.Clock, A.Ink, 14.dp, 2.2f)
                 Text("  ${r.template.minutes} min", style = T.Chip.copy(color = A.Ink))
             }
@@ -390,7 +390,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
             Row(Modifier.padding(top = 10.dp).horizontalScroll(rememberScrollState()).padding(vertical = 6.dp, horizontal = 6.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 alts.take(12).forEach { a ->
                     val sel = a.template.id == r.template.id
-                    val ringShape = RoundedCornerShape(24.dp)
+                    val ringShape = RoundedCornerShape(16.dp)
                     Box(
                         Modifier.size(72.dp).then(if (sel) Modifier.border(3.dp, dot, ringShape) else Modifier).padding(if (sel) 3.dp else 0.dp)
                             .clip(ringShape).clickable(enabled = !eaten) { Store.setSlotRecipe(date, m.slotIndex, a.template.id) }
@@ -404,7 +404,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
             Text("INGREDIENTI E GRAMMATURE", style = T.Eyebrow.copy(letterSpacing = 0.3.sp), modifier = Modifier.padding(top = 10.dp))
             FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 r.items.filter { it.ing.role != "x" }.forEach { it2 ->
-                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.height(36.dp).clip(RoundedCornerShape(14.dp)).background(C.Surface).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(it2.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 13.sp), maxLines = 1)
                         Spacer(Modifier.width(8.dp))
                         Box(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 5.dp)) {
@@ -414,12 +414,12 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                 }
             }
             Row(Modifier.padding(top = 18.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Navy).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                     Text("Apri ricetta", style = T.BtnM.copy(color = Color.White))
                     Spacer(Modifier.width(8.dp))
                     AIcon(Ic.Right, Color.White, 16.dp, 2.4f)
                 }
-                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(C.Surface).border(1.dp, if (eaten) C.Green else C.Line, RoundedCornerShape(24.dp)).clickable {
+                Box(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Surface).border(1.dp, if (eaten) C.Green else C.Line, RoundedCornerShape(16.dp)).clickable {
                     if (eaten) Store.uneatPlanned(date, m.slotIndex) else { Store.eatPlanned(date, m); Store.consumeFromPantry(r) }
                 }, contentAlignment = Alignment.Center) {
                     Text(if (eaten) "Mangiato ✓" else "Aggiungi al diario", style = T.BtnM.copy(color = if (eaten) A.GreenInk else C.AccentDeep), maxLines = 1)
@@ -608,7 +608,7 @@ fun EnergyInfoScreen() {
     Column(Modifier.fillMaxSize()) {
         TopBar("Come calcolo il tuo obiettivo", onBack = { Nav.back() })
         Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).padding(bottom = 120.dp)) {
-            val hero = RoundedCornerShape(34.dp)
+            val hero = RoundedCornerShape(16.dp)
             Column(
                 Modifier.padding(top = 4.dp).fillMaxWidth().aShadow(hero, 14.dp, Color(0x99E88C60)).clip(hero)
                     .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)

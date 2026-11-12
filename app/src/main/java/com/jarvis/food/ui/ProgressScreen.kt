@@ -160,11 +160,11 @@ fun ProgressScreen() {
     }) {
 
         // Intervallo
-        val seg = RoundedCornerShape(26.dp)
+        val seg = RoundedCornerShape(16.dp)
         Row(Modifier.padding(top = 10.dp).fillMaxWidth().clip(seg).background(Color(0xD9FFFFFF)).border(1.dp, A.Hair, seg).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             listOf(7 to "7 giorni", 30 to "30 giorni").forEach { (d, l) ->
                 val sel = period == d
-                val choice = RoundedCornerShape(22.dp)
+                val choice = RoundedCornerShape(16.dp)
                 Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(choice)
                     .background(if (sel) RD.NavyBrush else SolidColor(Color.Transparent))
                     .then(if (sel) Modifier.border(1.5.dp, RD.OrangeLine, choice) else Modifier)
@@ -256,7 +256,7 @@ fun ProgressScreen() {
             val tw = s.profile.targetWeight
             val left = kotlin.math.abs(weight - tw)
             val prog = weightGoalFraction(sw, weight, tw)
-            Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
+            Column(Modifier.padding(top = 14.dp).fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Surface).padding(horizontal = 14.dp, vertical = 12.dp)) {
                 androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(8.dp), maxItemsInEachRow = if (expanded) 1 else 2) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         AIcon(RIc.TargetRing, C.Blue, 19.dp)
@@ -295,7 +295,7 @@ fun ProgressScreen() {
                     style = T.Chip.copy(fontSize = 13.sp, color = C.AccentDeep), modifier = Modifier.testTag("calorie-day-detail"))
             }
             GapH(12.dp)
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface).padding(10.dp)) {
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(C.Surface).padding(10.dp)) {
                 BarsRow(daily.map { it.kcal }, maxK, 128.dp, if (period == 7) 11.dp else 4.dp, if (period == 7) { if (expanded) 4.dp else 7.dp } else 3.dp,
                     fill = { i, sel ->
                         val top = when {
@@ -551,7 +551,7 @@ private fun WeightLine(samples: List<Pair<Long, Double>>) {
             ProgressNote("Nessuna misurazione nel periodo selezionato.", ProgressInfoIcon, C.Navy, C.Surface,
                 Modifier.testTag("weight-empty"))
             GapH(8.dp)
-            val buttonShape = RoundedCornerShape(24.dp)
+            val buttonShape = RoundedCornerShape(16.dp)
             Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).testTag("progress-register-weight")
                 .clip(buttonShape).background(RD.PeachBrush).border(1.dp, RD.OrangeLine, buttonShape)
                 .clickable(role = Role.Button) { Nav.go(Screen.Weight) }.padding(horizontal = 12.dp, vertical = 8.dp),

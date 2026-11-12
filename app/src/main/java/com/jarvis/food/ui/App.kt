@@ -10,8 +10,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,6 +43,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -146,7 +148,7 @@ fun App() {
     androidx.compose.runtime.SideEffect {
         val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
             .filterIsInstance<android.app.Activity>().firstOrNull()
-        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = false }
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !state.onboarded || (top != Screen.Watch && !(top == null && Nav.tab == 0)) }
     }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
@@ -231,11 +233,8 @@ private fun Tabs() {
                 4 -> ProfileScreen()
                 else -> ChatScreen()
             }
-            Box(Modifier.align(Alignment.TopCenter).fillMaxWidth().height(WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 6.dp)
-                .background(Brush.verticalGradient(listOf(Color(0xB3081533), Color.Transparent))))
-            // Dissolvenza morbida sopra la barra: i contenuti non si tagliano di netto.
-            if (showBottomBar) Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(18.dp)
-                .background(androidx.compose.ui.graphics.Brush.verticalGradient(listOf(androidx.compose.ui.graphics.Color.Transparent, C.Bg.copy(alpha = 0.9f)))))
+            if (Nav.tab == 0) Box(Modifier.align(Alignment.TopCenter).fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars).background(androidx.compose.ui.graphics.Color(0xFF0B1F44)))
         }
         // Con la tastiera aperta nella chat la barra si nasconde: l'input resta subito sopra la tastiera.
         if (showBottomBar) BottomBar()
@@ -246,10 +245,8 @@ private fun Tabs() {
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
     val expanded = LocalDensity.current.fontScale > 1.5f
-    val shape = RoundedCornerShape(30.dp)
-    Box(Modifier.fillMaxWidth().navigationBarsPadding().padding(start = 14.dp, end = 14.dp, top = 4.dp, bottom = 10.dp)) {
-        Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().shadow(16.dp, shape, ambientColor = Color(0x661F7BFF), spotColor = Color(0xAA1F7BFF)).clip(shape)
-            .background(Brush.linearGradient(listOf(Color(0xFF0F2E86), Color(0xFF0C2466)))).border(1.dp, Color(0x33FFFFFF), shape).padding(5.dp)) {
+    Box(Modifier.fillMaxWidth().background(Color.White).drawBehind { drawLine(Color(0xFFE6E9F0), androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(size.width, 0f), 1.dp.toPx()) }.navigationBarsPadding()) {
+        Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().padding(horizontal = 8.dp, vertical = 2.dp)) {
             items.chunked(if (expanded) 3 else 5).forEach { group ->
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     group.forEach { (tab, icon, label) -> BottomTabItem(tab, icon, label) }
@@ -265,12 +262,11 @@ private fun RowScope.BottomTabItem(tab: Int, icon: String, label: String) {
     // Preserve the user's text size: extra weight makes "Progressi" wrap at
     // 130% on a five-item bar. Colour and underline still identify selection.
     val emphasizeLabel = selected && LocalDensity.current.fontScale <= 1.2f
-    Column(Modifier.weight(1f).heightIn(min = 52.dp).testTag("nav-$tab").clip(RoundedCornerShape(24.dp))
-        .background(if (selected) Brush.verticalGradient(listOf(Color(0xFFFFA25C), Color(0xFFF26A1B))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
+    Column(Modifier.weight(1f).heightIn(min = 52.dp).testTag("nav-$tab").clip(RoundedCornerShape(12.dp))
         .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        if (icon.isEmpty()) DashboardRobot(selected, Color.White) else AIcon(icon, if (selected) Color.White else Color(0xFFD7D9F7), 22.dp)
+        if (icon.isEmpty()) DashboardRobot(false, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)) else AIcon(icon, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6), 24.dp)
         Spacer(Modifier.height(3.dp))
-        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) Color.White else Color(0xFFD7D9F7)), textAlign = TextAlign.Center)
+        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)), textAlign = TextAlign.Center)
         Spacer(Modifier.height(4.dp))
     }
 }

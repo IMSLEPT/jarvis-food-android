@@ -209,7 +209,7 @@ fun PhotoPicker(d: QDraft) {
         if (uri != null) ProfilePhoto.save(ctx, uri)?.let { d.photo = it }
     }
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.clickable { launcher.launch("image/*") }) { Avatar(d.name, d.photo, 72.dp, shape = RoundedCornerShape(26.dp)) }
+        Box(Modifier.clickable { launcher.launch("image/*") }) { Avatar(d.name, d.photo, 72.dp, shape = RoundedCornerShape(16.dp)) }
         Column(Modifier.padding(start = 16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(if (d.photo == null) "Aggiungi foto" else "Cambia foto", style = T.Link, modifier = Modifier.clickable { launcher.launch("image/*") }.padding(vertical = 8.dp))
             if (d.photo != null) Text("Rimuovi", style = T.Label.copy(color = C.Danger),
@@ -372,7 +372,7 @@ private object PIc2 {
 
 @Composable
 private fun WelcomeChip(text: String, dot: Color, modifier: Modifier) {
-    Row(modifier.clip(RoundedCornerShape(22.dp)).background(Color(0xE6FFFFFF)).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier.clip(RoundedCornerShape(16.dp)).background(Color(0xE6FFFFFF)).padding(horizontal = 14.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(10.dp).clip(CircleShape).background(dot))
         GapW(8.dp)
         Text(text, style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = A.Ink))
@@ -388,8 +388,8 @@ fun PlanPreview(d: QDraft) {
     val g = Nutrition.autoGoals(p, w, Goals())
     val (c, pr, f) = Nutrition.goalGrams(g)
     val method = if (p.bodyFatPct != null) "Katch-McArdle" else "Mifflin-St Jeor"
-    val shape34 = RoundedCornerShape(34.dp)
-    val shape30 = RoundedCornerShape(30.dp)
+    val shape34 = RoundedCornerShape(16.dp)
+    val shape30 = RoundedCornerShape(16.dp)
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFF10B981)), contentAlignment = Alignment.Center) { AIcon(Ic.Check, Color.White, 24.dp, 3f) }

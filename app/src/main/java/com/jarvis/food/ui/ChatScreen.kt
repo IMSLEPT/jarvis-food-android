@@ -279,7 +279,7 @@ private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
             Spacer(Modifier.height(8.dp))
             val narrow = LocalDensity.current.fontScale > 1.3f || LocalConfiguration.current.screenWidthDp < 330
             val groups = CAPABILITIES.chunked(if (narrow) 1 else 2)
-            val tile = RoundedCornerShape(18.dp)
+            val tile = RoundedCornerShape(14.dp)
             groups.forEachIndexed { rowIndex, row ->
                 Row(Modifier.fillMaxWidth().then(if (rowIndex == groups.lastIndex) Modifier.testTag("chat-capabilities-last-row") else Modifier).padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { (_, title, example) ->
@@ -322,7 +322,7 @@ private fun ChatResponseText(text: String) {
 
 @Composable
 private fun AssistantCard(content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(16.dp)
     Column(Modifier.fillMaxWidth().aShadow(shape, 8.dp, Color(0x2417286B)).clip(shape).background(C.Surface).border(1.dp, C.Line, shape).padding(18.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             JarvisLogo(32.dp)
@@ -345,16 +345,16 @@ private fun Bubble(m: ChatMsg, suggestions: List<String>, onPick: (String) -> Un
             }
         } else AssistantCard { ChatResponseText(m.text) }
         if (m.pending.isNotEmpty()) {
-            val shape = RoundedCornerShape(20.dp)
+            val shape = RoundedCornerShape(14.dp)
             Column(Modifier.padding(top = 12.dp).fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Danger.copy(alpha = 0.35f), shape).padding(14.dp)) {
                 Text("Conferma eliminazione", style = T.Label.copy(color = C.Danger))
                 m.pending.forEach { p -> Text("• " + p.label, style = T.Body, modifier = Modifier.padding(top = 4.dp)) }
                 Spacer(Modifier.height(10.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Box(Modifier.heightIn(min = 48.dp).weight(1f).clip(RoundedCornerShape(24.dp)).background(C.Danger).clickable(enabled = !Jarvis.busy) { Jarvis.confirm(m.id) }.padding(10.dp), contentAlignment = Alignment.Center) {
+                    Box(Modifier.heightIn(min = 48.dp).weight(1f).clip(RoundedCornerShape(16.dp)).background(C.Danger).clickable(enabled = !Jarvis.busy) { Jarvis.confirm(m.id) }.padding(10.dp), contentAlignment = Alignment.Center) {
                         Text("Sì, elimina", style = T.BtnS.copy(color = Color.White))
                     }
-                    Box(Modifier.heightIn(min = 48.dp).weight(1f).clip(RoundedCornerShape(24.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(24.dp))
+                    Box(Modifier.heightIn(min = 48.dp).weight(1f).clip(RoundedCornerShape(16.dp)).background(C.Surface).border(1.dp, C.Line, RoundedCornerShape(16.dp))
                         .clickable(enabled = !Jarvis.busy) { Jarvis.cancelPending(m.id) }.padding(10.dp), contentAlignment = Alignment.Center) {
                         Text("Annulla", style = T.BtnS)
                     }
@@ -382,9 +382,9 @@ private fun ChatSuggestions(suggestions: List<String>, onPick: (String) -> Unit)
     FlowRow(Modifier.fillMaxWidth().padding(top = 12.dp).testTag("chat-suggestions"), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         suggestions.forEach { text ->
             val primary = text.trim().lowercase(Locale.ITALY).startsWith("sì") || text.equals("Applica", true)
-            val shape = RoundedCornerShape(24.dp)
+            val shape = RoundedCornerShape(16.dp)
             Row(Modifier.heightIn(min = 48.dp).clip(shape)
-                .then(if (primary) Modifier.background(C.OrangeBrush) else Modifier.background(C.Surface).border(1.dp, C.Navy.copy(alpha = 0.3f), shape))
+                .then(if (primary) Modifier.background(C.NavyBrush) else Modifier.background(C.Surface).border(1.dp, C.Navy.copy(alpha = 0.3f), shape))
                 .clickable(role = Role.Button) { onPick(text) }.padding(horizontal = 18.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (primary) { AIcon(Ic.Check, C.OnOrange, 18.dp, 2.3f); Spacer(Modifier.size(8.dp)) }
                 Text(text, style = T.BtnM.copy(color = if (primary) C.OnOrange else C.Navy))

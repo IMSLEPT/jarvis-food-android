@@ -147,7 +147,7 @@ fun WatchScreen() {
                             modifier = Modifier.padding(top = 3.dp))
                     }
                 }
-                val btnShape = RoundedCornerShape(18.dp)
+                val btnShape = RoundedCornerShape(14.dp)
                 Row(
                     Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(min = PremiumScale.actionHeight).clip(btnShape).background(RD.NavyBrush)
                         .clickable(enabled = !busy && status != 2, role = Role.Button) {

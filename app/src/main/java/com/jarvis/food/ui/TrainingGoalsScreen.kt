@@ -200,7 +200,7 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
         }
     } else {
         // Immagine 5: scheda bianca con tessera pesca, manubrio arancio, separatore e freccia nel cerchio.
-        val shape = RoundedCornerShape(20.dp)
+        val shape = RoundedCornerShape(14.dp)
         val large = LocalDensity.current.fontScale > 1.2f
         Box(Modifier.fillMaxWidth().testTag("today-day-type-bar")) {
         Row(Modifier.fillMaxWidth().testTag("day-type-label").refShadow(shape, 5.dp).clip(shape).background(androidx.compose.ui.graphics.Color.White)
@@ -230,7 +230,7 @@ fun DayTypeControl(s: AppState, date: LocalDate, compact: Boolean = false) {
 private fun DayTypeDialog(date: LocalDate, override: Boolean?, onSelect: (Boolean?) -> Unit, onClose: () -> Unit, onConfigure: () -> Unit) {
     // Larghezza come nel riferimento: le scelte restano su una riga anche con il carattere ingrandito.
     androidx.compose.ui.window.Dialog(onDismissRequest = onClose, properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)) {
-        Surface(Modifier.fillMaxWidth().widthIn(max = 460.dp).padding(horizontal = 20.dp), shape = RoundedCornerShape(30.dp), color = C.Surface, shadowElevation = 8.dp) {
+        Surface(Modifier.fillMaxWidth().widthIn(max = 460.dp).padding(horizontal = 20.dp), shape = RoundedCornerShape(16.dp), color = C.Surface, shadowElevation = 8.dp) {
             Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .85f).dp)
                 .verticalScroll(rememberScrollState()).padding(20.dp).testTag("day-type-dialog")) {
                 Row(verticalAlignment = Alignment.CenterVertically) {

@@ -50,7 +50,7 @@ fun DietStyleDialog(s: AppState, date: LocalDate, onDismiss: () -> Unit) {
     val problem = targetProblem ?: availability.message(DietStyles.get(selected).title, maxMinutes)
     Dialog(onDismissRequest = { if (!busy) onDismiss() }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(Modifier.padding(horizontal = 14.dp, vertical = 24.dp).widthIn(max = 560.dp).fillMaxWidth()
-            .height((LocalConfiguration.current.screenHeightDp * .86f).dp), shape = RoundedCornerShape(30.dp), color = C.Surface, shadowElevation = 8.dp) {
+            .height((LocalConfiguration.current.screenHeightDp * .86f).dp), shape = RoundedCornerShape(16.dp), color = C.Surface, shadowElevation = 8.dp) {
             Column(Modifier.padding(18.dp)) {
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).testTag("diet-style-dialog"), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 // Immagine 2: intestazione con ciotola su tessera pesca e separatore arancio.

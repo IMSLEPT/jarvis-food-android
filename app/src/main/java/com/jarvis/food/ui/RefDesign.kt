@@ -62,19 +62,19 @@ object RD {
     val OrangeDeep = Color(0xFFEE6A17)
     val OrangeText = C.AccentDeep
     val OrangeLine = Color(0xFFF28A36)
-    val Peach = Color(0xFFFFF0E6)
-    val PeachDeep = Color(0xFFFFE1CB)
-    val PeachTile = Color(0xFFFDEADB)
+    val Peach = Color(0xFFF1F3F8)
+    val PeachDeep = Color(0xFFE6EAF2)
+    val PeachTile = Color(0xFFF1F3F8)
     val Grey = Color(0xFF6B7387)
     val GreyLine = Color(0xFFD9DDE6)
     val GreyFill = Color(0xFFF0F1F4)
     val Strip = Color(0xFFF6F5F3)
     val Green = Color(0xFF6E9F62)
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0C2A7A), Color(0xFF1349BF), Color(0xFF2A7BF0)), start = Offset(0f, Float.POSITIVE_INFINITY), end = Offset(Float.POSITIVE_INFINITY, 0f))
-    val ButtonBrush = Brush.verticalGradient(listOf(Color(0xFFFF8A2B), Color(0xFFFF5A0A)))
-    val OrangeBrush = C.OrangeBrush
-    val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFFFE6D3), Color(0xFFFFF4EB)))
-    val WarmBrush = Brush.linearGradient(listOf(Color(0xFFFBF7F4), Color(0xFFF7EEE8)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
+    val ButtonBrush = Brush.linearGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
+    val OrangeBrush = Brush.linearGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
+    val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFF1F3F8), Color(0xFFF1F3F8)))
+    val WarmBrush = Brush.linearGradient(listOf(Color.White, Color.White))
 
     /** Banner pages share the same proportions. */
     @Composable fun bannerTitleHeight() = 64.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)
@@ -210,7 +210,7 @@ fun ChevronCircle(size: Dp = 36.dp, bg: Color = RD.GreyFill, ink: Color = RD.Ink
 
 /** Ombra morbida delle schede di riferimento. */
 fun Modifier.refShadow(shape: Shape, elevation: Dp = 8.dp): Modifier =
-    this.shadow(elevation.coerceAtMost(8.dp), shape, ambientColor = Color(0x331F7BFF), spotColor = Color(0x881F7BFF))
+    this.shadow(elevation.coerceAtMost(6.dp) * 0.25f, shape, ambientColor = Color(0x0A0B1F44), spotColor = Color(0x140B1F44))
 
 // ------------------------------------------------------------------------------- Profilo e calendario
 
@@ -250,11 +250,10 @@ fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
 /** Cornice comune dei banner: stessi margini e raggi per tutte le schede. */
 @Composable
 fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp, bottomStart = 34.dp, bottomEnd = 34.dp)
+    val shape = RoundedCornerShape(16.dp)
     Box(Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
         Column(Modifier.fillMaxWidth().testTag("top-header-frame").refShadow(shape, if (navy) 6.dp else 4.dp).clip(shape)
             .background(if (navy) RD.NavyBrush else RD.WarmBrush)
-            .then(if (navy) Modifier.heroGlow() else Modifier)
             .drawBehind {
                 // Riflesso curvo in alto a destra, come nei riferimenti.
                 val r = size.width * 0.62f
@@ -286,9 +285,9 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
             labels.indices.forEach { i ->
                 val active = i == selected
-                val pill = RoundedCornerShape(14.dp)
+                val pill = RoundedCornerShape(10.dp)
                 val base = Modifier.width(widths[i] + extra).heightIn(min = 44.dp).testTag("banner-tab-$title-$i")
-                    .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
+                    .clip(pill).background(if (active) Brush.horizontalGradient(listOf(Color(0x2EFFFFFF), Color(0x2EFFFFFF))) else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
                     .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
                 val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                     else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
@@ -316,7 +315,7 @@ private fun BannerTabIcon(icon: String, size: Dp) {
 /** Campo di ricerca bianco a pillola, con conteggio opzionale (immagini 9-12). */
 @Composable
 fun RefSearchShell(modifier: Modifier = Modifier, count: String? = null, content: @Composable RowScope.() -> Unit) {
-    Row(modifier.fillMaxWidth().heightIn(min = 44.dp).clip(RoundedCornerShape(22.dp)).background(Color.White)
+    Row(modifier.fillMaxWidth().heightIn(min = 44.dp).clip(RoundedCornerShape(16.dp)).background(Color.White)
         .padding(start = 14.dp, end = 6.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(RIc.Search, Color(0xFF59627A), 20.dp, 2.1f); GapW(10.dp)
         content()
@@ -392,11 +391,11 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
     val shape = RoundedCornerShape(16.dp)
     val navy = isSelected && selectedStyle == OptionStyle.Navy
     val peach = isSelected && selectedStyle == OptionStyle.Peach
-    val bg = when { navy -> RD.ButtonBrush; peach -> Brush.horizontalGradient(listOf(Color(0xFFFFEDE2), Color(0xFFFFF3EC))); else -> Brush.horizontalGradient(listOf(Color.White, Color.White)) }
+    val bg = when { navy -> RD.ButtonBrush; peach -> Brush.horizontalGradient(listOf(Color(0xFFF1F3F8), Color(0xFFF1F3F8))); else -> Brush.horizontalGradient(listOf(Color.White, Color.White)) }
     Row(modifier.heightIn(min = minHeight).then(if (tag != null) Modifier.testTag(tag) else Modifier)
         .semantics { selected = isSelected }
         .then(if (navy) Modifier.refShadow(shape, 3.dp) else Modifier).clip(shape).background(bg)
-        .border(if (peach) 1.5.dp else 1.dp, when { peach -> RD.Orange; navy -> RD.Navy; else -> RD.Ink.copy(alpha = if (enabled) 0.35f else 0.15f) }, shape)
+        .border(if (peach) 1.5.dp else 1.dp, when { peach -> RD.Navy; navy -> RD.Navy; else -> RD.Ink.copy(alpha = if (enabled) 0.35f else 0.15f) }, shape)
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
         .padding(horizontal = if (compactPeriod) 10.dp else 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (centered) Arrangement.Center else Arrangement.Start) {
@@ -424,7 +423,7 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
 @Composable
 fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
     height: Dp = 52.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(22.dp)
+    val shape = RoundedCornerShape(16.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).refShadow(shape, if (enabled) 4.dp else 0.dp).clip(shape)
         .background(if (enabled) RD.ButtonBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 16.dp else 10.dp, vertical = 10.dp),
@@ -442,7 +441,7 @@ fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? 
 @Composable
 fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
     height: Dp = 50.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(22.dp)
+    val shape = RoundedCornerShape(16.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(Color.White)
         .border(1.5.dp, Color(0xFF0B3373).copy(alpha = 0.55f), shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
@@ -478,13 +477,4 @@ fun SharedFitText(text: String, style: androidx.compose.ui.text.TextStyle, scale
         lineHeight = if (style.lineHeight.isSpecified) style.lineHeight * k else style.lineHeight), maxLines = 1, softWrap = false,
         overflow = if (k <= minScale) TextOverflow.Ellipsis else TextOverflow.Clip,
         onTextLayout = { if (it.hasVisualOverflow && scale.floatValue > minScale) scale.floatValue = (scale.floatValue - 0.04f).coerceAtLeast(minScale) })
-}
-
-
-/** Alone arancio e anello luminoso dietro i banner blu, come nelle immagini di riferimento. */
-fun Modifier.heroGlow(): Modifier = this.drawBehind {
-    drawRect(Brush.radialGradient(listOf(Color(0x66FF7A1A), Color.Transparent),
-        center = Offset(size.width * 1.02f, size.height * 1.05f), radius = size.width * 0.75f))
-    drawRect(Brush.radialGradient(listOf(Color(0x552F9BFF), Color.Transparent),
-        center = Offset(size.width * 0.15f, -size.height * 0.15f), radius = size.width * 0.7f))
 }

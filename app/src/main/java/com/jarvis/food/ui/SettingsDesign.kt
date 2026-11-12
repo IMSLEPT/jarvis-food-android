@@ -35,8 +35,8 @@ fun SettingsHeading(title: String, subtitle: String? = null, warm: Boolean = fal
 @Composable
 fun SettingsCard(title: String? = null, subtitle: String? = null, warm: Boolean = false,
                  modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(26.dp)
-    Column(modifier.fillMaxWidth().aShadow(shape, 8.dp).clip(shape).background(C.Surface)) {
+    val shape = RoundedCornerShape(16.dp)
+    Column(modifier.fillMaxWidth().clip(shape).border(1.dp, Color(0xFFE6E9F0), shape).background(C.Surface)) {
         if (title != null) Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 16.dp, bottom = 0.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(8.dp).clip(CircleShape).background(if (warm) C.Accent else C.Navy)); Spacer(Modifier.width(8.dp))
@@ -55,7 +55,7 @@ fun SettingsIntro(title: String, description: String, warm: Boolean = false) {
 
 @Composable
 fun SettingsChoice(title: String, description: String? = null, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(20.dp)
+    val shape = RoundedCornerShape(14.dp)
     Row(modifier.fillMaxWidth().clip(shape).background(if (selected) C.NavySoft else Color(0xFFF6F8FC))
         .border(if (selected) 1.5.dp else 0.dp, if (selected) C.Navy else Color.Transparent, shape)
         .selectable(selected = selected, role = Role.RadioButton, onClick = onClick).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -85,10 +85,10 @@ fun SettingsCounter(label: String, value: String, description: String? = null, o
 
 @Composable
 fun SettingsSegment(options: List<String>, selected: Int, onPick: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min).clip(RoundedCornerShape(24.dp)).background(Color(0xFFEEF2F9))
+    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min).clip(RoundedCornerShape(12.dp)).background(Color(0xFFEEF1F6))
         .padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         options.forEachIndexed { index, label ->
-            Box(Modifier.weight(1f).fillMaxHeight().heightIn(min = 48.dp).clip(RoundedCornerShape(20.dp))
+            Box(Modifier.weight(1f).fillMaxHeight().heightIn(min = 48.dp).clip(RoundedCornerShape(10.dp))
                 .background(if (index == selected) C.NavyBrush else Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))).selectable(selected = index == selected, role = Role.RadioButton) { onPick(index) }.padding(horizontal = 10.dp, vertical = 12.dp), contentAlignment = Alignment.Center) {
                 Text(label, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = if (index == selected) Color.White else C.Navy), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
             }
