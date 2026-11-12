@@ -62,7 +62,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
             Text("2D · FRONTE", style = T.Small.copy(fontSize = 12.sp, color = C.Navy))
         }
         BoxWithConstraints(Modifier.fillMaxWidth().height(380.dp).clip(RoundedCornerShape(14.dp))
-            .background(Brush.verticalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C))))
+            .background(Brush.verticalGradient(listOf(Color(0xFFF4F7FD), Color(0xFFFAFBFE))))
             .testTag("body-model-2d").semantics { stateDescription = "Sagoma 2D · ${guide.name}" }) {
             val scale = min(maxWidth.value / 360f, 380f / 520f)
             val startX = (maxWidth.value - 360f * scale) / 2f
@@ -85,7 +85,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
                 val pixelScale = scale * pixelDensity
                 withTransform({ translate(startX * pixelDensity, startY * pixelDensity); scale(pixelScale, pixelScale, Offset.Zero) }) {
                     drawOval(Color(0xFFDDE5F4).copy(alpha = .5f), Offset(128f, 505f), Size(104f, 7f))
-                    drawPath(outline, Brush.verticalGradient(listOf(Color(0xFF13244C), Color(0xFFC3D1E8)), startY = 12f, endY = 506f))
+                    drawPath(outline, Brush.verticalGradient(listOf(Color(0xFFDCE5F4), Color(0xFFC3D1E8)), startY = 12f, endY = 506f))
                     drawPath(outline, C.Navy.copy(alpha = .24f), style = Stroke(1.3f))
                     if (selectedKey == "grasso") drawPath(outline, C.Accent.copy(alpha = .16f))
                     // Subtle internal contours keep the illustration flat and legible.
@@ -115,7 +115,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
                 val title = BodyMeasurements.guide(site.key).name
                 Box(Modifier.offset(x = (startX + site.label.x * scale).dp - 35.dp, y = (startY + site.label.y * scale).dp - 24.dp)
                     .width(70.dp).height(48.dp).clip(RoundedCornerShape(14.dp))
-                    .background(if (chosen) C.AccentSoft else C.Surface.copy(alpha = .8f))
+                    .background(if (chosen) C.AccentSoft else Color.White.copy(alpha = .8f))
                     .border(1.dp, if (chosen) C.Accent.copy(alpha = .6f) else C.Line, RoundedCornerShape(14.dp))
                     .testTag("body-point-${site.key}")
                     .semantics { contentDescription = "Seleziona $title sulla sagoma"; selected = chosen }

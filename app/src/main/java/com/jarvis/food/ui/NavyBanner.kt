@@ -52,7 +52,7 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
                         decorationBox = { inner ->
                             Box(Modifier.fillMaxWidth()) {
-                                if (query.isEmpty()) Text(hint, style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, color = Color(0xFFA3B1D1)), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                if (query.isEmpty()) Text(hint, style = T.Body.copy(fontSize = 16.sp, lineHeight = 22.sp, color = Color(0xFF59627A)), maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 inner()
                             }
                         })

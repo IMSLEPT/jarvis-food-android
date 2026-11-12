@@ -31,7 +31,7 @@ import java.time.LocalDate
 
 /** Identical outer geometry for calendar and navy headers at each text scale. */
 object HeaderLayout {
-    val ReferenceBlue = Color(0xFFF3F6FF)
+    val ReferenceBlue = Color(0xFF0F1F52)
     @Composable fun titleHeight() = when { LocalDensity.current.fontScale > 1.5f -> 120.dp; LocalDensity.current.fontScale > 1.2f -> 76.dp; else -> 56.dp }
     @Composable fun tabsHeight() = when { LocalDensity.current.fontScale > 1.5f -> 144.dp; LocalDensity.current.fontScale > 1.2f -> 76.dp; else -> 48.dp }
     @Composable fun searchHeight() = when { LocalDensity.current.fontScale > 1.5f -> 72.dp; LocalDensity.current.fontScale > 1.2f -> 56.dp; else -> 48.dp }
@@ -85,7 +85,7 @@ fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDat
                 if (greeting != null && showSun) {
                     WelcomeSun(Modifier.size(38.dp))
                     GapW(7.dp)
-                    Box(Modifier.width(1.dp).height(45.dp).background(Color(0xFF13244C)))
+                    Box(Modifier.width(1.dp).height(45.dp).background(Color(0xFFE7ECF4)))
                     GapW(8.dp)
                 }
                 Column(Modifier.weight(1f).testTag(dateTag)

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SettingsHeading(title: String, subtitle: String? = null, warm: Boolean = false) {
     Row(Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 12.dp), verticalAlignment = Alignment.Top) {
-        Box(Modifier.padding(top = 2.dp).width(4.dp).height(24.dp).clip(RoundedCornerShape(2.dp)).background(if (warm) C.Accent else C.Royal))
+        Box(Modifier.padding(top = 2.dp).width(4.dp).height(24.dp).clip(RoundedCornerShape(2.dp)).background(if (warm) C.Accent else C.Navy))
         Column(Modifier.padding(start = 10.dp).weight(1f)) {
             Text(title, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold))
             if (!subtitle.isNullOrBlank()) Text(subtitle, style = T.Small.copy(lineHeight = 18.sp), modifier = Modifier.padding(top = 4.dp))
@@ -36,10 +36,10 @@ fun SettingsHeading(title: String, subtitle: String? = null, warm: Boolean = fal
 fun SettingsCard(title: String? = null, subtitle: String? = null, warm: Boolean = false,
                  modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     val shape = RoundedCornerShape(16.dp)
-    Column(modifier.fillMaxWidth().clip(shape).border(1.dp, Color(0xFF13244C), shape).background(C.Surface)) {
+    Column(modifier.fillMaxWidth().clip(shape).border(1.dp, Color(0xFFE6E9F0), shape).background(C.Surface)) {
         if (title != null) Column(Modifier.fillMaxWidth().padding(start = 18.dp, end = 18.dp, top = 16.dp, bottom = 0.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(8.dp).clip(CircleShape).background(if (warm) C.Accent else C.Royal)); Spacer(Modifier.width(8.dp))
+                Box(Modifier.size(8.dp).clip(CircleShape).background(if (warm) C.Accent else C.Navy)); Spacer(Modifier.width(8.dp))
                 Text(title, style = T.Label.copy(fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold))
             }
             if (!subtitle.isNullOrBlank()) Text(subtitle, style = T.Small.copy(lineHeight = 18.sp), modifier = Modifier.padding(top = 3.dp))
@@ -56,15 +56,15 @@ fun SettingsIntro(title: String, description: String, warm: Boolean = false) {
 @Composable
 fun SettingsChoice(title: String, description: String? = null, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(14.dp)
-    Row(modifier.fillMaxWidth().clip(shape).background(if (selected) C.NavySoft else Color(0xFF13244C))
-        .border(if (selected) 1.5.dp else 0.dp, if (selected) C.Royal else Color.Transparent, shape)
+    Row(modifier.fillMaxWidth().clip(shape).background(if (selected) C.NavySoft else Color(0xFFF6F8FC))
+        .border(if (selected) 1.5.dp else 0.dp, if (selected) C.Navy else Color.Transparent, shape)
         .selectable(selected = selected, role = Role.RadioButton, onClick = onClick).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(title, style = T.Label.copy(fontSize = 15.sp, lineHeight = 21.sp))
             if (description != null) Text(description, style = T.Small.copy(lineHeight = 18.sp), modifier = Modifier.padding(top = 4.dp))
         }
         Box(Modifier.padding(start = 12.dp).size(22.dp).clip(RoundedCornerShape(11.dp))
-            .border(2.dp, if (selected) C.Accent else Color(0xFF4A5C8C), RoundedCornerShape(11.dp)), contentAlignment = Alignment.Center) {
+            .border(2.dp, if (selected) C.Accent else Color(0xFFC9D0DE), RoundedCornerShape(11.dp)), contentAlignment = Alignment.Center) {
             if (selected) Box(Modifier.size(10.dp).clip(RoundedCornerShape(5.dp)).background(C.Accent))
         }
     }
@@ -85,7 +85,7 @@ fun SettingsCounter(label: String, value: String, description: String? = null, o
 
 @Composable
 fun SettingsSegment(options: List<String>, selected: Int, onPick: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min).clip(RoundedCornerShape(12.dp)).background(Color(0xFF13244C))
+    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min).clip(RoundedCornerShape(12.dp)).background(Color(0xFFEEF1F6))
         .padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         options.forEachIndexed { index, label ->
             Box(Modifier.weight(1f).fillMaxHeight().heightIn(min = 48.dp).clip(RoundedCornerShape(10.dp))

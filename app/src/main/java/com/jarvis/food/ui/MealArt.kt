@@ -52,12 +52,12 @@ fun mealForHour(h: Int): Int = when (h) {
 @Composable
 fun MealArt(meal: Int, box: Dp = 48.dp, radius: Dp = 16.dp, modifier: Modifier = Modifier) {
     val (c1, c2) = when (meal) {
-        0 -> Color(0xFF2A2440) to Color(0xFF3A3050)
-        4 -> Color(0xFF2C2338) to Color(0xFF3F2E3E)
-        1 -> Color(0xFF14324A) to Color(0xFF1B4A5E)
-        3 -> Color(0xFF30233F) to Color(0xFF45304E)
-        2 -> Color(0xFF16295C) to Color(0xFF21408A)
-        else -> Color(0xFFA3B1D1) to Color(0xFFA3B1D1)
+        0 -> Color(0xFFFFEBBE) to Color(0xFFFFD27A)
+        4 -> Color(0xFFFFE6CC) to Color(0xFFFFC48A)
+        1 -> Color(0xFFD9F6E8) to Color(0xFFA7E8C8)
+        3 -> Color(0xFFFFE0E6) to Color(0xFFFFB9C7)
+        2 -> Color(0xFFE1EBFF) to Color(0xFFB7CEFF)
+        else -> Color(0xFF454A8F) to Color(0xFF282B63)
     }
     Box(modifier.size(box).clip(RoundedCornerShape(radius)).background(Brush.linearGradient(listOf(c1, c2))), contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(box * 0.8f)) { drawMeal(meal, size.minDimension / 48f) }
@@ -80,7 +80,7 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
                 quadraticTo(32 * u, 39 * u, 27 * u, 39 * u); lineTo(17 * u, 39 * u); quadraticTo(12 * u, 39 * u, 11 * u, 34 * u); close()
             }
             drawPath(body, Brush.verticalGradient(listOf(Color(0xFFFF9A62), Color(0xFFE8573A)), startY = 19 * u, endY = 39 * u))
-            drawOval(Color(0xFFFFB38A), Offset(9 * u, 16.5f * u), Size(26 * u, 6 * u))
+            drawOval(Color(0xFF6B3A24), Offset(9 * u, 16.5f * u), Size(26 * u, 6 * u))
             drawOval(Color(0x55FFFFFF), Offset(13 * u, 17.5f * u), Size(8 * u, 2 * u))
             val steam = Path().apply {
                 moveTo(17 * u, 13 * u); cubicTo(13 * u, 10 * u, 21 * u, 8 * u, 17 * u, 3 * u)
@@ -92,13 +92,13 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
             drawOval(Color(0x2A000000), Offset(10 * u, 41 * u), Size(28 * u, 5 * u))
             drawCircle(Brush.radialGradient(listOf(Color(0xFFFFB23D), Color(0xFFF26B00)), center = Offset(19 * u, 21 * u), radius = 22 * u), 16 * u, Offset(24 * u, 27 * u))
             drawCircle(Color(0x66FFFFFF), 4 * u, Offset(17 * u, 20 * u))
-            drawCircle(Color(0xFFFFB066), 1.4f * u, Offset(24 * u, 12 * u))
+            drawCircle(Color(0xFF8A4B06), 1.4f * u, Offset(24 * u, 12 * u))
             val leaf = Path().apply {
                 moveTo(25 * u, 11 * u); cubicTo(28 * u, 3 * u, 37 * u, 4 * u, 38 * u, 6 * u)
                 cubicTo(36 * u, 13 * u, 29 * u, 14 * u, 25 * u, 11 * u); close()
             }
             drawPath(leaf, Color(0xFF3FA66B))
-            drawLine(Color(0xFF4ADE9B), Offset(26 * u, 11 * u), Offset(35 * u, 7 * u), 1.2f * u, StrokeCap.Round)
+            drawLine(Color(0xFF2B7D4E), Offset(26 * u, 11 * u), Offset(35 * u, 7 * u), 1.2f * u, StrokeCap.Round)
         }
         1 -> { // ciotola colorata (insalata)
             drawCircle(Color(0xFFEF4B4B), 6.5f * u, Offset(15 * u, 25 * u))
@@ -106,7 +106,7 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
             drawCircle(Color(0xFFFFC53D), 5.5f * u, Offset(33 * u, 25 * u))
             drawCircle(Color(0xFF9BDB6A), 4 * u, Offset(21 * u, 27 * u))
             drawCircle(Color(0xFFF59E0B), 3.5f * u, Offset(29 * u, 18 * u))
-            drawArc(Brush.verticalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C)), startY = 30 * u, endY = 46 * u), 0f, 180f, true, Offset(5 * u, 18 * u), Size(38 * u, 28 * u))
+            drawArc(Brush.verticalGradient(listOf(Color(0xFFFFFFFF), Color(0xFFCFE3F5)), startY = 30 * u, endY = 46 * u), 0f, 180f, true, Offset(5 * u, 18 * u), Size(38 * u, 28 * u))
             drawRoundRect(Color.White, Offset(3 * u, 30 * u), Size(42 * u, 4.5f * u), CornerRadius(2.2f * u))
             drawRoundRect(Color(0x1A000000), Offset(3 * u, 34 * u), Size(42 * u, 1.2f * u), CornerRadius(u))
         }
@@ -121,7 +121,7 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
             }
             drawPath(apple, Brush.radialGradient(listOf(Color(0xFFFF6B6B), Color(0xFFD7263D)), center = Offset(17 * u, 21 * u), radius = 26 * u))
             drawOval(Color(0x66FFFFFF), Offset(12 * u, 18 * u), Size(5 * u, 9 * u))
-            drawLine(Color(0xFFFFB066), Offset(24 * u, 14 * u), Offset(26 * u, 7 * u), 2.2f * u, StrokeCap.Round)
+            drawLine(Color(0xFF7A4A1E), Offset(24 * u, 14 * u), Offset(26 * u, 7 * u), 2.2f * u, StrokeCap.Round)
             val leaf = Path().apply {
                 moveTo(26 * u, 10 * u); cubicTo(29 * u, 4 * u, 36 * u, 5 * u, 37 * u, 7 * u)
                 cubicTo(35 * u, 12 * u, 29 * u, 13 * u, 26 * u, 10 * u); close()
@@ -137,11 +137,11 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
             drawCircle(Color(0xFF6BCB77), 2.6f * u, Offset(30 * u, 29 * u))
             drawCircle(Color(0xFFFFC53D), 2.2f * u, Offset(18 * u, 32 * u))
             // forchetta e coltello
-            drawLine(Color(0xFF8E9CBF), Offset(4 * u, 14 * u), Offset(4 * u, 42 * u), 2.2f * u, StrokeCap.Round)
-            drawLine(Color(0xFF8E9CBF), Offset(1.5f * u, 8 * u), Offset(1.5f * u, 15 * u), 1.4f * u, StrokeCap.Round)
-            drawLine(Color(0xFF8E9CBF), Offset(6.5f * u, 8 * u), Offset(6.5f * u, 15 * u), 1.4f * u, StrokeCap.Round)
-            drawRoundRect(Color(0xFF8E9CBF), Offset(43 * u, 8 * u), Size(3 * u, 20 * u), CornerRadius(1.5f * u))
-            drawLine(Color(0xFF8E9CBF), Offset(44.5f * u, 27 * u), Offset(44.5f * u, 42 * u), 2.2f * u, StrokeCap.Round)
+            drawLine(Color(0xFF8A94A8), Offset(4 * u, 14 * u), Offset(4 * u, 42 * u), 2.2f * u, StrokeCap.Round)
+            drawLine(Color(0xFF8A94A8), Offset(1.5f * u, 8 * u), Offset(1.5f * u, 15 * u), 1.4f * u, StrokeCap.Round)
+            drawLine(Color(0xFF8A94A8), Offset(6.5f * u, 8 * u), Offset(6.5f * u, 15 * u), 1.4f * u, StrokeCap.Round)
+            drawRoundRect(Color(0xFF8A94A8), Offset(43 * u, 8 * u), Size(3 * u, 20 * u), CornerRadius(1.5f * u))
+            drawLine(Color(0xFF8A94A8), Offset(44.5f * u, 27 * u), Offset(44.5f * u, 42 * u), 2.2f * u, StrokeCap.Round)
         }
         else -> { // luna e stelle (spuntino serale)
             val moon = Path.combine(
@@ -149,7 +149,7 @@ private fun DrawScope.drawMeal(meal: Int, u: Float) {
                 Path().apply { addOval(androidx.compose.ui.geometry.Rect(Offset(8 * u, 9 * u), Size(30 * u, 30 * u))) },
                 Path().apply { addOval(androidx.compose.ui.geometry.Rect(Offset(18 * u, 5 * u), Size(28 * u, 28 * u))) }
             )
-            drawPath(moon, Brush.linearGradient(listOf(Color(0x33FF7A1A), Color(0xFFFFB63D)), start = Offset(8 * u, 9 * u), end = Offset(30 * u, 39 * u)))
+            drawPath(moon, Brush.linearGradient(listOf(Color(0xFFFFE27A), Color(0xFFFFB63D)), start = Offset(8 * u, 9 * u), end = Offset(30 * u, 39 * u)))
             drawPath(sparkle(36 * u, 13 * u, 4.5f * u), Color(0xFFFFE9A8))
             drawPath(sparkle(40 * u, 28 * u, 3 * u), Color(0xFFFFFFFF))
             drawPath(sparkle(27 * u, 40 * u, 3.2f * u), Color(0xFFBFD0FF))
@@ -166,8 +166,8 @@ fun MealChips(selected: Int, modifier: Modifier = Modifier, onSelect: (Int) -> U
         MEAL_ORDER.filter { it == selected || it in MealSchedule.selected(state.dietPrefs) }.forEach { m ->
             val sel = m == selected
             Box(
-                Modifier.height(44.dp).clip(RoundedCornerShape(16.dp)).background(if (sel) C.Royal else C.Surface)
-                    .border(1.dp, if (sel) C.Royal else A.Hair, RoundedCornerShape(16.dp)).clickable { onSelect(m) }.padding(horizontal = 16.dp),
+                Modifier.height(44.dp).clip(RoundedCornerShape(16.dp)).background(if (sel) C.Navy else Color.White)
+                    .border(1.dp, if (sel) C.Navy else A.Hair, RoundedCornerShape(16.dp)).clickable { onSelect(m) }.padding(horizontal = 16.dp),
                 contentAlignment = Alignment.Center
             ) { Text(MEAL_LABEL.getValue(m), style = T.BtnS.copy(color = if (sel) Color.White else A.Ink), maxLines = 1, softWrap = false) }
         }

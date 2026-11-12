@@ -66,7 +66,7 @@ fun VitaminOverview(s: AppState) {
                 Nav.go(Screen.Trend("vitamins"))
             }
             GapH(12.dp)
-            val tones = listOf(Color(0xFFF26A1B), Color(0xFF7FB0FF), Color(0xFF14A38B))
+            val tones = listOf(Color(0xFFF26A1B), Color(0xFF2F6FE4), Color(0xFF14A38B))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 for ((index, m) in today.withIndex()) {
                     val percent = if (m.reference != null) "${(m.amount / m.reference * 100).toInt()}%" else "—"

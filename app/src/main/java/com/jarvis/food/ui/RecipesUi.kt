@@ -175,17 +175,17 @@ private fun TileMeta(kcal: String, minutes: Int) {
 @Composable
 private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modifier: Modifier = Modifier, badge: String? = null, onClick: () -> Unit) {
     val shape = RoundedCornerShape(16.dp)
-    Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(C.Surface).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
+    Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         Box {
             RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().aspectRatio(1.4f), recEmoji(tpl.meal), 0.dp)
-            if (tpl.id in s.recipeFavs) Box(Modifier.align(Alignment.TopEnd).padding(8.dp).size(28.dp).clip(CircleShape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
+            if (tpl.id in s.recipeFavs) Box(Modifier.align(Alignment.TopEnd).padding(8.dp).size(28.dp).clip(CircleShape).background(Color(0xEBFFFFFF)), contentAlignment = Alignment.Center) {
                 AIcon(Ic.Heart, C.Protein, 15.dp, 2f, fill = true)
             }
-            if (badge != null) Box(Modifier.align(Alignment.BottomStart).padding(8.dp).clip(RoundedCornerShape(12.dp)).background(C.SurfaceAlt).padding(horizontal = 9.dp, vertical = 3.dp)) {
+            if (badge != null) Box(Modifier.align(Alignment.BottomStart).padding(8.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xEBFFFFFF)).padding(horizontal = 9.dp, vertical = 3.dp)) {
                 Text(badge, style = T.Small.copy(fontWeight = FontWeight.SemiBold, color = A.Ink, fontSize = 12.sp), maxLines = 1)
             }
         }
-        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(Color.White).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(tpl.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${info.kcal.r0()} kcal", tpl.minutes)
@@ -197,9 +197,9 @@ private fun RecipeTile(tpl: RecipeTemplate, info: RecipeInfo, s: AppState, modif
 private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(16.dp)
     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
-    Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(C.Surface).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
+    Column(modifier.aShadow(shape, 6.dp, Color(0x4D1D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick)) {
         RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().aspectRatio(1.4f), r.emoji, 0.dp)
-        Column(Modifier.background(C.Surface).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
+        Column(Modifier.background(Color.White).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 12.dp)) {
             Text(r.name, style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold), maxLines = if (LocalDensity.current.fontScale > 1.2f) Int.MAX_VALUE else 3, minLines = 2, overflow = TextOverflow.Ellipsis)
             GapH(6.dp)
             TileMeta("${per.kcal.r0()} kcal", r.minutes)
@@ -211,11 +211,11 @@ private fun UserRecipeTile(r: Recipe, modifier: Modifier = Modifier, onClick: ()
 private fun RecipeRow(hit: RecipeHit, s: AppState, onClick: () -> Unit) {
     val t = hit.tpl; val i = hit.info
     val shape = RoundedCornerShape(16.dp)
-    Row(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x661D1B3A)).clip(shape).background(C.Surface).border(1.dp, A.Hair, shape).clickable(onClick = onClick).padding(10.dp),
+    Row(Modifier.fillMaxWidth().aShadow(shape, 6.dp, Color(0x661D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape).clickable(onClick = onClick).padding(10.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Box {
             RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.size(88.dp), recEmoji(t.meal), 18.dp)
-            if (t.id in s.recipeFavs) Box(Modifier.align(Alignment.TopEnd).padding(4.dp).size(22.dp).clip(CircleShape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
+            if (t.id in s.recipeFavs) Box(Modifier.align(Alignment.TopEnd).padding(4.dp).size(22.dp).clip(CircleShape).background(Color(0xEBFFFFFF)), contentAlignment = Alignment.Center) {
                 AIcon(Ic.Heart, C.Protein, 12.dp, 2f, fill = true)
             }
         }
@@ -235,11 +235,11 @@ private fun FrequentRecipeRow(t: RecipeTemplate, count: Int, s: AppState, onClic
     val info = RecipeMeta.info(Db.db, t)
     val large = LocalDensity.current.fontScale > 1.2f
     val shape = RoundedCornerShape(14.dp)
-    Row(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).clickable(onClick = onClick), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, C.Line, shape).clickable(onClick = onClick), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.width(if (large) 92.dp else 142.dp).height(96.dp)) {
             RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.fillMaxSize(), recEmoji(t.meal), 0.dp)
             Text("$count aperture", modifier = Modifier.align(Alignment.BottomStart).padding(6.dp).clip(RoundedCornerShape(10.dp))
-                .background(C.Surface).padding(horizontal = 7.dp, vertical = 3.dp), style = T.Small.copy(color = C.Navy, fontSize = 12.sp))
+                .background(Color.White).padding(horizontal = 7.dp, vertical = 3.dp), style = T.Small.copy(color = C.Navy, fontSize = 12.sp))
         }
         Column(Modifier.weight(1f).padding(10.dp)) {
             Text(t.name, style = T.Title2.copy(fontSize = 14.sp, lineHeight = 18.sp))
@@ -258,8 +258,8 @@ private fun openRecipe(s: AppState, t: RecipeTemplate) {
 
 /** Colori pastello delle tessere (sfondo, macchia decorativa): ogni tessera ha il suo, come su Yazio. */
 private val CAT_BASE = listOf(
-    Color(0xFF14284F) to Color(0xFF1B3A73), Color(0xFF221F4F) to Color(0xFF332D7A), Color(0xFF123A3A) to Color(0xFF1B5A52), Color(0xFF3A2216) to Color(0xFF5A3420),
-    Color(0xFF3A3012) to Color(0xFF5A4A1A), Color(0xFF3A1A2C) to Color(0xFF5A2A44), Color(0xFF12383F) to Color(0xFF1B5560), Color(0xFF2E2A22) to Color(0xFF453E30)
+    Color(0xFFDDEEFA) to Color(0xFFC4E0F4), Color(0xFFE6E0F8) to Color(0xFFD3C9F1), Color(0xFFDAF4E5) to Color(0xFFBFEAD3), Color(0xFFFFE5D3) to Color(0xFFFFD1B3),
+    Color(0xFFFFF0C4) to Color(0xFFFFE19B), Color(0xFFFFDFE8) to Color(0xFFFFC8D8), Color(0xFFD6F2F2) to Color(0xFFB8E5E5), Color(0xFFF3E8D8) to Color(0xFFE8D6BA)
 )
 /** Stesse tinte di prima, ma più tenui (meno sature): sfondo schiarito del 38%, macchia molto vicina allo sfondo, così le scritte restano ben leggibili. */
 private val CAT_COLORS = CAT_BASE
@@ -382,12 +382,12 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
 private fun CategoryChip(id: String, label: String, active: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
     Box(Modifier.heightIn(min = PremiumScale.actionHeight).testTag("recipe-group-$id").refShadow(shape, 4.dp).clip(shape)
-        .background(if (active) C.Royal else C.Surface).border(1.dp, if (active) C.Royal else Color(0xFF2A3F73), shape)
+        .background(if (active) RD.Navy else Color.White).border(1.dp, if (active) RD.Navy else Color(0xFFB9C2D2), shape)
         .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
         Row(Modifier.align(Alignment.Center).padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             CategoryIcon(id, active)
             GapW(10.dp)
-            Box(Modifier.width(1.dp).height(22.dp).background(if (active) C.Surface else Color(0xFF2A3F73)))
+            Box(Modifier.width(1.dp).height(22.dp).background(if (active) Color.White else Color(0xFFAFB9CB)))
             GapW(10.dp)
             Text(label, style = T.Title.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = if (active) Color.White else RD.Ink), maxLines = 1, softWrap = false)
         }
@@ -436,7 +436,7 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
 
     @Composable fun Shortcut(label: String, count: Int, icon: String, modifier: Modifier, tag: String, open: () -> Unit) {
         val shape = RoundedCornerShape(14.dp)
-        Row(modifier.heightIn(min = 64.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(C.Surface)
+        Row(modifier.heightIn(min = 64.dp).testTag(tag).refShadow(shape, 5.dp).clip(shape).background(Color.White)
             .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = open).padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically) {
             // Riferimento: titolo e conteggio su una riga, due schede identiche affiancate.
@@ -464,21 +464,21 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
 private fun InspirationBanner() {
     val shape = RoundedCornerShape(16.dp)
     val large = LocalDensity.current.fontScale > 1.2f
-    Row(Modifier.fillMaxWidth().heightIn(min = 104.dp).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(C.Surface)
+    Row(Modifier.fillMaxWidth().heightIn(min = 104.dp).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(Color.White)
         .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.WhatNow) }, verticalAlignment = Alignment.CenterVertically) {
         GapW(12.dp)
         PeachTile(44.dp, radius = 13.dp) { Box(Modifier.size(34.dp)) { AIcon(RIc.Bulb, RD.OrangeDeep, 34.dp, 2.2f); AIcon(RIc.BulbRays, RD.OrangeDeep, 34.dp, 2.2f) } }
         GapW(8.dp); OrangeDivider(40.dp); GapW(8.dp)
         Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
             Text("Ispirazione su misura", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink))
-            Text("Un piatto per ciò che ti resta oggi", style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = Color(0xFFA3B1D1)))
+            Text("Un piatto per ciò che ti resta oggi", style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = Color(0xFF4A5470)))
         }
         if (!large) Box(Modifier.width(84.dp).height(104.dp)) {
             androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.ref_inspiration_bowl), null,
                 Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop, alignment = Alignment.CenterEnd)
-            Box(Modifier.align(Alignment.CenterEnd).padding(end = 10.dp).size(46.dp).refShadow(CircleShape, 3.dp).clip(CircleShape).background(Color(0xFF13244C))
+            Box(Modifier.align(Alignment.CenterEnd).padding(end = 10.dp).size(46.dp).refShadow(CircleShape, 3.dp).clip(CircleShape).background(Color(0xFFFFF3EA))
                 .border(3.dp, Color.White, CircleShape), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 24.dp, 3f) }
-        } else Box(Modifier.padding(end = 12.dp).size(44.dp).clip(CircleShape).background(Color(0xFF13244C)), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 22.dp, 3f) }
+        } else Box(Modifier.padding(end = 12.dp).size(44.dp).clip(CircleShape).background(Color(0xFFFFF3EA)), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 22.dp, 3f) }
     }
 }
 
@@ -487,7 +487,7 @@ private fun InspirationBanner() {
 fun RecipeSearchBar() {
     RefSearchShell(Modifier.testTag("kitchen-search").clip(RoundedCornerShape(16.dp)).clickable { Nav.go(Screen.RecipeList(RecipeFilter(), "Tutte le ricette")) },
         count = Db.db.recipes.size.thousands()) {
-        Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 17.sp, lineHeight = 22.sp, color = Color(0xFFA3B1D1)),
+        Text("Cerca ricette o ingredienti", style = T.Body.copy(fontSize = 17.sp, lineHeight = 22.sp, color = Color(0xFF59627A)),
             maxLines = if (LocalDensity.current.fontScale > 1.5f) 2 else 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(end = 8.dp))
     }
 }
@@ -655,7 +655,7 @@ private fun FilterPanel(f: RecipeFilter, onChange: (RecipeFilter) -> Unit) {
             FilterGroup("Ingredienti da usare") { JField(f.ingredients, { onChange(f.copy(ingredients = it)) }, "Es. pollo, riso, zucchine") }
             FilterGroup("Ordina per") { SinglePills(listOf("rilevanza" to "Rilevanza", "kcal" to "Calorie", "proteine" to "Proteine", "tempo" to "Tempo"), f.sort) { onChange(f.copy(sort = it ?: "rilevanza")) } }
             GapH(14.dp)
-            AInk("Azzera tutti i filtri", Modifier.fillMaxWidth(), height = 46.dp, bg = C.SurfaceHi, fg = A.Ink) { onChange(RecipeFilter(query = f.query)) }
+            AInk("Azzera tutti i filtri", Modifier.fillMaxWidth(), height = 46.dp, bg = Color(0xFFF6F1EA), fg = A.Ink) { onChange(RecipeFilter(query = f.query)) }
         }
     }
 }
@@ -725,7 +725,7 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
                 if (mine.isEmpty()) item { EmptyState("🧑‍🍳", "Nessuna ricetta tua", "Crea una ricetta: i valori si calcolano dagli ingredienti.") }
                 items(mine, key = { it.id }) { r ->
                     val per = Nutrition.recipeTotals(r).scaled(1.0 / r.servings.coerceAtLeast(1))
-                    Row(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(16.dp), 6.dp, Color(0x661D1B3A)).clip(RoundedCornerShape(16.dp)).background(C.Surface)
+                    Row(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(16.dp), 6.dp, Color(0x661D1B3A)).clip(RoundedCornerShape(16.dp)).background(Color.White)
                         .clickable { Nav.go(Screen.UserRecipeDetail(r)) }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         RecipeImage(r.id, null, r.photo, Modifier.size(88.dp), r.emoji, 18.dp)
                         GapW(12.dp)
@@ -764,7 +764,7 @@ fun WhatNowScreen() {
     Column(Modifier.fillMaxSize().navigationBarsPadding()) {
         TopBar("Cosa mangio adesso?", onBack = { Nav.back() })
         Column(Modifier.weight(1f).testTag("what-now-content").clipToBounds().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
-            ACard(brush = Brush.linearGradient(listOf(Color(0xFF1B4FD6), Color(0xFF1B3382))), bordered = false, glow = Color(0x8013225F), radius = 28.dp) {
+            ACard(brush = Brush.linearGradient(listOf(Color(0xFF13225F), Color(0xFF1B3382))), bordered = false, glow = Color(0x8013225F), radius = 28.dp) {
                 Column(Modifier.fillMaxWidth()) {
                     Text("Ti restano oggi", style = T.Small.copy(color = Color(0xFFB9C6F5)))
                     Text("${nc.remaining.kcal.r0()} kcal", style = T.H1.copy(color = Color.White, fontSize = 30.sp))
@@ -820,7 +820,7 @@ private fun SuggestionCard(sg: NowSuggestion, s: AppState, best: Boolean, onAdd:
     val t = sg.solved.template
     val a = sg.solved.total
     val shape = RoundedCornerShape(16.dp)
-    Column(Modifier.fillMaxWidth().aShadow(shape, 10.dp, Color(0x661D1B3A)).clip(shape).background(C.Surface).border(1.dp, A.Hair, shape)) {
+    Column(Modifier.fillMaxWidth().aShadow(shape, 10.dp, Color(0x661D1B3A)).clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
         Box(Modifier.clickable { Nav.go(Screen.RecipeView(t.id, sg.solved.target, LocalDate.now(), null, WhatNow.diaryMealForKey(t.meal.let { if (it == "dessert") "spuntino" else it }))) }) {
             RecipeImage(t.id, t.image, s.recipePhotos[t.id], Modifier.fillMaxWidth().height(150.dp), recEmoji(t.meal), 0.dp)
             Box(Modifier.align(Alignment.TopStart).padding(12.dp).clip(RoundedCornerShape(16.dp)).background(if (sg.compat >= 85) C.Green else if (sg.compat >= 70) C.Gold else Color(0xFF8C8AA6)).padding(horizontal = 12.dp, vertical = 6.dp)) {
@@ -841,7 +841,7 @@ private fun SuggestionCard(sg: NowSuggestion, s: AppState, best: Boolean, onAdd:
                 if (abs(sg.scale - 1.0) >= 0.15) " · quantità ${if (sg.scale > 1) "aumentate" else "ridotte"} del ${(abs(sg.scale - 1) * 100).toInt()}% rispetto alla ricetta base" else "", style = T.Small)
             GapH(12.dp)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                AInk("Ricetta", Modifier.weight(1f), height = 50.dp, bg = C.SurfaceHi, fg = A.Ink) {
+                AInk("Ricetta", Modifier.weight(1f), height = 50.dp, bg = Color(0xFFF6F1EA), fg = A.Ink) {
                     Nav.go(Screen.RecipeView(t.id, sg.solved.target, LocalDate.now(), null, WhatNow.diaryMealForKey(t.meal.let { if (it == "dessert") "spuntino" else it })))
                 }
                 APrimary("Aggiungi al diario", Modifier.weight(1.4f), height = 50.dp, onClick = onAdd)

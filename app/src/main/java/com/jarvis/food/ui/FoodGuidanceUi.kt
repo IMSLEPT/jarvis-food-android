@@ -231,7 +231,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 private fun TipRow(tip: DailyFoodTips.Tip, compact: Boolean = false, onClick: () -> Unit) {
     val shape = RoundedCornerShape(12.dp)
     Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 38.dp else 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
-        .background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C))))
+        .background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color(0xFFF3F5F9), Color(0xFFF3F5F9))))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = if (compact) 6.dp else 10.dp, vertical = if (compact) 4.dp else 8.dp), verticalAlignment = Alignment.CenterVertically) {
         TipIcon(tip.id, if (compact) 17.dp else 30.dp)

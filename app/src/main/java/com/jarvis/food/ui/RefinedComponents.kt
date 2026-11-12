@@ -120,11 +120,11 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
                     selectedSlot = meal.slotIndex
                     scope.launch { requesters[meal.slotIndex]?.bringIntoView() }
                 }).padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                PeachTile(40.dp, radius = 12.dp, brush = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0x33FF7A1A), Color(0xFF13244C)))) { MealDuoIcon(meal.diaryMeal, 26.dp) }
+                PeachTile(40.dp, radius = 12.dp, brush = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0xFFFDEBDC), Color(0xFFFFF5EE)))) { MealDuoIcon(meal.diaryMeal, 26.dp) }
                 GapW(12.dp); OrangeDivider(32.dp); GapW(12.dp)
                 Text(meal.slotName, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = Color.White))
                 GapW(12.dp)
-                ChevronCircle(34.dp, if (selected) Color(0xFF7FB0FF) else Color(0xFF8FB4FF), Color.White)
+                ChevronCircle(34.dp, if (selected) Color(0xFF245698) else Color(0xFF173969), Color.White)
             }
         }
     }
@@ -144,8 +144,8 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
     val eaten = Store.dayPlan(s, date)?.slots?.firstOrNull { it.slot == m.slotIndex }?.eatenEntryIds?.isNotEmpty() == true
     val expanded = LocalDensity.current.fontScale > 1.2f || LocalConfiguration.current.screenWidthDp < 380
     val shape = RoundedCornerShape(PremiumScale.cardRadius)
-    Column(Modifier.fillMaxWidth().testTag("plan-card-${m.diaryMeal}").refShadow(shape, 6.dp).clip(shape).background(C.Surface)
-        .border(1.dp, Color(0xFF13244C), shape)
+    Column(Modifier.fillMaxWidth().testTag("plan-card-${m.diaryMeal}").refShadow(shape, 6.dp).clip(shape).background(Color.White)
+        .border(1.dp, Color(0xFFE6E8EE), shape)
         .drawBehindWarm()) {
         Column(headingModifier.fillMaxWidth().testTag("plan-meal-header-${m.diaryMeal}").padding(start = PremiumScale.inset, end = PremiumScale.inset, top = PremiumScale.inset)) {
             FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -159,7 +159,7 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
                     Text(m.slotName, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink), modifier = Modifier.weight(1f))
                 }
                 Text(if (eaten) "✓ Mangiato" else "Da mangiare", modifier = (if (expanded) Modifier.fillMaxWidth() else Modifier)
-                    .clip(RoundedCornerShape(14.dp)).background(if (eaten) A.GreenSoft else Color(0xFF13244C))
+                    .clip(RoundedCornerShape(14.dp)).background(if (eaten) A.GreenSoft else Color(0xFFEFEDEB))
                     .padding(horizontal = 10.dp, vertical = 8.dp),
                     style = T.Label.copy(fontSize = 12.sp, lineHeight = 17.sp, color = if (eaten) A.GreenInk else RD.Ink))
             }
@@ -195,9 +195,9 @@ fun CompactPlanCard(s: AppState, date: LocalDate, m: PlannedMeal, headingModifie
         }
         val macros: @Composable () -> Unit = {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                MacroBar("P", r.total.protein, target.protein, Color(0xFFFF7A9C), Color(0xFF1A2F5E))
-                MacroBar("C", r.total.carbs, target.carbs, Color(0xFF7FB0FF), Color(0xFF1A2F5E))
-                MacroBar("G", r.total.fat, target.fat, A.FatInk, Color(0xFF1A2F5E), Color(0xFFF7A93B))
+                MacroBar("P", r.total.protein, target.protein, Color(0xFFE2294F), Color(0xFFFAD0DA))
+                MacroBar("C", r.total.carbs, target.carbs, Color(0xFF1F63E8), Color(0xFFD3E1FB))
+                MacroBar("G", r.total.fat, target.fat, A.FatInk, Color(0xFFFCE3C2), Color(0xFFF7A93B))
             }
         }
         BoxWithConstraints(Modifier.padding(horizontal = 12.dp).fillMaxWidth()) {

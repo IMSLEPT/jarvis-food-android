@@ -90,7 +90,7 @@ private fun gb(b: Long) = String.format(Locale.ITALY, "%.1f GB", b / 1_000_000_0
 
 @Composable
 fun JarvisLogo(size: Dp, modifier: Modifier = Modifier) {
-    Box(modifier.size(size).clip(RoundedCornerShape(size * 0.25f)).background(C.Royal), contentAlignment = Alignment.Center) {
+    Box(modifier.size(size).clip(RoundedCornerShape(size * 0.25f)).background(C.Navy), contentAlignment = Alignment.Center) {
         Image(painterResource(R.drawable.jarvis_logo), "Jarvis", Modifier.fillMaxSize().padding(size * 0.08f), contentScale = ContentScale.Fit)
     }
 }
@@ -189,8 +189,8 @@ private fun ChatHeaderAction(icon: String, label: String, ink: Color = C.Navy, s
     val shape = RoundedCornerShape(13.dp)
     Box(Modifier.size(48.dp).semantics { contentDescription = label }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         Box(Modifier.size(40.dp).aShadow(shape, 4.dp).clip(shape)
-            .background(if (selected) C.Royal else C.Surface)
-            .border(1.dp, if (selected) C.Royal else C.Royal.copy(alpha = .12f), shape), contentAlignment = Alignment.Center) {
+            .background(if (selected) C.Navy else C.Surface)
+            .border(1.dp, if (selected) C.Navy else C.Navy.copy(alpha = .12f), shape), contentAlignment = Alignment.Center) {
             AIcon(icon, if (selected) Color.White else ink, 22.dp, 1.9f, modifier = Modifier.testTag("header-icon-$label"))
         }
     }
@@ -237,7 +237,7 @@ private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolea
 @Composable
 private fun ChatSendControl(canSend: Boolean, busy: Boolean, size: Dp, onSend: () -> Unit, onStop: () -> Unit) {
     Box(Modifier.size(size).clip(CircleShape)
-        .background(if (busy) Brush.linearGradient(listOf(C.Royal, C.Royal)) else Brush.linearGradient(listOf(C.Royal, C.Royal)))
+        .background(if (busy) Brush.linearGradient(listOf(C.Navy, C.Navy)) else Brush.linearGradient(listOf(C.Navy, C.Navy)))
         .semantics { contentDescription = if (busy) "Interrompi risposta" else "Invia messaggio" }
         .clickable(enabled = canSend || busy, role = Role.Button) { if (busy) onStop() else onSend() }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(22.dp)) {
@@ -288,7 +288,7 @@ private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {
                             "Spesa e dispensa" -> Ic.Cart; "Obiettivi" -> Ic.Chart; else -> Ic.Timer
                         }
                         Row(Modifier.weight(1f).heightIn(min = if (narrow) 56.dp else 72.dp)
-                            .refShadow(tile, 4.dp).clip(tile).background(C.Surface).border(1.dp, C.Line, tile)
+                            .refShadow(tile, 4.dp).clip(tile).background(Color.White).border(1.dp, C.Line, tile)
                             .clickable(role = Role.Button) { onPick(example) }.padding(10.dp),
                             verticalAlignment = Alignment.Top) {
                             PeachTile(32.dp) { AIcon(icon, C.AccentDeep, 19.dp, 2.1f) }
@@ -384,7 +384,7 @@ private fun ChatSuggestions(suggestions: List<String>, onPick: (String) -> Unit)
             val primary = text.trim().lowercase(Locale.ITALY).startsWith("sì") || text.equals("Applica", true)
             val shape = RoundedCornerShape(16.dp)
             Row(Modifier.heightIn(min = 48.dp).clip(shape)
-                .then(if (primary) Modifier.background(C.NavyBrush) else Modifier.background(C.Surface).border(1.dp, C.Royal.copy(alpha = 0.3f), shape))
+                .then(if (primary) Modifier.background(C.NavyBrush) else Modifier.background(C.Surface).border(1.dp, C.Navy.copy(alpha = 0.3f), shape))
                 .clickable(role = Role.Button) { onPick(text) }.padding(horizontal = 18.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (primary) { AIcon(Ic.Check, C.OnOrange, 18.dp, 2.3f); Spacer(Modifier.size(8.dp)) }
                 Text(text, style = T.BtnM.copy(color = if (primary) C.OnOrange else C.Navy))

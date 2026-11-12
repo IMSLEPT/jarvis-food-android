@@ -234,7 +234,7 @@ private fun Tabs() {
                 else -> ChatScreen()
             }
             if (Nav.tab == 0) Box(Modifier.align(Alignment.TopCenter).fillMaxWidth()
-                .windowInsetsTopHeight(WindowInsets.statusBars).background(androidx.compose.ui.graphics.Color(0xFF0E34A0)))
+                .windowInsetsTopHeight(WindowInsets.statusBars).background(androidx.compose.ui.graphics.Color(0xFF0B1F44)))
         }
         // Con la tastiera aperta nella chat la barra si nasconde: l'input resta subito sopra la tastiera.
         if (showBottomBar) BottomBar()
@@ -245,7 +245,7 @@ private fun Tabs() {
 private fun BottomBar() {
     val items = listOf(Triple(0, Ic.Sun, "Oggi"), Triple(1, Ic.Calendar, "Piano"), Triple(2, Ic.Bowl, "Cucina"), Triple(3, Ic.Chart, "Progressi"), Triple(5, "", "Jarvis"))
     val expanded = LocalDensity.current.fontScale > 1.5f
-    Box(Modifier.fillMaxWidth().background(C.Surface).drawBehind { drawLine(Color(0x1FFFFFFF), androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(size.width, 0f), 1.dp.toPx()) }.navigationBarsPadding()) {
+    Box(Modifier.fillMaxWidth().background(Color.White).drawBehind { drawLine(Color(0xFFE6E9F0), androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(size.width, 0f), 1.dp.toPx()) }.navigationBarsPadding()) {
         Column(Modifier.fillMaxWidth().testTag("bottom-bar").selectableGroup().padding(horizontal = 8.dp, vertical = 2.dp)) {
             items.chunked(if (expanded) 3 else 5).forEach { group ->
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -264,11 +264,9 @@ private fun RowScope.BottomTabItem(tab: Int, icon: String, label: String) {
     val emphasizeLabel = selected && LocalDensity.current.fontScale <= 1.2f
     Column(Modifier.weight(1f).heightIn(min = 52.dp).testTag("nav-$tab").clip(RoundedCornerShape(12.dp))
         .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.width(22.dp).height(3.dp).clip(RoundedCornerShape(2.dp)).then(if (selected) Modifier.orangeGlow(RoundedCornerShape(2.dp), 6.dp).background(C.Accent) else Modifier))
-        Spacer(Modifier.height(4.dp))
-        if (icon.isEmpty()) DashboardRobot(false, if (selected) C.Accent else Color(0xFF8E9CBF)) else AIcon(icon, if (selected) C.Accent else Color(0xFF8E9CBF), 24.dp)
+        if (icon.isEmpty()) DashboardRobot(false, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)) else AIcon(icon, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6), 24.dp)
         Spacer(Modifier.height(3.dp))
-        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) C.Accent else Color(0xFF8E9CBF)), textAlign = TextAlign.Center)
+        Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)), textAlign = TextAlign.Center)
         Spacer(Modifier.height(4.dp))
     }
 }

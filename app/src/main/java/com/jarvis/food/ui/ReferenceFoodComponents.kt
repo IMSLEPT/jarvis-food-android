@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.jarvis.food.R
 import kotlin.math.roundToInt
 
-internal val InsightTile = Color(0xFF13244C)
+internal val InsightTile = Color(0xFFEEF2F8)
 
 @Composable
 internal fun ReferenceInsightCard(
@@ -50,9 +50,9 @@ internal fun ReferenceInsightCard(
         else -> error("Unsupported insight artwork: $art")
     }
     val tint = when (art) {
-        TodayArt.Vitamins -> listOf(Color(0xFF3A2216), Color(0xFF2A1A18))
-        TodayArt.Calendar -> listOf(Color(0xFF16295C), Color(0xFF13244C))
-        else -> listOf(Color(0xFF123A3A), Color(0xFF13244C))
+        TodayArt.Vitamins -> listOf(Color(0xFFFFE4D0), Color(0xFFFFF4EA))
+        TodayArt.Calendar -> listOf(Color(0xFFDDE7FA), Color(0xFFF0F5FF))
+        else -> listOf(Color(0xFFD5F2E6), Color(0xFFEFFAF5))
     }
     ACard(modifier.fillMaxWidth(), padding = 16.dp, onClick = onClick) {
         Column(Modifier.fillMaxWidth().testTag("insight-icon-$art"), content = content)
@@ -64,7 +64,7 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         val heading: @Composable (Modifier) -> Unit = { modifier ->
             Row(modifier, verticalAlignment = Alignment.Top) {
-                AIcon(icon, Color(0xFFF3F6FF), 16.dp, 1.8f)
+                AIcon(icon, Color(0xFF0B1F44), 16.dp, 1.8f)
                 GapW(4.dp)
                 Column {
                     Text(title, style = T.Title2.copy(fontSize = PremiumScale.label, lineHeight = PremiumScale.labelLine, color = RD.Ink))
@@ -76,9 +76,9 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
             Box(actionModifier.heightIn(min = 36.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
                 Row(Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically) {
-                    Text(action, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = Color(0xFFF3F6FF)))
+                    Text(action, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = Color(0xFF0B1F44)))
                     GapW(3.dp)
-                    AIcon(RIc.Right, Color(0xFFF3F6FF), 13.dp, 2.2f)
+                    AIcon(RIc.Right, Color(0xFF0B1F44), 13.dp, 2.2f)
                 }
             }
         }
@@ -192,7 +192,7 @@ internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: 
     modifier: Modifier = Modifier, valueModifier: Modifier = Modifier, onClick: () -> Unit) {
     val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
         androidx.compose.animation.core.tween(800), label = "ring")
-    Column(modifier.clip(RoundedCornerShape(14.dp)).border(1.dp, Color(0xFF13244C), RoundedCornerShape(14.dp)).background(C.Surface)
+    Column(modifier.clip(RoundedCornerShape(14.dp)).border(1.dp, Color(0xFFE6E9F0), RoundedCornerShape(14.dp)).background(Color.White)
         .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(60.dp), contentAlignment = Alignment.Center) {
@@ -200,8 +200,8 @@ internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: 
                 val st = 5.dp.toPx()
                 val tl = Offset(st / 2, st / 2)
                 val sz = androidx.compose.ui.geometry.Size(size.width - st, size.height - st)
-                drawArc(Color(0xFF1A2F5E), 0f, 360f, false, tl, sz, style = Stroke(st))
-                if (a > 0f) drawArc(Color(0xFFF3F6FF), -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+                drawArc(Color(0xFFE6EAF2), 0f, 360f, false, tl, sz, style = Stroke(st))
+                if (a > 0f) drawArc(Color(0xFF0B1F44), -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
             }
             Text(percent, valueModifier, style = T.Label.copy(fontSize = 14.sp, lineHeight = 17.sp, color = RD.Ink, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
         }
@@ -218,10 +218,10 @@ internal fun SoftBar(fraction: Float, modifier: Modifier = Modifier, height: and
         androidx.compose.animation.core.tween(700), label = "softbar")
     Canvas(modifier.height(height)) {
         val r = androidx.compose.ui.geometry.CornerRadius(size.height / 2.5f)
-        drawRoundRect(Color(0xFF1A2F5E), cornerRadius = r)
+        drawRoundRect(Color(0xFFE6EAF2), cornerRadius = r)
         if (a > 0f) {
             val w = (size.width * a).coerceAtLeast(size.height)
-            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF1B4FD6), Color(0xFF1B4FD6)), 0f, w),
+            drawRoundRect(Brush.horizontalGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)), 0f, w),
                 size = androidx.compose.ui.geometry.Size(w, size.height), cornerRadius = r)
         }
     }

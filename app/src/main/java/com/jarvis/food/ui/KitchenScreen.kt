@@ -127,7 +127,7 @@ private fun shopDot(shop: String): Color = when {
     shop.startsWith("Latticini") -> C.Blue
     shop.startsWith("Dispensa") -> C.Fasting
     shop.startsWith("Legumi") -> Color(0xFF84CC16)
-    shop.startsWith("Frutta secca") -> Color(0xFFFFC24D)
+    shop.startsWith("Frutta secca") -> Color(0xFFA16207)
     shop.startsWith("Condimenti") -> Color(0xFFF97316)
     shop.startsWith("Bevande") -> C.Water
     else -> Color(0xFFB8B4CC)
@@ -171,7 +171,7 @@ private fun CookTodayBlock(s: AppState) {
     }
     val cs = RoundedCornerShape(16.dp)
     Column(Modifier.fillMaxWidth().refShadow(cs, 4.dp).clip(cs)
-        .background(C.Surface).border(1.dp, A.Hair, cs).padding(14.dp)) {
+        .background(Color.White).border(1.dp, A.Hair, cs).padding(14.dp)) {
         Text("Ricette dal ricettario con ciò che hai in dispensa, calcolate sul tuo obiettivo.", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp, color = A.Muted))
         val compact = LocalDensity.current.fontScale <= 1.15f && androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 350
         Row(Modifier.padding(top = 12.dp).fillMaxWidth().then(if (compact) Modifier else Modifier.horizontalScroll(rememberScrollState())),
@@ -180,7 +180,7 @@ private fun CookTodayBlock(s: AppState) {
                 val sel = meal == k
                 val chip = RoundedCornerShape(16.dp)
                 Box((if (compact) Modifier.weight(if (l.length > 6) 1.18f else 0.82f) else Modifier).heightIn(min = 48.dp)
-                    .clip(chip).background(if (sel) C.Royal else C.Surface)
+                    .clip(chip).background(if (sel) C.Navy else Color.White)
                     .border(if (sel) 1.5.dp else 1.dp, if (sel) RD.OrangeLine else A.Hair, chip)
                     .selectable(selected = sel, role = Role.Tab) { meal = k }
                     .padding(horizontal = if (compact) 4.dp else 12.dp), contentAlignment = Alignment.Center) {
@@ -223,7 +223,7 @@ private fun CookTodayBlock(s: AppState) {
     }
     ideas.take(4).forEach { sg ->
         val rs = RoundedCornerShape(16.dp)
-        Column(Modifier.fillMaxWidth().padding(bottom = 12.dp).aShadow(rs, 8.dp, Color(0x661D1B3A)).clip(rs).background(C.Surface).border(1.dp, A.Hair, rs)
+        Column(Modifier.fillMaxWidth().padding(bottom = 12.dp).aShadow(rs, 8.dp, Color(0x661D1B3A)).clip(rs).background(Color.White).border(1.dp, A.Hair, rs)
             .clickable { Nav.go(Screen.RecipeView(sg.solved.template.id, target, today, null, diaryMeal)) }.padding(14.dp)) {
             Row {
                 RecipeImage(sg.solved.template.id, sg.solved.template.image, s.recipePhotos[sg.solved.template.id], Modifier.size(width = 100.dp, height = 100.dp), "🍽️", 20.dp)
@@ -231,7 +231,7 @@ private fun CookTodayBlock(s: AppState) {
                 Column(Modifier.weight(1f)) {
                     Text(sg.solved.template.name, style = T.H2.copy(fontSize = 17.sp, lineHeight = 21.sp), maxLines = 2, overflow = TextOverflow.Ellipsis)
                     Text("${sg.solved.total.kcal.r0()} kcal · hai il ${(sg.coverage * 100).r0()}% degli ingredienti", style = T.Small.copy(fontSize = 12.5.sp, color = A.Muted), modifier = Modifier.padding(top = 4.dp))
-                    ABar(sg.coverage.toFloat(), Brush.horizontalGradient(listOf(Color(0xFF10B981), Color(0xFF10B981))), Color(0xFF1A2F5E), 6.dp, Modifier.padding(top = 8.dp))
+                    ABar(sg.coverage.toFloat(), Brush.horizontalGradient(listOf(Color(0xFF10B981), Color(0xFF10B981))), Color(0xFFD9F6EA), 6.dp, Modifier.padding(top = 8.dp))
                 }
             }
             if (sg.missing.isNotEmpty()) {
@@ -249,7 +249,7 @@ private fun CookTodayBlock(s: AppState) {
 @Composable
 private fun PantryTab(s: AppState) {
     var name by remember { mutableStateOf("") }
-    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.verticalGradient(listOf(Color(0xFF13244C), Color(0xFF13244C))), C.Navy) { Nav.go(Screen.PantryScan("foto")) }
+    ScanTile(Ic.Fridge, "Fotografa frigo o dispensa", "Riconosco gli alimenti dalla foto e li aggiungo", Brush.verticalGradient(listOf(Color(0xFFE2EFFB), Color(0xFFEAF4FE))), C.Navy) { Nav.go(Screen.PantryScan("foto")) }
     GapH(12.dp)
     ScanTile(Ic.Receipt, "Fotografa lo scontrino", "Leggo i prodotti acquistati e li metto in dispensa", RD.PeachBrush, C.AccentDeep) { Nav.go(Screen.PantryScan("scontrino")) }
 
@@ -259,7 +259,7 @@ private fun PantryTab(s: AppState) {
     GapH(12.dp)
     // Aggiunta a mano
     val fs = RoundedCornerShape(16.dp)
-    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(C.Surface).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             if (name.isEmpty()) Text("Aggiungi a mano (es. uova, spinaci)", style = T.Body.copy(fontSize = 15.sp, color = C.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
             androidx.compose.foundation.text.BasicTextField(name, { name = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
@@ -278,7 +278,7 @@ private fun PantryTab(s: AppState) {
     val byShop = s.pantry.groupBy { it.foodId?.let { id -> Db.db.food(id)?.shop } ?: "Altro" }
     Shopping.SHOP_ORDER.filter { byShop.containsKey(it) }.forEach { shop ->
         val cardShape = RoundedCornerShape(16.dp)
-        Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(C.Surface).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
+        Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(12.dp).clip(CircleShape).background(shopDot(shop)))
                 GapW(10.dp)
@@ -314,7 +314,7 @@ private fun PantryTab(s: AppState) {
 @Composable
 private fun ScanTile(icon: String, title: String, subtitle: String, bg: Brush, ink: Color, onClick: () -> Unit) {
     val shape = RoundedCornerShape(14.dp)
-    Row(Modifier.fillMaxWidth().refShadow(shape, 4.dp).clip(shape).background(C.Surface)
+    Row(Modifier.fillMaxWidth().refShadow(shape, 4.dp).clip(shape).background(Color.White)
         .border(1.dp, C.Line, shape).clickable(role = Role.Button, onClick = onClick)
         .padding(horizontal = 12.dp, vertical = 13.dp), verticalAlignment = Alignment.CenterVertically) {
         PeachTile(44.dp, brush = bg) { AIcon(icon, ink, 27.dp, 2f, modifier = Modifier.testTag("scan-icon-$title")) }
@@ -345,7 +345,7 @@ private fun ShoppingTab(s: AppState) {
             val selected = range?.get(1)?.toIntOrNull() == d
             val shape = RoundedCornerShape(16.dp)
             Row(Modifier.weight(1f).heightIn(min = 48.dp).clip(shape)
-                .background(if (selected) RD.Peach else C.Surface)
+                .background(if (selected) RD.Peach else Color.White)
                 .border(1.dp, if (selected) RD.OrangeLine else C.Line, shape)
                 .clickable(role = Role.Button) {
                 val today = LocalDate.now()
@@ -368,7 +368,7 @@ private fun ShoppingTab(s: AppState) {
     }
     GapH(12.dp)
     val fs = RoundedCornerShape(16.dp)
-    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(C.Surface).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clip(fs).background(Color.White).border(1.dp, Color(0x141D1B3A), fs).padding(start = 18.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             if (manual.isEmpty()) Text("Aggiungi un articolo", style = T.Body.copy(fontSize = 15.sp, color = C.Muted), maxLines = 1, overflow = TextOverflow.Ellipsis)
             androidx.compose.foundation.text.BasicTextField(manual, { manual = it }, singleLine = true, textStyle = T.Body.copy(fontSize = 15.sp, color = A.Ink),
@@ -381,7 +381,7 @@ private fun ShoppingTab(s: AppState) {
     val groups = s.shopping.groupBy { it.shop }
     Shopping.SHOP_ORDER.filter { groups.containsKey(it) }.forEach { shop ->
         val cardShape = RoundedCornerShape(16.dp)
-        Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(C.Surface).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
+        Column(Modifier.padding(bottom = 12.dp).fillMaxWidth().aShadow(cardShape, 8.dp, Color(0x661D1B3A)).clip(cardShape).background(Color.White).border(1.dp, A.Hair, cardShape).padding(horizontal = 16.dp, vertical = 6.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(shoppingCategoryIcon(shop), shopDot(shop), 20.dp, 2.2f)
                 GapW(10.dp)
@@ -392,8 +392,8 @@ private fun ShoppingTab(s: AppState) {
                 Box(Modifier.fillMaxWidth().height(1.dp).background(C.Line))
                 Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clickable { Store.toggleShopping(it.id) }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(
-                        Modifier.size(24.dp).clip(RoundedCornerShape(7.dp)).background(if (it.checked) C.Royal else Color.Transparent)
-                            .border(2.dp, if (it.checked) C.Royal else RD.GreyLine, RoundedCornerShape(7.dp)),
+                        Modifier.size(24.dp).clip(RoundedCornerShape(7.dp)).background(if (it.checked) A.Ink else Color.Transparent)
+                            .border(2.dp, if (it.checked) A.Ink else RD.GreyLine, RoundedCornerShape(7.dp)),
                         contentAlignment = Alignment.Center
                     ) { if (it.checked) AIcon(Ic.Check, Color.White, 16.dp, 3.2f) }
                     GapW(14.dp)
@@ -477,7 +477,7 @@ fun PantryScanScreen(mode: String) {
             if (b == null) {
                 val shape = RoundedCornerShape(16.dp)
                 Column(Modifier.fillMaxWidth().refShadow(shape, 5.dp).clip(shape)
-                    .background(Brush.linearGradient(listOf(C.Surface, C.Surface, RD.Peach)))
+                    .background(Brush.linearGradient(listOf(Color.White, Color.White, RD.Peach)))
                     .border(1.dp, A.Hair, shape).padding(16.dp)) {
                     Image(painterResource(if (receipt) R.drawable.approved_receipt else R.drawable.approved_fridge),
                         null, Modifier.size(width = 111.dp, height = 88.dp), contentScale = ContentScale.Fit)

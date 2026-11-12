@@ -193,7 +193,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 .semantics { contentDescription = if (panelOpen) "Richiudi riepilogo del piano" else "Apri riepilogo del piano" }
                 .clickable(role = Role.Button) { panelOpen = !panelOpen }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(PremiumScale.iconTile).clip(RoundedCornerShape(13.dp))
-                    .background(Color(0x33FF7A1A)).padding(9.dp)) { ReferenceChartIcon(Modifier.fillMaxSize()) }
+                    .background(Color(0xFFFFF0DF)).padding(9.dp)) { ReferenceChartIcon(Modifier.fillMaxSize()) }
                 GapW(10.dp)
                 Box(Modifier.width(1.dp).height(32.dp).background(DashboardOrange))
                 GapW(10.dp)
@@ -202,14 +202,14 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     Text("${kcalFmt(tot.kcal)} kcal · $completed di ${meals.size} pasti", style = T.Small.copy(fontSize = 12.sp, lineHeight = 17.sp))
                 }
                 GapW(6.dp)
-                Box(Modifier.size(36.dp).clip(CircleShape).background(Color(0xFF13244C)), contentAlignment = Alignment.Center) {
+                Box(Modifier.size(36.dp).clip(CircleShape).background(Color(0xFFF0F1F4)), contentAlignment = Alignment.Center) {
                     AIcon(if (panelOpen) "M6 15l6-6 6 6" else "M6 9l6 6 6-6", C.Navy, 22.dp)
                 }
             }
             androidx.compose.animation.AnimatedVisibility(visible = panelOpen) {
                 Column(Modifier.fillMaxWidth().testTag("plan-summary-content").padding(top = 10.dp)) {
                     val shape = RoundedCornerShape(14.dp)
-                    Row(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape)
+                    Row(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, C.Line, shape)
                         .clickable(role = Role.Button) { expanded = !expanded }.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         val fraction = if (meals.isEmpty()) 0f else completed.toFloat() / meals.size
                         Box(Modifier.size(if (large) 52.dp else 76.dp), contentAlignment = Alignment.Center) {
@@ -246,7 +246,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                     GapH(10.dp)
                     PlanStyleControls(s, date, large) { chooseStyle = true }
                     GapH(12.dp)
-                    Row(Modifier.fillMaxWidth().testTag("plan-nutrition-details").clip(RoundedCornerShape(16.dp)).background(C.Royal)
+                    Row(Modifier.fillMaxWidth().testTag("plan-nutrition-details").clip(RoundedCornerShape(16.dp)).background(C.Navy)
                         .clickable(role = Role.Button) { expanded = !expanded }.padding(horizontal = 14.dp, vertical = 14.dp),
                         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                         ReferenceChartIcon(Modifier.size(22.dp)); GapW(10.dp)
@@ -266,7 +266,7 @@ private fun DayTotalsCard(s: AppState, date: LocalDate, meals: List<PlannedMeal>
                 }
             }
             if (e.extraKcal > 0) Text("+${e.extraKcal.r0()} kcal dall'attività", style = T.Small.copy(color = A.GreenInk, fontWeight = FontWeight.SemiBold))
-            Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(16.dp).clip(RoundedCornerShape(8.dp)).background(C.SurfaceAlt)) {
+            Row(Modifier.padding(top = 14.dp).fillMaxWidth().height(16.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xCCFFFFFF))) {
                 meals.forEach { m -> Box(Modifier.weight(m.solved.total.kcal.toFloat().coerceAtLeast(1f)).height(16.dp).background(MEAL_DOT[m.diaryMeal] ?: C.Accent)) }
                 val rest = (e.targetKcal - tot.kcal).toFloat()
                 if (rest > 0f) Box(Modifier.weight(rest).height(16.dp))
@@ -362,15 +362,15 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
     val idx = alts.indexOfFirst { it.template.id == r.template.id }
     val dot = MEAL_DOT[m.diaryMeal] ?: C.Accent
     val shape = RoundedCornerShape(16.dp)
-    Column(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, A.Hair, shape)) {
+    Column(Modifier.fillMaxWidth().clip(shape).background(Color.White).border(1.dp, A.Hair, shape)) {
         Box(Modifier.fillMaxWidth().height(if (s.recipePhotos[r.template.id] != null || EditorialPhotos.asset(r.template.id, r.template.image) != null) 230.dp else 96.dp).clickable { openRecipe(date, m) }) {
             RecipeImage(r.template.id, r.template.image, s.recipePhotos[r.template.id], Modifier.fillMaxSize(), mealEmoji(r.template.meal), 0.dp)
             Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0x8C181430))))
-            Row(Modifier.padding(14.dp).height(32.dp).clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.padding(14.dp).height(32.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(9.dp).clip(CircleShape).background(dot))
                 Text("  ${MEAL_LABEL[m.diaryMeal] ?: m.slotName} · ${if (idx <= 0) "Proposto" else "Alternativa $idx"}", style = T.Chip.copy(color = A.Ink), maxLines = 1)
             }
-            Row(Modifier.align(Alignment.BottomEnd).padding(14.dp).height(36.dp).clip(RoundedCornerShape(14.dp)).background(C.SurfaceAlt).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.align(Alignment.BottomEnd).padding(14.dp).height(36.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xEDFFFFFF)).padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
                 AIcon(Ic.Clock, A.Ink, 14.dp, 2.2f)
                 Text("  ${r.template.minutes} min", style = T.Chip.copy(color = A.Ink))
             }
@@ -407,14 +407,14 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                     Row(Modifier.height(36.dp).clip(RoundedCornerShape(14.dp)).background(C.Surface).padding(start = 14.dp, end = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(it2.displayName().replaceFirstChar { c -> c.uppercase() }, style = T.Body.copy(fontSize = 13.sp), maxLines = 1)
                         Spacer(Modifier.width(8.dp))
-                        Box(Modifier.clip(RoundedCornerShape(14.dp)).background(C.Surface).padding(horizontal = 10.dp, vertical = 5.dp)) {
+                        Box(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 5.dp)) {
                             Text(formatAmount(it2.food, it2.grams, short = true), style = T.Label.copy(fontSize = 13.sp), maxLines = 1)
                         }
                     }
                 }
             }
             Row(Modifier.padding(top = 18.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Royal).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                     Text("Apri ricetta", style = T.BtnM.copy(color = Color.White))
                     Spacer(Modifier.width(8.dp))
                     AIcon(Ic.Right, Color.White, 16.dp, 2.4f)
@@ -611,7 +611,7 @@ fun EnergyInfoScreen() {
             val hero = RoundedCornerShape(16.dp)
             Column(
                 Modifier.padding(top = 4.dp).fillMaxWidth().aShadow(hero, 14.dp, Color(0x99E88C60)).clip(hero)
-                    .background(C.Surface).border(1.dp, A.Hair, hero).padding(22.dp)
+                    .background(C.Surface).border(1.dp, Color(0xE6FFFFFF), hero).padding(22.dp)
             ) {
                 Text("OGGI", style = T.Eyebrow.copy(fontWeight = FontWeight.Bold, color = C.AccentDeep))
                 Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.Bottom) {

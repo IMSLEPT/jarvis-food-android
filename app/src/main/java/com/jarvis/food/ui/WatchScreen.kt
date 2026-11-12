@@ -121,10 +121,10 @@ fun WatchScreen() {
             // Connessione
             Column(
                 Modifier.padding(top = 6.dp).fillMaxWidth().refShadow(connectionShape, 4.dp).clip(connectionShape)
-                    .background(C.Surface).border(1.dp, A.Hair, connectionShape).padding(PremiumScale.inset)
+                    .background(Color.White).border(1.dp, A.Hair, connectionShape).padding(PremiumScale.inset)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(44.dp).clip(RoundedCornerShape(13.dp)).background(C.Royal), contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(44.dp).clip(RoundedCornerShape(13.dp)).background(C.Navy), contentAlignment = Alignment.Center) {
                         AIcon(WIc.Watch, Color(0xFFFFB820), 26.dp, 1.9f)
                     }
                     GapW(12.dp)
@@ -135,7 +135,7 @@ fun WatchScreen() {
                             GapW(6.dp)
                             Text(
                                 when { ok -> "Collegato tramite Health Connect"; status == 0 -> "Da autorizzare in Health Connect"; status == 1 -> "Health Connect da installare"; else -> "Health Connect non disponibile" },
-                                style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = if (ok) Color(0xFF4ADE9B) else Color(0xFFFFC24D))
+                                style = T.Body.copy(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = if (ok) Color(0xFF0F6B4D) else Color(0xFF8A5A00))
                             )
                         }
                         Text(buildAnnotatedString {
@@ -222,12 +222,12 @@ fun WatchScreen() {
                         },
                         modifier = Modifier.fillMaxWidth().testTag("watch-activity-slider"),
                         thumb = {
-                            Box(Modifier.size(19.dp).background(C.Surface, CircleShape)
+                            Box(Modifier.size(19.dp).background(Color.White, CircleShape)
                                 .border(2.dp, DashboardOrange, CircleShape))
                         },
                         track = { slider ->
                             SliderDefaults.Track(sliderState = slider, colors = SliderDefaults.colors(
-                                activeTrackColor = DashboardOrange, inactiveTrackColor = Color(0xFF1A2F5E)),
+                                activeTrackColor = DashboardOrange, inactiveTrackColor = Color(0xFFDCE1EA)),
                                 thumbTrackGapSize = 0.dp, drawStopIndicator = null)
                         }
                     )
@@ -269,7 +269,7 @@ fun WatchScreen() {
                     WatchBadge(Ic.Flame, RD.OrangeText, RD.Peach)
                     GapW(10.dp)
                     Text("Come calcolo l'obiettivo di oggi", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = A.Ink), modifier = Modifier.weight(1f))
-                    AIcon(Ic.Right, Color(0xFF8E9CBF), 18.dp, 2.4f)
+                    AIcon(Ic.Right, Color(0xFF8A87A3), 18.dp, 2.4f)
                 }
             }
 
@@ -350,8 +350,8 @@ fun WatchScreen() {
                         style = T.Body.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine, color = RD.Grey), modifier = Modifier.padding(top = 8.dp))
                     val zeppShape = RoundedCornerShape(16.dp)
                     Row(Modifier.padding(top = 12.dp).fillMaxWidth().heightIn(min = PremiumScale.actionHeight)
-                        .testTag("watch-open-zepp").clip(zeppShape).background(Color(0x33FF7A1A))
-                        .border(1.dp, Color(0x33FF7A1A), zeppShape).clickable(role = Role.Button) {
+                        .testTag("watch-open-zepp").clip(zeppShape).background(Color(0xFFFFE5CA))
+                        .border(1.dp, Color(0xFFF2CCA8), zeppShape).clickable(role = Role.Button) {
                             val i = ctx.packageManager.getLaunchIntentForPackage("com.huami.watch.hmwatchmanager")
                             runCatching { ctx.startActivity(i ?: Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.huami.watch.hmwatchmanager"))) }
                                 .onFailure { android.widget.Toast.makeText(ctx, "Impossibile aprire Zepp o il Play Store.", android.widget.Toast.LENGTH_LONG).show() }
@@ -388,7 +388,7 @@ private class WTile(val label: String, val value: String, val unit: String, val 
 private fun WatchHeading(title: String, subtitle: String, warm: Boolean = false) {
     Row(Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp), verticalAlignment = Alignment.Top) {
         Box(Modifier.padding(top = 2.dp).width(3.dp).height(20.dp).clip(CircleShape)
-            .background(if (warm) RD.Orange else C.Royal))
+            .background(if (warm) RD.Orange else RD.Navy))
         GapW(PremiumScale.gap)
         Column(Modifier.weight(1f)) {
             Text(title, style = T.Title2.copy(fontSize = PremiumScale.title, lineHeight = PremiumScale.titleLine))
@@ -407,7 +407,7 @@ private fun WatchBadge(icon: String, ink: Color, surface: Color, box: Dp = Premi
 @Composable
 private fun WatchTile(t: WTile, modifier: Modifier) {
     val shape = RoundedCornerShape(16.dp)
-    Row(modifier.heightIn(min = 66.dp).refShadow(shape, 3.dp).clip(shape).background(C.Surface)
+    Row(modifier.heightIn(min = 66.dp).refShadow(shape, 3.dp).clip(shape).background(Color.White)
         .border(1.dp, A.Hair, shape).padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
         WatchBadge(t.icon, t.ink, t.bg, box = 32.dp)
         GapW(PremiumScale.gap)
@@ -428,7 +428,7 @@ private fun WatchMode(id: Int, current: Int, name: String, desc: String, icon: S
     val sel = id == current
     val shape = RoundedCornerShape(16.dp)
     Row(Modifier.fillMaxWidth().heightIn(min = 60.dp).clip(shape)
-        .border(if (sel) 1.5.dp else 0.dp, if (sel) C.Royal else Color.Transparent, shape)
+        .border(if (sel) 1.5.dp else 0.dp, if (sel) RD.Navy else Color.Transparent, shape)
         .selectable(sel, role = Role.RadioButton, onClick = onClick).padding(10.dp),
         verticalAlignment = Alignment.CenterVertically) {
         WatchBadge(icon, ink, tint)
@@ -438,7 +438,7 @@ private fun WatchMode(id: Int, current: Int, name: String, desc: String, icon: S
             Text(desc, style = T.Small.copy(fontSize = PremiumScale.body, lineHeight = PremiumScale.bodyLine, color = A.Muted), modifier = Modifier.padding(top = 2.dp))
         }
         GapW(10.dp)
-        Box(Modifier.size(20.dp).clip(CircleShape).background(if (sel) C.Royal else Color.Transparent).border(2.dp, if (sel) C.Royal else Color(0xFFC9C5D8), CircleShape), contentAlignment = Alignment.Center) {
+        Box(Modifier.size(20.dp).clip(CircleShape).background(if (sel) A.Ink else Color.Transparent).border(2.dp, if (sel) A.Ink else Color(0xFFC9C5D8), CircleShape), contentAlignment = Alignment.Center) {
             if (sel) AIcon(Ic.Check, Color.White, 14.dp, 3.4f)
         }
     }

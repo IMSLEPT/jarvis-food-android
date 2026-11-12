@@ -40,8 +40,8 @@ fun AStepBtn(plus: Boolean, bg: Color, ink: Color, onClick: () -> Unit) {
 fun AChoice(selected: Boolean, modifier: Modifier = Modifier, minHeight: Dp = 64.dp, radius: Dp = 24.dp, onClick: () -> Unit, content: @Composable () -> Unit) {
     val shape = RoundedCornerShape(radius)
     Box(
-        modifier.heightIn(min = minHeight).clip(shape).background(if (selected) C.Surface else C.SurfaceAlt)
-            .border(2.dp, if (selected) C.Royal else A.Hair, shape).clickable(onClick = onClick),
+        modifier.heightIn(min = minHeight).clip(shape).background(if (selected) Color.White else Color(0xB3FFFFFF))
+            .border(2.dp, if (selected) A.Ink else A.Hair, shape).clickable(onClick = onClick),
         contentAlignment = Alignment.CenterStart
     ) { content() }
 }
@@ -53,7 +53,7 @@ fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, mo
     @Composable
     fun item(i: Int, m: Modifier) {
         val sel = i == selected
-        Box(m.heightIn(min = 48.dp).clip(RoundedCornerShape(21.dp)).background(if (sel) C.Royal else Color.Transparent).clickable { onPick(i) }, contentAlignment = Alignment.Center) {
+        Box(m.heightIn(min = 48.dp).clip(RoundedCornerShape(21.dp)).background(if (sel) C.Navy else Color.Transparent).clickable { onPick(i) }, contentAlignment = Alignment.Center) {
             Text(options[i], style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (sel) Color.White else A.Ink), textAlign = TextAlign.Center)
         }
     }
@@ -69,8 +69,8 @@ fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, mo
 fun AChip(label: String, on: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(16.dp)
     Box(
-        Modifier.heightIn(min = 48.dp).clip(shape).background(if (on) C.Royal else C.Surface)
-            .border(2.dp, if (on) C.Royal else Color(0x1AFFFFFF), shape).clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
+        Modifier.heightIn(min = 48.dp).clip(shape).background(if (on) C.Navy else Color.White)
+            .border(2.dp, if (on) A.Ink else Color(0x1F1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) { Text(label, style = T.Body.copy(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (on) Color.White else A.Ink)) }
 }

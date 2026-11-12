@@ -54,15 +54,15 @@ import androidx.compose.ui.unit.sp
 object A {
     val Ink = C.Text
     val Muted = C.Muted
-    val Hair = Color(0x1AFFFFFF)              // filo vetro: bianco al 10%
-    val Shadow = Color(0xFF000000)
+    val Hair = Color(0x14162853)              // bordo schede: inchiostro all'8%
+    val Shadow = Color(0xFF1D1B3A)
 
-    val ProteinSoft = Color(0x26FF6B8E); val ProteinInk = Color(0xFFFF8CA8)
-    val CarbSoft = Color(0x265C93FF); val CarbInk = Color(0xFF8FB4FF)
-    val FatSoft = Color(0x26FFB83D); val FatInk = Color(0xFFFFC96B)
-    val WaterSoft = Color(0x264FD1F5); val WaterInk = Color(0xFF7FE0FA)
-    val GreenSoft = Color(0x2634D399); val GreenInk = Color(0xFF5FE3B0)
-    val FastSoft = C.NavySoft; val FastInk = Color(0xFF8FB4FF)
+    val ProteinSoft = Color(0xFFFFE4EC); val ProteinInk = Color(0xFFC41F4C)
+    val CarbSoft = Color(0xFFE3EEFF); val CarbInk = Color(0xFF1D4ED8)
+    val FatSoft = Color(0xFFFFF1D2); val FatInk = Color(0xFF925907)
+    val WaterSoft = Color(0xFFDDF6FB); val WaterInk = Color(0xFF0E7490)
+    val GreenSoft = Color(0xFFD9F6EA); val GreenInk = Color(0xFF047857)
+    val FastSoft = C.NavySoft; val FastInk = C.Navy
     val Tonal = C.AccentSoft; val TonalInk = C.AccentDeep
     val Link = C.AccentDeep
     val Peach = C.AccentSoft
@@ -73,7 +73,7 @@ object A {
     val Sun = listOf(C.Accent, Color(0xFFF68A46), Color(0xFFFFAD60))
     val FastBar = C.NavyBrush
     val FastBarV = C.NavyBrush
-    val WaterFill = Brush.verticalGradient(listOf(Color(0xFF4FD1F5), Color(0xFF3B82F6)))
+    val WaterFill = Brush.verticalGradient(listOf(Color(0xFF5CD6EA), Color(0xFF3B82F6)))
 }
 
 // ---------- Icone a tratto (stessi path del design, griglia 24) ----------
@@ -142,8 +142,8 @@ fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Bo
 fun HeaderControl(label: String, selected: Boolean = false, onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
     val shape = RoundedCornerShape(14.dp)
     Box(Modifier.size(48.dp).aShadow(shape, 6.dp).clip(shape)
-        .background(if (selected) C.Royal else C.Surface)
-        .border(1.dp, if (selected) C.Royal else C.Royal.copy(alpha = 0.12f), shape)
+        .background(if (selected) C.Navy else C.Surface)
+        .border(1.dp, if (selected) C.Navy else C.Navy.copy(alpha = 0.12f), shape)
         .semantics { contentDescription = label }.clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center, content = content)
 }
@@ -166,15 +166,8 @@ fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 1
 // ---------- Sfondo e schede ----------
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
-fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color.Transparent): Modifier = this
-
-/** Alone arancione misurato sotto i pulsanti principali. */
-fun Modifier.orangeGlow(shape: Shape, elevation: Dp = 14.dp): Modifier =
-    this.shadow(elevation, shape, ambientColor = Color(0x66FF7A1A), spotColor = Color(0xCCFF7A1A))
-
-/** Alone blu elettrico per elementi selezionati o attivi. */
-fun Modifier.blueGlow(shape: Shape, elevation: Dp = 12.dp): Modifier =
-    this.shadow(elevation, shape, ambientColor = Color(0x552B6BFF), spotColor = Color(0xB32B6BFF))
+fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
+    this.shadow(elevation * 0.06f, shape, ambientColor = Color(0xFF0B1F44).copy(alpha = 0.04f), spotColor = Color(0xFF0B1F44).copy(alpha = 0.10f))
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
@@ -184,8 +177,8 @@ fun ACard(
     onClick: (() -> Unit)? = null, content: @Composable () -> Unit
 ) {
     val shape = RoundedCornerShape(16.dp)
-    var m = modifier.clip(shape)
-    m = (if (brush != null) m.background(brush) else m.background(C.cardSurface(color))).border(1.dp, A.Hair, shape)
+    var m = modifier.aShadow(shape, elevation, glow).clip(shape)
+    m = if (brush != null) m.background(brush) else m.background(C.cardSurface(color))
     if (onClick != null) m = m.clickable(onClick = onClick)
     Box(m.padding(padding)) { content() }
 }
@@ -229,7 +222,7 @@ fun MacroChips(p: Double, c: Double, f: Double) {
 fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
     val shape = RoundedCornerShape(14.dp)
     Box(
-        modifier.heightIn(min = height).let { if (enabled) it.orangeGlow(shape, 10.dp) else it }.clip(shape)
+        modifier.heightIn(min = height).clip(shape)
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
@@ -248,7 +241,7 @@ fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Co
 /** Cerchio navy con "+" (44 px), usato accanto ai pasti. */
 @Composable
 fun PlusButton(desc: String, size: Dp = 48.dp, onClick: () -> Unit) {
-    Box(Modifier.size(size).orangeGlow(CircleShape, 10.dp).clip(CircleShape).background(C.OrangeBrush).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+    Box(Modifier.size(size).clip(CircleShape).background(Color(0xFFF26A1B)).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
         AIcon(Ic.Plus, Color.White, size * 0.41f, 2.6f)
     }
 }
@@ -257,7 +250,7 @@ fun PlusButton(desc: String, size: Dp = 48.dp, onClick: () -> Unit) {
 @Composable
 fun BackCircle(onBack: () -> Unit) {
     Box(
-        Modifier.size(48.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(C.Surface).border(1.dp, A.Hair, CircleShape)
+        Modifier.size(48.dp).aShadow(CircleShape, 6.dp, Color(0x661D1B3A)).clip(CircleShape).background(Color.White).border(1.dp, A.Hair, CircleShape)
             .semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack),
         contentAlignment = Alignment.Center
     ) { AIcon(Ic.Left, A.Ink, 22.dp, 2.4f) }
@@ -268,8 +261,8 @@ fun BackCircle(onBack: () -> Unit) {
 fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(12.dp)
     Box(
-        modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.NavyBrush else Brush.linearGradient(listOf(C.Surface, C.Surface)))
-            .border(1.dp, if (selected) Color.Transparent else Color(0xFF13244C), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
+        modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.NavyBrush else Brush.linearGradient(listOf(Color.White, Color.White)))
+            .border(1.dp, if (selected) Color.Transparent else Color(0xFFDDE2EB), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
         contentAlignment = Alignment.Center
     ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center) }
 }
