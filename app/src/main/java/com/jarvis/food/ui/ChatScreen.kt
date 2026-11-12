@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -113,7 +114,11 @@ fun ChatScreen() {
         if (n > 0) listState.scrollToItem(n - 1)
     }
 
-    fun send(t: String) { if (t.isNotBlank() && ready && !busy) { Jarvis.send(ctx, t); input = "" } }
+    LaunchedEffect(ready, s.ai.chatEngine, s.ai.localModel) {
+        if (ready && s.ai.chatEngine == 0) com.jarvis.food.chat.LocalLlm.warm(ctx, s.ai)
+    }
+
+    fun send(t: String) { if (t.isNotBlank() && !busy) { Jarvis.send(ctx, t); input = "" } }
 
     val active = s.chat.isNotEmpty()
     val last = s.chat.lastOrNull()
@@ -124,7 +129,7 @@ fun ChatScreen() {
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
     Column(Modifier.fillMaxSize().background(C.Bg).imePadding()) {
-        ChatHeader(active, showSetup, input, { input = it }, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup }, { send(input) })
+        ChatHeader(active, showSetup, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup })
         if (showSetup || (!ready && !active)) {
             // Keep the motor settings scrollable without squeezing the composer.
             Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
@@ -149,16 +154,32 @@ fun ChatScreen() {
 private const val NEW_CHAT_ICON = "M21 11a9 9 0 0 1-9 9H4l1.5-4A9 9 0 1 1 21 11zM12 7v8M8 11h8"
 private const val ENGINE_ICON = "M6 6h12v12H6zM10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ChatHeader(active: Boolean, setup: Boolean, input: String, onInput: (String) -> Unit, onNew: () -> Unit, onSetup: () -> Unit, onSend: () -> Unit) {
+private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSetup: () -> Unit) {
+    // Con la tastiera aperta il banner si riduce a una riga: più spazio ai messaggi.
+    val typing = androidx.compose.foundation.layout.WindowInsets.isImeVisible
     Column(Modifier.fillMaxWidth().background(C.Bg).statusBarsPadding().testTag("chat-header")) {
-        NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
-            onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
-            query = input, onQuery = onInput, hint = "Pasti, ricette, piano e spesa",
-            icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(RD.BannerLogo) },
-            descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
-            accounts = true, onSubmit = onSend, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
-            actions = true)
+        if (typing && active && !setup) {
+            RefBannerFrame(true) {
+                Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.padding(start = 6.dp).size(36.dp), contentAlignment = Alignment.Center) { JarvisHeadLogo(32.dp) }
+                    GapW(10.dp)
+                    Text("Jarvis", style = T.Title.copy(fontSize = 22.sp, lineHeight = 28.sp, color = Color.White), modifier = Modifier.weight(1f))
+                    Box(Modifier.size(48.dp).semantics { contentDescription = "Nuova chat" }.clickable(role = Role.Button, onClick = onNew), contentAlignment = Alignment.Center) {
+                        AIcon(RIc.ChatPlus, Color.White, 24.dp, 2f)
+                    }
+                }
+            }
+        } else {
+            NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
+                onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
+                query = "", onQuery = {}, hint = "", supportingText = "Pasti, ricette, piano e spesa: scrivimi qui sotto.",
+                icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(RD.BannerLogo) },
+                descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
+                accounts = true, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
+                actions = true)
+        }
     }
 }
 
@@ -194,14 +215,14 @@ private fun ChatDaySeparator(day: LocalDate) {
 
 @Composable
 private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolean, busy: Boolean, active: Boolean, onSend: () -> Unit, onStop: () -> Unit) {
-    val canSend = ready && input.isNotBlank() && !busy
+    val canSend = input.isNotBlank() && !busy
     val shape = RoundedCornerShape(PremiumScale.cardRadius)
     Row(Modifier.fillMaxWidth().testTag("chat-composer").then(if (Nav.stack.isNotEmpty()) Modifier.navigationBarsPadding() else Modifier)
         .padding(start = 12.dp, end = 12.dp, top = if (active) 12.dp else 4.dp, bottom = if (active) 10.dp else 2.dp), verticalAlignment = Alignment.CenterVertically) {
         OutlinedTextField(
             value = input, onValueChange = onInput,
-            modifier = Modifier.weight(1f).heightIn(min = 56.dp).then(if (active) Modifier.refShadow(shape, 4.dp) else Modifier).testTag("chat-input"), enabled = ready,
-            placeholder = { Text(if (ready) "Scrivi a Jarvis…" else "Scarica o scegli un motore", style = T.Read.copy(color = C.Muted, fontSize = 14.sp, lineHeight = 19.sp), maxLines = 2) },
+            modifier = Modifier.weight(1f).heightIn(min = 56.dp).then(if (active) Modifier.refShadow(shape, 4.dp) else Modifier).testTag("chat-input"),
+            placeholder = { Text("Scrivi a Jarvis…", style = T.Read.copy(color = C.Muted, fontSize = 14.sp, lineHeight = 19.sp), maxLines = 2) },
             textStyle = T.Read.copy(fontSize = 14.sp, lineHeight = 19.sp), shape = shape, maxLines = 4,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send), keyboardActions = KeyboardActions(onSend = { onSend() }),
             trailingIcon = { Box(Modifier.padding(end = 6.dp)) { ChatSendControl(canSend, busy, PremiumScale.actionHeight, onSend, onStop) } },

@@ -53,6 +53,14 @@ object LocalLlm {
         return e
     }
 
+    /** Carica il modello in anticipo (all'apertura della chat) così il primo messaggio non aspetta. */
+    suspend fun warm(ctx: Context, cfg: AiConfig) {
+        if (loaded) return
+        val model = LocalModel.of(cfg.localModel)
+        if (!ModelManager.isReady(ctx, model)) return
+        lock.withLock { withContext(Dispatchers.Default) { runCatching { ensure(ctx.applicationContext, ModelManager.file(ctx, model).path, cfg.chatGpu) } } }
+    }
+
     suspend fun reply(ctx: Context, cfg: AiConfig, system: String, history: List<Turn>, onText: (String) -> Unit): String =
         lock.withLock {
             withContext(Dispatchers.Default) {

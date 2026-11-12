@@ -35,6 +35,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Build di prova locale installabile accanto all'app firmata: ./gradlew assembleDebug -PdevSuffix
+            if (project.hasProperty("devSuffix")) {
+                applicationIdSuffix = ".dev"
+                versionNameSuffix = "-dev"
+            }
+        }
         release {
             isMinifyEnabled = false
             isShrinkResources = false

@@ -178,7 +178,7 @@ data class AiConfig(
     /** Motore del chatbot Jarvis: 0 sul telefono (illimitato, offline), 1 cloud gratuito. */
     val chatEngine: Int = 0,
     /** Modello sul telefono: 0 Gemma 4 E2B (veloce), 1 Gemma 4 E4B (più intelligente). */
-    val localModel: Int = 1,
+    val localModel: Int = 0,
     /** Accelerazione GPU per il modello sul telefono (sperimentale: più veloce ma non su tutti i dispositivi). */
     val chatGpu: Boolean = false
 ) {

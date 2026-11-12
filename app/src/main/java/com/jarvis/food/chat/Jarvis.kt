@@ -118,6 +118,21 @@ object Jarvis {
         if (t.isEmpty() || busy) return
         val app = ctx.applicationContext
         addMsg("user", t)
+        // Risposte istantanee (senza modello) per comandi chiari e domande sui dati dell'app.
+        QuickIntents.answer(t, Store.current)?.let { addMsg("assistant", it); Store.saveNow(); return }
+        QuickIntents.parse(t)?.let { plan ->
+            val before = Store.current
+            val results = plan.calls.map { Actions.execute(it) }
+            if (results.all { it.ok && it.confirm == null }) {
+                val msg = addMsg("assistant", plan.reply(Store.current), results.map { "✓ ${it.text}" })
+                undoFor = msg.id; undoState = before
+                Store.saveNow(); return
+            }
+        }
+        if (!ready(app, Store.current.ai)) {
+            addMsg("assistant", "Questa richiesta ha bisogno del motore di Jarvis: apri «Modello» in alto e scaricalo (una volta sola). Intanto i comandi semplici funzionano subito: «ho bevuto 500 ml», «ho mangiato 150 g di pollo a pranzo», «peso 79,4», «quante calorie mi restano?».")
+            Store.saveNow(); return
+        }
         busy = true; partial = ""; status = "Jarvis sta pensando…"
         val requestId = ++requestVersion
         job = scope.launch {
