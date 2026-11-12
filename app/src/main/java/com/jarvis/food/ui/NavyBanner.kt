@@ -47,9 +47,10 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (onBack != null) { BannerBackTile(onBack); GapW(10.dp) }
                         if (accounts) HeaderProfileTile(42.dp)
+                        if (tileIcon != null) { if (accounts || onBack != null) GapW(10.dp); GlowIcon(tileIcon, Tone.Orange.first, Tone.Orange.second, 42.dp, 14.dp, glyph = 22.dp, duo = false) }
                     }
                     GapH(8.dp)
-                    heading()
+                    Text(title, style = T.Title.copy(fontSize = 28.sp, lineHeight = 32.sp, color = Color.White), maxLines = 1)
                     if (subtitle != null) Text(subtitle, Modifier.padding(top = 2.dp, bottom = 4.dp), style = T.Body.copy(fontSize = 13.sp, lineHeight = 18.sp, color = Color(0xFFB9C8EC)), maxLines = 3)
                 }
                 mascot()
