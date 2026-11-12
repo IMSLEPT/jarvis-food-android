@@ -66,6 +66,7 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
         }
         GapH(10.dp)
         RefBannerTabs(labels, icons, selected, onSelect, actions, title, descriptions, labelTags)
+        if (mascot != null && !large) GapH(10.dp) // stessa altezza del banner di Oggi
         if (searchContent != null || supportingText != null || hint.isNotEmpty() || query.isNotEmpty()) {
             GapH(10.dp)
             Box(Modifier.fillMaxWidth().heightIn(min = if (large) 52.dp else 44.dp), contentAlignment = Alignment.CenterStart) {
