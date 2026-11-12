@@ -63,6 +63,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
@@ -105,8 +107,8 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
     Column(Modifier.fillMaxWidth().background(C.ProfileSurface)) {
         Row(Modifier.fillMaxWidth().then(tag).heightIn(min = 68.dp).clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(36.dp).clip(RoundedCornerShape(11.dp)).background(if (warm) C.AccentSoft else C.NavySoft), contentAlignment = Alignment.Center) {
-                AIcon(icon, if (warm) C.ProfileOrange else C.Navy, 21.dp)
+            Box(Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(if (warm) Brush.verticalGradient(listOf(Color(0xFFFFE4D0), Color(0xFFFFF2EA))) else Brush.verticalGradient(listOf(Color(0xFFDDE7FA), Color(0xFFECF2FE)))), contentAlignment = Alignment.Center) {
+                AIcon(icon, if (warm) C.ProfileOrange else C.Navy, 22.dp)
             }
             GapW(12.dp)
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
@@ -116,7 +118,7 @@ private fun ProfRow(icon: String, bg: Color, ink: Color, title: String, sub: Str
             GapW(8.dp)
             AIcon(Ic.Right, C.ProfileMuted, 16.dp, 2f)
         }
-        if (divider) HorizontalDivider(Modifier.padding(start = 62.dp, end = 14.dp), color = C.Line)
+        if (divider) HorizontalDivider(Modifier.padding(start = 66.dp, end = 14.dp), color = Color(0xFFEEF1F7))
     }
 }
 
@@ -168,68 +170,75 @@ fun ProfileScreen() {
     val shape30 = RoundedCornerShape(20.dp)
 
     Column(Modifier.fillMaxSize().background(C.Bg).statusBarsPadding().navigationBarsPadding()) {
-        Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (Nav.stack.isNotEmpty()) {
-                Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button) { Nav.back() }, contentAlignment = Alignment.Center) {
-                    Box(Modifier.size(40.dp).clip(CircleShape).background(C.ProfileSurface).border(1.dp, C.Line, CircleShape), contentAlignment = Alignment.Center) {
-                        AIcon(Ic.Left, C.Navy, 22.dp, 2.3f)
+        Column(Modifier.weight(1f).testTag("profile-scroll").verticalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp)) {
+            val heroShape = RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp, bottomStart = 34.dp, bottomEnd = 34.dp)
+            val goal = when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }
+            val weight = "${s.profile.targetWeight.r1().removeSuffix(",0")} kg"
+            Column(Modifier.fillMaxWidth().aShadow(heroShape, 14.dp).clip(heroShape).background(RD.NavyBrush)
+                .drawBehind {
+                }.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    if (Nav.stack.isNotEmpty()) {
+                        Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button) { Nav.back() }, contentAlignment = Alignment.Center) {
+                            Box(Modifier.size(40.dp).clip(CircleShape).background(Color(0x33FFFFFF)), contentAlignment = Alignment.Center) { AIcon(Ic.Left, Color.White, 22.dp, 2.3f) }
+                        }
+                        GapW(6.dp)
+                    }
+                    Text("Profilo", style = T.H1.copy(fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = (-0.4).sp, color = Color.White), modifier = Modifier.weight(1f))
+                    Box(Modifier.size(48.dp).clip(RoundedCornerShape(16.dp)).semantics { contentDescription = "Modifica profilo" }
+                        .clickable(role = Role.Button) { Nav.go(Screen.ProfileEdit) }, contentAlignment = Alignment.Center) {
+                        AIcon(PIc.Edit, Color.White, 24.dp)
                     }
                 }
-                GapW(8.dp)
-            }
-            Text("Profilo", style = T.H1.copy(fontSize = 24.sp, lineHeight = 28.sp, letterSpacing = (-0.6).sp))
-        }
-        Column(Modifier.weight(1f).testTag("profile-scroll").verticalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 24.dp)) {
-            Row(Modifier.fillMaxWidth().padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Avatar(s.profile.name, s.profile.photo, 70.dp, Modifier.clickable(role = Role.Button) { Nav.go(Screen.ProfileEdit) }, RoundedCornerShape(20.dp))
-                GapW(16.dp)
-                Column(Modifier.weight(1f)) {
-                    Text(s.profile.name, style = T.H1.copy(fontSize = 26.5.sp, lineHeight = 32.sp, letterSpacing = 0.sp))
-                    Text("${Nutrition.age(s.profile)} anni · ${w.r1()} kg", style = T.Body.copy(fontSize = 14.sp, color = C.ProfileMuted), modifier = Modifier.padding(top = 4.dp))
+                GapH(6.dp)
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Avatar(s.profile.name, s.profile.photo, 76.dp, Modifier.border(3.dp, Color(0xFFFFA25C), CircleShape).padding(3.dp).clip(CircleShape).clickable(role = Role.Button) { Nav.go(Screen.ProfileEdit) }, CircleShape)
+                    GapW(16.dp)
+                    Column(Modifier.weight(1f)) {
+                        Text(s.profile.name, style = T.H1.copy(fontSize = 26.sp, lineHeight = 31.sp, letterSpacing = 0.sp, color = Color.White), maxLines = 2)
+                        Text("${Nutrition.age(s.profile)} anni · ${w.r1()} kg", style = T.Body.copy(fontSize = 14.sp, color = Color(0xFFDCE5F5)), modifier = Modifier.padding(top = 2.dp))
+                    }
                 }
-                Box(Modifier.size(48.dp).clip(RoundedCornerShape(16.dp)).semantics { contentDescription = "Modifica profilo" }
-                    .clickable(role = Role.Button) { Nav.go(Screen.ProfileEdit) }, contentAlignment = Alignment.Center) {
-                    AIcon(PIc.Edit, C.Navy, 24.dp)
-                }
-            }
-            GapH(16.dp)
-            val summaryShape = RoundedCornerShape(20.dp)
-            BoxWithConstraints(Modifier.fillMaxWidth().heightIn(min = 72.dp).aShadow(summaryShape, 8.dp).clip(summaryShape).background(C.ProfileSurface)
-                .border(1.dp, C.ProfileBorder, summaryShape).padding(12.dp)) {
-                val stacked = maxWidth / LocalDensity.current.fontScale < 280.dp
-                val goal = when (s.profile.goal) { -1 -> "Dimagrire"; 1 -> "Massa"; else -> "Mantenere" }
-                val weight = "${s.profile.targetWeight.r1().removeSuffix(",0")} kg"
-                if (stacked) Column {
-                    ProfileSummaryStat("Obiettivo", goal, PIc.Target, stacked = true)
-                    HorizontalDivider(color = C.Line)
-                    ProfileSummaryStat("Calorie al giorno", "${kcalFmt(kcal)} kcal", Ic.Flame, stacked = true)
-                    HorizontalDivider(color = C.Line)
-                    ProfileSummaryStat("Peso obiettivo", weight, PIc.WeightGoal, stacked = true, tint = C.Navy)
-                } else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    ProfileSummaryStat("Obiettivo", goal, PIc.Target, Modifier.weight(1f))
-                    Box(Modifier.width(1.dp).height(44.dp).background(C.Line))
-                    ProfileSummaryStat("Calorie al giorno", "${kcalFmt(kcal)} kcal", Ic.Flame, Modifier.weight(1f))
-                    Box(Modifier.width(1.dp).height(44.dp).background(C.Line))
-                    ProfileSummaryStat("Peso obiettivo", weight, PIc.WeightGoal, Modifier.weight(1f), tint = C.Navy)
+                GapH(14.dp)
+                BoxWithConstraints(Modifier.fillMaxWidth()) {
+                    val stacked = maxWidth / LocalDensity.current.fontScale < 280.dp
+                    val chip: @Composable (String, String, String, Modifier) -> Unit = { label, value, icon, mod ->
+                        Column(mod.clip(RoundedCornerShape(18.dp)).background(Color(0x26FFFFFF)).padding(horizontal = 10.dp, vertical = 9.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                AIcon(icon, Color(0xFFFFB36E), 14.dp); GapW(5.dp)
+                                Text(label, style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 14.sp, color = Color(0xFFDCE5F5)), maxLines = 1)
+                            }
+                            Text(value, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 21.sp, color = Color.White), maxLines = 1)
+                        }
+                    }
+                    if (stacked) Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        chip("Obiettivo", goal, PIc.Target, Modifier.fillMaxWidth())
+                        chip("Calorie al giorno", "${kcalFmt(kcal)} kcal", Ic.Flame, Modifier.fillMaxWidth())
+                        chip("Peso obiettivo", weight, PIc.WeightGoal, Modifier.fillMaxWidth())
+                    } else Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        chip("Obiettivo", goal, PIc.Target, Modifier.weight(1f))
+                        chip("Calorie", "${kcalFmt(kcal)} kcal", Ic.Flame, Modifier.weight(1.15f))
+                        chip("Peso obiettivo", weight, PIc.WeightGoal, Modifier.weight(1f))
+                    }
                 }
             }
 
             ProfileSectionTitle("Dati e obiettivi")
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).border(1.dp, C.Line, RoundedCornerShape(20.dp))) {
+            Column(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 8.dp).clip(RoundedCornerShape(26.dp)).background(C.ProfileSurface)) {
             ProfRow(Ic.User, C.NavySoft, C.Navy, "Profilo e obiettivo", "Dati personali e ritmo", key = "profile") { Nav.go(Screen.ProfileEdit) }
             ProfRow(PIc.Scale, C.AccentSoft, C.AccentDeep, "Peso", "Ultima registrazione: ${w.r1()} kg", key = "weight") { Nav.go(Screen.Weight) }
             ProfRow(PIc.Ruler, C.NavySoft, C.Navy, "Misure corporee", "Vita, fianchi, petto e altre misure", divider = false, key = "measurements") { Nav.go(Screen.Measurements) }
             }
 
             ProfileSectionTitle("Alimentazione")
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).border(1.dp, C.Line, RoundedCornerShape(20.dp))) {
+            Column(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 8.dp).clip(RoundedCornerShape(26.dp)).background(C.ProfileSurface)) {
             ProfRow(PIc.Target, C.AccentSoft, C.AccentDeep, "Calorie e macronutrienti", if (s.trainingNutrition.active) "Obiettivi ON/OFF attivi" else "${s.goals.carbsPct}% carboidrati · ${s.goals.proteinPct}% proteine · ${s.goals.fatPct}% grassi", key = "goals") { Nav.go(Screen.Goals) }
             ProfRow(Ic.Calendar, C.NavySoft, C.Navy, "Giorni ON e OFF", if (s.trainingNutrition.active) "Allenamento e riposo · attivi" else "Imposta calorie e macro per tipo di giornata", key = "training-goals") { Nav.go(Screen.TrainingGoals) }
             ProfRow(PIc.Leaf, C.AccentSoft, C.AccentDeep, "Preferenze della dieta", "Alimenti esclusi, pasti e tempi", divider = false, key = "diet") { Nav.go(Screen.DietSettings) }
             }
 
             ProfileSectionTitle("Strumenti")
-            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).border(1.dp, C.Line, RoundedCornerShape(20.dp))) {
+            Column(Modifier.fillMaxWidth().aShadow(RoundedCornerShape(26.dp), 8.dp).clip(RoundedCornerShape(26.dp)).background(C.ProfileSurface)) {
             ProfRow(PIc.Chat, C.NavySoft, C.Navy, "Chat con Jarvis", "Il tuo assistente alimentare", key = "chat") { Nav.go(Screen.Chat) }
             ProfRow(PIc.Watch, C.AccentSoft, C.AccentDeep, "Smartwatch e attività", "Collegamenti e livello di attività", key = "watch") { Nav.go(Screen.Watch) }
             ProfRow(PIc.Sparks, C.NavySoft, C.Navy, "Intelligenza artificiale", if (s.ai.apiKey.isBlank()) "Da configurare (gratuita)" else "Attiva · ${s.ai.model}", key = "ai") { Nav.go(Screen.AiSettings) }

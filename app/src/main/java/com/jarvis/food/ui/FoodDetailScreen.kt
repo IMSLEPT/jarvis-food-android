@@ -1,6 +1,7 @@
 package com.jarvis.food.ui
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Arrangement
@@ -101,10 +102,10 @@ fun FoodDetailScreen(originalFood: Food, date: LocalDate, meal: Int, initialGram
     Column(Modifier.fillMaxSize().imePadding()) {
         TopBar(if (replacing) "Sostituisci" else if (entry != null) "Modifica" else "Dettaglio", onBack = { Nav.back() }) {
             if (food.source == "custom") IconButton(onClick = { Nav.go(Screen.CustomFood(null, meal, edit = food)) }) {
-                Icon(Icons.Filled.Edit, "Modifica alimento", tint = C.Muted)
+                Icon(Icons.Filled.Edit, "Modifica alimento", tint = Color.White)
             }
             IconButton(onClick = { Store.toggleFavorite(food) }) {
-                Icon(if (isFav) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder, "Preferito", tint = if (isFav) C.Protein else C.Muted)
+                Icon(if (isFav) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder, "Preferito", tint = if (isFav) Color(0xFFFF7A9C) else Color.White)
             }
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {

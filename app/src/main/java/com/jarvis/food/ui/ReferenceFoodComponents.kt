@@ -48,47 +48,20 @@ internal fun ReferenceInsightCard(
         TodayArt.Activity -> R.drawable.insight_activity
         else -> error("Unsupported insight artwork: $art")
     }
-    val bitmap = ImageBitmap.imageResource(resource)
-    ACard(modifier.fillMaxWidth(), radius = PremiumScale.cardRadius, padding = 0.dp, elevation = 4.dp,
+    val tint = when (art) {
+        TodayArt.Vitamins -> listOf(Color(0xFFFFE4D0), Color(0xFFFFF4EA))
+        TodayArt.Calendar -> listOf(Color(0xFFDDE7FA), Color(0xFFF0F5FF))
+        else -> listOf(Color(0xFFD5F2E6), Color(0xFFEFFAF5))
+    }
+    ACard(modifier.fillMaxWidth(), radius = 26.dp, padding = 14.dp, elevation = 8.dp,
         glow = Color(0x2009194D), onClick = onClick) {
-        BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val panelWidth = (maxWidth * (if (art == TodayArt.Calendar) .23f else .255f)).coerceAtMost(104.dp)
-            Box(Modifier.fillMaxWidth()) {
-                Canvas(Modifier.matchParentSize().testTag("insight-icon-$art")) {
-                    val width = panelWidth.toPx()
-                    val height = size.height
-                    fun Path.traceEdge() {
-                        moveTo(width * .78f, 0f)
-                        cubicTo(width * 1.06f, height * .28f, width * 1.06f, height * .72f, width * .78f, height)
-                    }
-                    val edge = Path().apply { traceEdge() }
-                    val panel = Path().apply {
-                        traceEdge()
-                        lineTo(0f, height)
-                        lineTo(0f, 0f)
-                        close()
-                    }
-                    clipPath(panel) {
-                        drawRect(
-                            Brush.radialGradient(
-                                listOf(Color(0xFF155185), Color(0xFF0B2D53), Color(0xFF051830)),
-                                center = Offset(width * .40f, height * .47f),
-                                radius = maxOf(width, height * .62f)
-                            ),
-                            size = androidx.compose.ui.geometry.Size(width, height)
-                        )
-                        val scale = minOf(width * .92f / bitmap.width, height * .94f / bitmap.height)
-                        val artWidth = (bitmap.width * scale).roundToInt().coerceAtLeast(1)
-                        val artHeight = (bitmap.height * scale).roundToInt().coerceAtLeast(1)
-                        drawImage(bitmap, dstOffset = IntOffset(((width - artWidth) * .30f).roundToInt(),
-                            ((height - artHeight) / 2f).roundToInt()), dstSize = IntSize(artWidth, artHeight))
-                    }
-                    drawPath(edge, Brush.verticalGradient(listOf(Color(0xFFFFAB37), DashboardOrange, Color(0xFFFF9B1F)),
-                        startY = 0f, endY = height), style = Stroke(2.5.dp.toPx()))
-                }
-                Column(Modifier.fillMaxWidth().padding(start = panelWidth + 4.dp, end = PremiumScale.gap,
-                    top = 5.dp, bottom = 6.dp), content = content)
+        Row(Modifier.fillMaxWidth()) {
+            Box(Modifier.size(64.dp).testTag("insight-icon-$art").clip(RoundedCornerShape(20.dp))
+                .background(Brush.verticalGradient(tint)), contentAlignment = Alignment.Center) {
+                Image(painterResource(resource), null, Modifier.size(54.dp), contentScale = ContentScale.Fit)
             }
+            GapW(12.dp)
+            Column(Modifier.weight(1f), content = content)
         }
     }
 }
@@ -169,8 +142,8 @@ internal fun JarvisChefBanner() {
     val large = LocalDensity.current.fontScale > 1.2f
     val shape = RoundedCornerShape(24.dp)
     Row(Modifier.fillMaxWidth().testTag("jarvis-chef-banner").aShadow(shape, 4.dp, Color(0x2609194D))
-        .clip(shape).background(Brush.linearGradient(listOf(Color(0xFF09254B), Color(0xFF0B3B73), C.Navy)))
-        .border(1.dp, Color.White, shape).clickable(role = Role.Button) { Nav.go(Screen.WhatNow) }
+        .clip(shape).background(RD.NavyBrush)
+        .clickable(role = Role.Button) { Nav.go(Screen.WhatNow) }
         .padding(start = 6.dp, end = 12.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(width = if (large) 64.dp else 88.dp, height = 96.dp)) {
             Canvas(Modifier.fillMaxSize()) {

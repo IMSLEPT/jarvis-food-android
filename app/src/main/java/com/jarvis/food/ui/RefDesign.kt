@@ -257,9 +257,8 @@ fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
             .drawBehind {
                 // Riflesso curvo in alto a destra, come nei riferimenti.
                 val r = size.width * 0.62f
-                drawCircle(if (navy) Color(0x26FFFFFF) else Color(0x66FFFFFF), r, Offset(size.width * 1.02f, -r * 0.28f))
-                if (navy) drawCircle(Brush.radialGradient(listOf(Color(0x2EFF8A3D), Color.Transparent), Offset(-size.width * 0.05f, size.height * 1.05f), size.width * 0.55f), size.width * 0.55f, Offset(-size.width * 0.05f, size.height * 1.05f))
-            }
+                if (!navy) drawCircle(Color(0x66FFFFFF), r, Offset(size.width * 1.02f, -r * 0.28f))
+                            }
             .padding(horizontal = 12.dp, vertical = 8.dp), content = content)
     }
 }

@@ -678,7 +678,7 @@ fun RecipeListScreen(sc: Screen.RecipeList) {
     Column(Modifier.fillMaxSize()) {
         TopBar(if (sc.mine) sc.title else "Elenco ricette", onBack = { Nav.back() }) {
             if (!sc.mine) TextButton(onClick = { panel = !panel }) {
-                Text(if (f.activeCount > 0) "Filtri (${f.activeCount})" else "Filtri", color = C.AccentDeep, style = T.BtnS)
+                Text(if (f.activeCount > 0) "Filtri (${f.activeCount})" else "Filtri", color = Color(0xFFFFB36E), style = T.BtnS)
             }
         }
         LazyColumn(Modifier.weight(1f).padding(horizontal = 16.dp), contentPadding = PaddingValues(bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {

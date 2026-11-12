@@ -154,7 +154,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
     val fraction = TodayProgress.ratio(eaten, target).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(650), label = "calorie-progress")
     ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 28.dp, brush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3))), padding = 16.dp, bordered = false, elevation = 16.dp, onClick = onClick) {
-      Column(Modifier.drawBehind { drawCircle(Brush.radialGradient(listOf(Color(0x30FF8A3D), Color.Transparent), Offset(size.width, 0f), size.width * 0.5f), size.width * 0.5f, Offset(size.width, 0f)) }) {
+      Column {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val roomy = maxWidth / LocalDensity.current.fontScale >= 220.dp
             val info: @Composable () -> Unit = {

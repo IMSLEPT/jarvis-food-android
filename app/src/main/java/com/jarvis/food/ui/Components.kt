@@ -39,6 +39,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -111,10 +115,21 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = 
 
 @Composable
 fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.() -> Unit = {}) {
-    Row(Modifier.fillMaxWidth().zIndex(2f).background(C.Bg).statusBarsPadding().padding(start = 16.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        if (onBack != null) { BackCircle(onBack); Spacer(Modifier.width(12.dp)) }
-        Text(title, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp), modifier = Modifier.weight(1f), maxLines = 3, overflow = TextOverflow.Ellipsis)
-        actions()
+    val shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomStart = 28.dp, bottomEnd = 28.dp)
+    Box(Modifier.fillMaxWidth().zIndex(2f).background(C.Bg).statusBarsPadding().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
+        Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp).clip(shape).background(RD.NavyBrush)
+            .padding(start = 10.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (onBack != null) {
+                Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack), contentAlignment = Alignment.Center) {
+                    Box(Modifier.size(40.dp).clip(CircleShape).background(Color(0x33FFFFFF)), contentAlignment = Alignment.Center) { AIcon(Ic.Left, Color.White, 22.dp, 2.4f) }
+                }
+                Spacer(Modifier.width(8.dp))
+            } else Spacer(Modifier.width(6.dp))
+            Text(title, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp, color = Color.White), modifier = Modifier.weight(1f), maxLines = 3, overflow = TextOverflow.Ellipsis)
+            Row(Modifier.clip(RoundedCornerShape(20.dp)).background(Color.White.copy(alpha = 0.0f)), verticalAlignment = Alignment.CenterVertically) {
+                CompositionLocalProvider(LocalContentColor provides Color.White) { actions() }
+            }
+        }
     }
 }
 

@@ -111,7 +111,7 @@ fun UserRecipeDetailScreen(recipe: Recipe) {
     val food = Nutrition.recipeAsFood(r)
     val k = people.toDouble() / r.servings.coerceAtLeast(1)
     Column(Modifier.fillMaxSize()) {
-        TopBar(r.name, onBack = { Nav.back() }) { TextButton(onClick = { Nav.go(Screen.RecipeEditor(r)) }) { Text("Modifica", color = C.AccentDeep) } }
+        TopBar(r.name, onBack = { Nav.back() }) { TextButton(onClick = { Nav.go(Screen.RecipeEditor(r)) }) { Text("Modifica", color = Color(0xFFFFB36E)) } }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             if (r.photo != null) {
                 RecipeImage(r.id, null, r.photo, Modifier.fillMaxWidth().height(220.dp), r.emoji, 24.dp)

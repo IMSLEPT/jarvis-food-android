@@ -474,8 +474,8 @@ private fun WaterCard(date: LocalDate, s: AppState) {
     val ml = s.water[date.toString()] ?: 0
     val goal = s.goals.waterMl.coerceAtLeast(1)
     val fill by animateFloatAsState((ml.toFloat() / goal).coerceIn(0f, 1f), tween(900), label = "water")
-    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = PremiumScale.cardRadius, padding = 10.dp,
-        elevation = 4.dp, glow = Color(0x2009194D)) {
+    ACard(Modifier.fillMaxWidth().testTag("home-water"), radius = 26.dp, padding = 14.dp, brush = Brush.verticalGradient(listOf(Color(0xFFD9F4FA), Color.White)),
+        elevation = 8.dp, glow = Color(0x2009194D)) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val inline = maxWidth / LocalDensity.current.fontScale >= 316.dp
             val controls: @Composable () -> Unit = {
@@ -486,7 +486,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                             val current = Store.current
                             Store.setWater(date, ((current.water[date.toString()] ?: 0) - current.glassMl).coerceAtLeast(0))
                         }, contentAlignment = Alignment.Center) {
-                        Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xFFF0F2F6)),
+                        Box(Modifier.size(38.dp).clip(CircleShape).background(Color.White),
                             contentAlignment = Alignment.Center) {
                             AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.4f), 18.dp, 2.4f)
                         }
@@ -497,7 +497,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                             val current = Store.current
                             Store.setWater(date, (current.water[date.toString()] ?: 0) + current.glassMl)
                         }, contentAlignment = Alignment.Center) {
-                        Row(Modifier.heightIn(min = 40.dp).clip(RoundedCornerShape(13.dp))
+                        Row(Modifier.heightIn(min = 40.dp).clip(RoundedCornerShape(20.dp))
                             .background(RD.NavyBrush).padding(horizontal = 11.dp, vertical = 5.dp),
                             verticalAlignment = Alignment.CenterVertically) {
                             AIcon(Ic.Plus, Color.White, 17.dp, 2.8f)
@@ -509,18 +509,16 @@ private fun WaterCard(date: LocalDate, s: AppState) {
             }
             Column {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    TodayWaterBottle(fill, Modifier.size(80.dp)
+                    TodayWaterBottle(fill, Modifier.size(80.dp).clip(RoundedCornerShape(22.dp)).background(Color.White)
                         .testTag("water-bottle").semantics {
                             contentDescription = "$ml ml su $goal ml"
                             progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(fill, 0f..1f)
                         })
-                    GapW(7.dp)
-                    Box(Modifier.width(1.dp).height(60.dp).background(RD.GreyLine))
-                    GapW(9.dp)
+                    GapW(12.dp)
                     Column(Modifier.weight(1f)) {
                         Text("Acqua", style = T.Label.copy(color = RD.Ink))
                         Text("${waterLitres(ml)} L", Modifier.testTag("water-amount"),
-                            style = T.Title.copy(color = RD.Ink, fontSize = 26.sp, lineHeight = 28.sp))
+                            style = T.Title.copy(color = A.WaterInk, fontSize = 30.sp, lineHeight = 33.sp))
                         Text("su ${waterLitres(goal)} L", style = T.Small)
                         Text("Bicchiere da ${s.glassMl} ml", style = T.Small.copy(fontSize = PremiumScale.body, lineHeight = 15.sp))
                     }
@@ -532,6 +530,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                 if (!inline) Box(Modifier.fillMaxWidth().padding(top = 5.dp), contentAlignment = Alignment.CenterEnd) {
                     controls()
                 }
+                ABar(fill, A.WaterFill, Color.White, 8.dp, Modifier.padding(top = 10.dp))
             }
         }
     }
@@ -581,11 +580,11 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
             ActivityRow(w.title, "${fmtTime(w.start)} · ${((w.end - w.start) / 60000)} min", w.kcal?.r0())
         }
         list.forEach { a -> ActivityRow(a.name, "${a.minutes} min · inserita a mano", a.kcal.toString(), onRemove = { Store.removeActivity(a.id) }) }
-        androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text("Smartwatch", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Watch) }.padding(vertical = 12.dp))
+        androidx.compose.foundation.layout.FlowRow(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(0.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LinkPill("Smartwatch") { Nav.go(Screen.Watch) }
             if (!watch) {
-                Text("Aggiungi attività", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { Nav.go(Screen.Activity(date)) }.padding(vertical = 12.dp))
-                Text(if (editSteps) "Chiudi" else "Modifica passi", style = T.Link, modifier = Modifier.heightIn(min = 48.dp).clickable { editSteps = !editSteps }.padding(vertical = 12.dp))
+                LinkPill("Aggiungi attività") { Nav.go(Screen.Activity(date)) }
+                LinkPill(if (editSteps) "Chiudi" else "Modifica passi") { editSteps = !editSteps }
             }
         }
         if (editSteps && !watch) {
@@ -622,3 +621,11 @@ private fun waterLitres(ml: Int): String = java.text.NumberFormat.getNumberInsta
     minimumFractionDigits = 1
     maximumFractionDigits = 2
 }.format(ml / 1000.0)
+
+@Composable
+private fun LinkPill(text: String, onClick: () -> Unit) {
+    Box(Modifier.padding(vertical = 6.dp).heightIn(min = 40.dp).clip(RoundedCornerShape(20.dp)).background(C.AccentSoft)
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 14.dp, vertical = 8.dp), contentAlignment = Alignment.Center) {
+        Text(text, style = T.Link)
+    }
+}
