@@ -97,10 +97,10 @@ fun JCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedCornerShape(20.dp)
+    val shape = RoundedCornerShape(26.dp)
     val base = modifier.fillMaxWidth()
         .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
-        .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)).border(1.dp, A.Hair, shape) }
+        .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)) }
     Column(modifier = (if (onClick != null) base.clickable(onClick = onClick) else base).padding(padding), content = content)
 }
 
@@ -123,12 +123,12 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
 /** Pulsante principale: arancione sfumato con testo bianco. Con [color] diverso dall'arancione diventa pieno (es. blu navy). */
 @Composable
 fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
+    val shape = RoundedCornerShape(22.dp)
     val orange = color == C.Accent
     val fill: Modifier = when {
         !enabled -> Modifier.background(C.SurfaceHi, shape)
         orange -> Modifier.aShadow(shape, 8.dp, Color(0x66F25E00)).clip(shape).background(C.OrangeBrush, shape)
-        else -> Modifier.clip(shape).background(color ?: C.Navy, shape)
+        else -> if (color == null || color == C.Navy) Modifier.aShadow(shape, 8.dp).clip(shape).background(C.NavyBrush, shape) else Modifier.clip(shape).background(color, shape)
     }
     Box(
         modifier.heightIn(min = 52.dp).then(fill)
@@ -140,7 +140,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
 @Composable
 fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Text, onClick: () -> Unit) {
     Box(
-        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(C.Surface).border(1.dp, Color(0x1A1D1B3A), RoundedCornerShape(14.dp))
+        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(22.dp)).background(C.Surface).border(1.dp, Color(0x330B3373), RoundedCornerShape(22.dp))
             .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnM.copy(color = color), textAlign = TextAlign.Center) }
@@ -149,8 +149,8 @@ fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Te
 @Composable
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
-        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(if (selected) color else C.Surface)
-            .border(1.dp, if (selected) A.Ink else Color(0x1A1D1B3A), RoundedCornerShape(14.dp))
+        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(24.dp)).background(if (selected) (if (color == C.Ink) C.NavyBrush else Brush.linearGradient(listOf(color, color))) else Brush.linearGradient(listOf(C.Surface, C.Surface)))
+            .border(1.dp, if (selected) Color.Transparent else Color(0x1A0B3373), RoundedCornerShape(24.dp))
             .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), textAlign = TextAlign.Center) }
 }

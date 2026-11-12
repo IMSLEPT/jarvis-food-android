@@ -137,28 +137,19 @@ fun TodayScreen() {
         TodayMacroCard(totals.protein, e.protein, totals.carbs, e.carbs, totals.fat, e.fat)
 
         Spacer(Modifier.height(20.dp))
-        ACard(Modifier.fillMaxWidth(), radius = 22.dp, padding = 4.dp, elevation = 4.dp) {
-            BoxWithConstraints(Modifier.fillMaxWidth()) {
-            if (maxWidth / LocalDensity.current.fontScale < 320.dp) Column {
-                Row(Modifier.fillMaxWidth()) {
-                    QuickTile("Aggiungi", TodayArt.Add, Modifier.weight(1f)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
-                    QuickTile("Foto piatto", TodayArt.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
-                }
-                Row(Modifier.fillMaxWidth()) {
-                    QuickTile("Frigo", TodayArt.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
-                    QuickTile("Digiuno", TodayArt.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
-                }
-            } else {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                QuickTile("Aggiungi", TodayArt.Add, Modifier.weight(1f)) { Nav.go(Screen.AddFood(date, defaultMeal())) }
-                HomeDivider()
-                QuickTile("Foto piatto", TodayArt.Camera, Modifier.weight(1f)) { Nav.go(Screen.PhotoAi(date, defaultMeal())) }
-                HomeDivider()
-                QuickTile("Frigo", TodayArt.Fridge, Modifier.weight(1f)) { Nav.go(Screen.PantryScan("foto")) }
-                HomeDivider()
-                QuickTile("Digiuno", TodayArt.Timer, Modifier.weight(1f)) { Nav.go(Screen.Fasting) }
-            }
-            }
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val tiles: List<Triple<String, TodayArt, () -> Unit>> = listOf(
+                Triple("Aggiungi", TodayArt.Add) { Nav.go(Screen.AddFood(date, defaultMeal())) },
+                Triple("Foto piatto", TodayArt.Camera) { Nav.go(Screen.PhotoAi(date, defaultMeal())) },
+                Triple("Frigo", TodayArt.Fridge) { Nav.go(Screen.PantryScan("foto")) },
+                Triple("Digiuno", TodayArt.Timer) { Nav.go(Screen.Fasting) })
+            val tints = listOf(Color(0xFFFFE4D0), Color(0xFFE6E4FF), Color(0xFFD9F3EA), Color(0xFFDDEBFF))
+            if (maxWidth / LocalDensity.current.fontScale < 320.dp) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                tiles.chunked(2).forEachIndexed { r, pair -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    pair.forEachIndexed { i, t -> QuickTile(t.first, t.second, tints[r * 2 + i], Modifier.weight(1f), t.third) }
+                } }
+            } else Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                tiles.forEachIndexed { i, t -> QuickTile(t.first, t.second, tints[i], Modifier.weight(1f), t.third) }
             }
         }
 
@@ -277,8 +268,8 @@ private fun WeekPage(s: AppState, date: LocalDate, days: List<LocalDate>, active
 }
 
 @Composable
-private fun QuickTile(label: String, art: TodayArt, modifier: Modifier, onClick: () -> Unit) {
-    Column(modifier.heightIn(min = 76.dp).clip(RoundedCornerShape(18.dp))
+private fun QuickTile(label: String, art: TodayArt, tint: Color, modifier: Modifier, onClick: () -> Unit) {
+    Column(modifier.heightIn(min = 84.dp).clip(RoundedCornerShape(24.dp)).background(Brush.verticalGradient(listOf(tint, Color.White)))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 2.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         TodayArtwork(art, Modifier.size(46.dp).testTag("quick-icon-$label"))
@@ -301,7 +292,7 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
     val t = Nutrition.sum(entries)
     var open by rememberSaveable(meal, date.toString()) { mutableStateOf(false) }
     val planned = remember(s.plan, s.dietPrefs, s.trainingNutrition, s.weights, s.profile, s.goals, s.energy, date) { Store.plannedMeals(s, date).firstOrNull { it.diaryMeal == meal } }
-    val shape = RoundedCornerShape(18.dp)
+    val shape = RoundedCornerShape(24.dp)
     val chevron by animateFloatAsState(if (open) 180f else 0f, tween(250), label = "chev")
     val kcal = if (entries.isNotEmpty()) t.kcal else planned?.solved?.total?.kcal
     val subtitle = when {
@@ -317,8 +308,8 @@ private fun MealCard(meal: Int, date: LocalDate, s: AppState) {
         4 -> R.drawable.approved_meal_4
         else -> R.drawable.approved_meal_5
     }
-    Column(Modifier.fillMaxWidth().testTag("diary-meal-$meal").refShadow(shape, 5.dp).clip(shape).background(Color.White)
-        .border(1.dp, RD.GreyLine, shape).animateContentSize(tween(260))) {
+    Column(Modifier.fillMaxWidth().testTag("diary-meal-$meal").refShadow(shape, 6.dp).clip(shape).background(Color.White)
+        .animateContentSize(tween(260))) {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
         val large = maxWidth / LocalDensity.current.fontScale < 285.dp
         val photo: @Composable () -> Unit = {

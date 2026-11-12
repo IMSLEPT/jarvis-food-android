@@ -31,7 +31,7 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF7F8FA)
+    val Bg = Color(0xFFF5F7FB)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
     val SurfaceHi = Color(0xFFE4E8EF)
@@ -72,7 +72,7 @@ object C {
     /** Arancione del + Aggiungi; scritte bianche come richiesto. */
     val OrangeBrush = Brush.verticalGradient(listOf(ButtonOrange, ButtonOrangeEnd))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Color(0xFF223C70)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3)))
     val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
     /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
     fun cardSurface(tone: Color): Color =
@@ -146,7 +146,8 @@ fun AppBackground(content: @Composable BoxScope.() -> Unit) {
         Modifier.fillMaxSize()
             .background(C.Bg)
             .drawBehind {
-                drawRect(Brush.radialGradient(listOf(Color(0xFFFFFDF8), Color.Transparent), center = Offset(size.width / 2f, -60.dp.toPx()), radius = 420.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0x33FF9A4A), Color.Transparent), center = Offset(size.width * 1.05f, -40.dp.toPx()), radius = 420.dp.toPx()))
+                drawRect(Brush.radialGradient(listOf(Color(0x221B58B3), Color.Transparent), center = Offset(-20.dp.toPx(), size.height * 0.55f), radius = 380.dp.toPx()))
             },
         content = content
     )

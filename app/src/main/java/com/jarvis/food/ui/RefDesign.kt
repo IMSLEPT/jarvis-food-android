@@ -70,8 +70,8 @@ object RD {
     val GreyFill = Color(0xFFF0F1F4)
     val Strip = Color(0xFFF6F5F3)
     val Green = Color(0xFF6E9F62)
-    val NavyBrush = Brush.linearGradient(listOf(NavyDeep, Navy, NavyHi), start = Offset(0f, Float.POSITIVE_INFINITY), end = Offset(Float.POSITIVE_INFINITY, 0f))
-    val ButtonBrush = Brush.verticalGradient(listOf(Color(0xFF173468), Color(0xFF071A45)))
+    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0A1F4E), Color(0xFF0B3373), Color(0xFF1B58B3)), start = Offset(0f, Float.POSITIVE_INFINITY), end = Offset(Float.POSITIVE_INFINITY, 0f))
+    val ButtonBrush = Brush.linearGradient(listOf(Color(0xFF0B3373), Color(0xFF1B58B3)))
     val OrangeBrush = C.OrangeBrush
     val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFFFE6D3), Color(0xFFFFF4EB)))
     val WarmBrush = Brush.linearGradient(listOf(Color(0xFFFBF7F4), Color(0xFFF7EEE8)))
@@ -210,7 +210,7 @@ fun ChevronCircle(size: Dp = 36.dp, bg: Color = RD.GreyFill, ink: Color = RD.Ink
 
 /** Ombra morbida delle schede di riferimento. */
 fun Modifier.refShadow(shape: Shape, elevation: Dp = 8.dp): Modifier =
-    this.shadow(elevation.coerceAtMost(3.dp), shape, ambientColor = Color(0x100A1F4E), spotColor = Color(0x180A1F4E))
+    this.shadow(elevation.coerceAtMost(6.dp), shape, ambientColor = Color(0x1A0B3373), spotColor = Color(0x330B3373))
 
 // ------------------------------------------------------------------------------- Profilo e calendario
 
@@ -250,14 +250,15 @@ fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
 /** Cornice comune dei banner: stessi margini e raggi per tutte le schede. */
 @Composable
 fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(24.dp)
-    Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 6.dp)) {
+    val shape = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp, bottomStart = 34.dp, bottomEnd = 34.dp)
+    Box(Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
         Column(Modifier.fillMaxWidth().testTag("top-header-frame").refShadow(shape, if (navy) 6.dp else 4.dp).clip(shape)
             .background(if (navy) RD.NavyBrush else RD.WarmBrush)
             .drawBehind {
                 // Riflesso curvo in alto a destra, come nei riferimenti.
                 val r = size.width * 0.62f
-                drawCircle(if (navy) Color(0x220E4AA0) else Color(0x66FFFFFF), r, Offset(size.width * 1.02f, -r * 0.28f))
+                drawCircle(if (navy) Color(0x26FFFFFF) else Color(0x66FFFFFF), r, Offset(size.width * 1.02f, -r * 0.28f))
+                if (navy) drawCircle(Brush.radialGradient(listOf(Color(0x2EFF8A3D), Color.Transparent), Offset(-size.width * 0.05f, size.height * 1.05f), size.width * 0.55f), size.width * 0.55f, Offset(-size.width * 0.05f, size.height * 1.05f))
             }
             .padding(horizontal = 12.dp, vertical = 8.dp), content = content)
     }
@@ -423,7 +424,7 @@ fun RefOption(label: String, modifier: Modifier = Modifier, icon: (@Composable (
 @Composable
 fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
     height: Dp = 52.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
+    val shape = RoundedCornerShape(22.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).refShadow(shape, if (enabled) 4.dp else 0.dp).clip(shape)
         .background(if (enabled) RD.ButtonBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
         .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 16.dp else 10.dp, vertical = 10.dp),
@@ -441,9 +442,9 @@ fun RefPrimaryButton(text: String, modifier: Modifier = Modifier, icon: String? 
 @Composable
 fun RefOutlineButton(text: String, modifier: Modifier = Modifier, icon: String? = null, tag: String? = null, enabled: Boolean = true,
     height: Dp = 50.dp, divider: Boolean = true, singleLine: Boolean = false, textSize: androidx.compose.ui.unit.TextUnit = 16.sp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
+    val shape = RoundedCornerShape(22.dp)
     Row(modifier.heightIn(min = height).then(if (tag != null) Modifier.testTag(tag) else Modifier).clip(shape).background(Color.White)
-        .border(1.dp, RD.Ink.copy(alpha = 0.5f), shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
+        .border(1.5.dp, Color(0xFF0B3373).copy(alpha = 0.55f), shape).clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = if (divider) 14.dp else 10.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         if (icon != null) {
             AIcon(icon, RD.Ink, if (divider) 24.dp else 20.dp, 2.4f)
