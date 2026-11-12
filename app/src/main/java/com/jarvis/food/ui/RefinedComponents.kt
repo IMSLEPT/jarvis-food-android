@@ -114,17 +114,17 @@ fun PlanJourney(s: AppState, date: LocalDate, meals: List<PlannedMeal>) {
             val shape = RoundedCornerShape(14.dp)
             Row(Modifier.heightIn(min = 56.dp).testTag("plan-slot-${meal.diaryMeal}")
                 .refShadow(shape, if (selected) 5.dp else 2.dp).clip(shape)
-                .background(RD.NavyBrush)
-                .border(if (selected) 2.dp else 1.dp, if (selected) DashboardOrange else Color(0xFF244576), shape)
+                .background(if (selected) C.OrangeBrush else androidx.compose.ui.graphics.Brush.linearGradient(listOf(Color.White, Color.White)))
+                .border(1.dp, if (selected) Color.Transparent else Color(0xFFE3E8F2), shape)
                 .selectable(selected, role = Role.Tab, onClick = {
                     selectedSlot = meal.slotIndex
                     scope.launch { requesters[meal.slotIndex]?.bringIntoView() }
                 }).padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                 PeachTile(40.dp, radius = 12.dp, brush = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0xFFFDEBDC), Color(0xFFFFF5EE)))) { MealDuoIcon(meal.diaryMeal, 26.dp) }
                 GapW(12.dp); OrangeDivider(32.dp); GapW(12.dp)
-                Text(meal.slotName, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = Color.White))
+                Text(meal.slotName, style = T.Title.copy(fontSize = 16.sp, lineHeight = 21.sp, color = if (selected) Color.White else RD.Ink))
                 GapW(12.dp)
-                ChevronCircle(34.dp, if (selected) Color(0xFF245698) else Color(0xFF173969), Color.White)
+                ChevronCircle(34.dp, if (selected) Color(0x33FFFFFF) else Color(0xFFEEF1F7), if (selected) Color.White else RD.Ink)
             }
         }
     }

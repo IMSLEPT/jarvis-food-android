@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -85,38 +86,39 @@ object Ic {
         "M${f(x + r)} ${f(y)}h${f(w - 2 * r)}a${f(r)} ${f(r)} 0 0 1 ${f(r)} ${f(r)}v${f(h - 2 * r)}a${f(r)} ${f(r)} 0 0 1 ${f(-r)} ${f(r)}" +
             "h${f(-(w - 2 * r))}a${f(r)} ${f(r)} 0 0 1 ${f(-r)} ${f(-r)}v${f(-(h - 2 * r))}a${f(r)} ${f(r)} 0 0 1 ${f(r)} ${f(-r)}z"
 
-    val Sun = circ(12.0, 12.0, 4.0) + "M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"
-    val Calendar = rr(4.0, 5.0, 16.0, 15.0, 3.0) + "M4 10h16M9 3v4M15 3v4"
-    val Bowl = "M5 11h14v3a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5zM9 7c0-1.5 1.5-1.5 1.5-3M14 7c0-1.5 1.5-1.5 1.5-3"
-    val Chart = "M4 19V5M4 19h16M8 15l4-4 3 3 5-6"
-    val User = circ(12.0, 8.0, 4.0) + "M4 20c1-4 4-6 8-6s7 2 8 6"
-    val Plus = "M12 5v14M5 12h14"
-    val Minus = "M5 12h14"
-    val Check = "M5 12.5l4.5 4.5L19 7.5"
-    val Right = "M9 6l6 6-6 6"
-    val Left = "M15 6l-6 6 6 6"
-    val Camera = "M4 8.5h3l1.8-2.5h6.4L17 8.5h3V19H4z" + circ(12.0, 13.5, 3.6)
-    val Fridge = rr(6.0, 3.0, 12.0, 18.0, 2.5) + "M6 10h12M9 6v1.5M9 13v3"
-    val Timer = circ(12.0, 13.0, 7.5) + "M12 9v4l2.5 1.5M9.5 3h5"
-    val Flame = "M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-10z"
-    val Bolt = "M13 3L5 14h6l-1 7 8-11h-6z"
-    val Drop = "M12 3s6 6.2 6 10.5a6 6 0 0 1-12 0C6 9.2 12 3 12 3z"
-    val Spark = "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"
-    val Heart = "M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"
-    val Search = circ(11.0, 11.0, 7.0) + "M20 20l-4-4"
-    val Barcode = "M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M8 8v8M12 8v8M16 8v8"
-    val Clock = circ(12.0, 12.0, 9.0) + "M12 7v5l3 2"
-    val Swap = "M7 7h10l-3-3M17 17H7l3 3"
-    val Steps = "M4 7l6 6 4-4 6 6M20 15v-4M20 15h-4"
-    val Stop = rr(6.0, 6.0, 12.0, 12.0, 3.0)
-    val Close = "M6 6l12 12M18 6L6 18"
-    val Receipt = "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"
-    val Cart = "M3 4h2.5l2 11h10.5l2-8H6.5" + circ(9.0, 19.5, 1.4) + circ(17.0, 19.5, 1.4)
+    // Set ridisegnato: stesso peso di tratto, angoli morbidi, forme chiuse (compatibili con il tono pieno "duo").
+    val Sun = circ(12.0, 12.0, 4.2) + "M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M5.5 18.5l1.6-1.6M16.9 7.1l1.6-1.6"
+    val Calendar = rr(3.5, 5.0, 17.0, 15.5, 4.0) + "M3.5 10h17M8 3v3.5M16 3v3.5"
+    val Bowl = "M4 11h16v1a8 8 0 0 1-16 0zM9 7.4c0-1.5 1.3-1.5 1.3-3M14 7.4c0-1.5 1.3-1.5 1.3-3"
+    val Chart = rr(4.0, 12.0, 4.0, 8.0, 1.3) + rr(10.0, 4.0, 4.0, 16.0, 1.3) + rr(16.0, 8.0, 4.0, 12.0, 1.3)
+    val User = circ(12.0, 8.0, 4.0) + "M4.5 20.5c.8-3.8 3.8-6 7.5-6s6.7 2.2 7.5 6z"
+    val Plus = "M12 5.5v13M5.5 12h13"
+    val Minus = "M5.5 12h13"
+    val Check = "M5 12.8l4.4 4.4L19 7.4"
+    val Right = "M9.5 6l6 6-6 6"
+    val Left = "M14.5 6l-6 6 6 6"
+    val Camera = "M3.5 9.5A2.5 2.5 0 0 1 6 7h1.6l1.2-1.8a1.5 1.5 0 0 1 1.3-.7h3.8a1.5 1.5 0 0 1 1.3.7L16.4 7H18a2.5 2.5 0 0 1 2.5 2.5v8A2.5 2.5 0 0 1 18 20H6a2.5 2.5 0 0 1-2.5-2.5z" + circ(12.0, 13.0, 3.5)
+    val Fridge = rr(5.5, 2.5, 13.0, 19.0, 3.5) + "M5.5 10h13M9 6v1.6M9 13v3"
+    val Timer = circ(12.0, 13.2, 7.6) + "M12 9.4v4l2.6 1.6M9.8 3h4.4"
+    val Flame = "M12 2.8c.9 3.7 5.6 5.6 5.6 10.6a5.6 5.6 0 0 1-11.2 0c0-2.3 1.2-3.7 2.4-4.5.1 1.9 1 3 2.1 3.1-.3-3.6.4-6.3 1.1-9.2z"
+    val Bolt = "M13.2 2.8L5.5 13.6h5.7l-.7 7.6 8-10.9h-5.8z"
+    val Drop = "M12 3.2c3 3.4 6 6.5 6 10.3a6 6 0 0 1-12 0c0-3.8 3-6.9 6-10.3z"
+    val Spark = "M12 3c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7z"
+    val Heart = "M12 20.2C7 16.8 4 13.6 4 9.9a4.1 4.1 0 0 1 8-1.3 4.1 4.1 0 0 1 8 1.3c0 3.7-3 6.9-8 10.3z"
+    val Search = circ(10.8, 10.8, 6.6) + "M20 20l-4.6-4.6"
+    val Barcode = "M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M8 8v8M12 8v8M16 8v8"
+    val Clock = circ(12.0, 12.0, 9.0) + "M12 7.2V12l3.2 2"
+    val Swap = "M6 8h12l-3-3M18 16H6l3 3"
+    val Steps = "M3.5 17l6-6 4 4 7-7.5M15 7.5h5.5V13"
+    val Stop = rr(6.0, 6.0, 12.0, 12.0, 3.5)
+    val Close = "M6.5 6.5l11 11M17.5 6.5l-11 11"
+    val Receipt = "M6 3.5h12v17.2l-2.25-1.6-2.25 1.6L12 19.1l-1.5 1.6-2.25-1.6L6 20.7zM9 8.5h6M9 12.5h6"
+    val Cart = "M3 4.5h2.4l2.1 10.5h10.4l1.9-7.6H6.3" + circ(9.0, 19.4, 1.4) + circ(17.0, 19.4, 1.4)
 
-    val MealBreakfast = "M5 12h14a7 7 0 0 1-14 0zM9 8c0-1.5 1.5-1.5 1.5-3M14 8c0-1.5 1.5-1.5 1.5-3"
-    val MealLunch = "M4 10h16a8 8 0 0 1-16 0zM8 6l2-2M13 6l2-2"
-    val MealSnack = "M12 7c-3-3-8 0-6 5s6 8 6 8 4-3 6-8-3-8-6-5zM12 7c0-2 1-3 2-4"
-    val MealDinner = "M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z"
+    val MealBreakfast = "M4 10h12.5v4.5a5.5 5.5 0 0 1-5.5 5.5H9.5A5.5 5.5 0 0 1 4 14.5zM16.5 11.5h1.4a2.6 2.6 0 0 1 0 5.2h-1.6M8 3.5c-1 1.2 1 2 0 3.5M12 3.5c-1 1.2 1 2 0 3.5"
+    val MealLunch = "M3.5 11.5h17a8.5 8.5 0 0 1-17 0zM8 7.5l1.2-3M12.5 7.5l1.2-3"
+    val MealSnack = "M12 7.5c-1.6-1.2-6.5-1.6-7 3.6-.4 4.8 3 9.6 5.2 9.4.8 0 1.2-.5 1.8-.5s1 .5 1.8.5c2.2.2 5.6-4.6 5.2-9.4-.5-5.2-5.4-4.8-7-3.6zM12 7.5c0-1.6-.4-2.8-1.4-4"
+    val MealDinner = "M19.5 14.2A8 8 0 1 1 9.8 4.5a6.4 6.4 0 0 0 9.7 9.7z"
 }
 
 private val pathCache = HashMap<String, androidx.compose.ui.graphics.Path>()
@@ -126,12 +128,13 @@ private fun parsed(d: String): androidx.compose.ui.graphics.Path =
 
 /** Icona a tratto: [d] in griglia 24, tratto [stroke] (come nel design 1.9–2.6), estremi arrotondati. */
 @Composable
-fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Boolean = false, modifier: Modifier = Modifier) {
+fun AIcon(d: String, tint: Color, size: Dp = 24.dp, stroke: Float = 2f, fill: Boolean = false, modifier: Modifier = Modifier, duo: Boolean = false) {
     val path = remember(d) { parsed(d) }
     Canvas(modifier.size(size)) {
         val sc = this.size.minDimension / 24f
         withTransform({ scale(sc, sc, Offset.Zero) }) {
             if (fill) drawPath(path, tint)
+            else if (duo) { drawPath(path, tint.copy(alpha = tint.alpha * 0.22f)); drawPath(path, tint, style = Stroke(stroke, cap = StrokeCap.Round, join = StrokeJoin.Round)) }
             else drawPath(path, tint, style = Stroke(stroke, cap = StrokeCap.Round, join = StrokeJoin.Round))
         }
     }
@@ -167,7 +170,15 @@ fun TonalIcon(d: String, tint: Color, bg: Color, box: Dp = 44.dp, radius: Dp = 1
 
 /** Ombra morbida colorata tipo "0 22px 40px -26px". */
 fun Modifier.aShadow(shape: Shape, elevation: Dp = 12.dp, color: Color = Color(0x661D1B3A)): Modifier =
-    this.shadow(elevation * 0.06f, shape, ambientColor = Color(0xFF0B1F44).copy(alpha = 0.04f), spotColor = Color(0xFF0B1F44).copy(alpha = 0.10f))
+    this.shadow(elevation.coerceAtMost(14.dp) * 0.5f, shape, ambientColor = Color(0x1A0B1F44), spotColor = Color(0x330B1F44))
+
+/** Ombra morbida delle schede bianche (riferimento: schede sospese su sfondo chiaro). */
+fun Modifier.lightShadow(elevation: Dp = 16.dp, radius: Dp = 20.dp): Modifier =
+    this.shadow(elevation * 0.5f, RoundedCornerShape(radius), ambientColor = Color(0x1A0B1F44), spotColor = Color(0x330B1F44))
+
+/** Alone arancione misurato sotto i pulsanti principali. */
+fun Modifier.orangeGlow(shape: Shape, elevation: Dp = 12.dp): Modifier =
+    this.shadow(elevation, shape, ambientColor = Color(0x66FF7A1A), spotColor = Color(0xB3FF7A1A))
 
 /** Scheda bianca del design: raggio grande, bordo sottile, ombra morbida. */
 @Composable
@@ -176,7 +187,7 @@ fun ACard(
     padding: Dp = 16.dp, elevation: Dp = 10.dp, glow: Color = Color(0x4D1D1B3A), bordered: Boolean = false,
     onClick: (() -> Unit)? = null, content: @Composable () -> Unit
 ) {
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(20.dp)
     var m = modifier.aShadow(shape, elevation, glow).clip(shape)
     m = if (brush != null) m.background(brush) else m.background(C.cardSurface(color))
     if (onClick != null) m = m.clickable(onClick = onClick)
@@ -217,32 +228,37 @@ fun MacroChips(p: Double, c: Double, f: Double) {
     }
 }
 
-/** Pulsante principale arancione a pillola (58 px nel design). */
+/** Pulsante principale: gradiente arancione, riflesso in alto, alone morbido. */
 @Composable
-fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, enabled: Boolean = true, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
+fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 54.dp, enabled: Boolean = true, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
     Box(
-        modifier.heightIn(min = height).clip(shape)
+        modifier.heightIn(min = height).let { if (enabled) it.orangeGlow(shape, 10.dp) else it }.clip(shape)
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 22.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center) }
+    ) {
+        if (enabled) Box(Modifier.matchParentSize().background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = 60f)))
+        Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center)
+    }
 }
 
-/** Pulsante "inchiostro" navy (52 px) e variante tonale. */
+/** Pulsante secondario: bianco, bordo sottile, testo navy. */
 @Composable
-fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 52.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
-    Box(modifier.heightIn(min = height).clip(shape).background(C.cardSurface(bg)).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
-        Text(text, style = T.BtnM.copy(color = fg), textAlign = TextAlign.Center)
+fun AInk(text: String, modifier: Modifier = Modifier, height: Dp = 54.dp, bg: Color = C.Navy, fg: Color = Color.White, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
+    val dark = bg == C.Navy
+    Box(modifier.heightIn(min = height).clip(shape).background(if (dark) RD.NavyBrush else Brush.linearGradient(listOf(C.cardSurface(bg), C.cardSurface(bg))))
+        .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 14.dp), contentAlignment = Alignment.Center) {
+        Text(text, style = T.BtnM.copy(color = fg, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
     }
 }
 
 /** Cerchio navy con "+" (44 px), usato accanto ai pasti. */
 @Composable
 fun PlusButton(desc: String, size: Dp = 48.dp, onClick: () -> Unit) {
-    Box(Modifier.size(size).clip(CircleShape).background(Color(0xFFF26A1B)).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
-        AIcon(Ic.Plus, Color.White, size * 0.41f, 2.6f)
+    Box(Modifier.size(size).orangeGlow(CircleShape, 8.dp).clip(CircleShape).background(C.OrangeBrush).semantics { contentDescription = desc }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+        AIcon(Ic.Plus, Color.White, size * 0.42f, 2.8f)
     }
 }
 
@@ -261,7 +277,7 @@ fun BackCircle(onBack: () -> Unit) {
 fun APill(label: String, selected: Boolean, modifier: Modifier = Modifier, height: Dp = 48.dp, hPad: Dp = 16.dp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(12.dp)
     Box(
-        modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.NavyBrush else Brush.linearGradient(listOf(Color.White, Color.White)))
+        modifier.heightIn(min = maxOf(height, 48.dp)).clip(shape).background(if (selected) C.OrangeBrush else Brush.linearGradient(listOf(Color.White, Color.White)))
             .border(1.dp, if (selected) Color.Transparent else Color(0xFFDDE2EB), shape).clickable(onClick = onClick).padding(horizontal = hPad, vertical = 10.dp),
         contentAlignment = Alignment.Center
     ) { Text(label, style = T.BtnS.copy(color = if (selected) Color.White else A.Ink), textAlign = TextAlign.Center) }
@@ -300,3 +316,28 @@ fun GapW(w: Dp) = Spacer(Modifier.width(w))
 
 /** Calorie con il punto delle migliaia, come nel design (1.318). */
 fun kcalFmt(v: Double): String = v.let { kotlin.math.round(it).toInt() }.thousands()
+
+/** Banner promozionale: fascia blu con bagliori, testo, pulsante arancione e illustrazione a destra. */
+@Composable
+fun PromoBanner(title: String, subtitle: String, cta: String, modifier: Modifier = Modifier, onClick: () -> Unit, trailing: @Composable BoxScope.() -> Unit) {
+    val shape = RoundedCornerShape(24.dp)
+    Box(modifier.fillMaxWidth().lightShadow(18.dp, 24.dp).clip(shape).background(RD.NavyBrush)
+        .drawBehind {
+            drawRect(Brush.radialGradient(listOf(Color(0x552B6BFF), Color.Transparent), center = Offset(size.width * 0.1f, 0f), radius = size.width * 0.8f))
+            drawRect(Brush.radialGradient(listOf(Color(0x59FF7A1A), Color.Transparent), center = Offset(size.width * 1.0f, size.height), radius = size.width * 0.55f))
+        }
+        .clickable(role = Role.Button, onClick = onClick)) {
+        Row(Modifier.fillMaxWidth().padding(start = 18.dp, top = 16.dp, bottom = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f).padding(end = 8.dp)) {
+                Text(title, style = T.Title2.copy(color = Color.White, fontSize = 18.sp, lineHeight = 23.sp, fontWeight = FontWeight.Bold))
+                Text(subtitle, style = T.Small.copy(color = Color(0xFFC5D3F2), fontSize = 13.sp, lineHeight = 18.sp), modifier = Modifier.padding(top = 4.dp))
+                Spacer(Modifier.height(12.dp))
+                Row(Modifier.orangeGlow(RoundedCornerShape(14.dp), 8.dp).clip(RoundedCornerShape(14.dp)).background(C.OrangeBrush).padding(start = 16.dp, end = 12.dp, top = 9.dp, bottom = 9.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(cta, style = T.BtnS.copy(color = Color.White, fontWeight = FontWeight.Bold))
+                    Spacer(Modifier.width(6.dp)); AIcon(Ic.Right, Color.White, 16.dp, 2.8f)
+                }
+            }
+            Box(Modifier.width(112.dp).heightIn(min = 112.dp), content = trailing)
+        }
+    }
+}

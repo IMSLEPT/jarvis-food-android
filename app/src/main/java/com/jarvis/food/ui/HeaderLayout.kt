@@ -64,7 +64,7 @@ fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDat
     val large = LocalDensity.current.fontScale > 1.5f
     val context = LocalContext.current
     run {
-        BoxWithConstraints(Modifier.fillMaxWidth()) {
+        if (greeting == null || large) BoxWithConstraints(Modifier.fillMaxWidth()) {
             val density = LocalDensity.current
             val measurer = rememberTextMeasurer()
             val showSun = maxWidth >= 270.dp && !large
@@ -108,6 +108,27 @@ fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDat
                 RefCalendarButton(RD.headerButton()) { showDatePicker(context, date, onPick) }
                 GapW(4.dp)
                 RefProfileButton(RD.headerButton())
+            }
+        }
+        else Column(Modifier.fillMaxWidth()) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.jarvis_logo), null, Modifier.size(30.dp))
+                GapW(6.dp)
+                Text("Jarvis Food", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = Color.White))
+                Spacer(Modifier.weight(1f))
+                RefCalendarButton(44.dp) { showDatePicker(context, date, onPick) }
+                GapW(8.dp)
+                RefProfileButton(44.dp)
+            }
+            Row(Modifier.fillMaxWidth().padding(top = 4.dp), verticalAlignment = Alignment.Bottom) {
+                Column(Modifier.weight(1f).testTag(dateTag).semantics { contentDescription = fullDay(date) }
+                    .clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
+                    .padding(vertical = 6.dp)) {
+                    Text(greeting!!, Modifier.testTag("home-greeting"), style = T.Label.copy(fontSize = 15.sp, color = Color(0xFFB9C8EC)))
+                    Text(s.profile.name, Modifier.testTag("home-name"), style = T.Title.copy(fontSize = 30.sp, lineHeight = 35.sp, color = Color.White), maxLines = 2)
+                    Text(fullDay(date), style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFFB9C8EC)))
+                }
+                androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.jarvis_logo), null, Modifier.size(108.dp))
             }
         }
         GapH(6.dp)

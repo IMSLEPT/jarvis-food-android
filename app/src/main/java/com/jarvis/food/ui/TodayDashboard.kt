@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -149,20 +150,23 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
 
 @Composable
 internal fun TodayHero(s: AppState, date: LocalDate, hello: String, eaten: Double, target: Double, burned: Int, onPick: (LocalDate) -> Unit, onOpen: () -> Unit) {
-    val shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-    Column(Modifier.fillMaxWidth().testTag("today-hero").clip(shape).background(RD.NavyBrush)
-        .statusBarsPadding().padding(start = 14.dp, end = 14.dp, top = 8.dp, bottom = 18.dp)) {
-        CalendarHeaderContent(s, "Oggi", date, "$hello,", onPick)
-        GapH(14.dp)
-        Column(Modifier.fillMaxWidth().testTag("today-calories").clip(RoundedCornerShape(16.dp)).clickable(onClick = onOpen).padding(horizontal = 4.dp)) {
-            CalorieContent(eaten, target, burned)
+    Column(Modifier.fillMaxWidth().testTag("today-hero")) {
+        Box(Modifier.fillMaxWidth().statusBarsPadding().height(0.dp))
+        RefBannerFrame(navy = true) {
+            CalendarHeaderContent(s, "Oggi", date, "$hello,", onPick)
+            GapH(34.dp)
         }
+        // La scheda calorie sale di 34 dp sopra la fascia blu.
+        Box(Modifier.padding(horizontal = 16.dp).layout { m, c ->
+            val p = m.measure(c)
+            layout(p.width, p.height - 34.dp.roundToPx()) { p.place(0, -34.dp.roundToPx()) }
+        }) { TodayCalorieCard(eaten, target, burned, onOpen) }
     }
 }
 
 @Composable
 internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClick: () -> Unit) {
-    ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 28.dp, brush = RD.NavyBrush, padding = 16.dp, bordered = false, elevation = 16.dp, onClick = onClick) {
+    ACard(Modifier.fillMaxWidth().testTag("today-calories").lightShadow(24.dp), radius = 24.dp, padding = 16.dp, onClick = onClick) {
         CalorieContent(eaten, target, burned)
     }
 }
@@ -180,15 +184,15 @@ private fun CalorieContent(eaten: Double, target: Double, burned: Int) {
                 Column(Modifier.fillMaxWidth()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         AIcon(Ic.Flame, DashboardOrange, 24.dp, fill = true); GapW(5.dp)
-                        Text("Le tue calorie", style = T.Title2.copy(color = Color.White, fontSize = 16.sp, lineHeight = 21.sp))
+                        Text("Le tue calorie", style = T.Title2.copy(color = RD.Ink, fontSize = 16.sp, lineHeight = 21.sp))
                     }
                     GapH(4.dp)
                     BoxWithConstraints(Modifier.fillMaxWidth()) {
                         val number: @Composable () -> Unit = {
-                            Text(kcalFmt(kotlin.math.abs(remaining)), Modifier.testTag("calories-remaining"), style = T.Big.copy(fontSize = 44.sp, lineHeight = 48.sp, color = if (remaining < 0) Color(0xFFFFC1B5) else Color.White))
+                            Text(kcalFmt(kotlin.math.abs(remaining)), Modifier.testTag("calories-remaining"), style = T.Big.copy(fontSize = 44.sp, lineHeight = 48.sp, color = if (remaining < 0) C.Danger else RD.Ink))
                         }
                         val unit: @Composable () -> Unit = {
-                            Text(if (remaining < 0) "kcal oltre l’obiettivo" else "kcal disponibili", style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 12.sp, lineHeight = 17.sp))
+                            Text(if (remaining < 0) "kcal oltre l’obiettivo" else "kcal disponibili", style = T.Small.copy(color = RD.Grey, fontSize = 12.sp, lineHeight = 17.sp))
                         }
                         if (maxWidth / LocalDensity.current.fontScale >= 185.dp && remaining >= 0) Row(verticalAlignment = Alignment.CenterVertically) {
                             number(); GapW(6.dp); Box(Modifier.weight(1f).padding(top = 10.dp)) { unit() }
@@ -196,7 +200,7 @@ private fun CalorieContent(eaten: Double, target: Double, burned: Int) {
                     }
                     GapH(8.dp)
                     Box(Modifier.testTag("calorie-bar").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }) {
-                        ABar(progress, Brush.horizontalGradient(listOf(DashboardOrange, Color(0xFFFFCB74))), Color(0x33FFFFFF), 10.dp)
+                        ABar(progress, Brush.horizontalGradient(listOf(DashboardOrange, Color(0xFFFFCB74))), Color(0xFFE8ECF5), 10.dp)
                     }
                 }
             }
@@ -207,23 +211,23 @@ private fun CalorieContent(eaten: Double, target: Double, burned: Int) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) { CalorieGauge(progress, target > 0, fraction) }
                 info()
             }
-            AIcon(Ic.Right, Color.White, 17.dp, modifier = Modifier.align(Alignment.TopEnd))
+            AIcon(Ic.Right, RD.Ink, 17.dp, modifier = Modifier.align(Alignment.TopEnd))
         }
         GapH(12.dp)
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val narrow = maxWidth / LocalDensity.current.fontScale < 180.dp
             val stats: @Composable RowScope.() -> Unit = {
-                CalorieStat("Mangiate", eaten, DashboardIcon.Fork, Color.White, Modifier.weight(1f))
-                DashboardDivider(36.dp, Color(0x446B85AB))
-                CalorieStat("Obiettivo", target, DashboardIcon.Target, Color.White, Modifier.weight(1f))
-                DashboardDivider(36.dp, Color(0x446B85AB))
-                CalorieStat("Attività", burned.toDouble(), DashboardIcon.Runner, Color(0xFFABF0C5), Modifier.weight(1f))
+                CalorieStat("Mangiate", eaten, DashboardIcon.Fork, RD.Ink, Modifier.weight(1f))
+                DashboardDivider(36.dp, Color(0xFFE1E6F0))
+                CalorieStat("Obiettivo", target, DashboardIcon.Target, RD.Ink, Modifier.weight(1f))
+                DashboardDivider(36.dp, Color(0xFFE1E6F0))
+                CalorieStat("Attività", burned.toDouble(), DashboardIcon.Runner, Color(0xFF047857), Modifier.weight(1f))
             }
             if (narrow) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                CalorieStat("Mangiate", eaten, DashboardIcon.Fork, Color.White, Modifier.fillMaxWidth())
-                CalorieStat("Obiettivo", target, DashboardIcon.Target, Color.White, Modifier.fillMaxWidth())
-                CalorieStat("Attività", burned.toDouble(), DashboardIcon.Runner, Color(0xFFABF0C5), Modifier.fillMaxWidth())
-            } else Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Color(0x26FFFFFF)).padding(vertical = 8.dp, horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically, content = stats)
+                CalorieStat("Mangiate", eaten, DashboardIcon.Fork, RD.Ink, Modifier.fillMaxWidth())
+                CalorieStat("Obiettivo", target, DashboardIcon.Target, RD.Ink, Modifier.fillMaxWidth())
+                CalorieStat("Attività", burned.toDouble(), DashboardIcon.Runner, Color(0xFF047857), Modifier.fillMaxWidth())
+            } else Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Color(0xFFF3F5FA)).padding(vertical = 8.dp, horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically, content = stats)
         }
       }
 }
@@ -234,13 +238,13 @@ internal fun CalorieGauge(progress: Float, valid: Boolean, fraction: Float) {
         Canvas(Modifier.fillMaxSize().padding(4.dp)) {
             val stroke = 10.dp.toPx(); val inset = stroke / 2
             val sz = Size(size.width - stroke, size.height - stroke)
-            drawArc(Color(0x30FFFFFF), 135f, 270f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
+            drawArc(Color(0xFFE8ECF5), 135f, 270f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
             if (progress > 0) drawArc(Brush.sweepGradient(listOf(Color(0xFFFFB845), DashboardOrange, Color(0xFFFFB845))), 135f, 270f * progress, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AIcon(Ic.Flame, DashboardOrange, 16.dp, fill = true)
-            Text(if (valid) "${(fraction * 100).roundToInt()}%" else "—", style = T.Num.copy(color = Color.White, fontSize = 22.sp, lineHeight = 25.sp))
-            Text("al target", style = T.Small.copy(color = Color.White, fontSize = 10.sp, lineHeight = 13.sp))
+            Text(if (valid) "${(fraction * 100).roundToInt()}%" else "—", style = T.Num.copy(color = RD.Ink, fontSize = 22.sp, lineHeight = 25.sp))
+            Text("al target", style = T.Small.copy(color = RD.Ink, fontSize = 10.sp, lineHeight = 13.sp))
         }
     }
 }
@@ -250,14 +254,14 @@ private fun CalorieStat(label: String, value: Double, icon: String, tint: Color,
     val enlarged = LocalDensity.current.fontScale > 1.2f
     val text: @Composable () -> Unit = {
         Column(horizontalAlignment = if (enlarged) Alignment.CenterHorizontally else Alignment.Start) {
-            Text(label, style = T.Small.copy(color = Color(0xFFE3EAF5), fontSize = 12.sp, lineHeight = 17.sp))
+            Text(label, style = T.Small.copy(color = RD.Grey, fontSize = 12.sp, lineHeight = 17.sp))
             Text("${kcalFmt(value)} kcal", Modifier.testTag("calories-$label"), style = T.Num.copy(color = tint, fontSize = 13.sp, lineHeight = 18.sp))
         }
     }
     if (enlarged) Column(modifier.padding(horizontal = 3.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        AIcon(icon, Color.White, 21.dp); GapH(3.dp); text()
+        AIcon(icon, RD.Ink, 21.dp); GapH(3.dp); text()
     } else Row(modifier.padding(horizontal = 3.dp), verticalAlignment = Alignment.CenterVertically) {
-        AIcon(icon, Color.White, 21.dp); GapW(5.dp)
+        AIcon(icon, RD.Ink, 21.dp); GapW(5.dp)
         Box(Modifier.weight(1f)) { text() }
     }
 }
@@ -272,13 +276,13 @@ internal fun TodayMacroCard(protein: Double, proteinGoal: Double, carbs: Double,
     BoxWithConstraints(Modifier.fillMaxWidth().testTag("today-macros")) {
         val stacked = maxWidth / LocalDensity.current.fontScale < 300.dp
         if (stacked) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            MacroDial("Proteine", protein, proteinGoal, C.Protein, A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, 44.dp, Modifier.fillMaxWidth())
-            MacroDial("Carboidrati", carbs, carbsGoal, C.Carbs, A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, 44.dp, Modifier.fillMaxWidth())
-            MacroDial("Grassi", fat, fatGoal, C.Fat, A.FatSoft, A.FatInk, Ic.Drop, 44.dp, Modifier.fillMaxWidth())
+            MacroDial("Proteine", protein, proteinGoal, Color(0xFF8B5CF6), A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, 44.dp, Modifier.fillMaxWidth())
+            MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFFFF8A3D), A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, 44.dp, Modifier.fillMaxWidth())
+            MacroDial("Grassi", fat, fatGoal, Color(0xFFFFB820), A.FatSoft, A.FatInk, Ic.Drop, 44.dp, Modifier.fillMaxWidth())
         } else Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            MacroDial("Proteine", protein, proteinGoal, C.Protein, A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, 52.dp, Modifier.weight(1f))
-            MacroDial("Carboidrati", carbs, carbsGoal, C.Carbs, A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, 52.dp, Modifier.weight(1f))
-            MacroDial("Grassi", fat, fatGoal, C.Fat, A.FatSoft, A.FatInk, Ic.Drop, 52.dp, Modifier.weight(1f))
+            MacroDial("Proteine", protein, proteinGoal, Color(0xFF8B5CF6), A.ProteinSoft, A.ProteinInk, DashboardIcon.Muscle, 52.dp, Modifier.weight(1f))
+            MacroDial("Carboidrati", carbs, carbsGoal, Color(0xFFFF8A3D), A.CarbSoft, A.CarbInk, DashboardIcon.Wheat, 52.dp, Modifier.weight(1f))
+            MacroDial("Grassi", fat, fatGoal, Color(0xFFFFB820), A.FatSoft, A.FatInk, Ic.Drop, 52.dp, Modifier.weight(1f))
         }
     }
 }
@@ -289,7 +293,7 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
     val fraction = TodayProgress.ratio(value, goal).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(600), label = "macro-$label")
     val shape = RoundedCornerShape(16.dp)
-    Column(modifier.clip(shape).background(Color.White).border(1.dp, Color(0xFFE6E9F0), shape)
+    Column(modifier.lightShadow(16.dp, 16.dp).clip(shape).background(Color.White)
         .clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(ringSize).testTag("macro-ring-$label").semantics {
@@ -300,10 +304,10 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
                 val inset = stroke / 2
                 val bounds = Size(size.width - stroke, size.height - stroke)
                 drawArc(Color(0xFFE6EAF2), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
-                if (progress > 0) drawArc(Color(0xFF0B1F44), -90f, progress * 360f, false, Offset(inset, inset), bounds,
+                if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), bounds,
                     style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            AIcon(icon, Color(0xFF0B1F44), ringSize * .42f, 1.8f)
+            AIcon(icon, color, ringSize * .42f, 1.8f)
         }
         GapH(6.dp)
         Text(label, style = T.Label.copy(fontSize = 12.5.sp, lineHeight = 16.sp, color = RD.Grey), maxLines = 1)

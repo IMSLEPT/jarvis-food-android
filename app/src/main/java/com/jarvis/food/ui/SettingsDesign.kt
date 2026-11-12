@@ -89,7 +89,7 @@ fun SettingsSegment(options: List<String>, selected: Int, onPick: (Int) -> Unit)
         .padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         options.forEachIndexed { index, label ->
             Box(Modifier.weight(1f).fillMaxHeight().heightIn(min = 48.dp).clip(RoundedCornerShape(10.dp))
-                .background(if (index == selected) C.NavyBrush else Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))).selectable(selected = index == selected, role = Role.RadioButton) { onPick(index) }.padding(horizontal = 10.dp, vertical = 12.dp), contentAlignment = Alignment.Center) {
+                .background(if (index == selected) C.OrangeBrush else Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))).selectable(selected = index == selected, role = Role.RadioButton) { onPick(index) }.padding(horizontal = 10.dp, vertical = 12.dp), contentAlignment = Alignment.Center) {
                 Text(label, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = if (index == selected) Color.White else C.Navy), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
             }
         }

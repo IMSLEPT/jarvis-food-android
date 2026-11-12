@@ -52,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -101,7 +102,7 @@ fun JCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(20.dp)
     val base = modifier.fillMaxWidth()
         .aShadow(shape, 10.dp, Color(0x4D1D1B3A))
         .clip(shape).let { if (brush != null) it.background(brush) else it.background(C.cardSurface(color)) }
@@ -115,10 +116,14 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier, action: String? = 
 
 @Composable
 fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.() -> Unit = {}) {
-    val shape = RoundedCornerShape(16.dp)
-    Box(Modifier.fillMaxWidth().zIndex(2f).background(C.Bg).statusBarsPadding().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
-        Row(Modifier.fillMaxWidth().aShadow(shape, 10.dp).clip(shape).background(RD.NavyBrush)
-            .padding(start = 10.dp, end = 12.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+    androidx.compose.runtime.DisposableEffect(Unit) { Nav.topBars++; onDispose { Nav.topBars-- } }
+    val shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
+    Box(Modifier.fillMaxWidth().zIndex(2f).clip(shape).background(RD.NavyBrush)
+        .drawBehind {
+            drawRect(Brush.radialGradient(listOf(Color(0x552B6BFF), Color.Transparent), center = Offset(size.width * 0.05f, 0f), radius = size.width * 0.85f))
+            drawRect(Brush.radialGradient(listOf(Color(0x40FF7A1A), Color.Transparent), center = Offset(size.width * 1.05f, size.height), radius = size.width * 0.6f))
+        }.statusBarsPadding().padding(start = 10.dp, end = 12.dp, top = 6.dp, bottom = 14.dp)) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) {
                 Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack), contentAlignment = Alignment.Center) {
                     Box(Modifier.size(40.dp).clip(CircleShape).background(Color(0x33FFFFFF)), contentAlignment = Alignment.Center) { AIcon(Ic.Left, Color.White, 22.dp, 2.4f) }
@@ -126,7 +131,7 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
                 Spacer(Modifier.width(8.dp))
             } else Spacer(Modifier.width(6.dp))
             Text(title, style = T.Title.copy(fontSize = 22.sp, lineHeight = 27.sp, color = Color.White), modifier = Modifier.weight(1f), maxLines = 3, overflow = TextOverflow.Ellipsis)
-            Row(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White.copy(alpha = 0.0f)), verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 CompositionLocalProvider(LocalContentColor provides Color.White) { actions() }
             }
         }
@@ -138,33 +143,38 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
 /** Pulsante principale: arancione sfumato con testo bianco. Con [color] diverso dall'arancione diventa pieno (es. blu navy). */
 @Composable
 fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean = true, color: Color? = null, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
-    val orange = color == C.Accent
+    val shape = RoundedCornerShape(16.dp)
+    val orange = color == null || color == C.Accent
     val fill: Modifier = when {
-        !enabled -> Modifier.background(C.SurfaceHi, shape)
-        orange -> Modifier.clip(shape).background(C.OrangeBrush, shape)
-        else -> if (color == null) Modifier.clip(shape).background(C.OrangeBrush, shape) else if (color == C.Navy) Modifier.clip(shape).background(C.NavyBrush, shape) else Modifier.clip(shape).background(color, shape)
+        !enabled -> Modifier.clip(shape).background(C.SurfaceHi, shape)
+        orange -> Modifier.orangeGlow(shape, 10.dp).clip(shape).background(C.OrangeBrush, shape)
+        color == C.Navy -> Modifier.clip(shape).background(C.NavyBrush, shape)
+        else -> Modifier.clip(shape).background(color!!, shape)
     }
     Box(
-        modifier.heightIn(min = 52.dp).then(fill)
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 20.dp, vertical = 12.dp),
+        modifier.heightIn(min = 54.dp).then(fill)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 22.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else if (orange) C.OnOrange else C.OnAccent), textAlign = TextAlign.Center) }
+    ) {
+        if (enabled && orange) Box(Modifier.matchParentSize().background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = 60f)))
+        Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else C.OnAccent), textAlign = TextAlign.Center)
+    }
 }
 
 @Composable
 fun GhostButton(text: String, modifier: Modifier = Modifier, color: Color = C.Text, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
     Box(
-        modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xFFE8EAF0))
-            .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
+        modifier.heightIn(min = 52.dp).lightShadow(8.dp, 16.dp).clip(shape).background(Color.White).border(1.dp, Color(0xFFE3E8F2), shape)
+            .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 18.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
-    ) { Text(text, style = T.BtnM.copy(color = color), textAlign = TextAlign.Center) }
+    ) { Text(text, style = T.BtnM.copy(color = color, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center) }
 }
 
 @Composable
 fun Pill(text: String, selected: Boolean, color: Color = C.Ink, onClick: () -> Unit) {
     Box(
-        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(12.dp)).background(if (selected) (if (color == C.Ink) C.NavyBrush else Brush.linearGradient(listOf(color, color))) else Brush.linearGradient(listOf(C.Surface, C.Surface)))
+        Modifier.heightIn(min = 48.dp).clip(RoundedCornerShape(14.dp)).background(if (selected) (if (color == C.Ink) C.OrangeBrush else Brush.linearGradient(listOf(color, color))) else Brush.linearGradient(listOf(C.Surface, C.Surface)))
             .border(1.dp, if (selected) Color.Transparent else Color(0xFFDDE2EB), RoundedCornerShape(12.dp))
             .clickable(onClick = onClick).padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center
     ) { Text(text, style = T.BtnS.copy(color = if (selected) C.OnAccent else C.Text), textAlign = TextAlign.Center) }

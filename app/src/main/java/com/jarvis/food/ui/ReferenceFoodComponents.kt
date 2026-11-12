@@ -132,30 +132,9 @@ internal fun ReferenceMetric(label: String, value: String, progress: Float?, mod
 
 @Composable
 internal fun JarvisChefBanner() {
-    val large = LocalDensity.current.fontScale > 1.2f
-    val shape = RoundedCornerShape(16.dp)
-    Row(Modifier.fillMaxWidth().testTag("jarvis-chef-banner")
-        .clip(shape).background(RD.NavyBrush)
-        .clickable(role = Role.Button) { Nav.go(Screen.WhatNow) }
-        .padding(start = 6.dp, end = 12.dp, top = 10.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(width = if (large) 64.dp else 88.dp, height = 96.dp)) {
-            Canvas(Modifier.fillMaxSize()) {
-                drawOval(Brush.linearGradient(listOf(Color(0xFFFFA615), Color(0xFFC96712))),
-                    Offset(-size.width * .08f, size.height * .76f), androidx.compose.ui.geometry.Size(size.width * 1.16f, size.height * .55f))
-            }
-            Image(painterResource(R.drawable.reference_jarvis_chef), null, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
-        }
-        GapW(8.dp)
-        Column(Modifier.weight(1f)) {
-            Text("Cosa mangio con Jarvis?", style = T.Title2.copy(color = Color.White, fontSize = 17.sp, lineHeight = 22.sp))
-            GapH(5.dp)
-            Text("Trova il piatto perfetto in base ai tuoi obiettivi di oggi.", style = T.Small.copy(color = Color.White, fontSize = 12.sp, lineHeight = 17.sp))
-        }
-        GapW(8.dp)
-        Box(Modifier.size(40.dp).clip(CircleShape).background(Brush.verticalGradient(listOf(Color(0xFFFFB526), Color(0xFFFF8900))))
-            .border(1.dp, Color(0xFFFFCA54), CircleShape), contentAlignment = Alignment.Center) {
-            AIcon(Ic.Right, Color.White, 24.dp, 3f)
-        }
+    PromoBanner("Cosa mangio con Jarvis?", "Trova il piatto perfetto in base ai tuoi obiettivi di oggi.", "Scopri",
+        Modifier.testTag("jarvis-chef-banner"), onClick = { Nav.go(Screen.WhatNow) }) {
+        Image(painterResource(R.drawable.jarvis_logo), null, Modifier.size(112.dp).align(Alignment.Center), contentScale = ContentScale.Fit)
     }
 }
 

@@ -119,6 +119,8 @@ sealed class Screen {
 object Nav {
     val stack = mutableStateListOf<Screen>()
     var tab by mutableIntStateOf(0)
+    /** Numero di barre blu superiori visibili: con almeno una, le icone di stato sono chiare. */
+    var topBars by mutableIntStateOf(0)
     var today by mutableStateOf(LocalDate.now())
         private set
     private var calendarDate by mutableStateOf(LocalDate.now())
@@ -145,10 +147,11 @@ fun App() {
     val state by Store.state.collectAsState()
     val view = androidx.compose.ui.platform.LocalView.current
     val top = Nav.stack.lastOrNull()
+    val darkTop = Nav.topBars
     androidx.compose.runtime.SideEffect {
         val activity = generateSequence(view.context) { (it as? android.content.ContextWrapper)?.baseContext }
             .filterIsInstance<android.app.Activity>().firstOrNull()
-        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !state.onboarded || (top != Screen.Watch && !(top == null && Nav.tab == 0)) }
+        activity?.let { androidx.core.view.WindowCompat.getInsetsController(it.window, view).isAppearanceLightStatusBars = !state.onboarded || (top != Screen.Watch && !(top == null && Nav.tab != 4) && darkTop == 0) }
     }
     if (!state.onboarded) { Onboarding(); return }
     BackHandler(enabled = Nav.stack.isNotEmpty()) { Nav.back() }
@@ -233,8 +236,8 @@ private fun Tabs() {
                 4 -> ProfileScreen()
                 else -> ChatScreen()
             }
-            if (Nav.tab == 0) Box(Modifier.align(Alignment.TopCenter).fillMaxWidth()
-                .windowInsetsTopHeight(WindowInsets.statusBars).background(androidx.compose.ui.graphics.Color(0xFF0B1F44)))
+            if (Nav.tab != 4) Box(Modifier.align(Alignment.TopCenter).fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars).background(androidx.compose.ui.graphics.Color(0xFF0A1A4A)))
         }
         // Con la tastiera aperta nella chat la barra si nasconde: l'input resta subito sopra la tastiera.
         if (showBottomBar) BottomBar()
@@ -264,7 +267,9 @@ private fun RowScope.BottomTabItem(tab: Int, icon: String, label: String) {
     val emphasizeLabel = selected && LocalDensity.current.fontScale <= 1.2f
     Column(Modifier.weight(1f).heightIn(min = 52.dp).testTag("nav-$tab").clip(RoundedCornerShape(12.dp))
         .selectable(selected = selected, role = Role.Tab, onClick = { Nav.tab = tab }).padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        if (icon.isEmpty()) DashboardRobot(false, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)) else AIcon(icon, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6), 24.dp)
+        Box(Modifier.width(56.dp).height(30.dp).clip(RoundedCornerShape(15.dp)).background(if (selected) Color(0x1FF26A1B) else Color.Transparent), contentAlignment = Alignment.Center) {
+            if (icon.isEmpty()) DashboardRobot(false, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)) else AIcon(icon, if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6), 24.dp, if (selected) 2.1f else 1.8f, duo = selected)
+        }
         Spacer(Modifier.height(3.dp))
         Text(label, modifier = Modifier.testTag("nav-label-$tab"), style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = if (emphasizeLabel) FontWeight.SemiBold else FontWeight.Normal, color = if (selected) Color(0xFFF26A1B) else Color(0xFF8A93A6)), textAlign = TextAlign.Center)
         Spacer(Modifier.height(4.dp))

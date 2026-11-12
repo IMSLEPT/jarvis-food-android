@@ -31,7 +31,7 @@ import com.jarvis.food.R
  * Tutti i colori dell'app sono qui.
  */
 object C {
-    val Bg = Color(0xFFF2F3F7)
+    val Bg = Color(0xFFF4F6FB)
     val Surface = Color(0xFFFFFFFF)
     val SurfaceAlt = Color(0xFFEBEAE7)
     val SurfaceHi = Color(0xFFE4E8EF)
@@ -70,9 +70,9 @@ object C {
     val DangerSoft = Color(0xFFFDE3E4)
 
     /** Arancione del + Aggiungi; scritte bianche come richiesto. */
-    val OrangeBrush = Brush.verticalGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
+    val OrangeBrush = Brush.verticalGradient(listOf(Color(0xFFFF9438), Color(0xFFF2600F)))
     /** Sfondo blu navy della scheda calorie. */
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
+    val NavyBrush = Brush.verticalGradient(listOf(Color(0xFF0A1A4A), Color(0xFF0E2A78)))
     val OrangeArc = listOf(Color(0xFFEA7138), Color(0xFFF68A46), Color(0xFFFFAD60))
     /** Neutral card fills; semantic colours stay on text, icons and chart marks. */
     fun cardSurface(tone: Color): Color =

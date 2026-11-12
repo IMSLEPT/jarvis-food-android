@@ -237,7 +237,7 @@ private fun ChatComposer(input: String, onInput: (String) -> Unit, ready: Boolea
 @Composable
 private fun ChatSendControl(canSend: Boolean, busy: Boolean, size: Dp, onSend: () -> Unit, onStop: () -> Unit) {
     Box(Modifier.size(size).clip(CircleShape)
-        .background(if (busy) Brush.linearGradient(listOf(C.Navy, C.Navy)) else Brush.linearGradient(listOf(C.Navy, C.Navy)))
+        .background(C.OrangeBrush)
         .semantics { contentDescription = if (busy) "Interrompi risposta" else "Invia messaggio" }
         .clickable(enabled = canSend || busy, role = Role.Button) { if (busy) onStop() else onSend() }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(22.dp)) {
@@ -340,8 +340,8 @@ private fun Bubble(m: ChatMsg, suggestions: List<String>, onPick: (String) -> Un
     Column(Modifier.fillMaxWidth().testTag("chat-message-${m.id}"), horizontalAlignment = if (mine) Alignment.End else Alignment.Start) {
         if (mine) {
             val shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 24.dp, bottomEnd = 6.dp)
-            Box(Modifier.widthIn(max = (LocalConfiguration.current.screenWidthDp * 0.82f).coerceAtMost(420f).dp).clip(shape).background(C.NavyBrush).padding(horizontal = 18.dp, vertical = 14.dp)) {
-                Text(m.text, style = T.Read.copy(color = Color.White))
+            Box(Modifier.widthIn(max = (LocalConfiguration.current.screenWidthDp * 0.82f).coerceAtMost(420f).dp).clip(shape).background(Color(0xFFDCE8FF)).padding(horizontal = 18.dp, vertical = 14.dp)) {
+                Text(m.text, style = T.Read.copy(color = RD.Ink))
             }
         } else AssistantCard { ChatResponseText(m.text) }
         if (m.pending.isNotEmpty()) {

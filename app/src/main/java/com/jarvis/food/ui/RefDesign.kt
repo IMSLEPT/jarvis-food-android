@@ -70,9 +70,9 @@ object RD {
     val GreyFill = Color(0xFFF0F1F4)
     val Strip = Color(0xFFF6F5F3)
     val Green = Color(0xFF6E9F62)
-    val NavyBrush = Brush.linearGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44)))
-    val ButtonBrush = Brush.linearGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
-    val OrangeBrush = Brush.linearGradient(listOf(Color(0xFFF26A1B), Color(0xFFF26A1B)))
+    val NavyBrush = C.NavyBrush
+    val ButtonBrush = C.OrangeBrush
+    val OrangeBrush = C.OrangeBrush
     val PeachBrush = Brush.verticalGradient(listOf(Color(0xFFF1F3F8), Color(0xFFF1F3F8)))
     val WarmBrush = Brush.linearGradient(listOf(Color.White, Color.White))
 
@@ -218,8 +218,8 @@ fun Modifier.refShadow(shape: Shape, elevation: Dp = 8.dp): Modifier =
 @Composable
 fun RefProfileButton(size: Dp = 56.dp, onClick: () -> Unit = { Nav.go(Screen.Profile) }) {
     val s by Store.state.collectAsState()
-    Box(Modifier.size(size).refShadow(CircleShape, 4.dp).clip(CircleShape).background(Color.White)
-        .border(3.dp, Color.White, CircleShape).testTag("header-profile")
+    Box(Modifier.size(size).clip(CircleShape).background(Color.White)
+        .border(2.dp, Color(0x66FFFFFF), CircleShape).testTag("header-profile")
         .semantics { contentDescription = "Apri profilo" }.clickable(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center) {
         if (s.profile.photo != null) Avatar(s.profile.name, s.profile.photo, size - 6.dp)
@@ -238,10 +238,10 @@ fun ProfileGearIcon(size: Dp) {
 /** Pulsante calendario bianco a quadrato arrotondato (immagini 6 e 7). */
 @Composable
 fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(size * 0.32f)
-    Box(Modifier.size(size).refShadow(shape, 4.dp).clip(shape).background(Color.White).testTag("header-calendar")
+    val shape = RoundedCornerShape(size * 0.34f)
+    Box(Modifier.size(size).clip(shape).background(Color(0x29FFFFFF)).border(1.dp, Color(0x40FFFFFF), shape).testTag("header-calendar")
         .semantics { contentDescription = "Calendario" }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
-        AIcon(RIc.Calendar + RIc.CalendarBand, RD.Ink, size * 0.55f, 2.2f, modifier = Modifier.testTag("header-icon-Calendario"))
+        AIcon(RIc.Calendar + RIc.CalendarBand, Color.White, size * 0.52f, 2.2f, modifier = Modifier.testTag("header-icon-Calendario"))
     }
 }
 
@@ -250,17 +250,14 @@ fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
 /** Cornice comune dei banner: stessi margini e raggi per tutte le schede. */
 @Composable
 fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
-    val shape = RoundedCornerShape(16.dp)
-    Box(Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 8.dp)) {
-        Column(Modifier.fillMaxWidth().testTag("top-header-frame").refShadow(shape, if (navy) 6.dp else 4.dp).clip(shape)
-            .background(if (navy) RD.NavyBrush else RD.WarmBrush)
-            .drawBehind {
-                // Riflesso curvo in alto a destra, come nei riferimenti.
-                val r = size.width * 0.62f
-                if (!navy) drawCircle(Color(0x66FFFFFF), r, Offset(size.width * 1.02f, -r * 0.28f))
-                            }
-            .padding(horizontal = 12.dp, vertical = 8.dp), content = content)
-    }
+    val shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+    Column(Modifier.fillMaxWidth().testTag("top-header-frame").clip(shape)
+        .background(Brush.verticalGradient(listOf(Color(0xFF0A1A4A), Color(0xFF0E2A78))))
+        .drawBehind {
+            drawRect(Brush.radialGradient(listOf(Color(0x662B6BFF), Color.Transparent), center = Offset(size.width * 0.05f, 0f), radius = size.width * 0.85f))
+            drawRect(Brush.radialGradient(listOf(Color(0x40FF7A1A), Color.Transparent), center = Offset(size.width * 1.05f, size.height), radius = size.width * 0.6f))
+        }
+        .padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 20.dp), content = content)
 }
 
 /** Linguette con pillola arancio sulla voce attiva e separatori sottili (immagini 9, 10, 11). */
@@ -287,7 +284,7 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
                 val active = i == selected
                 val pill = RoundedCornerShape(10.dp)
                 val base = Modifier.width(widths[i] + extra).heightIn(min = 44.dp).testTag("banner-tab-$title-$i")
-                    .clip(pill).background(if (active) Brush.horizontalGradient(listOf(Color(0x2EFFFFFF), Color(0x2EFFFFFF))) else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
+                    .clip(pill).background(if (active) C.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
                     .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
                 val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                     else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }

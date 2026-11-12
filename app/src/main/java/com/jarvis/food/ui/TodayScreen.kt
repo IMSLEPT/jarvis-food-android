@@ -266,13 +266,19 @@ private fun WeekPage(s: AppState, date: LocalDate, days: List<LocalDate>, active
 @Composable
 private fun QuickTile(label: String, art: TodayArt, tint: Color, modifier: Modifier, onClick: () -> Unit) {
     val icon = when (art) { TodayArt.Add -> Ic.Plus; TodayArt.Camera -> Ic.Camera; TodayArt.Fridge -> Ic.Fridge; else -> Ic.Timer }
-    val shape = RoundedCornerShape(16.dp)
-    Column(modifier.heightIn(min = 84.dp).clip(shape).background(Color.White).border(1.dp, Color(0xFFE6E9F0), shape)
+    val (top, bottom) = when (art) {
+        TodayArt.Add -> Color(0xFFFF9438) to Color(0xFFF2600F)
+        TodayArt.Camera -> Color(0xFF4C8DFF) to Color(0xFF1B4FD6)
+        TodayArt.Fridge -> Color(0xFF9B7BFF) to Color(0xFF6D3BE0)
+        else -> Color(0xFF2FD3B8) to Color(0xFF0E9C8F)
+    }
+    val shape = RoundedCornerShape(20.dp)
+    Column(modifier.heightIn(min = 88.dp).lightShadow(10.dp, 20.dp).clip(shape).background(Brush.verticalGradient(listOf(top, bottom)))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 2.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        AIcon(icon, Color(0xFF0B1F44), 28.dp, 1.7f, modifier = Modifier.testTag("quick-icon-$label"))
+        AIcon(icon, Color.White, 28.dp, 1.9f, modifier = Modifier.testTag("quick-icon-$label"), duo = art != TodayArt.Add)
         Spacer(Modifier.height(8.dp))
-        Text(label, style = T.Small.copy(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.SemiBold, color = C.Navy), textAlign = TextAlign.Center)
+        Text(label, style = T.Small.copy(fontSize = 13.5.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold, color = Color.White), textAlign = TextAlign.Center)
     }
 }
 
@@ -514,7 +520,7 @@ private fun WaterCard(date: LocalDate, s: AppState) {
                     AIcon(Ic.Minus, RD.Ink.copy(alpha = if (ml > 0) 1f else 0.35f), 18.dp, 2.4f)
                 }
                 GapW(10.dp)
-                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").clip(RoundedCornerShape(12.dp)).background(RD.NavyBrush)
+                Row(Modifier.weight(1f).heightIn(min = 48.dp).testTag("water-plus").clip(RoundedCornerShape(12.dp)).background(C.OrangeBrush)
                     .semantics { contentDescription = "Aggiungi un bicchiere" }
                     .clickable(role = androidx.compose.ui.semantics.Role.Button) {
                         val current = Store.current

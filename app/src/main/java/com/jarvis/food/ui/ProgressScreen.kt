@@ -166,8 +166,8 @@ fun ProgressScreen() {
                 val sel = period == d
                 val choice = RoundedCornerShape(16.dp)
                 Box(Modifier.weight(1f).heightIn(min = 48.dp).clip(choice)
-                    .background(if (sel) RD.NavyBrush else SolidColor(Color.Transparent))
-                    .then(if (sel) Modifier.border(1.5.dp, RD.OrangeLine, choice) else Modifier)
+                    .background(if (sel) C.OrangeBrush else SolidColor(Color.Transparent))
+                    
                     .clickable(role = Role.Button) { period = d }, contentAlignment = Alignment.Center) {
                     Text(l, style = T.BtnS.copy(fontSize = 13.sp, color = if (sel) Color.White else A.Ink))
                 }

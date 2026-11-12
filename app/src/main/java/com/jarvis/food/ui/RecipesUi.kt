@@ -382,7 +382,7 @@ private fun CategoryBrowser(groups: List<com.jarvis.food.engine.RecipeCatGroup>)
 private fun CategoryChip(id: String, label: String, active: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(15.dp)
     Box(Modifier.heightIn(min = PremiumScale.actionHeight).testTag("recipe-group-$id").refShadow(shape, 4.dp).clip(shape)
-        .background(if (active) RD.Navy else Color.White).border(1.dp, if (active) RD.Navy else Color(0xFFB9C2D2), shape)
+        .background(if (active) RD.Orange else Color.White).border(1.dp, if (active) RD.Orange else Color(0xFFE3E8F2), shape)
         .semantics { selected = active }.clickable(role = androidx.compose.ui.semantics.Role.Tab, onClick = onClick)) {
         Row(Modifier.align(Alignment.Center).padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             CategoryIcon(id, active)
@@ -462,23 +462,10 @@ private fun RecipeLibraryShortcuts(favourites: Int, personal: Int) {
 /** Immagine 14: lampadina su tessera pesca, testi, piatto con onda pesca e freccia nel cerchio. */
 @Composable
 private fun InspirationBanner() {
-    val shape = RoundedCornerShape(16.dp)
-    val large = LocalDensity.current.fontScale > 1.2f
-    Row(Modifier.fillMaxWidth().heightIn(min = 104.dp).testTag("kitchen-inspiration").refShadow(shape, 5.dp).clip(shape).background(Color.White)
-        .clickable(role = androidx.compose.ui.semantics.Role.Button) { Nav.go(Screen.WhatNow) }, verticalAlignment = Alignment.CenterVertically) {
-        GapW(12.dp)
-        PeachTile(44.dp, radius = 13.dp) { Box(Modifier.size(34.dp)) { AIcon(RIc.Bulb, RD.OrangeDeep, 34.dp, 2.2f); AIcon(RIc.BulbRays, RD.OrangeDeep, 34.dp, 2.2f) } }
-        GapW(8.dp); OrangeDivider(40.dp); GapW(8.dp)
-        Column(Modifier.weight(1f).padding(vertical = 12.dp)) {
-            Text("Ispirazione su misura", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = RD.Ink))
-            Text("Un piatto per ciò che ti resta oggi", style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = Color(0xFF4A5470)))
-        }
-        if (!large) Box(Modifier.width(84.dp).height(104.dp)) {
-            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.ref_inspiration_bowl), null,
-                Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop, alignment = Alignment.CenterEnd)
-            Box(Modifier.align(Alignment.CenterEnd).padding(end = 10.dp).size(46.dp).refShadow(CircleShape, 3.dp).clip(CircleShape).background(Color(0xFFFFF3EA))
-                .border(3.dp, Color.White, CircleShape), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 24.dp, 3f) }
-        } else Box(Modifier.padding(end = 12.dp).size(44.dp).clip(CircleShape).background(Color(0xFFFFF3EA)), contentAlignment = Alignment.Center) { AIcon(RIc.Right, RD.OrangeDeep, 22.dp, 3f) }
+    PromoBanner("Ispirazione su misura", "Un piatto per ciò che ti resta oggi", "Ispirami", Modifier.testTag("kitchen-inspiration"),
+        onClick = { Nav.go(Screen.WhatNow) }) {
+        androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.ref_inspiration_bowl), null,
+            Modifier.size(104.dp).align(Alignment.Center).clip(CircleShape).border(3.dp, Color(0x66FFFFFF), CircleShape), contentScale = androidx.compose.ui.layout.ContentScale.Crop)
     }
 }
 
