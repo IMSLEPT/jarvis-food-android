@@ -147,7 +147,7 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
     val orange = color == null || color == C.Accent
     val fill: Modifier = when {
         !enabled -> Modifier.clip(shape).background(C.SurfaceHi, shape)
-        orange -> Modifier.orangeGlow(shape, 10.dp).clip(shape).background(C.OrangeBrush, shape)
+        orange -> Modifier.orangeGlow(shape, 10.dp).clip(shape).background(C.OrangeBrush, shape).background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = 60f), shape)
         color == C.Navy -> Modifier.clip(shape).background(C.NavyBrush, shape)
         else -> Modifier.clip(shape).background(color!!, shape)
     }
@@ -156,7 +156,6 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, enabled: Boolean 
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 22.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (enabled && orange) Box(Modifier.matchParentSize().background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = 60f)))
         Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (!enabled) C.Muted else C.OnAccent), textAlign = TextAlign.Center)
     }
 }
@@ -325,7 +324,8 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
         Image(b.asImageBitmap(), contentDescription = null, contentScale = contentScale, modifier = modifier.clip(shape))
     } else {
         Box(modifier.clip(shape).background(Brush.linearGradient(listOf(Color(0xFFFFF4EA), Color(0xFFFFE3CF)))), contentAlignment = Alignment.Center) {
-            Text(emoji, style = T.Big)
+            val glyph = when (emoji) { "☕" -> Ic.MealBreakfast; "🍝" -> Ic.MealLunch; "🍎" -> Ic.MealSnack; else -> Ic.Bowl }
+            AIcon(glyph, C.Accent.copy(alpha = 0.55f), 36.dp, 1.7f, duo = true)
         }
     }
 }

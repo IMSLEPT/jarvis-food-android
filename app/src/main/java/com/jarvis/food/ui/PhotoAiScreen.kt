@@ -274,10 +274,10 @@ fun PhotoAiScreen(date: LocalDate, meal: Int, replacementEntryId: String? = null
 
             Row(Modifier.padding(top = 14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(
-                    Modifier.weight(1f).height(54.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { controller.stop(); camera.launch(photoUri) },
+                    Modifier.weight(1f).height(54.dp).orangeGlow(RoundedCornerShape(16.dp), 8.dp).clip(RoundedCornerShape(16.dp)).background(C.OrangeBrush).clickable { controller.stop(); camera.launch(photoUri) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AIcon(Ic.Camera, C.Accent, 22.dp, 2f); GapW(10.dp)
+                    AIcon(Ic.Camera, Color.White, 22.dp, 2f); GapW(10.dp)
                     Text("Scatta", style = T.Body.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Color.White))
                 }
                 Row(

@@ -180,9 +180,9 @@ fun FastingScreen() {
                 Text("Iniziato $dayWord alle ${fmtTime(f.activeStart!!)} · puoi ancora regolare l'inizio", style = T.Small.copy(fontSize = 12.5.sp, color = C.Muted),
                     textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 12.dp))
             } else {
-                Row(Modifier.padding(top = 16.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-start").clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { now = System.currentTimeMillis(); Store.startFast(f.planId, f.targetHours, now); Reminders.rescheduleAll(ctx) },
+                Row(Modifier.padding(top = 16.dp).fillMaxWidth().heightIn(min = 56.dp).testTag("fasting-start").clip(RoundedCornerShape(16.dp)).background(C.OrangeBrush).clickable { now = System.currentTimeMillis(); Store.startFast(f.planId, f.targetHours, now); Reminders.rescheduleAll(ctx) },
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    AIcon(Ic.Bolt, C.Accent, 20.dp, 2f); GapW(10.dp)
+                    AIcon(Ic.Bolt, Color.White, 20.dp, 2f); GapW(10.dp)
                     Text("Inizia digiuno ora", style = T.BtnL.copy(color = Color.White), modifier = Modifier.padding(vertical = 14.dp))
                 }
                 Box(Modifier.padding(top = 10.dp).fillMaxWidth().height(48.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xD9FFFFFF)).clickable {

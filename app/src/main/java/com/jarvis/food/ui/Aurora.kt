@@ -235,10 +235,10 @@ fun APrimary(text: String, modifier: Modifier = Modifier, height: Dp = 54.dp, en
     Box(
         modifier.heightIn(min = height).let { if (enabled) it.orangeGlow(shape, 10.dp) else it }.clip(shape)
             .background(if (enabled) C.OrangeBrush else Brush.verticalGradient(listOf(C.SurfaceHi, C.SurfaceHi)))
+            .let { if (enabled) it.background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = 60f)) else it }
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick).padding(horizontal = 22.dp, vertical = 14.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (enabled) Box(Modifier.matchParentSize().background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = 60f)))
         Text(text, style = T.BtnM.copy(fontWeight = FontWeight.Bold, color = if (enabled) C.OnOrange else C.Muted), textAlign = TextAlign.Center)
     }
 }

@@ -414,7 +414,7 @@ fun MealPlanCard(s: AppState, date: LocalDate, m: PlannedMeal) {
                 }
             }
             Row(Modifier.padding(top = 18.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.Navy).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Row(Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(16.dp)).background(C.OrangeBrush).clickable { openRecipe(date, m) }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                     Text("Apri ricetta", style = T.BtnM.copy(color = Color.White))
                     Spacer(Modifier.width(8.dp))
                     AIcon(Ic.Right, Color.White, 16.dp, 2.4f)
