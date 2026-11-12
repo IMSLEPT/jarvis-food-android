@@ -154,6 +154,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     var mG by remember(tpl.id) { mutableStateOf("") }
     var servings by remember(tpl.id) { mutableIntStateOf(1) }
     var meal by remember { mutableIntStateOf(sc.diaryMeal) }
+    var more by remember { mutableStateOf(false) }
     var detail by remember { mutableStateOf(false) }
     var adaptationExpanded by remember(tpl.id) { mutableStateOf(false) }
     var dlgPlan by remember { mutableStateOf(false) }
@@ -192,7 +193,10 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
     val eaten = slot?.eatenEntryIds?.isNotEmpty() == true
     val planned = sc.slot != null && sc.adHoc == null
     val recipeScroll = rememberScrollState()
-    val toolbarThreshold = with(LocalDensity.current) { 220.dp.roundToPx() }
+    // Foto più bassa (prima 280 dp = un quarto dello schermo); senza foto solo una fascia compatta.
+    val hasPhoto = s.recipePhotos[tpl.id] != null || EditorialPhotos.asset(tpl.id, tpl.image) != null
+    val heroH = if (hasPhoto) 212.dp else 132.dp
+    val toolbarThreshold = with(LocalDensity.current) { (heroH - 40.dp).roundToPx() }
     val solidToolbar by remember(recipeScroll, toolbarThreshold) { derivedStateOf { recipeScroll.value > toolbarThreshold } }
 
     Box(Modifier.fillMaxSize()) {
@@ -200,18 +204,18 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
         Box(Modifier.weight(1f)) {
             Column(Modifier.fillMaxSize().testTag("recipe-scroll").verticalScroll(recipeScroll)) {
                 Box(Modifier.fillMaxWidth()) {
-                    RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(280.dp), recEmoji(tpl.meal), 0.dp)
-                    Box(Modifier.fillMaxWidth().height(160.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
+                    RecipeImage(tpl.id, tpl.image, s.recipePhotos[tpl.id], Modifier.fillMaxWidth().height(heroH), recEmoji(tpl.meal), 0.dp)
+                    Box(Modifier.fillMaxWidth().height(120.dp).background(Brush.verticalGradient(listOf(Color(0x80181430), Color.Transparent))))
                     val photoLabel = if (s.recipePhotos[tpl.id] != null) null
                         else EditorialPhotos.label(tpl.id, tpl.image)
                             ?: tpl.credit?.author?.takeIf { it.isNotBlank() }?.take(40)
                     photoLabel?.let { label ->
                         Text(label, style = T.Small.copy(color = Color.White),
-                            modifier = Modifier.padding(start = 16.dp, top = 200.dp).clip(RoundedCornerShape(50))
+                            modifier = Modifier.padding(start = 16.dp, top = heroH - 70.dp).clip(RoundedCornerShape(50))
                                 .background(Color(0x99000000)).padding(horizontal = 10.dp, vertical = 4.dp))
                     }
                     Column(
-                        Modifier.padding(top = 240.dp).fillMaxWidth()
+                        Modifier.padding(top = heroH - 40.dp).fillMaxWidth()
                             .aShadow(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp), 14.dp, Color(0x591D1B3A))
                             .clip(RoundedCornerShape(topStart = 26.dp, topEnd = 26.dp)).background(C.Bg)
                             .padding(start = 20.dp, end = 20.dp, top = 26.dp, bottom = 24.dp)
@@ -457,19 +461,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             ACard(color = A.GreenSoft, radius = 24.dp, padding = 14.dp, elevation = 0.dp, bordered = false) { Text("💡 ${tpl.tip}", style = T.Body.copy(fontSize = 14.sp, lineHeight = 21.sp)) }
                         }
 
-                        // Attrezzi, sostituzioni, allergeni, informazioni
-                        ASection("Attrezzi", top = 30.dp)
-                        GapH(8.dp)
-                        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) { RecipeMeta.tools(tpl).forEach { InfoChip(it) } }
-
-                        val subs = RecipeMeta.substitutions(tpl)
-                        if (subs.isNotEmpty()) {
-                            ASection("Sostituzioni consigliate", top = 26.dp)
-                            GapH(8.dp)
-                            ACard(padding = 14.dp, elevation = 4.dp) { Column(verticalArrangement = Arrangement.spacedBy(6.dp)) { subs.forEach { Text("• $it", style = T.Body.copy(fontSize = 14.sp)) } } }
-                        }
-
-                        ASection("Allergeni e compatibilità", top = 26.dp)
+                        ASection("Allergeni e compatibilità", top = 30.dp)
                         GapH(8.dp)
                         ACard(padding = 14.dp, elevation = 4.dp) {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -479,6 +471,25 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                                 if (info.goals.isNotEmpty()) Text("Obiettivi: " + RecipeMeta.GOALS.filter { it.first in info.goals }.joinToString { it.second }, style = T.Small.copy(color = A.Ink))
                                 Text("Costo stimato: ${RecipeMeta.costLabel(info.costEur)} (circa ${String.format(java.util.Locale.ITALY, "%.2f", info.costEur)} € a porzione, prezzi medi indicativi). Controlla sempre le etichette dei prodotti confezionati.", style = T.Small)
                             }
+                        }
+
+                        // Solo gli allergeni restano in vista; il resto è a un tocco di distanza.
+                        Row(Modifier.padding(top = 18.dp).fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(C.Surface)
+                            .border(1.dp, A.Hair, RoundedCornerShape(18.dp)).clickable { more = !more }.padding(horizontal = 16.dp, vertical = 14.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Text(if (more) "Nascondi dettagli" else "Attrezzi, sostituzioni e nutrienti", style = T.Label, modifier = Modifier.weight(1f))
+                            Text(if (more) "−" else "+", style = T.H2.copy(color = A.Ink))
+                        }
+                        if (more) {
+                                                ASection("Attrezzi", top = 30.dp)
+                        GapH(8.dp)
+                        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) { RecipeMeta.tools(tpl).forEach { InfoChip(it) } }
+
+                        val subs = RecipeMeta.substitutions(tpl)
+                        if (subs.isNotEmpty()) {
+                            ASection("Sostituzioni consigliate", top = 26.dp)
+                            GapH(8.dp)
+                            ACard(padding = 14.dp, elevation = 4.dp) { Column(verticalArrangement = Arrangement.spacedBy(6.dp)) { subs.forEach { Text("• $it", style = T.Body.copy(fontSize = 14.sp)) } } }
                         }
 
                         // Micronutrienti
@@ -520,6 +531,7 @@ fun RecipeViewScreen(sc: Screen.RecipeView) {
                             r.items.filter { it.ing.role != "x" }.forEach {
                                 Text("• ${it.food.name}: USDA FDC ${it.food.fdc} (${it.food.usda})" + (it.food.note?.let { n -> ". $n" } ?: ""), style = T.Small)
                             }
+                        }
                         }
                         GapH(24.dp)
                     }

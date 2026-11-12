@@ -152,7 +152,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
     // Video 4 novembre: la percentuale e la barra partono da 0 e crescono verso l'obiettivo.
     val fraction = TodayProgress.ratio(eaten, target).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(650), label = "calorie-progress")
-    ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 24.dp, brush = Brush.linearGradient(listOf(Color(0xFF071B40), Color(0xFF123D70), Color(0xFF091A38))), padding = 12.dp, bordered = false, onClick = onClick) {
+    ACard(Modifier.fillMaxWidth().testTag("today-calories"), radius = 24.dp, brush = Brush.linearGradient(listOf(Color(0xFF0B2C6E), Color(0xFF1B58B3), Color(0xFF0C3480))), padding = 12.dp, bordered = false, onClick = onClick) {
       Column {
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val roomy = maxWidth / LocalDensity.current.fontScale >= 220.dp
@@ -176,7 +176,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
                     }
                     GapH(8.dp)
                     Box(Modifier.testTag("calorie-bar").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }) {
-                        ABar(progress, Brush.horizontalGradient(listOf(DashboardOrange, Color(0xFFFFCB74))), Color(0xFF485F85), 8.dp)
+                        ABar(progress, Brush.horizontalGradient(listOf(DashboardOrange, Color(0xFFFFCB74))), Color(0x33FFFFFF), 8.dp)
                     }
                 }
             }
@@ -190,7 +190,7 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
             AIcon(Ic.Right, Color.White, 17.dp, modifier = Modifier.align(Alignment.TopEnd))
         }
         GapH(8.dp)
-        Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x334F719A)))
+        Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x33FFFFFF)))
         GapH(6.dp)
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val narrow = maxWidth / LocalDensity.current.fontScale < 180.dp
@@ -213,15 +213,15 @@ internal fun TodayCalorieCard(eaten: Double, target: Double, burned: Int, onClic
 
 @Composable
 internal fun CalorieGauge(progress: Float, valid: Boolean, fraction: Float) {
-    Box(Modifier.size(if (LocalDensity.current.fontScale > 1.2f) 88.dp else 80.dp).testTag("calorie-gauge").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
-        Canvas(Modifier.fillMaxSize().padding(6.dp)) {
+    Box(Modifier.size(if (LocalDensity.current.fontScale > 1.2f) 96.dp else 90.dp).testTag("calorie-gauge").semantics { progressBarRangeInfo = ProgressBarRangeInfo(fraction, 0f..1f) }, contentAlignment = Alignment.Center) {
+        Canvas(Modifier.fillMaxSize().padding(4.dp)) {
             val stroke = 7.dp.toPx(); val inset = stroke / 2
             val sz = Size(size.width - stroke, size.height - stroke)
-            drawArc(Color(0xFF334F79), 135f, 270f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
+            drawArc(Color(0x30FFFFFF), 135f, 270f, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
             if (progress > 0) drawArc(Brush.sweepGradient(listOf(Color(0xFFFFB845), DashboardOrange, Color(0xFFFFB845))), 135f, 270f * progress, false, Offset(inset, inset), sz, style = Stroke(stroke, cap = StrokeCap.Round))
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            AIcon(Ic.Flame, DashboardOrange, 19.dp, fill = true)
+            AIcon(Ic.Flame, DashboardOrange, 16.dp, fill = true)
             Text(if (valid) "${(fraction * 100).roundToInt()}%" else "—", style = T.Num.copy(color = Color.White, fontSize = 22.sp, lineHeight = 25.sp))
             Text("al target", style = T.Small.copy(color = Color.White, fontSize = 10.sp, lineHeight = 13.sp))
         }

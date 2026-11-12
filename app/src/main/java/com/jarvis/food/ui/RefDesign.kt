@@ -77,8 +77,8 @@ object RD {
     val WarmBrush = Brush.linearGradient(listOf(Color(0xFFFBF7F4), Color(0xFFF7EEE8)))
 
     /** Banner pages share the same proportions. */
-    @Composable fun bannerTitleHeight() = 76.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)
-    @Composable fun stripHeight() = (if (LocalDensity.current.fontScale > 1.5f) 112.dp else 72.dp) * LocalDensity.current.fontScale.coerceAtLeast(1f)
+    @Composable fun bannerTitleHeight() = 64.dp * LocalDensity.current.fontScale.coerceAtLeast(1f)
+    @Composable fun stripHeight() = (if (LocalDensity.current.fontScale > 1.5f) 104.dp else 66.dp) * LocalDensity.current.fontScale.coerceAtLeast(1f)
     @Composable fun large() = LocalDensity.current.fontScale > 1.2f
     /** Calendario e profilo hanno la stessa misura in tutti i banner. */
     @Composable fun headerButton() = 48.dp
@@ -251,7 +251,7 @@ fun RefCalendarButton(size: Dp = 56.dp, onClick: () -> Unit) {
 @Composable
 fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
     val shape = RoundedCornerShape(24.dp)
-    Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 8.dp)) {
+    Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 6.dp)) {
         Column(Modifier.fillMaxWidth().testTag("top-header-frame").refShadow(shape, if (navy) 6.dp else 4.dp).clip(shape)
             .background(if (navy) RD.NavyBrush else RD.WarmBrush)
             .drawBehind {
@@ -259,7 +259,7 @@ fun RefBannerFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
                 val r = size.width * 0.62f
                 drawCircle(if (navy) Color(0x220E4AA0) else Color(0x66FFFFFF), r, Offset(size.width * 1.02f, -r * 0.28f))
             }
-            .padding(horizontal = 12.dp, vertical = 10.dp), content = content)
+            .padding(horizontal = 12.dp, vertical = 8.dp), content = content)
     }
 }
 
@@ -270,24 +270,30 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         val density = LocalDensity.current
         val measurer = rememberTextMeasurer()
-        val widths = labels.mapIndexed { index, label ->
+        fun widthsFor(iconAt: (Int) -> Boolean) = labels.mapIndexed { index, label ->
             val textWidth = with(density) { measurer.measure(label, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp)).size.width.toDp() }
-            maxOf(80.dp, textWidth + 20.dp + if (icons.getOrNull(index) != null) 26.dp else 0.dp)
+            maxOf(if (iconAt(index)) 80.dp else 64.dp, textWidth + 20.dp + if (iconAt(index)) 26.dp else 0.dp)
         }
-        val total = widths.fold(0.dp) { sum, width -> sum + width } + 9.dp * (labels.size - 1).coerceAtLeast(0)
+        fun sum(w: List<Dp>) = w.fold(0.dp) { acc, width -> acc + width } + 9.dp * (labels.size - 1).coerceAtLeast(0)
+        // Se con tutte le icone i tab non entrano, l'icona resta solo sulla voce attiva: niente testo troncato.
+        val full = widthsFor { icons.getOrNull(it) != null }
+        val onlyActive = sum(full) > maxWidth && labels.size > 2
+        val showIcon: (Int) -> Boolean = { icons.getOrNull(it) != null && (!onlyActive || it == selected) }
+        val widths = if (onlyActive) widthsFor(showIcon) else full
+        val total = sum(widths)
         val extra = if (labels.isEmpty()) 0.dp else (maxWidth - total).coerceAtLeast(0.dp) / labels.size
         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
             labels.indices.forEach { i ->
                 val active = i == selected
                 val pill = RoundedCornerShape(14.dp)
-                val base = Modifier.width(widths[i] + extra).heightIn(min = 48.dp).testTag("banner-tab-$title-$i")
+                val base = Modifier.width(widths[i] + extra).heightIn(min = 44.dp).testTag("banner-tab-$title-$i")
                     .clip(pill).background(if (active) RD.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
                     .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
                 val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
                     else base.semantics { this.selected = active }.clickable(role = Role.Tab) { onSelect(i) }
                 Row(control.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center) {
-                    icons.getOrNull(i)?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
+                    icons.getOrNull(i)?.takeIf { showIcon(i) }?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
                     Text(labels[i], style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
                         modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), maxLines = 1, softWrap = false)
                 }
@@ -309,7 +315,7 @@ private fun BannerTabIcon(icon: String, size: Dp) {
 /** Campo di ricerca bianco a pillola, con conteggio opzionale (immagini 9-12). */
 @Composable
 fun RefSearchShell(modifier: Modifier = Modifier, count: String? = null, content: @Composable RowScope.() -> Unit) {
-    Row(modifier.fillMaxWidth().heightIn(min = 48.dp).clip(RoundedCornerShape(24.dp)).background(Color.White)
+    Row(modifier.fillMaxWidth().heightIn(min = 44.dp).clip(RoundedCornerShape(22.dp)).background(Color.White)
         .padding(start = 14.dp, end = 6.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         AIcon(RIc.Search, Color(0xFF59627A), 20.dp, 2.1f); GapW(10.dp)
         content()

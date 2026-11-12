@@ -299,7 +299,7 @@ fun RecipeImage(recipeId: String, asset: String?, userPhoto: String?, modifier: 
     if (b != null) {
         Image(b.asImageBitmap(), contentDescription = null, contentScale = contentScale, modifier = modifier.clip(shape))
     } else {
-        Box(modifier.clip(shape).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
+        Box(modifier.clip(shape).background(Brush.linearGradient(listOf(Color(0xFFFFF4EA), Color(0xFFFFE3CF)))), contentAlignment = Alignment.Center) {
             Text(emoji, style = T.Big)
         }
     }

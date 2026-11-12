@@ -42,8 +42,8 @@ object C {
     val Faint = Color(0xFF6B7280)
     val Accent = Color(0xFFEA7138)
     // Brand orange stays on icons; white button labels need the darker variant.
-    val ButtonOrange = Color(0xFFC94D00)
-    val ButtonOrangeEnd = Color(0xFFBA4000)
+    val ButtonOrange = Color(0xFFD35508)
+    val ButtonOrangeEnd = Color(0xFFBD4300)
     val AccentSoft = Color(0xFFFFF2EA)
     val AccentDeep = Color(0xFFB94C1C)
     val OnAccent = Color(0xFFFFFFFF)

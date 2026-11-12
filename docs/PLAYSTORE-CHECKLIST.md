@@ -18,3 +18,7 @@ Stato verificato su ramo `restyling-playstore` (base: build 1.0.233, tag `backup
 ## Già fatto in questo ramo
 - Chat: risposte istantanee senza modello per comandi chiari, header compatto con tastiera, precaricamento modello, modello E2B di default (`QuickIntents.kt`, test inclusi).
 - Build di prova locale installabile accanto all'app: `./gradlew assembleDebug -PdevSuffix` (id `com.jarvis.food.dev`).
+
+## Blocchi ancora aperti (aggiunti dopo il restyling)
+- **16 KB page size**: le librerie native dell'app non sono allineate a 16 KB; dal 1 novembre 2025 Google Play lo richiede per i nuovi upload con targetSdk 35+. Da risolvere aggiornando/ricompilando le librerie native (LiteRT-LM e simili) prima della pubblicazione.
+- **Foto ricette**: solo 170 ricette su 2.533 hanno foto complete (restano 2.363); le altre mostrano un segnaposto. Vedi tools/photography/README.md.
