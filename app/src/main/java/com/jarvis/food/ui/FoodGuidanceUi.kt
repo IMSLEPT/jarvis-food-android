@@ -229,9 +229,9 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 
 @Composable
 private fun TipRow(tip: DailyFoodTips.Tip, compact: Boolean = false, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(12.dp)
+    val shape = RoundedCornerShape(16.dp)
     Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 38.dp else 48.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
-        .background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color(0xFFF3F5F9), Color(0xFFF3F5F9))))
+        .background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color(0xFFEAF0FC), Color(0xFFF6F8FD))))
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
         .padding(horizontal = if (compact) 6.dp else 10.dp, vertical = if (compact) 4.dp else 8.dp), verticalAlignment = Alignment.CenterVertically) {
         TipIcon(tip.id, if (compact) 17.dp else 30.dp)
@@ -254,7 +254,7 @@ private fun DietCoachDialog(s: AppState, date: LocalDate, ctx: DietCoach.Context
     var busy by remember(days) { mutableStateOf(false) }
     val ready = remember(s.ai) { DietCoachAi.ready(context, s) }
     androidx.compose.ui.window.Dialog(onDismissRequest = onClose, properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)) {
-        Surface(Modifier.fillMaxWidth().widthIn(max = 460.dp).padding(horizontal = 20.dp), shape = RoundedCornerShape(16.dp), color = C.Surface) {
+        Surface(Modifier.fillMaxWidth().widthIn(max = 460.dp).padding(horizontal = 20.dp), shape = RoundedCornerShape(30.dp), color = C.Surface) {
             Column(Modifier.fillMaxWidth().heightIn(max = (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp * .85f).dp)
                 .verticalScroll(rememberScrollState()).padding(20.dp).testTag("diet-coach-dialog")) {
                 Text("La tua dieta", style = T.Title.copy(fontSize = 23.sp, color = RD.Ink))

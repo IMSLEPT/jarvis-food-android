@@ -297,7 +297,7 @@ fun RecipeEditorScreen(recipe: Recipe?) {
                     GhostButton("Rimuovi", Modifier.weight(1f), color = C.Danger) { RecipePhoto.delete(photo); photo = null }
                 }
             } else {
-                Box(Modifier.fillMaxWidth().height(120.dp).clip(RoundedCornerShape(16.dp)).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxWidth().height(120.dp).clip(RoundedCornerShape(24.dp)).background(C.SurfaceAlt), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(emoji, style = T.Big)
                         Text("Aggiungi una foto del piatto", style = T.Small)

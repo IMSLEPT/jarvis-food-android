@@ -49,7 +49,7 @@ fun AChoice(selected: Boolean, modifier: Modifier = Modifier, minHeight: Dp = 64
 /** Selettore a segmenti (pista grigia 5 px, voce attiva navy), in riga o in colonna. */
 @Composable
 fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, modifier: Modifier = Modifier, onPick: (Int) -> Unit) {
-    val track = RoundedCornerShape(16.dp)
+    val track = RoundedCornerShape(26.dp)
     @Composable
     fun item(i: Int, m: Modifier) {
         val sel = i == selected
@@ -67,7 +67,7 @@ fun ASegment(options: List<String>, selected: Int, vertical: Boolean = false, mo
 /** Chip di esclusione alimentare (44 px, bordo 2 px; attiva = navy). */
 @Composable
 fun AChip(label: String, on: Boolean, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(22.dp)
     Box(
         Modifier.heightIn(min = 48.dp).clip(shape).background(if (on) C.Navy else Color.White)
             .border(2.dp, if (on) A.Ink else Color(0x1F1D1B3A), shape).clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),

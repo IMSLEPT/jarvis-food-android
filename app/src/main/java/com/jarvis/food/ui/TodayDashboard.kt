@@ -88,7 +88,7 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                     pick(CalendarWindow.days(today, page - origin)[CalendarWindow.position(today, currentDate)])
             }
         }
-        val shape = RoundedCornerShape(14.dp)
+        val shape = RoundedCornerShape(26.dp)
         Row(Modifier.fillMaxSize().testTag("week-strip").pointerInput(pager, today) {
             var distance = 0f
             detectHorizontalDragGestures(onDragStart = { distance = 0f }, onDragEnd = {
@@ -96,8 +96,8 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                     pager.animateScrollToPage((pager.currentPage + if (distance < 0) 1 else -1).coerceIn(0, 20000))
                 }
             }) { change, delta -> change.consume(); distance += delta }
-        }.clip(shape)
-            .background(Color.White).padding(horizontal = 2.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+        }.aShadow(shape, 7.dp, Color(0x24134B83)).clip(shape)
+            .background(Color.White).border(1.dp, Color(0xFFE9EEF5), shape).padding(horizontal = 2.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
             CalendarArrow(false, pager.currentPage > 0) { scope.launch { pager.animateScrollToPage((pager.currentPage - 1).coerceAtLeast(0)) } }
             HorizontalPager(pager, Modifier.weight(1f).fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) { page ->
                 val days = CalendarWindow.days(today, page - origin)
@@ -109,9 +109,9 @@ internal fun ProposalNineCalendar(s: AppState, date: LocalDate, onPick: (LocalDa
                                 val selected = day == date
                                 val active = page == pager.currentPage
                                 val logged = Store.entriesFor(s, day).isNotEmpty()
-                                val tile = RoundedCornerShape(10.dp)
+                                val tile = RoundedCornerShape(14.dp)
                                 Column(Modifier.weight(1f).then(if (active) Modifier.testTag("week-day-$i") else Modifier)
-                                    .clip(tile).background(if (selected) Brush.verticalGradient(listOf(Color(0xFF0B1F44), Color(0xFF0B1F44))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
+                                    .clip(tile).background(if (selected) Brush.verticalGradient(listOf(Color(0xFFFFA25C), Color(0xFFF26A1B))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent)))
                                     
                                     .semantics { contentDescription = day.toString() }
                                     .selectableCalendar(selected) { pick(day) }.padding(top = 4.dp, bottom = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -149,12 +149,12 @@ private fun CalendarArrow(next: Boolean, enabled: Boolean, action: () -> Unit) {
 
 @Composable
 internal fun TodayHero(s: AppState, date: LocalDate, hello: String, eaten: Double, target: Double, burned: Int, onPick: (LocalDate) -> Unit, onOpen: () -> Unit) {
-    val shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-    Column(Modifier.fillMaxWidth().testTag("today-hero").clip(shape).background(RD.NavyBrush)
+    val shape = RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp)
+    Column(Modifier.fillMaxWidth().testTag("today-hero").aShadow(shape, 14.dp).clip(shape).background(RD.NavyBrush)
         .statusBarsPadding().padding(start = 14.dp, end = 14.dp, top = 8.dp, bottom = 18.dp)) {
         CalendarHeaderContent(s, "Oggi", date, "$hello,", onPick)
         GapH(14.dp)
-        Column(Modifier.fillMaxWidth().testTag("today-calories").clip(RoundedCornerShape(16.dp)).clickable(onClick = onOpen).padding(horizontal = 4.dp)) {
+        Column(Modifier.fillMaxWidth().testTag("today-calories").clip(RoundedCornerShape(24.dp)).clickable(onClick = onOpen).padding(horizontal = 4.dp)) {
             CalorieContent(eaten, target, burned)
         }
     }
@@ -223,7 +223,7 @@ private fun CalorieContent(eaten: Double, target: Double, burned: Int) {
                 CalorieStat("Mangiate", eaten, DashboardIcon.Fork, Color.White, Modifier.fillMaxWidth())
                 CalorieStat("Obiettivo", target, DashboardIcon.Target, Color.White, Modifier.fillMaxWidth())
                 CalorieStat("Attività", burned.toDouble(), DashboardIcon.Runner, Color(0xFFABF0C5), Modifier.fillMaxWidth())
-            } else Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Color(0x26FFFFFF)).padding(vertical = 8.dp, horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically, content = stats)
+            } else Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color(0x26FFFFFF)).padding(vertical = 8.dp, horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically, content = stats)
         }
       }
 }
@@ -288,8 +288,8 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
     ringSize: androidx.compose.ui.unit.Dp, modifier: Modifier) {
     val fraction = TodayProgress.ratio(value, goal).coerceIn(0f, 1f)
     val progress by animateFloatAsState(fraction, tween(600), label = "macro-$label")
-    val shape = RoundedCornerShape(16.dp)
-    Column(modifier.clip(shape).background(Color.White).border(1.dp, Color(0xFFE6E9F0), shape)
+    val shape = RoundedCornerShape(24.dp)
+    Column(modifier.aShadow(shape, 8.dp).clip(shape).background(Brush.verticalGradient(listOf(soft, Color.White)))
         .clickable { Nav.go(Screen.DayNutrients(Nav.diaryDate)) }.padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(ringSize).testTag("macro-ring-$label").semantics {
@@ -299,19 +299,19 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
                 val stroke = 5.dp.toPx()
                 val inset = stroke / 2
                 val bounds = Size(size.width - stroke, size.height - stroke)
-                drawArc(Color(0xFFE6EAF2), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
-                if (progress > 0) drawArc(Color(0xFF0B1F44), -90f, progress * 360f, false, Offset(inset, inset), bounds,
+                drawArc(Color.White, -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
+                if (progress > 0) drawArc(color, -90f, progress * 360f, false, Offset(inset, inset), bounds,
                     style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            AIcon(icon, Color(0xFF0B1F44), ringSize * .42f, 1.8f)
+            AIcon(icon, color, ringSize * .46f, fill = true)
         }
         GapH(6.dp)
-        Text(label, style = T.Label.copy(fontSize = 12.5.sp, lineHeight = 16.sp, color = RD.Grey), maxLines = 1)
+        Text(label, style = T.Label.copy(fontSize = 12.5.sp, lineHeight = 16.sp, color = ink), maxLines = 1)
         Text("${value.r0()} / ${goal.r0()} g", Modifier.testTag("macro-value-$label"),
             style = T.Num.copy(fontSize = 14.sp, lineHeight = 18.sp), maxLines = 1)
         GapH(4.dp)
         Text(if (goal > 0) "${TodayProgress.percent(value, goal)}%" else "—",
-            Modifier.testTag("macro-percent-$label"),
-            style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = RD.Grey))
+            Modifier.testTag("macro-percent-$label").clip(CircleShape).background(color).padding(horizontal = 10.dp, vertical = 2.dp),
+            style = T.Label.copy(fontSize = 12.sp, lineHeight = 15.sp, color = Color.White))
     }
 }

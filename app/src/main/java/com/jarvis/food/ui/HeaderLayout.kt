@@ -43,7 +43,7 @@ object HeaderLayout {
 @Composable
 fun ScreenHeaderFrame(navy: Boolean, content: @Composable ColumnScope.() -> Unit) {
     Box(Modifier.fillMaxWidth().background(C.Bg).padding(start = 8.dp, end = 8.dp, top = 12.dp, bottom = 8.dp)) {
-        Column(Modifier.fillMaxWidth().testTag("top-header-frame").clip(RoundedCornerShape(16.dp))
+        Column(Modifier.fillMaxWidth().testTag("top-header-frame").clip(RoundedCornerShape(24.dp))
             .background(if (navy) HeaderLayout.ReferenceBlue else C.Bg).padding(horizontal = 8.dp, vertical = 8.dp), content = content)
     }
 }

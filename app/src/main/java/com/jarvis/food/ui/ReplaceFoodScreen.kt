@@ -118,7 +118,7 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
                 SettingsHeading(if (query.isBlank()) "Recenti e preferiti" else "Risultati della ricerca", "Seleziona il nuovo alimento: nel passaggio successivo controlli quantità e valori.")
             }
             items(foods, key = { it.id }) { food ->
-                val shape = RoundedCornerShape(14.dp)
+                val shape = RoundedCornerShape(20.dp)
                 Row(Modifier.fillMaxWidth().clip(shape).background(C.Surface).border(1.dp, C.Line, shape).testTag("replacement-${food.id}").clickable { preview(food) }.padding(15.dp), verticalAlignment = Alignment.CenterVertically) {
                     FoodIllustration(food.name, food.group, 52.dp)
                     Spacer(Modifier.width(10.dp))
@@ -159,7 +159,7 @@ fun ReplaceFoodScreen(entryId: String, initialQuery: String = "", offlineOnly: B
 
 @Composable
 private fun ReplacementSource(title: String, icon: String, warm: Boolean, modifier: Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
+    val shape = RoundedCornerShape(20.dp)
     Column(modifier.fillMaxHeight().heightIn(min = 112.dp).clip(shape).background(if (warm) C.AccentSoft else C.NavySoft)
         .border(1.dp, C.Line, shape).clickable(onClick = onClick).padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         AIcon(icon, if (warm) C.AccentDeep else C.Navy, 30.dp)

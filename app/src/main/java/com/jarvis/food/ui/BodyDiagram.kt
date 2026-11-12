@@ -61,7 +61,7 @@ fun BodyDiagram(selectedKey: String, onSelect: (String) -> Unit) {
             Text("LA TUA MAPPA CORPOREA", style = T.Small.copy(fontSize = 12.sp, letterSpacing = 1.sp, fontWeight = FontWeight.Bold), modifier = Modifier.weight(1f))
             Text("2D · FRONTE", style = T.Small.copy(fontSize = 12.sp, color = C.Navy))
         }
-        BoxWithConstraints(Modifier.fillMaxWidth().height(380.dp).clip(RoundedCornerShape(14.dp))
+        BoxWithConstraints(Modifier.fillMaxWidth().height(380.dp).clip(RoundedCornerShape(18.dp))
             .background(Brush.verticalGradient(listOf(Color(0xFFF4F7FD), Color(0xFFFAFBFE))))
             .testTag("body-model-2d").semantics { stateDescription = "Sagoma 2D · ${guide.name}" }) {
             val scale = min(maxWidth.value / 360f, 380f / 520f)
