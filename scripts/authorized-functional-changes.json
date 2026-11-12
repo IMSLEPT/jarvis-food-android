@@ -8,43 +8,43 @@
     "reason": "User-requested mascot redesign: replaced by jarvis_logo.webp (same resource name, new friendlier head-crop logo)."
   },
   "app/src/main/res/mipmap-hdpi/ic_launcher_bg.png": {
-    "sha256": "1547fbcf0983dd3da2b85eaa83ded2179e718f8f7d481a09afec795a4159e597",
+    "sha256": "a1b70e9483dbd36df012fde0dd4c5f4be21abd1b9494abee1b16620fdceaa4b2",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-hdpi/ic_launcher_fg.png": {
-    "sha256": "b4c98f355630a346fef82419c49caa949b644f20d620ce1c650bc32d1c149956",
+    "sha256": "1e22424c26c63ff127ee629923830d21b9d7347c47108d655a9dce8ef2ad7a52",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-mdpi/ic_launcher_bg.png": {
-    "sha256": "a902175343d5a92c1159a5e981d1b30b393634d5c9f21d67476f9fbaee962954",
+    "sha256": "00e5da0e265dc75a14d32a64bdeaf8b4210f9b24d4b8c8dec1b032be2feb8cd7",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-mdpi/ic_launcher_fg.png": {
-    "sha256": "67f8f03cdd2296c4dc8f8b234fc592ddd136ead480c59f356e22d22ee70240a7",
+    "sha256": "0fca0a076dcde32bf2b05507a7fc355ce9683ce411cb8384d387eeb4380bed0a",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xhdpi/ic_launcher_bg.png": {
-    "sha256": "b9e63ca9d6290c740650ceb61ceb8220b8ccdf0c84435d2d353c258ad3a9959c",
+    "sha256": "e340c4da3e74c47066608ee9ed09850535b9252aff5c9231f7d1c17f73f33cad",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xhdpi/ic_launcher_fg.png": {
-    "sha256": "e5f70b0a967098c21c33b46abb1b759e5bad0e322e40b26360b38a17aab761ff",
+    "sha256": "548401999ac2ed63bb16830660048ec6c2125eb029509f94713122d10e7835b1",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxhdpi/ic_launcher_bg.png": {
-    "sha256": "35be4f19ffd8ab553f2d8771182418e00a5e1482d77068b8f702703a53924bc3",
+    "sha256": "3e193429e8d8a8355ed2bd7414fe08469b0df3dc38a31c779df50a608c28e5af",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxhdpi/ic_launcher_fg.png": {
-    "sha256": "f47fb05dd71c5036bc515e2cf9aed33d300512e693b59d9edfe6ee69987f9749",
+    "sha256": "7b149e24293cdbbbcb02be49d970d3fcdf5d4be28f1f51daf80911359b815f99",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxxhdpi/ic_launcher_bg.png": {
-    "sha256": "91b1b177a93f4e59c89656522eb80f78a4c1aab63640d68729adce50a5e7d8bc",
+    "sha256": "67eb14e3e68839e7a444b0ec76ccb4b80657cedfd422ce5f43531743d73fa53b",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxxhdpi/ic_launcher_fg.png": {
-    "sha256": "16d0fca62c214c07110ea69016280573f8f693422eefb2251e7769631fd99880",
+    "sha256": "1a656ec2b0684cdfcbdb16387f7b04f394999266f08084500f82bc91651e9e16",
     "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/values/colors.xml": {
