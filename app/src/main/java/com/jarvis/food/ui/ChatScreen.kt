@@ -129,7 +129,7 @@ fun ChatScreen() {
     fun pick(text: String) { if (text.endsWith("…")) input = text.removeSuffix("…") + " " else send(text) }
 
     Column(Modifier.fillMaxSize().background(C.Bg).imePadding()) {
-        ChatHeader(active, showSetup, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup }, hero = !active && ready)
+        ChatHeader(active, showSetup, { Jarvis.clear(); input = ""; showSetup = false }, { showSetup = !showSetup }, hero = !active)
         if (showSetup || (!ready && !active)) {
             // Keep the motor settings scrollable without squeezing the composer.
             Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp, vertical = 4.dp)) { ChatSetup() }
@@ -174,12 +174,12 @@ private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSet
         } else {
             NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
                 onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
-                query = "", onQuery = {}, hint = "", supportingText = "Pasti, ricette, piano e spesa: scrivimi qui sotto.",
-                icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(RD.BannerLogo) },
+                query = "", onQuery = {}, hint = "", supportingText = if (hero && !setup) null else "Pasti, ricette, piano e spesa: scrivimi qui sotto.",
+                searchContent = if (hero && !setup) ({ ChatHero() }) else null,
+                icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(48.dp) }, logoSize = 48.dp,
                 descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
                 accounts = true, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
                 actions = true)
-            if (hero && !setup) ChatHero()
         }
     }
 }
@@ -258,13 +258,13 @@ private val CAPABILITIES = listOf(
     Triple("⏱️", "Digiuno", "Avvia il digiuno 16:8")
 )
 
-/** Fascia blu che sfuma nella pagina, con la mascotte che saluta e il suo alone. */
+/** Dentro il banner blu: testo a sinistra e mascotte intera che saluta a destra, con l'alone arancio. */
 @Composable
 private fun ChatHero() {
-    Box(Modifier.fillMaxWidth().height(176.dp).testTag("chat-hero")
-        .background(Brush.verticalGradient(listOf(Color(0xFF0E2A78), C.Bg))), contentAlignment = Alignment.BottomCenter) {
-        MascotChat(164.dp)
-        Box(Modifier.fillMaxWidth().height(26.dp).align(Alignment.BottomCenter).background(Brush.verticalGradient(listOf(Color.Transparent, C.Bg))))
+    Box(Modifier.fillMaxWidth().height(184.dp).testTag("chat-hero")) {
+        Text("Pasti, ricette, piano e spesa: scrivimi qui sotto.", Modifier.align(Alignment.CenterStart).fillMaxWidth(.46f).padding(start = 8.dp),
+            style = T.Body.copy(fontSize = 15.sp, lineHeight = 21.sp, color = Color(0xFFE5EBFA)))
+        MascotChat(188.dp, Modifier.align(Alignment.BottomEnd).offset(x = 6.dp, y = 20.dp))
     }
 }
 

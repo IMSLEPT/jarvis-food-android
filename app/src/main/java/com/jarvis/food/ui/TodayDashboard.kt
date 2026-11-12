@@ -303,13 +303,12 @@ private fun MacroDial(label: String, value: Double, goal: Double, color: Color, 
                 val stroke = 5.5.dp.toPx()
                 val inset = stroke / 2
                 val bounds = Size(size.width - stroke, size.height - stroke)
-                drawArc(color.copy(alpha = 0.14f), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
+                drawArc(color.copy(alpha = 0.16f), -90f, 360f, false, Offset(inset, inset), bounds, style = Stroke(stroke))
                 if (progress > 0) drawArc(Brush.sweepGradient(listOf(color.copy(alpha = 0.55f), color, color.copy(alpha = 0.55f))), -90f, progress * 360f, false, Offset(inset, inset), bounds,
                     style = Stroke(stroke, cap = StrokeCap.Round))
             }
-            Box(Modifier.size(ringSize * .62f).clip(CircleShape).background(color.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
-                AIcon(icon, color, ringSize * .36f, 1.8f, duo = true)
-            }
+            val tone = when (icon) { Ic.Protein -> Tone.Purple; Ic.Wheat -> Tone.Orange; else -> Tone.Gold }
+            GlowIcon(icon, tone.first, tone.second, ringSize * .66f, ringSize * .33f, glyph = ringSize * .38f, duo = false)
         }
         GapH(6.dp)
         Text(label, style = T.Label.copy(fontSize = 12.5.sp, lineHeight = 16.sp, color = RD.Grey), maxLines = 1)

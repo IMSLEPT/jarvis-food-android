@@ -207,7 +207,7 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
             if (personal.isNotEmpty()) "${shown.size} idee dalla tua dieta" else "${shown.size} idee del giorno",
             RIc.Bulb, "${shown.size}/${all.size}", Modifier.testTag("daily-tips-all")) { full = true }
         shown.forEach { tip ->
-            GapH(3.dp)
+            GapH(8.dp)
             TipRow(tip, compact = true) { selected = tip }
         }
     }
@@ -229,17 +229,21 @@ fun EverydayFoodGuide(s: AppState, review: NutritionReview? = null) {
 
 @Composable
 private fun TipRow(tip: DailyFoodTips.Tip, compact: Boolean = false, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
-    Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 44.dp else 52.dp).testTag("daily-food-tip-${tip.id}").clip(shape)
-        .background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(Color(0xFFFFF4E8), Color(0xFFF6F8FC))))
+    val shape = RoundedCornerShape(16.dp)
+    Row(Modifier.fillMaxWidth().heightIn(min = if (compact) 54.dp else 58.dp).testTag("daily-food-tip-${tip.id}")
+        .lightShadow(8.dp, 16.dp).clip(shape).background(Color.White)
         .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
-        .padding(horizontal = if (compact) 6.dp else 10.dp, vertical = if (compact) 4.dp else 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        TipIcon(tip.id, if (compact) 22.dp else 30.dp)
-        GapW(if (compact) 6.dp else 12.dp)
+        .padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(Color(0xFFFFF1D2)), contentAlignment = Alignment.Center) {
+            TipIcon(tip.id, 24.dp)
+        }
+        GapW(12.dp)
         Text(tip.title, style = T.Title2.copy(color = RD.Ink, fontSize = if (compact) PremiumScale.body else PremiumScale.label,
-            lineHeight = if (compact) 17.sp else 20.sp), modifier = Modifier.weight(1f))
-        GapW(4.dp)
-        AIcon(RIc.Right, RD.Ink, 16.dp, 2.4f)
+            lineHeight = if (compact) 18.sp else 20.sp), modifier = Modifier.weight(1f))
+        GapW(6.dp)
+        Box(Modifier.size(28.dp).clip(CircleShape).background(Color(0xFFEAF1FF)), contentAlignment = Alignment.Center) {
+            AIcon(RIc.Right, Color(0xFF1B4FD6), 14.dp, 2.6f)
+        }
     }
 }
 

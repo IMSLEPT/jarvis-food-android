@@ -8,44 +8,44 @@
     "reason": "User-requested mascot redesign: replaced by jarvis_logo.webp (same resource name, new friendlier head-crop logo)."
   },
   "app/src/main/res/mipmap-hdpi/ic_launcher_bg.png": {
-    "sha256": "03ef9138fa186a8cf6469327725ebbeca56ad976351f843c7cc7b8d77ab44dbe",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "2aef66a1c67e3945bb1778be5ff777ea02b3f5c2617a977c734272c3c00756d7",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-hdpi/ic_launcher_fg.png": {
-    "sha256": "a2cb64eb02ca33da6cf03713f4c9121afc652a50d9caec19e3b983c6a6cdd4ec",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "6750a5895ceb80069a69ecad5e7a2b61e3f2c9cdc1a3ff3ad53d88c674729a6f",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-mdpi/ic_launcher_bg.png": {
-    "sha256": "e06c7b94c35a3bd8a84b9f63f57053f50e267fa19918704fcf373e47f48c4682",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "86031e7bc39d953d55acd7aa8a7ae9c292006eca494c506cebfbbfc191702480",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-mdpi/ic_launcher_fg.png": {
-    "sha256": "76f35e98d46884245cbd6fa082a3a549c86eac7b98fd3d95146532b104ad35de",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "25da7ca2651fca218e27b34801fdee1ea2ebed3047b42f4b92dd74e4bb6a85f2",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xhdpi/ic_launcher_bg.png": {
-    "sha256": "3deaa7cd121aa1c47639e43c68580f08ba4a2c9b6fe68676b81110922d679c7c",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "85d3aced35d80b588ae9abb80762be8758d40740312730ad8b9fea054e5dd8b2",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xhdpi/ic_launcher_fg.png": {
-    "sha256": "146cd182fe3c51bb98fdc3fe9dbe2d1544cc9b1e354894ab2e3a1a6ad6afac8f",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "70b0c9b91931e0eaf5c7edc3dcbc0aeaf0969a90ea21dcd0289a61fd2b726b0c",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxhdpi/ic_launcher_bg.png": {
-    "sha256": "49cbffae298702e854793b22a80432e4da2946aa327ca9a63aa2d79f07fd149e",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "9164d8a70a41cecf706722518fee097ccea9ffbf5333febc61ce03c79dda6664",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxhdpi/ic_launcher_fg.png": {
-    "sha256": "36de689ff24829b83581f50f2073dea384e66e8084d8741b86cd6f8503159018",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "5c358f414951ef239f2c9b72741e743ea541326c7caae068564725bf91f735af",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxxhdpi/ic_launcher_bg.png": {
-    "sha256": "5882b9dae94ea4f69f95ea43839730a3fefbc6931f15027a7185481380e2aee7",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "7c494c51dcf7fed2baa28b355218d5f1d40a336ae8bea78747efd79776456012",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/mipmap-xxxhdpi/ic_launcher_fg.png": {
-    "sha256": "87a5541a867be1e67994242c52100ca8ee2f3cbc1f76d6cc7709a5e4db5b0b24",
-    "reason": "User-requested launcher icon redesign with the new friendlier Jarvis mascot."
+    "sha256": "e11e91127e88bb67d0477221d63a18378509711519ae3de89328186b642b906a",
+    "reason": "User-supplied launcher icon image."
   },
   "app/src/main/res/values/colors.xml": {
     "sha256": "9e0fd8642a931afc73bd305173dd27ae8550e29ac13d7500dadc29ef957fb140",

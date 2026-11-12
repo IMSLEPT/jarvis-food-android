@@ -29,13 +29,13 @@ fun NavyBanner(title: String, labels: List<String>, selected: Int, onSelect: (In
     query: String, onQuery: (String) -> Unit, hint: String, icons: List<String> = emptyList(),
     descriptions: List<String> = labels, accounts: Boolean = true, onSubmit: () -> Unit = {}, onBack: (() -> Unit)? = null,
     labelTags: List<String> = emptyList(), searchContent: (@Composable () -> Unit)? = null,
-    actions: Boolean = false, supportingText: String? = null, logo: (@Composable () -> Unit)? = null, count: String? = null) {
+    actions: Boolean = false, supportingText: String? = null, logo: (@Composable () -> Unit)? = null, count: String? = null, logoSize: androidx.compose.ui.unit.Dp = RD.BannerLogo) {
     val large = RD.large()
     RefBannerFrame(true) {
         Row(Modifier.fillMaxWidth().heightIn(min = if (large) 60.dp else 44.dp), verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) Box(Modifier.size(48.dp).semantics { contentDescription = "Indietro" }.clickable(role = Role.Button, onClick = onBack),
                 contentAlignment = Alignment.Center) { AIcon(RIc.Left, Color.White, 26.dp, 2.6f) }
-            if (logo != null) { Box(Modifier.padding(start = 6.dp).size(RD.BannerLogo + 4.dp), contentAlignment = Alignment.Center) { logo() }; GapW(12.dp) } else GapW(8.dp)
+            if (logo != null) { Box(Modifier.padding(start = 6.dp).size(logoSize + 4.dp), contentAlignment = Alignment.Center) { logo() }; GapW(12.dp) } else GapW(8.dp)
             Text(title, style = T.Title.copy(fontSize = RD.BannerTitle, lineHeight = 32.sp, color = Color.White), modifier = Modifier.weight(1f).padding(end = 8.dp))
             if (accounts) RefProfileButton(RD.headerButton())
         }

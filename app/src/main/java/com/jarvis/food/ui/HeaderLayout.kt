@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Brush
+import com.jarvis.food.data.Store
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -110,26 +114,23 @@ fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDat
                 RefProfileButton(RD.headerButton())
             }
         }
-        else Column(Modifier.fillMaxWidth()) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(com.jarvis.food.R.drawable.jarvis_logo), null, Modifier.size(30.dp))
-                GapW(6.dp)
-                Text("Jarvis Food", style = T.Title.copy(fontSize = 18.sp, lineHeight = 22.sp, color = Color.White))
-                Spacer(Modifier.weight(1f))
-                RefCalendarButton(44.dp) { showDatePicker(context, date, onPick) }
-                GapW(8.dp)
-                RefProfileButton(44.dp)
-            }
-            Row(Modifier.fillMaxWidth().padding(top = 4.dp), verticalAlignment = Alignment.Bottom) {
-                Column(Modifier.weight(1f).testTag(dateTag).semantics { contentDescription = fullDay(date) }
-                    .clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
-                    .padding(vertical = 6.dp)) {
-                    Text(greeting!!, Modifier.testTag("home-greeting"), style = T.Label.copy(fontSize = 15.sp, color = Color(0xFFB9C8EC)))
-                    Text(s.profile.name, Modifier.testTag("home-name"), style = T.Title.copy(fontSize = 30.sp, lineHeight = 35.sp, color = Color.White), maxLines = 2)
-                    Text(fullDay(date), style = T.Body.copy(fontSize = 13.sp, lineHeight = 19.sp, color = Color(0xFFB9C8EC)))
+        else Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
+            Column(Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    HeaderProfileTile(42.dp)
+                    GapW(10.dp)
+                    HeaderCalendarTile(42.dp) { showDatePicker(context, date, onPick) }
                 }
-                MascotOggi(132.dp, Modifier.offset(x = 10.dp, y = 4.dp))
+                GapH(6.dp)
+                Column(Modifier.testTag(dateTag).semantics { contentDescription = fullDay(date) }
+                    .clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
+                    .padding(vertical = 2.dp)) {
+                    Text(greeting!!, Modifier.testTag("home-greeting"), style = T.Label.copy(fontSize = 14.sp, lineHeight = 18.sp, color = Color(0xFFB9C8EC)))
+                    Text(s.profile.name, Modifier.testTag("home-name"), style = T.Title.copy(fontSize = 28.sp, lineHeight = 32.sp, color = Color.White), maxLines = 2)
+                    Text(fullDay(date), style = T.Body.copy(fontSize = 13.sp, lineHeight = 17.sp, color = Color(0xFFB9C8EC)))
+                }
             }
+            MascotOggi(124.dp, Modifier.offset(x = 10.dp, y = 6.dp))
         }
         GapH(6.dp)
         Box(Modifier.fillMaxWidth().height(RD.stripHeight()), contentAlignment = Alignment.Center) {
@@ -158,5 +159,30 @@ private fun WelcomeSun(modifier: Modifier) {
             moveTo(unit, 36f * unit)
             quadraticTo(20f * unit, 30f * unit, 39f * unit, 36f * unit)
         }, Color.White, style = Stroke(2.4f * unit, cap = StrokeCap.Round))
+    }
+}
+
+/** Profilo: tessera bianca con sfumatura, persona blu e ingranaggio arancio. */
+@Composable
+private fun HeaderProfileTile(size: androidx.compose.ui.unit.Dp) {
+    val st by Store.state.collectAsState()
+    val shape = RoundedCornerShape(size * 0.34f)
+    Box(Modifier.size(size).lightShadow(8.dp, size * 0.34f).clip(shape)
+        .background(Brush.verticalGradient(listOf(Color.White, Color(0xFFE6EEFC)))).testTag("header-profile")
+        .semantics { contentDescription = "Apri profilo" }.clickable(role = Role.Button) { Nav.go(Screen.Profile) },
+        contentAlignment = Alignment.Center) {
+        if (st.profile.photo != null) Avatar(st.profile.name, st.profile.photo, size - 6.dp)
+        else ProfileGearIcon(size * 0.6f)
+    }
+}
+
+/** Calendario: tessera arancio con alone e icona bianca. */
+@Composable
+private fun HeaderCalendarTile(size: androidx.compose.ui.unit.Dp, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(size * 0.34f)
+    Box(Modifier.size(size).orangeGlow(shape, 8.dp).clip(shape).background(C.OrangeBrush)
+        .background(Brush.verticalGradient(listOf(Color(0x33FFFFFF), Color.Transparent), endY = size.value * 2.2f)).testTag("header-calendar")
+        .semantics { contentDescription = "Calendario" }.clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+        AIcon(RIc.Calendar + RIc.CalendarBand, Color.White, size * 0.52f, 2.1f, modifier = Modifier.testTag("header-icon-Calendario"))
     }
 }

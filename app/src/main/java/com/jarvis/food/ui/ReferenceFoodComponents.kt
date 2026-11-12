@@ -43,19 +43,18 @@ internal fun ReferenceInsightCard(
     art: TodayArt, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val resource = when (art) {
-        TodayArt.Vitamins -> R.drawable.insight_vitamins
-        TodayArt.Calendar -> R.drawable.insight_daily_tips
-        TodayArt.Activity -> R.drawable.insight_activity
-        else -> error("Unsupported insight artwork: $art")
+    val (tint, mark, watermark) = when (art) {
+        TodayArt.Vitamins -> Triple(Color(0xFFDDF6E8), Tone.Green.second, RIc.Leaf)
+        TodayArt.Calendar -> Triple(Color(0xFFFFEFCB), Tone.Gold.second, RIc.Bulb)
+        else -> Triple(Color(0xFFDCE8FF), Tone.Blue.second, RIc.DumbbellBold)
     }
-    val tint = when (art) {
-        TodayArt.Vitamins -> listOf(Color(0xFFFFE4D0), Color(0xFFFFF4EA))
-        TodayArt.Calendar -> listOf(Color(0xFFDDE7FA), Color(0xFFF0F5FF))
-        else -> listOf(Color(0xFFD5F2E6), Color(0xFFEFFAF5))
-    }
-    ACard(modifier.fillMaxWidth(), padding = 16.dp, onClick = onClick) {
-        Column(Modifier.fillMaxWidth().testTag("insight-icon-$art"), content = content)
+    val shape = RoundedCornerShape(24.dp)
+    var m = modifier.fillMaxWidth().lightShadow(14.dp, 24.dp).clip(shape)
+        .background(Brush.verticalGradient(listOf(tint, Color.White), endY = 520f))
+    if (onClick != null) m = m.clickable(onClick = onClick)
+    Box(m) {
+        AIcon(watermark, mark.copy(alpha = .055f), 130.dp, 1.5f, modifier = Modifier.align(Alignment.BottomEnd).offset(x = 30.dp, y = 28.dp))
+        Column(Modifier.fillMaxWidth().padding(16.dp).testTag("insight-icon-$art"), content = content)
     }
 }
 
@@ -65,17 +64,17 @@ internal fun ReferenceInsightHeading(title: String, subtitle: String, icon: Stri
         val heading: @Composable (Modifier) -> Unit = { modifier ->
             Row(modifier, verticalAlignment = Alignment.Top) {
                 val tone = when (icon) { RIc.Leaf -> Tone.Green; RIc.Bulb -> Tone.Gold; RIc.DumbbellBold -> Tone.Blue; else -> Tone.Orange }
-                GlowIcon(icon, tone.first, tone.second, 40.dp, 13.dp, glyph = 23.dp)
-                GapW(10.dp)
-                Column {
-                    Text(title, style = T.Title2.copy(fontSize = 16.sp, lineHeight = 21.sp, color = RD.Ink))
+                GlowIcon(icon, tone.first, tone.second, 46.dp, 16.dp, glyph = 26.dp)
+                GapW(12.dp)
+                Column(Modifier.padding(top = 1.dp)) {
+                    Text(title, style = T.Title2.copy(fontSize = 18.sp, lineHeight = 23.sp, color = RD.Ink))
                     Text(subtitle, style = T.Small.copy(fontSize = 12.sp, lineHeight = 16.sp, color = RD.Grey))
                 }
             }
         }
         val button: @Composable () -> Unit = {
             Box(actionModifier.heightIn(min = 36.dp).clickable(role = Role.Button, onClick = onAction), contentAlignment = Alignment.Center) {
-                Row(Modifier.clip(RoundedCornerShape(12.dp)).background(Color(0xFFEAF1FF)).padding(horizontal = 10.dp, vertical = 6.dp),
+                Row(Modifier.clip(RoundedCornerShape(14.dp)).background(Color.White).border(1.dp, Color(0xFFD6E3FB), RoundedCornerShape(14.dp)).padding(horizontal = 11.dp, vertical = 7.dp),
                     verticalAlignment = Alignment.CenterVertically) {
                     Text(action, style = T.Label.copy(fontSize = 13.sp, lineHeight = 16.sp, color = Color(0xFF1B4FD6)))
                     GapW(3.dp)
@@ -172,16 +171,16 @@ internal fun NutrientRing(name: String, percent: String, fraction: Float, tone: 
     modifier: Modifier = Modifier, valueModifier: Modifier = Modifier, onClick: () -> Unit) {
     val a by androidx.compose.animation.core.animateFloatAsState(fraction.coerceIn(0f, 1f),
         androidx.compose.animation.core.tween(800), label = "ring")
-    Column(modifier.clip(RoundedCornerShape(16.dp)).background(Color(0xFFF6F8FC))
+    Column(modifier.lightShadow(8.dp, 18.dp).clip(RoundedCornerShape(18.dp)).background(Color.White)
         .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 6.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(60.dp), contentAlignment = Alignment.Center) {
             Canvas(Modifier.fillMaxSize()) {
-                val st = 5.dp.toPx()
+                val st = 6.dp.toPx()
                 val tl = Offset(st / 2, st / 2)
                 val sz = androidx.compose.ui.geometry.Size(size.width - st, size.height - st)
                 drawArc(tone.copy(alpha = 0.16f), 0f, 360f, false, tl, sz, style = Stroke(st))
-                if (a > 0f) drawArc(tone, -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+                if (a > 0f) drawArc(Brush.sweepGradient(listOf(tone.copy(alpha = .6f), tone, tone.copy(alpha = .6f))), -90f, 360f * a, false, tl, sz, style = Stroke(st, cap = androidx.compose.ui.graphics.StrokeCap.Round))
             }
             Text(percent, valueModifier, style = T.Label.copy(fontSize = 14.sp, lineHeight = 17.sp, color = RD.Ink, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold))
         }

@@ -570,15 +570,19 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
             }
             val minutes = list.sumOf { it.minutes.toLong() } +
                 (if (watch) h?.sessions?.sumOf { (it.end - it.start) / 60000 } ?: 0L else 0L)
-            ReferenceMetric("Passi", steps.thousands(), p, barModifier = Modifier.testTag("activity-progress").semantics {
-                progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
-                contentDescription = "${steps.thousands()} passi su ${goal.thousands()}"
-            }) { Nav.go(Screen.Trend("activity")) }
-            ReferenceMetric("Calorie attive", "${Store.burnedFor(s, date)} kcal", null) {
-                Nav.go(Screen.Trend("activity", metric = 1))
-            }
-            ReferenceMetric("Allenamento", "$minutes min", null) {
-                Nav.go(if (watch) Screen.Watch else Screen.Activity(date))
+            GapH(12.dp)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ActivityTile("Passi", steps.thousands(), Ic.Steps, Tone.Blue, Modifier.weight(1f), progress = p,
+                    barModifier = Modifier.testTag("activity-progress").semantics {
+                        progressBarRangeInfo = androidx.compose.ui.semantics.ProgressBarRangeInfo(p, 0f..1f)
+                        contentDescription = "${steps.thousands()} passi su ${goal.thousands()}"
+                    }) { Nav.go(Screen.Trend("activity")) }
+                ActivityTile("Calorie attive", "${Store.burnedFor(s, date)} kcal", Ic.Flame, Tone.Orange, Modifier.weight(1f), solid = true) {
+                    Nav.go(Screen.Trend("activity", metric = 1))
+                }
+                ActivityTile("Allenamento", "$minutes min", RIc.DumbbellBold, Tone.Green, Modifier.weight(1f)) {
+                    Nav.go(if (watch) Screen.Watch else Screen.Activity(date))
+                }
             }
         }
         if (watch) h?.sessions?.take(2)?.forEach { w ->
@@ -603,6 +607,22 @@ private fun ActivityCard(date: LocalDate, s: AppState) {
             Spacer(Modifier.height(8.dp))
             Text("Con il livello di attività fisso, le attività non cambiano l'obiettivo (sono già considerate). Puoi cambiarlo in Profilo → Smartwatch e attività.", style = T.Small)
         }
+    }
+}
+
+@Composable
+private fun ActivityTile(label: String, value: String, icon: String, tone: Pair<Color, Color>, modifier: Modifier = Modifier,
+    progress: Float? = null, barModifier: Modifier = Modifier, solid: Boolean = false, onClick: () -> Unit) {
+    Column(modifier.lightShadow(8.dp, 18.dp).clip(RoundedCornerShape(18.dp)).background(Color.White)
+        .clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick).padding(horizontal = 8.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        GlowIcon(icon, tone.first, tone.second, 40.dp, 14.dp, glyph = 22.dp, solid = solid)
+        GapH(8.dp)
+        Text(value, style = T.Num.copy(fontSize = 15.sp, lineHeight = 19.sp, color = RD.Ink), maxLines = 1)
+        Text(label, style = T.Small.copy(fontSize = 11.5.sp, lineHeight = 15.sp, color = RD.Grey), maxLines = 1)
+        GapH(8.dp)
+        if (progress != null) SoftBar(progress, barModifier.fillMaxWidth(), 6.dp)
+        else Box(Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)).background(tone.second.copy(alpha = .14f)))
     }
 }
 
