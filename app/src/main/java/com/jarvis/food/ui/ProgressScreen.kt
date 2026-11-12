@@ -156,7 +156,7 @@ fun ProgressScreen() {
     MainPage("Progressi", resetKey = section, header = {
         NavyBanner("Progressi", listOf("Dati", "Grafici", "Obiettivi", "Analisi"), section, { section = it },
             query, { query = it }, "Cerca dati, misure o obiettivi", icons = listOf(RIc.Bars, RIc.LineChart, RIc.TargetRing, RIc.Pie),
-            logo = { ProgressBarsLogo(RD.BannerLogo) })
+            tileIcon = RIc.Bars, subtitle = "Dati, grafici e obiettivi")
     }) {
 
         // Intervallo

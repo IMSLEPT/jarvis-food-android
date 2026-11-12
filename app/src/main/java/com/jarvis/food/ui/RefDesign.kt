@@ -271,19 +271,22 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
             val textWidth = with(density) { measurer.measure(label, style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp)).size.width.toDp() }
             maxOf(if (iconAt(index)) 80.dp else 64.dp, textWidth + 20.dp + if (iconAt(index)) 26.dp else 0.dp)
         }
-        fun sum(w: List<Dp>) = w.fold(0.dp) { acc, width -> acc + width } + 9.dp * (labels.size - 1).coerceAtLeast(0)
+        fun sum(w: List<Dp>) = w.fold(0.dp) { acc, width -> acc + width } + 4.dp * (labels.size - 1).coerceAtLeast(0)
         // Se con tutte le icone i tab non entrano, l'icona resta solo sulla voce attiva: niente testo troncato.
         val full = widthsFor { icons.getOrNull(it) != null }
-        val onlyActive = sum(full) > maxWidth && labels.size > 2
+        val avail = maxWidth - 8.dp
+        val onlyActive = sum(full) > avail && labels.size > 2
         val showIcon: (Int) -> Boolean = { icons.getOrNull(it) != null && (!onlyActive || it == selected) }
         val widths = if (onlyActive) widthsFor(showIcon) else full
         val total = sum(widths)
-        val extra = if (labels.isEmpty()) 0.dp else (maxWidth - total).coerceAtLeast(0.dp) / labels.size
-        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
+        val extra = if (labels.isEmpty()) 0.dp else (avail - total).coerceAtLeast(0.dp) / labels.size
+        Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color(0x1AFFFFFF)).border(1.dp, Color(0x26FFFFFF), RoundedCornerShape(18.dp))
+            .padding(4.dp).horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
             labels.indices.forEach { i ->
                 val active = i == selected
-                val pill = RoundedCornerShape(10.dp)
+                val pill = RoundedCornerShape(14.dp)
                 val base = Modifier.width(widths[i] + extra).heightIn(min = 44.dp).testTag("banner-tab-$title-$i")
+                    .then(if (active) Modifier.orangeGlow(pill, 6.dp) else Modifier)
                     .clip(pill).background(if (active) C.OrangeBrush else Brush.horizontalGradient(listOf(Color.Transparent, Color.Transparent)))
                     .semantics { contentDescription = descriptions.getOrElse(i) { labels[i] } }
                 val control = if (actions) base.clickable(role = Role.Button) { onSelect(i) }
@@ -291,10 +294,10 @@ fun RefBannerTabs(labels: List<String>, icons: List<String>, selected: Int, onSe
                 Row(control.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center) {
                     icons.getOrNull(i)?.takeIf { showIcon(i) }?.let { BannerTabIcon(it, 20.dp); GapW(6.dp) }
-                    Text(labels[i], style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = Color.White),
+                    Text(labels[i], style = T.Label.copy(fontSize = 14.sp, lineHeight = 19.sp, color = if (active) Color.White else Color(0xFFDCE5F5)),
                         modifier = Modifier.testTag(labelTags.getOrElse(i) { "banner-label-$title-$i" }), maxLines = 1, softWrap = false)
                 }
-                if (i < labels.lastIndex) Box(Modifier.padding(horizontal = 4.dp).width(1.dp).height(22.dp).background(Color(0x80C9D3E6)))
+                if (i < labels.lastIndex) GapW(4.dp)
             }
         }
     }

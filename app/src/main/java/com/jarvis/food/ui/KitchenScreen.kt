@@ -96,7 +96,7 @@ fun KitchenScreen() {
         val order = listOf(2, 0, 1)
         NavyBanner("Cucina", listOf("Ricette", "Dispensa", "Spesa"), order.indexOf(Nav.kitchenTab),
             onSelect = { Nav.kitchenTab = order[it] }, query = "", onQuery = {}, hint = "",
-            labelTags = order.map { "kitchen-tab-label-$it" }, icons = listOf(RIc.Fork, RIc.Basket, RIc.Cart), logo = { ChefHatLogo(RD.BannerLogo) }, searchContent = {
+            labelTags = order.map { "kitchen-tab-label-$it" }, icons = listOf(RIc.Fork, RIc.Basket, RIc.Cart), tileIcon = RIc.Fork, subtitle = "Ricette, dispensa e lista della spesa", searchContent = {
                 if (Nav.kitchenTab == 2) RecipeSearchBar()
                 else Column(Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
                     HorizontalDivider(color = Color.White.copy(alpha = 0.65f))

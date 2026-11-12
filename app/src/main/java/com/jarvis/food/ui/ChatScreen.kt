@@ -174,9 +174,10 @@ private fun ChatHeader(active: Boolean, setup: Boolean, onNew: () -> Unit, onSet
         } else {
             NavyBanner("Jarvis", listOf("Nuova chat", "Modello", "Cronologia"), if (setup) 1 else 0,
                 onSelect = { when (it) { 0 -> onNew(); 1 -> onSetup(); 2 -> Nav.go(Screen.ChatHistory) } },
-                query = "", onQuery = {}, hint = "", supportingText = if (hero && !setup) null else "Pasti, ricette, piano e spesa: scrivimi qui sotto.",
-                searchContent = if (hero && !setup) ({ ChatHero() }) else null,
-                icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History), logo = { JarvisHeadLogo(48.dp) }, logoSize = 48.dp,
+                query = "", onQuery = {}, hint = "",
+                tileIcon = RIc.ChatPlus, subtitle = if (hero && !setup) "Pasti, ricette, piano e spesa: scrivimi qui sotto." else "Il tuo assistente alimentare",
+                mascot = if (hero && !setup) ({ MascotChat(140.dp, Modifier.offset(x = 8.dp, y = 6.dp)) }) else null,
+                icons = listOf(RIc.ChatPlus, RIc.Chip, RIc.History),
                 descriptions = listOf("Nuova chat", if (setup) "Chiudi impostazioni motore" else "Motore della chat", "Cronologia delle chat"),
                 accounts = true, onBack = if (Nav.stack.isNotEmpty()) ({ Nav.back() }) else null,
                 actions = true)
@@ -257,16 +258,6 @@ private val CAPABILITIES = listOf(
     Triple("🎯", "Obiettivi", "Che macro mi conviene?"),
     Triple("⏱️", "Digiuno", "Avvia il digiuno 16:8")
 )
-
-/** Dentro il banner blu: testo a sinistra e mascotte intera che saluta a destra, con l'alone arancio. */
-@Composable
-private fun ChatHero() {
-    Box(Modifier.fillMaxWidth().height(184.dp).testTag("chat-hero")) {
-        Text("Pasti, ricette, piano e spesa: scrivimi qui sotto.", Modifier.align(Alignment.CenterStart).fillMaxWidth(.46f).padding(start = 8.dp),
-            style = T.Body.copy(fontSize = 15.sp, lineHeight = 21.sp, color = Color(0xFFE5EBFA)))
-        MascotChat(188.dp, Modifier.align(Alignment.BottomEnd).offset(x = 6.dp, y = 20.dp))
-    }
-}
 
 @Composable
 private fun ChatIntro(ready: Boolean, onPick: (String) -> Unit) {

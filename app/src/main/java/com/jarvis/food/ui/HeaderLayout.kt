@@ -68,7 +68,20 @@ fun ColumnScope.CalendarHeaderContent(s: AppState, title: String, date: LocalDat
     val large = LocalDensity.current.fontScale > 1.5f
     val context = LocalContext.current
     run {
-        if (greeting == null || large) BoxWithConstraints(Modifier.fillMaxWidth()) {
+        if (greeting == null && !large) Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
+            GlowIcon(RIc.Calendar + RIc.CalendarBand, Tone.Orange.first, Tone.Orange.second, 32.dp, 11.dp, glyph = 18.dp, duo = false)
+            GapW(10.dp)
+            Column(Modifier.weight(1f).testTag(dateTag).semantics { contentDescription = fullDay(date) }
+                .clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button) { onDateClick?.invoke() ?: showDatePicker(context, date, onPick) }
+                .padding(vertical = 2.dp)) {
+                Text(title, style = T.Title.copy(fontSize = 28.sp, lineHeight = 32.sp, color = Color.White), maxLines = 1)
+                Text(fullDay(date), style = T.Body.copy(fontSize = 13.sp, lineHeight = 18.sp, color = Color(0xFFB9C8EC)))
+            }
+            HeaderCalendarTile(42.dp) { showDatePicker(context, date, onPick) }
+            GapW(10.dp)
+            HeaderProfileTile(42.dp)
+        }
+        else if (greeting == null || large) BoxWithConstraints(Modifier.fillMaxWidth()) {
             val density = LocalDensity.current
             val measurer = rememberTextMeasurer()
             val showSun = maxWidth >= 270.dp && !large
@@ -164,7 +177,7 @@ private fun WelcomeSun(modifier: Modifier) {
 
 /** Profilo: tessera bianca con sfumatura, persona blu e ingranaggio arancio. */
 @Composable
-private fun HeaderProfileTile(size: androidx.compose.ui.unit.Dp) {
+internal fun HeaderProfileTile(size: androidx.compose.ui.unit.Dp) {
     val st by Store.state.collectAsState()
     val shape = RoundedCornerShape(size * 0.34f)
     Box(Modifier.size(size).lightShadow(8.dp, size * 0.34f).clip(shape)
