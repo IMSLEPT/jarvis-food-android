@@ -20,5 +20,5 @@ Stato verificato su ramo `restyling-playstore` (base: build 1.0.233, tag `backup
 - Build di prova locale installabile accanto all'app: `./gradlew assembleDebug -PdevSuffix` (id `com.jarvis.food.dev`).
 
 ## Blocchi ancora aperti (aggiunti dopo il restyling)
-- **16 KB page size**: le librerie native dell'app non sono allineate a 16 KB; dal 1 novembre 2025 Google Play lo richiede per i nuovi upload con targetSdk 35+. Da risolvere aggiornando/ricompilando le librerie native (LiteRT-LM e simili) prima della pubblicazione.
+- **16 KB page size**: le librerie native dell'app non sono allineate a 16 KB; dal 1 novembre 2025 Google Play lo richiede per i nuovi upload con targetSdk 35+. Il telefono lo segnala all'avvio della build di debug; librerie coinvolte: libmlkit_google_ocr_pipeline.so, liblitertlm_jni.so, libtask_vision_jni.so, libandroidx.graphics.path.so. Da risolvere aggiornando le dipendenze (ML Kit OCR, LiteRT-LM, Tasks Vision, AndroidX graphics-path) a versioni allineate prima della pubblicazione.
 - **Foto ricette**: solo 170 ricette su 2.533 hanno foto complete (restano 2.363); le altre mostrano un segnaposto. Vedi tools/photography/README.md.

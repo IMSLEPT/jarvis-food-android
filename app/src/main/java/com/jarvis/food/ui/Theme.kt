@@ -94,15 +94,15 @@ val DmSans = FontFamily(
 
 object T {
     private val tight = (-0.6).sp
-    val Display = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = tight, color = C.Text)
-    val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 27.sp, lineHeight = 32.sp, letterSpacing = (-0.8).sp, color = C.Text)
-    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 19.sp, lineHeight = 25.sp, letterSpacing = (-0.4).sp, color = C.Text)
-    val Title = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 24.sp, lineHeight = 30.sp, letterSpacing = (-0.4).sp, color = C.Text)
+    val Display = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 25.sp, lineHeight = 30.sp, letterSpacing = tight, color = C.Text)
+    val H1 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 24.sp, lineHeight = 29.sp, letterSpacing = (-0.8).sp, color = C.Text)
+    val H2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 18.sp, lineHeight = 24.sp, letterSpacing = (-0.4).sp, color = C.Text)
+    val Title = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 21.sp, lineHeight = 27.sp, letterSpacing = (-0.4).sp, color = C.Text)
     val Title2 = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 17.sp, lineHeight = 22.sp, color = C.Text)
-    val Dish = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 21.sp, lineHeight = 25.sp, letterSpacing = (-0.2).sp, color = C.Text)
-    val DishBig = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 28.sp, lineHeight = 32.sp, letterSpacing = (-0.5).sp, color = C.Text)
+    val Dish = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 19.sp, lineHeight = 24.sp, letterSpacing = (-0.2).sp, color = C.Text)
+    val DishBig = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 25.sp, lineHeight = 30.sp, letterSpacing = (-0.5).sp, color = C.Text)
     val Body = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 14.sp, lineHeight = 20.sp, color = C.Text)
-    val Read = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 16.sp, lineHeight = 24.sp, color = C.Text)
+    val Read = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 15.sp, lineHeight = 22.sp, color = C.Text)
     val Muted = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 13.sp, lineHeight = 19.sp, color = C.Muted)
     val Small = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.Normal, fontSize = 12.sp, lineHeight = 17.sp, color = C.Muted)
     val Label = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, lineHeight = 19.sp, color = C.Text)
@@ -114,8 +114,8 @@ object T {
     val Link = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 13.5.sp, color = C.AccentDeep)
     val Eyebrow = TextStyle(fontFamily = DmSans, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 0.5.sp, color = C.Muted)
     val Num = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 20.sp, lineHeight = 24.sp, color = C.Text)
-    val Big = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 38.sp, lineHeight = 42.sp, letterSpacing = (-1).sp, color = C.Text)
-    val Hero = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 56.sp, lineHeight = 58.sp, letterSpacing = (-1.6).sp, color = C.Text)
+    val Big = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 34.sp, lineHeight = 38.sp, letterSpacing = (-1).sp, color = C.Text)
+    val Hero = TextStyle(fontFamily = Bricolage, fontWeight = FontWeight.Bold, fontSize = 50.sp, lineHeight = 54.sp, letterSpacing = (-1.6).sp, color = C.Text)
 }
 
 @Composable
